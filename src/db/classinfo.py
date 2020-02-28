@@ -6,21 +6,23 @@ class ClassInfo:
     def get_classes(self):
         return self.db_conn.execute("""
             select
-              distinct concat(c.department, '-', c.level) as class,
-              cd.title
+                department,
+                level,
+                max(title) as title,
+                json_agg(crn) as crns
             from
-              (
-                select
-                  department, level
-                from
-                  course
-                group by
-                  department,
-                  level
-              ) c
-            join course cd on
-              c.department = cd.department and
-              c.level = cd.level;
+                course
+            group by
+                department,
+                level
+        """, None, True)
+
+    def get_departments(self):
+        return self.db_conn.execute("""
+            select
+                distinct(department)
+            from
+                course
         """, None, True)
 
 # c = get_classes()

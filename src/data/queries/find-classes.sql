@@ -1,17 +1,11 @@
--- list of classes offered (all)
+-- -- list of classes offered (all)
 select
-  distinct concat(c.department, '-', c.level) as class,
-  cd.title
+  department,
+  level,
+  max(title) as title,
+  json_agg(crn) as crns
 from
-  (
-    select
-      department, level
-    from
-      course
-    group by
-      department,
-      level
-  ) c
-join course cd on
-  c.department = cd.department and
-  c.level = cd.level
+  course
+group by
+  department,
+  level

@@ -8,7 +8,6 @@ angular.module('yacs', [])
       .get('/api/class')
       .then(res => {
         $scope.classList = res.data
-        console.log($scope.classList)
       })
       .catch(err => {
         console.error(err);
@@ -19,13 +18,5 @@ angular.module('yacs', [])
       days: ['Mo', 'Tu', 'We', 'Th', 'Fr'],
       hours: [8,9,10,11,12,13,14,15,16,17,18,19,20]
     }
-
-    // sample angular code
-    $scope.sometext = "ues";
-    $scope.classes = [
-      {title: 'one'},
-      {title: 'two'},
-      {title: 'three'}
-    ]
 
   }]);
