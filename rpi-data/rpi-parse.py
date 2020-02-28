@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from bs4 import NavigableString,Tag
 
 import datetime
-import sys
+import os
 import requests
 import pandas as pd 
 
@@ -17,10 +17,10 @@ import pandas as pd
 # In[13]:
 
 
-args = sys.argv
+source_url = os.environ.get('SOURCE_URL')
+assert(source_url)
 
-
-response = requests.get(args[1])
+response = requests.get(source_url)
 content = response.text
 
 
@@ -171,10 +171,13 @@ df = df.drop(columns=['course_genertal_info'])
 
 # In[30]:
 
-headers = (int(args[3]) == 1)
+headers = os.environ.get('HEADERS', 'True')
 
+headers = (headers == 'True')
 
-df.to_csv(args[2], header = headers, index = False)
+destination = os.environ.get('DEST', 'out.csv')
+
+df.to_csv(destination, header = headers, index = False)
 
 
 # In[ ]:
