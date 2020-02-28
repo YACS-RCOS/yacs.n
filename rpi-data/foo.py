@@ -13,7 +13,7 @@ from bs4 import NavigableString,Tag
 
 import requests
 
-response = requests.get('https://sis.rpi.edu/reg/zs20200502.htm')
+response = requests.get('https://sis.rpi.edu/reg/zs20200501.htm')
 content = response.text
 
 
@@ -27,6 +27,8 @@ soup = BeautifulSoup(content, 'html.parser')
 
 
 tables = soup.findChildren('table')
+
+genInfo = soup.findChildren('center')
 
 
 # In[20]:
@@ -48,6 +50,7 @@ def get_foo(my_row):
 
 
 data = []
+schls = []
 current_course_section = ''
 current_course_title = ''
 current_course_hrs = ''
@@ -55,8 +58,18 @@ current_course_max_enroll = ''
 current_course_enrolled = ''
 current_course_remained = ''
 
+for gens in genInfo:
+    time = gens.findChildren(['h3'])
+    schools = gens.findChildren('h4', recursive = False);
+    for items in time:
+        for item in items.findChildren('span'):
+            pass
+            #print(item.contents[0])
+    for school in schools:
+        schls.append(school.findChildren('span')[0].contents[0])
 
-for table in tables[:]:
+for i in range(len(tables)):
+    table = tables[i]
     rows = table.findChildren([ 'tr'])
     for row in rows[:]:
         info = get_foo(row)
@@ -67,6 +80,7 @@ for table in tables[:]:
             current_course_max_enroll = info[8]
             current_course_enrolled = info[9]
             current_course_remained = info[10]
+            info.append(schls[i])
             
             
             data.append(info)
@@ -83,7 +97,8 @@ for table in tables[:]:
                 info[4],
                 current_course_max_enroll,
                 current_course_enrolled,
-                current_course_remained
+                current_course_remained,
+                schls[i]
             ]
             data.append(clean_info)
 
@@ -105,6 +120,7 @@ df = pd.DataFrame(data, columns =[
     'course_max_enroll',
     'course_enrolled',
     'course_remained',
+    'course_school',
     
 ]) 
 
