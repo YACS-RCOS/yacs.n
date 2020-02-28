@@ -8,14 +8,19 @@ from bs4 import BeautifulSoup
 from bs4 import NavigableString,Tag
 
 import datetime
+import os
+import requests
+import pandas as pd 
+
 
 
 # In[13]:
 
 
-import requests
+source_url = os.environ.get('SOURCE_URL')
+assert(source_url)
 
-response = requests.get('https://sis.rpi.edu/reg/zs20200503.htm')
+response = requests.get(source_url)
 content = response.text
 
 
@@ -126,8 +131,6 @@ for i in range(len(tables)):
 # In[27]:
 
 
-import pandas as pd 
-
 df = pd.DataFrame(data, columns =[
     'course_genertal_info', 
     'course_name',
@@ -168,8 +171,13 @@ df = df.drop(columns=['course_genertal_info'])
 
 # In[30]:
 
+headers = os.environ.get('HEADERS', 'True')
 
-df.to_csv('out.csv')
+headers = (headers == 'True')
+
+destination = os.environ.get('DEST', 'out.csv')
+
+df.to_csv(destination, header = headers, index = False)
 
 
 # In[ ]:
