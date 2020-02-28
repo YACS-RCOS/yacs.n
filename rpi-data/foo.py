@@ -13,7 +13,7 @@ from bs4 import NavigableString,Tag
 
 import requests
 
-response = requests.get('https://sis.rpi.edu/reg/zs20200503.htm')
+response = requests.get('https://sis.rpi.edu/reg/zs20200502.htm')
 content = response.text
 
 
@@ -56,7 +56,7 @@ current_course_enrolled = ''
 current_course_remained = ''
 
 
-for table in tables[4:5]:
+for table in tables[:]:
     rows = table.findChildren([ 'tr'])
     for row in rows[:]:
         info = get_foo(row)
