@@ -1,4 +1,5 @@
 import psycopg2
+import psycopg2.extras
 
 
 class database():
@@ -17,7 +18,7 @@ class database():
         self.conn.close()
 
     def execute(self, sql, args, isSELECT):
-        cur = self.conn.cursor()
+        cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         try:
             if isSELECT:
                 cur.execute(sql, args)
