@@ -1,22 +1,20 @@
-angular.module('yacs', [])
-  .controller('schedule', ['$scope', '$http', function($scope, $http) {
+function nullSession() {
+  return { crn: null, department: null, moreFields: null }
+}
 
-    $scope.classList = []
-
-    // populate class list
-    $http
-      .get('/api/class')
-      .then(res => {
-        $scope.classList = res.data
-      })
-      .catch(err => {
-        console.error(err);
-      })
-
-    // sketch for sample code for scheduling
-    $scope._schedule_template = {
-      days: ['Mo', 'Tu', 'We', 'Th', 'Fr'],
-      hours: [8,9,10,11,12,13,14,15,16,17,18,19,20]
+class Schedule {
+  constructor(someNumber) {
+    this.something = someNumber
+    // example schedule blocks with O(1) lookup
+    this.timeBlocks = []
+    for (var i = 0; i < 5; i++) {
+      // day
+      for (var j = 0; j < (20-8); j++) {
+        this.blocks[i][j] = nullSession()
+      }
     }
-
-  }]);
+  }
+  method() {
+    console.log(this.something)
+  }
+}

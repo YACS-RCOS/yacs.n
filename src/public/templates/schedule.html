@@ -4,8 +4,8 @@
   <title>YACS</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
-  <script src="/js/schedule.js" charset="utf-8"></script>
-  <link rel="stylesheet" href="/css/schedule.css">
+  <script src="/js/scheduling.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="/css/scheduling.css">
   <meta charset="UTF-8">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -28,7 +28,7 @@
     <section class="body" ng-controller='schedule'>
       <div class="container-fluid">
 
-        <div class="col-md-2">
+        <div class="col-md-4">
           <section id='class-selection'>
             <h2>Classes</h2>
             <hr>
@@ -36,7 +36,7 @@
             <div class="course-search">
               <div class="form-group">
                 <label for="search">Search</label>
-                <input type="text" class="form-control" id="search" placeholder="Intro to College - COLG 1030">
+                <input type="text" ng-model='textSearch' class="form-control" id="search" placeholder="Intro to College - COLG 1030">
               </div>
               <div class="form-group">
                 <label for="sub-semester">Filter Sub-Semester</label>
@@ -59,24 +59,24 @@
             <hr>
 
             <div class="course-list">
-              <div class="course-list-element" ng-repeat='class in classes'>
-                <b>CSCI-2600 (4 Credits) {{ class.title }}</b>
-                <p>Computer Organization <i>by Professor Kuzmin</i></p>
+              <div class="course-list-element" ng-repeat='class in classList | filter:textSearch'>
+                <b>{{ class.name }} (4 Credits)</b>
+                <p> {{ class.title }} <i>by Professor Kuzmin</i></p>
               </div>
-              <div class="course-list-element">
+              <!-- <div class="course-list-element">
                 <b>MGMT-2300 (4 Credits)</b>
                 <p>Financial Accounting <i>by Elberg. H</i></p>
               </div>
               <div class="course-list-element">
                 <b>CSCI-5600 (3 Credits)</b>
                 <p>Principles of Software <i>by Professor Kuzmin</i></p>
-              </div>
+              </div> -->
             </div>
 
           </section>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-8">
           <h2 class="text-center">Schedule</h2>
           <hr>
 

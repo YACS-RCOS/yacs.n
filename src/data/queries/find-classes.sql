@@ -1,11 +1,16 @@
 -- -- list of classes offered (all)
 select
-  department,
-  level,
-  max(title) as title,
-  json_agg(crn) as crns
+  c.department,
+  c.level,
+  max(c.title) as title,
+  json_agg(
+    row_to_json(c1.*)
+  ) courses
 from
-  course
+  course c
+join course c1 on
+  c.department = c1.department and
+  c.level = c1.level
 group by
-  department,
-  level
+  c.department,
+  c.level
