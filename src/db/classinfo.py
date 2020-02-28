@@ -8,6 +8,7 @@ class ClassInfo:
             select
                 department,
                 level,
+                concat(department, '-', level) as name,
                 max(title) as title,
                 json_agg(crn) as crns
             from
