@@ -22,6 +22,11 @@ def root():
     return send_from_directory('./public/templates/', 'schedule.html')
 
 
+@app.route('/admin', methods=['GET'])
+def admin():
+    return send_from_directory('./public/templates/', 'admin.html')
+
+
 @app.route('/css/<string:file>', methods=['GET'])
 def css(file):
     return send_from_directory('./public/css/', file)
