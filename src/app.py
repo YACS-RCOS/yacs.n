@@ -36,7 +36,7 @@ def js(file):
 
 @app.route('/api/class', methods=['GET'])
 def get_classes():
-    return jsonify(class_info.get_classes())
+    return jsonify(class_info.get_classes_full())
 
 
 if __name__ == '__main__':
