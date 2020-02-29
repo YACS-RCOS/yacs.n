@@ -23,7 +23,7 @@ class CsvToInsert:
         raise Exception(f"Invalid day code provided: {dayStr}")
 
     def getDays(self, daySequenceStr):
-        return list(filter(lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
+        return set(filter(lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
     def populateDBFromCSVDataSourceDirectoryPath(self, csv_data_directory):
         raw_conn = self.db.getConnection()
