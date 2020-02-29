@@ -1,9 +1,11 @@
-import glob, os
+import glob
+import os
 import csv
 import re
 import db.connection as connection
 import io
 from psycopg2.extras import RealDictCursor
+
 
 class CsvToInsert:
 
@@ -47,7 +49,8 @@ class CsvToInsert:
                                 # the error flow to the catch block.
                                 reader = csv.DictReader(csvfile)
                                 for row in reader:
-                                    days = self.getDays(row['course_days_of_the_week'])
+                                    days = self.getDays(
+                                        row['course_days_of_the_week'])
                                     # Change this if day of the week can be NULL
                                     if (len(days) > 0):
                                         for day in days:
@@ -79,6 +82,7 @@ class CsvToInsert:
                 except Exception as e:
                     print(e)
                     raw_conn.rollback()
+
 
 # Test Driver
 if __name__ == "__main__":
