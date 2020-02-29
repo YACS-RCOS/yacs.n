@@ -23,6 +23,7 @@ class ClassInfo:
             select
               c.department,
               c.level,
+              concat(department, '-', level) as name,
               max(c.title) as title,
               json_agg(
                 row_to_json(section.*)
@@ -63,8 +64,3 @@ class ClassInfo:
             from
                 course
         """, None, True)
-
-# c = get_classes()
-# print(c[0].class)
-# print(c[0].title)
-# print(get_classes())
