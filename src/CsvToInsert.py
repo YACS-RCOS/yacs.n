@@ -52,7 +52,7 @@ class CsvToInsert:
                                     if (len(days) > 0):
                                         for day in days:
                                             transaction.execute(
-                                                "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
+                                                "INSERT INTO course_session VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
                                                 {
                                                     "CRN": row['course_crn'],
                                                     "Section": row['course_section'],
@@ -63,7 +63,7 @@ class CsvToInsert:
                                                 }
                                             )
                                     transaction.execute(
-                                        "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
+                                        "INSERT INTO course VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
                                         {
                                             "CRN": row['course_crn'],
                                             "Section": row['course_section'],
