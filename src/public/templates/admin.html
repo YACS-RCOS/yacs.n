@@ -20,7 +20,10 @@
         <div class="well well-sm">
           Input course data as CSV, for more info, see: <a href=#>http://help.com</a> (show github link for more docs later)
         </div>
-        <input type="file" name="" value="">
+        <form action="/api/upload" method="POST" enctype="multipart/form-data">
+          <input type="file" name="file" />
+          <input type="Submit" value="Submit">
+        </form>
       </section>
     </div>
   </body>
