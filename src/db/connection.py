@@ -34,6 +34,9 @@ class database():
 
         return ret
 
+    def getConnection(self):
+        return self.conn
+
 
 db = database()
 db.connect()

@@ -1,14 +1,13 @@
 import glob, os
-# import pandas as pd
 import csv
 import re
-
 import db.connection as connection
+from psycopg2.extras import RealDictCursor
 
 class CsvToUpdate:
 
-    def __init__(self, db_conn):
-        self.db_conn = db_conn
+    def __init__(self, db_wrapper):
+        self.db = db_wrapper
 
     def dayToNum(self, dayStr):
         if (dayStr == 'M'):
@@ -17,42 +16,61 @@ class CsvToUpdate:
             return 1
         elif (dayStr == 'W'):
             return 2
-        elif (dayStr == 'TR'):
+        elif (dayStr == 'R'):
             return 3
         elif (dayStr == 'F'):
             return 4
         raise Exception(f"Invalid day code provided: {dayStr}")
 
     def getDays(self, daySequenceStr):
-        return list(filter(lambda day: day, re.split("(?:(M|(T^R?)|W|F))", daySequenceStr)))
+        return list(filter(lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
     def populateDBFromCSVDataSourceDirectoryPath(self, csv_data_directory):
+        raw_conn = self.db.getConnection()
         os.chdir(csv_data_directory)
-        courseInsertQueries = ''
-        courseSessionInsertQueries = ''
-        for file in glob.glob("*.csv"):
-            with open(file, "r") as csvfile:
-                reader = csv.DictReader(csvfile)
-                # parsed = pd.read_csv(csvfile)
-                # print(parsed.head())
-                # for row in parsed.iterrows():
-                for row in reader:
-                    defaultSemester = "Summer 2020"
-                    defaultDateStart = "'2020-01-01'::date"
-                    defaultDateEnd = "'2020-01-01'::date"
-                    days = self.getDays(row['course_days_of_the_week']);
-                    self.db_conn.
-                    # Change this if day of the week can be NULL
-                    if (len(days) > 1):
-                        for day in days:
-                            courseSessionInsertQueries += "\nINSERT INTO testCourseSession VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', {5});".format(row['course_crn'], row['course_section'], defaultSemester, row['course_start_time'], row['course_end_time'], self.dayToNum(day))
-                            # self.db_conn.execute(
+        with raw_conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            try:
+                for file in glob.glob("*.csv"):
+                    with open(file, "r") as csvfile:
+                        reader = csv.DictReader(csvfile)
+                        for row in reader:
+                            defaultSemester = "Summer 2020"
+                            defaultDateStart = "2020-01-01"
+                            defaultDateEnd = "2020-01-01"
+                            days = self.getDays(row['course_days_of_the_week']);
+                            # Change this if day of the week can be NULL
+                            if (len(days) > 0):
+                                for day in days:
+                                    transaction.execute(
+                                        "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
+                                        {
+                                            "CRN": row['course_crn'],
+                                            "Section": row['course_section'],
+                                            "Semester": defaultSemester,
+                                            "StartTime": row['course_start_time'],
+                                            "EndTime": row['course_end_time'],
+                                            "WeekDay": self.dayToNum(day)
+                                        }
+                                    )
+                            transaction.execute(
+                                "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
+                                {
+                                    "CRN": row['course_crn'],
+                                    "Section": row['course_section'],
+                                    "Semester": defaultSemester,
+                                    "StartDate": defaultDateStart,
+                                    "EndDate": defaultDateEnd,
+                                    "Department": row['course_department'],
+                                    "Level": row['course_level'],
+                                    "Title": row['course_name'],
+                                }
+                            )
+                raw_conn.commit()
+            except Exception as e:
+                print(e)
+                raw_conn.rollback()
 
-                            # )
-                    courseInsertQueries += "\nINSERT INTO testCourse VALUES ('{0}', '{1}', '{2}', {3}, {4}, '{5}', {6}, '{7}');".format(row['course_crn'], row['course_section'], "Summer 2020", defaultDateStart, defaultDateEnd, row['course_department'], row['course_level'], row['course_name'])
-                    # print(row.course_name)
-        print(courseSessionInsertQueries)
-
-if __name__ == "__main__":
-    insertJob = CsvToUpdate(connection.db)
-    insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
+# Test Driver
+# if __name__ == "__main__":
+#     insertJob = CsvToUpdate(connection.db)
+#     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
