@@ -41,40 +41,40 @@ class CsvToInsert:
                                 csvfile = open(raw_file, "r")
                             else:
                                 csvfile = raw_file
-                            print(csvfile)
-                            # From the API endpoint, /api/upload or whatever the CSV upload is, the file objects will currently
-                            # be StringIO. Cannot check the extension of this since it's a temp in-memory file. Will just let
-                            # the error flow to the catch block.
-                            reader = csv.DictReader(csvfile)
-                            for row in reader:
-                                days = self.getDays(row['course_days_of_the_week'])
-                                # Change this if day of the week can be NULL
-                                if (len(days) > 0):
-                                    for day in days:
-                                        transaction.execute(
-                                            "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
-                                            {
-                                                "CRN": row['course_crn'],
-                                                "Section": row['course_section'],
-                                                "Semester": defaultSemester,
-                                                "StartTime": row['course_start_time'],
-                                                "EndTime": row['course_end_time'],
-                                                "WeekDay": self.dayToNum(day)
-                                            }
-                                        )
-                                transaction.execute(
-                                    "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
-                                    {
-                                        "CRN": row['course_crn'],
-                                        "Section": row['course_section'],
-                                        "Semester": defaultSemester,
-                                        "StartDate": defaultDateStart,
-                                        "EndDate": defaultDateEnd,
-                                        "Department": row['course_department'],
-                                        "Level": row['course_level'],
-                                        "Title": row['course_name'],
-                                    }
-                                )
+                            with csvfile:
+                                # From the API endpoint, /api/upload or whatever the CSV upload is, the file objects will currently
+                                # be StringIO. Cannot check the extension of this since it's a temp in-memory file. Will just let
+                                # the error flow to the catch block.
+                                reader = csv.DictReader(csvfile)
+                                for row in reader:
+                                    days = self.getDays(row['course_days_of_the_week'])
+                                    # Change this if day of the week can be NULL
+                                    if (len(days) > 0):
+                                        for day in days:
+                                            transaction.execute(
+                                                "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
+                                                {
+                                                    "CRN": row['course_crn'],
+                                                    "Section": row['course_section'],
+                                                    "Semester": defaultSemester,
+                                                    "StartTime": row['course_start_time'],
+                                                    "EndTime": row['course_end_time'],
+                                                    "WeekDay": self.dayToNum(day)
+                                                }
+                                            )
+                                    transaction.execute(
+                                        "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
+                                        {
+                                            "CRN": row['course_crn'],
+                                            "Section": row['course_section'],
+                                            "Semester": defaultSemester,
+                                            "StartDate": defaultDateStart,
+                                            "EndDate": defaultDateEnd,
+                                            "Department": row['course_department'],
+                                            "Level": row['course_level'],
+                                            "Title": row['course_name'],
+                                        }
+                                    )
                         raw_conn.commit()
                 except Exception as e:
                     print(e)
