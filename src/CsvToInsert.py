@@ -30,19 +30,19 @@ class CsvToUpdate:
         os.chdir(csv_data_directory)
         with raw_conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
+                defaultSemester = "Summer 2020"
+                defaultDateStart = "2020-01-01"
+                defaultDateEnd = "2020-01-01"
                 for file in glob.glob("*.csv"):
                     with open(file, "r") as csvfile:
                         reader = csv.DictReader(csvfile)
                         for row in reader:
-                            defaultSemester = "Summer 2020"
-                            defaultDateStart = "2020-01-01"
-                            defaultDateEnd = "2020-01-01"
                             days = self.getDays(row['course_days_of_the_week']);
                             # Change this if day of the week can be NULL
                             if (len(days) > 0):
                                 for day in days:
                                     transaction.execute(
-                                        "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
+                                        "INSERT INTO course_session VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
                                         {
                                             "CRN": row['course_crn'],
                                             "Section": row['course_section'],
@@ -53,7 +53,7 @@ class CsvToUpdate:
                                         }
                                     )
                             transaction.execute(
-                                "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
+                                "INSERT INTO course VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
                                 {
                                     "CRN": row['course_crn'],
                                     "Section": row['course_section'],
@@ -71,6 +71,6 @@ class CsvToUpdate:
                 raw_conn.rollback()
 
 # Test Driver
-# if __name__ == "__main__":
-#     insertJob = CsvToUpdate(connection.db)
-#     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
+if __name__ == "__main__":
+    insertJob = CsvToUpdate(connection.db)
+    insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
