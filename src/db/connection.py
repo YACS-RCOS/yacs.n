@@ -5,7 +5,7 @@ import psycopg2.extras
 class database():
     def __init__(self):
         self.connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(
-            "yacs", "corey", "localhost", "admin")
+            "yacs", "", "localhost", "")
 
     def connect(self):
         try:
