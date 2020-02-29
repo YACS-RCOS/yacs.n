@@ -4,7 +4,7 @@ import re
 import db.connection as connection
 from psycopg2.extras import RealDictCursor
 
-class CsvToUpdate:
+class CsvToInsert:
 
     def __init__(self, db_wrapper):
         self.db = db_wrapper
@@ -72,5 +72,5 @@ class CsvToUpdate:
 
 # Test Driver
 if __name__ == "__main__":
-    insertJob = CsvToUpdate(connection.db)
+    insertJob = CsvToInsert(connection.db)
     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
