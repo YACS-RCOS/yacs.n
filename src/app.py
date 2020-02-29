@@ -22,6 +22,11 @@ def root():
     return send_from_directory('./public/templates/', 'schedule.html')
 
 
+@app.route('/admin', methods=['GET'])
+def admin():
+    return send_from_directory('./public/templates/', 'admin.html')
+
+
 @app.route('/css/<string:file>', methods=['GET'])
 def css(file):
     return send_from_directory('./public/css/', file)
@@ -36,7 +41,7 @@ def js(file):
 
 @app.route('/api/class', methods=['GET'])
 def get_classes():
-    return jsonify(class_info.get_classes())
+    return jsonify(class_info.get_classes_full())
 
 
 if __name__ == '__main__':

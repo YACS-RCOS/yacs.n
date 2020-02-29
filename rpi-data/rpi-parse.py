@@ -7,13 +7,20 @@
 from bs4 import BeautifulSoup
 from bs4 import NavigableString,Tag
 
+import datetime
+import os
+import requests
+import pandas as pd 
+
+
 
 # In[13]:
 
 
-import requests
+source_url = os.environ.get('SOURCE_URL')
+assert(source_url)
 
-response = requests.get('https://sis.rpi.edu/reg/zs20200501.htm')
+response = requests.get(source_url)
 content = response.text
 
 
@@ -45,6 +52,19 @@ def get_foo(my_row):
                 res.append(child_2.contents[0])
     return res
 
+def parse_time(time_string):
+    time = time_string.split('-')
+    time[0] = time[0].strip()
+    time[1] = time[1].split(',')
+    time[1][0] = time[1][0].strip()
+    time[1][1] = time[1][1].strip()
+    time[0] = time[0] + ' ' + time[1][1]
+    time[1] = time[1][0] + ' ' + time[1][1]
+    time[0] = datetime.datetime.strptime(time[0], '%B %d %Y')
+    time[1] = datetime.datetime.strptime(time[1], '%B %d %Y')
+    time[0] = str(time[0].date())
+    time[1] = str(time[1].date())
+    return time
 
 # In[25]:
 
@@ -58,13 +78,14 @@ current_course_max_enroll = ''
 current_course_enrolled = ''
 current_course_remained = ''
 
+time_raw = genInfo[0].findChildren('h3', recursive = False)[1].findChildren('span')[0].contents[0]
+time = parse_time(time_raw)
+
 for gens in genInfo:
-    time = gens.findChildren(['h3'])
+    # time = gens.findChildren(['h3'])
     schools = gens.findChildren('h4', recursive = False);
-    for items in time:
-        for item in items.findChildren('span'):
-            pass
-            #print(item.contents[0])
+    # print(time[1].findChildren('span')[0].contents[0])
+
     for school in schools:
         schls.append(school.findChildren('span')[0].contents[0])
 
@@ -81,6 +102,8 @@ for i in range(len(tables)):
             current_course_enrolled = info[9]
             current_course_remained = info[10]
             info.append(schls[i])
+            info.append(time[0])
+            info.append(time[1])
             
             
             data.append(info)
@@ -98,15 +121,15 @@ for i in range(len(tables)):
                 current_course_max_enroll,
                 current_course_enrolled,
                 current_course_remained,
-                schls[i]
+                schls[i],
+                time[0],
+                time[1],
             ]
             data.append(clean_info)
 
 
 # In[27]:
 
-
-import pandas as pd 
 
 df = pd.DataFrame(data, columns =[
     'course_genertal_info', 
@@ -120,7 +143,9 @@ df = pd.DataFrame(data, columns =[
     'course_max_enroll',
     'course_enrolled',
     'course_remained',
-    'course_school',
+    'course_department',
+    'course_start_date',
+    'course_end_date',
     
 ]) 
 
@@ -146,8 +171,13 @@ df = df.drop(columns=['course_genertal_info'])
 
 # In[30]:
 
+headers = os.environ.get('HEADERS', 'True')
 
-df.to_csv('out.csv')
+headers = (headers == 'True')
+
+destination = os.environ.get('DEST', 'out.csv')
+
+df.to_csv(destination, header = headers, index = False)
 
 
 # In[ ]:
