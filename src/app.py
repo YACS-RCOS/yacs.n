@@ -9,9 +9,6 @@ from flask import url_for
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
-
-from CsvToInsert import CsvToInsert
-
 from io import StringIO
 
 # - init interfaces to db
