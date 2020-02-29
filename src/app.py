@@ -4,8 +4,11 @@ from flask import send_from_directory
 from flask import jsonify
 from flask import Response
 from flask import request
+from flask import redirect
+from flask import url_for
 import db.connection as connection
 import db.classinfo as ClassInfo
+import db.courses as Courses
 
 from CsvToInsert import CsvToInsert
 
@@ -14,7 +17,7 @@ from io import StringIO
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
-
+courses = Courses.Courses(db_conn)
 
 app = Flask(
     __name__,
@@ -49,25 +52,18 @@ def js(file):
 def get_classes():
     return jsonify(class_info.get_classes_full())
 
-@app.route('/api/upload', methods=['POST'])
+
+@app.route('/api/courses', methods=['POST'])
 def uploadHandler():
-    if len(request.files) > 0:
-        files = []
-        for _, file in request.files.items():
-            if ('.' in file.filename and file.filename.rsplit('.')[1] == 'csv'):
-                # Flask opens passed files from POST in binary mode by default
-                content = file.read().decode()
-                # https://stackoverflow.com/questions/3305926/python-csv-string-to-array
-                tempFile = StringIO(content)
-                files.append(tempFile)
-            else:
-                print("not csv file")
-        print(files)
-        csvToDBInsertJob = CsvToInsert(connection.db)
-        csvToDBInsertJob.populateDBFromCSVDataSourceDirectoryPath(files)
-    # for key, value in request.form.items():
-    #     print(key, value)
-    return Response("Received file(s)", 200)
+    # check for user files
+    if not len(request.files):
+        return Response("Need a *.csv file", 400)
+    # get file
+    csv_file = StringIO(request.files['file'].read().decode())
+    courses.populate_from_csv(csv_file)
+    # redirect back to home
+    return redirect(url_for('root'))
+
 
 if __name__ == '__main__':
     app.run()

@@ -24,7 +24,7 @@ class database():
     def close(self):
         self.conn.close()
 
-    def execute(self, sql, args, isSELECT):
+    def execute(self, sql, args, isSELECT=True):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         try:
             if isSELECT:
@@ -41,7 +41,7 @@ class database():
 
         return ret
 
-    def getConnection(self):
+    def get_connection(self):
         return self.conn
 
 

@@ -13,5 +13,5 @@ join course_session cs on
   cs.semester = c.semester and
   cs.section = c.section
 where
-  c.crn in ('15343', '15340') and
+  c.crn in ('15246', '15340') and
   c.semester = 'SUMMER 2020'

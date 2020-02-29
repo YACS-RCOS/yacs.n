@@ -14,5 +14,5 @@ create table course(
   -- instructor varchar(255),
   -- seats_available varchar(255),
   -- seats_filled varchar(255),
-  primary key (crn, section)
+  primary key (crn)
 );
