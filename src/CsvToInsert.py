@@ -4,7 +4,7 @@ import re
 import db.connection as connection
 from psycopg2.extras import RealDictCursor
 
-class CsvToInsert:
+class CsvToUpdate:
 
     def __init__(self, db_wrapper):
         self.db = db_wrapper
@@ -23,26 +23,26 @@ class CsvToInsert:
         raise Exception(f"Invalid day code provided: {dayStr}")
 
     def getDays(self, daySequenceStr):
-        return set(filter(lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
+        return list(filter(lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
     def populateDBFromCSVDataSourceDirectoryPath(self, csv_data_directory):
         raw_conn = self.db.getConnection()
         os.chdir(csv_data_directory)
         with raw_conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
-                defaultSemester = "Summer 2020"
-                defaultDateStart = "2020-01-01"
-                defaultDateEnd = "2020-01-01"
                 for file in glob.glob("*.csv"):
                     with open(file, "r") as csvfile:
                         reader = csv.DictReader(csvfile)
                         for row in reader:
+                            defaultSemester = "Summer 2020"
+                            defaultDateStart = "2020-01-01"
+                            defaultDateEnd = "2020-01-01"
                             days = self.getDays(row['course_days_of_the_week']);
                             # Change this if day of the week can be NULL
                             if (len(days) > 0):
                                 for day in days:
                                     transaction.execute(
-                                        "INSERT INTO course_session VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
+                                        "INSERT INTO testCourseSession VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartTime)s, %(EndTime)s, %(WeekDay)s);",
                                         {
                                             "CRN": row['course_crn'],
                                             "Section": row['course_section'],
@@ -53,7 +53,7 @@ class CsvToInsert:
                                         }
                                     )
                             transaction.execute(
-                                "INSERT INTO course VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
+                                "INSERT INTO testCourse VALUES (%(CRN)s, %(Section)s, %(Semester)s, %(StartDate)s, %(EndDate)s, %(Department)s, %(Level)s, %(Title)s);",
                                 {
                                     "CRN": row['course_crn'],
                                     "Section": row['course_section'],
@@ -71,20 +71,6 @@ class CsvToInsert:
                 raw_conn.rollback()
 
 # Test Driver
-<<<<<<< HEAD
 # if __name__ == "__main__":
 #     insertJob = CsvToUpdate(connection.db)
-<<<<<<< HEAD
-<<<<<<< HEAD
 #     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
-=======
-#     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
->>>>>>> 55e75a5... Remove rebase junk
-=======
-#     insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
-=======
-if __name__ == "__main__":
-    insertJob = CsvToUpdate(connection.db)
-    insertJob.populateDBFromCSVDataSourceDirectoryPath(os.path.abspath("../rpi-data"))
->>>>>>> 2c08558... Had table names switched around
->>>>>>> 4b1501b... Use set() for days of week. Remove credentials for local DB. Fix tbl
