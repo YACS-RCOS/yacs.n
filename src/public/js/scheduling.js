@@ -2,13 +2,29 @@ angular.module('yacs', [])
   .controller('schedule', ['$scope', '$http', function($scope, $http) {
 
     $scope.textSearch = ''
+    $scope.departmentSearch = ''
+    $scope.selectedSubsemester = ''
     $scope.classList = []
+
+    $scope.subsemesterSearch = function (desiredSubsemester) {
+      return function (subsemester) {
+        if (desiredSubsemester) {
+          return (desiredSubsemester.date_start.getTime() === subsemester.date_start.getTime() && desiredSubsemester.date_end.getTime() === subsemester.date_end.getTime())
+        }
+        return true
+      }
+    }
 
     // populate class list
     $http
       .get('/api/class')
       .then(res => {
         $scope.classList = res.data
+        $scope.classList.forEach(course => {
+          course.date_start = new Date(course.date_start)
+          course.date_end = new Date(course.date_end)
+        })
+        console.log(res.data);
       })
       .catch(err => {
         console.error(err);
@@ -34,7 +50,6 @@ angular.module('yacs', [])
         $scope.subsemesters.forEach(subsemester => {
           subsemester.date_start = new Date(subsemester.date_start)
           subsemester.date_end = new Date(subsemester.date_end)
-          console.log(subsemester)
           subsemester.date_start_display = (subsemester.date_start.getMonth() + 1) + "/" + (subsemester.date_start.getDate() + 1)
           subsemester.date_end_display = (subsemester.date_end.getMonth() + 1) + "/" + (subsemester.date_end.getDate() + 1)
         })
