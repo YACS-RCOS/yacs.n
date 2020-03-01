@@ -25,6 +25,8 @@ class ClassInfo:
               c.level,
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
+              c.date_start,
+              c.date_end,
               json_agg(
                 row_to_json(section.*)
               ) sections
@@ -54,7 +56,9 @@ class ClassInfo:
               c.level = section.level
             group by
               c.department,
-              c.level
+              c.level,
+              c.date_start,
+              c.date_end
         """, None, True)
 
     def get_departments(self):

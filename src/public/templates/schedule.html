@@ -40,7 +40,8 @@
               </div>
               <div class="form-group">
                 <label for="sub-semester">Filter Sub-Semester</label>
-                <select id='sub-semester' class="form-control">
+                <select id='sub-semester' ng-model='selectedSubsemester' class="form-control">
+                  <option value="" selected>All</option>
                   <option ng-value="subsemester" ng-repeat='subsemester in subsemesters'>
                     {{subsemester.date_start_display}} - {{subsemester.date_end_display}}
                   </option>
@@ -48,7 +49,8 @@
               </div>
               <div class="form-group">
                 <label for="department">Filter Department</label>
-                <select id='department' class="form-control">
+                <select id='department' ng-model='departmentSearch' class="form-control">
+                  <option value="" selected>All</option>
                   <option ng-value="department" ng-repeat='department in departments'>
                     {{department}}
                   </option>
@@ -59,18 +61,10 @@
             <hr>
 
             <div class="course-list">
-              <div class="course-list-element" ng-repeat='class in classList | filter:textSearch'>
+              <div class="course-list-element" ng-repeat="class in classList | filter:textSearch | filter:{department: departmentSearch} | filter:subsemesterSearch(selectedSubsemester)">
                 <b>{{ class.name }} (4 Credits)</b>
                 <p> {{ class.title }} <i>by Professor Kuzmin</i></p>
               </div>
-              <!-- <div class="course-list-element">
-                <b>MGMT-2300 (4 Credits)</b>
-                <p>Financial Accounting <i>by Elberg. H</i></p>
-              </div>
-              <div class="course-list-element">
-                <b>CSCI-5600 (3 Credits)</b>
-                <p>Principles of Software <i>by Professor Kuzmin</i></p>
-              </div> -->
             </div>
 
           </section>

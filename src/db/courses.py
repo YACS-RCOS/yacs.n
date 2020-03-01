@@ -22,7 +22,6 @@ class Courses:
         day_num = day_map.get(day_char, -1)
         if day_num != -1:
             return day_num
-            print(day_num)
         else:
             raise Exception("Invalid day code provided")
 
@@ -34,7 +33,6 @@ class Courses:
         conn = self.db.get_connection()
         reader = csv.DictReader(csv_text)
         for row in reader:
-            print(row)
             # for each course entry insert sections and course sessions
             with conn.cursor(cursor_factory=RealDictCursor) as transaction:
                 try:
