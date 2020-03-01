@@ -64,3 +64,15 @@ class ClassInfo:
             from
                 course
         """, None, True)
+
+    def get_subsemesters(self):
+        return self.db_conn.execute("""
+            select
+              date_start,
+              date_end
+            from
+              course
+            group by
+              date_start,
+              date_end
+        """, None, True)

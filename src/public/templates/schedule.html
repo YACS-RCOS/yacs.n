@@ -41,17 +41,17 @@
               <div class="form-group">
                 <label for="sub-semester">Filter Sub-Semester</label>
                 <select id='sub-semester' class="form-control">
-                  <option value="May 26 - July 10">May 26 - July 10</option>
-                  <option value="July 13 - August 21">July 13 - August 21</option>
+                  <option ng-value="subsemester" ng-repeat='subsemester in subsemesters'>
+                    {{subsemester.date_start_display}} - {{subsemester.date_end_display}}
+                  </option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="sub-semester">Filter Department</label>
-                <select id='sub-semester' class="form-control">
-                  <option value="May 26 - July 10">CSCI</option>
-                  <option value="May 26 - July 10">MGMT</option>
-                  <option value="May 26 - July 10">ARCH</option>
-                  <option value="May 26 - July 10">BIOL</option>
+                <label for="department">Filter Department</label>
+                <select id='department' class="form-control">
+                  <option ng-value="department" ng-repeat='department in departments'>
+                    {{department}}
+                  </option>
                 </select>
               </div>
             </div>

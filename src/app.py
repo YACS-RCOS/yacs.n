@@ -50,6 +50,16 @@ def get_classes():
     return jsonify(class_info.get_classes_full())
 
 
+@app.route('/api/department', methods=['GET'])
+def get_departments():
+    return jsonify(class_info.get_departments())
+
+
+@app.route('/api/subsemester', methods=['GET'])
+def get_subsemesters():
+    return jsonify(class_info.get_subsemesters())
+
+
 @app.route('/api/courses', methods=['POST'])
 def uploadHandler():
     # check for user files
