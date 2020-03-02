@@ -109,8 +109,24 @@ for i in range(len(tables)):
             info.append(time[1])
             info.append(SEMESTER_NAME)
 
+            if info[6][-2:] == 'AM':
+                info[5] += 'AM'
+            else:
+                if info[6][2] == ":":
+                    if (int(info[6][0:2]) == 12 and int(info[3]) > 1):
+                        info[5] += "AM"
+                    else:
+                        info[5] += "PM"
+                else:
+                    if int(info[6][0]) - int(info[3]) < 0:
+                        info[5] += "AM"
+                    else:
+                        info[5] += "PM"
+
+
             data.append(info)
             continue
+
         if len(info) == 5:
             clean_info = [
                 current_course_section,
@@ -129,6 +145,22 @@ for i in range(len(tables)):
                 time[1],
                 SEMESTER_NAME
             ]
+
+            if clean_info[6][-2:] == 'AM':
+                clean_info[5] += 'AM'
+            else:
+                if clean_info[6][2] == ":":
+                    if (int(clean_info[6][0:2]) == 12 and int(clean_info[3]) > 1):
+                        clean_info[5] += "AM"
+                    else:
+                        clean_info[5] += "PM"
+                else:
+                    if int(clean_info[6][0]) - int(clean_info[3]) < 0:
+                        clean_info[5] += "AM"
+                    else:
+                        clean_info[5] += "PM"
+
+
             data.append(clean_info)
 
 
