@@ -11,7 +11,7 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
-    "jquery": "^1.9.1",
+    "jquery": "^3.4.0",
     "moment": "^2.24.0",
     "moment-locales-webpack-plugin": "^1.1.2",
     "vue": "^2.6.11"
