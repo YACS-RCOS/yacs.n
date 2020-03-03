@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <Header></Header> -->
+    <Header></Header>
     <MainPage/>
   </div>
 </template>
@@ -8,13 +8,13 @@
 <script>
 import MainPage from './pages/Main';
 
-// import Header from './components/Header';
+import Header from './components/Header';
 
 export default {
   name: 'App',
   components: {
     MainPage,
-    // Header
+    Header
   }
 }
 </script>
