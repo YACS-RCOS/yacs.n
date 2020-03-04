@@ -10,6 +10,10 @@ import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
 from io import StringIO
+import json
+from .Controller import User as userController
+from .Controller import Session as sessionController
+from .Controller import UserEvent as eventController
 
 from flask_cors import CORS
 
@@ -73,6 +77,43 @@ def uploadHandler():
     courses.populate_from_csv(csv_file)
     # redirect back to home
     return redirect(url_for('root'))
+
+
+# - user system api
+
+@app.route('/user', methods=['GET'])
+def getUserInfo():
+    return userController.getUserInfo(request.json)
+
+
+@app.route('/user', methods=['POST'])
+def addUser():
+    return userController.addUser(request.json)
+
+
+@app.route('/user', methods=['DELETE'])
+def deleteUser():
+    return userController.deleteUser(request.json)
+
+
+@app.route('/user', methods=['PUT'])
+def updateUserInfo():
+    return userController.updateUser(request.json)
+
+
+@app.route('/session', methods=['POST'])
+def login():
+    return sessionController.addSession(request.json)
+
+
+@app.route('/session', methods=['DELETE'])
+def logout():
+    return sessionController.deleteSession(request.json)
+
+
+@app.route('/event', methods=['POST'])
+def addUserEvent():
+    return eventController.addEvent(json.loads(request.data))
 
 
 if __name__ == '__main__':
