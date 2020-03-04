@@ -24,6 +24,12 @@ assert(source_url)
 response = requests.get(source_url)
 content = response.text
 
+# Removes all divs to avoid bad parsing
+cont = content.split("\n")
+cont = filter(lambda x: not "div" in x, cont)
+content = "\n".join(cont)
+
+
 
 # In[14]:
 
@@ -109,7 +115,10 @@ for gens in genInfo:
 
 for i in range(len(tables)):
     table = tables[i]
+    #print(table)
+    #print("----------------------------------------------")
     rows = table.findChildren(['tr'])
+    # print(rows)
     if i == 0:
         titles = get_course_titles(rows[1])
 
