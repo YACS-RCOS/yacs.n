@@ -159,6 +159,8 @@ for i in range(len(tables)):
                     info[6] += "PM"
                 else:
                     info[6] += "AM"
+        else:
+            info[6] = info[7] = None 
 
         info.pop(4)
         data.append(info)
