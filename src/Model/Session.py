@@ -1,4 +1,4 @@
-from ..Model.Model import *
+from Model.Model import *
 from datetime import datetime
 import uuid
 

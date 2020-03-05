@@ -11,9 +11,10 @@ import db.classinfo as ClassInfo
 import db.courses as Courses
 from io import StringIO
 import json
-from .Controller import User as userController
-from .Controller import Session as sessionController
-from .Controller import UserEvent as eventController
+import Controller.User as userController
+import Controller.Session as sessionController
+import Controller.UserEvent as eventController
+from config import *
 
 from flask_cors import CORS
 
@@ -81,6 +82,10 @@ def uploadHandler():
 
 # - user system api
 
+@app.route('/hello', methods=['GET'])
+def hello():
+    return "hello"
+
 @app.route('/user', methods=['GET'])
 def getUserInfo():
     return userController.getUserInfo(request.json)
@@ -117,4 +122,4 @@ def addUserEvent():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=APP_DEBUG_MODE, host=APP_HOST)

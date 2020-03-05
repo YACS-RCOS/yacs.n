@@ -1,6 +1,6 @@
-from ..Model.UserEvent import UserEvent as UserEvents
-from ..View import Message as msg
-from ..common import *
+from Model.UserEvent import UserEvent as UserEvents
+import View.Message as msg
+from common import *
 import json
 
 

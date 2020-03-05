@@ -1,5 +1,5 @@
 import psycopg2
-from .. import database
+import database
 
 
 class Model(object):

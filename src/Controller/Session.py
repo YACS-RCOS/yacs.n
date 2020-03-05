@@ -1,8 +1,8 @@
-from ..common import *
-from ..Model.Session import Session as SessionModel
-from ..Model.User import User as UserModel
+from common import *
+from Model.Session import Session as SessionModel
+from Model.User import User as UserModel
 from datetime import datetime
-from ..View import Message as msg
+import View.Message as msg
 
 def deleteSession(form):
     if not checkKeys(form, ['sessionID']):

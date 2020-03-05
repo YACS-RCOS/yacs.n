@@ -3,7 +3,7 @@ import os
 # Database Settings
 DB_NAME=os.getenv('DB_NAME', 'yacs')
 DB_USER=os.getenv('DB_USER', 'postgres')
-DB_HOST=os.getenv('DB_HOST', 'user_psql')
+DB_HOST=os.getenv('DB_HOST', '172.17.0.2')
 DB_PASSWORD=os.getenv('DB_PASSWORD', 'yacs@rpi')
 
 # App Settings

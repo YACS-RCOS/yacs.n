@@ -1,10 +1,11 @@
 import psycopg2
-from . import config
+from config import *
 
 
 class database(object):
     def __init__(self):
         self.connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(DB_NAME, DB_USER, DB_HOST, DB_PASSWORD)
+    
     def connect(self):
         try:
             self.conn = psycopg2.connect(self.connect_str)

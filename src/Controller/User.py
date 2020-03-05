@@ -1,7 +1,7 @@
-from ..Model.User import User as UserModel
-from ..Model.Session import Session as SessionModel
-from ..View import Message as msg
-from ..common import *
+from Model.User import User as UserModel
+from Model.Session import Session as SessionModel
+import View.Message as msg
+from common import *
 
 def getUserInfo(form):
     users = UserModel()
