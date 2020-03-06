@@ -153,7 +153,7 @@ export default {
             return this.colorService.getColor(courseSession.crn).text;
         },
         readableTime (timeString) {
-            return moment(timeString, 'kk:mm:ss').format('ha');
+            return moment(timeString, 'kk:mm:ss').format('h:mma');
         },
         courseSessionsOnDay(dayOfWeek) {
             return this.courseSessions.filter(cs => cs.day_of_week === dayOfWeek);
@@ -259,8 +259,8 @@ export default {
 }
 
 .selected-course-card {
-    max-width: 250px;
-    min-width: 250px;
+    max-width: 270px;
+    min-width: 270px;
 }
 
 .course-section-item {
