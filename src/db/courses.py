@@ -32,9 +32,9 @@ class Courses:
     def populate_from_csv(self, csv_text):
         conn = self.db.get_connection()
         reader = csv.DictReader(csv_text)
-        for row in reader:
-            # for each course entry insert sections and course sessions
-            with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+        # for each course entry insert sections and course sessions
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            for row in reader:
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
@@ -58,7 +58,8 @@ class Courses:
                                     %(StartTime)s,
                                     %(EndTime)s,
                                     %(WeekDay)s
-                                );
+                                )
+                                ON CONFLICT DO NOTHING;
                                 """,
                                 {
                                     "CRN": row['course_crn'],
@@ -68,9 +69,7 @@ class Courses:
                                     "EndTime": row['course_end_time'],
                                     "WeekDay": self.dayToNum(day)
                                 }
-                                # ,False
                             )
-                    conn.commit()
                     # courses
                     transaction.execute(
                         """
@@ -94,7 +93,8 @@ class Courses:
                             %(Department)s,
                             %(Level)s,
                             %(Title)s
-                        );
+                        )
+                        ON CONFLICT DO NOTHING;
                         """,
                         {
                             "CRN": row['course_crn'],
@@ -106,12 +106,12 @@ class Courses:
                             "Level": row['course_level'],
                             "Title": row['course_name'],
                         }
-                        # ,False
                     )
-                    conn.commit()
                 except Exception as e:
-                    conn.commit()
-                    print(e)
+                    conn.rollback()
+                    return (False, e)
+        conn.commit()
+        return (True, None)
 
 
 if __name__ == "__main__":
