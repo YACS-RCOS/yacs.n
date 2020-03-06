@@ -168,14 +168,9 @@ export default {
             return this.courseSessions.filter(cs => cs.day_of_week === dayOfWeek);
         },
         addCourseSection (course, sectionIndex) {
-            if (!this.courseSessions.find(item => item.crn === course.sections[sectionIndex].crn && item.section == sectionIndex)) {
-                console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-                this.courseSessions.push(...course.sections[sectionIndex].sessions);
-                console.log(course);
-            }
-            else {
-                console.log("attempt to add duplicate course");
-            }
+            console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
+            this.courseSessions.push(...course.sections[sectionIndex].sessions);
+            console.log(course);
             // this.calendar.addEvent("Course", "Attend this", "SAGE 4102", course.sections[sectionIndex].time_start, course.sections[sectionIndex].time_end, );
         },
         exportScheduleToIcs () {

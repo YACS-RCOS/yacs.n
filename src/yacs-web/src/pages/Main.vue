@@ -22,7 +22,7 @@
                     >
                         <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
                     </b-form-group>
-<!-- 
+<!--
                 <div class="form-group">
                     <label for="sub-semester">Filter Sub-Semester</label>
                     <select id='sub-semester' v-model='selectedSubsemester' class="form-control">
@@ -52,7 +52,7 @@
                 <hr>
 
                 <b-list-group flush>
-                    <b-list-group-item 
+                    <b-list-group-item
                         v-for="course in filteredCourses"
                         :key="course.name + course.date_end + course.date_start"
                         class="course-list-item"
@@ -72,7 +72,7 @@
 
             </b-col>
             <b-col md='8'>
-   
+
                 <!-- <h3 class="text-center">Schedule</h3>
                 <hr> -->
                 <Schedule :courses="selectedCourses"></Schedule>
@@ -151,6 +151,8 @@ export default {
             return `${date.getMonth() + 1}/${date.getDay() + 1}`;
         },
         addCourse (course) {
+            console.log(`Adding ${course.title} to selected courses`);
+            console.log(course);
             this.selectedCourses.push(course);
         }
     },
@@ -158,7 +160,7 @@ export default {
         filteredCourses () {
             return this.courses.filter(({date_start, date_end, department, str}) => {
                 return (!this.selectedSubsemester ||
-                        (this.selectedSubsemester.date_start.getTime() === date_start.getTime() && 
+                        (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
                         this.selectedSubsemester.date_end.getTime() === date_end.getTime()))
                         && (!this.selectedDepartment ||
                             this.selectedDepartment === department)
