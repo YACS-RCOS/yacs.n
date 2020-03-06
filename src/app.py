@@ -68,14 +68,15 @@ def uploadHandler():
     # check for user files
     if not len(request.files):
         return Response("Need a *.csv file", 400)
-    try:
-        # get file
-        csv_file = StringIO(request.files['file'].read().decode())
-        courses.populate_from_csv(csv_file)
+    # get file
+    csv_file = StringIO(request.files['file'].read().decode())
+    isSuccess, error = courses.populate_from_csv(csv_file)
+    if (isSuccess):
         return Response(status=200)
-    except Exception as e:
-        print(e)
-        return Response(status=500)
+    else:
+        print(error)
+        return Response(error.__str__(), status=500)
+
 
 
 if __name__ == '__main__':

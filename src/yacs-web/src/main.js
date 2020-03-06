@@ -1,8 +1,9 @@
-import '@babel/polyfill'
-import 'mutationobserver-shim'
-import Vue from 'vue'
-import './plugins/bootstrap-vue'
-import App from './App.vue'
+import '@babel/polyfill';
+import 'mutationobserver-shim';
+import './plugins/bootstrap-vue';
+import './plugins/fontawesome-vue';
+import Vue from 'vue';
+import App from './App.vue';
 import VueRouter from 'vue-router';
 import router from './routes';
 

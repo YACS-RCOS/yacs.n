@@ -36,27 +36,21 @@ export default {
             let formData = new FormData(event.target);
             this.loading = true;
             uploadCsv(formData).then(response => {
+                console.log(response);
+                // Axios will only enter this block if the status code is 2xx,
+                // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
                 let filename = formData.get("file").name;
-                if (response.status === 200) {
-                    this.$bvToast.toast(`${filename} has been successfully uploaded!`, {
-                        title: "Upload Result",
-                        variant: "info",
-                        noAutoHide: false
-                    });
-                }
-                else {
-                    console.log(response);
-                    this.$bvToast.toast(`${filename} hasn't been successfully uploaded.`, {
-                        title: "Upload Result",
-                        variant: "danger",
-                        noAutoHide: true
-                    });
-                }
+                this.$bvToast.toast(`${filename} has been successfully uploaded!`, {
+                    title: "Upload Result",
+                    variant: "info",
+                    noAutoHide: false
+                });
                 this.loading = false;
             })
             .catch(error => {
+                console.log(error.response);
                 this.loading = false;
-                this.$bvToast.toast(`${error}`, {
+                this.$bvToast.toast(`HTTP ${error.response.status}: ${error.response.data}`, {
                     title: "Upload Result",
                     variant: "danger",
                     noAutoHide: true

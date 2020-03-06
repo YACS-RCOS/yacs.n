@@ -9,5 +9,11 @@ create table course_session(
   semester varchar(255),
   time_start time,
   time_end time,
-  day_of_week int
+  day_of_week int,
+  PRIMARY KEY (
+    crn,
+    section,
+    semester,
+    day_of_week
+  )
 );
