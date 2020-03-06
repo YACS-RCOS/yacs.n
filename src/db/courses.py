@@ -58,7 +58,8 @@ class Courses:
                                     %(StartTime)s,
                                     %(EndTime)s,
                                     %(WeekDay)s
-                                );
+                                )
+                                ON CONFLICT DO NOTHING;
                                 """,
                                 {
                                     "CRN": row['course_crn'],
@@ -68,7 +69,6 @@ class Courses:
                                     "EndTime": row['course_end_time'],
                                     "WeekDay": self.dayToNum(day)
                                 }
-                                # ,False
                             )
                     conn.commit()
                     # courses
@@ -94,7 +94,8 @@ class Courses:
                             %(Department)s,
                             %(Level)s,
                             %(Title)s
-                        );
+                        )
+                        ON CONFLICT DO NOTHING;
                         """,
                         {
                             "CRN": row['course_crn'],
@@ -106,7 +107,6 @@ class Courses:
                             "Level": row['course_level'],
                             "Title": row['course_name'],
                         }
-                        # ,False
                     )
                     conn.commit()
                 except Exception as e:

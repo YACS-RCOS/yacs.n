@@ -26,19 +26,19 @@ CORS(app)
 
 # - web routes break into routes/ ... later
 
-@app.route('/', methods=['GET'])
-def root():
-    return send_from_directory('./public/templates/', 'schedule.html')
+# @app.route('/', methods=['GET'])
+# def root():
+#     return send_from_directory('./public/templates/', 'schedule.html')
 
 
-@app.route('/admin', methods=['GET'])
-def admin():
-    return send_from_directory('./public/templates/', 'admin.html')
+# @app.route('/admin', methods=['GET'])
+# def admin():
+#     return send_from_directory('./public/templates/', 'admin.html')
 
 
-@app.route('/css/<string:file>', methods=['GET'])
-def css(file):
-    return send_from_directory('./public/css/', file)
+# @app.route('/css/<string:file>', methods=['GET'])
+# def css(file):
+#     return send_from_directory('./public/css/', file)
 
 
 @app.route('/js/<string:file>', methods=['GET'])
@@ -63,16 +63,19 @@ def get_subsemesters():
     return jsonify(class_info.get_subsemesters())
 
 
-@app.route('/api/courses', methods=['POST'])
+@app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():
     # check for user files
     if not len(request.files):
         return Response("Need a *.csv file", 400)
-    # get file
-    csv_file = StringIO(request.files['file'].read().decode())
-    courses.populate_from_csv(csv_file)
-    # redirect back to home
-    return redirect(url_for('root'))
+    try:
+        # get file
+        csv_file = StringIO(request.files['file'].read().decode())
+        courses.populate_from_csv(csv_file)
+        return Response(status=200)
+    except Exception as e:
+        print(e)
+        return Response(status=500)
 
 
 if __name__ == '__main__':
