@@ -127,16 +127,19 @@ for i in range(len(tables)):
         if(len(info) < 12):
             continue
 
-        elif not info[0]:
+        elif(len(info) == 12):
+        	info.insert(9, 'TBA')
+
+        if not info[0]:
             prev = data[-1]
             info[0] = prev[0]
             info[1] = prev[1]
 
             info[3] = prev[3]
 
-            info[9] = prev[9]
             info[10] = prev[10]
             info[11] = prev[11]
+            info[12] = prev[12]
 
         info.append(schls[i])
         info.append(time[0])
@@ -150,6 +153,7 @@ for i in range(len(tables)):
         if(info[7]):
             info[7] = info[7].replace(' ', '').strip()
 
+
         if(info[7]):
             if info[7][-2:] == 'AM':
                 info[6] += 'AM'
@@ -161,6 +165,9 @@ for i in range(len(tables)):
                     info[6] += "AM"
         else:
             info[6] = info[7] = None 
+
+        if 'TBA' in info[9]:
+        	info[9] = None
 
         info.pop(4)
         data.append(info)
@@ -178,6 +185,7 @@ df = pd.DataFrame(data, columns=[
     'course_start_time',
     'course_end_time',
     'course_instructor',
+    'course_location',
     'course_max_enroll',
     'course_enrolled',
     'course_remained',
