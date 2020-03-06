@@ -9,12 +9,11 @@ from flask import url_for
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import controller.user as user_controller
+import controller.session as session_controller
+import controller.userevent as event_controller
 from io import StringIO
 import json
-import Controller.User as userController
-import Controller.Session as sessionController
-import Controller.UserEvent as eventController
-from config import *
 
 from flask_cors import CORS
 
@@ -81,45 +80,40 @@ def uploadHandler():
 
 
 # - user system api
-
-@app.route('/hello', methods=['GET'])
-def hello():
-    return "hello"
-
 @app.route('/user', methods=['GET'])
 def getUserInfo():
-    return userController.getUserInfo(request.json)
+    return user_controller.getUserInfo(request.json)
 
 
 @app.route('/user', methods=['POST'])
 def addUser():
-    return userController.addUser(request.json)
+    return user_controller.addUser(request.json)
 
 
 @app.route('/user', methods=['DELETE'])
 def deleteUser():
-    return userController.deleteUser(request.json)
+    return user_controller.deleteUser(request.json)
 
 
 @app.route('/user', methods=['PUT'])
 def updateUserInfo():
-    return userController.updateUser(request.json)
+    return user_controller.updateUser(request.json)
 
 
 @app.route('/session', methods=['POST'])
 def login():
-    return sessionController.addSession(request.json)
+    return session_controller.addSession(request.json)
 
 
 @app.route('/session', methods=['DELETE'])
 def logout():
-    return sessionController.deleteSession(request.json)
+    return session_controller.deleteSession(request.json)
 
 
 @app.route('/event', methods=['POST'])
 def addUserEvent():
-    return eventController.addEvent(json.loads(request.data))
+    return event_controller.addEvent(json.loads(request.data))
 
 
 if __name__ == '__main__':
-    app.run(debug=APP_DEBUG_MODE, host=APP_HOST)
+    app.run(debug=True, host="0.0.0.0")

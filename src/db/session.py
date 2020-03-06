@@ -1,5 +1,5 @@
-from Model.Model import *
 from datetime import datetime
+from db.model import *
 import uuid
 
 class Session(Model):
@@ -12,7 +12,7 @@ class Session(Model):
     def startSession(self, session, uid, startTime):
         sql = """INSERT INTO public.sessions (session_id, user_id, start_time) VALUES (%s,%s,%s);"""
         args = (session,uid,startTime)
-        return self.pg.execute(sql,args,False)
+        return self.db.execute(sql,args,False)
 
 
     def getSession(self,sessionID='%'):
@@ -21,9 +21,9 @@ class Session(Model):
                     WHERE   session_id::text LIKE %s"""
 
         arg = (sessionID,)
-        return self.pg.execute(sql,arg,True)
+        return self.db.execute(sql,arg,True)
 
     def endSession(self,sessionID='%',uid='%',endTime=datetime.utcnow()):
         sql = """UPDATE public.sessions SET end_time = %s WHERE session_id::text LIKE %s AND user_id::text LIKE %s;"""
         args = (endTime,sessionID,str(uid))
-        return self.pg.execute(sql,args,False)
+        return self.db.execute(sql,args,False)
