@@ -82,7 +82,8 @@ class Courses:
                                 date_end,
                                 department,
                                 level,
-                                title
+                                title,
+                                location
                             )
                         VALUES (
                             %(CRN)s,
@@ -92,7 +93,8 @@ class Courses:
                             %(EndDate)s,
                             %(Department)s,
                             %(Level)s,
-                            %(Title)s
+                            %(Title)s,
+                            %(Location)s
                         )
                         ON CONFLICT DO NOTHING;
                         """,
@@ -105,6 +107,7 @@ class Courses:
                             "Department": row['course_department'],
                             "Level": row['course_level'],
                             "Title": row['course_name'],
+                            "Location": row['course_location']
                         }
                     )
                 except Exception as e:
