@@ -8,7 +8,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-success ml-auto mb-2 d-block">
+                <button class="btn btn-success ml-auto mb-2 d-block" @click="exportScheduleToIcs">
                     <font-awesome-icon :icon="exportIcon" /> Export to ICS
                 </button>
 
@@ -110,6 +110,8 @@ export default {
             endTime: 1320,
             totalHeight: 600,
 
+            calendar: window.ics(),
+
             exportIcon: faPaperPlane,
 
             DAY_SHORTNAMES: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -166,8 +168,20 @@ export default {
             return this.courseSessions.filter(cs => cs.day_of_week === dayOfWeek);
         },
         addCourseSection (course, sectionIndex) {
-            console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            this.courseSessions.push(...course.sections[sectionIndex].sessions);
+            if (!this.courseSessions.find(item => item.crn === course.sections[sectionIndex].crn && item.section == sectionIndex)) {
+                console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
+                this.courseSessions.push(...course.sections[sectionIndex].sessions);
+                console.log(course);
+            }
+            else {
+                console.log("attempt to add duplicate course");
+            }
+            // this.calendar.addEvent("Course", "Attend this", "SAGE 4102", course.sections[sectionIndex].time_start, course.sections[sectionIndex].time_end, );
+        },
+        exportScheduleToIcs () {
+            for (var course of this.courseSessions) {
+                console.log(course);
+            }
         }
     },
     computed: {
