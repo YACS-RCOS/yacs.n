@@ -32,9 +32,9 @@ class Courses:
     def populate_from_csv(self, csv_text):
         conn = self.db.get_connection()
         reader = csv.DictReader(csv_text)
-        for row in reader:
-            # for each course entry insert sections and course sessions
-            with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+        # for each course entry insert sections and course sessions
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            for row in reader:
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
@@ -70,7 +70,6 @@ class Courses:
                                     "WeekDay": self.dayToNum(day)
                                 }
                             )
-                    conn.commit()
                     # courses
                     transaction.execute(
                         """
@@ -108,10 +107,11 @@ class Courses:
                             "Title": row['course_name'],
                         }
                     )
-                    conn.commit()
                 except Exception as e:
-                    conn.commit()
-                    print(e)
+                    conn.rollback()
+                    return (False, e)
+        conn.commit()
+        return (True, None)
 
 
 if __name__ == "__main__":

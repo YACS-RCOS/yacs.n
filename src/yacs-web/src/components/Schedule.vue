@@ -20,14 +20,14 @@
                                 [normalHeight] = "eventHeight(period)"
                                 [period] = "period">
                             </schedule-event>  -->
-                            <ScheduleEvent 
-                                v-for="courseSession in courseSessionsOnDay(index)" 
+                            <ScheduleEvent
+                                v-for="courseSession in courseSessionsOnDay(index)"
                                 :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
                                 :crn="courseSession.crn"
                                 :section="courseSession.section"
                                 :semester="courseSession.semester"
-                                :style="{ 
-                                    'margin-top': eventPosition(courseSession) + 'px', 
+                                :style="{
+                                    'margin-top': eventPosition(courseSession) + 'px',
                                     height: eventHeight(courseSession) + 'px',
                                     backgroundColor: getBackgroundColor(courseSession),
                                     borderColor: getBorderColor(courseSession),
@@ -35,7 +35,7 @@
                                     width: dayWidth + '%'
                                 }"
                                 class="schedule-event"
-                            >    
+                            >
                             </ScheduleEvent>
                             <div class="grid-hour" v-for="hour of hours" :key="hour" :style="{ height: hourHeight + '%' }"></div>
                         <!-- </ng-container> -->
@@ -48,8 +48,8 @@
         </b-col>
         <b-col cols='12'>
             <b-card-group deck>
-                <b-card 
-                    v-for="course in courses" 
+                <b-card
+                    v-for="course in courses"
                     :key="course.name + course.date_end + course.date_start"
                     :sub-title="course.title"
                     class="selected-course-card"
@@ -61,7 +61,7 @@
                         <!-- <b-card-sub-title>{{course.title}}</b-card-sub-title> -->
                     <!-- </b-card-body> -->
                     <b-list-group flush>
-                        <b-list-group-item 
+                        <b-list-group-item
                             v-for="(section, index) in course.sections"
                             :key="section.crn"
                             @click.stop="addCourseSection(course, index)"
@@ -86,9 +86,7 @@
 </template>
 <script>
 import moment from 'moment';
-
 import ColorService from '../services/ColorService';
-
 import ScheduleEvent from './ScheduleEvent';
 
 export default {
