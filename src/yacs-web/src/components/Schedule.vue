@@ -169,21 +169,19 @@ export default {
         },
         addCourseSection (course, sectionIndex) {
             console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            // This is gross.
+            // The session needs a reference to the course so the exportable schedule can be built
             course.sections[sectionIndex].sessions.map(session => session.course = course);
             this.courseSessions.push(...course.sections[sectionIndex].sessions);
-            console.log(course);
-            // this.calendar.addEvent("Course", "Attend this", "SAGE 4102", course.sections[sectionIndex].time_start, course.sections[sectionIndex].time_end, );
         },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
             for (var session of this.courseSessions) {
-                console.log(session);
-                // cal.addEvent(subject, description, location, begin, end, rrule)
-                // this.calendar.addEvent("Course", "Attend this", "SAGE 4102", course.time_start, course.time_end);
-                calendarBuilder.addEvent(session.course.title, `Day of ${session.course.title}`, "SAGE 4102", new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_end.toDateString()} ${session.time_end}`), {
+                // console.log(session);
+                // Add course type in description when available from DB.
+                calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
                     freq: "WEEKLY",
                     interval: 1,
+                    until: session.course.date_end,
                     byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
                 });
             }
@@ -254,12 +252,6 @@ export default {
 .grid-day {
   //width: 1000;
   height: 100%;
-  float: left;
-}
-
-.foo {
-  //width: 1000;
-  height: 3.5%;
   float: left;
 }
 
