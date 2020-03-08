@@ -120,6 +120,7 @@ export default class Schedule {
                     console.log(`Removed courseSession at index ${i}`);
                     return true;
                 }
+                i += 1;
             }
 
             console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
@@ -169,6 +170,8 @@ export default class Schedule {
                 console.log(`Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(courseSession)}`)
             }
 
+            courseSection.selected = true;
+
             console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);
             return true;
         }
@@ -188,6 +191,7 @@ export default class Schedule {
             for (const courseSession of courseSection.sessions) {
                 this._removeCourseSession(courseSession);
             }
+            courseSection.selected = false;
         }
     }
 

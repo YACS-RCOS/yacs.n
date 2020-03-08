@@ -11,15 +11,6 @@
                 <div class="schedule-grid">
                     <div class="grid-day" v-for="(day, index) of days" :key="day.longname" :style="{ width: dayWidth + '%' }">
                         <div class="day-label">{{ day.longname }}</div>
-                        <!-- <ng-container > -->
-                            <!-- <schedule-event *ngFor="let period of periodsOnDay(day)"
-                                [style.margin-top.px] = "eventPosition(period)"
-                                [style.backgroundColor] = "getBackgroundColor(period)"
-                                [style.borderColor] = "getBorderColor(period)"
-                                [style.color] = "getTextColor(period)"
-                                [normalHeight] = "eventHeight(period)"
-                                [period] = "period">
-                            </schedule-event>  -->
                             <ScheduleEvent
                                 v-for="courseSession in courseSessionsOnDay(index)"
                                 :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
@@ -38,7 +29,6 @@
                             >
                             </ScheduleEvent>
                             <div class="grid-hour" v-for="hour of hours" :key="hour" :style="{ height: hourHeight + '%' }"></div>
-                        <!-- </ng-container> -->
                     </div>
                 </div>
             </div>
@@ -47,7 +37,7 @@
             <h5>Selected Courses:</h5>
         </b-col>
         <b-col cols='12'>
-            <b-card-group deck>
+            <b-card-group no-body deck>
                 <b-card
                     v-for="course in courses"
                     :key="course.name + course.date_end + course.date_start"
@@ -55,21 +45,21 @@
                     :sub-title="course.title"
                     class="selected-course-card"
                 >
-                <button type="button" class="close text-muted" @click="removeCourse(course)">
-                    <span>&times;</span>
-                </button>
-                    <!-- <b-card-header>
-                        {{course.name}}
-                    </b-card-header> -->
-                    <!-- <b-card-body> -->
-                        <!-- <b-card-sub-title>{{course.title}}</b-card-sub-title> -->
-                    <!-- </b-card-body> -->
+                    <button type="button" class="close text-muted" @click="removeCourse(course)">
+                        <span>&times;</span>
+                    </button>
+     
                     <b-list-group flush>
                         <b-list-group-item
-                            v-for="(section, index) in course.sections"
+                            button
+                            v-for="section in course.sections"
                             :key="section.crn"
-                            @click.stop="addCourseSection(course, index)"
+                            @click.stop="toggleCourseSection(course, section)"
                             class="course-section-item"
+                            :style="{
+                                'border-left': section.selected ? `4px solid ${getBorderColor(section)}` : 'none',
+                                'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
+                            }"
                         >
                             {{section.crn}} - {{section.sessions[0].section}}<br>
 
@@ -115,8 +105,6 @@ export default {
 
             colorService: new ColorService(),
             schedule: new ScheduleService(),
-
-            // courseSessions: [],
         }
     },
     methods: {
@@ -133,16 +121,12 @@ export default {
             }
         },
         toMinutes (timeString) {
-            // let timeInt = parseInt(timeString);
-            // return (Math.floor(timeInt / 100) * 60) + (timeInt % 100);
             const mmt = moment(timeString, 'kk:mm:ss');
             return mmt.hours() * 60 + mmt.minutes();
         },
         eventHeight (courseSession) {
             const eventDuration = this.toMinutes(courseSession.time_end) - this.toMinutes(courseSession.time_start);
-            // console.log(this.toMinutes(courseSession.time_end));
-            // console.log(this.toMinutes(courseSession.time_start));
-            // console.log(eventDuration);
+
             return (this.totalHeight  * (eventDuration / this.numMinutes));
         },
         eventPosition (courseSession) {
@@ -162,34 +146,46 @@ export default {
             return moment(timeString, 'kk:mm:ss').format('h:mma');
         },
         courseSessionsOnDay(dayOfWeek) {
-            // return this.courseSessions.filter(cs => cs.day_of_week === dayOfWeek);
             return this.schedule.dailySessions[dayOfWeek];
         },
         removeCourse (course) {
             this.schedule.removeCourse(course);
             this.$emit('unselectCourse', course);
         },
-        addCourseSection (course, sectionIndex) {
-            // console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            // this.courseSessions.push(...course.sections[sectionIndex].sessions);
-            const section = course.sections[sectionIndex];
-            try {
-                this.schedule.addCourseSection(section)
-            } catch (err) {
-                if (err.type === 'Schedule Conflict') {
-                    const vNodesMsg = this.$createElement(
-                        'p',
-                        { class: [ 'mb-0', ] },
-                        [
-                            `Conflict with ${err.existingSession.crn} - ${err.existingSession.section} `,
-                            this.$createElement('div', { style: `background-color:${this.getBackgroundColor(err.existingSession)};border:1px solid ${this.getBorderColor(err.existingSession)};width:13px;height:13px;display:inline-block;`})
-                        ]
-                    );
-                    this.$bvToast.toast(vNodesMsg, {
-                        title: `Cannot add ${course.name} section ${section.sessions[0].section}`,
-                        variant: 'danger',
-                        noAutoHide: true,
-                    });
+        toggleCourseSection (course, section) {
+            if (section.selected) {
+                this.schedule.removeCourseSection(section);
+            } else {
+                try {
+                    // Only allow selection of one section per course
+                    this.schedule.removeCourse(course);
+                    this.schedule.addCourseSection(section);
+                } catch (err) {
+                    if (err.type === 'Schedule Conflict') {
+                        const vNodesMsg = this.$createElement(
+                            'p',
+                            { class: [ 'mb-0', ] },
+                            [
+                                `Conflict with ${err.existingSession.crn} - ${err.existingSession.section} `,
+                                this.$createElement(
+                                    'div', 
+                                    { 
+                                        style: `
+                                            background-color:${this.getBackgroundColor(err.existingSession)};
+                                            border:1px solid ${this.getBorderColor(err.existingSession)};
+                                            width:13px;
+                                            height:13px;
+                                            display:inline-block;`
+                                    }
+                                )
+                            ]
+                        );
+                        this.$bvToast.toast(vNodesMsg, {
+                            title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            variant: 'danger',
+                            noAutoHide: true,
+                        });
+                    }
                 }
             }
         }
@@ -298,9 +294,5 @@ export default {
         top: 10px;
         right: 15px;
     }
-}
-
-.course-section-item {
-    cursor: pointer;
 }
 </style>

@@ -127,6 +127,7 @@ export default {
                 c.date_start = new Date(c.date_start);
                 c.date_end = new Date(c.date_end);
                 c.str = [c.title, c.name, this.readableDate(c.date_start), this.readableDate(c.date_end)].join();
+                c.sections.forEach(s => {if (s) s.selected = false;});
                 return c;
             });
         });
