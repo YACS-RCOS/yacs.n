@@ -73,7 +73,7 @@ export default {
             selectedDepartment: null,
             departmentOptions: [{text: 'All', value: null}],
             courses: [],
-            selectedCourses: {},
+            selectedCourses: [],
         }
     },
     created () {
@@ -117,8 +117,8 @@ export default {
             console.log(`Identifier: ${this._getCourseIdentifier(course)}`);
             console.log(course);
             course.selected = true;
-            // this.selectedCourses.push(course);
-            this.selectedCourses[this._getCourseIdentifier(course)] = course;
+            this.selectedCourses.push(course);
+            // this.selectedCourses[this._getCourseIdentifier(course)] = course;
         },
         removeCourse (course) {
             this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);

@@ -43,7 +43,7 @@
         <b-col cols='12'>
             <b-card-group no-body columns>
                 <b-card
-                    v-for="course of courses"
+                    v-for="course in courses"
                     :key="course.name"
                     :title="course.name"
                     :sub-title="course.title"
@@ -94,8 +94,7 @@ export default {
         ScheduleEvent
     },
     props: {
-        courses: Object,
-        courseIdentifierFunc: Function
+        courses: Array
     },
     data () {
         return {
@@ -158,23 +157,24 @@ export default {
         },
         addCourseSection (course, sectionIndex) {
             console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
+            course.sections[sectionIndex].sessions.forEach(session => session.course = course);
             this.courseSessions.push(...course.sections[sectionIndex].sessions);
         },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
-            console.log(this.courses);
-            console.log(this.schedule.dailySessions);
+            // console.log(this.courses);
+            // console.log(this.schedule.dailySessions);
             for (const dayArray of this.schedule.dailySessions) {
                 for (const session of dayArray) {
                     console.log(session);
-                    console.log(this.courses[this.courseIdentifierFunc(session)]);
+                    // console.log(this.courses[this.courseIdentifierFunc(session)]);
                     // Add course type in description when available from DB.
-                    // calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
-                    //     freq: "WEEKLY",
-                    //     interval: 1,
-                    //     until: session.course.date_end,
-                    //     byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
-                    // });
+                    calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
+                        freq: "WEEKLY",
+                        interval: 1,
+                        until: session.course.date_end,
+                        byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+                    });
                 }
             }
             calendarBuilder.download();
@@ -190,7 +190,7 @@ export default {
                 try {
                     // Only allow selection of one section per course
                     this.schedule.removeCourse(course);
-                    this.schedule.addCourseSection(section);
+                    this.schedule.addCourseSection(course, section);
                 } catch (err) {
                     if (err.type === 'Schedule Conflict') {
                         const vNodesMsg = this.$createElement(
