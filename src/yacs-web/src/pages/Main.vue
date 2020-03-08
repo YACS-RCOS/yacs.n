@@ -57,6 +57,7 @@
                         v-for="course in filteredCourses"
                         :key="course.name + course.date_end + course.date_start"
                         :disabled="course.selected"
+                        :class="{'bg-light': course.selected}"
                         @click="addCourse(course)"
                     >
                         <b>{{ course.name }}</b> ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }}) <br>
