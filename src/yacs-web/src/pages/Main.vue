@@ -52,10 +52,11 @@
                 <hr>
 
                 <b-list-group flush>
-                    <b-list-group-item 
+                    <b-list-group-item
+                        button
                         v-for="course in filteredCourses"
                         :key="course.name + course.date_end + course.date_start"
-                        class="course-list-item"
+                        :disabled="course.selected"
                         @click="addCourse(course)"
                     >
                         <b>{{ course.name }}</b> ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }}) <br>
@@ -128,6 +129,7 @@ export default {
                 c.date_end = new Date(c.date_end);
                 c.str = [c.title, c.name, this.readableDate(c.date_start), this.readableDate(c.date_end)].join();
                 c.sections.forEach(s => {if (s) s.selected = false;});
+                c.selected = false;
                 return c;
             });
         });
@@ -153,9 +155,11 @@ export default {
         },
         addCourse (course) {
             this.selectedCourses.push(course);
+            course.selected = true;
         },
         removeCourse (course) {
             this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
+            course.selected = false;
         }
     },
     computed: {
@@ -175,7 +179,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.course-list-item {
-    cursor: pointer;
-}
+
 </style>

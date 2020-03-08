@@ -55,7 +55,6 @@
                             v-for="section in course.sections"
                             :key="section.crn"
                             @click.stop="toggleCourseSection(course, section)"
-                            class="course-section-item"
                             :style="{
                                 'border-left': section.selected ? `4px solid ${getBorderColor(section)}` : 'none',
                                 'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
