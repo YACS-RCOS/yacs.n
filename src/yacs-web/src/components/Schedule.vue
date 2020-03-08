@@ -37,7 +37,7 @@
             <h5>Selected Courses:</h5>
         </b-col>
         <b-col cols='12'>
-            <b-card-group no-body deck>
+            <b-card-group no-body columns>
                 <b-card
                     v-for="course in courses"
                     :key="course.name + course.date_end + course.date_start"
