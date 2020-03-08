@@ -75,7 +75,7 @@
    
                 <!-- <h3 class="text-center">Schedule</h3>
                 <hr> -->
-                <Schedule :courses="selectedCourses"></Schedule>
+                <Schedule :courses="selectedCourses" @unselectCourse="removeCourse"></Schedule>
             </b-col>
 
             <!-- <div class="col-md-8">
@@ -152,6 +152,9 @@ export default {
         },
         addCourse (course) {
             this.selectedCourses.push(course);
+        },
+        removeCourse (course) {
+            this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
         }
     },
     computed: {

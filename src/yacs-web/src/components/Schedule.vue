@@ -54,6 +54,9 @@
                     :sub-title="course.title"
                     class="selected-course-card"
                 >
+                <button type="button" class="close text-muted" @click="$emit('unselectCourse', course)">
+                    <span>&times;</span>
+                </button>
                     <!-- <b-card-header>
                         {{course.name}}
                     </b-card-header> -->
@@ -261,6 +264,12 @@ export default {
 .selected-course-card {
     max-width: 270px;
     min-width: 270px;
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
 }
 
 .course-section-item {
