@@ -1,8 +1,3 @@
-const SCHEDULE_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
-// hours indicate start (inclusive) of one hour block with exclusive end e.g. [8, 9) in ascending order
-const SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-const SCHEDULE_DAY_DURATION = SCHEDULE_HOURS[SCHEDULE_HOURS.length - 1] - SCHEDULE_HOURS[0];
-
 /**
  * @typedef {Object<string, any>} CourseSession
  * @property {string} crn
@@ -32,6 +27,11 @@ const SCHEDULE_DAY_DURATION = SCHEDULE_HOURS[SCHEDULE_HOURS.length - 1] - SCHEDU
  * 
  */
 export default class Schedule {
+    static SCHEDULE_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
+    // hours indicate start (inclusive) of one hour block with exclusive end e.g. [8, 9) in ascending order
+    static SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    static SCHEDULE_DAY_DURATION = Schedule.SCHEDULE_HOURS[Schedule.SCHEDULE_HOURS.length - 1] - Schedule.SCHEDULE_HOURS[0];
+
     //   courses;
     /** @type {Array<CourseSession[]>} */
     dailySessions;
@@ -40,7 +40,7 @@ export default class Schedule {
         // this.courses = [];
         this.dailySessions = [];
 
-        for (let d = 0; d < SCHEDULE_DAYS.length; d++) {
+        for (let d = 0; d < Schedule.SCHEDULE_DAYS.length; d++) {
             this.dailySessions.push([]);
         }
     }
@@ -90,7 +90,12 @@ export default class Schedule {
                     // Otherwise there is a schedule conflict
                 } else {
                     console.error(`Schedule conflict between ${JSON.stringify(newCourseSession)} and ${JSON.stringify(sess)}`);
-                    return null;
+                    throw {
+                        type: 'Schedule Conflict',
+                        existingSession: sess,
+                        addingSession: newCourseSession,
+                    };
+                    // return null;
                 }
             }
 
@@ -157,7 +162,7 @@ export default class Schedule {
             }
 
             console.log(`Additions before sort: ${JSON.stringify(additions)}`);
-            additions.sort((a1, a2) => a1.day === a2.day ? a1.day - a2.day : a2.courseSession.time_start - a1.course.time_start);
+            additions.sort((a1, a2) => a1.day === a2.day ? a1.day - a2.day : a2.courseSession.time_start - a1.courseSession.time_start);
             console.log(`Additions after sort: ${JSON.stringify(additions)}`);
             for (const { index, day, courseSession } of additions) {
                 this.dailySessions[day].splice(index, 0, courseSession);
@@ -208,17 +213,19 @@ export default class Schedule {
     }
 
     /**
-     * Removes course and section identified by sectionIndex
+     * Removes all sections of course
      * @param {Course} course 
-     * @param {number} sectionIndex
      */
-    removeCourse(course, sectionIndex) {
+    removeCourse(course) {
         if (!course) {
             console.warn(`Ignoring remove null/undefined course`);
         } else if (course.sections.length === 0) {
             console.error(`Cannot remove course with no sections ${JSON.stringify(course)}`);
         } else {
-            this.removeCourseSection(course.sections[sectionIndex]);
+            for (const section of course.sections) {
+                this.removeCourseSection(section);
+            }
+            // this.removeCourseSection(course.sections[sectionIndex]);
             //   this.courses.splice(this.courses.indexOf(course), 1);
         }
     }
