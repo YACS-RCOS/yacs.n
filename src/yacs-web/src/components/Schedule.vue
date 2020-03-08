@@ -43,8 +43,8 @@
         <b-col cols='12'>
             <b-card-group no-body columns>
                 <b-card
-                    v-for="course in courses"
-                    :key="course.name + course.date_end + course.date_start"
+                    v-for="course of courses"
+                    :key="course.name"
                     :title="course.name"
                     :sub-title="course.title"
                     class="selected-course-card"
@@ -86,7 +86,7 @@ import moment from 'moment';
 import ScheduleService from '../services/ScheduleService';
 import ColorService from '../services/ColorService';
 import ScheduleEvent from './ScheduleEvent';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
     name: 'Schedule',
@@ -94,7 +94,8 @@ export default {
         ScheduleEvent
     },
     props: {
-        courses: Array
+        courses: Object,
+        courseIdentifierFunc: Function
     },
     data () {
         return {
@@ -134,7 +135,6 @@ export default {
         },
         eventHeight (courseSession) {
             const eventDuration = this.toMinutes(courseSession.time_end) - this.toMinutes(courseSession.time_start);
-
             return (this.totalHeight  * (eventDuration / this.numMinutes));
         },
         eventPosition (courseSession) {
@@ -158,21 +158,24 @@ export default {
         },
         addCourseSection (course, sectionIndex) {
             console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            // The session needs a reference to the course so the exportable schedule can be built
-            course.sections[sectionIndex].sessions.map(session => session.course = course);
             this.courseSessions.push(...course.sections[sectionIndex].sessions);
         },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
-            for (var session of this.courseSessions) {
-                // console.log(session);
-                // Add course type in description when available from DB.
-                calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
-                    freq: "WEEKLY",
-                    interval: 1,
-                    until: session.course.date_end,
-                    byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
-                });
+            console.log(this.courses);
+            console.log(this.schedule.dailySessions);
+            for (const dayArray of this.schedule.dailySessions) {
+                for (const session of dayArray) {
+                    console.log(session);
+                    console.log(this.courses[this.courseIdentifierFunc(session)]);
+                    // Add course type in description when available from DB.
+                    // calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
+                    //     freq: "WEEKLY",
+                    //     interval: 1,
+                    //     until: session.course.date_end,
+                    //     byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+                    // });
+                }
             }
             calendarBuilder.download();
         },
@@ -216,6 +219,9 @@ export default {
                     }
                 }
             }
+        },
+        addCourse(course) {
+            this.schedule.addCourse(course);
         }
     },
     computed: {

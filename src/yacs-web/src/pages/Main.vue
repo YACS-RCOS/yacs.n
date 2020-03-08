@@ -12,46 +12,25 @@
                     >
                         <b-form-input id="search" v-model="textSearch" trim placeholder="Intro to College - COLG 1030 - 5/2"></b-form-input>
                     </b-form-group>
-                <!-- <div class="form-group">
-                    <label for="search">Search</label>
-                    <input type="text" v-model='textSearch' class="form-control" id="search" placeholder="Intro to College - COLG 1030">
-                </div> -->
+
                     <b-form-group
                         label="Filter Sub-Semester"
                         for="sub-semester"
                     >
                         <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
                     </b-form-group>
-<!--
-                <div class="form-group">
-                    <label for="sub-semester">Filter Sub-Semester</label>
-                    <select id='sub-semester' v-model='selectedSubsemester' class="form-control">
-                    <option value="" selected>All</option>
-                    <option ng-value="subsemester" ng-repeat='subsemester in subsemesters'>
-                        {{subsemester.date_start_display}} - {{subsemester.date_end_display}}
-                    </option>
-                    </select>
-                </div> -->
+
                     <b-form-group
                         label="Filter Department"
                         for="department"
                     >
                         <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
                     </b-form-group>
-                <!-- <div class="form-group">
-                    <label for="department">Filter Department</label>
-                    <select id='department' ng-model='departmentSearch' class="form-control">
-                    <option value="" selected>All</option>
-                    <option ng-value="department" ng-repeat='department in departments'>
-                        {{department}}
-                    </option>
-                    </select>
-                </div> -->
                 </div>
 
                 <hr>
 
-                <b-list-group flush>
+                <b-list-group class="course-list" flush>
                     <b-list-group-item
                         v-for="course in filteredCourses"
                         :key="course.name + course.date_end + course.date_start"
@@ -64,35 +43,10 @@
                     </b-list-group-item>
                 </b-list-group>
 
-                <!-- <div class="course-list">
-                    <div class="course-list-element" ng-repeat="class in classList | filter:textSearch | filter:{department: departmentSearch} | filter:subsemesterSearch(selectedSubsemester)">
-                        <b>{{ class.name }} (4 Credits)</b>
-                        <p> {{ class.title }} <i>by Professor Kuzmin</i></p>
-                    </div>
-                </div> -->
-
             </b-col>
             <b-col md='8'>
-
-                <!-- <h3 class="text-center">Schedule</h3>
-                <hr> -->
-                <Schedule :courses="selectedCourses" @unselectCourse="removeCourse"></Schedule>
+                <Schedule :courses="selectedCourses" :courseIdentifierFunc="_getCourseIdentifier" @unselectCourse="removeCourse"></Schedule>
             </b-col>
-
-            <!-- <div class="col-md-8">
-            <h2 class="text-center">Schedule</h2>
-            <hr>
-
-            <div class="schedule"></div>
-                <div class="div" ng-repeat='day in _schedule_template.days'>
-                {{day}}
-                <span class="div" ng-repeat='hour in _schedule_template.hours'>
-                    {{day}}{{hour}}
-                </span>
-                <br>
-                </div>
-
-            </div> -->
         </b-row>
     </b-container>
 </template>
@@ -119,7 +73,7 @@ export default {
             selectedDepartment: null,
             departmentOptions: [{text: 'All', value: null}],
             courses: [],
-            selectedCourses: [],
+            selectedCourses: {},
         }
     },
     created () {
@@ -155,11 +109,16 @@ export default {
         readableDate (date) {
             return `${date.getMonth() + 1}/${date.getDay() + 1}`;
         },
+        _getCourseIdentifier(courseObj) {
+            return courseObj.title;
+        },
         addCourse (course) {
             console.log(`Adding ${course.title} to selected courses`);
+            console.log(`Identifier: ${this._getCourseIdentifier(course)}`);
             console.log(course);
-            this.selectedCourses.push(course);
             course.selected = true;
+            // this.selectedCourses.push(course);
+            this.selectedCourses[this._getCourseIdentifier(course)] = course;
         },
         removeCourse (course) {
             this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
