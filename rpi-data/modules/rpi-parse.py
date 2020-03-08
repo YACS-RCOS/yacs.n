@@ -137,9 +137,9 @@ for i in range(len(tables)):
 
             info[3] = prev[3]
 
-            info[10] = prev[10]
-            info[11] = prev[11]
-            info[12] = prev[12]
+            info[10] = prev[9]
+            info[11] = prev[10]
+            info[12] = prev[11]
 
         info.append(schls[i])
         info.append(time[0])
