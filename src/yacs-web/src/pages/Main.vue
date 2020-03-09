@@ -140,7 +140,9 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+.course-list > div.list-group-item:hover {
+    background-color: #DDD;
+    cursor: pointer;
+}
 </style>

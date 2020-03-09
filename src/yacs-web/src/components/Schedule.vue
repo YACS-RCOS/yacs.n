@@ -157,13 +157,10 @@ export default {
         },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
-            // console.log(this.courses);
-            // console.log(this.schedule.dailySessions);
             for (const dayArray of this.schedule.dailySessions) {
                 for (const session of dayArray) {
                     console.log(session);
-                    // console.log(this.courses[this.courseIdentifierFunc(session)]);
-                    // Add course type in description when available from DB.
+                    // Add course type in description when available from DB. Add location of session when available.
                     calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", "location", new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
                         freq: "WEEKLY",
                         interval: 1,
@@ -172,7 +169,6 @@ export default {
                     });
                 }
             }
-            console.log(calendarBuilder);
             calendarBuilder.download();
         },
         removeCourse (course) {
