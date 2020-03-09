@@ -127,7 +127,7 @@ export default class Schedule {
         } else {
             let i = 0;
             for (const sess of this.dailySessions[courseSession.day_of_week]) {
-                if (JSON.stringify(sess) === JSON.stringify(courseSession)) {
+                if (sess.section === courseSession.section && sess.time_start === courseSession.time_start && sess.time_end === courseSession.time_end && sess.day_of_week === courseSession.day_of_week) {
                     this.dailySessions[courseSession.day_of_week].splice(i, 1);
                     console.log(`Removed courseSession at index ${i}`);
                     return true;
@@ -135,7 +135,7 @@ export default class Schedule {
                 i += 1;
             }
 
-            console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
+            // console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
             return false;
         }
     }
@@ -145,7 +145,7 @@ export default class Schedule {
      * @param {CourseSection} courseSection
      * @returns {boolean} if course section was added to schedule
      */
-    addCourseSection(courseSection) {
+    addCourseSection(course, courseSection) {
         if (!courseSection) {
             console.warn(`Ignoring add null/undefined courseSection`);
         } else if (courseSection.sessions.length === 0) {
@@ -164,7 +164,6 @@ export default class Schedule {
                 if (sessionIndex === null) {
                     console.error(`Failed to add course section`);
                     return false;
-
                 } else {
                     additions.push({
                         index: sessionIndex,
@@ -179,9 +178,17 @@ export default class Schedule {
             console.log(`Additions after sort: ${JSON.stringify(additions)}`);
             for (const { index, day, courseSession } of additions) {
                 this.dailySessions[day].splice(index, 0, courseSession);
+                // Allow for sessions to have a reference to their parent course
+                // but don't copy the sections so we avoid circular JSON (which will cause JSON.stringify to fail).
+                // Am giving a 'backpointer' so the ICS schedule can be easily built based on what sessions are
+                // currently selected / inserted.
+                // eslint-disable-next-line
+                let courseInfo = (({sections, ...o}) => o)(course);
+                courseSession.course = courseInfo;
                 console.log(`Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(courseSession)}`)
             }
 
+            console.warn("Setting course section to selected=true");
             courseSection.selected = true;
 
             console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);

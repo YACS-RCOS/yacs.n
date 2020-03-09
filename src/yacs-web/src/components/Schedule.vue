@@ -155,11 +155,6 @@ export default {
         courseSessionsOnDay(dayOfWeek) {
             return this.schedule.dailySessions[dayOfWeek];
         },
-        addCourseSection (course, sectionIndex) {
-            console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            course.sections[sectionIndex].sessions.forEach(session => session.course = course);
-            this.courseSessions.push(...course.sections[sectionIndex].sessions);
-        },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
             // console.log(this.courses);
@@ -169,7 +164,7 @@ export default {
                     console.log(session);
                     // console.log(this.courses[this.courseIdentifierFunc(session)]);
                     // Add course type in description when available from DB.
-                    calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", session.course.location, new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
+                    calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", "location", new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
                         freq: "WEEKLY",
                         interval: 1,
                         until: session.course.date_end,
@@ -177,6 +172,7 @@ export default {
                     });
                 }
             }
+            console.log(calendarBuilder);
             calendarBuilder.download();
         },
         removeCourse (course) {
@@ -219,9 +215,6 @@ export default {
                     }
                 }
             }
-        },
-        addCourse(course) {
-            this.schedule.addCourse(course);
         }
     },
     computed: {
