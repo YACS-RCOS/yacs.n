@@ -158,11 +158,13 @@ export default {
         },
         exportScheduleToIcs () {
             let calendarBuilder = window.ics()
+            let semester;
             for (const dayArray of this.schedule.dailySessions) {
                 for (const session of dayArray) {
                     console.log(session);
                     // Add course type in description when available from DB. Add location of session when available.
                     let courseInfo = this.courses[session._courseKey];
+                    semester = session.semester;
                     calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", "location", new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
                         freq: "WEEKLY",
                         interval: 1,
@@ -171,7 +173,7 @@ export default {
                     });
                 }
             }
-            calendarBuilder.download();
+            calendarBuilder.download(`${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (_, semFirstLetter, semRest, year) { return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year })}_Schedule`);
         },
         removeCourse (course) {
             this.schedule.removeCourse(course);
