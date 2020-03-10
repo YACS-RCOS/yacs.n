@@ -73,7 +73,7 @@ export default {
             selectedDepartment: null,
             departmentOptions: [{text: 'All', value: null}],
             courses: [],
-            selectedCourses: [],
+            selectedCourses: {},
         }
     },
     created () {
@@ -107,21 +107,20 @@ export default {
     },
     methods: {
         readableDate (date) {
-            return `${date.getMonth() + 1}/${date.getDay() + 1}`;
+            return `${date.getMonth() + 1}/${date.getDate()}`;
         },
         _getCourseIdentifier(courseObj) {
-            return courseObj.title;
+            return `${courseObj.department}${courseObj.level}${courseObj.date_start.getMonth() + 1}${courseObj.date_start.getDay() + 1}${courseObj.date_start.getFullYear()}${courseObj.date_end.getMonth() + 1}${courseObj.date_end.getDay() + 1}${courseObj.date_end.getFullYear()}`;
         },
         addCourse (course) {
             console.log(`Adding ${course.title} to selected courses`);
-            console.log(`Identifier: ${this._getCourseIdentifier(course)}`);
             console.log(course);
             course.selected = true;
-            this.selectedCourses.push(course);
-            // this.selectedCourses[this._getCourseIdentifier(course)] = course;
+            // This must be vm.set since we're adding a property onto an object
+            this.$set(this.selectedCourses, this._getCourseIdentifier(course), course);
         },
         removeCourse (course) {
-            this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
+            this.$delete(this.selectedCourses, this._getCourseIdentifier(course));
             course.selected = false;
         }
     },

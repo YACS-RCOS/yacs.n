@@ -39,8 +39,9 @@ export default class Schedule {
     /** @type {Array<CourseSession[]>} */
     dailySessions;
 
-    constructor() {
+    constructor(courseIdentifierFunc) {
         this.dailySessions = [];
+        this._getCourseIdentifier = courseIdentifierFunc;
 
         for (let d = 0; d < Schedule.SCHEDULE_DAYS.length; d++) {
             this.dailySessions.push([]);
@@ -50,11 +51,11 @@ export default class Schedule {
     /**
     * Returns the unique identifier for a course. Modeled after the primary key in the database for
     * a course.
-    * @param {CourseSection|CourseSession} courseObj an object that is a subclass of course
+    * @param {Course} courseObj an object that is a subclass of course
     * @returns {string} the unique identifier of a course
     */
     // _getCourseIdentifier(courseObj) {
-    //     return courseObj.crn + courseObj.semster;
+    //     return `${courseObj.department}${courseObj.level}${courseObj.date_start.getMonth() + 1}${courseObj.date_start.getDay() + 1}${courseObj.date_start.getYear()}${courseObj.date_end.getMonth() + 1}${courseObj.date_end.getDay() + 1}${courseObj.date_end.getYear()}`;
     // }
 
     /**
@@ -183,8 +184,9 @@ export default class Schedule {
                 // Am giving a 'backpointer' so the ICS schedule can be easily built based on what sessions are
                 // currently selected / inserted.
                 // eslint-disable-next-line
-                let courseInfo = (({sections, ...o}) => o)(course);
-                courseSession.course = courseInfo;
+                // let courseInfo = (({sections, ...o}) => o)(course);
+                // courseSession.course = courseInfo;
+                courseSession._courseKey = this._getCourseIdentifier(course);
                 console.log(`Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(courseSession)}`)
             }
 

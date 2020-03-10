@@ -43,7 +43,7 @@
         <b-col cols='12'>
             <b-card-group no-body columns>
                 <b-card
-                    v-for="course in courses"
+                    v-for="course of courses"
                     :key="course.name"
                     :title="course.name"
                     :sub-title="course.title"
@@ -94,7 +94,8 @@ export default {
         ScheduleEvent
     },
     props: {
-        courses: Array
+        courses: Object,
+        courseIdentifierFunc: Function
     },
     data () {
         return {
@@ -112,7 +113,7 @@ export default {
             ICS_DAY_SHORTNAMES: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
 
             colorService: new ColorService(),
-            schedule: new ScheduleService(),
+            schedule: new ScheduleService(this.courseIdentifierFunc),
         }
     },
     methods: {
@@ -161,10 +162,11 @@ export default {
                 for (const session of dayArray) {
                     console.log(session);
                     // Add course type in description when available from DB. Add location of session when available.
-                    calendarBuilder.addEvent(`Class: ${session.course.title}`, "LEC day", "location", new Date(`${session.course.date_start.toDateString()} ${session.time_start}`), new Date(`${session.course.date_start.toDateString()} ${session.time_end}`), {
+                    let courseInfo = this.courses[session._courseKey];
+                    calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", "location", new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
                         freq: "WEEKLY",
                         interval: 1,
-                        until: session.course.date_end,
+                        until: courseInfo.date_end,
                         byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
                     });
                 }
