@@ -221,20 +221,20 @@ export default class Schedule {
      * @param {Course} course
      * @returns {boolean} if course was added
      */
-    addCourse(course) {
-        console.log(`Adding new course ${JSON.stringify(course)}`)
-        if (!course) {
-            console.warn(`Ignoring add null/undefined course`);
-        } else if (course.sections.length === 0) {
-            console.error(`Cannot add course with no sections ${JSON.stringify(course)}`);
-        } else {
-            if (!(this._getCourseIdentifier(course) in this.courses)) {
-                this.courses[this._getCourseIdentifier(course)] = course;
-                return true;
-            }
-        }
-        return false;
-    }
+    // addCourse(course) {
+    //     console.log(`Adding new course ${JSON.stringify(course)}`)
+    //     if (!course) {
+    //         console.warn(`Ignoring add null/undefined course`);
+    //     } else if (course.sections.length === 0) {
+    //         console.error(`Cannot add course with no sections ${JSON.stringify(course)}`);
+    //     } else {
+    //         if (!(this._getCourseIdentifier(course) in this.courses)) {
+    //             this.courses[this._getCourseIdentifier(course)] = course;
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     /**
      * Removes all sections of course

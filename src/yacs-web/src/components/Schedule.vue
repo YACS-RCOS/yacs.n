@@ -206,7 +206,8 @@ export default {
                             ]
                         );
                         this.$bvToast.toast(vNodesMsg, {
-                            title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            title: `Cannot add ${course.title}`,
                             variant: 'danger',
                             noAutoHide: true,
                         });
