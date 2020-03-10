@@ -8,6 +8,10 @@
                     </div>
                 </div>
 
+                <button class="btn btn-success ml-auto mb-2 d-block" @click="exportScheduleToIcs">
+                    <font-awesome-icon :icon="exportIcon" /> Export to ICS
+                </button>
+
                 <div class="schedule-grid">
                     <div class="grid-day" v-for="(day, index) of days" :key="day.longname" :style="{ width: dayWidth + '%' }">
                         <div class="day-label">{{ day.longname }}</div>
@@ -39,8 +43,8 @@
         <b-col cols='12'>
             <b-card-group no-body columns>
                 <b-card
-                    v-for="course in courses"
-                    :key="course.name + course.date_end + course.date_start"
+                    v-for="course of courses"
+                    :key="course.name"
                     :title="course.name"
                     :sub-title="course.title"
                     class="selected-course-card"
@@ -48,7 +52,7 @@
                     <button type="button" class="close text-muted" @click="removeCourse(course)">
                         <span>&times;</span>
                     </button>
-     
+
                     <b-list-group flush>
                         <b-list-group-item
                             button
@@ -82,6 +86,7 @@ import moment from 'moment';
 import ScheduleService from '../services/ScheduleService';
 import ColorService from '../services/ColorService';
 import ScheduleEvent from './ScheduleEvent';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
     name: 'Schedule',
@@ -89,7 +94,8 @@ export default {
         ScheduleEvent
     },
     props: {
-        courses: Array
+        courses: Object,
+        courseIdentifierFunc: Function
     },
     data () {
         return {
@@ -99,11 +105,15 @@ export default {
             endTime: 1320,
             totalHeight: 600,
 
+            exportIcon: faPaperPlane,
+
             DAY_SHORTNAMES: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             DAY_LONGNAMES: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 
+            ICS_DAY_SHORTNAMES: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
+
             colorService: new ColorService(),
-            schedule: new ScheduleService(),
+            schedule: new ScheduleService(this.courseIdentifierFunc),
         }
     },
     methods: {
@@ -125,7 +135,6 @@ export default {
         },
         eventHeight (courseSession) {
             const eventDuration = this.toMinutes(courseSession.time_end) - this.toMinutes(courseSession.time_start);
-
             return (this.totalHeight  * (eventDuration / this.numMinutes));
         },
         eventPosition (courseSession) {
@@ -147,6 +156,25 @@ export default {
         courseSessionsOnDay(dayOfWeek) {
             return this.schedule.dailySessions[dayOfWeek];
         },
+        exportScheduleToIcs () {
+            let calendarBuilder = window.ics()
+            let semester;
+            for (const dayArray of this.schedule.dailySessions) {
+                for (const session of dayArray) {
+                    console.log(session);
+                    // Add course type in description when available from DB. Add location of session when available.
+                    let courseInfo = this.courses[session._courseKey];
+                    semester = session.semester;
+                    calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", "location", new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
+                        freq: "WEEKLY",
+                        interval: 1,
+                        until: courseInfo.date_end,
+                        byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+                    });
+                }
+            }
+            calendarBuilder.download(`${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (_, semFirstLetter, semRest, year) { return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year })}_Schedule`);
+        },
         removeCourse (course) {
             this.schedule.removeCourse(course);
             this.$emit('unselectCourse', course);
@@ -158,7 +186,7 @@ export default {
                 try {
                     // Only allow selection of one section per course
                     this.schedule.removeCourse(course);
-                    this.schedule.addCourseSection(section);
+                    this.schedule.addCourseSection(course, section);
                 } catch (err) {
                     if (err.type === 'Schedule Conflict') {
                         const vNodesMsg = this.$createElement(
@@ -167,8 +195,8 @@ export default {
                             [
                                 `Conflict with ${err.existingSession.crn} - ${err.existingSession.section} `,
                                 this.$createElement(
-                                    'div', 
-                                    { 
+                                    'div',
+                                    {
                                         style: `
                                             background-color:${this.getBackgroundColor(err.existingSession)};
                                             border:1px solid ${this.getBorderColor(err.existingSession)};
@@ -180,7 +208,8 @@ export default {
                             ]
                         );
                         this.$bvToast.toast(vNodesMsg, {
-                            title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            title: `Cannot add ${course.title}`,
                             variant: 'danger',
                             noAutoHide: true,
                         });
@@ -253,12 +282,6 @@ export default {
 .grid-day {
   //width: 1000;
   height: 100%;
-  float: left;
-}
-
-.foo {
-  //width: 1000;
-  height: 3.5%;
   float: left;
 }
 

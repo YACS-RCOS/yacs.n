@@ -21,10 +21,12 @@
  * @property {number} level
  * @property {CourseSection[]} sections
  * @property {string} title
+ * @property {Date} date_start
+ * @property {Date} date_end
  */
 
 /**
- * 
+ *
  */
 export default class Schedule {
     static SCHEDULE_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
@@ -32,13 +34,14 @@ export default class Schedule {
     static SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     static SCHEDULE_DAY_DURATION = Schedule.SCHEDULE_HOURS[Schedule.SCHEDULE_HOURS.length - 1] - Schedule.SCHEDULE_HOURS[0];
 
-    //   courses;
+    /** @type {Map<String, Course>} */
+    // courses;
     /** @type {Array<CourseSession[]>} */
     dailySessions;
 
-    constructor() {
-        // this.courses = [];
+    constructor(courseIdentifierFunc) {
         this.dailySessions = [];
+        this._getCourseIdentifier = courseIdentifierFunc;
 
         for (let d = 0; d < Schedule.SCHEDULE_DAYS.length; d++) {
             this.dailySessions.push([]);
@@ -46,8 +49,18 @@ export default class Schedule {
     }
 
     /**
+    * Returns the unique identifier for a course. Modeled after the primary key in the database for
+    * a course.
+    * @param {Course} courseObj an object that is a subclass of course
+    * @returns {string} the unique identifier of a course
+    */
+    // _getCourseIdentifier(courseObj) {
+    //     return `${courseObj.department}${courseObj.level}${courseObj.date_start.getMonth() + 1}${courseObj.date_start.getDay() + 1}${courseObj.date_start.getYear()}${courseObj.date_end.getMonth() + 1}${courseObj.date_end.getDay() + 1}${courseObj.date_end.getYear()}`;
+    // }
+
+    /**
      * Returns the index that newCourseSession should be inserted at or `null` if there
-     * is a schedule conflict  
+     * is a schedule conflict
      * Assumes that `newCourseSession.time_start != newCourseSession.time_end`
      * @param {CourseSession} newCourseSession
      * @returns {number|null} the index to insert the new course session
@@ -105,7 +118,7 @@ export default class Schedule {
     }
 
     /**
-     * 
+     *
      * @param {CourseSession} courseSession
      * @returns {boolean} if course session was removed from schedule
      */
@@ -115,7 +128,7 @@ export default class Schedule {
         } else {
             let i = 0;
             for (const sess of this.dailySessions[courseSession.day_of_week]) {
-                if (JSON.stringify(sess) === JSON.stringify(courseSession)) {
+                if (sess.section === courseSession.section && sess.time_start === courseSession.time_start && sess.time_end === courseSession.time_end && sess.day_of_week === courseSession.day_of_week) {
                     this.dailySessions[courseSession.day_of_week].splice(i, 1);
                     console.log(`Removed courseSession at index ${i}`);
                     return true;
@@ -123,17 +136,17 @@ export default class Schedule {
                 i += 1;
             }
 
-            console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
+            // console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
             return false;
         }
     }
 
     /**
-     * 
-     * @param {CourseSection} courseSection 
+     *
+     * @param {CourseSection} courseSection
      * @returns {boolean} if course section was added to schedule
      */
-    addCourseSection(courseSection) {
+    addCourseSection(course, courseSection) {
         if (!courseSection) {
             console.warn(`Ignoring add null/undefined courseSection`);
         } else if (courseSection.sessions.length === 0) {
@@ -141,7 +154,7 @@ export default class Schedule {
         } else {
             /**
              * @type {{index: number, day: number, courseSession: CourseSession}[]}
-             * Keeps track of the courseSessions that will be added  
+             * Keeps track of the courseSessions that will be added
              */
             const additions = [];
 
@@ -152,7 +165,6 @@ export default class Schedule {
                 if (sessionIndex === null) {
                     console.error(`Failed to add course section`);
                     return false;
-
                 } else {
                     additions.push({
                         index: sessionIndex,
@@ -167,9 +179,18 @@ export default class Schedule {
             console.log(`Additions after sort: ${JSON.stringify(additions)}`);
             for (const { index, day, courseSession } of additions) {
                 this.dailySessions[day].splice(index, 0, courseSession);
+                // Allow for sessions to have a reference to their parent course
+                // but don't copy the sections so we avoid circular JSON (which will cause JSON.stringify to fail).
+                // Am giving a 'backpointer' so the ICS schedule can be easily built based on what sessions are
+                // currently selected / inserted.
+                // eslint-disable-next-line
+                // let courseInfo = (({sections, ...o}) => o)(course);
+                // courseSession.course = courseInfo;
+                courseSession._courseKey = this._getCourseIdentifier(course);
                 console.log(`Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(courseSession)}`)
             }
 
+            console.warn("Setting course section to selected=true");
             courseSection.selected = true;
 
             console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);
@@ -178,9 +199,9 @@ export default class Schedule {
     }
 
     /**
-     * Remove all sessions in courseSection from schedule  
+     * Remove all sessions in courseSection from schedule
      * Does not check if individual course session removal succeeds
-     * @param {CourseSection} courseSection 
+     * @param {CourseSection} courseSection
      */
     removeCourseSection(courseSection) {
         if (!courseSection) {
@@ -196,29 +217,28 @@ export default class Schedule {
     }
 
     /**
-     * Adds course and section identified by sectionIndex
-     * @param {Course} course 
-     * @param {number} sectionIndex
+     * Adds course to the list of added courses
+     * @param {Course} course
      * @returns {boolean} if course was added
      */
-    addCourse(course, sectionIndex) {
-        console.log(`Adding new course ${JSON.stringify(course)}`)
-        if (!course) {
-            console.warn(`Ignoring add null/undefined course`);
-        } else if (course.sections.length === 0) {
-            console.error(`Cannot add course with no sections ${JSON.stringify(course)}`);
-        } else {
-            if (this.addCourseSection(course.sections[sectionIndex])) {
-                // this.courses.push(course);
-                return true;
-            }
-        }
-        return false;
-    }
+    // addCourse(course) {
+    //     console.log(`Adding new course ${JSON.stringify(course)}`)
+    //     if (!course) {
+    //         console.warn(`Ignoring add null/undefined course`);
+    //     } else if (course.sections.length === 0) {
+    //         console.error(`Cannot add course with no sections ${JSON.stringify(course)}`);
+    //     } else {
+    //         if (!(this._getCourseIdentifier(course) in this.courses)) {
+    //             this.courses[this._getCourseIdentifier(course)] = course;
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     /**
      * Removes all sections of course
-     * @param {Course} course 
+     * @param {Course} course
      */
     removeCourse(course) {
         if (!course) {
@@ -232,5 +252,9 @@ export default class Schedule {
             // this.removeCourseSection(course.sections[sectionIndex]);
             //   this.courses.splice(this.courses.indexOf(course), 1);
         }
+    }
+
+    getCourseBySubclass(courseSession) {
+        return this.courses[this._getCourseIdentifier(courseSession)];
     }
 }
