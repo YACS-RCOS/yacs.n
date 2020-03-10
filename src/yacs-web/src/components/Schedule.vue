@@ -1,16 +1,17 @@
 <template>
     <b-row>
         <b-col cols="12">
+            <button class="btn btn-success ml-auto mb-2 d-block" @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+            </button>
+        </b-col>
+        <b-col cols="12">
             <div class="schedule" :style="{ height: totalHeight + 'px' }">
                 <div class="schedule-legend">
                     <div class="hour-label" v-for="(hour, index) of hours" :key="hour" :style="{ height: hourHeight + '%' }">
                     <div v-if="index != 0">{{ hour }}</div>
                     </div>
                 </div>
-
-                <button class="btn btn-success ml-auto mb-2 d-block" @click="exportScheduleToIcs">
-                    <font-awesome-icon :icon="exportIcon" /> Export to ICS
-                </button>
 
                 <div class="schedule-grid">
                     <div class="grid-day" v-for="(day, index) of days" :key="day.longname" :style="{ width: dayWidth + '%' }">
