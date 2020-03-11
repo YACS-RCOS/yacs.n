@@ -107,13 +107,10 @@ class Courses:
                             "EndDate": row['course_end_date'],
                             "Department": row['course_department'],
                             "Level": row['course_level'],
-                            "Title": row['course_name'],
-                            "Location": row['course_location']
+                            "Title": row['course_name']
                         }
                     )
                 except Exception as e:
-                    print(e)
-                    print(row)
                     conn.rollback()
                     return (False, e)
         conn.commit()
