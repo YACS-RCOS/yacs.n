@@ -82,8 +82,7 @@ class Courses:
                                 date_end,
                                 department,
                                 level,
-                                title,
-                                location
+                                title
                             )
                         VALUES (
                             %(CRN)s,
@@ -93,8 +92,7 @@ class Courses:
                             %(EndDate)s,
                             %(Department)s,
                             %(Level)s,
-                            %(Title)s,
-                            %(Location)s
+                            %(Title)s
                         )
                         ON CONFLICT DO NOTHING;
                         """,

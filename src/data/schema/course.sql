@@ -9,7 +9,6 @@ create table course(
   department varchar(255),
   level      int,
   title      varchar(255),
-  location   varchar(255),
   -- credit_hours int,
   -- class_days varchar(255),
   -- instructor varchar(255),
