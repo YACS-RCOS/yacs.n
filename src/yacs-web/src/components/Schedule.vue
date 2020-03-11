@@ -166,7 +166,7 @@ export default {
                     // Add course type in description when available from DB. Add location of session when available.
                     let courseInfo = this.courses[session._courseKey];
                     semester = session.semester;
-                    calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", "location", new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
+                    calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", session.location, new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
                         freq: "WEEKLY",
                         interval: 1,
                         until: courseInfo.date_end,
