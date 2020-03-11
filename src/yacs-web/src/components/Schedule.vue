@@ -1,6 +1,11 @@
 <template>
     <b-row>
         <b-col cols="12">
+            <button class="btn btn-success ml-auto mb-2 d-block" @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+            </button>
+        </b-col>
+        <b-col cols="12">
             <div class="schedule" :style="{ height: totalHeight + 'px' }">
                 <div class="schedule-legend">
                     <div class="hour-label" v-for="(hour, index) of hours" :key="hour" :style="{ height: hourHeight + '%' }">
@@ -11,15 +16,6 @@
                 <div class="schedule-grid">
                     <div class="grid-day" v-for="(day, index) of days" :key="day.longname" :style="{ width: dayWidth + '%' }">
                         <div class="day-label">{{ day.longname }}</div>
-                        <!-- <ng-container > -->
-                            <!-- <schedule-event *ngFor="let period of periodsOnDay(day)"
-                                [style.margin-top.px] = "eventPosition(period)"
-                                [style.backgroundColor] = "getBackgroundColor(period)"
-                                [style.borderColor] = "getBorderColor(period)"
-                                [style.color] = "getTextColor(period)"
-                                [normalHeight] = "eventHeight(period)"
-                                [period] = "period">
-                            </schedule-event>  -->
                             <ScheduleEvent
                                 v-for="courseSession in courseSessionsOnDay(index)"
                                 :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
@@ -38,7 +34,6 @@
                             >
                             </ScheduleEvent>
                             <div class="grid-hour" v-for="hour of hours" :key="hour" :style="{ height: hourHeight + '%' }"></div>
-                        <!-- </ng-container> -->
                     </div>
                 </div>
             </div>
@@ -47,27 +42,30 @@
             <h5>Selected Courses:</h5>
         </b-col>
         <b-col cols='12'>
-            <b-card-group deck>
+            <b-card-group no-body columns>
                 <b-card
-                    v-for="course in courses"
-                    :key="course.name + course.date_end + course.date_start"
+                    v-for="course of courses"
+                    :key="course.name"
+                    :title="course.name"
                     :sub-title="course.title"
                     class="selected-course-card"
                 >
-                    <!-- <b-card-header>
-                        {{course.name}}
-                    </b-card-header> -->
-                    <!-- <b-card-body> -->
-                        <!-- <b-card-sub-title>{{course.title}}</b-card-sub-title> -->
-                    <!-- </b-card-body> -->
+                    <button type="button" class="close text-muted" @click="removeCourse(course)">
+                        <span>&times;</span>
+                    </button>
+
                     <b-list-group flush>
                         <b-list-group-item
-                            v-for="(section, index) in course.sections"
+                            button
+                            v-for="section in course.sections"
                             :key="section.crn"
-                            @click.stop="addCourseSection(course, index)"
-                            class="course-section-item"
+                            @click.stop="toggleCourseSection(course, section)"
+                            :style="{
+                                'border-left': section.selected ? `4px solid ${getBorderColor(section)}` : 'none',
+                                'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
+                            }"
                         >
-                            {{section.crn}} <br>
+                            {{section.crn}} - {{section.sessions[0].section}}<br>
 
                             <span
                                 v-for="courseSession in section.sessions"
@@ -86,8 +84,10 @@
 </template>
 <script>
 import moment from 'moment';
+import ScheduleService from '../services/ScheduleService';
 import ColorService from '../services/ColorService';
 import ScheduleEvent from './ScheduleEvent';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
     name: 'Schedule',
@@ -95,7 +95,8 @@ export default {
         ScheduleEvent
     },
     props: {
-        courses: Array
+        courses: Object,
+        courseIdentifierFunc: Function
     },
     data () {
         return {
@@ -105,12 +106,15 @@ export default {
             endTime: 1320,
             totalHeight: 600,
 
+            exportIcon: faPaperPlane,
+
             DAY_SHORTNAMES: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             DAY_LONGNAMES: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 
-            colorService: new ColorService(),
+            ICS_DAY_SHORTNAMES: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
 
-            courseSessions: [],
+            colorService: new ColorService(),
+            schedule: new ScheduleService(this.courseIdentifierFunc),
         }
     },
     methods: {
@@ -127,16 +131,11 @@ export default {
             }
         },
         toMinutes (timeString) {
-            // let timeInt = parseInt(timeString);
-            // return (Math.floor(timeInt / 100) * 60) + (timeInt % 100);
             const mmt = moment(timeString, 'kk:mm:ss');
             return mmt.hours() * 60 + mmt.minutes();
         },
         eventHeight (courseSession) {
             const eventDuration = this.toMinutes(courseSession.time_end) - this.toMinutes(courseSession.time_start);
-            // console.log(this.toMinutes(courseSession.time_end));
-            // console.log(this.toMinutes(courseSession.time_start));
-            // console.log(eventDuration);
             return (this.totalHeight  * (eventDuration / this.numMinutes));
         },
         eventPosition (courseSession) {
@@ -156,11 +155,68 @@ export default {
             return moment(timeString, 'kk:mm:ss').format('h:mma');
         },
         courseSessionsOnDay(dayOfWeek) {
-            return this.courseSessions.filter(cs => cs.day_of_week === dayOfWeek);
+            return this.schedule.dailySessions[dayOfWeek];
         },
-        addCourseSection (course, sectionIndex) {
-            console.log(`ADDING ${course.title} - ${sectionIndex}: ${course.sections[sectionIndex].sessions.length}`);
-            this.courseSessions.push(...course.sections[sectionIndex].sessions);
+        exportScheduleToIcs () {
+            let calendarBuilder = window.ics()
+            let semester;
+            for (const dayArray of this.schedule.dailySessions) {
+                for (const session of dayArray) {
+                    console.log(session);
+                    // Add course type in description when available from DB. Add location of session when available.
+                    let courseInfo = this.courses[session._courseKey];
+                    semester = session.semester;
+                    calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", session.location, new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
+                        freq: "WEEKLY",
+                        interval: 1,
+                        until: courseInfo.date_end,
+                        byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+                    });
+                }
+            }
+            calendarBuilder.download(`${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (_, semFirstLetter, semRest, year) { return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year })}_Schedule`);
+        },
+        removeCourse (course) {
+            this.schedule.removeCourse(course);
+            this.$emit('unselectCourse', course);
+        },
+        toggleCourseSection (course, section) {
+            if (section.selected) {
+                this.schedule.removeCourseSection(section);
+            } else {
+                try {
+                    // Only allow selection of one section per course
+                    this.schedule.removeCourse(course);
+                    this.schedule.addCourseSection(course, section);
+                } catch (err) {
+                    if (err.type === 'Schedule Conflict') {
+                        const vNodesMsg = this.$createElement(
+                            'p',
+                            { class: [ 'mb-0', ] },
+                            [
+                                `Conflict with ${err.existingSession.crn} - ${err.existingSession.section} `,
+                                this.$createElement(
+                                    'div',
+                                    {
+                                        style: `
+                                            background-color:${this.getBackgroundColor(err.existingSession)};
+                                            border:1px solid ${this.getBorderColor(err.existingSession)};
+                                            width:13px;
+                                            height:13px;
+                                            display:inline-block;`
+                                    }
+                                )
+                            ]
+                        );
+                        this.$bvToast.toast(vNodesMsg, {
+                            // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+                            title: `Cannot add ${course.title}`,
+                            variant: 'danger',
+                            noAutoHide: true,
+                        });
+                    }
+                }
+            }
         }
     },
     computed: {
@@ -230,12 +286,6 @@ export default {
   float: left;
 }
 
-.foo {
-  //width: 1000;
-  height: 3.5%;
-  float: left;
-}
-
 .grid-hour {
   display: block;
   box-sizing: border-box;
@@ -261,9 +311,11 @@ export default {
 .selected-course-card {
     max-width: 270px;
     min-width: 270px;
-}
 
-.course-section-item {
-    cursor: pointer;
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
 }
 </style>

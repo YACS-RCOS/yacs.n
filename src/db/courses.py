@@ -2,7 +2,7 @@ import glob
 import os
 import csv
 import re
-import db.connection as connection
+from . import connection
 from psycopg2.extras import RealDictCursor
 
 
@@ -49,7 +49,8 @@ class Courses:
                                         semester,
                                         time_start,
                                         time_end,
-                                        day_of_week
+                                        day_of_week,
+                                        location
                                     )
                                 VALUES (
                                     %(CRN)s,
@@ -57,7 +58,8 @@ class Courses:
                                     %(Semester)s,
                                     %(StartTime)s,
                                     %(EndTime)s,
-                                    %(WeekDay)s
+                                    %(WeekDay)s,
+                                    %(Location)s
                                 )
                                 ON CONFLICT DO NOTHING;
                                 """,
@@ -67,7 +69,8 @@ class Courses:
                                     "Semester": row['semester'],
                                     "StartTime": row['course_start_time'],
                                     "EndTime": row['course_end_time'],
-                                    "WeekDay": self.dayToNum(day)
+                                    "WeekDay": self.dayToNum(day),
+                                    "Location": row['course_location']
                                 }
                             )
                     # courses
@@ -109,6 +112,8 @@ class Courses:
                         }
                     )
                 except Exception as e:
+                    print(e)
+                    print(row)
                     conn.rollback()
                     return (False, e)
         conn.commit()

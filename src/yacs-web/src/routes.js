@@ -6,11 +6,13 @@ var router = new VueRouter({
     routes: [
         {
             path: "/",
-            component: MainPage
+            component: MainPage,
+            name: "Schedule"
         },
         {
             path: "/Admin",
-            component: AdminPage
+            component: AdminPage,
+            name: "Admin"
         }
     ],
     mode: "history",
