@@ -10,6 +10,7 @@ create table course_session(
   time_start time,
   time_end time,
   day_of_week int,
+  location varchar(255),
   PRIMARY KEY (
     crn,
     section,
