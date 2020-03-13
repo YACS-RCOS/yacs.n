@@ -1,8 +1,10 @@
 <template>
     <b-container fluid class="pt-3">
+        <Header></Header>
         <b-row>
             <b-col md="4">
-                <h3>YACS</h3>
+               
+                <!-- <h3>{{Header.selectedSemester}}</h3> -->
                 <hr>
 
                 <div class="course-search">
@@ -58,11 +60,14 @@ import {
     getSubSemesters
 } from '../services/YacsService';
 
+import Header from '../components/Header';
+
 import Schedule from '../components/Schedule';
 
 export default {
     name: 'MainPage',
     components: {
+        Header,
         Schedule
     },
     data () {

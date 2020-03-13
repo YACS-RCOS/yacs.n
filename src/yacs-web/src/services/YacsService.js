@@ -8,3 +8,4 @@ const client = axios.create({
 export const getCourses = () => client.get('/class');
 export const getDepartments = () => client.get('/department');
 export const getSubSemesters = () => client.get('/subsemester');
+export const getSemesters = () => client.get('/semester');
