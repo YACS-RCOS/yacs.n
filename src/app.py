@@ -11,8 +11,6 @@ import db.classinfo as ClassInfo
 import db.courses as Courses
 from io import StringIO
 
-from flask_cors import CORS
-
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
@@ -21,7 +19,6 @@ courses = Courses.Courses(db_conn)
 app = Flask(
     __name__,
     template_folder='./public/templates')
-CORS(app)
 
 
 # - web routes break into routes/ ... later

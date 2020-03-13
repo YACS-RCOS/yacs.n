@@ -1,8 +1,14 @@
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-process.env
-
 module.exports = {
+    devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:5000',
+                changeOrigin: true
+            }
+        },
+    },
     configureWebpack: {
         plugins: [
             new MomentLocalesPlugin()
