@@ -1,5 +1,5 @@
 /**
- * @typedef {Object<string, any>} CourseSession
+ * @typedef {Object} CourseSession
  * @property {string} crn
  * @property {number} day_of_week
  * @property {string} section
@@ -8,7 +8,7 @@
  * @property {string} time_start
  */
 /**
- * @typedef {Object<string, any>} CourseSection
+ * @typedef {Object} CourseSection
  * @property {string} crn
  * @property {string} department
  * @property {number} level
@@ -16,14 +16,24 @@
  * @property {CourseSession[]} sessions
  */
 /**
- * @typedef {Object<string, any>} Course
+ * @typedef {Object} Course
  * @property {string} department
  * @property {number} level
  * @property {CourseSection[]} sections
  * @property {string} title
  * @property {Date} date_start
  * @property {Date} date_end
+ * @property {string} id
  */
+
+ /**
+  * @typedef {Object} Subsemester
+  * @property {Date} date_start
+  * @property {Date} date_end
+  * @property {string} date_start_display
+  * @property {string} date_end_display
+  * @property {string} text
+  */
 
 /**
  *
@@ -39,9 +49,9 @@ export default class Schedule {
     /** @type {Array<CourseSession[]>} */
     dailySessions;
 
-    constructor(courseIdentifierFunc) {
+    constructor() {
         this.dailySessions = [];
-        this._getCourseIdentifier = courseIdentifierFunc;
+        // this._getCourseIdentifier = courseIdentifierFunc;
 
         for (let d = 0; d < Schedule.SCHEDULE_DAYS.length; d++) {
             this.dailySessions.push([]);
@@ -65,7 +75,7 @@ export default class Schedule {
      * @param {CourseSession} newCourseSession
      * @returns {number|null} the index to insert the new course session
      */
-    _getAddCourseSessionIndex(newCourseSession) {
+    getAddCourseSessionIndex(newCourseSession) {
         if (!newCourseSession) {
             console.warn(`Ignoring add null/undefined courseSession`);
         } else if (newCourseSession.day_of_week === undefined
@@ -113,7 +123,7 @@ export default class Schedule {
             }
 
             // Should be unreachable
-            return undefined;
+            return null;
         }
     }
 
@@ -128,7 +138,7 @@ export default class Schedule {
         } else {
             let i = 0;
             for (const sess of this.dailySessions[courseSession.day_of_week]) {
-                if (sess.section === courseSession.section && sess.time_start === courseSession.time_start && sess.time_end === courseSession.time_end && sess.day_of_week === courseSession.day_of_week) {
+                if (sess.crn === courseSession.crn && sess.section === courseSession.section && sess.time_start === courseSession.time_start && sess.time_end === courseSession.time_end && sess.day_of_week === courseSession.day_of_week) {
                     this.dailySessions[courseSession.day_of_week].splice(i, 1);
                     console.log(`Removed courseSession at index ${i}`);
                     return true;
@@ -144,13 +154,21 @@ export default class Schedule {
     /**
      *
      * @param {CourseSection} courseSection
+     * @param {Course} course
+     * @param {number[]} [sessionIndices=null] If schedule conflict has already been checked, pass
+     * the resultant indices in to avoid rechecking
      * @returns {boolean} if course section was added to schedule
      */
-    addCourseSection(course, courseSection) {
+    addCourseSection(course, courseSection, sessionIndices = null) {
         if (!courseSection) {
             console.warn(`Ignoring add null/undefined courseSection`);
         } else if (courseSection.sessions.length === 0) {
             console.error(`Cannot add courseSection with no sessions ${JSON.stringify(courseSection)}`);
+        } else if (!!sessionIndices && sessionIndices.length != courseSection.sessions.length) {
+            console.warning(`Provided number of checked conflicts ${sessionIndices.length} 
+                            does not match number of sessions ${courseSection.sessions.length}, 
+                            ignoring..`);
+            sessionIndices = null;
         } else {
             /**
              * @type {{index: number, day: number, courseSession: CourseSession}[]}
@@ -159,10 +177,13 @@ export default class Schedule {
             const additions = [];
 
             // Check that there are no session conflicts in course section sessions
-            for (const courseSession of courseSection.sessions) {
-                let sessionIndex = this._getAddCourseSessionIndex(courseSession);
+            courseSection.sessions.forEach((courseSession, index) => {
+                let sessionIndex = sessionIndices !== null ? 
+                                        sessionIndices[index] : // If already checked for conflicts
+                                                                // use provided indices
+                                        this.getAddCourseSessionIndex(courseSession);
 
-                if (sessionIndex === null) {
+                if (sessionIndex === null) { // Should never happen
                     console.error(`Failed to add course section`);
                     return false;
                 } else {
@@ -172,7 +193,7 @@ export default class Schedule {
                         courseSession
                     });
                 }
-            }
+            });
 
             console.log(`Additions before sort: ${JSON.stringify(additions)}`);
             additions.sort((a1, a2) => a1.day === a2.day ? a1.day - a2.day : a2.courseSession.time_start - a1.courseSession.time_start);
@@ -186,7 +207,8 @@ export default class Schedule {
                 // eslint-disable-next-line
                 // let courseInfo = (({sections, ...o}) => o)(course);
                 // courseSession.course = courseInfo;
-                courseSession._courseKey = this._getCourseIdentifier(course);
+                courseSession._courseKey = course.id;
+                // courseSession._courseKey = this._getCourseIdentifier(course);
                 console.log(`Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(courseSession)}`)
             }
 
@@ -254,7 +276,7 @@ export default class Schedule {
         }
     }
 
-    getCourseBySubclass(courseSession) {
-        return this.courses[this._getCourseIdentifier(courseSession)];
-    }
+    // getCourseBySubclass(courseSession) {
+    //     return this.courses[this._getCourseIdentifier(courseSession)];
+    // }
 }
