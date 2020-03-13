@@ -2,8 +2,13 @@ import glob
 import os
 import csv
 import re
-from . import connection
 from psycopg2.extras import RealDictCursor
+
+# https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
+if __name__ == "__main__":
+    import connection
+else:
+    from . import connection
 
 
 class Courses:
@@ -53,13 +58,13 @@ class Courses:
                                         location
                                     )
                                 VALUES (
-                                    %(CRN)s,
-                                    %(Section)s,
-                                    %(Semester)s,
+                                    NULLIF(%(CRN)s, ''),
+                                    NULLIF(%(Section)s, ''),
+                                    NULLIF(%(Semester)s, ''),
                                     %(StartTime)s,
                                     %(EndTime)s,
                                     %(WeekDay)s,
-                                    %(Location)s
+                                    NULLIF(%(Location)s, '')
                                 )
                                 ON CONFLICT DO NOTHING;
                                 """,
@@ -67,9 +72,9 @@ class Courses:
                                     "CRN": row['course_crn'],
                                     "Section": row['course_section'],
                                     "Semester": row['semester'],
-                                    "StartTime": row['course_start_time'],
-                                    "EndTime": row['course_end_time'],
-                                    "WeekDay": self.dayToNum(day),
+                                    "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
+                                    "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
+                                    "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
                                     "Location": row['course_location']
                                 }
                             )
@@ -88,14 +93,14 @@ class Courses:
                                 title
                             )
                         VALUES (
-                            %(CRN)s,
-                            %(Section)s,
-                            %(Semester)s,
+                            NULLIF(%(CRN)s, ''),
+                            NULLIF(%(Section)s, ''),
+                            NULLIF(%(Semester)s, ''),
                             %(StartDate)s,
                             %(EndDate)s,
-                            %(Department)s,
+                            NULLIF(%(Department)s, ''),
                             %(Level)s,
-                            %(Title)s
+                            NULLIF(%(Title)s, '')
                         )
                         ON CONFLICT DO NOTHING;
                         """,
@@ -103,10 +108,10 @@ class Courses:
                             "CRN": row['course_crn'],
                             "Section": row['course_section'],
                             "Semester": row['semester'],
-                            "StartDate": row['course_start_date'],
-                            "EndDate": row['course_end_date'],
+                            "StartDate": row['course_start_date'] if row['course_start_date'] and not row['course_start_date'].isspace() else None,
+                            "EndDate": row['course_end_date'] if row['course_end_date'] and not row['course_end_date'].isspace() else None,
                             "Department": row['course_department'],
-                            "Level": row['course_level'],
+                            "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                             "Title": row['course_name']
                         }
                     )
@@ -120,6 +125,6 @@ class Courses:
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi-data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../rpi-data/summer-2020.csv', 'r')
+    csv_text = open('../../rpi-data/fall-2020.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
