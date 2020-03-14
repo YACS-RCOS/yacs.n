@@ -110,21 +110,6 @@ export default {
                     }
                 }
             }
-
-            // for (const dayArray of this.schedule.dailySessions) {
-            //     for (const session of dayArray) {
-            //         console.log(session);
-            //         // Add course type in description when available from DB. Add location of session when available.
-            //         let courseInfo = this.courses[session._courseKey];
-            //         semester = session.semester;
-            //         calendarBuilder.addEvent(`Class: ${courseInfo.title}`, "LEC day", session.location, new Date(`${courseInfo.date_start.toDateString()} ${session.time_start}`), new Date(`${courseInfo.date_start.toDateString()} ${session.time_end}`), {
-            //             freq: "WEEKLY",
-            //             interval: 1,
-            //             until: courseInfo.date_end,
-            //             byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
-            //         });
-            //     }
-            // }
             calendarBuilder.download(`${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (_, semFirstLetter, semRest, year) { return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year })}_Schedule`);
         },
     },
