@@ -83,8 +83,6 @@ export default {
             if (section.selected) {
                 this.$emit('removeCourseSection', section);
             } else {
-                // Only allow selection of one section per course
-                this.$emit('removeAllCourseSections', course);
                 this.$emit('addCourseSection', course, section);
             }
         },

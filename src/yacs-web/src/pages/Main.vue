@@ -27,7 +27,6 @@
                     @removeCourse="removeCourse"
                     @removeCourseSection="removeCourseSection"
                     @addCourseSection="addCourseSection"
-                    @removeAllCourseSections="removeAllCourseSections"
                 />
 
             </b-col>
@@ -112,11 +111,6 @@ export default {
         removeCourseSection (section) {
             this.scheduler.removeCourseSection(section);
         },
-
-        removeAllCourseSections (course) {
-            this.scheduler.removeAllCourseSections(course);
-        }
-
     }
 }
 </script>
