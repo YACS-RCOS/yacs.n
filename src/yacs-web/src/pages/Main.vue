@@ -13,10 +13,14 @@
             <b-col md='8'>
                 <b-form-select v-model="selectedScheduleIndex" :options="selectedScheduleOptions"></b-form-select>
 
-                <Schedule
-                    v-if="scheduler.schedules[selectedScheduleIndex]"
-                    :schedule="scheduler.schedules[selectedScheduleIndex]"
-                />
+                <template v-if="scheduler.schedules.length">
+                    <Schedule
+                        v-for="(schedule, index) in scheduler.schedules"
+                        :key="index"
+                        :schedule="schedule"
+                        v-show="selectedScheduleIndex === index"
+                    />
+                </template>
 
                 <SelectedCourses
                     :courses="selectedCourses"
