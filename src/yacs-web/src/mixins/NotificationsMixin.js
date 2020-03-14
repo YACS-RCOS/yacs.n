@@ -6,7 +6,7 @@ export default {
                 'p',
                 { class: [ 'mb-0', ] },
                 [
-                    `${subsemester.text}: Conflict with ${conflictSession.crn} - ${conflictSession.section} `,
+                    `${subsemester.display_string}: Conflict with ${conflictSession.crn} - ${conflictSession.section} `,
                     this.$createElement(
                         'div',
                         {

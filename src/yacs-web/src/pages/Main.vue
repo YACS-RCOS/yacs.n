@@ -74,7 +74,7 @@ export default {
     created () {
         getSubSemesters().then(subsemesters => {
             subsemesters.forEach(subsemester => {
-                this.selectedScheduleOptions.push({text: subsemester.text, value: this.selectedScheduleOptions.length });
+                this.selectedScheduleOptions.push({text: subsemester.display_string, value: this.selectedScheduleOptions.length });
                 this.scheduler.addSubSemester(subsemester);
             });
             if (this.selectedScheduleOptions.length > 0) {

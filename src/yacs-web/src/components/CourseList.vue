@@ -72,7 +72,7 @@ export default {
         });
         getSubSemesters().then(subsemesters => {
             this.subsemesterOptions.push(...subsemesters.map(subsemester => {
-                return {text: subsemester.text, value: subsemester};
+                return {text: subsemester.display_string, value: subsemester};
             }));
         });
     },

@@ -48,7 +48,7 @@ const client = axios.create({
 * @property {Date} date_end
 * @property {string} date_start_display
 * @property {string} date_end_display
-* @property {string} text
+* @property {string} display_string
 */
 
 /**
@@ -99,7 +99,7 @@ export const getSubSemesters = () => client.get('/subsemester').then(({ data }) 
         subsemester.date_start_display = readableDate(subsemester.date_start);
         subsemester.date_end_display = readableDate(subsemester.date_end);
 
-        subsemester.text = `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
+        subsemester.display_string = `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
 
         return subsemester;
     });
