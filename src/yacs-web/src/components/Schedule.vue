@@ -40,9 +40,7 @@ import {
     ColorService
 } from '@/services';
 
-import { 
-    ScheduleEventComponent 
-} from '@/components';
+import ScheduleEventComponent from './ScheduleEvent';
 
 export default {
     name: 'Schedule',
@@ -50,7 +48,7 @@ export default {
         TimeDateMixin
     ],
     components: {
-        'ScheduleEvent': ScheduleEventComponent
+        ScheduleEvent: ScheduleEventComponent
     },
     props: {
         schedule: Object,

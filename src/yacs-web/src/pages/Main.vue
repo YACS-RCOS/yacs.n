@@ -45,11 +45,9 @@ import {
     Notifications
 } from '@/mixins';
 
-import {
-    ScheduleComponent,
-    SelectedCoursesComponent,
-    CourseListComponent
-} from '@/components';
+import ScheduleComponent from '@/components/Schedule.vue';
+import SelectedCoursesComponent from '@/components/SelectedCourses.vue';
+import CourseListComponent from '@/components/CourseList.vue';
 
 import {
     getSubSemesters,
