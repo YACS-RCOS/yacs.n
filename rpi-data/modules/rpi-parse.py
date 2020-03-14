@@ -159,7 +159,7 @@ for i in range(len(tables)):
                 info[6] += 'AM'
             else:
                 col = info[6].find(':')
-                if(int(info[6][:col]) < 8):
+                if (int(info[6][:col]) < 8) or (int(info[6][:col]) == 12):
                     info[6] += "PM"
                 else:
                     info[6] += "AM"
