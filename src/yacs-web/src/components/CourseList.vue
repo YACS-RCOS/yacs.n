@@ -19,7 +19,10 @@
                 label="Filter Department"
                 for="department"
             >
-                <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+                <b-form-select 
+                    v-model="selectedDepartment" 
+                    :options="departmentOptions"
+                ></b-form-select>
             </b-form-group>
         </div>
 
@@ -68,7 +71,7 @@ export default {
     created () {
         getCourses().then(courses => this.courses.push(...courses));
         getDepartments().then(departments => {
-            this.departmentOptions.push(...departments.map(d => ({text: d.department, value: d.department})));
+            this.departmentOptions.push(...departments.map(d => d.department));
         });
         getSubSemesters().then(subsemesters => {
             this.subsemesterOptions.push(...subsemesters.map(subsemester => {

@@ -14,42 +14,46 @@ const client = axios.create({
 * as we can get to autocomplete heaven
 */
 /**
-* @typedef {Object} CourseSession
-* @property {string} crn
-* @property {number} day_of_week
-* @property {string} section
-* @property {string} semester
-* @property {string} time_end
-* @property {string} time_start
-*/
+ * @typedef {Object} CourseSession
+ * @property {string} crn
+ * @property {number} day_of_week
+ * @property {string} section
+ * @property {string} semester
+ * @property {string} time_end
+ * @property {string} time_start
+ */
 /**
-* @typedef {Object} CourseSection
-* @property {string} crn
-* @property {string} department
-* @property {number} level
-* @property {string} semester
-* @property {CourseSession[]} sessions
-* @property {boolean} selected
-*/
+ * @typedef {Object} CourseSection
+ * @property {string} crn
+ * @property {string} department
+ * @property {number} level
+ * @property {string} semester
+ * @property {CourseSession[]} sessions
+ * @property {boolean} selected
+ */
 /**
-* @typedef {Object} Course
-* @property {string} department
-* @property {number} level
-* @property {CourseSection[]} sections
-* @property {string} title
-* @property {Date} date_start
-* @property {Date} date_end
-* @property {string} id
-* @property {boolean} selected
-*/
+ * @typedef {Object} Course
+ * @property {string} department
+ * @property {number} level
+ * @property {CourseSection[]} sections
+ * @property {string} title
+ * @property {Date} date_start
+ * @property {Date} date_end
+ * @property {string} id
+ * @property {boolean} selected
+ */
 /**
-* @typedef {Object} Subsemester
-* @property {Date} date_start
-* @property {Date} date_end
-* @property {string} date_start_display
-* @property {string} date_end_display
-* @property {string} display_string
-*/
+ * @typedef {Object} Subsemester
+ * @property {Date} date_start
+ * @property {Date} date_end
+ * @property {string} date_start_display
+ * @property {string} date_end_display
+ * @property {string} display_string
+ */
+/**
+ * @typedef {Object} Department
+ * @property {string} department
+ */
 
 /**
 * Returns the unique identifier for a course. Modeled after the primary key in the database for
@@ -79,14 +83,14 @@ export const getCourses = () => client.get('/class').then(({ data }) => {
         // Generate id based on course content
         c.id = _getCourseIdentifier(c);
         return c;
-    });
+    }).sort((c1, c2) => c1.title.localeCompare(c2.title) || c1.level - c2.level);
 });
 /**
  * Returns a list of all departments
- * @returns {Promise<string>}
+ * @returns {Promise<Department>}
  */
 export const getDepartments = () => client.get('/department').then(({ data }) => {
-    return data;
+    return data.sort((d1, d2) => d1.department.localeCompare(d2.department));
 });
 /**
  * Returns a list of all subsemesters
@@ -102,5 +106,5 @@ export const getSubSemesters = () => client.get('/subsemester').then(({ data }) 
         subsemester.display_string = `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
 
         return subsemester;
-    });
+    }).sort((s1, s2) => s1.date_start.getTime() - s2.date_start.getTime());
 });
