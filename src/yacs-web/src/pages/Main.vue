@@ -11,7 +11,12 @@
 
             </b-col>
             <b-col md='8'>
-                <b-form-select v-model="selectedScheduleIndex" :options="selectedScheduleOptions"></b-form-select>
+                <b-form-select 
+                    v-model="selectedScheduleSubsemester" 
+                    :options="scheduler.scheduleSubsemesters"
+                    text-field="display_string"
+                    value-field="display_string"
+                ></b-form-select>
 
                 <template v-if="scheduler.schedules.length">
                     <Schedule
@@ -65,8 +70,8 @@ export default {
     data () {
         return {
             selectedCourses: {},
-            selectedScheduleIndex: null,
-            selectedScheduleOptions: [],
+
+            selectedScheduleSubsemester: null,
 
             scheduler: new SubSemesterScheduler()
         }
@@ -74,11 +79,10 @@ export default {
     created () {
         getSubSemesters().then(subsemesters => {
             subsemesters.forEach(subsemester => {
-                this.selectedScheduleOptions.push({text: subsemester.display_string, value: this.selectedScheduleOptions.length });
                 this.scheduler.addSubSemester(subsemester);
             });
-            if (this.selectedScheduleOptions.length > 0) {
-                this.selectedScheduleIndex = this.selectedScheduleOptions[0].value;
+            if (this.scheduler.scheduleSubsemesters.length > 0) {
+                this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
             }
         });
     },
@@ -111,6 +115,11 @@ export default {
         removeCourseSection (section) {
             this.scheduler.removeCourseSection(section);
         },
+    },
+    computed: {
+        selectedScheduleIndex () {
+            return this.scheduler.scheduleSubsemesters.findIndex(s => s.display_string === this.selectedScheduleSubsemester);
+        }
     }
 }
 </script>
