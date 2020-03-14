@@ -2,7 +2,7 @@
     <div class="schedule" :style="{ height: totalHeight + 'px' }">
         <div class="schedule-legend">
             <div class="hour-label" v-for="(hour, index) of hours" :key="hour" :style="{ height: hourHeight + '%' }">
-            <div v-if="index != 0">{{ hour }}</div>
+                <div v-if="index != 0">{{ hour }}</div>
             </div>
         </div>
 
@@ -32,8 +32,8 @@
     </div>
 </template>
 <script>
-import { 
-    TimeDateMixin 
+import {
+    TimeDateMixin
 } from '@/mixins';
 
 import {

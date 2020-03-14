@@ -13,7 +13,7 @@ const client = axios.create({
 * In the absence of Typescript, this is as close
 * as we can get to autocomplete heaven
 */
-/** 
+/**
 * @typedef {Object} CourseSession
 * @property {string} crn
 * @property {number} day_of_week
@@ -22,7 +22,7 @@ const client = axios.create({
 * @property {string} time_end
 * @property {string} time_start
 */
-/** 
+/**
 * @typedef {Object} CourseSection
 * @property {string} crn
 * @property {string} department
@@ -89,7 +89,7 @@ export const getDepartments = () => client.get('/department').then(({ data }) =>
     return data;
 });
 /**
- * Returnsa  list of all subsemesters
+ * Returns a list of all subsemesters
  * @returns {Promise<Subsemester[]>}
  */
 export const getSubSemesters = () => client.get('/subsemester').then(({ data }) => {

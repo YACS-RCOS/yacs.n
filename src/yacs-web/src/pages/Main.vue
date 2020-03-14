@@ -12,21 +12,18 @@
             </b-col>
             <b-col md='8'>
                 <b-form-select v-model="selectedScheduleIndex" :options="selectedScheduleOptions"></b-form-select>
-   
-                <Schedule
-                    v-for="(schedule, index) in scheduler.schedules"
-                    :key="index"
-                    :schedule="schedule"
-                    v-show="selectedScheduleIndex === index"
-                >
-                </Schedule>
 
-                <SelectedCourses 
+                <Schedule
+                    v-if="scheduler.schedules[selectedScheduleIndex]"
+                    :schedule="scheduler.schedules[selectedScheduleIndex]"
+                />
+
+                <SelectedCourses
                     :courses="selectedCourses"
                     @removeCourse="removeCourse"
                     @removeCourseSection="removeCourseSection"
                     @addCourseSection="addCourseSection"
-                    @removeAllCourseSections="removeAllCourseSections" 
+                    @removeAllCourseSections="removeAllCourseSections"
                 />
 
             </b-col>
@@ -35,8 +32,8 @@
 </template>
 
 <script>
-import { 
-    TimeDateMixin, 
+import {
+    TimeDateMixin,
     Notifications
 } from '@/mixins';
 
@@ -46,9 +43,9 @@ import {
     CourseListComponent
 } from '@/components';
 
-import { 
+import {
     getSubSemesters,
-    SubSemesterScheduler 
+    SubSemesterScheduler
 } from '@/services';
 
 export default {
@@ -67,7 +64,7 @@ export default {
             selectedCourses: {},
             selectedScheduleIndex: null,
             selectedScheduleOptions: [],
-            
+
             scheduler: new SubSemesterScheduler()
         }
     },
@@ -75,7 +72,6 @@ export default {
         getSubSemesters().then(subsemesters => {
             subsemesters.forEach(subsemester => {
                 this.selectedScheduleOptions.push({text: subsemester.text, value: this.selectedScheduleOptions.length });
-
                 this.scheduler.addSubSemester(subsemester);
             });
             if (this.selectedScheduleOptions.length > 0) {
