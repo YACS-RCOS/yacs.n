@@ -40,7 +40,9 @@ import {
     ColorService
 } from '@/services';
 
-import ScheduleEvent from '@/components/ScheduleEvent';
+import { 
+    ScheduleEventComponent 
+} from '@/components';
 
 export default {
     name: 'Schedule',
@@ -48,7 +50,7 @@ export default {
         TimeDateMixin
     ],
     components: {
-        ScheduleEvent
+        'ScheduleEvent': ScheduleEventComponent
     },
     props: {
         schedule: Object,
@@ -155,16 +157,6 @@ export default {
 
 .grid-day:last-of-type .grid-hour {
   border-right: none;
-}
-
-.schedule-event {
-  display: block;
-  box-sizing: border-box;
-  border-top: 1px solid #e7e7e7!important; //temp fix for the borders not showing
-  border-right: 1px solid #e7e7e7 !important;
-  position: absolute;
-  //height: 20%;
-//   width: 20%;
 }
 
 </style>

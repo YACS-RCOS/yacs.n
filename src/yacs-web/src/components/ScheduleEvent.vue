@@ -24,6 +24,14 @@ export default {
 
 <style lang="scss">
 .schedule-event {
+  display: block;
+  box-sizing: border-box;
+  border-top: 1px solid #e7e7e7!important; //temp fix for the borders not showing
+  border-right: 1px solid #e7e7e7 !important;
+  position: absolute;
+  //height: 20%;
+//   width: 20%;
+
   //margin-top: 1px;
   border-left: 4px solid;
 //   border-opacity: 1;
