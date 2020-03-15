@@ -1,3 +1,4 @@
 src/_*
 *.pyc
 **/*__pycache__*
+logs/
