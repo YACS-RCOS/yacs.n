@@ -33,9 +33,9 @@ function cleanup() {
   echo "------------------------------------"
   echo "cleaning up..."
   echo "killing(FLASK_PID:$FLASK_PID)"
-  kill -9 $FLASK_PID
+  kill $FLASK_PID
   echo "killing(WEB_PID:$WEB_PID)"
-  kill -9 $WEB_PID
+  kill $WEB_PID
 }
 trap cleanup EXIT
 
