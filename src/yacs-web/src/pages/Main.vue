@@ -43,7 +43,7 @@
 
                 <hr>
 
-                <b-list-group class="course-list" flush>
+                <b-list-group class="course-list" flush style="height: 700px; overflow-y: scroll;">
                     <b-list-group-item
                         v-for="course in filteredCourses"
                         :key="course.name + course.date_end + course.date_start"
