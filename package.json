@@ -1,10 +1,7 @@
 {
-    "name": "name",
-    "description": "description",
-    "authors": "author",
-    "version": "1.0.0",
-    "main": "pathToMain",
-    "dependencies": {},
+    "name": "Yacs.n",
+    "description": "YACS - with support for multi semester and partial semesters",
+    "version": "0.1.0",
     "scripts": {
         "backend": "flask run",
         "frontend": "cd ./src/yacs-web && npm run serve",
