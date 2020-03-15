@@ -1,3 +1,8 @@
+/**
+ * A collection of handy functions
+ * @module utils
+ */
+
 import moment from 'moment';
 
 /** Short names of days of the week starting Sunday e.g. `DAY_SHORTNAMES[0]` is `'Sun'` */

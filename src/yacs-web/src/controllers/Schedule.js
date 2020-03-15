@@ -158,6 +158,7 @@ class Schedule {
       sessionIndices = null;
     } else {
       /**
+       * @private
        * @typedef Addition
        * @property {number} index
        * @property {number} day
