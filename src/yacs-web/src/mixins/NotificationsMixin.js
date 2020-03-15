@@ -1,14 +1,11 @@
-/**
- * @typedef {import('@/index').Course} Course
- * @typedef {import('@/index').CourseSession} CourseSession
- * @typedef {import('@/index').Subsemester} Subsemester
- */
-import ColorService from '@/services/ColorService';
+import '@/typedef';
+
+import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
 
 /**
- * @module NotificationsMixin
  * Allows components to create various toast notifications
  * I'm thinking should probably move this to a plugin
+ * @module NotificationsMixin
  */
 export default {
   methods: {
@@ -24,8 +21,8 @@ export default {
         `${subsemester.display_string}: Conflict with ${conflictSession.crn} - ${conflictSession.section} `,
         this.$createElement('div', {
           style: `
-            background-color:${ColorService.getBackgroundColor(conflictSession)};
-            border:1px solid ${ColorService.getBorderColor(conflictSession)};
+            background-color:${getBackgroundColor(conflictSession)};
+            border:1px solid ${getBorderColor(conflictSession)};
             width:13px;
             height:13px;
             display:inline-block;`

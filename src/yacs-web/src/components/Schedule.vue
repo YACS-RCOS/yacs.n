@@ -28,9 +28,9 @@
           :style="{
             'margin-top': eventPosition(courseSession) + 'px',
             height: eventHeight(courseSession) + 'px',
-            backgroundColor: ColorService.getBackgroundColor(courseSession),
-            borderColor: ColorService.getBorderColor(courseSession),
-            color: ColorService.getTextColor(courseSession),
+            backgroundColor: getBackgroundColor(courseSession),
+            borderColor: getBorderColor(courseSession),
+            color: getTextColor(courseSession),
             width: dayWidth + '%'
           }"
           class="schedule-event"
@@ -50,8 +50,9 @@ import '@/typedef';
 
 import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from '@/utils';
 
-import ColorService from '@/services/ColorService';
-import Schedule from '@/services/ScheduleService';
+import { getBackgroundColor, getBorderColor, getTextColor } from '@/services/ColorService';
+
+import Schedule from '@/controllers/Schedule';
 
 import ScheduleEventComponent from '@/components/ScheduleEvent';
 
@@ -69,12 +70,13 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalHeight: 600,
-
-      ColorService
+      totalHeight: 600
     };
   },
   methods: {
+    getBackgroundColor,
+    getBorderColor,
+    getTextColor,
     /**
      * Calculate the height of the schedule block for `courseSession`
      * Returns the px height

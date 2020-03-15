@@ -1,12 +1,12 @@
 import '@/typedef';
 
-import Schedule from '@/services/ScheduleService';
+import Schedule from '@/controllers/Schedule';
 
 /**
  * Manages schedules for subsemesters
  * Allows adding and removing Course sections
  */
-export default class SubSemesterScheduler {
+class SubSemesterScheduler {
   /**
    * List of schedules, each with a corresponding subsemester
    * in `scheduleSubsemesters`
@@ -105,3 +105,5 @@ export default class SubSemesterScheduler {
     this.schedules.forEach(s => s.removeCourse(course));
   }
 }
+
+export default SubSemesterScheduler;

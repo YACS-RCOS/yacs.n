@@ -42,7 +42,8 @@ import ScheduleComponent from '@/components/Schedule';
 import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
 
-import SubSemesterScheduler from '@/services/SubSemesterScheduler';
+import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
+
 import { getSubSemesters } from '@/services/YacsService';
 
 export default {

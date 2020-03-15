@@ -27,10 +27,10 @@
               @click.stop="toggleCourseSection(course, section)"
               :style="{
                 'border-left': section.selected
-                  ? `4px solid ${ColorService.getBorderColor(section)}`
+                  ? `4px solid ${getBorderColor(section)}`
                   : 'none',
                 'background-color': section.selected
-                  ? `${ColorService.getBackgroundColor(section)}`
+                  ? `${getBackgroundColor(section)}`
                   : 'white'
               }"
             >
@@ -59,7 +59,7 @@ import '@/typedef';
 
 import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
-import ColorService from '@/services/ColorService';
+import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -71,7 +71,6 @@ export default {
   data() {
     return {
       DAY_SHORTNAMES,
-      ColorService,
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
@@ -79,6 +78,8 @@ export default {
   methods: {
     readableTime,
     readableDate,
+    getBackgroundColor,
+    getBorderColor,
     /**
      * Remove a course from `selectedCourses` and remove all its sections from all schedules
      * @param {Course} course

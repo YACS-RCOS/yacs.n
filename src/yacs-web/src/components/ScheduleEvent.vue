@@ -13,12 +13,6 @@
 </template>
 
 <script>
-/**
- * @module ScheduleEventComponent
- * Renders a single schedule block
- * Dimensions and color of the block are done by the parent component
- * through inline styles
- */
 export default {
   name: 'ScheduleEvent',
   props: {

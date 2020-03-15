@@ -9,6 +9,11 @@ const client = axios.create({
 });
 
 /**
+ * Accesses the YACS API
+ * @module YacsService
+ */
+
+/**
  * Returns the unique identifier for a course. Modeled after the primary key in the database for
  * a course.
  * @param {Course} courseObj an object that is a subclass of course

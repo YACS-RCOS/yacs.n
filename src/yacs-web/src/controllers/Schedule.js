@@ -1,11 +1,10 @@
 import '@/typedef';
 
 /**
- * @class
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
  */
-export default class Schedule {
+class Schedule {
   static SCHEDULE_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
   // hours indicate start (inclusive) of one hour block with exclusive end e.g. [8, 9) in ascending order
   static SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -159,9 +158,15 @@ export default class Schedule {
       sessionIndices = null;
     } else {
       /**
-       * @type {{index: number, day: number, courseSession: CourseSession}[]}
+       * @typedef Addition
+       * @property {number} index
+       * @property {number} day
+       * @property {CourseSession} courseSession
+       */
+      /**
        * Keeps track of the courseSessions that will be added
        * We need this in case we are inserting adjacent sessions
+       * @type {Addition[]}
        */
       const additions = [];
 
@@ -252,3 +257,5 @@ export default class Schedule {
     }
   }
 }
+
+export default Schedule;
