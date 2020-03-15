@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-
-# NOTE: do not start and kill in quick succession, appears to not kill all processes
+# NOTE: run from project root
 
 # defaults
 TAIL_LENGTH=10
-
-# NOTE: run from root
 PATH_ROOT=$(pwd)
 
 # make directory for logs and create log files
