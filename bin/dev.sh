@@ -41,7 +41,7 @@ trap cleanup EXIT
 
 while [[ true ]]
 do
-  clear
+  printf "\033c"
   echo "-----------------------------------"
   echo "dev runner logs"
   echo "-----------------------------------"
