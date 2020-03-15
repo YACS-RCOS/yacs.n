@@ -59,6 +59,9 @@ class ClassInfo:
               c.level,
               c.date_start,
               c.date_end
+            order by
+              c.department asc,
+              c.level asc
         """, None, True)
 
     def get_departments(self):

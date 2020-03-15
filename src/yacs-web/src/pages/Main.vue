@@ -10,22 +10,35 @@
                         label="Search"
                         label-for="search"
                     >
-                        <b-form-input id="search" v-model="textSearch" trim placeholder="Intro to College - COLG 1030 - 5/2"></b-form-input>
+                        <b-form-input
+                          id="search"
+                          v-model="textSearch"
+                          trim
+                          autocomplete="off"
+                          placeholder="Intro to College - COLG 1030 - 5/2">
+                        </b-form-input>
                     </b-form-group>
 
-                    <b-form-group
-                        label="Filter Sub-Semester"
-                        for="sub-semester"
-                    >
-                        <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
-                    </b-form-group>
+                    <b-row>
+                        <b-col>
+                          <b-form-group
+                              label="Filter Sub-Semester"
+                              for="sub-semester"
+                          >
+                              <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+                          </b-form-group>
+                        </b-col>
 
-                    <b-form-group
-                        label="Filter Department"
-                        for="department"
-                    >
-                        <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
-                    </b-form-group>
+                        <b-col>
+                          <b-form-group
+                              label="Filter Department"
+                              for="department"
+                          >
+                              <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+                          </b-form-group>
+                        </b-col>
+                    </b-row>
+
                 </div>
 
                 <hr>
