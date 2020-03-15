@@ -1,12 +1,7 @@
-/**
- * @typedef {import('@/index').CourseSession} CourseSession
- * @typedef {import('@/index').CourseSection} CourseSection
- * @typedef {import('@/index').Course} Course
- * @typedef {import('@/index').Subsemester} Subsemester
- * @typedef {import('@/index').Department} Department
- */
+import '@/typedef';
 
 /**
+ * @class
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
  */

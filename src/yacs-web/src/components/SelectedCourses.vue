@@ -55,10 +55,8 @@
 </template>
 
 <script>
-/**
- * @typedef {import('@/index').Course} Course
- * @typedef {import('@/index').CourseSection} CourseSection
- */
+import '@/typedef';
+
 import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
 import ColorService from '@/services/ColorService';

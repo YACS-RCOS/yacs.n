@@ -1,12 +1,6 @@
-/**
- * @typedef {import('@/index').CourseSession} CourseSession
- * @typedef {import('@/index').CourseSection} CourseSection
- * @typedef {import('@/index').Course} Course
- * @typedef {import('@/index').Subsemester} Subsemester
- * @typedef {import('@/index').Department} Department
- */
+import '@/typedef';
 
-import Schedule from './ScheduleService';
+import Schedule from '@/services/ScheduleService';
 
 /**
  * Manages schedules for subsemesters

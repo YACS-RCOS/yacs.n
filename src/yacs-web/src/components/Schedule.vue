@@ -46,9 +46,8 @@
   </div>
 </template>
 <script>
-/**
- * @typedef {import('@/index').CourseSession} CourseSession
- */
+import '@/typedef';
+
 import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from '@/utils';
 
 import ColorService from '@/services/ColorService';

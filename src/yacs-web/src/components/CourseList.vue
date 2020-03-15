@@ -40,9 +40,8 @@
 </template>
 
 <script>
-/**
- * @typedef {import('@/index').Course} Course
- */
+import '@/typedef';
+
 import { readableDate } from '@/utils';
 
 import { getCourses, getDepartments, getSubSemesters } from '@/services/YacsService';

@@ -1,3 +1,5 @@
+import '@/typedef';
+
 import axios from 'axios';
 
 import { readableDate } from '@/utils';
@@ -5,14 +7,6 @@ import { readableDate } from '@/utils';
 const client = axios.create({
   baseURL: '/api'
 });
-
-/**
- * @typedef {import('@/index').CourseSession} CourseSession
- * @typedef {import('@/index').CourseSection} CourseSection
- * @typedef {import('@/index').Course} Course
- * @typedef {import('@/index').Subsemester} Subsemester
- * @typedef {import('@/index').Department} Department
- */
 
 /**
  * Returns the unique identifier for a course. Modeled after the primary key in the database for
