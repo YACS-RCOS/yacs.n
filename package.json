@@ -1,0 +1,16 @@
+{
+    "name": "yacs.n",
+    "description": "YACS - with support for multi semester and partial semesters",
+    "version": "0.1.0",
+    "scripts": {
+        "backend:dev": "flask run",
+        "backend:prod": "flask run",
+        "frontend:dev": "cd ./src/yacs-web && npm run serve",
+        "frontend:prod": "cd ./src/yacs-web && npm run serve:prod",
+        "start": "npm-run-all --parallel backend:dev frontend:dev",
+        "start:prod": "npm-run-all --parallel backend:prod frontend:prod"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5"
+    }
+}
