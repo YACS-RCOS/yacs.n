@@ -2,3 +2,4 @@ src/_*
 *.pyc
 **/*__pycache__*
 logs/
+node_modules/
