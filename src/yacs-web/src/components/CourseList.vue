@@ -10,32 +10,38 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Filter Sub-Semester" for="sub-semester">
-        <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
-      </b-form-group>
-
-      <b-form-group label="Filter Department" for="department">
-        <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
-      </b-form-group>
+      <b-row>
+        <b-col>
+          <b-form-group label="Filter Sub-Semester" for="sub-semester">
+            <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Filter Department" for="department">
+            <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </div>
 
     <hr />
-
-    <b-list-group class="course-list" flush>
-      <b-list-group-item
-        button
-        v-for="course in filteredCourses"
-        :key="course.name + course.date_end + course.date_start"
-        :disabled="course.selected"
-        :class="{ 'bg-light': course.selected }"
-        @click="$emit('addCourse', course)"
-      >
-        <b>{{ course.name }}</b>
-        ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
-        <br />
-        {{ course.title }}
-      </b-list-group-item>
-    </b-list-group>
+    <div id="scroll-box">
+      <b-list-group class="course-list" flush>
+        <b-list-group-item
+          button
+          v-for="course in filteredCourses"
+          :key="course.name + course.date_end + course.date_start"
+          :disabled="course.selected"
+          :class="{ 'bg-light': course.selected }"
+          @click="$emit('addCourse', course)"
+        >
+          <b>{{ course.name }}</b>
+          ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
+          <br />
+          {{ course.title }}
+        </b-list-group-item>
+      </b-list-group>
+    </div>
   </div>
 </template>
 
@@ -95,4 +101,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+#scroll-box {
+  position: relative;
+  height: 700px;
+  overflow: scroll !important;
+}
+</style>
