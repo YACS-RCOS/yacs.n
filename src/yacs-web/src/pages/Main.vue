@@ -4,8 +4,25 @@
       <b-col md="4">
         <h3>YACS</h3>
         <hr />
-
-        <CourseList @addCourse="addCourse" />
+        <b-tabs>
+          <b-tab title="Course Search" active>
+            <CourseList @addCourse="addCourse" :courses="courses" />
+          </b-tab>
+          <b-tab>
+            <template v-slot:title>
+              <div class="text-center">
+                Selected Courses
+                <b-badge variant="light">{{numSelectedCourses}}</b-badge>
+              </div>
+            </template>
+            <SelectedCourses
+              :courses="selectedCourses"
+              @removeCourse="removeCourse"
+              @removeCourseSection="removeCourseSection"
+              @addCourseSection="addCourseSection"
+            />
+          </b-tab>
+        </b-tabs>
       </b-col>
       <b-col md="8">
         <b-form-select
@@ -23,13 +40,17 @@
             v-show="selectedScheduleIndex === index"
           />
         </template>
-
-        <SelectedCourses
-          :courses="selectedCourses"
-          @removeCourse="removeCourse"
-          @removeCourseSection="removeCourseSection"
-          @addCourseSection="addCourseSection"
-        />
+        <b-row>
+          <b-col cols="auto">
+            <h5>CRNs: {{ selectedCrns }}</h5>
+          </b-col>
+          <button
+            class="col-auto btn btn-success ml-auto mb-2 mr-2 d-block"
+            @click="exportScheduleToIcs"
+          >
+            <font-awesome-icon :icon="exportIcon" />Export to ICS
+          </button>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
@@ -44,7 +65,9 @@ import CourseListComponent from '@/components/CourseList';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
-import { getSubSemesters } from '@/services/YacsService';
+import { getSubSemesters, getCourses } from '@/services/YacsService';
+
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
   name: 'MainPage',
@@ -60,7 +83,12 @@ export default {
 
       selectedScheduleSubsemester: null,
 
-      scheduler: new SubSemesterScheduler()
+      scheduler: new SubSemesterScheduler(),
+
+      courses: [],
+
+      exportIcon: faPaperPlane,
+      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
   },
   created() {
@@ -72,6 +100,7 @@ export default {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
+    getCourses().then(courses => this.courses.push(...courses));
   },
   methods: {
     addCourse(course) {
@@ -99,6 +128,39 @@ export default {
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+    },
+    /**
+     * Export all selected course sections to ICS
+     */
+    exportScheduleToIcs() {
+      let calendarBuilder = window.ics();
+      let semester;
+
+      for (const course of Object.values(this.courses)) {
+        for (const section of course.sections.filter(s => s.selected)) {
+          for (const session of section.sessions) {
+            semester = session.semester;
+            calendarBuilder.addEvent(
+              `Class: ${course.title}`,
+              'LEC day',
+              session.location,
+              new Date(`${course.date_start.toDateString()} ${session.time_start}`),
+              new Date(`${course.date_start.toDateString()} ${session.time_end}`),
+              {
+                freq: 'WEEKLY',
+                interval: 1,
+                until: course.date_end,
+                byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+              }
+            );
+          }
+        }
+      }
+      calendarBuilder.download(
+        `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function(_, semFirstLetter, semRest, year) {
+          return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
+        })}_Schedule`
+      );
     }
   },
   computed: {
@@ -106,6 +168,20 @@ export default {
       return this.scheduler.scheduleSubsemesters.findIndex(
         s => s.display_string === this.selectedScheduleSubsemester
       );
+    },
+    /**
+     * Returns list of CRNs for all selected sections
+     * @returns {string[]}
+     */
+    selectedCrns() {
+      return Object.values(this.selectedCourses)
+        .map(c => c.sections.filter(s => s.selected))
+        .flat()
+        .map(s => s.crn)
+        .join(', ');
+    },
+    numSelectedCourses() {
+      return Object.values(this.selectedCourses).length;
     }
   }
 };

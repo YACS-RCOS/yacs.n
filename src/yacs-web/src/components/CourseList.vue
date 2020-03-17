@@ -23,17 +23,11 @@
 
     <b-list-group class="course-list" flush>
       <b-list-group-item
-        button
         v-for="course in filteredCourses"
-        :key="course.name + course.date_end + course.date_start"
-        :disabled="course.selected"
-        :class="{ 'bg-light': course.selected }"
-        @click="$emit('addCourse', course)"
+        :key="course.id"
+        :class="{'bg-light': course.selected}"
       >
-        <b>{{ course.name }}</b>
-        ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
-        <br />
-        {{ course.title }}
+        <CourseListing :course="course" :actions="{add:true}" v-on="$listeners" />
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -42,25 +36,31 @@
 <script>
 import '@/typedef';
 
-import { readableDate } from '@/utils';
+import { DAY_SHORTNAMES } from '@/utils';
 
-import { getCourses, getDepartments, getSubSemesters } from '@/services/YacsService';
+import { getDepartments, getSubSemesters } from '@/services/YacsService';
+
+import CourseListingComponent from '@/components/CourseListing';
 
 export default {
   name: 'CourseList',
+  components: {
+    CourseListing: CourseListingComponent
+  },
+  props: {
+    courses: Array
+  },
   data() {
     return {
+      DAY_SHORTNAMES,
       textSearch: null,
       selectedSubsemester: null,
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }],
-      /** @type {Course[]} */
-      courses: []
+      departmentOptions: [{ text: 'All', value: null }]
     };
   },
   created() {
-    getCourses().then(courses => this.courses.push(...courses));
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
@@ -72,22 +72,19 @@ export default {
       );
     });
   },
-  methods: {
-    readableDate
-  },
   computed: {
     /**
      * Returns a list of courses that match the selected filters
      * @returns {Course[]}
      */
     filteredCourses() {
-      return this.courses.filter(({ date_start, date_end, department, str }) => {
+      return this.courses.filter(({ date_start, date_end, department, title }) => {
         return (
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
           (!this.selectedDepartment || this.selectedDepartment === department) &&
-          (!this.textSearch || str.includes(this.textSearch.toUpperCase()))
+          (!this.textSearch || title.includes(this.textSearch.toUpperCase()))
         );
       });
     }
@@ -95,4 +92,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+</style>
