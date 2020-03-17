@@ -31,6 +31,14 @@ export default {
             
         });
     },
+
+    watch: {
+    	selectedsemester: function(val, oldVal){
+    		this.$emit('new-semester', val);
+    		console.log("Semester changed from", oldVal, "to", val);
+
+    	}
+    }
 };
 </script>
 

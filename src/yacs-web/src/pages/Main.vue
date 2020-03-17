@@ -63,7 +63,10 @@ export default {
 
       selectedScheduleSubsemester: null,
 
-      scheduler: new SubSemesterScheduler()
+      scheduler: new SubSemesterScheduler(),
+
+      currentSemester: ""
+
     };
   },
   created() {
@@ -102,6 +105,9 @@ export default {
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+    },
+    newSemester(sem){
+      this.currentSemester = sem;
     }
   },
   computed: {
