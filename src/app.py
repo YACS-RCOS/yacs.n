@@ -59,6 +59,9 @@ def get_departments():
 def get_subsemesters():
     return jsonify(class_info.get_subsemesters())
 
+@app.route('/api/semester', methods=['GET'])
+def get_semesters():
+    return jsonify(class_info.get_semesters())
 
 @app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():

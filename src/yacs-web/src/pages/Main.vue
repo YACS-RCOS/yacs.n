@@ -1,8 +1,8 @@
 <template>
   <b-container fluid class="pt-3">
+    <Header></Header>
     <b-row>
       <b-col md="4">
-        <h3>YACS</h3>
         <hr />
 
         <CourseList @addCourse="addCourse" />
@@ -46,13 +46,16 @@ import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
 import { getSubSemesters } from '@/services/YacsService';
 
+import Header from '../components/Header';
+
 export default {
   name: 'MainPage',
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent
+    CourseList: CourseListComponent,
+    Header: Header,
   },
   data() {
     return {

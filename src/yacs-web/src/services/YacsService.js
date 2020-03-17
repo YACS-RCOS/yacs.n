@@ -86,3 +86,5 @@ export const getSubSemesters = () =>
       })
       .sort((s1, s2) => s1.date_start.getTime() - s2.date_start.getTime());
   });
+
+  export const getSemesters = () => client.get('/semester');
