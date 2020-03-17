@@ -88,3 +88,13 @@ class ClassInfo:
               date_start asc,
               date_end desc
         """, None, True)
+
+    def get_semesters(self):
+        return self.db_conn.execute("""
+            select
+              semester
+            from
+              course
+            group by
+              semester
+        """, None, True)

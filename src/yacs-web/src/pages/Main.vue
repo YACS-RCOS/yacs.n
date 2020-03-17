@@ -4,7 +4,6 @@
       <b-col md="4">
         <h3>YACS</h3>
         <hr />
-
         <CourseList @addCourse="addCourse" />
       </b-col>
       <b-col md="8">

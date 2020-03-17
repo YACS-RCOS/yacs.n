@@ -25,7 +25,7 @@
     </div>
 
     <hr />
-    <div id="scroll-box">
+    <div id="scroll-box" class="mb-2 mb-sm-0">
       <b-list-group class="course-list" flush>
         <b-list-group-item
           button
@@ -104,7 +104,8 @@ export default {
 <style scoped lang="scss">
 #scroll-box {
   position: relative;
-  height: 700px;
-  overflow: scroll !important;
+  max-height: 700px;
+  overflow-y: scroll !important;
+  overflow-x: auto;
 }
 </style>
