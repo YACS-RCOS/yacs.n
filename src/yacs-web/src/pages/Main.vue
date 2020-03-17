@@ -1,6 +1,6 @@
 <template>
   <b-container fluid class="pt-3">
-    <Header></Header>
+    <Header class='mb-3'></Header>
     <b-row>
       <b-col md="4">
         <hr />
