@@ -59,6 +59,9 @@ class ClassInfo:
               c.level,
               c.date_start,
               c.date_end
+            order by
+              c.department asc,
+              c.level asc
         """, None, True)
 
     def get_departments(self):
@@ -67,6 +70,8 @@ class ClassInfo:
                 distinct(department)
             from
                 course
+            order by
+                department asc
         """, None, True)
 
     def get_subsemesters(self):
@@ -79,4 +84,7 @@ class ClassInfo:
             group by
               date_start,
               date_end
+            order by
+              date_start asc,
+              date_end desc
         """, None, True)
