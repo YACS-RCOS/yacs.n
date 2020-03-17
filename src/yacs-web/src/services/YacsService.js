@@ -54,7 +54,7 @@ export const getCourses = () =>
         // Generate id based on course content
         c.id = _getCourseIdentifier(c);
         return c;
-      })
+      });
   });
 /**
  * Returns a list of all departments
@@ -62,7 +62,7 @@ export const getCourses = () =>
  */
 export const getDepartments = () =>
   client.get('/department').then(({ data }) => {
-    return data.sort((d1, d2) => d1.department.localeCompare(d2.department));
+    return data;
   });
 /**
  * Returns a list of all subsemesters
@@ -82,6 +82,5 @@ export const getSubSemesters = () =>
                 `;
 
         return subsemester;
-      })
-      .sort((s1, s2) => s1.date_start.getTime() - s2.date_start.getTime());
+      });
   });
