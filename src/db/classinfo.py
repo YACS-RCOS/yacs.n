@@ -77,16 +77,17 @@ class ClassInfo:
     def get_subsemesters(self):
         return self.db_conn.execute("""
             select
-              date_start,
-              date_end
+              c.date_start,
+              c.date_end,
+              (SELECT semester_name FROM semester_date_range sdr WHERE sdr.date_start = c.date_start AND sdr.date_end = c.date_end)
             from
-              course
+              course c
             group by
-              date_start,
-              date_end
+              c.date_start,
+              c.date_end
             order by
-              date_start asc,
-              date_end desc
+              c.date_start asc,
+              c.date_end desc
         """, None, True)
 
     def get_semesters(self):

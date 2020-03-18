@@ -77,9 +77,11 @@ export const getSubSemesters = () =>
         subsemester.date_start_display = readableDate(subsemester.date_start);
         subsemester.date_end_display = readableDate(subsemester.date_end);
 
-        subsemester.display_string = `
-                    ${subsemester.date_start_display} - ${subsemester.date_end_display}
-                `;
+        // subsemester.display_string = `
+        //             ${subsemester.date_start_display} - ${subsemester.date_end_display}
+        //         `;
+
+        subsemester.display_string = subsemester.semester_name;
 
         return subsemester;
       });
