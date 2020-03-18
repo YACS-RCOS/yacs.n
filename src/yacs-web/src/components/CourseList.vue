@@ -10,18 +10,23 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Filter Sub-Semester" for="sub-semester">
-        <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
-      </b-form-group>
-
-      <b-form-group label="Filter Department" for="department">
-        <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
-      </b-form-group>
+      <b-row>
+        <b-col>
+          <b-form-group label="Filter Sub-Semester" for="sub-semester">
+            <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Filter Department" for="department">
+            <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </div>
 
     <hr />
 
-    <b-list-group class="course-list" flush>
+    <b-list-group id="scroll-box" class="course-list mb-2 mb-sm-0" flush>
       <b-list-group-item
         v-for="course in filteredCourses"
         :key="course.id"
@@ -92,5 +97,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+#scroll-box {
+  position: relative;
+  max-height: 700px;
+  overflow-y: scroll !important;
+  overflow-x: auto;
+}
 </style>

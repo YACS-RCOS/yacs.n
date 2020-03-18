@@ -38,24 +38,22 @@ const _getCourseIdentifier = courseObj => {
  */
 export const getCourses = () =>
   client.get('/class').then(({ data }) => {
-    return data
-      .map(c => {
-        c.date_start = new Date(c.date_start);
-        c.date_end = new Date(c.date_end);
+    return data.map(c => {
+      c.date_start = new Date(c.date_start);
+      c.date_end = new Date(c.date_end);
 
-        // Filter out sections that are null
-        c.sections = c.sections.filter(s => !!s);
-        // Initialize section.selected to false
-        c.sections.forEach(s => {
-          if (s) s.selected = false;
-        });
-        // Initialize course.selected to false
-        c.selected = false;
-        // Generate id based on course content
-        c.id = _getCourseIdentifier(c);
-        return c;
-      })
-      .sort((c1, c2) => c1.title.localeCompare(c2.title) || c1.level - c2.level);
+      // Filter out sections that are null
+      c.sections = c.sections.filter(s => !!s);
+      // Initialize section.selected to false
+      c.sections.forEach(s => {
+        if (s) s.selected = false;
+      });
+      // Initialize course.selected to false
+      c.selected = false;
+      // Generate id based on course content
+      c.id = _getCourseIdentifier(c);
+      return c;
+    });
   });
 /**
  * Returns a list of all departments
@@ -63,7 +61,7 @@ export const getCourses = () =>
  */
 export const getDepartments = () =>
   client.get('/department').then(({ data }) => {
-    return data.sort((d1, d2) => d1.department.localeCompare(d2.department));
+    return data;
   });
 /**
  * Returns a list of all subsemesters
@@ -71,18 +69,16 @@ export const getDepartments = () =>
  */
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
-    return data
-      .map(subsemester => {
-        subsemester.date_start = new Date(subsemester.date_start);
-        subsemester.date_end = new Date(subsemester.date_end);
-        subsemester.date_start_display = readableDate(subsemester.date_start);
-        subsemester.date_end_display = readableDate(subsemester.date_end);
+    return data.map(subsemester => {
+      subsemester.date_start = new Date(subsemester.date_start);
+      subsemester.date_end = new Date(subsemester.date_end);
+      subsemester.date_start_display = readableDate(subsemester.date_start);
+      subsemester.date_end_display = readableDate(subsemester.date_end);
 
-        subsemester.display_string = `
+      subsemester.display_string = `
                     ${subsemester.date_start_display} - ${subsemester.date_end_display}
                 `;
 
-        return subsemester;
-      })
-      .sort((s1, s2) => s1.date_start.getTime() - s2.date_start.getTime());
+      return subsemester;
+    });
   });

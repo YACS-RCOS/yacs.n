@@ -3,7 +3,7 @@
     "description": "YACS - with support for multi semester and partial semesters",
     "version": "0.1.0",
     "scripts": {
-        "backend:dev": "flask run",
+        "backend:dev": "flask run --reload",
         "backend:prod": "flask run",
         "frontend:dev": "cd ./src/yacs-web && npm run serve",
         "frontend:prod": "cd ./src/yacs-web && npm run serve:prod",
