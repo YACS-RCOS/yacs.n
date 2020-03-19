@@ -1,5 +1,5 @@
 <template>
-  <b-list-group class="selected-course-list" flush>
+  <b-list-group id="selected-course-list" class="flex-grow-1" flush>
     <b-list-group-item v-for="course of courses" :key="course.id">
       <CourseListing
         :course="course"
@@ -27,5 +27,10 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+#selected-course-list {
+  overflow-y: scroll !important;
+  overflow-x: auto;
+  height: 0px;
+}
 </style>

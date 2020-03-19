@@ -1,28 +1,33 @@
 <template>
-  <b-container fluid class="pt-3">
-    <b-row>
-      <b-col md="4">
+  <b-container fluid class="py-3 h-100">
+    <b-row class="h-100">
+      <b-col md="4" class="d-flex flex-column">
         <h3>YACS</h3>
-        <hr />
-        <b-tabs>
-          <b-tab title="Course Search" active>
+        <b-card no-body class="h-100">
+        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+          <b-tab title="Course Search" active class="flex-grow-1">
+            <b-card-text class="d-flex flex-grow-1">
             <CourseList @addCourse="addCourse" :courses="courses" />
+            </b-card-text>
           </b-tab>
-          <b-tab>
+          <b-tab class="flex-grow-1">
             <template v-slot:title>
               <div class="text-center">
                 Selected Courses
                 <b-badge variant="light">{{numSelectedCourses}}</b-badge>
               </div>
             </template>
+            <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
             <SelectedCourses
               :courses="selectedCourses"
               @removeCourse="removeCourse"
               @removeCourseSection="removeCourseSection"
               @addCourseSection="addCourseSection"
             />
+            </b-card-text>
           </b-tab>
         </b-tabs>
+        </b-card>
       </b-col>
       <b-col md="8">
         <b-form-select
@@ -187,4 +192,20 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss">
+// NOTE!
+// for every v-tab a div.tab-content container is generated
+// I can't find access to the div so the workaround is to
+// apply the css attributes globally to .tab-content
+// This means that all v-tabs in this app will have flexbox content
+// Hopefully this doesn't screw up someone's debugging later lol
+.tab-content {
+  display: flex;
+  flex-grow: 1;
+}
+// This makes it so active tabs are display:flex
+// The default is display:block
+.tab-content > .active {
+  display: flex;
+}
+</style>

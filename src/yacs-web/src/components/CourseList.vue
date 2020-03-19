@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="d-flex flex-column flex-grow-1">
     <div class="course-search">
       <b-form-group label="Search" label-for="search">
         <b-form-input
@@ -26,7 +26,7 @@
 
     <hr />
 
-    <b-list-group id="scroll-box" class="course-list mb-2 mb-sm-0" flush>
+    <b-list-group id="scroll-box" class="mb-2 mb-sm-0 flex-grow-1" flush>
       <b-list-group-item
         v-for="course in filteredCourses"
         :key="course.id"
@@ -99,9 +99,9 @@ export default {
 
 <style scoped lang="scss">
 #scroll-box {
-  position: relative;
-  max-height: 700px;
   overflow-y: scroll !important;
   overflow-x: auto;
+  height: 0px; // allows flex and scroll combo
+              // flex-grow will set height during runtime
 }
 </style>
