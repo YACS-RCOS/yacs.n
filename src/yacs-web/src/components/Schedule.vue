@@ -178,7 +178,7 @@ export default {
 
 .schedule-grid {
   position: absolute;
-  width: 100%;
+  width: 99%;
   height: 100%;
   left: 2.5em;
 }
