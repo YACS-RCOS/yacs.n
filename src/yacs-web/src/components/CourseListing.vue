@@ -19,12 +19,12 @@
         <button v-if="actions.remove" class="btn" @click="$emit('removeCourse', course)">
           <font-awesome-icon :icon="faTimes" />
         </button>
-        <button class="btn" @click="showSections = !showSections">
+        <button class="btn" @click="toggleShowSection()" :disabled="!course.sections.length">
           <font-awesome-icon :icon="faChevronDown" />
         </button>
       </div>
     </div>
-    <b-collapse v-model="showSections" :id="course.id">
+    <b-collapse v-if="showSectionsInitial || loaded" v-model="showSections" :id="course.id">
       <b-list-group flush>
         <b-list-group-item
           button
@@ -81,7 +81,8 @@ export default {
       faChevronDown,
       DAY_SHORTNAMES,
 
-      showSections: this.showSectionsInitial
+      showSections: this.showSectionsInitial,
+      loaded: false
     };
   },
   methods: {
@@ -89,6 +90,12 @@ export default {
     readableDate,
     getBackgroundColor,
     getBorderColor,
+    toggleShowSection() {
+      if (!this.loaded && !this.showSections) {
+        this.loaded = true;
+      }
+      this.showSections = !this.showSections;
+    },
     /**
      * Toggle use selection of course section
      * If a user is clicking on course section for the first time,

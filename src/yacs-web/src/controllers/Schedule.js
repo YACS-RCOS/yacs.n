@@ -230,10 +230,10 @@ class Schedule {
   removeCourseSection(courseSection) {
     if (!courseSection) {
       console.warn(`Ignoring remove null/undefined courseSection`);
-    } else if (courseSection.sessions.length === 0) {
-      console.error(
-        `Cannot remove courseSection with no sessions ${JSON.stringify(courseSection)}`
-      );
+      // } else if (courseSection.sessions.length === 0) {
+      //   console.error(
+      //     `Cannot remove courseSection with no sessions ${JSON.stringify(courseSection)}`
+      //   );
     } else {
       for (const courseSession of courseSection.sessions) {
         this._removeCourseSession(courseSession);
