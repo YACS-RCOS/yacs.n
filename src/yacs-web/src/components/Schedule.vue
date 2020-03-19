@@ -33,7 +33,6 @@
             color: getTextColor(courseSession),
             width: dayWidth + '%'
           }"
-          class="schedule-event"
         ></ScheduleEvent>
         <div
           class="grid-hour"
