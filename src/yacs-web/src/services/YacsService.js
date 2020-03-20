@@ -38,23 +38,22 @@ const _getCourseIdentifier = courseObj => {
  */
 export const getCourses = () =>
   client.get('/class').then(({ data }) => {
-    return data
-      .map(c => {
-        c.date_start = new Date(c.date_start);
-        c.date_end = new Date(c.date_end);
+    return data.map(c => {
+      c.date_start = new Date(c.date_start);
+      c.date_end = new Date(c.date_end);
 
-        // Filter out sections that are null
-        c.sections = c.sections.filter(s => !!s);
-        // Initialize section.selected to false
-        c.sections.forEach(s => {
-          if (s) s.selected = false;
-        });
-        // Initialize course.selected to false
-        c.selected = false;
-        // Generate id based on course content
-        c.id = _getCourseIdentifier(c);
-        return c;
+      // Filter out sections that are null
+      c.sections = c.sections.filter(s => !!s);
+      // Initialize section.selected to false
+      c.sections.forEach(s => {
+        if (s) s.selected = false;
       });
+      // Initialize course.selected to false
+      c.selected = false;
+      // Generate id based on course content
+      c.id = _getCourseIdentifier(c);
+      return c;
+    });
   });
 /**
  * Returns a list of all departments
@@ -70,17 +69,16 @@ export const getDepartments = () =>
  */
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
-    return data
-      .map(subsemester => {
-        subsemester.date_start = new Date(subsemester.date_start);
-        subsemester.date_end = new Date(subsemester.date_end);
-        subsemester.date_start_display = readableDate(subsemester.date_start);
-        subsemester.date_end_display = readableDate(subsemester.date_end);
+    return data.map(subsemester => {
+      subsemester.date_start = new Date(subsemester.date_start);
+      subsemester.date_end = new Date(subsemester.date_end);
+      subsemester.date_start_display = readableDate(subsemester.date_start);
+      subsemester.date_end_display = readableDate(subsemester.date_end);
 
-        subsemester.display_string = `
+      subsemester.display_string = `
                     ${subsemester.date_start_display} - ${subsemester.date_end_display}
                 `;
 
-        return subsemester;
-      });
+      return subsemester;
+    });
   });
