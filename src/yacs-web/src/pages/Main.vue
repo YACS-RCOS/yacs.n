@@ -6,7 +6,7 @@
         <b-card no-body class="h-100">
         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
           <b-tab title="Course Search" active class="flex-grow-1">
-            <b-card-text class="d-flex flex-grow-1">
+           <b-card-text class="d-flex flex-grow-1">
             <CourseList @addCourse="addCourse" :courses="courses" />
             </b-card-text>
           </b-tab>
@@ -18,7 +18,7 @@
               </div>
             </template>
             <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-            <SelectedCourses
+           <SelectedCourses
               :courses="selectedCourses"
               @removeCourse="removeCourse"
               @removeCourseSection="removeCourseSection"

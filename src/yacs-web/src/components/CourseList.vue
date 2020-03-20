@@ -27,7 +27,7 @@
     <hr />
 
     <b-list-group id="scroll-box" class="mb-2 mb-sm-0 flex-grow-1" flush>
-      <b-list-group-item
+     <b-list-group-item
         v-for="course in filteredCourses"
         :key="course.id"
         :class="{'bg-light': course.selected}"
