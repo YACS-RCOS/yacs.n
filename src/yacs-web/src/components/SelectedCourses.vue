@@ -3,7 +3,7 @@
     <b-list-group-item v-for="course of courses" :key="course.id">
       <CourseListing
         :course="course"
-        :actions="{remove:true}"
+        :actions="{remove:true,collapse:true}"
         showSectionsInitial
         v-on="$listeners"
       />

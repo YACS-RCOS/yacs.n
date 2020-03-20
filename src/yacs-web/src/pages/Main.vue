@@ -7,7 +7,7 @@
         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
           <b-tab title="Course Search" active class="flex-grow-1">
            <b-card-text class="d-flex flex-grow-1">
-            <CourseList @addCourse="addCourse" :courses="courses" />
+            <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
             </b-card-text>
           </b-tab>
           <b-tab class="flex-grow-1">

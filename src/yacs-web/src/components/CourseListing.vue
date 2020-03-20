@@ -9,17 +9,19 @@
       </div>
       <div>
         <button
-          v-if="actions.add"
+          v-if="actions.add || actions.remove"
           class="btn"
-          v-show="!course.selected"
-          @click="$emit('addCourse', course)"
+          @click="toggleCourse(course)"
         >
-          <font-awesome-icon :icon="faPlus" />
+          <font-awesome-icon v-if="course.selected" :icon="faTimes" />
+          <font-awesome-icon v-else :icon="faPlus" />
         </button>
-        <button v-if="actions.remove" class="btn" @click="$emit('removeCourse', course)">
-          <font-awesome-icon :icon="faTimes" />
-        </button>
-        <button class="btn" @click="toggleShowSection()" :disabled="!course.sections.length">
+        <button
+          v-if="actions.collapse"
+          class="btn"
+          @click="toggleShowSection()"
+          :disabled="!course.sections.length"
+        >
           <font-awesome-icon :icon="faChevronDown" />
         </button>
       </div>
@@ -95,6 +97,13 @@ export default {
         this.loaded = true;
       }
       this.showSections = !this.showSections;
+    },
+    toggleCourse(course) {
+      if (course.selected) {
+        this.$emit('removeCourse', course);
+      } else {
+        this.$emit('addCourse', course);
+      }
     },
     /**
      * Toggle use selection of course section
