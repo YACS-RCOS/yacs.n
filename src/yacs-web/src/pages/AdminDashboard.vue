@@ -18,10 +18,24 @@
         </div>
       </template>
       <b-tab title="Dashboard">
-        Empty ;)
+        <b-container class="d-flex justify-content-around mt-3">
+          <b-card no-body class="bg-primary text-white text-center justify-content-center d-flex" style="height:200px; width:200px;" @click="addTab($event, 'csv')">
+            <span>CSV</span>
+          </b-card>
+          <b-card no-body class="bg-success text-white text-center justify-content-center d-flex" style="height:200px; width:200px;" @click="addTab($event, 'date')">
+            <span>Dates</span>
+          </b-card>
+        </b-container>
       </b-tab>
-      <b-tab title="CSV" lazy>
-        <UploadCsvPage @loading="childComponentLoadingResource" @loadfinish="childComponentFinishedLoadingResource"/>
+      <b-tab v-for="(type, index) in tabs" :key="index" :title="type" lazy>
+        <UploadCsvPage v-if="type === 'csv'"
+          @loading="childComponentLoadingResource"
+          @loadfinish="childComponentFinishedLoadingResource"
+        />
+        <DatePage v-else-if="type === 'date'"
+          @loading="childComponentLoadingResource"
+          @loadfinish="childComponentFinishedLoadingResource"
+        />
       </b-tab>
     </b-tabs>
   </div>
@@ -30,16 +44,19 @@
 <script>
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import UploadCsvPage from '@/pages/UploadCsv';
+import DatePage from '@/pages/MapDates';
 
 export default {
   name: 'AdminPage',
   components: {
-    UploadCsvPage
+    UploadCsvPage,
+    DatePage
   },
   data() {
     return {
       cog: faCog,
-      loading: false
+      loading: false,
+      tabs: []
     };
   },
   methods: {
@@ -48,6 +65,9 @@ export default {
     },
     childComponentFinishedLoadingResource () {
       this.loading = false;
+    },
+    addTab(_, type) {
+      this.tabs.push(type);
     }
   },
   created() {}
@@ -76,6 +96,7 @@ li {
     color: white !important;
     margin-bottom: 1px;
     border-radius: 0% !important;
+    border-right: solid black 1px !important;
   }
   &.nav-item > a.nav-link:not(.active) {
     border-bottom: $tabBorderColor 3px solid !important;
@@ -138,6 +159,7 @@ div.brand-container {
   border-radius: 10%;
   font-weight: 500;
   margin-top: 5px;
-  box-shadow: -1px 1px 9px 1px white;
+  // box-shadow: -1px 1px 9px 1px white;
+  padding: 2px;
 }
 </style>

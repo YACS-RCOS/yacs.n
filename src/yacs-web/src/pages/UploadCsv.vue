@@ -25,6 +25,7 @@ import { uploadCsv } from '@/services/AdminService';
 export default {
     name: "UploadCsv",
     components: {},
+    props: {},
     data () {
         return {
             loading: false
