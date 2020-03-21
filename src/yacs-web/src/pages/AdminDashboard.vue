@@ -19,12 +19,14 @@
       </template>
       <b-tab title="Dashboard">
         <b-container class="d-flex justify-content-around mt-3">
-          <b-card no-body class="bg-primary text-white text-center justify-content-center d-flex" style="height:200px; width:200px;" @click="addTab($event, 'csv')">
-            <span>CSV</span>
-          </b-card>
-          <b-card no-body class="bg-success text-white text-center justify-content-center d-flex" style="height:200px; width:200px;" @click="addTab($event, 'date')">
-            <span>Dates</span>
-          </b-card>
+          <AdminPageLink
+            type="csv"
+            @click="addTab"
+          />
+          <AdminPageLink
+            type="date"
+            @click="addTab"
+          />
         </b-container>
       </b-tab>
       <b-tab v-for="(type, index) in tabs" :key="index" :title="type" lazy>
@@ -45,12 +47,14 @@
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import UploadCsvPage from '@/pages/UploadCsv';
 import DatePage from '@/pages/MapDates';
+import AdminPageLink from '@/components/AdminPageLink';
 
 export default {
   name: 'AdminPage',
   components: {
     UploadCsvPage,
-    DatePage
+    DatePage,
+    AdminPageLink
   },
   data() {
     return {
@@ -66,7 +70,7 @@ export default {
     childComponentFinishedLoadingResource () {
       this.loading = false;
     },
-    addTab(_, type) {
+    addTab(type) {
       this.tabs.push(type);
     }
   },
@@ -86,6 +90,7 @@ $tabHoverBgColor: rgb(209, 49, 73);
 ul.nav-tabs {
   background-color: $navbarBgColor;
   border: none;
+  box-shadow: 0px -6px 35px 1px #0009;
 }
 li {
   &.nav-item {
