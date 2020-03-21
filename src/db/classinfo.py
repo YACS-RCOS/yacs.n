@@ -79,7 +79,7 @@ class ClassInfo:
             select
               c.date_start,
               c.date_end,
-              (SELECT semester_name FROM semester_date_range sdr WHERE sdr.date_start = c.date_start AND sdr.date_end = c.date_end)
+              (SELECT semester_part_name FROM semester_date_range sdr WHERE sdr.date_start = c.date_start AND sdr.date_end = c.date_end)
             from
               course c
             group by

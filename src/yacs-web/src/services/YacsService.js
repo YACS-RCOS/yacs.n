@@ -81,7 +81,7 @@ export const getSubSemesters = () =>
         //             ${subsemester.date_start_display} - ${subsemester.date_end_display}
         //         `;
 
-        subsemester.display_string = subsemester.semester_name;
+        subsemester.display_string = subsemester.semester_part_name;
 
         return subsemester;
       });

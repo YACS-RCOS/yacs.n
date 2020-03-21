@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import AdminPage from './pages/Admin';
+import AdminPage from './pages/AdminDashboard';
 import MainPage from './pages/Main';
 
 var router = new VueRouter({
