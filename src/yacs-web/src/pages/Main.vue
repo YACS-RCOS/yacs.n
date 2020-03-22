@@ -140,6 +140,7 @@ export default {
     },
     newSemester(sem){
       this.currentSemester = sem;
+    },
       
     /**
      * Export all selected course sections to ICS
