@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $tabBorderWidth: 2px;
 $tabBorderColor: #ccc;
 $navbarBgColor: #A62639;
@@ -102,12 +102,13 @@ $tabActiveBgColor: #DB324D;
 $tabActiveFgColor: #FAFAFA;
 $tabHoverBgColor: rgb(209, 49, 73);
 
-ul.nav-tabs {
+// https://vue-loader.vuejs.org/guide/scoped-css.html#child-component-root-elements
+::v-deep ul.nav-tabs {
   background-color: $navbarBgColor;
   border: none;
   box-shadow: 0px -6px 35px 1px #0009;
 }
-li {
+::v-deep li {
   &.nav-item {
     margin-top: auto;
   }
