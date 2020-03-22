@@ -9,12 +9,14 @@ from flask import url_for
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.admin as Admin
 from io import StringIO
 
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
+admin_info = Admin.Admin(db_conn)
 
 app = Flask(
     __name__,
@@ -63,6 +65,7 @@ def get_subsemesters():
 def get_semesters():
     return jsonify(class_info.get_semesters())
 
+
 @app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():
     # check for user files
@@ -76,6 +79,13 @@ def uploadHandler():
     else:
         print(error)
         return Response(error.__str__(), status=500)
+
+@app.route('/api/defaultsemester', methods=['POST', 'GET'])
+def defaultSemester():
+    if flask.request.method == 'POST':
+        admin_info.set_semester_default(request.files['file'])
+    else:
+        return jsonify(admin_info.get_semester_default())
 
 
 

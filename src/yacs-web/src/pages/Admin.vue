@@ -15,6 +15,14 @@
         <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
       </form>
     </section>
+    <section id="select-data">
+      <h2>Default Semester: {{temp().json()}}</h2>
+      <div class="well well-sm">
+        Select the default semester
+      </div>
+      <b-form-select label= "semester" v-model="semester" :options="semesterOptions">
+      </b-form-select>
+    </section>
     <a @click="back" class="btn btn-info text-white">Back</a>
     <b-spinner v-show="loading" />
     <hr />
@@ -22,14 +30,17 @@
 </template>
 
 <script>
-import { uploadCsv } from '@/services/AdminService';
+import { uploadCsv, updateSemester, getSemester } from '@/services/AdminService';
+import { getSemesters } from '@/services/YacsService';
 
 export default {
   name: 'AdminPage',
   components: {},
   data() {
     return {
-      loading: false
+      loading: false,
+      semester: null,
+      semesterOptions: []
     };
   },
   methods: {
@@ -69,10 +80,24 @@ export default {
         this.loading = false;
       }
     },
+    temp(){
+      return getSemester();
+    },
     back() {
       window.history.back();
     }
   },
-  created() {}
+  created() {
+    getSemesters().then(({ data }) => {
+            this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
+        });
+  },
+
+  watch: {
+      selectedsemester: function(val, oldVal){
+        console.log(oldVal);
+        updateSemester(new FormData(val));
+      }
+    }
 };
 </script>
