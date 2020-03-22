@@ -3,13 +3,14 @@
     <b-tabs
       fill
       active-nav-item-class="active-tab"
+      v-model="activeTabIndex"
+      @changed="activateNewTab"
     >
       <template v-slot:tabs-start>
         <div class="brand-container text-white d-flex align-items-center pr-2">
-          <font-awesome-icon :icon="cog" :class="{
+          <font-awesome-icon :icon="cap" :class="{
             'nav-branding-icon': true,
-            'ml-2': true,
-            'loading': loading
+            'ml-2': true
           }"/>
           <h2 class="py-2 pl-2 mb-0">
             <span class="brand-name">YACS</span>
@@ -17,34 +18,36 @@
           </h2>
         </div>
       </template>
-      <b-tab title="Dashboard">
-        <b-container class="d-flex justify-content-around mt-3">
-          <AdminPageLink
-            type="csv"
-            @click="addTab"
+        <b-tab title="Dashboard">
+          <b-container fluid class="d-flex mt-3 flex-wrap">
+            <AdminPageLink
+              v-for="(type, index) in defaultLinks"
+              :key="index"
+              :type="type"
+              @click="addTab"
+            />
+          </b-container>
+        </b-tab>
+        <b-tab v-for="(type, index) in tabs" :key="index" lazy>
+          <template v-slot:title>
+            {{ type }} <button class="btn closeBtn" @click="closeTab(index)">X</button>
+          </template>
+          <UploadCsvPage v-if="type === 'csv'"
+            @loading="childComponentLoadingResource"
+            @loadfinish="childComponentFinishedLoadingResource"
           />
-          <AdminPageLink
-            type="date"
-            @click="addTab"
+          <DatePage v-else-if="type === 'date'"
+            @loading="childComponentLoadingResource"
+            @loadfinish="childComponentFinishedLoadingResource"
           />
-        </b-container>
-      </b-tab>
-      <b-tab v-for="(type, index) in tabs" :key="index" :title="type" lazy>
-        <UploadCsvPage v-if="type === 'csv'"
-          @loading="childComponentLoadingResource"
-          @loadfinish="childComponentFinishedLoadingResource"
-        />
-        <DatePage v-else-if="type === 'date'"
-          @loading="childComponentLoadingResource"
-          @loadfinish="childComponentFinishedLoadingResource"
-        />
-      </b-tab>
+        </b-tab>
     </b-tabs>
   </div>
 </template>
 
 <script>
 import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 import UploadCsvPage from '@/pages/UploadCsv';
 import DatePage from '@/pages/MapDates';
 import AdminPageLink from '@/components/AdminPageLink';
@@ -60,7 +63,10 @@ export default {
     return {
       cog: faCog,
       loading: false,
-      tabs: []
+      tabs: [],
+      cap: faGraduationCap,
+      defaultLinks: ['csv', 'date'],
+      activeTabIndex: 1
     };
   },
   methods: {
@@ -72,6 +78,15 @@ export default {
     },
     addTab(type) {
       this.tabs.push(type);
+    },
+    activateNewTab(currentTabs, previousTabs) {
+      console.log(currentTabs, previousTabs);
+      this.activeTabIndex = this.tabs.length;
+      // Why is the <a> tag hidden away in so many layers? No idea, haha!
+      currentTabs[this.tabs.length].bvTabs.$refs.buttons[this.tabs.length].$refs.link.$el.focus();
+    },
+    closeTab(index) {
+      this.tabs.splice(index, 1);
     }
   },
   created() {}
@@ -126,15 +141,6 @@ div.brand-container {
     border-width: 0px 0px $tabBorderWidth 0px !important;
     font-size: 2em;
   }
-  &.nav-branding-icon {
-    will-change: transform;
-  }
-  & > svg.nav-branding-icon:hover {
-    animation: spin forwards linear 1s;
-  }
-  & > svg.nav-branding-icon.loading {
-    animation: spin forwards linear 2s infinite;
-  }
   & > h2 {
     line-height: 2rem;
     text-align: center;
@@ -151,11 +157,6 @@ div.brand-container {
     font-weight: 300;
   }
 }
-@keyframes spin {
-  to {
-    transform: rotate3d(0, 0, 1, 360deg);
-  }
-}
 .smaller {
   background: rgba(255,255,0, 1);
   color: black;
@@ -164,7 +165,6 @@ div.brand-container {
   border-radius: 10%;
   font-weight: 500;
   margin-top: 5px;
-  // box-shadow: -1px 1px 9px 1px white;
   padding: 2px;
 }
 </style>
