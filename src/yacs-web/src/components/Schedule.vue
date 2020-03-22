@@ -33,7 +33,6 @@
             color: getTextColor(courseSession),
             width: dayWidth + '%'
           }"
-          class="schedule-event"
         ></ScheduleEvent>
         <div
           class="grid-hour"
@@ -179,7 +178,7 @@ export default {
 
 .schedule-grid {
   position: absolute;
-  width: 100%;
+  width: 99%;
   height: 100%;
   left: 2.5em;
 }

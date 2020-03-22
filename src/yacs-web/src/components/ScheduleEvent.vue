@@ -1,28 +1,11 @@
-<template>
-  <div class="schedule-event">
+<template functional>
+  <div class="schedule-event" :style="data.style">
     <div class="event-text">
-      <!-- {{ period.section.listing.subjectShortname }} {{ period.section.listing.courseShortname }} - {{ period.section.shortname }}<br> -->
-      {{ crn }} -
-      <!-- {{ semester }} <br> -->
-      {{ section }}
-      <br />
-      <!-- {{ period.section.instructors.join(', ') }}<br> -->
-      <!-- {{ period.location }} -->
+      {{ props.crn }} - {{ props.section }}
+      <br>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'ScheduleEvent',
-  props: {
-    crn: String,
-    semester: String,
-    section: String
-  }
-};
-</script>
-
 <style lang="scss">
 .schedule-event {
   display: block;
