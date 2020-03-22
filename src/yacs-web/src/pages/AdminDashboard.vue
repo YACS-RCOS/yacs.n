@@ -17,21 +17,30 @@
             <span class="smaller">Admin</span>
           </h2>
         </div>
+        <b-progress max="100" striped class="progress-override">
+          <b-progress-bar value="33" class="bg-primary">Request</b-progress-bar>
+          <b-progress-bar value="33" class="bg-warning">Flight</b-progress-bar>
+          <b-progress-bar value="34" class="bg-success">Response</b-progress-bar>
+        </b-progress>
       </template>
-        <b-tab title="Dashboard">
-          <b-container fluid class="d-flex mt-3 flex-wrap">
-            <AdminPageLink
-              v-for="(type, index) in defaultLinks"
-              :key="index"
-              :type="type"
-              @click="addTab"
-            />
-          </b-container>
-        </b-tab>
-        <b-tab v-for="(type, index) in tabs" :key="index" lazy>
-          <template v-slot:title>
-            {{ type }} <button class="btn closeBtn" @click="closeTab(index)">X</button>
-          </template>
+      <b-tab>
+        <template v-slot:title>
+          <font-awesome-icon :icon="faHome" />&nbsp; Dashboard
+        </template>
+        <b-container fluid class="d-flex mt-3 flex-wrap">
+          <AdminPageLink
+            v-for="(type, index) in defaultLinks"
+            :key="index"
+            :type="type"
+            @click="addTab"
+          />
+        </b-container>
+      </b-tab>
+      <b-tab v-for="(type, index) in tabs" :key="index" lazy>
+        <template v-slot:title>
+          {{ type }} <button class="btn closeBtn" @click="closeTab(index)">X</button>
+        </template>
+        <b-container fluid>
           <UploadCsvPage v-if="type === 'csv'"
             @loading="childComponentLoadingResource"
             @loadfinish="childComponentFinishedLoadingResource"
@@ -40,14 +49,22 @@
             @loading="childComponentLoadingResource"
             @loadfinish="childComponentFinishedLoadingResource"
           />
-        </b-tab>
+        </b-container>
+      </b-tab>
     </b-tabs>
   </div>
 </template>
 
 <script>
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+// TODO [ ] Fix close button on tab so height doesn't change.
+//      [ ] Make close button on tab look better
+//      [ ] Make progress bar overhead functional
+//      [ ] Figure out scaling of progress bar at lower resolutions
+//      [X] Would be nice to have the home tab be smaller than the rest... (Can set home tab to have "flex: 0 1 auto" since it's using flex grow for the fill)
+//      [ ] Modal or tooltip on click of info icon for Admin card
+//      [ ] General Settings Admin card. Possible options: "open tab on card click", "theme"
+//      [ ] Should each card have its own possible options menu? Cog on bottom of card
+import { faCog, faGraduationCap, faHome } from '@fortawesome/free-solid-svg-icons';
 import UploadCsvPage from '@/pages/UploadCsv';
 import DatePage from '@/pages/MapDates';
 import AdminPageLink from '@/components/AdminPageLink';
@@ -66,7 +83,9 @@ export default {
       tabs: [],
       cap: faGraduationCap,
       defaultLinks: ['csv', 'date'],
-      activeTabIndex: 1
+      activeTabIndex: 1,
+      tabsLoaded: false,
+      faHome
     };
   },
   methods: {
@@ -80,16 +99,19 @@ export default {
       this.tabs.push(type);
     },
     activateNewTab(currentTabs, previousTabs) {
-      console.log(currentTabs, previousTabs);
-      this.activeTabIndex = this.tabs.length;
-      // Why is the <a> tag hidden away in so many layers? No idea, haha!
-      currentTabs[this.tabs.length].bvTabs.$refs.buttons[this.tabs.length].$refs.link.$el.focus();
+      if (currentTabs.length > 0) {
+        // Make dashboard button not part of tabs to automatically fill empty space
+        if(!this.tabsLoaded) currentTabs[0].bvTabs.$refs.buttons[0].$el.style.flex = "0 1 auto";
+        console.log(currentTabs, previousTabs);
+        this.activeTabIndex = this.tabs.length;
+        // Why is the <a> tag hidden away in so many layers? No idea, haha!
+        currentTabs[this.tabs.length].bvTabs.$refs.buttons[this.tabs.length].$refs.link.$el.focus();
+      }
     },
     closeTab(index) {
       this.tabs.splice(index, 1);
     }
-  },
-  created() {}
+  }
 };
 </script>
 
@@ -136,6 +158,16 @@ $tabHoverBgColor: rgb(209, 49, 73);
     border-width: $tabBorderWidth $tabBorderWidth 0 $tabBorderWidth !important;
   }
 }
+::v-deep .progress-override {
+  position: absolute;
+  width: 88.85%;
+  border-radius: 0;
+  top: 0;
+  height: 49px;
+  right: 0;
+  border: solid black 2px;
+  border-width: 0 2px 2px 2px;
+}
 div.brand-container {
   & {
     border-bottom: $tabBorderColor 3px solid !important;
@@ -156,16 +188,13 @@ div.brand-container {
   & > h2 span.brand-name ~ span {
     font-size: 1.7rem;
     font-weight: 300;
+    background: rgba(255,255,0, 1);
+    color: black;
+    z-index: 0;
+    display: block;
+    border-radius: 10%;
+    margin-top: 5px;
+    padding: 2px;
   }
-}
-.smaller {
-  background: rgba(255,255,0, 1);
-  color: black;
-  z-index: 0;
-  display: block;
-  border-radius: 10%;
-  font-weight: 500;
-  margin-top: 5px;
-  padding: 2px;
 }
 </style>
