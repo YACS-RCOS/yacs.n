@@ -53,7 +53,8 @@ class ClassInfo:
             ) section
             on
               c.department = section.department and
-              c.level = section.level
+              c.level = section.level and
+              c.crn = section.crn
             group by
               c.department,
               c.level,
