@@ -16,7 +16,7 @@
       </form>
     </section>
     <section id="select-data">
-      <h2>Default Semester: {{temp().json()}}</h2>
+      <h2>Default Semester:</h2>
       <div class="well well-sm">
         Select the default semester
       </div>

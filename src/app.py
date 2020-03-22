@@ -82,7 +82,7 @@ def uploadHandler():
 
 @app.route('/api/defaultsemester', methods=['POST', 'GET'])
 def defaultSemester():
-    if flask.request.method == 'POST':
+    if request.method == 'POST':
         admin_info.set_semester_default(request.files['file'])
     else:
         return jsonify(admin_info.get_semester_default())
