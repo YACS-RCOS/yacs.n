@@ -4,7 +4,6 @@
     <b-row>
       <b-col md="4">
         <hr />
-
         <CourseList @addCourse="addCourse" />
       </b-col>
       <b-col md="8">
