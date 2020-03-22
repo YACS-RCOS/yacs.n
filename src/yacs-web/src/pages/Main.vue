@@ -93,7 +93,7 @@ export default {
 
       scheduler: new SubSemesterScheduler(),
       
-      currentSemester: ""
+      currentSemester: "",
       courses: [],
 
       exportIcon: faPaperPlane,
