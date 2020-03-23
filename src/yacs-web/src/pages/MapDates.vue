@@ -37,7 +37,7 @@ export default {
         return {}
     },
     methods: {
-        onSubmit() {
+        onSubmit(event) {
             let formData = new FormData(event.target);
             postDateMapping(formData).then(res => {
                 console.log(res);

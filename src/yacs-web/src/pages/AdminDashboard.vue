@@ -18,9 +18,9 @@
           </h2>
         </div>
         <b-progress max="100" striped class="progress-override">
-          <b-progress-bar value="33" class="bg-primary">Request</b-progress-bar>
-          <b-progress-bar value="33" class="bg-warning">Flight</b-progress-bar>
-          <b-progress-bar value="34" class="bg-success">Response</b-progress-bar>
+          <b-progress-bar :value="(1 / 3)*!!currentRequestNum*100" class="bg-primary">Request</b-progress-bar>
+          <b-progress-bar :value="(1 / 3)*currentInFlightRequestNum/currentRequestNum*100" class="bg-warning text-dark">Flight</b-progress-bar>
+          <b-progress-bar :value="(1 / 3)*currentRequestRespondedNum/currentRequestNum*100" class="bg-success">Response</b-progress-bar>
         </b-progress>
       </template>
       <b-tab>
@@ -68,6 +68,7 @@ import { faCog, faGraduationCap, faHome } from '@fortawesome/free-solid-svg-icon
 import UploadCsvPage from '@/pages/UploadCsv';
 import DatePage from '@/pages/MapDates';
 import AdminPageLink from '@/components/AdminPageLink';
+import Vue from 'vue';
 
 export default {
   name: 'AdminPage',
@@ -85,8 +86,20 @@ export default {
       defaultLinks: ['csv', 'date'],
       activeTabIndex: 1,
       tabsLoaded: false,
-      faHome
-    };
+      faHome,
+      nstate: Vue.prototype.nstate
+    }
+  },
+  computed: {
+    currentRequestNum() {
+      return this.nstate.currentRequests;
+    },
+    currentInFlightRequestNum() {
+      return this.nstate.currentRequestsInFlight;
+    },
+    currentRequestRespondedNum() {
+      return this.nstate.currentResponses;
+    }
   },
   methods: {
     childComponentLoadingResource () {
@@ -111,6 +124,9 @@ export default {
     closeTab(index) {
       this.tabs.splice(index, 1);
     }
+  },
+  mounted() {
+    console.log(Vue.nstate);
   }
 };
 </script>
@@ -161,11 +177,14 @@ $tabHoverBgColor: rgb(209, 49, 73);
 ::v-deep .progress-override {
   position: absolute;
   width: 88.85%;
-  border-radius: 0;
-  top: 0;
-  height: 49px;
+  top: 25px;
+  height: 24px;
+  // Full height
+  // border-radius: 0;
+  // top: 0;
+  // height: 49px;
+  // border: solid black 2px;
   right: 0;
-  border: solid black 2px;
   border-width: 0 2px 2px 2px;
 }
 div.brand-container {
