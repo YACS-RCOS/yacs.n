@@ -1,17 +1,17 @@
 <template>
     <b-container>
         <section id="import-data">
-        <h2>Import Data</h2>
-        <div class="well well-sm">
-            Input course data as CSV, for more info, see:
-            <a href="#">http://help.com</a> (show github
-            link for more docs later)
-        </div>
-        <form @submit.prevent="onSubmit" class="form-group">
-            <input type="file" name="file" class="form-control-file" />
-            <br />
-            <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
-        </form>
+            <h2>Import Data</h2>
+            <div class="well well-sm">
+                Input course data as CSV, for more info, see:
+                <a href="#">http://help.com</a> (show github
+                link for more docs later)
+            </div>
+            <form @submit.prevent="onSubmit" class="form-group">
+                <input type="file" name="file" class="form-control-file" />
+                <br />
+                <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
+            </form>
         </section>
         <a @click="back" class="btn btn-info text-white">Back</a>
         <b-spinner v-show="loading" />

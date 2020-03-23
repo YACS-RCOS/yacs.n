@@ -9,39 +9,18 @@ from flask import url_for
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.semester_date_mapping as DateMapping
 from io import StringIO
 
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
+date_range_map = DateMapping.semester_date_mapping(db_conn)
 
 app = Flask(
     __name__,
     template_folder='./public/templates')
-
-
-# - web routes break into routes/ ... later
-
-# @app.route('/', methods=['GET'])
-# def root():
-#     return send_from_directory('./public/templates/', 'schedule.html')
-
-
-# @app.route('/admin', methods=['GET'])
-# def admin():
-#     return send_from_directory('./public/templates/', 'admin.html')
-
-
-# @app.route('/css/<string:file>', methods=['GET'])
-# def css(file):
-#     return send_from_directory('./public/css/', file)
-
-
-@app.route('/js/<string:file>', methods=['GET'])
-def js(file):
-    return send_from_directory('./public/js/', file)
-
 
 # - data routes
 
@@ -78,7 +57,12 @@ def uploadHandler():
         print(error)
         return Response(error.__str__(), status=500)
 
-
+@app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
+def map_date_range_to_semester_part_handler():
+    if (request.form and request.form['date_start'] and request.form['date_end'] and request.form['semester_part_name']):
+        date_range_map.insert(request.form['date_start'], request.form['date_end'], request.form['semester_part_name'])
+        return Response("received")
+    return Response("Did not receive proper form data")
 
 if __name__ == '__main__':
     app.run()
