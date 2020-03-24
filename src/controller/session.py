@@ -3,6 +3,7 @@ from db.session import Session as SessionModel
 from db.user import User as UserModel
 from datetime import datetime
 import view.message as msg
+import sys
 
 def deleteSession(form):
     if not checkKeys(form, ['sessionID']):
@@ -20,7 +21,7 @@ def deleteSession(form):
     if len(sessionFounded) == 0:
         return msg.errMsg("Can't found the session.")
 
-    if sessionFounded[0][3] != None:
+    if sessionFounded[0]['end_time'] != None:
         return msg.errMsg("This session already canceled.")
 
     endTime = datetime.utcnow()
@@ -41,14 +42,15 @@ def addSession(form):
 
     (email,password)=(form['email'],form['password'])
 
-    usersFounded = users.getUser(email=email,password=password,enable=True)
+    usersFounded = users.getUser(email=email,password=encrypt(password),enable=True)
     if usersFounded == None:
         return msg.errMsg("Failed to validate user information.")
 
     if len(usersFounded) == 0:
         return  msg.errMsg("Invalid email address or password.")
 
-    uid = usersFounded[0][0]
+    print(usersFounded, file=sys.stderr)
+    uid = usersFounded[0]['user_id']
     newSessionID = sessions.createSessionID()
     startTime = datetime.utcnow()
 
