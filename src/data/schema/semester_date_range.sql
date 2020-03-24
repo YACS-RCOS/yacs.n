@@ -8,7 +8,7 @@ CREATE TABLE semester_date_range (
 
 INSERT INTO semester_date_range (semester_part_name, date_start, date_end) (
     SELECT DISTINCT
-        semester || ' (' || ((date_end - date_start)/7)::text || ')',
+        TO_CHAR(date_start, 'MM/DD') || '-' || TO_CHAR(date_end, 'MM/DD'),
         date_start,
         date_end
     FROM
