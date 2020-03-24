@@ -15,13 +15,13 @@ def getUserInfo(form):
     if len(session) == 0:
         return msg.errMsg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0]
+    (sessionid, uid, start_time, end_time) = session[0].values()
     user = users.getUser(uid=uid)
 
     if len(user) == 0:
         return msg.errMsg("Unable to find the user")
 
-    (uid, name, email, phone, password, major, degree, enable) = user[0]
+    (uid, name, email, phone, password, major, degree, enable) = user[0].values()
 
     return msg.successMsg({"uid": uid,"name": name, "email": email, "phone":phone, "major": major, "degree": degree})
 
@@ -55,7 +55,7 @@ def updateUser(form):
     if len(session) == 0:
         return msg.errMsg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0]
+    (sessionid, uid, start_time, end_time) = session[0].values()
 
     ret = users.updateUser(uid,name,email,phone,encrypt(newPassword),major,degree)
 
@@ -81,7 +81,7 @@ def deleteUser(form):
     if len(session)==0:
         return msg.errMsg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0]
+    (sessionid, uid, start_time, end_time) = session[0].values()
 
     if end_time != None:
         return msg.errMsg("Expired SessionID")

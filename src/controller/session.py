@@ -3,7 +3,6 @@ from db.session import Session as SessionModel
 from db.user import User as UserModel
 from datetime import datetime
 import view.message as msg
-import sys
 
 def deleteSession(form):
     if not checkKeys(form, ['sessionID']):
@@ -49,7 +48,6 @@ def addSession(form):
     if len(usersFounded) == 0:
         return  msg.errMsg("Invalid email address or password.")
 
-    print(usersFounded, file=sys.stderr)
     uid = usersFounded[0]['user_id']
     newSessionID = sessions.createSessionID()
     startTime = datetime.utcnow()
