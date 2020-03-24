@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="root">
     <Header></Header>
     <MainPage/>
   </div>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-  body {
-    overflow-x: hidden;
-  }
+#root, html, body {
+  height:100%;
+}
 </style>

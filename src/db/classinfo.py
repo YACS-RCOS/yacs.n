@@ -53,12 +53,16 @@ class ClassInfo:
             ) section
             on
               c.department = section.department and
-              c.level = section.level
+              c.level = section.level and
+              c.crn = section.crn
             group by
               c.department,
               c.level,
               c.date_start,
               c.date_end
+            order by
+              c.department asc,
+              c.level asc
         """, None, True)
 
     def get_departments(self):
@@ -67,6 +71,8 @@ class ClassInfo:
                 distinct(department)
             from
                 course
+            order by
+                department asc
         """, None, True)
 
     def get_subsemesters(self):
@@ -79,4 +85,17 @@ class ClassInfo:
             group by
               date_start,
               date_end
+            order by
+              date_start asc,
+              date_end desc
+        """, None, True)
+
+    def get_semesters(self):
+        return self.db_conn.execute("""
+            select
+              semester
+            from
+              course
+            group by
+              semester
         """, None, True)

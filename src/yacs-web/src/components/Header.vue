@@ -1,6 +1,16 @@
 <template>
     <b-navbar variant="light">
         <b-navbar-brand href="#">YACS</b-navbar-brand>
+        <b-form-select
+          label="semester"
+          class="semesters"
+          v-model="selectedSemester"
+          :options="semesterOptions"
+        >
+          <template v-slot:first>
+            <b-form-select-option :value="null" disabled>-- Please select a semester --</b-form-select-option>
+          </template>
+        </b-form-select>        
         <b-navbar-nav class="ml-auto">
             <div>
             <b-button v-b-modal.modal-1>Login</b-button>
@@ -48,9 +58,12 @@
 
 
     </b-navbar>
+
 </template>
 
 <script>
+// import { getSemesters } from '../services/YacsService';
+
 export default {
     name: 'Header',
     data() {
@@ -87,6 +100,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
