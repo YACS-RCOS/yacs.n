@@ -8,11 +8,7 @@
         {{ course.title }}
       </div>
       <div>
-        <button
-          v-if="actions.add || actions.remove"
-          class="btn"
-          @click="toggleCourse(course)"
-        >
+        <button v-if="actions.add || actions.remove" class="btn" @click="toggleCourse(course)">
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
         </button>
@@ -20,17 +16,17 @@
           v-if="actions.collapse"
           class="btn"
           @click="toggleShowSection()"
-          :disabled="!course.sections.length"
+          :disabled="!course.sectionIds.length"
         >
           <font-awesome-icon :icon="faChevronDown" />
         </button>
       </div>
     </div>
-    <b-collapse v-if="showSectionsInitial || loaded" v-model="showSections" :id="course.id">
+    <b-collapse v-if="showSectionsInitial || loaded" v-model="showSections">
       <b-list-group flush>
         <b-list-group-item
           button
-          v-for="section in course.sections"
+          v-for="section in courseSections"
           :key="section.crn"
           @click.stop="toggleCourseSection(course, section)"
           :style="{
@@ -42,13 +38,16 @@
                   : 'white'
               }"
         >
-          {{ section.crn }} - {{ section.sessions[0].section }}
+          <!-- {{ section.crn }} - {{ section.sessions[0].section }} -->
+          {{ section.crn }} - {{ $store.getters.getSession(section.sessionIds[0]).section }}
           <br />
 
           <span
-            v-for="courseSession in section.sessions"
-            :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
+            v-for="courseSession in $store.getters.getSessions(section.sessionIds)"
+            :key="courseSession.id"
           >
+            <!-- :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start" -->
+            <!-- > -->
             {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
             {{ readableTime(courseSession.time_start) }} -
             {{ readableTime(courseSession.time_end) }}
@@ -120,6 +119,11 @@ export default {
       } else {
         this.$emit('addCourseSection', course, section);
       }
+    }
+  },
+  computed: {
+    courseSections() {
+      return this.$store.getters.getSections(this.course.sectionIds);
     }
   }
 };

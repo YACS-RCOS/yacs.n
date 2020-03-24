@@ -21,8 +21,13 @@ export default {
   components: {
     CourseListing: CourseListingComponent
   },
-  props: {
-    courses: Object
+  // props: {
+  //   courses: Object
+  // }
+  computed: {
+    courses() {
+      return this.$store.getters.selectedCourses;
+    }
   }
 };
 </script>

@@ -6,6 +6,9 @@
  * @property {string} semester
  * @property {string} time_end
  * @property {string} time_start
+ * @property {string} id
+ * @property {string} sectionId
+ * @property {string} courseId
  */
 
 /**
@@ -15,6 +18,8 @@
  * @property {number} level
  * @property {string} semester
  * @property {CourseSession[]} sessions
+ * @property {string} id
+ * @property {string} courseId
  * @property {boolean} selected
  */
 /**

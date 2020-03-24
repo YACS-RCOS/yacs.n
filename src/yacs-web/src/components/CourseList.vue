@@ -52,9 +52,9 @@ export default {
   components: {
     CourseListing: CourseListingComponent
   },
-  props: {
-    courses: Array
-  },
+  // props: {
+  //   courses: Array
+  // },
   data() {
     return {
       DAY_SHORTNAMES,
@@ -83,7 +83,9 @@ export default {
      * @returns {Course[]}
      */
     filteredCourses() {
-      return this.courses.filter(({ date_start, date_end, department, title }) => {
+      // return this.courses
+      return this.$store.getters.courses
+      .filter(({ date_start, date_end, department, title }) => {
         return (
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&

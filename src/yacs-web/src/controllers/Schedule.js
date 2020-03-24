@@ -1,5 +1,7 @@
 import '@/typedef';
 
+import store from '@/store';
+
 /**
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
@@ -119,11 +121,12 @@ class Schedule {
       let i = 0;
       for (const sess of this.dailySessions[courseSession.day_of_week]) {
         if (
-          sess.crn === courseSession.crn &&
-          sess.section === courseSession.section &&
-          sess.time_start === courseSession.time_start &&
-          sess.time_end === courseSession.time_end &&
-          sess.day_of_week === courseSession.day_of_week
+          sess.id === courseSession.id
+          // sess.crn === courseSession.crn &&
+          // sess.section === courseSession.section &&
+          // sess.time_start === courseSession.time_start &&
+          // sess.time_end === courseSession.time_end &&
+          // sess.day_of_week === courseSession.day_of_week
         ) {
           this.dailySessions[courseSession.day_of_week].splice(i, 1);
           console.log(`Removed courseSession at index ${i}`);
@@ -149,11 +152,13 @@ class Schedule {
   addCourseSection(course, courseSection, sessionIndices = null) {
     if (!courseSection) {
       console.warn(`Ignoring add null/undefined courseSection`);
-    } else if (courseSection.sessions.length === 0) {
+    } else if (courseSection.sessionIds.length === 0) {
+      // } else if (courseSection.sessions.length === 0) {
       console.error(`Cannot add courseSection with no sessions ${JSON.stringify(courseSection)}`);
-    } else if (!!sessionIndices && sessionIndices.length != courseSection.sessions.length) {
+    } else if (!!sessionIndices && sessionIndices.length != courseSection.sessionIds.length) {
+      // } else if (!!sessionIndices && sessionIndices.length != courseSection.sessions.length) {
       console.warning(`Provided number of checked conflicts ${sessionIndices.length} 
-                            does not match number of sessions ${courseSection.sessions.length}, 
+                            does not match number of sessions ${courseSection.sessionIds.length}, 
                             ignoring..`);
       sessionIndices = null;
     } else {
@@ -168,20 +173,21 @@ class Schedule {
        * Keeps track of the courseSessions that will be added
        * We need this in case we are inserting adjacent sessions
        * @type {Addition[]}
+       * @private
        */
       const additions = [];
 
       // Check that there are no session conflicts in course section sessions
-      courseSection.sessions.forEach((courseSession, index) => {
+      // courseSection.sessions.forEach((courseSession, index) => {
+      store.getters.getSessions(courseSection.sessionIds).forEach((courseSession, index) => {
         let sessionIndex =
           sessionIndices !== null
-            ? sessionIndices[index] // If already checked for conflicts
-            : // use provided indices
-              this.getAddCourseSessionIndex(courseSession);
+            ? sessionIndices[index] // If already checked for conflicts use provided indices
+            : this.getAddCourseSessionIndex(courseSession);
 
         if (sessionIndex === null) {
           // Should never happen
-          console.error(`Failed to add course section`);
+          console.error(`The unthinkable hath occured`);
           return false;
         } else {
           additions.push({
@@ -192,24 +198,14 @@ class Schedule {
         }
       });
 
-      console.log(`Additions before sort: ${JSON.stringify(additions)}`);
       additions.sort((a1, a2) =>
         a1.day === a2.day
           ? a1.day - a2.day
           : a2.courseSession.time_start - a1.courseSession.time_start
       );
-      console.log(`Additions after sort: ${JSON.stringify(additions)}`);
       for (const { index, day, courseSession } of additions) {
         this.dailySessions[day].splice(index, 0, courseSession);
-        // Allow for sessions to have a reference to their parent course
-        // but don't copy the sections so we avoid circular JSON (which will cause JSON.stringify to fail).
-        // Am giving a 'backpointer' so the ICS schedule can be easily built based on what sessions are
-        // currently selected / inserted.
-        // eslint-disable-next-line
-        // let courseInfo = (({sections, ...o}) => o)(course);
-        // courseSession.course = courseInfo;
-        courseSession._courseKey = course.id;
-        // courseSession._courseKey = this._getCourseIdentifier(course);
+
         console.log(
           `Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(
             courseSession
@@ -230,15 +226,12 @@ class Schedule {
   removeCourseSection(courseSection) {
     if (!courseSection) {
       console.warn(`Ignoring remove null/undefined courseSection`);
-      // } else if (courseSection.sessions.length === 0) {
-      //   console.error(
-      //     `Cannot remove courseSection with no sessions ${JSON.stringify(courseSection)}`
-      //   );
     } else {
-      for (const courseSession of courseSection.sessions) {
+      for (const courseSession of store.getters.getSessions(courseSection.sessionIds)) {
+        // for (const courseSession of courseSection.sessions) {
         this._removeCourseSession(courseSession);
       }
-      courseSection.selected = false;
+      // courseSection.selected = false;
     }
   }
 
@@ -249,10 +242,12 @@ class Schedule {
   removeCourse(course) {
     if (!course) {
       console.warn(`Ignoring remove null/undefined course`);
-    } else if (course.sections.length === 0) {
+    } else if (course.sectionIds.length === 0) {
+      // } else if (course.sections.length === 0) {
       console.error(`Cannot remove course with no sections ${JSON.stringify(course)}`);
     } else {
-      for (const section of course.sections) {
+      for (const section of store.getters.getSections(course.sectionIds)) {
+        // for (const section of course.sections) {
         this.removeCourseSection(section);
       }
     }

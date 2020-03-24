@@ -4,32 +4,31 @@
       <b-col md="4" class="d-flex flex-column">
         <h3>YACS</h3>
         <b-card no-body class="h-100">
-        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-          <b-tab title="Course Search" active class="flex-grow-1">
-           <b-card-text class="d-flex flex-grow-1">
-            <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
-            </b-card-text>
-          </b-tab>
-          <b-tab class="flex-grow-1">
-            <template v-slot:title>
-              <div class="text-center">
-                Selected Courses
-                <b-badge variant="light">{{numSelectedCourses}}</b-badge>
-              </div>
-            </template>
-            <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-           <SelectedCourses
-              :courses="selectedCourses"
-              @removeCourse="removeCourse"
-              @removeCourseSection="removeCourseSection"
-              @addCourseSection="addCourseSection"
-            />
-            </b-card-text>
-          </b-tab>
-        </b-tabs>
+          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+            <b-tab title="Course Search" active class="flex-grow-1">
+              <b-card-text class="d-flex flex-grow-1">
+                <CourseList @addCourse="addCourse" @removeCourse="removeCourse" />
+              </b-card-text>
+            </b-tab>
+            <b-tab class="flex-grow-1">
+              <template v-slot:title>
+                <div class="text-center">
+                  Selected Courses
+                  <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
+                </div>
+              </template>
+              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                <SelectedCourses
+                  @removeCourse="removeCourse"
+                  @removeCourseSection="removeCourseSection"
+                  @addCourseSection="addCourseSection"
+                />
+              </b-card-text>
+            </b-tab>
+          </b-tabs>
         </b-card>
       </b-col>
-      <b-col md="8">
+      <b-col md="8" class="d-flex flex-column">
         <b-form-select
           v-model="selectedScheduleSubsemester"
           :options="scheduler.scheduleSubsemesters"
@@ -43,18 +42,18 @@
             :key="index"
             :schedule="schedule"
             v-show="selectedScheduleIndex === index"
+            class="flex-grow-1"
           />
         </template>
-        <b-row>
+        <b-row class="justify-content-between">
           <b-col cols="auto">
             <h5>CRNs: {{ selectedCrns }}</h5>
           </b-col>
-          <button
-            class="col-auto btn btn-success ml-auto mb-2 mr-2 d-block"
-            @click="exportScheduleToIcs"
-          >
-            <font-awesome-icon :icon="exportIcon" />Export to ICS
-          </button>
+          <b-col cols="auto">
+            <button class="btn btn-success" @click="exportScheduleToIcs">
+              <font-awesome-icon :icon="exportIcon" class="mr-1" />Export to ICS
+            </button>
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -70,9 +69,21 @@ import CourseListComponent from '@/components/CourseList';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
-import { getSubSemesters, getCourses } from '@/services/YacsService';
+import {
+  getSubSemesters
+  // getCourses
+} from '@/services/YacsService';
+
+import { LOAD_CLASSES } from '@/store/actions';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+  SELECT_COURSE_SECTION,
+  UNSELECT_COURSE_SECTION,
+  SELECT_COURSE,
+  UNSELECT_COURSE,
+  INIT_SELECTED_COURSES
+} from '@/store/mutations';
 
 export default {
   name: 'MainPage',
@@ -84,13 +95,13 @@ export default {
   },
   data() {
     return {
-      selectedCourses: {},
+      // selectedCourses: {},
 
       selectedScheduleSubsemester: null,
 
       scheduler: new SubSemesterScheduler(),
 
-      courses: [],
+      // courses: [],
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -105,33 +116,40 @@ export default {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
-    getCourses().then(courses => this.courses.push(...courses));
+    // getCourses().then(courses => this.courses.push(...courses));
+    this.$store.dispatch(LOAD_CLASSES);
+    this.$store.commit(INIT_SELECTED_COURSES);
   },
   methods: {
     addCourse(course) {
       console.log(`Adding ${course.title} to selected courses`);
       console.log(course);
-      course.selected = true;
+      // course.selected = true;
       // This must be vm.set since we're adding a property onto an object
-      this.$set(this.selectedCourses, course.id, course);
+      // this.$set(this.selectedCourses, course.id, course);
+      this.$store.commit(SELECT_COURSE, { id: course.id });
     },
 
     addCourseSection(course, section) {
       try {
         this.scheduler.addCourseSection(course, section);
-        section.selected = true;
+        // section.selected = true;
+        this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
       } catch (err) {
         if (err.type === 'Schedule Conflict') {
           this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
         }
+        console.log(err);
       }
     },
     removeCourse(course) {
-      this.$delete(this.selectedCourses, course.id);
-      course.selected = false;
+      // this.$delete(this.selectedCourses, course.id);
+      // course.selected = false;
+      this.$store.commit(UNSELECT_COURSE, { id: course.id });
       this.scheduler.removeAllCourseSections(course);
     },
     removeCourseSection(section) {
+      this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
       this.scheduler.removeCourseSection(section);
     },
     /**
@@ -141,26 +159,28 @@ export default {
       let calendarBuilder = window.ics();
       let semester;
 
-      for (const course of Object.values(this.courses)) {
-        for (const section of course.sections.filter(s => s.selected)) {
-          for (const session of section.sessions) {
-            semester = session.semester;
-            calendarBuilder.addEvent(
-              `Class: ${course.title}`,
-              'LEC day',
-              session.location,
-              new Date(`${course.date_start.toDateString()} ${session.time_start}`),
-              new Date(`${course.date_start.toDateString()} ${session.time_end}`),
-              {
-                freq: 'WEEKLY',
-                interval: 1,
-                until: course.date_end,
-                byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
-              }
-            );
-          }
+      // for (const course of Object.values(this.courses)) {
+      // for (const section of course.sections.filter(s => s.selected)) {
+      for (const section of this.$store.getters.selectedCourseSections) {
+        const course = this.$store.getters.getCourse(section.courseId);
+        for (const session of this.$store.getters.getSessions(section.sessionIds)) {
+          semester = session.semester;
+          calendarBuilder.addEvent(
+            `Class: ${course.title}`,
+            'LEC day',
+            session.location,
+            new Date(`${course.date_start.toDateString()} ${session.time_start}`),
+            new Date(`${course.date_start.toDateString()} ${session.time_end}`),
+            {
+              freq: 'WEEKLY',
+              interval: 1,
+              until: course.date_end,
+              byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+            }
+          );
         }
       }
+      // }
       calendarBuilder.download(
         `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function(_, semFirstLetter, semRest, year) {
           return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
@@ -179,14 +199,18 @@ export default {
      * @returns {string[]}
      */
     selectedCrns() {
-      return Object.values(this.selectedCourses)
-        .map(c => c.sections.filter(s => s.selected))
-        .flat()
-        .map(s => s.crn)
-        .join(', ');
+      return (
+        this.$store.getters.selectedCourseSections
+          // Object.values(this.selectedCourses)
+          // .map(c => c.sections.filter(s => s.selected))
+          // .flat()
+          .map(s => s.crn)
+          .join(', ')
+      );
     },
     numSelectedCourses() {
-      return Object.values(this.selectedCourses).length;
+      return this.$store.getters.selectedCourses.length;
+      // return Object.values(this.selectedCourses).length;
     }
   }
 };

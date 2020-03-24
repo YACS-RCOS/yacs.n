@@ -1,5 +1,7 @@
 import '@/typedef';
 
+import store from '@/store';
+
 import Schedule from '@/controllers/Schedule';
 
 /**
@@ -68,7 +70,8 @@ class SubSemesterScheduler {
            * @type {number[]}
            */
           const sessionIndices = [];
-          for (const session of section.sessions) {
+          // for (const session of section.sessions) {
+          for (const session of store.getters.getSessions(section.sessionIds)) {
             sessionIndices.push(schedule.getAddCourseSessionIndex(session));
           }
           // Associate results with a schedule by `index`
@@ -79,6 +82,7 @@ class SubSemesterScheduler {
             console.log(err);
             throw err;
           }
+          console.log(err);
         }
       }
     }

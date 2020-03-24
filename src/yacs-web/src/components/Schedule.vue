@@ -21,7 +21,7 @@
         <div class="day-label">{{ day.longname }}</div>
         <ScheduleEvent
           v-for="courseSession in courseSessionsOnDay(index)"
-          :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
+          :key="courseSession.id"
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
