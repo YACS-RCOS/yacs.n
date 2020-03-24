@@ -11,11 +11,11 @@ class Admin:
 				admin_setting
 		""", None, True)
 
-	def set_semester_default(self, sem):
+	def set_semester_default(self, semester):
 		cmd = """
 			update
 				admin_settings
 			set
 				semester = %s
 		"""
-		return self.db_conn.execute(cmd, (sem), True)
+		return self.db_conn.execute(cmd, (semester), True)

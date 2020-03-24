@@ -80,13 +80,13 @@ def uploadHandler():
         print(error)
         return Response(error.__str__(), status=500)
 
-@app.route('/api/defaultsemester', methods=['POST', 'GET'])
-def defaultSemester():
-    if request.method == 'POST':
-        admin_info.set_semester_default(request.files['file'])
-    else:
-        return jsonify(admin_info.get_semester_default())
+@app.route('/api/defaultsemester', methods=['GET'])
+def get_defaultSemester():
+    return jsonify(admin_info.get_semester_default())
 
+@app.route('/api/defaultsemesterset', methods=['POST'])
+def set_defaultSemester():
+    admin_info.set_semester_default(request.files['file'])
 
 
 if __name__ == '__main__':
