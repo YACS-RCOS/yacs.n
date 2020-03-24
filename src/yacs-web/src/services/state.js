@@ -6,7 +6,8 @@ MyPlugin.install = function (Vue, options) {
     Vue.prototype.nstate = {
         currentRequests: 0,
         currentResponses: 0,
-        currentRequestsInFlight: 0
+        currentRequestsInFlight: 0,
+        timeoutExpired: false
     }
     console.log(Vue);
 }

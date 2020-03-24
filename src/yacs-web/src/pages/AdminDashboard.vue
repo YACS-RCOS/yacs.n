@@ -17,10 +17,11 @@
             <span class="smaller">Admin</span>
           </h2>
         </div>
-        <b-progress max="100" striped class="progress-override" animated>
-          <b-progress-bar :value="(1 / 3)*!!currentRequestNum*100" class="bg-primary">Request</b-progress-bar>
-          <b-progress-bar :value="(1 / 3)*currentInFlightRequestNum/currentRequestNum*100" class="bg-warning text-dark">Flight</b-progress-bar>
-          <b-progress-bar :value="(1 / 3)*currentRequestRespondedNum/currentRequestNum*100" class="bg-success">Response</b-progress-bar>
+        <b-progress max="100" class="progress-override" animated>
+          <!-- Display each progress bar at 90% of its potential 1/3 until the timeout period between concurrent requests expires (that nstate.timeoutExpired) -->
+          <b-progress-bar :value="100*!!currentRequestNum*(1/3)*((!!nstate.timeoutExpired+9)/10)" class="bg-primary">Request ({{ currentRequestNum }})</b-progress-bar>
+          <b-progress-bar :value="100*(currentInFlightRequestNum/currentRequestNum)*(1/3)*((!!nstate.timeoutExpired+9)/10)" class="bg-warning text-dark">In-Flight ({{currentInFlightRequestNum}})</b-progress-bar>
+          <b-progress-bar :value="100*(currentRequestRespondedNum/currentRequestNum)*(1/3)*((!!nstate.timeoutExpired+9)/10)" class="bg-success">Response ({{currentRequestRespondedNum}})</b-progress-bar>
         </b-progress>
       </template>
       <b-tab>
@@ -59,7 +60,13 @@
 // TODO [ ] Fix close button on tab so height doesn't change.
 //      [ ] Make close button on tab look better
 //      [ ] Make progress bar overhead functional
-//      [ ] Figure out scaling of progress bar at lower resolutions
+//          [X] Display # of request in certain state numbers
+//          [ ] Upon completion of a series of requests, given a timeout period of
+//              2 seconds or so, assume all requests were part of a 'block' and mark the
+//              job as complete (*indicate success*). It is possible that a user is actually
+//              a professional QA tester and will try making requests from different tabs
+//              at the same time. The load bar will accomodate for this by having this intermission period.
+//      [X] Figure out scaling of progress bar at lower resolutions
 //      [X] Would be nice to have the home tab be smaller than the rest... (Can set home tab to have "flex: 0 1 auto" since it's using flex grow for the fill)
 //      [ ] Modal or tooltip on click of info icon for Admin card
 //      [ ] General Settings Admin card. Possible options: "open tab on card click", "theme"
