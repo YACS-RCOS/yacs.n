@@ -17,7 +17,7 @@
             <span class="smaller">Admin</span>
           </h2>
         </div>
-        <b-progress max="100" striped class="progress-override">
+        <b-progress max="100" striped class="progress-override" animated>
           <b-progress-bar :value="(1 / 3)*!!currentRequestNum*100" class="bg-primary">Request</b-progress-bar>
           <b-progress-bar :value="(1 / 3)*currentInFlightRequestNum/currentRequestNum*100" class="bg-warning text-dark">Flight</b-progress-bar>
           <b-progress-bar :value="(1 / 3)*currentRequestRespondedNum/currentRequestNum*100" class="bg-success">Response</b-progress-bar>
@@ -176,7 +176,6 @@ $tabHoverBgColor: rgb(209, 49, 73);
 }
 ::v-deep .progress-override {
   position: absolute;
-  width: 88.85%;
   top: 25px;
   height: 24px;
   // Full height
@@ -184,8 +183,9 @@ $tabHoverBgColor: rgb(209, 49, 73);
   // top: 0;
   // height: 49px;
   // border: solid black 2px;
-  right: 0;
   border-width: 0 2px 2px 2px;
+  left: 142px;
+  width: calc(100% - 142px);
 }
 div.brand-container {
   & {
