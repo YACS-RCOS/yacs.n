@@ -1,64 +1,68 @@
 <template>
-  <b-container fluid class="py-3 h-100">
-    <b-row class="h-100">
-      <b-col md="4" class="d-flex flex-column">
-        <h3>YACS</h3>
-        <b-card no-body class="h-100">
-        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-          <b-tab title="Course Search" active class="flex-grow-1">
-           <b-card-text class="d-flex flex-grow-1">
-            <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
-            </b-card-text>
-          </b-tab>
-          <b-tab class="flex-grow-1">
-            <template v-slot:title>
-              <div class="text-center">
-                Selected Courses
-                <b-badge variant="light">{{numSelectedCourses}}</b-badge>
-              </div>
-            </template>
-            <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-           <SelectedCourses
-              :courses="selectedCourses"
-              @removeCourse="removeCourse"
-              @removeCourseSection="removeCourseSection"
-              @addCourseSection="addCourseSection"
-            />
-            </b-card-text>
-          </b-tab>
-        </b-tabs>
-        </b-card>
-      </b-col>
-      <b-col md="8">
-        <b-form-select
-          v-model="selectedScheduleSubsemester"
-          :options="scheduler.scheduleSubsemesters"
-          text-field="display_string"
-          value-field="display_string"
-        ></b-form-select>
+  <div>
+    <Header></Header>
+    <b-container fluid class="py-3 h-100">
+      <b-row class="h-100">
+        <b-col md="4" class="d-flex flex-column">
+          <h3>YACS</h3>
+          <b-card no-body class="h-100">
+          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+            <b-tab title="Course Search" active class="flex-grow-1">
+            <b-card-text class="d-flex flex-grow-1">
+              <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
+              </b-card-text>
+            </b-tab>
+            <b-tab class="flex-grow-1">
+              <template v-slot:title>
+                <div class="text-center">
+                  Selected Courses
+                  <b-badge variant="light">{{numSelectedCourses}}</b-badge>
+                </div>
+              </template>
+              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+            <SelectedCourses
+                :courses="selectedCourses"
+                @removeCourse="removeCourse"
+                @removeCourseSection="removeCourseSection"
+                @addCourseSection="addCourseSection"
+              />
+              </b-card-text>
+            </b-tab>
+          </b-tabs>
+          </b-card>
+        </b-col>
+        <b-col md="8">
+          <b-form-select
+            v-model="selectedScheduleSubsemester"
+            :options="scheduler.scheduleSubsemesters"
+            text-field="display_string"
+            value-field="display_string"
+          ></b-form-select>
 
-        <template v-if="scheduler.schedules.length">
-          <Schedule
-            v-for="(schedule, index) in scheduler.schedules"
-            :key="index"
-            :schedule="schedule"
-            v-show="selectedScheduleIndex === index"
-          />
-        </template>
-        <b-row>
-          <b-col cols="auto">
-            <h5>CRNs: {{ selectedCrns }}</h5>
-          </b-col>
-          <button
-            class="col-auto btn btn-success ml-auto mb-2 mr-2 d-block"
-            @click="exportScheduleToIcs"
-          >
-            <font-awesome-icon :icon="exportIcon" />Export to ICS
-          </button>
-        </b-row>
-      </b-col>
-    </b-row>
-  </b-container>
+          <template v-if="scheduler.schedules.length">
+            <Schedule
+              v-for="(schedule, index) in scheduler.schedules"
+              :key="index"
+              :schedule="schedule"
+              v-show="selectedScheduleIndex === index"
+            />
+          </template>
+          <b-row>
+            <b-col cols="auto">
+              <h5>CRNs: {{ selectedCrns }}</h5>
+            </b-col>
+            <button
+              class="col-auto btn btn-success ml-auto mb-2 mr-2 d-block"
+              @click="exportScheduleToIcs"
+            >
+              <font-awesome-icon :icon="exportIcon" />Export to ICS
+            </button>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
+  
 </template>
 
 <script>
@@ -70,6 +74,8 @@ import CourseListComponent from '@/components/CourseList';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
+import HeaderComponent from '@/components/Header';
+
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -80,7 +86,8 @@ export default {
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent
+    CourseList: CourseListComponent,
+    Header: HeaderComponent
   },
   data() {
     return {
