@@ -38,6 +38,7 @@
           value-field="display_string"
         ></b-form-select>
 
+<<<<<<< HEAD
         <template v-if="scheduler.schedules.length">
           <Schedule
             v-for="(schedule, index) in scheduler.schedules"
@@ -61,17 +62,86 @@
     </b-row>
   </b-container>
 </template>
+=======
+                <div class="course-search">
+                    <b-form-group
+                        label="Search"
+                        label-for="search"
+                    >
+                        <b-form-input id="search" v-model="textSearch" trim placeholder="Intro to College - COLG 1030 - 5/2"></b-form-input>
+                    </b-form-group>
+                <!-- <div class="form-group">
+                    <label for="search">Search</label>
+                    <input type="text" v-model='textSearch' class="form-control" id="search" placeholder="Intro to College - COLG 1030">
+                </div> -->
+                    <b-form-group
+                        label="Filter Sub-Semester"
+                        for="sub-semester"
+                    >
+                        <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+                    </b-form-group>
+<!--
+                <div class="form-group">
+                    <label for="sub-semester">Filter Sub-Semester</label>
+                    <select id='sub-semester' v-model='selectedSubsemester' class="form-control">
+                    <option value="" selected>All</option>
+                    <option ng-value="subsemester" ng-repeat='subsemester in subsemesters'>
+                        {{subsemester.date_start_display}} - {{subsemester.date_end_display}}
+                    </option>
+                    </select>
+                </div> -->
+                    <b-form-group
+                        label="Filter Department"
+                        for="department"
+                    >
+                        <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+                    </b-form-group>
+                <!-- <div class="form-group">
+                    <label for="department">Filter Department</label>
+                    <select id='department' ng-model='departmentSearch' class="form-control">
+                    <option value="" selected>All</option>
+                    <option ng-value="department" ng-repeat='department in departments'>
+                        {{department}}
+                    </option>
+                    </select>
+                </div> -->
+                </div>
+>>>>>>> origin
 
 <script>
 import NotificationsMixin from '@/mixins/NotificationsMixin';
 
+<<<<<<< HEAD
 import ScheduleComponent from '@/components/Schedule';
 import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
+=======
+                <b-list-group flush>
+                    <b-list-group-item
+                        v-for="course in filteredCourses"
+                        :key="course.name + course.date_end + course.date_start"
+                        class="course-list-item"
+                        @click="addCourse(course)"
+                    >
+                        <b>{{ course.name }}</b> ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }}) <br>
+                        {{ course.title }}
+                    </b-list-group-item>
+                </b-list-group>
+>>>>>>> origin
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
+<<<<<<< HEAD
 import { getSubSemesters, getCourses } from '@/services/YacsService';
+=======
+            </b-col>
+            <b-col md='8'>
+
+                <!-- <h3 class="text-center">Schedule</h3>
+                <hr> -->
+                <Schedule :courses="selectedCourses"></Schedule>
+            </b-col>
+>>>>>>> origin
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -132,6 +202,7 @@ export default {
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
     },
+<<<<<<< HEAD
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
@@ -160,6 +231,28 @@ export default {
               }
             );
           }
+=======
+    methods: {
+        readableDate (date) {
+            return `${date.getMonth() + 1}/${date.getDay() + 1}`;
+        },
+        addCourse (course) {
+            console.log(`Adding ${course.title} to selected courses`);
+            console.log(course);
+            this.selectedCourses.push(course);
+        }
+    },
+    computed: {
+        filteredCourses () {
+            return this.courses.filter(({date_start, date_end, department, str}) => {
+                return (!this.selectedSubsemester ||
+                        (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
+                        this.selectedSubsemester.date_end.getTime() === date_end.getTime()))
+                        && (!this.selectedDepartment ||
+                            this.selectedDepartment === department)
+                        && (!this.textSearch || str.includes(this.textSearch.toUpperCase()));
+            });
+>>>>>>> origin
         }
       }
       calendarBuilder.download(
