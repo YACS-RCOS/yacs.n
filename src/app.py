@@ -26,21 +26,25 @@ app = Flask(
 
 @app.route('/api/class', methods=['GET'])
 def get_classes():
-    return jsonify(class_info.get_classes_full())
+    classes, error = class_info.get_classes_full()
+    return jsonify(classes) if not error else Response(error, status=500)
 
 
 @app.route('/api/department', methods=['GET'])
 def get_departments():
-    return jsonify(class_info.get_departments())
+    departments, error = class_info.get_departments()
+    return jsonify(departments) if not error else Response(error, status=500)
 
 
 @app.route('/api/subsemester', methods=['GET'])
 def get_subsemesters():
-    return jsonify(class_info.get_subsemesters())
+    subsemesters, error = class_info.get_subsemesters()
+    return jsonify(subsemesters) if not error else Response(error, status=500)
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
-    return jsonify(class_info.get_semesters())
+    semesters, error = class_info.get_semesters()
+    return jsonify(semesters) if not error else Response(error, status=500)
 
 
 @app.route('/api/bulkCourseUpload', methods=['POST'])

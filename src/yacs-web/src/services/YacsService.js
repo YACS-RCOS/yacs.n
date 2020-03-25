@@ -2,7 +2,7 @@ import '@/typedef';
 
 import axios from 'axios';
 
-import { readableDate } from '@/utils';
+import { readableDate, localToUTCDate } from '@/utils';
 
 const client = axios.create({
   baseURL: '/api'
@@ -39,8 +39,8 @@ const _getCourseIdentifier = courseObj => {
 export const getCourses = () =>
   client.get('/class').then(({ data }) => {
     return data.map(c => {
-      c.date_start = new Date(c.date_start);
-      c.date_end = new Date(c.date_end);
+      c.date_start = localToUTCDate(new Date(c.date_start));
+      c.date_end = localToUTCDate(new Date(c.date_end));
 
       // Filter out sections that are null
       c.sections = c.sections.filter(s => !!s);
@@ -70,15 +70,8 @@ export const getDepartments = () =>
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
     return data.map(subsemester => {
-      subsemester.date_start = new Date(subsemester.date_start);
-      subsemester.date_end = new Date(subsemester.date_end);
-      // JS dates will auto convert your passed in date string to
-      // the local timezone. So, when the server gives back semester end date of Aug 21st 00:00:00 GMT,
-      // in EST it becomes Aug 20th 20:00:00, where the timezone difference between EST and UTC is 4 hours.
-      // Could either change the date type in the course table to timezone and set its time to midnight,
-      // or this, which is offset the auto-converted local datetime by the 4 hours.
-      subsemester.date_start.setUTCHours(subsemester.date_start.getUTCHours() + subsemester.date_start.getTimezoneOffset()/60);
-      subsemester.date_end.setUTCHours(subsemester.date_end.getUTCHours() + subsemester.date_end.getTimezoneOffset()/60);
+      subsemester.date_start = localToUTCDate(new Date(subsemester.date_start));
+      subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));
       subsemester.date_start_display = readableDate(subsemester.date_start);
       subsemester.date_end_display = readableDate(subsemester.date_end);
       // Used to determine what semester the subsemester is part of

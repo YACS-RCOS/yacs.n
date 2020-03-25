@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -75,8 +74,6 @@ import CourseListComponent from '@/components/CourseList';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
-import HeaderComponent from '@/components/Header';
-
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -87,8 +84,7 @@ export default {
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent,
-    Header: HeaderComponent
+    CourseList: CourseListComponent
   },
   data() {
     return {
