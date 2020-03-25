@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import AdminPage from './pages/AdminDashboard';
+import AdminPage from './pages/Admin';
 import MainPage from './pages/Main';
 import UploadCsvPage from './pages/UploadCsv';
 import MapDatePage from './pages/MapDates';
