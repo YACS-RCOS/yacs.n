@@ -6,33 +6,34 @@
         <b-col md="4" class="d-flex flex-column">
           <h3>YACS</h3>
           <b-card no-body class="h-100">
-          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b-tab title="Course Search" active class="flex-grow-1">
-            <b-card-text class="d-flex flex-grow-1">
-              <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
-              </b-card-text>
-            </b-tab>
-            <b-tab class="flex-grow-1">
-              <template v-slot:title>
-                <div class="text-center">
-                  Selected Courses
-                  <b-badge variant="light">{{numSelectedCourses}}</b-badge>
-                </div>
-              </template>
-              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-            <SelectedCourses
-                :courses="selectedCourses"
-                @removeCourse="removeCourse"
-                @removeCourseSection="removeCourseSection"
-                @addCourseSection="addCourseSection"
-              />
-              </b-card-text>
-            </b-tab>
-          </b-tabs>
+            <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+              <b-tab title="Course Search" active class="flex-grow-1">
+                <b-card-text class="d-flex flex-grow-1">
+                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
+                </b-card-text>
+              </b-tab>
+              <b-tab class="flex-grow-1">
+                <template v-slot:title>
+                  <div class="text-center">
+                    Selected Courses
+                    <b-badge variant="light">{{numSelectedCourses}}</b-badge>
+                  </div>
+                </template>
+                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                  <SelectedCourses
+                    :courses="selectedCourses"
+                    @removeCourse="removeCourse"
+                    @removeCourseSection="removeCourseSection"
+                    @addCourseSection="addCourseSection"
+                  />
+                </b-card-text>
+              </b-tab>
+            </b-tabs>
           </b-card>
         </b-col>
         <b-col md="8">
           <b-form-select
+            v-if="scheduler.scheduleSubsemesters.length > 1"
             v-model="selectedScheduleSubsemester"
             :options="scheduler.scheduleSubsemesters"
             text-field="display_string"
@@ -62,7 +63,7 @@
       </b-row>
     </b-container>
   </div>
-  
+
 </template>
 
 <script>
