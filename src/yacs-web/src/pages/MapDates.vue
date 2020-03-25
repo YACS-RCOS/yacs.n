@@ -1,52 +1,55 @@
 <template>
-    <section id="MapDateRangeToName">
-        <h2>Assign Semester Part Name to Date Ranges</h2>
-        <form @submit.prevent="onSubmit" class="text-center">
-            <b-container
-                v-for="(standardSemesterName, key) in standardSemesterNames"
-                :key="key"
-                fluid
-            >
-                <h3>{{ standardSemesterName }}</h3>
-                <hr />
-                <b-table
-                    :id="`edit${standardSemesterName.replace(' ', '')}Tbl`"
-                    :items="subsemesters.filter(x => x.semester_name === standardSemesterName)"
-                    :per-page="perPage"
-                    :current-page="currentPage"
-                    :fields="displayedColumns"
+    <b-container class="mt-3">
+        <section id="MapDateRangeToName">
+            <h2>Assign Semester Part Name to Date Ranges</h2>
+            <form @submit.prevent="onSubmit" class="text-center">
+                <b-container
+                    v-for="(standardSemesterName, key) in standardSemesterNames"
+                    :key="key"
+                    class="my-5"
+                    fluid
                 >
-                    <template v-slot:cell(dateRange)="data">
-                        {{ formatDateRange(data.item.date_start, data.item.date_end) }}
-                        <input type="hidden" name="date_start" :value="standardDate(data.item.date_start)" />
-                        <input type="hidden" name="date_end" :value="standardDate(data.item.date_end)" />
-                    </template>
-                    <template v-slot:cell(semesterPartName)="data">
-                        <input type="text" class="form-control" :placeholder="data.item.display_string" name="semester_part_name" />
-                    </template>
-                </b-table>
-                <b-pagination
-                    v-model="currentPage"
-                    :total-rows="subsemesters.filter(x => x.semester_name === standardSemesterName).length"
-                    :per-page="perPage"
-                    :aria-controls="`edit${standardSemesterName.replace(' ', '')}Tbl`"
-                    align="fill"
-                />
-            </b-container>
-            <button type="submit" :class="{
-                'btn': true,
-                'btn-primary': true,
-                'my-2': true,
-                'w-50': true,
-                'success': success,
-                'fail': fail
-            }"
-            @animationend="resetIndicators"
-            >
-                Submit <b-spinner v-show="loading" />
-            </button>
-        </form>
-    </section>
+                    <h3>{{ standardSemesterName }}</h3>
+                    <hr />
+                    <b-table
+                        :id="`edit${standardSemesterName.replace(' ', '')}Tbl`"
+                        :items="subsemesters.filter(x => x.semester_name === standardSemesterName)"
+                        :per-page="perPage"
+                        :current-page="currentPage"
+                        :fields="displayedColumns"
+                    >
+                        <template v-slot:cell(dateRange)="data">
+                            {{ formatDateRange(data.item.date_start, data.item.date_end) }}
+                            <input type="hidden" name="date_start" :value="standardDate(data.item.date_start)" />
+                            <input type="hidden" name="date_end" :value="standardDate(data.item.date_end)" />
+                        </template>
+                        <template v-slot:cell(semesterPartName)="data">
+                            <input type="text" class="form-control" :placeholder="data.item.display_string" name="semester_part_name" />
+                        </template>
+                    </b-table>
+                    <b-pagination
+                        v-model="currentPage"
+                        :total-rows="subsemesters.filter(x => x.semester_name === standardSemesterName).length"
+                        :per-page="perPage"
+                        :aria-controls="`edit${standardSemesterName.replace(' ', '')}Tbl`"
+                        align="center"
+                    />
+                </b-container>
+                <button type="submit" :class="{
+                    'btn': true,
+                    'btn-primary': true,
+                    'my-2': true,
+                    'w-50': true,
+                    'success': success,
+                    'fail': fail
+                }"
+                @animationend="resetIndicators"
+                >
+                    Submit <b-spinner v-show="loading" />
+                </button>
+            </form>
+        </section>
+    </b-container>
 </template>
 
 <script>
