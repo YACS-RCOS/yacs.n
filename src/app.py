@@ -69,9 +69,12 @@ def map_date_range_to_semester_part_handler():
         start_dates = request.form.getlist('date_start')
         end_dates = request.form.getlist('date_end')
         if (start_dates and end_dates and semester_part_names):
-            date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-            return Response("received")
-    return Response("Did not receive proper form data")
+            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            if (not error):
+                return Response(status=200)
+            else:
+                return Response(error, status=500)
+    return Response("Did not receive proper form data", status=500)
 
 if __name__ == '__main__':
     app.run()
