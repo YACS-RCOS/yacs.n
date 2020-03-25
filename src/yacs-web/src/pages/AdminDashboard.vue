@@ -153,6 +153,9 @@ $tabHoverBgColor: rgb(209, 49, 73);
   border: none;
   box-shadow: 0px -6px 35px 1px #0009;
 }
+::v-deep .tab-content {
+  display: block !important;
+}
 ::v-deep li {
   &.nav-item {
     margin-top: auto;
@@ -183,7 +186,7 @@ $tabHoverBgColor: rgb(209, 49, 73);
 }
 ::v-deep .progress-override {
   position: absolute;
-  top: 25px;
+  top: 22px;
   height: 24px;
   // Full height
   // border-radius: 0;
