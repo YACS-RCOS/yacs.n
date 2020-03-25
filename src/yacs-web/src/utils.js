@@ -53,6 +53,7 @@ export const localToUTCDate = date => {
   // Could either change the date type in the course table to timezone and set its time to midnight,
   // or this, which is offset the auto-converted local datetime by the 4 hours.
   date.setUTCHours(date.getUTCHours() + date.getTimezoneOffset()/60);
+  // date.setDate(date.getDate() + 1);
   return date;
 }
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Header></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -74,6 +75,8 @@ import CourseListComponent from '@/components/CourseList';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
+import HeaderComponent from '@/components/Header';
+
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
@@ -84,7 +87,8 @@ export default {
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent
+    CourseList: CourseListComponent,
+    Header: HeaderComponent
   },
   data() {
     return {
@@ -148,6 +152,12 @@ export default {
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
           for (const session of section.sessions) {
+            // The dates from the DB have no timezone, so when they are
+            // cast to a JS date they're by default at time midnight 00:00:00.
+            // This will exclude all classes if they're on that final day, so bump
+            // the end date by 1 day.
+            let exclusive_date_end = new Date(course.date_end);
+            exclusive_date_end.setDate(course.date_end.getDate()+1);
             semester = session.semester;
             calendarBuilder.addEvent(
               `Class: ${course.title}`,
@@ -158,7 +168,7 @@ export default {
               {
                 freq: 'WEEKLY',
                 interval: 1,
-                until: course.date_end,
+                until: exclusive_date_end,
                 byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
               }
             );
