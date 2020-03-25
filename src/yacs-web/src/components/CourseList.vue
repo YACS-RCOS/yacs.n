@@ -11,7 +11,8 @@
       </b-form-group>
 
       <b-row>
-        <b-col>
+        <!-- >2 b/c default ALL option always present -->
+        <b-col v-if="subsemesterOptions.length > 2">
           <b-form-group label="Filter Sub-Semester" for="sub-semester">
             <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
           </b-form-group>
