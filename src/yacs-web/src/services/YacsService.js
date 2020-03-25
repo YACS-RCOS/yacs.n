@@ -70,16 +70,21 @@ export const getDepartments = () =>
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
     return data.map(subsemester => {
+      console.log(subsemester.date_start);
       subsemester.date_start = new Date(subsemester.date_start);
       subsemester.date_end = new Date(subsemester.date_end);
+      // JS dates will auto convert your passed in date string to
+      // the local timezone. So, when the server gives back semester end date of Aug 21st 00:00:00 GMT,
+      // in EST it becomes Aug 20th 20:00:00, where the timezone difference between EST and UTC is 4 hours.
+      // Could either change the date type in the course table to timezone and set its time to midnight,
+      // or this, which is offset the auto-converted local datetime by the 4 hours.
+      subsemester.date_start.setUTCHours(subsemester.date_start.getUTCHours() + subsemester.date_start.getTimezoneOffset()/60);
+      subsemester.date_end.setUTCHours(subsemester.date_end.getUTCHours() + subsemester.date_end.getTimezoneOffset()/60);
       subsemester.date_start_display = readableDate(subsemester.date_start);
       subsemester.date_end_display = readableDate(subsemester.date_end);
-
-      // subsemester.display_string = `
-      //             ${subsemester.date_start_display} - ${subsemester.date_end_display}
-      //         `;
-
-      subsemester.display_string = subsemester.semester_part_name;
+      // Used to determine what semester the subsemester is part of
+      subsemester.semester_name = subsemester.parent_semester_name;
+      subsemester.display_string = subsemester.semester_part_name ? subsemester.semester_part_name : `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
 
       return subsemester;
     });

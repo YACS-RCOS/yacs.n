@@ -6,9 +6,8 @@ CREATE TABLE semester_date_range (
     PRIMARY KEY (date_start, date_end)
 );
 
-INSERT INTO semester_date_range (semester_part_name, date_start, date_end) (
+INSERT INTO semester_date_range (date_start, date_end) (
     SELECT DISTINCT
-        TO_CHAR(date_start, 'MM/DD') || '-' || TO_CHAR(date_end, 'MM/DD'),
         date_start,
         date_end
     FROM
