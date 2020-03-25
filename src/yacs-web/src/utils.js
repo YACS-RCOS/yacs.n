@@ -29,6 +29,18 @@ export const readableDate = date => {
 };
 
 /**
+ * Formats a `Date` into postgres date format
+ * @param {Date} date
+ * @returns {string} string in the format `YYYY-MM-DD`
+ */
+export const standardDate = date => {
+  let day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  let month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  let year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+/**
  * Formats a time string into a readable format
  * @param {string} timeString in the format `kk:mm:ss` where `kk` is hours 1 to 24
  * @returns {string} string in the format `h:mma` where `a` is `'am'` or `'pm'`

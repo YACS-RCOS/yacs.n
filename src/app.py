@@ -59,8 +59,16 @@ def uploadHandler():
 
 @app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
 def map_date_range_to_semester_part_handler():
+    # This depends on date_start, date_end, and semester_part_name being
+    # ordered since each field has multiple entries. They should be ordered
+    # as each dict entry has the value of list. But if it doesn't work,
+    # look into request.parameter_storage_class which will change the default
+    # ImmutableMultiDict class that request.form uses.
     if (request.form and request.form['date_start'] and request.form['date_end'] and request.form['semester_part_name']):
-        date_range_map.insert(request.form['date_start'], request.form['date_end'], request.form['semester_part_name'])
+        semester_part_names = request.form.getlist('semester_part_name')
+        start_dates = request.form.getlist('date_start')
+        end_dates = request.form.getlist('date_end')
+        date_range_map.insert_all(start_dates, end_dates, semester_part_names)
         return Response("received")
     return Response("Did not receive proper form data")
 

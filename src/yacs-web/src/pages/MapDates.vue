@@ -19,6 +19,8 @@
                     >
                         <template v-slot:cell(dateRange)="data">
                             {{ formatDateRange(data.item.date_start, data.item.date_end) }}
+                            <input type="hidden" name="date_start" :value="standardDate(data.item.date_start)" />
+                            <input type="hidden" name="date_end" :value="standardDate(data.item.date_end)" />
                         </template>
                         <template v-slot:cell(semesterPartName)="data">
                             <input type="text" class="form-control" :placeholder="data.item.display_string" name="semester_part_name" />
@@ -40,7 +42,7 @@
 <script>
 import { mapDateRangeToSemesterPart as postDateMapping } from '@/services/AdminService';
 import { getSubSemesters } from '@/services/YacsService';
-import { readableDate } from '../utils';
+import { readableDate, standardDate } from '../utils';
 
 export default {
     name: "MapDates",
@@ -58,13 +60,15 @@ export default {
     methods: {
         onSubmit(event) {
             let formData = new FormData(event.target);
+            // console.log(formData);
             postDateMapping(formData).then(res => {
                 console.log(res);
             });
         },
         formatDateRange(date1, date2) {
             return `${readableDate(date1)} - ${readableDate(date2)}`;
-        }
+        },
+        standardDate
     },
     created() {
         getSubSemesters().then(subsemesters => {
