@@ -1,3 +1,7 @@
+import Vue from 'vue';
+
+import Schedule from '@/controllers/Schedule';
+
 export const INIT_COURSES = 'INIT_COURSES';
 export const INIT_SELECTED_COURSES = 'INIT_SELECTED_COURSES';
 
@@ -5,6 +9,9 @@ export const SELECT_COURSE = 'SELECT_COURSE';
 export const UNSELECT_COURSE = 'UNSELECT_COURSE';
 export const SELECT_COURSE_SECTION = 'SELECT_COURSE_SECTION';
 export const UNSELECT_COURSE_SECTION = 'UNSELECT_COURSE_SECTION';
+
+export const ADD_SCHEDULE = 'ADD_SCHEDULE';
+export const REMOVE_SCHEDULE = 'REMOVE_SCHEDULE';
 
 export default {
   [INIT_COURSES](state, { courses, sections, sessions }) {
@@ -31,5 +38,11 @@ export default {
   [UNSELECT_COURSE_SECTION](state, { id }) {
     state._courseSections[id].selected = false;
     state.selectedCourseSectionIds.splice(state.selectedCourseSectionIds.indexOf(id), 1);
+  },
+  [ADD_SCHEDULE](state, { id }) {
+    Vue.set(state._schedules, id, new Schedule());
+  },
+  [REMOVE_SCHEDULE](state, { id }) {
+    Vue.delete(state._schedules, id);
   }
 };

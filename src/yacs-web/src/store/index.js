@@ -13,7 +13,8 @@ const state = {
   _courseSections: {},
   _courseSessions: {},
   selectedCourseIds: [],
-  selectedCourseSectionIds: []
+  selectedCourseSectionIds: [],
+  _schedules: {}
 };
 
 export default new Vuex.Store({
@@ -31,7 +32,9 @@ export default new Vuex.Store({
     getSession: state => id => state._courseSessions[id],
     getSessions: (_, getters) => ids => ids.map(id => getters.getSession(id)),
     selectedCourses: (state, getters) => getters.getCourses(state.selectedCourseIds),
-    selectedCourseSections: (state, getters) => getters.getSections(state.selectedCourseSectionIds)
+    selectedCourseSections: (state, getters) => getters.getSections(state.selectedCourseSectionIds),
+    schedules: state => Object.values(state._schedules),
+    getSchedule: state => id => state._schedules[id]
   },
   modules: {}
 });

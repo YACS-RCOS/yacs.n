@@ -3,6 +3,7 @@ import '@/typedef';
 import store from '@/store';
 
 import Schedule from '@/controllers/Schedule';
+import { ADD_SCHEDULE } from '@/store/mutations';
 
 /**
  * Manages schedules for subsemesters
@@ -14,7 +15,7 @@ class SubSemesterScheduler {
    * in `scheduleSubsemesters`
    * @type {Schedule[]}
    */
-  schedules;
+  // schedules;
   /** @type {Subsemester[]} */
   scheduleSubsemesters;
 
@@ -22,7 +23,7 @@ class SubSemesterScheduler {
    * Initializes `schedules` and `scheduleSubsemesters`
    */
   constructor() {
-    this.schedules = [];
+    // this.schedules = [];
     this.scheduleSubsemesters = [];
   }
 
@@ -31,7 +32,8 @@ class SubSemesterScheduler {
    * @param {Subsemester} subsemester
    */
   addSubSemester(subsemester) {
-    this.schedules.push(new Schedule());
+    store.commit(ADD_SCHEDULE, { id: subsemester.display_string });
+    // this.schedules.push(new Schedule());
     this.scheduleSubsemesters.push(subsemester);
   }
 
@@ -61,7 +63,8 @@ class SubSemesterScheduler {
     // Iterate through all schedules
     // If course spans a schedule's subsemester, then check all
     // the sessions of the selected section for schedule conflicts
-    for (const [index, schedule] of this.schedules.entries()) {
+    for (const [index, schedule] of store.getters.schedules.entries()) {
+      // for (const [index, schedule] of this.schedules.entries()) {
       if (this.withinCourseDuration(course, this.scheduleSubsemesters[index])) {
         try {
           /**
@@ -89,7 +92,8 @@ class SubSemesterScheduler {
 
     // If there are no schedule conflicts, add the sessions to the appropriate schedules
     Object.entries(scheduleSessionIndices).forEach(([scheduleIndex, sessionIndices]) => {
-      this.schedules[scheduleIndex].addCourseSection(course, section, sessionIndices);
+      store.getters.schedules[scheduleIndex].addCourseSection(course, section, sessionIndices);
+      // this.schedules[scheduleIndex].addCourseSection(course, section, sessionIndices);
     });
   }
 
@@ -98,7 +102,8 @@ class SubSemesterScheduler {
    * @param {CourseSection} section
    */
   removeCourseSection(section) {
-    this.schedules.forEach(s => s.removeCourseSection(section));
+    store.getters.schedules.forEach(s => s.removeCourseSection(section));
+    // this.schedules.forEach(s => s.removeCourseSection(section));
   }
 
   /**
@@ -106,7 +111,8 @@ class SubSemesterScheduler {
    * @param {Course} course
    */
   removeAllCourseSections(course) {
-    this.schedules.forEach(s => s.removeCourse(course));
+    store.getters.schedules.forEach(s => s.removeCourse(course));
+    // this.schedules.forEach(s => s.removeCourse(course));
   }
 }
 

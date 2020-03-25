@@ -36,15 +36,14 @@
           value-field="display_string"
         ></b-form-select>
 
-        <template v-if="scheduler.schedules.length">
-          <Schedule
-            v-for="(schedule, index) in scheduler.schedules"
-            :key="index"
-            :schedule="schedule"
-            v-show="selectedScheduleIndex === index"
-            class="flex-grow-1"
-          />
-        </template>
+        <!-- v-for="(schedule, index) in scheduler.schedules" -->
+        <Schedule
+          v-for="(schedule, index) in $store.getters.schedules"
+          :key="index"
+          :schedule="schedule"
+          v-show="selectedScheduleIndex === index"
+          class="flex-grow-1"
+        />
         <b-row class="justify-content-between">
           <b-col cols="auto">
             <h5>CRNs: {{ selectedCrns }}</h5>
