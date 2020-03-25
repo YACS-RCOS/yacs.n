@@ -1,8 +1,6 @@
 const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-process.env
-
 module.exports = {
   devServer: {
     proxy: {
