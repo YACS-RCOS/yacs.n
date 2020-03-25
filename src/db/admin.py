@@ -8,14 +8,15 @@ class Admin:
 			select
 				semester
 			from
-				admin_setting
+				admin_settings
 		""", None, True)
 
 	def set_semester_default(self, semester):
 		cmd = """
-			update
+			UPDATE 
 				admin_settings
-			set
-				semester = %s
+			SET
+				semester = "SUMMER 2020"
 		"""
-		return self.db_conn.execute(cmd, (semester), True)
+		self.db_conn.execute(cmd, None, True)
+		return (True, None)

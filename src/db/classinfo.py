@@ -100,12 +100,3 @@ class ClassInfo:
               semester
         """, None, True)
         
-    def get_semesters(self):
-        return self.db_conn.execute("""
-            select
-              semester
-            from
-              course
-            group by
-              semester
-        """, None, True)

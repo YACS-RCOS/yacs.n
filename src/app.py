@@ -82,11 +82,16 @@ def uploadHandler():
 
 @app.route('/api/defaultsemester', methods=['GET'])
 def get_defaultSemester():
-    return jsonify(admin_info.get_semester_default())
+    return admin_info.get_semester_default()
 
 @app.route('/api/defaultsemesterset', methods=['POST'])
 def set_defaultSemester():
-    admin_info.set_semester_default(request.files['file'])
+    success, error = admin_info.set_semester_default("SUMMER 2020")
+    if success: 
+        return Response(status=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status=500)
 
 
 if __name__ == '__main__':

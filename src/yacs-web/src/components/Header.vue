@@ -1,6 +1,6 @@
 <template>
   <b-navbar type="light" variant="light">
-    <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
+    <b-navbar-brand class="logo" href="#">YACS - {{selectedSemester}}</b-navbar-brand>
 
     <b-form-select
       label="semester"
@@ -16,20 +16,21 @@
 </template>
 
 <script>
-import { getSemesters } from '../services/YacsService';
+import { getSemesters } from '@/services/YacsService';
+import { getSemester } from '@/services/AdminService';
 
 export default {
   name: 'Header',
     data () {
         return {
-			selectedSemester: null,
+			selectedSemester: getSemester(),
 			semesterOptions: [],
         }
     },
     created () {
 		getSemesters().then(({ data }) => {
             this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
-            this.selectedSemester = this.semesterOptions[0].value;
+            this.selectedSemester = getSemester()
             
         });
     },

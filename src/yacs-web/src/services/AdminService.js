@@ -6,6 +6,6 @@ const client = axios.create({
 
 export const uploadCsv = formData => client.post('/bulkCourseUpload', formData);
 
-export const updateSemester = semester => client.post('/defaultsemesterset', semester);
-
+export const updateSemester = semester => client.post('/defaultsemesterset', {'default': semester});
+												
 export const getSemester = () => client.get('/defaultsemester');
