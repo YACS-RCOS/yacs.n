@@ -70,7 +70,6 @@ export const getDepartments = () =>
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
     return data.map(subsemester => {
-      console.log(subsemester.date_start);
       subsemester.date_start = new Date(subsemester.date_start);
       subsemester.date_end = new Date(subsemester.date_end);
       // JS dates will auto convert your passed in date string to
