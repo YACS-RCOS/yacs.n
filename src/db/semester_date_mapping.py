@@ -34,6 +34,5 @@ class semester_date_mapping:
                     }, isSELECT=False)
                     if (error):
                         return (False, error)
-                    else:
-                        return (True, None)
+            return (True, None)
         return (False, None)
