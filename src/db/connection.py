@@ -4,9 +4,9 @@ import os
 
 # connection details
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
-DB_USER = os.environ.get('DB_USER', '')
-DB_HOST = os.environ.get('DB_HOST', 'localhost')
-DB_PASS = os.environ.get('DB_PASS', '')
+DB_USER = os.environ.get('DB_USER', 'yacs')
+DB_HOST = os.environ.get('DB_HOST', 'yacs_postgres')
+DB_PASS = os.environ.get('DB_PASS', 'yacs_pass')
 
 
 class database():
