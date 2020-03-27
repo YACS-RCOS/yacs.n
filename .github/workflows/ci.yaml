@@ -22,9 +22,6 @@ jobs:
       - name: Update Ubuntu
         run: sudo apt-get update
 
-      - name: Install dependencies for pyscopg2
-        run: sudo apt-get install python-dev libpq-dev
-
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
@@ -32,19 +29,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Create schemas and seed
-        run: |
-          psql < schema/course.sql
-          psql < schema/course_session.sql
-          psql < seed/test-data.sql
-        working-directory: ./src/data
-        env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: yacs
-          PGUSER: postgres
-          PGPASSWORD: postgres
 
       - name: Update pip
         run: python -m pip install --upgrade pip
@@ -61,9 +45,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r src/requirements.txt -r tests/requirements.txt
 
+      - name: Create database tables
+        run: |
+          bash build.sh
+        working-directory: ./src/data
+        env:
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGUSER: postgres
+          PGPASSWORD: postgres
+
       - name: Run unit tests
         run: pytest --ignore="src/yacs-web" -s
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_USER: postgres
           DB_PASS: postgres
+          TEST_CSV: rpi-data/summer-2020.csv
