@@ -32,9 +32,12 @@ jobs:
 
       - name: Create schemas and seed
         run: |
-          bash build.sh
-          bash seed.sh
+          psql -d yacs -p $DB_PORT < schema/course.sql
+          psql -d yacs -p $DB_PORT < schema/course_session.sql
+          psql -d yacs -p $DB_PORT < seed/test-data.sql
         working-directory: ./src/data
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Update pip
         run: python -m pip install --upgrade pip
