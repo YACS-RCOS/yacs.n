@@ -32,9 +32,9 @@ jobs:
 
       - name: Create schemas and seed
         run: |
-          psql -d yacs -p $DB_PORT < schema/course.sql
-          psql -d yacs -p $DB_PORT < schema/course_session.sql
-          psql -d yacs -p $DB_PORT < seed/test-data.sql
+          psql -d yacs -p $DB_PORT -h localhost < schema/course.sql
+          psql -d yacs -p $DB_PORT -h localhost < schema/course_session.sql
+          psql -d yacs -p $DB_PORT -h localhost < seed/test-data.sql
         working-directory: ./src/data
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
