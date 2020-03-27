@@ -1,7 +1,6 @@
 from db.userevent import UserEvent as UserEvents
 import view.message as msg
 from common import *
-import json
 
 
 def addEvent(form):
@@ -16,11 +15,9 @@ def addEvent(form):
     event_data = form['data']
     timestamp = form['createdAt']
 
-    print()
     addEventResult = userEvents.addEvent(uid=uid,eventID=eventID,data=str(event_data),timestamp=timestamp)
 
     if addEventResult == None:
         return msg.errMsg("Failed to add event.")
 
     return msg.successMsg({"msg": "Event added successfully."})
-  

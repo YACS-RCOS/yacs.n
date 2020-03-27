@@ -44,7 +44,6 @@ class database():
     def get_connection(self):
         return self.conn
 
-print("dbname='{}' user='{}' host='{}' password='{}'".format(
-            DB_NAME, DB_USER, DB_HOST, DB_PASS))
+
 db = database()
 db.connect()
