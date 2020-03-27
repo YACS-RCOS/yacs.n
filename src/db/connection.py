@@ -21,7 +21,8 @@ class database():
                 port=DB_PORT,
             )
         except psycopg2.Error as e:
-            print(f"Failed to connect to database: {e.pgcode}\n{e.diag.severity}: {e.diag.message_primary}")
+            print(f"Failed to connect to database: {e}")
+            print(f"Used {DB_NAME}-{DB_USER}-{DB_HOST}-{DB_PORT}-{DB_PASS}")
         except:
             print("Fail to connect to database.")
 
