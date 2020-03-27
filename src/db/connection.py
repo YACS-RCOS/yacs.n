@@ -6,13 +6,14 @@ import os
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
 DB_USER = os.environ.get('DB_USER', '')
 DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_PORT = os.environ.get('DB_PORT', 5432)
 DB_PASS = os.environ.get('DB_PASS', '')
 
 
 class database():
     def __init__(self):
-        self.connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(
-            DB_NAME, DB_USER, DB_HOST, DB_PASS)
+        self.connect_str = "dbname='{}' user='{}' host='{}' password='{}' port='{}'".format(
+            DB_NAME, DB_USER, DB_HOST, DB_PASS, DB_PORT)
 
     def connect(self):
         try:
