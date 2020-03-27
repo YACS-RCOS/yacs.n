@@ -16,7 +16,7 @@ class database():
             self.conn = psycopg2.connect(
                 dbname=DB_NAME,
                 user=DB_USER,
-                passowrd=DB_PASS,
+                password=DB_PASS,
                 host=DB_HOST,
                 port=DB_PORT,
             )
