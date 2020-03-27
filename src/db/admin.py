@@ -9,14 +9,22 @@ class Admin:
 				semester
 			from
 				admin_settings
+			group by
+				semester
 		""", None, True)
 
 	def set_semester_default(self, semester):
-		cmd = """
-			UPDATE 
-				admin_settings
-			SET
-				semester = "SUMMER 2020"
-		"""
-		self.db_conn.execute(cmd, None, True)
-		return (True, None)
+		try:
+			cmd = """
+				UPDATE 
+					admin_settings
+				SET
+					semester = "%s"
+			"""
+			self.db_conn.execute(cmd, [semester], True)
+
+		except Exception as e:
+			self.db_conn.rollback()
+			return (False, e)
+
+		return(True, None)

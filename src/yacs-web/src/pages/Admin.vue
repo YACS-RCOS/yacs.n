@@ -28,7 +28,7 @@
         <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
       </form>
 
-      <p> {{temp()}} </p>
+      <p> {{semester}} </p>
       
 
     </section>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { uploadCsv, updateSemester, getSemester } from '@/services/AdminService';
+import { uploadCsv, updateSemester } from '@/services/AdminService';
 import { getSemesters } from '@/services/YacsService';
 
 export default {
@@ -113,10 +113,6 @@ export default {
             });
             this.loading=false;
           });
-    },
-    temp(){
-      return getSemester();
-      //return "Hello"
     },
     back() {
       window.history.back();

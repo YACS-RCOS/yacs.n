@@ -86,7 +86,8 @@ def get_defaultSemester():
 
 @app.route('/api/defaultsemesterset', methods=['POST'])
 def set_defaultSemester():
-    success, error = admin_info.set_semester_default("SUMMER 2020")
+    info = request.get_json()
+    success, error = admin_info.set_semester_default(info['default'])
     if success: 
         return Response(status=200)
     else:

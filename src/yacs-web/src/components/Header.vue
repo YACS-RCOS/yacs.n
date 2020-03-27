@@ -23,24 +23,19 @@ export default {
   name: 'Header',
     data () {
         return {
-			selectedSemester: getSemester(),
+			selectedSemester: null,
 			semesterOptions: [],
         }
     },
     created () {
 		getSemesters().then(({ data }) => {
             this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
-            this.selectedSemester = getSemester()
+            //this.selectedSemester = getSemester()
             
         });
-    },
-
-    watch: {
-    	selectedsemester: function(val, oldVal){
-    		this.$emit('new-semester', val);
-    		console.log("Semester changed from", oldVal, "to", val);
-
-    	}
+    getSemester().then(({data}) => {
+            this.selectedSemester = data.semester;
+        });
     }
 };
 </script>
