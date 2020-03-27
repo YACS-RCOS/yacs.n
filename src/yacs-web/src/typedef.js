@@ -34,6 +34,7 @@
  * @property {Date} date_end
  * @property {string} date_start_display
  * @property {string} date_end_display
+ * @property {string} semester_name
  * @property {string} display_string
  */
 /**

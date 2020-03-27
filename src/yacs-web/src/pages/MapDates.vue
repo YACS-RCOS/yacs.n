@@ -55,7 +55,7 @@
 <script>
 import { mapDateRangeToSemesterPart as postDateMapping } from '@/services/AdminService';
 import { getSubSemesters } from '@/services/YacsService';
-import { readableDate, standardDate } from '../utils';
+import { standardDate } from '../utils';
 
 export default {
     name: "MapDates",
@@ -91,8 +91,13 @@ export default {
                 });
             }
         },
+        /***
+         * @param {Date} date1
+         * @param {Date} date2
+         * @returns {String} date of the form "MM/DD/YYYY - MM/DD/YYYY"
+        */
         formatDateRange(date1, date2) {
-            return `${readableDate(date1)} - ${readableDate(date2)}`;
+            return `${date1.toLocaleDateString()} - ${date2.toLocaleDateString()}`;
         },
         standardDate,
         resetIndicators() {
@@ -110,9 +115,9 @@ export default {
 </script>
 
 <style lang="scss">
-$danger:     #dc3545;
-$success:   #28a745;
-$primary:    #007bff;
+$danger:  #dc3545;
+$success: #28a745;
+$primary: #007bff;
 
 .success {
     animation: success ease-in-out 2s;
