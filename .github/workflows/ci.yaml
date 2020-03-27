@@ -32,12 +32,16 @@ jobs:
 
       - name: Create schemas and seed
         run: |
-          psql -d yacs -p $DB_PORT -h localhost < schema/course.sql
-          psql -d yacs -p $DB_PORT -h localhost < schema/course_session.sql
-          psql -d yacs -p $DB_PORT -h localhost < seed/test-data.sql
+          psql < schema/course.sql
+          psql < schema/course_session.sql
+          psql < seed/test-data.sql
         working-directory: ./src/data
         env:
-          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: yacs
+          PGUSER: postgres
+          PGPASSWORD: postgres
 
       - name: Update pip
         run: python -m pip install --upgrade pip
