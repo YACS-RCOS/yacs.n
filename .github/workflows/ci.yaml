@@ -56,7 +56,7 @@ jobs:
             ${{ runner.os }}-backend-pip-
 
       - name: Install dependencies
-        run: pip install -r requirements.txt -r src/tests/requirements.txt
+        run: pip install -r src/requirements.txt -r tests/requirements.txt
 
       - name: Run unit tests
         run: pytest --ignore="src/yacs-web"
