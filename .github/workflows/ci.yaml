@@ -62,3 +62,5 @@ jobs:
         run: pytest --ignore="src/yacs-web"
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_USER: postgres
+          DB_PASSWORD: postgres
