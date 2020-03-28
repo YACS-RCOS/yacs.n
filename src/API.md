@@ -1,6 +1,6 @@
 # User
 ## GET /user
-Get the profile of the current user.
+Get the profile of the current user using current session id.
 ### Request
 #### Header
 ```

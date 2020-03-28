@@ -2,28 +2,28 @@ from datetime import datetime
 from db.model import *
 import uuid
 
+
 class Session(Model):
     def __init__(self):
         super().__init__()
 
-    def createSessionID(self):
+    def create_session_id(self):
         return str(uuid.uuid1())
 
-    def startSession(self, session, uid, startTime):
-        sql = """INSERT INTO public.sessions (session_id, user_id, start_time) VALUES (%s,%s,%s);"""
-        args = (session,uid,startTime)
-        return self.db.execute(sql,args,False)
+    def start_session(self, session, uid, start_time):
+        sql = """INSERT INTO public.user_session (session_id, user_id, start_time) VALUES (%s,%s,%s);"""
+        args = (session, uid, start_time)
+        return self.db.execute(sql, args, False)
 
-
-    def getSession(self,sessionID='%'):
+    def get_session(self, session_id='%'):
         sql = """   SELECT session_id, user_id, start_time,end_time 
-                    FROM public.sessions
+                    FROM public.user_session
                     WHERE   session_id::text LIKE %s"""
 
-        arg = (sessionID,)
-        return self.db.execute(sql,arg,True)
+        arg = (session_id,)
+        return self.db.execute(sql, arg, True)
 
-    def endSession(self,sessionID='%',uid='%',endTime=datetime.utcnow()):
-        sql = """UPDATE public.sessions SET end_time = %s WHERE session_id::text LIKE %s AND user_id::text LIKE %s;"""
-        args = (endTime,sessionID,str(uid))
-        return self.db.execute(sql,args,False)
+    def end_session(self, session_id='%', uid='%', end_time=datetime.utcnow()):
+        sql = """UPDATE public.user_session SET end_time = %s WHERE session_id::text LIKE %s AND user_id::text LIKE %s;"""
+        args = (end_time, session_id, str(uid))
+        return self.db.execute(sql, args, False)

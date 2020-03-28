@@ -3,120 +3,127 @@ from db.session import Session as SessionModel
 import view.message as msg
 from common import *
 
-def getUserInfo(form):
+
+def get_user_info(form):
     users = UserModel()
     sessions = SessionModel()
 
-    if not checkKeys(form, ['sessionID']):
-        return msg.errMsg("Invalid Session ID.")
+    if not assert_keys_in_form_exist(form, ['sessionID']):
+        return msg.error_msg("Invalid Session ID.")
 
-    sessionID = form['sessionID']
-    session = sessions.getSession(sessionID)
+    session_id = form['sessionID']
+    session = sessions.get_session(session_id)
     if len(session) == 0:
-        return msg.errMsg("Unable to find the session.")
+        return msg.error_msg("Unable to find the session.")
 
     (sessionid, uid, start_time, end_time) = session[0].values()
-    user = users.getUser(uid=uid)
+    user = users.get_user(uid=uid)
 
     if len(user) == 0:
-        return msg.errMsg("Unable to find the user")
+        return msg.error_msg("Unable to find the user")
 
     (uid, name, email, phone, password, major, degree, enable) = user[0].values()
 
-    return msg.successMsg({"uid": uid,"name": name, "email": email, "phone":phone, "major": major, "degree": degree})
+    return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
 
 
-def updateUser(form):
+def update_user(form):
     users = UserModel()
     sessions = SessionModel()
 
-    if not checkKeys(form, ['sessionID','name', 'email', 'phone','newPassword', 'major', 'degree']):
-        return msg.errMsg("Please check your requests.")
+    if not assert_keys_in_form_exist(form, ['sessionID', 'name', 'email', 'phone', 'newPassword', 'major', 'degree']):
+        return msg.error_msg("Please check your requests.")
 
     name = form['name']
-    sessionID = form['sessionID']
+    session_id = form['sessionID']
     email = form['email']
     phone = form['phone']
-    newPassword = form['newPassword']
+    new_password = form['newPassword']
     major = form['major']
     degree = form['degree']
 
-    if newPassword.strip() == "":
-        return msg.errMsg("Password cannot be empty.")
+    if new_password.strip() == "":
+        return msg.error_msg("Password cannot be empty.")
 
     if len(name) > 255:
-        return msg.errMsg("Username cannot exceed 255 characters.")
+        return msg.error_msg("Username cannot exceed 255 characters.")
 
-    if len(newPassword) > 255:
-        return msg.errMsg("Password cannot exceed 255 characters.")
+    if len(new_password) > 255:
+        return msg.error_msg("Password cannot exceed 255 characters.")
 
     # Get User according to sessionID
-    session = sessions.getSession(sessionID)
+    session = sessions.get_session(session_id)
     if len(session) == 0:
-        return msg.errMsg("Unable to find the session.")
+        return msg.error_msg("Unable to find the session.")
 
     (sessionid, uid, start_time, end_time) = session[0].values()
 
-    ret = users.updateUser(uid,name,email,phone,encrypt(newPassword),major,degree)
+    args = {
+        "Name": name,
+        "Email": email,
+        "Phone": phone,
+        "Password": encrypt(new_password),
+        "Major": major,
+        "Degree": degree,
+        "UID": uid
+    }
+    ret = users.update_user(args)
 
-    if ret == None:
-        return msg.errMsg("Failed to update user profile.")
+    if ret is None:
+        return msg.error_msg("Failed to update user profile.")
 
-    return msg.successMsg({})
+    return msg.success_msg({})
 
-def deleteUser(form):
+
+def delete_user(form):
     users = UserModel()
     sessions = SessionModel()
 
-
-    if not checkKeys(form,['sessionID','password']):
-        return msg.errMsg("Please check the inputs.")
+    if not assert_keys_in_form_exist(form, ['sessionID', 'password']):
+        return msg.error_msg("Please check the inputs.")
 
     password = form['password']
-    sessionID = form['sessionID']
+    session_id = form['sessionID']
 
     # Get User according to sessionID
-    session = sessions.getSession(sessionID)
+    session = sessions.get_session(session_id)
 
-    if len(session)==0:
-        return msg.errMsg("Unable to find the session.")
+    if len(session) == 0:
+        return msg.error_msg("Unable to find the session.")
 
     (sessionid, uid, start_time, end_time) = session[0].values()
 
-    if end_time != None:
-        return msg.errMsg("Expired SessionID")
+    if end_time is not None:
+        return msg.error_msg("Expired SessionID")
 
     # Verify password
     if password.strip() == "":
-        return msg.errMsg("Password cannot be empty.")
+        return msg.error_msg("Password cannot be empty.")
 
-    findUser = users.getUser(uid=uid,password=encrypt(password),enable=True)
-    if findUser == None:
-        return msg.errMsg("Failed to find user.")
+    findUser = users.get_user(uid=uid, password=encrypt(password), enable=True)
+    if findUser is None:
+        return msg.error_msg("Failed to find user.")
 
     if len(findUser) == 0:
-        return msg.errMsg("Wrong password.")
+        return msg.error_msg("Wrong password.")
 
     # Delete User
-    ret = users.deleteUser(uid)
+    ret = users.delete_user(uid)
 
-    if ret == None:
-        return msg.errMsg("Failed to delete user.")
-
+    if ret is None:
+        return msg.error_msg("Failed to delete user.")
 
     # Revoke all sessions
-    sessions.endSession(uid=uid)
+    sessions.end_session(uid=uid)
+
+    return msg.success_msg({"uid": uid, "sessionID": session_id})
 
 
-    return msg.successMsg({"uid": uid,"sessionID":sessionID})
-
-
-
-def addUser(form):
+def add_user(form):
     users = UserModel()
 
-    if not checkKeys(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
-        return msg.errMsg("Please check your requests.")
+    if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
+        return msg.error_msg("Please check your requests.")
 
     name = form['name']
     email = form['email']
@@ -126,23 +133,32 @@ def addUser(form):
     degree = form['degree']
 
     if password.strip() == "":
-        return msg.errMsg("Password cannot be empty.")
+        return msg.error_msg("Password cannot be empty.")
 
     if len(name) > 255:
-        return msg.errMsg("Username cannot exceed 255 characters.")
+        return msg.error_msg("Username cannot exceed 255 characters.")
 
     if len(password) > 255:
-        return msg.errMsg("Password cannot exceed 255 characters.")
+        return msg.error_msg("Password cannot exceed 255 characters.")
 
-    findUser = users.getUser(email=email,enable=True)
-    if findUser == None:
-        return msg.errMsg("Failed to find user.")
+    findUser = users.get_user(email=email, enable=True)
+    if findUser is None:
+        return msg.error_msg("Failed to find user.")
 
     if len(findUser) != 0:
-        return msg.errMsg("User already exists.")
+        return msg.error_msg("User already exists.")
 
-    addUserResult = users.addUser(name=name, email=email, phone=phone, password=encrypt(password), major=major, degree=degree)
-    if addUserResult == None:
-        return msg.errMsg("Failed to add user.")
+    args = {
+        "Name": name,
+        "Email": email,
+        "Phone": phone,
+        "Password": encrypt(password),
+        "Major": major,
+        "Degree": degree,
+        "Enable": True
+    }
+    res = users.add_user(args)
+    if res is None:
+        return msg.error_msg("Failed to add user.")
 
-    return msg.successMsg({"msg": "User added successfully."})
+    return msg.success_msg({"msg": "User added successfully."})

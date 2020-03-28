@@ -3,21 +3,21 @@ import view.message as msg
 from common import *
 
 
-def addEvent(form):
+def add_event(form):
     userEvents = UserEvents()
 
-    if not checkKeys(form, ['uid','eventID','data','createdAt']):
-        return msg.errMsg("Invalid request body.")
+    if not assert_keys_in_form_exist(form, ['uid', 'eventID', 'data', 'createdAt']):
+        return msg.error_msg("Invalid request body.")
 
 
     uid = form['uid']
-    eventID = form['eventID']
+    event_id = form['eventID']
     event_data = form['data']
     timestamp = form['createdAt']
 
-    addEventResult = userEvents.addEvent(uid=uid,eventID=eventID,data=str(event_data),timestamp=timestamp)
+    res = userEvents.addEvent(uid=uid,eventID=event_id,data=str(event_data),timestamp=timestamp)
 
-    if addEventResult == None:
-        return msg.errMsg("Failed to add event.")
+    if res == None:
+        return msg.error_msg("Failed to add event.")
 
-    return msg.successMsg({"msg": "Event added successfully."})
+    return msg.success_msg({"msg": "Event added successfully."})

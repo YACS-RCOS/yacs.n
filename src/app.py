@@ -80,39 +80,39 @@ def uploadHandler():
 
 
 # - user system api
-@app.route('/user', methods=['GET'])
-def getUserInfo():
-    return user_controller.getUserInfo(request.json)
+@app.route('/api/user', methods=['GET'])
+def get_user_info():
+    return user_controller.get_user_info(request.json)
 
 
-@app.route('/user', methods=['POST'])
-def addUser():
-    return user_controller.addUser(request.json)
+@app.route('/api/user', methods=['POST'])
+def add_user():
+    return user_controller.add_user(request.json)
 
 
-@app.route('/user', methods=['DELETE'])
-def deleteUser():
-    return user_controller.deleteUser(request.json)
+@app.route('/api/user', methods=['DELETE'])
+def delete_user():
+    return user_controller.delete_user(request.json)
 
 
-@app.route('/user', methods=['PUT'])
-def updateUserInfo():
-    return user_controller.updateUser(request.json)
+@app.route('/api/user', methods=['PUT'])
+def update_user_info():
+    return user_controller.update_user(request.json)
 
 
-@app.route('/session', methods=['POST'])
-def login():
-    return session_controller.addSession(request.json)
+@app.route('/api/session', methods=['POST'])
+def log_in():
+    return session_controller.add_session(request.json)
 
 
-@app.route('/session', methods=['DELETE'])
-def logout():
-    return session_controller.deleteSession(request.json)
+@app.route('/api/session', methods=['DELETE'])
+def log_out():
+    return session_controller.delete_session(request.json)
 
 
-@app.route('/event', methods=['POST'])
-def addUserEvent():
-    return event_controller.addEvent(json.loads(request.data))
+@app.route('/api/event', methods=['POST'])
+def add_user_event():
+    return event_controller.add_event(json.loads(request.data))
 
 
 if __name__ == '__main__':
