@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     paths-ignore:
-      - 'src/yacs-web/**'
+      - 'src/web/**'
 
 jobs:
   BackendUnitTests:
@@ -46,7 +46,7 @@ jobs:
             ${{ runner.os }}-backend-pip-
 
       - name: Install dependencies
-        run: pip install -r src/requirements.txt -r tests/requirements.txt
+        run: pip install -r src/api/requirements.txt -r tests/requirements.txt
 
       - name: Create database tables
         run: |

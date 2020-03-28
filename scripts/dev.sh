@@ -11,14 +11,14 @@ echo "" > $PATH_ROOT/logs/web.txt
 echo "Starting @ $(date)" > $PATH_ROOT/logs/dev.txt
 
 # run flask
-cd src/
+cd src/api/
 flask run --reload >> $PATH_ROOT/logs/api.txt 2>&1 & # run in bg and port logs
 FLASK_PID=($!)
 echo "FLASK_PID: $FLASK_PID" >> $PATH_ROOT/logs/dev.txt
-cd ..
+cd ../..
 
 # run frontend
-cd src/yacs-web
+cd src/web/
 npm run serve >> $PATH_ROOT/logs/web.txt 2>&1 &
 WEB_PID=($!)
 echo "WEB_PID: $WEB_PID" >> $PATH_ROOT/logs/dev.txt

@@ -11,6 +11,7 @@ import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.semester_date_mapping as DateMapping
 from io import StringIO
+import os
 
 # - init interfaces to db
 db_conn = connection.db
@@ -18,9 +19,15 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 
-app = Flask(
-    __name__,
-    template_folder='./public/templates')
+app = Flask(__name__)
+
+@app.route('/')
+def root():
+    return "YACS API is Up!"
+
+@app.route('/api/')
+def apiroot():
+    return "wow"
 
 # - data routes
 
@@ -81,4 +88,4 @@ def map_date_range_to_semester_part_handler():
     return Response("Did not receive proper form data", status=500)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)

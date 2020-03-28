@@ -1,5 +1,5 @@
 --
-drop table course;
+drop table if exists course;
 create table course(
   crn        varchar(255),
   section    varchar(255),
