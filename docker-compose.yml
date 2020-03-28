@@ -33,7 +33,7 @@ services:
       - DEBUG=False
       - DB_HOST=yacs_db
       - DB_USER=yacs
-      - DB_PASS=yacs_pass
+      - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
     expose:
       - 5000
@@ -45,6 +45,10 @@ services:
     build:
       context: ./src/data/
       dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=yacs
+      - POSTGRES_USER=yacs
+      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
     ports:
       - 5432:5432
     expose:

@@ -10,7 +10,6 @@ DB_PASS = os.environ.get('DB_PASS', '')
 
 class database():
     def __init__(self):
-
         self.connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(
             DB_NAME, DB_USER, DB_HOST, DB_PASS)
 
