@@ -1,12 +1,10 @@
-FROM library/postgres
-
+FROM postgres:latest
 # Copy migration files
-COPY ./schema/ /home/schema/
-COPY ./all.sql /home/
+COPY ./schema/ /docker-entrypoint-initdb.d/
+# Execute migrations files on postres start
+# ADD ./db_migration.sh
+# RUN cat /docker-entrypoint-initdb.d/db_migration.sh
 
-# Execute migrations files
-COPY ./db_migration.sh /docker-entrypoint-initdb.d/
-
-ENV POSTGRES_USER yacs
-ENV POSTGRES_PASSWORD yacs_pass
-ENV POSTGRES_DB yacs
+ENV POSTGRES_PASSWORD=yacs_pass
+ENV POSTGRES_DB=yacs
+ENV POSTGRES_USER=yacs

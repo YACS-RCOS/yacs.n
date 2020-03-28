@@ -17,14 +17,16 @@ db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 
-app = Flask(
-    __name__
-)
+app = Flask(__name__)
 
 @app.route('/')
 def root():
     return "YACS API is Up!"
-    
+
+@app.route('/api/')
+def apiroot():
+    return "wow"
+
 # - data routes
 
 @app.route('/api/class', methods=['GET'])
@@ -60,7 +62,5 @@ def uploadHandler():
         print(error)
         return Response(error.__str__(), status=500)
 
-print('up on port 5000')
 if __name__ == '__main__':
-    app.run(debug=os.environ.get('DEBUG'), host='0.0.0.0', port=5000)
-    print('up on port 5000')
+    app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)

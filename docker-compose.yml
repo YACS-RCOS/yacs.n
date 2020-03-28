@@ -1,12 +1,29 @@
 version: '3'
 
+# web (front-end) depends on api (back-end) depends on (db)
+# web -> api -> db [dependency chain]
+
 services:
+
+  yacs_web:
+    container_name: yacs_web
+    build:
+      context: ./src/web
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    expose:
+      - 80
+    depends_on:
+      - yacs_api
+    environment:
+      - HOST=localhost
 
   yacs_api:
     container_name: yacs_api
     build:
-        context: ./src/api/
-        dockerfile: Dockerfile
+      context: ./src/api/
+      dockerfile: Dockerfile
     tty: true
     ports:
       - 5000:5000
@@ -17,6 +34,7 @@ services:
       - DB_USER=yacs
       - DB_PASS=yacs_pass
       - DB_NAME=yacs
+
     expose:
       - 5000
     depends_on:
@@ -29,3 +47,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5432:5432
+    expose:
+      - 5432
