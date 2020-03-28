@@ -6,7 +6,7 @@ version: '3'
 services:
 
   yacs_web:
-    container_name: yacs_web
+    container_name: yacs_web # makes logs nicer, otherwise would be yacs_web_1, but is yacs_web
     build:
       context: ./src/web
       dockerfile: Dockerfile
@@ -26,10 +26,11 @@ services:
       context: ./src/api/
       dockerfile: Dockerfile
     tty: true
-    # on fail, always restart
-    restart: always
+    restart: always # on fail, always restart
     ports:
       - 5000:5000
+    depends_on:
+      - yacs_db
     environment:
       - ENV=production
       - DEBUG=False
@@ -37,22 +38,18 @@ services:
       - DB_USER=yacs
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
-      - WORKERS=4
-    expose:
-      - 5000
-    depends_on:
-      - yacs_db
+      - WORKERS=${API_WORKERS:-4}
 
   yacs_db:
     container_name: yacs_db
     build:
       context: ./src/data/
       dockerfile: Dockerfile
-    environment:
-      - POSTGRES_DB=yacs
-      - POSTGRES_USER=yacs
-      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
     ports:
       - 5432:5432
     expose:
       - 5432
+    environment:
+      - POSTGRES_DB=yacs
+      - POSTGRES_USER=yacs
+      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
