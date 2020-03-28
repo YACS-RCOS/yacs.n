@@ -71,9 +71,17 @@ export default {
                 this.loading = true;
                 spinner.classList.remove("d-none");
                 let formData = new FormData(event.target);
+                let submittedSemesterPartNames = formData.getAll("semester_part_name");
                 postDateMapping(formData).then(res => {
-                    console.log(res);
+                    // Update the set subsemester names since the response
+                    // has come back with a 2xx status. Meaning we can't submit the form
+                    // with the same name twice (unless there's >1 input and we change one of those)
+                    for (var i in this.subsemesters) {
+                        var subsemester = this.subsemesters[i];
+                        subsemester.display_string = submittedSemesterPartNames[i];
+                    }
                     submitBtn.classList.add("success");
+                    console.log(res);
                 })
                 .catch(error => {
                     console.log(error);
