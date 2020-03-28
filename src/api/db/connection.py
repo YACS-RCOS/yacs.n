@@ -11,24 +11,14 @@ DB_PASS = os.environ.get('DB_PASS', None)
 
 class database():
     def connect(self):
-<<<<<<< HEAD:src/api/db/connection.py
+        # if we cannot connect to db, then app is useless, so better crash, don't catch error here.
         self.conn = psycopg2.connect(
-            self.connect_str)
-=======
-        try:
-            self.conn = psycopg2.connect(
-                dbname=DB_NAME,
-                user=DB_USER,
-                password=DB_PASS,
-                host=DB_HOST,
-                port=DB_PORT,
-            )
-        except psycopg2.Error as e:
-            print(f"Failed to connect to database: {e}")
-            print(f"Used {DB_NAME}-{DB_USER}-{DB_HOST}-{DB_PORT}-{DB_PASS}")
-        except:
-            print("Fail to connect to database.")
->>>>>>> 48b49f41fc1fe8e92e8553a7da48c31239bd10e4:src/db/connection.py
+            dbname=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
+            host=DB_HOST,
+            port=DB_PORT,
+        )
 
     def close(self):
         self.conn.close()

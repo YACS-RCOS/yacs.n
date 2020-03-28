@@ -21,7 +21,6 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 
 app = Flask(__name__)
 
-<<<<<<< HEAD:src/api/app.py
 @app.route('/')
 def root():
     return "YACS API is Up!"
@@ -30,8 +29,6 @@ def root():
 def apiroot():
     return "wow"
 
-=======
->>>>>>> 48b49f41fc1fe8e92e8553a7da48c31239bd10e4:src/app.py
 # - data routes
 
 @app.route('/api/class', methods=['GET'])
@@ -71,8 +68,6 @@ def uploadHandler():
         print(error)
         return Response(error.__str__(), status=500)
 
-<<<<<<< HEAD:src/api/app.py
-=======
 @app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
 def map_date_range_to_semester_part_handler():
     # This depends on date_start, date_end, and semester_part_name being
@@ -92,6 +87,5 @@ def map_date_range_to_semester_part_handler():
                 return Response(error, status=500)
     return Response("Did not receive proper form data", status=500)
 
->>>>>>> 48b49f41fc1fe8e92e8553a7da48c31239bd10e4:src/app.py
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
