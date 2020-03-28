@@ -19,11 +19,9 @@
             <template v-slot:cell(semesterPartName)="data">
                 <input
                     type="text"
-                    class="form-control"
+                    class="form-control text-dark"
                     name="semester_part_name"
-                    :old-name="data.item.display_string"
-                    :placeholder="data.item.display_string"
-                    @input="checkIfValidName"
+                    v-model="inputtedSemesterPartNames[data.index]"
                 />
             </template>
         </b-table>
@@ -33,10 +31,10 @@
                 'btn-primary': true,
                 'my-2': true,
                 'w-50': true,
-                'no-cursor': disableSubmit
+                'no-cursor': isDisabled
             }"
             @animationend="removeFeedbackClasses($event.target)"
-            :disabled="disableSubmit"
+            :disabled="isDisabled"
         >
             Update <b-spinner class="d-none" />
         </button>
@@ -57,7 +55,10 @@ export default {
         return {
             displayedColumns: ['dateRange', 'semesterPartName'],
             loading: false,
-            disableSubmit: true
+            // My SO post. Originally, I didn't want to have to use v-model since I don't really need its full power,
+            // but because of all the weirdness of the keyboard events on the semester_part input and the submit button, here I am using v-model in a v-for.
+            // https://stackoverflow.com/questions/60896159/prepopulated-form-input-element-doesnt-accept-first-input-when-submit-btn-is-di/60896544#60896544
+            inputtedSemesterPartNames: this.subsemesters.map(item => item.display_string)
         }
     },
     methods: {
@@ -96,16 +97,25 @@ export default {
         formatDateRange(date1, date2) {
             return `${date1.toLocaleDateString()} - ${date2.toLocaleDateString()}`;
         },
-        checkIfValidName (event) {
+        standardDate
+    },
+    computed: {
+        isDisabled () {
             // Disable if the value is falsey,
             // or if it's the same value as before
-            console.log(event.target)
-            console.log(event.target.value)
-            console.log(event.target.getAttribute("old-name"))
-            console.log(event.target.value === event.target.getAttribute("old-name"))
-            this.disableSubmit = !event.target.value || event.target.value === event.target.getAttribute("old-name");
-        },
-        standardDate,
+            let anyValid = false;
+            for (let i = 0; i < this.inputtedSemesterPartNames.length; i++) {
+                let semesterName = this.inputtedSemesterPartNames[i];
+                let defaultValue = this.subsemesters[i].display_string;
+                // None of the inputs can have a falsey value
+                if (!semesterName) {
+                    return true;
+                }
+                let isValid = semesterName !== defaultValue;
+                anyValid |= isValid;
+            }
+            return !anyValid;
+        }
     }
 }
 </script>
