@@ -2,7 +2,7 @@ import '@/typedef';
 
 import axios from 'axios';
 
-import { readableDate } from '@/utils';
+import { readableDate, localToUTCDate } from '@/utils';
 
 const client = axios.create({
   baseURL: '/api'
@@ -39,8 +39,8 @@ const _getCourseIdentifier = courseObj => {
 export const getCourses = () =>
   client.get('/class').then(({ data }) => {
     return data.map(c => {
-      c.date_start = new Date(c.date_start);
-      c.date_end = new Date(c.date_end);
+      c.date_start = localToUTCDate(new Date(c.date_start));
+      c.date_end = localToUTCDate(new Date(c.date_end));
 
       // Filter out sections that are null
       c.sections = c.sections.filter(s => !!s);
@@ -70,14 +70,13 @@ export const getDepartments = () =>
 export const getSubSemesters = () =>
   client.get('/subsemester').then(({ data }) => {
     return data.map(subsemester => {
-      subsemester.date_start = new Date(subsemester.date_start);
-      subsemester.date_end = new Date(subsemester.date_end);
+      subsemester.date_start = localToUTCDate(new Date(subsemester.date_start));
+      subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));
       subsemester.date_start_display = readableDate(subsemester.date_start);
       subsemester.date_end_display = readableDate(subsemester.date_end);
-
-      subsemester.display_string = `
-                    ${subsemester.date_start_display} - ${subsemester.date_end_display}
-                `;
+      // Used to determine what semester the subsemester is part of
+      subsemester.semester_name = subsemester.parent_semester_name;
+      subsemester.display_string = subsemester.semester_part_name ? subsemester.semester_part_name : `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
 
       return subsemester;
     });
