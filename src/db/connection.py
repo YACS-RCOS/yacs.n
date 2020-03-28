@@ -4,20 +4,25 @@ import os
 
 # connection details
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
-DB_USER = os.environ.get('DB_USER', '')
+DB_USER = os.environ.get('DB_USER', None)
 DB_HOST = os.environ.get('DB_HOST', 'localhost')
-DB_PASS = os.environ.get('DB_PASS', '')
+DB_PORT = os.environ.get('DB_PORT', None)
+DB_PASS = os.environ.get('DB_PASS', None)
 
 
 class database():
-    def __init__(self):
-        self.connect_str = "dbname='{}' user='{}' host='{}' password='{}'".format(
-            DB_NAME, DB_USER, DB_HOST, DB_PASS)
-
     def connect(self):
         try:
             self.conn = psycopg2.connect(
-                self.connect_str)
+                dbname=DB_NAME,
+                user=DB_USER,
+                password=DB_PASS,
+                host=DB_HOST,
+                port=DB_PORT,
+            )
+        except psycopg2.Error as e:
+            print(f"Failed to connect to database: {e}")
+            print(f"Used {DB_NAME}-{DB_USER}-{DB_HOST}-{DB_PORT}-{DB_PASS}")
         except:
             print("Fail to connect to database.")
 
