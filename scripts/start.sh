@@ -2,4 +2,5 @@
 # NODE: run from project root (.)
 docker-compose \
   -f docker-compose.yml up \
-  --build
+  --build \
+  --force-recreate

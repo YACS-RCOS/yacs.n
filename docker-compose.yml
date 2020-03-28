@@ -17,7 +17,8 @@ services:
     depends_on:
       - yacs_api
     environment:
-      - HOST=localhost
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      - HOST=${HOST:-localhost}
 
   yacs_api:
     container_name: yacs_api
@@ -25,6 +26,7 @@ services:
       context: ./src/api/
       dockerfile: Dockerfile
     tty: true
+    # on fail, always restart
     restart: always
     ports:
       - 5000:5000
@@ -35,6 +37,7 @@ services:
       - DB_USER=yacs
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
+      - WORKERS=4
     expose:
       - 5000
     depends_on:
