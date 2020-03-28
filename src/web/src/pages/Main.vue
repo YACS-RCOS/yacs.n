@@ -152,6 +152,12 @@ export default {
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
           for (const session of section.sessions) {
+            // The dates from the DB have no timezone, so when they are
+            // cast to a JS date they're by default at time midnight 00:00:00.
+            // This will exclude all classes if they're on that final day, so bump
+            // the end date by 1 day.
+            let exclusive_date_end = new Date(course.date_end);
+            exclusive_date_end.setDate(course.date_end.getDate()+1);
             semester = session.semester;
             calendarBuilder.addEvent(
               `Class: ${course.title}`,
@@ -162,7 +168,7 @@ export default {
               {
                 freq: 'WEEKLY',
                 interval: 1,
-                until: course.date_end,
+                until: exclusive_date_end,
                 byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
               }
             );
