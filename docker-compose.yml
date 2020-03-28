@@ -1,23 +1,31 @@
 version: '3'
 
-services: 
+services:
 
-  yacs_backend:
-    container_name: yacs_backend 
-    build: 
-        context: ./src
-        dockerfile: Dockerfile      
-    stdin_open: true
+  yacs_api:
+    container_name: yacs_api
+    build:
+        context: ./src/api/
+        dockerfile: Dockerfile
     tty: true
     ports:
-      - "5000:5000"
-    volumes:
-      - ./src:/usr/src
+      - 5000:5000
+    environment:
+      - ENV=production
+      - DEBUG=False
+      - DB_HOST=yacs_db
+      - DB_USER=yacs
+      - DB_PASS=yacs_pass
+      - DB_NAME=yacs
+    expose:
+      - 5000
+    depends_on:
+      - yacs_db
 
-  postgres:
-    container_name: yacs_postgres
-    build: 
-      context: .
-      dockerfile: postgres.Dockerfile      
+  yacs_db:
+    container_name: yacs_db
+    build:
+      context: ./src/data/
+      dockerfile: Dockerfile
     ports:
-      - 5432:5432      
+      - 5432:5432

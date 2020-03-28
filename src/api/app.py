@@ -10,6 +10,7 @@ import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
 from io import StringIO
+import os
 
 # - init interfaces to db
 db_conn = connection.db
@@ -17,32 +18,13 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 
 app = Flask(
-    __name__,
-    template_folder='./public/templates')
+    __name__
+)
 
-
-# - web routes break into routes/ ... later
-
-# @app.route('/', methods=['GET'])
-# def root():
-#     return send_from_directory('./public/templates/', 'schedule.html')
-
-
-# @app.route('/admin', methods=['GET'])
-# def admin():
-#     return send_from_directory('./public/templates/', 'admin.html')
-
-
-# @app.route('/css/<string:file>', methods=['GET'])
-# def css(file):
-#     return send_from_directory('./public/css/', file)
-
-
-@app.route('/js/<string:file>', methods=['GET'])
-def js(file):
-    return send_from_directory('./public/js/', file)
-
-
+@app.route('/')
+def root():
+    return "YACS API is Up!"
+    
 # - data routes
 
 @app.route('/api/class', methods=['GET'])
@@ -78,7 +60,7 @@ def uploadHandler():
         print(error)
         return Response(error.__str__(), status=500)
 
-
-
+print('up on port 5000')
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=os.environ.get('DEBUG'), host='0.0.0.0', port=5000)
+    print('up on port 5000')

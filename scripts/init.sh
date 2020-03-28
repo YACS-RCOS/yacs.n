@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-docker-compose -f docker-compose.yml up --build
+# NODE: run from project root (.)
+docker-compose -f docker-compose.yml up --build --remove-orphans

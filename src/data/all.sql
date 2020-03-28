@@ -1,5 +1,6 @@
+-- used for docker build --
+---------------------------
 -- Functions & procedures
-
 
 -- Tables
 \i /home/schema/class.sql
