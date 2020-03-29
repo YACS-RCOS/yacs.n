@@ -4,7 +4,6 @@
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
-          <h3>YACS</h3>
           <b-card no-body class="h-100">
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1">
@@ -49,19 +48,26 @@
             />
           </template>
           <b-row>
-            <b-col cols="auto">
+
+            <b-col>
               <h5>CRNs: {{ selectedCrns }}</h5>
             </b-col>
-            <button
-              class="col-auto btn btn-success ml-auto mb-2 mr-2 d-block"
-              @click="exportScheduleToIcs"
-            >
-              <font-awesome-icon :icon="exportIcon" />Export to ICS
-            </button>
+
+            <b-col md='4'>
+              <button
+                id='export-ics-button'
+                class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
+                @click="exportScheduleToIcs"
+              >
+                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+              </button>
+            </b-col>
+
           </b-row>
         </b-col>
       </b-row>
     </b-container>
+    <Footer></Footer>
   </div>
 
 </template>
@@ -72,6 +78,7 @@ import NotificationsMixin from '@/mixins/NotificationsMixin';
 import ScheduleComponent from '@/components/Schedule';
 import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
+import Footer from '@/components/Footer';
 
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
@@ -88,7 +95,8 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
-    Header: HeaderComponent
+    Header: HeaderComponent,
+    Footer: Footer
   },
   data() {
     return {
@@ -222,4 +230,21 @@ export default {
 .tab-content > .active {
   display: flex;
 }
+
+.card {
+  border: none !important;
+
+  a:visited {
+    color: black;
+  }
+
+  .card-header {
+    background: white !important;
+  }
+}
+
+#export-ics-button {
+  background: #3D4959 !important;
+}
+
 </style>

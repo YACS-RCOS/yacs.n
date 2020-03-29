@@ -1,22 +1,12 @@
 <template>
+  <div id='header'>
     <b-navbar variant="light">
         <b-navbar-brand href="#">YACS</b-navbar-brand>
-        <b-form-select
-          label="semester"
-          class="semesters"
-          v-model="selectedSemester"
-          :options="semesterOptions"
-        >
-          <template v-slot:first>
-            <b-form-select-option :value="null" disabled>-- Please select a semester --</b-form-select-option>
-          </template>
-        </b-form-select>        
         <b-navbar-nav class="ml-auto">
             <div>
-            <b-button v-b-modal.modal-1>Login</b-button>
+            <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
 
-            <b-modal id="modal-1" ref="modal-1" hide-footer title="Login">
-                <!-- <p class="my-4">Hello from modal!</p> -->
+            <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In">
                 <div>
                     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                     <b-form-group
@@ -49,16 +39,16 @@
                     <b-card class="mt-3" header="Form Data Result">
                     <pre class="m-0">{{ form }}</pre>
                     </b-card>
-                </div>       
-      
-                <b-button class="mt-2"  block @click="toggleModal">Toggle Me</b-button>                     
+                </div>
+
+                <b-button class="mt-2"  block @click="toggleModal">Toggle Me</b-button>
             </b-modal>
             </div>
         </b-navbar-nav>
 
-
-    </b-navbar>
-
+      </b-navbar>
+      <hr>
+    </div>
 </template>
 
 <script>
@@ -80,7 +70,7 @@ export default {
         // We pass the ID of the button that we want to return focus to
         // when the modal has hidden
         this.$refs['modal-1'].hide()
-      },        
+      },
       onSubmit(evt) {
         evt.preventDefault()
         alert(JSON.stringify(this.form))
@@ -96,8 +86,21 @@ export default {
           this.show = true
         })
       }
-    }    
+    }
 }
 </script>
 
-<style></style>
+<style>
+
+.navbar {
+  background: white !important;
+  margin-bottom: none !important;
+}
+
+hr {
+  margin: 0em;
+  border-width: 1px;
+}
+
+
+</style>
