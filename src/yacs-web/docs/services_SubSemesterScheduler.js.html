@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: services/SubSemesterScheduler.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: services/SubSemesterScheduler.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import '@/typedef';
+
+import Schedule from '@/services/ScheduleService';
+
+/**
+ * Manages schedules for subsemesters
+ * Allows adding and removing Course sections
+ */
+class SubSemesterScheduler {
+  /**
+   * List of schedules, each with a corresponding subsemester
+   * in `scheduleSubsemesters`
+   * @type {Schedule[]}
+   */
+  schedules;
+  /** @type {Subsemester[]} */
+  scheduleSubsemesters;
+
+  /**
+   * Initializes `schedules` and `scheduleSubsemesters`
+   */
+  constructor() {
+    this.schedules = [];
+    this.scheduleSubsemesters = [];
+  }
+
+  /**
+   * Adds a new `Schedule` for `subsemester`
+   * @param {Subsemester} subsemester
+   */
+  addSubSemester(subsemester) {
+    this.schedules.push(new Schedule());
+    this.scheduleSubsemesters.push(subsemester);
+  }
+
+  /**
+   * Checks whether `course` spans the entire duration of `subsemester`
+   * @param {Course} course
+   * @param {Subsemester} subsemester
+   * @returns {boolean}
+   */
+  withinCourseDuration(course, subsemester) {
+    return (
+      course.date_start.getTime() &lt;= subsemester.date_start.getTime() &amp;&amp;
+      course.date_end.getTime() >= subsemester.date_end.getTime()
+    );
+  }
+
+  /**
+   * Adds `section` to the appropriate schedule(s) based on the duration of `course`
+   * @param {Course} course
+   * @param {CourseSection} section
+   * @throws Will throw an error if there is a schedule conflict.
+   * Error will include the subsemester
+   */
+  addCourseSection(course, section) {
+    /** @type {Object&lt;number, number>} */
+    const scheduleSessionIndices = {};
+    // Iterate through all schedules
+    // If course spans a schedule's subsemester, then check all
+    // the sessions of the selected section for schedule conflicts
+    for (const [index, schedule] of this.schedules.entries()) {
+      if (this.withinCourseDuration(course, this.scheduleSubsemesters[index])) {
+        try {
+          /**
+           * Store results of schedule conflict checking to use when
+           * actually adding `section` to the schedule
+           * @type {number[]}
+           */
+          const sessionIndices = [];
+          for (const session of section.sessions) {
+            sessionIndices.push(schedule.getAddCourseSessionIndex(session));
+          }
+          // Associate results with a schedule by `index`
+          scheduleSessionIndices[index] = sessionIndices;
+        } catch (err) {
+          if (err.type === 'Schedule Conflict') {
+            err.subsemester = this.scheduleSubsemesters[index];
+            console.log(err);
+            throw err;
+          }
+        }
+      }
+    }
+
+    // If there are no schedule conflicts, add the sessions to the appropriate schedules
+    Object.entries(scheduleSessionIndices).forEach(([scheduleIndex, sessionIndices]) => {
+      this.schedules[scheduleIndex].addCourseSection(course, section, sessionIndices);
+    });
+  }
+
+  /**
+   * Remove all sessions of `section` from all schedules
+   * @param {CourseSection} section
+   */
+  removeCourseSection(section) {
+    this.schedules.forEach(s => s.removeCourseSection(section));
+  }
+
+  /**
+   * Remove all sessions of sections of `course` from all schedules
+   * @param {Course} course
+   */
+  removeAllCourseSections(course) {
+    this.schedules.forEach(s => s.removeCourse(course));
+  }
+}
+
+export default SubSemesterScheduler;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ColorService.html">ColorService</a></li><li><a href="module-NotificationsMixin.html">NotificationsMixin</a></li><li><a href="module-utils.html">utils</a></li><li><a href="module-YacsService.html">YacsService</a></li></ul><h3>Classes</h3><ul><li><a href="module.exports.html">exports</a></li><li><a href="SubSemesterScheduler.html">SubSemesterScheduler</a></li></ul><h3>Global</h3><ul><li><a href="global.html#_removeCourseSession">_removeCourseSession</a></li><li><a href="global.html#addCourseSection">addCourseSection</a></li><li><a href="global.html#getAddCourseSessionIndex">getAddCourseSessionIndex</a></li><li><a href="global.html#removeCourse">removeCourse</a></li><li><a href="global.html#removeCourseSection">removeCourseSection</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Mar 15 2020 15:30:02 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

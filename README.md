@@ -1,5 +1,7 @@
 # YACS.n
 
+![](https://github.com/YACS-RCOS/yacs.n/workflows/CI/badge.svg)
+
 YACS with support for multi and sub-semesters for any school
 
 ---
