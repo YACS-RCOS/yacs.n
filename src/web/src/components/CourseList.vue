@@ -6,7 +6,7 @@
           id="search"
           v-model="textSearch"
           trim
-          placeholder="Intro to College - COLG 1030 - 5/2"
+          placeholder="Intro to College - COLG 1030"
         ></b-form-input>
       </b-form-group>
 
