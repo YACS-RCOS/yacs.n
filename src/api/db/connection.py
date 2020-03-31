@@ -4,10 +4,10 @@ import os
 
 # connection details
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
-DB_USER = os.environ.get('DB_USER', None)
-DB_HOST = os.environ.get('DB_HOST', 'localhost')
-DB_PORT = os.environ.get('DB_PORT', None)
-DB_PASS = os.environ.get('DB_PASS', None)
+DB_USER = os.environ.get('DB_USER', 'yacs')
+DB_HOST = os.environ.get('DB_HOST', '0.0.0.0')
+DB_PORT = os.environ.get('DB_PORT', 5432)
+DB_PASS = os.environ.get('DB_PASS', 'easy_dev_pass')
 
 class database():
     def connect(self):
@@ -19,6 +19,9 @@ class database():
             host=DB_HOST,
             port=DB_PORT,
         )
+        print('-' * 50)
+        print("Database connected")
+        print('-' * 50)
 
     def close(self):
         self.conn.close()
@@ -36,9 +39,9 @@ class database():
 
         except psycopg2.Error as e:
             print(e)
-            return (ret, e)
+            return (e)
 
-        return (ret, None)
+        return ret
 
     def get_connection(self):
         return self.conn

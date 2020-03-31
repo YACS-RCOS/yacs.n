@@ -142,9 +142,12 @@ def add_user(form):
         return msg.error_msg("Password cannot exceed 255 characters.")
 
     findUser = users.get_user(email=email, enable=True)
+
     if findUser is None:
         return msg.error_msg("Failed to find user.")
 
+    print('findUser', findUser)
+    print(len(findUser))
     if len(findUser) != 0:
         return msg.error_msg("User already exists.")
 
