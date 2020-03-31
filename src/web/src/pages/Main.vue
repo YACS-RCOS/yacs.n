@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <Header class='mb-3'></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -107,6 +107,8 @@ export default {
       scheduler: new SubSemesterScheduler(),
 
       courses: [],
+
+      currentSemester: '',
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']

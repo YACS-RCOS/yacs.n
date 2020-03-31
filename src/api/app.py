@@ -10,6 +10,7 @@ import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.semester_date_mapping as DateMapping
+import db.admin as AdminInfo
 from io import StringIO
 import os
 
@@ -18,6 +19,7 @@ db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
+admin_info = AdminInfo.Admin(db_conn)
 
 app = Flask(__name__)
 
@@ -53,6 +55,19 @@ def get_semesters():
     semesters, error = class_info.get_semesters()
     return jsonify(semesters) if not error else Response(error, status=500)
 
+@app.route('/api/defaultsemester', methods=['GET'])
+def get_defaultSemester():
+    return admin_info.get_semester_default()
+
+@app.route('/api/defaultsemesterset', methods=['POST'])
+def set_defaultSemester():
+    info = request.get_json()
+    success, error = admin_info.set_semester_default(info['default'])
+    if success: 
+        return Response(status=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status=500)
 
 @app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():

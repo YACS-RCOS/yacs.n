@@ -25,6 +25,7 @@ class database():
 
     def execute(self, sql, args, isSELECT=True):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret = None
         try:
             if isSELECT:
                 cur.execute(sql, args)

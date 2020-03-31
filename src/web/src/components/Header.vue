@@ -1,7 +1,8 @@
 <template>
   <div id='header'>
-    <b-navbar variant="light">
-        <b-navbar-brand href="#">YACS</b-navbar-brand>
+    <b-navbar type="light" variant="light">
+        <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
+        <!-- <div class="semester"> {{ currentSemester }} </div> -->
         <b-navbar-nav class="ml-auto">
             <div>
             <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
@@ -52,7 +53,8 @@
 </template>
 
 <script>
-// import { getSemesters } from '../services/YacsService';
+
+import { getSemester } from '@/services/AdminService';
 
 export default {
     name: 'Header',
@@ -61,9 +63,15 @@ export default {
         form: {
           email: '',
           name: '',
+          currentSemester:''
         },
         show: true
       }
+    },
+    created () {
+      getSemester().then(({data}) => {
+            this.selectedSemester = data.semester;
+        });
     },
     methods: {
       toggleModal() {
@@ -95,6 +103,16 @@ export default {
 .navbar {
   background: white !important;
   margin-bottom: none !important;
+}
+
+.semester{
+  font-size: 18px;
+  color: grey;
+}
+
+.logo{
+  font-size: 24px;
+  vertical-align: middle;
 }
 
 hr {
