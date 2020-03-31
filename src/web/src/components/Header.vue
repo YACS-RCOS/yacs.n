@@ -65,7 +65,9 @@ export default {
           name: '',
           currentSemester:''
         },
-        show: true
+        show: true,
+        selectedSemester: null,
+			  semesterOptions: []
       }
     },
     created () {
@@ -99,7 +101,6 @@ export default {
 </script>
 
 <style>
-
 .navbar {
   background: white !important;
   margin-bottom: none !important;
@@ -119,6 +120,5 @@ hr {
   margin: 0em;
   border-width: 1px;
 }
-
 
 </style>

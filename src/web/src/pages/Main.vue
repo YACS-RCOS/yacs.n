@@ -45,6 +45,7 @@
               :key="index"
               :schedule="schedule"
               v-show="selectedScheduleIndex === index"
+
             />
           </template>
           <b-row>
@@ -88,6 +89,8 @@ import { getSubSemesters, getCourses } from '@/services/YacsService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
+import Header from '../components/Header';
+
 export default {
   name: 'MainPage',
   mixins: [NotificationsMixin],
@@ -105,7 +108,8 @@ export default {
       selectedScheduleSubsemester: null,
 
       scheduler: new SubSemesterScheduler(),
-
+      
+      currentSemester: "",
       courses: [],
 
       currentSemester: '',
@@ -152,6 +156,10 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
+    newSemester(sem){
+      this.currentSemester = sem;
+    },
+      
     /**
      * Export all selected course sections to ICS
      */
