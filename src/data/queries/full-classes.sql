@@ -33,23 +33,7 @@ on
 group by
   c.department,
   c.level
-;
--- select
---   c1.crn,
---   c1.semester,
---   c1.department,
---   c1.level,
---   json_agg(
---     row_to_json(cs.*)
---   ) sessions
--- from
---   course c1
--- join course_session cs on
---   c1.crn = cs.crn and
---   c1.semester = cs.semester
--- group by
---   c1.crn,
---   c1.semester,
---   c1.department,
---   c1.level
+order by
+  c.department asc,
+  c.level asc
 ;

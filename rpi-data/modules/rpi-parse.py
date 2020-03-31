@@ -24,6 +24,12 @@ assert(source_url)
 response = requests.get(source_url)
 content = response.text
 
+# Removes all divs to avoid bad parsing
+cont = content.split("\n")
+cont = filter(lambda x: not "div" in x, cont)
+content = "\n".join(cont)
+
+
 
 # In[14]:
 
@@ -41,16 +47,31 @@ genInfo = soup.findChildren('center')
 
 # In[20]:
 
-
-def get_foo(my_row):
+def get_course_titles(my_row):
     res = []
     for child in my_row.children:
         if isinstance(child, NavigableString):
             continue
         if isinstance(child, Tag):
-            children = child.findChildren("span", recursive=False)
+            children = child.findChildren("span", recursive=True)
             for child_2 in children:
                 res.append(child_2.contents[0])
+    return res
+
+
+
+
+def get_course_row(my_row):
+    res = []
+    for item in my_row.findChildren('td'):
+        children = item.findChildren('span')
+        #print(children)
+        if(len(children) == 0):
+            res.append(None)
+        else:
+            res.append(children[0].contents[0])
+
+    res.pop()
     return res
 
 
@@ -80,7 +101,7 @@ current_course_max_enroll = ''
 current_course_enrolled = ''
 current_course_remained = ''
 
-time_raw = genInfo[0].findChildren('h3', recursive=False)[
+time_raw = genInfo[0].findChildren('h3', recursive=True)[
                                    1].findChildren('span')[0].contents[0]
 time = parse_time(time_raw)
 
@@ -94,74 +115,62 @@ for gens in genInfo:
 
 for i in range(len(tables)):
     table = tables[i]
+    #print(table)
+    #print("----------------------------------------------")
     rows = table.findChildren(['tr'])
-    for row in rows[:]:
-        info = get_foo(row)
-        if len(info) == 11:
-            current_course_section = info[0]
-            current_course_title = info[1]
-            current_course_hrs = info[3]
-            current_course_max_enroll = info[8]
-            current_course_enrolled = info[9]
-            current_course_remained = info[10]
-            info.append(schls[i])
-            info.append(time[0])
-            info.append(time[1])
-            info.append(SEMESTER_NAME)
+    # print(rows)
+    if i == 0:
+        titles = get_course_titles(rows[1])
 
-            if info[6][-2:] == 'AM':
-                info[5] += 'AM'
-            else:
-                if info[6][2] == ":":
-                    if (int(info[6][0:2]) == 12 and int(info[3]) > 1):
-                        info[5] += "AM"
-                    else:
-                        info[5] += "PM"
-                else:
-                    if int(info[6][0]) - int(info[3]) < 0:
-                        info[5] += "AM"
-                    else:
-                        info[5] += "PM"
-
-
-            data.append(info)
+    for row in rows[2:]:
+        info = get_course_row(row)
+        if(len(info) < 12):
             continue
 
-        if len(info) == 5:
-            clean_info = [
-                current_course_section,
-                current_course_title,
-                info[0],  # Course type
-                current_course_hrs,
-                info[1],
-                info[2],
-                info[3],
-                info[4],
-                current_course_max_enroll,
-                current_course_enrolled,
-                current_course_remained,
-                schls[i],
-                time[0],
-                time[1],
-                SEMESTER_NAME
-            ]
+        elif(len(info) == 12):
+        	info.insert(9, 'TBA')
 
-            if clean_info[6][-2:] == 'AM':
-                clean_info[5] += 'AM'
+        if not info[0]:
+            prev = data[-1]
+            info[0] = prev[0]
+            info[1] = prev[1]
+
+            info[3] = prev[3]
+
+            info[10] = prev[9]
+            info[11] = prev[10]
+            info[12] = prev[11]
+
+        info.append(schls[i])
+        info.append(time[0])
+        info.append(time[1])
+        info.append(SEMESTER_NAME)
+
+        if(info[5]):
+            info[5] = info[5].replace(' ', '').strip()
+        if(info[6]):
+            info[6] = info[6].replace(' ', '').strip()
+        if(info[7]):
+            info[7] = info[7].replace(' ', '').strip()
+
+
+        if(info[7]):
+            if info[7][-2:] == 'AM':
+                info[6] += 'AM'
             else:
-                if clean_info[6][2] == ":":
-                    if (int(clean_info[6][0:2]) == 12 and int(clean_info[3]) > 1):
-                        clean_info[5] += "AM"
-                    else:
-                        clean_info[5] += "PM"
+                col = info[6].find(':')
+                if (int(info[6][:col]) < 8) or (int(info[6][:col]) == 12):
+                    info[6] += "PM"
                 else:
-                    if int(clean_info[6][0]) - int(clean_info[3]) < 0:
-                        clean_info[5] += "AM"
-                    else:
-                        clean_info[5] += "PM"
+                    info[6] += "AM"
+        else:
+            info[6] = info[7] = None 
 
+        if 'TBA' in info[9]:
+        	info[9] = None
 
-            data.append(clean_info)
+        info.pop(4)
+        data.append(info)
 
 
 # In[27]:
@@ -176,6 +185,7 @@ df = pd.DataFrame(data, columns=[
     'course_start_time',
     'course_end_time',
     'course_instructor',
+    'course_location',
     'course_max_enroll',
     'course_enrolled',
     'course_remained',
@@ -185,12 +195,12 @@ df = pd.DataFrame(data, columns=[
     'semester'
 ])
 
-df.course_days_of_the_week = df.course_days_of_the_week.apply(
-    lambda x: x.replace(' ', '').strip())
-df.course_start_time = df.course_start_time.apply(
-    lambda x: x.replace(' ', '').strip())
-df.course_end_time = df.course_end_time.apply(
-    lambda x: x.replace(' ', '').strip())
+# df.course_days_of_the_week = df.course_days_of_the_week.apply(
+#     lambda x: x.replace(' ', '').strip())
+# df.course_start_time = df.course_start_time.apply(
+#     lambda x: x.replace(' ', '').strip())
+# df.course_end_time = df.course_end_time.apply(
+#     lambda x: x.replace(' ', '').strip())
 
 # In[28]:
 
