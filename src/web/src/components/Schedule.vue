@@ -142,7 +142,7 @@ export default {
      * Return % width for each column
      */
     dayWidth() {
-      return 100 / this.numDays - 1;
+      return 100 / this.numDays;
     },
     /**
      * Return % height for each hour row
@@ -155,8 +155,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$labelOffset: 0.35em;
+$hourFontSize: 0.5em;
+
 .schedule {
-  margin-right: 15px;
   margin-top: 10px;
   position: relative; /* so the overlay will position properly */
   margin-bottom: 15px;
@@ -165,20 +167,20 @@ export default {
 .schedule-legend {
   position: absolute;
   height: 100%;
-  left: 0.35em;
+  left: $labelOffset;
   top: 0.7em;
 }
 
 .hour-label {
   color: #777777;
-  font-size: 0.5em;
+  font-size: $hourFontSize;
   text-align: right;
   font-variant: small-caps;
 }
 
 .schedule-grid {
   position: absolute;
-  width: 99%;
+  width: calc(100% - #{$hourFontSize + $labelOffset + 1.7em});
   height: 100%;
   left: 2.5em;
 }
@@ -193,7 +195,6 @@ export default {
 }
 
 .grid-day {
-  //width: 1000;
   height: 100%;
   float: left;
 }
@@ -203,7 +204,6 @@ export default {
   box-sizing: border-box;
   border-top: 1px solid #e7e7e7;
   border-right: 1px solid #e7e7e7;
-  //position: relative;
 }
 
 .grid-day:last-of-type .grid-hour {
