@@ -19,7 +19,7 @@ class Admin:
 				UPDATE 
 					admin_settings
 				SET
-					semester = "%s"
+					semester = %s
 			"""
 			response, error = self.db_conn.execute(cmd, [semester], True)
 
