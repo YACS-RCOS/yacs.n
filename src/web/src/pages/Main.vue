@@ -89,8 +89,6 @@ import { getSubSemesters, getCourses } from '@/services/YacsService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
-import Header from '../components/Header';
-
 export default {
   name: 'MainPage',
   mixins: [NotificationsMixin],
@@ -111,8 +109,6 @@ export default {
       
       currentSemester: "",
       courses: [],
-
-      currentSemester: '',
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
