@@ -6,7 +6,7 @@
           id="search"
           v-model="textSearch"
           trim
-          placeholder="Intro to College - COLG 1030 - 5/2"
+          placeholder="Intro to College - COLG 1030"
         ></b-form-input>
       </b-form-group>
 
@@ -103,8 +103,9 @@ export default {
 <style scoped lang="scss">
 #scroll-box {
   overflow-y: scroll !important;
-  overflow-x: auto;
-  height: 0px; // allows flex and scroll combo
-              // flex-grow will set height during runtime
+  overflow-x: hidden;
+  flex-basis: 0px; // allows flex and scroll combo
+                   // flex-grow will set height during runtime
+  min-height: 200px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
 }
 </style>
