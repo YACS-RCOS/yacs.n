@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - 'src/web/**'
+
+jobs:
+  BackendUnitTests:
+    name: Run unit unit tests on backend
+    runs-on: ubuntu-18.04
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: yacs
+        ports:
+          - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Update Ubuntu
+        run: sudo apt-get update
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update pip
+        run: python -m pip install --upgrade pip
+
+      - name: Load cache for pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: |
+            ${{ runner.os }}-backend-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-backend-pip-
+
+      - name: Install dependencies
+        run: pip install -r src/api/requirements.txt -r tests/requirements.txt
+
+      - name: Create database tables
+        run: |
+          bash build.sh
+        working-directory: ./src/data
+        env:
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGUSER: postgres
+          PGPASSWORD: postgres
+
+      - name: Run unit tests
+        run: pytest --ignore="src/yacs-web" -s
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_USER: postgres
+          DB_PASS: postgres
+          TEST_CSV: rpi-data/summer-2020.csv
