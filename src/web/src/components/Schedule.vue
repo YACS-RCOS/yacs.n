@@ -160,6 +160,7 @@ $hourFontSize: 0.5em;
 
 .schedule {
   margin-top: 10px;
+  margin-right: 15px;
   position: relative; /* so the overlay will position properly */
   margin-bottom: 15px;
 }
@@ -180,7 +181,7 @@ $hourFontSize: 0.5em;
 
 .schedule-grid {
   position: absolute;
-  width: calc(100% - #{$hourFontSize + $labelOffset + 1.7em});
+  width: calc(100% - #{$hourFontSize + $labelOffset + 1.75em});
   height: 100%;
   left: 2.5em;
 }
