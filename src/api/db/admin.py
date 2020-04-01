@@ -16,7 +16,7 @@ class Admin:
 	def set_semester_default(self, semester):
 		try:
 			cmd = """
-				UPDATE 
+				UPDATE
 					admin_settings
 				SET
 					semester = %s
