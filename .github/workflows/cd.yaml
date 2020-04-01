@@ -37,6 +37,6 @@ jobs:
 
       - name: Push
         run: |
-          docker push docker.pkg.github.com/YACS-RCOS/yacs.n/yacs_n_db
-          docker push docker.pkg.github.com/YACS-RCOS/yacs.n/yacs_n_api
-          docker push docker.pkg.github.com/YACS-RCOS/yacs.n/yacs_n_web
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web
