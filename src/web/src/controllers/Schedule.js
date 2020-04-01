@@ -120,14 +120,7 @@ class Schedule {
     } else {
       let i = 0;
       for (const sess of this.dailySessions[courseSession.day_of_week]) {
-        if (
-          sess.id === courseSession.id
-          // sess.crn === courseSession.crn &&
-          // sess.section === courseSession.section &&
-          // sess.time_start === courseSession.time_start &&
-          // sess.time_end === courseSession.time_end &&
-          // sess.day_of_week === courseSession.day_of_week
-        ) {
+        if (sess.id === courseSession.id) {
           this.dailySessions[courseSession.day_of_week].splice(i, 1);
           console.log(`Removed courseSession at index ${i}`);
           return true;
@@ -149,15 +142,12 @@ class Schedule {
    * @returns {boolean} if course section was added to schedule
    * @throws Will throw error if `newCourseSession` conflicts with existing sessions
    */
-  // addCourseSection(course, courseSection, sessionIndices = null) {
   _addCourseSection(courseSection, sessionIndices = null) {
     if (!courseSection) {
       console.warn(`Ignoring add null/undefined courseSection`);
     } else if (courseSection.sessionIds.length === 0) {
-      // } else if (courseSection.sessions.length === 0) {
       console.error(`Cannot add courseSection with no sessions ${JSON.stringify(courseSection)}`);
     } else if (!!sessionIndices && sessionIndices.length != courseSection.sessionIds.length) {
-      // } else if (!!sessionIndices && sessionIndices.length != courseSection.sessions.length) {
       console.warning(`Provided number of checked conflicts ${sessionIndices.length} 
                             does not match number of sessions ${courseSection.sessionIds.length}, 
                             ignoring..`);
@@ -229,10 +219,8 @@ class Schedule {
       console.warn(`Ignoring remove null/undefined courseSection`);
     } else {
       for (const courseSession of store.getters.getSessions(courseSection.sessionIds)) {
-        // for (const courseSession of courseSection.sessions) {
         this._removeCourseSession(courseSession);
       }
-      // courseSection.selected = false;
     }
   }
 
@@ -241,15 +229,12 @@ class Schedule {
    * @param {Course} course
    */
   _removeAllCourseSections(course) {
-    // removeCourse(course) {
     if (!course) {
       console.warn(`Ignoring remove null/undefined course`);
     } else if (course.sectionIds.length === 0) {
-      // } else if (course.sections.length === 0) {
       console.error(`Cannot remove course with no sections ${JSON.stringify(course)}`);
     } else {
       for (const section of store.getters.getSections(course.sectionIds)) {
-        // for (const section of course.sections) {
         this._removeCourseSection(section);
       }
     }

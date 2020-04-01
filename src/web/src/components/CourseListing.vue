@@ -34,7 +34,6 @@
             'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
           }"
         >
-          <!-- {{ section.crn }} - {{ section.sessions[0].section }} -->
           {{ section.crn }} - {{ $store.getters.getSession(section.sessionIds[0]).section }}
           <br />
 
@@ -42,8 +41,6 @@
             v-for="courseSession in $store.getters.getSessions(section.sessionIds)"
             :key="courseSession.id"
           >
-            <!-- :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start" -->
-            <!-- > -->
             {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
             {{ readableTime(courseSession.time_start) }} -
             {{ readableTime(courseSession.time_end) }}

@@ -63,8 +63,6 @@
 </template>
 
 <script>
-// import NotificationsMixin from '@/mixins/NotificationsMixin';
-
 import ScheduleComponent from '@/components/Schedule';
 import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
@@ -72,32 +70,19 @@ import Footer from '@/components/Footer';
 
 import SubSemesterSchedule from '@/controllers/SubSemesterSchedule';
 
-import {
-  getSubSemesters
-  // getCourses
-} from '@/services/YacsService';
+import { getSubSemesters } from '@/services/YacsService';
 
 import { LOAD_CLASSES } from '@/store/actions';
 
 import HeaderComponent from '@/components/Header';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import {
-  // SELECT_COURSE_SECTION,
-  // UNSELECT_COURSE_SECTION,
-  // SELECT_COURSE,
-  // UNSELECT_COURSE,
-  INIT_SELECTED_COURSES,
-  // ADD_COURSE_SECTION,
-  // REMOVE_COURSE_SECTION,
-  ADD_SCHEDULE
-} from '@/store/mutations';
+import { INIT_SELECTED_COURSES, ADD_SCHEDULE } from '@/store/mutations';
 
 import { generateScheduleId } from '@/store/helpers';
 
 export default {
   name: 'MainPage',
-  // mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
@@ -107,13 +92,7 @@ export default {
   },
   data() {
     return {
-      // selectedCourses: {},
-
       selectedScheduleSubsemester: null,
-
-      // scheduler: new SubSemesterScheduler(),
-
-      // courses: [],
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -129,60 +108,11 @@ export default {
       if (scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
       }
-      // subsemesters.forEach(subsemester => {
-      //   this.scheduler.addSubSemester(subsemester);
-      // });
-      // this.$store
-      //   .dispatch(CREATE_SCHEDULE, { schedule: new SubSemesterScheduler(subsemesters) })
-      //   .then(scheduleId => {
-      //     const { scheduleSubsemesters } = this.$store.getters.getSchedule(scheduleId);
-      //     if (scheduleSubsemesters.length > 0) {
-      //       this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
-      //     }
-      //   });
-      // if (this.scheduler.scheduleSubsemesters.length > 0) {
-      // this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
-      // }
     });
-    // getCourses().then(courses => this.courses.push(...courses));
     this.$store.dispatch(LOAD_CLASSES);
     this.$store.commit(INIT_SELECTED_COURSES);
   },
   methods: {
-    // addCourse(course) {
-    //   console.log(`Adding ${course.title} to selected courses`);
-    //   console.log(course);
-    //   // course.selected = true;
-    //   // This must be vm.set since we're adding a property onto an object
-    //   // this.$set(this.selectedCourses, course.id, course);
-    //   this.$store.commit(SELECT_COURSE, { id: course.id });
-    // },
-
-    // addCourseSection(course, section) {
-    //   try {
-    //     this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
-    //     // this.scheduler.addCourseSection(course, section);
-    //     // section.selected = true;
-    //     this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
-    //   } catch (err) {
-    //     if (err.type === 'Schedule Conflict') {
-    //       this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
-    //     }
-    //     console.log(err);
-    //   }
-    // },
-    // removeCourse(course) {
-    //   // this.$delete(this.selectedCourses, course.id);
-    //   // course.selected = false;
-    //   this.$store.commit(UNSELECT_COURSE, { id: course.id });
-    //   // this.scheduler.removeAllCourseSections(course);
-    //   this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
-    // },
-    // removeCourseSection(section) {
-    //   this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
-    //   // this.scheduler.removeCourseSection(section);
-    //   this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
-    // },
     /**
      * Export all selected course sections to ICS
      */
@@ -190,8 +120,6 @@ export default {
       let calendarBuilder = window.ics();
       let semester;
 
-      // for (const course of Object.values(this.courses)) {
-      // for (const section of course.sections.filter(s => s.selected)) {
       for (const section of this.$store.getters.selectedCourseSections) {
         const course = this.$store.getters.getCourse(section.courseId);
         for (const session of this.$store.getters.getSessions(section.sessionIds)) {
@@ -226,10 +154,11 @@ export default {
   },
   computed: {
     selectedScheduleIndex() {
-      return this.$store.getters.getSchedule()?.scheduleSubsemesters.findIndex(
-        // this.scheduler.scheduleSubsemesters.findIndex(
-        s => s.display_string === this.selectedScheduleSubsemester
-      );
+      return this.$store.getters
+        .getSchedule()
+        ?.scheduleSubsemesters.findIndex(
+          s => s.display_string === this.selectedScheduleSubsemester
+        );
     },
     /**
      * Returns list of CRNs for all selected sections
@@ -247,14 +176,12 @@ export default {
     },
     numSelectedCourses() {
       return this.$store.getters.selectedCourses.length;
-      // return Object.values(this.selectedCourses).length;
     },
     scheduleSubsemesterOptions() {
       return this.$store.getters.getSchedule()?.scheduleSubsemesters ?? [];
     },
     scheduleIds() {
       return this.$store.getters.getSchedule()?.scheduleIds ?? [];
-      // return this.$store.getters.getSchedule() ? this.$store.getters.getSchedule().scheduleIds : [];
     }
   }
 };

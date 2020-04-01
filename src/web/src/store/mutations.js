@@ -73,7 +73,6 @@ export default {
     Vue.delete(state._schedules, id);
   },
   [ADD_COURSE_SECTION](state, { scheduleId, sectionId, sessionIndices }) {
-    // state._schedules[scheduleId ?? state.rootScheduleId]._addCourseSection(
     store.getters
       .getSchedule(scheduleId ?? state.rootScheduleId)
       ._addCourseSection(store.getters.getSection(sectionId), sessionIndices);
