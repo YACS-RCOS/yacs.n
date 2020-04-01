@@ -2,7 +2,6 @@
   <div id='header'>
     <b-navbar type="light" variant="light">
         <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
-        <div class="semester"> - {{ currentSemester }} </div>
         <b-navbar-nav class="ml-auto">
             <div>
             <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
