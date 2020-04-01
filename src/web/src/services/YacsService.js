@@ -22,6 +22,7 @@ const client = axios.create({
  */
 const _getCourseIdentifier = courseObj =>
   [
+    'COURSE',
     courseObj.title,
     courseObj.department,
     courseObj.level,
@@ -37,14 +38,14 @@ const _getCourseIdentifier = courseObj =>
  * Returns unique identifier for course section
  * @param {CourseSection} section
  */
-const _getCourseSectionIdentifier = section => `${section.crn}`;
+const _getCourseSectionIdentifier = section => ['SECTION', section.crn].join('|');
 
 /**
  * Returns unique identifier for course session
  * @param {CourseSession} session
  */
 const _getCourseSessionIdentifier = session =>
-  [session.crn, session.day_of_week, session.time_start, session.time_end].join('|');
+  ['SESSION', session.crn, session.day_of_week, session.time_start, session.time_end].join('|');
 
 /**
  * Returns a list of all courses
