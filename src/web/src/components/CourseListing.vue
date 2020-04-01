@@ -30,13 +30,9 @@
           :key="section.crn"
           @click.stop="toggleCourseSection(course, section)"
           :style="{
-                'border-left': section.selected
-                  ? `4px solid ${getBorderColor(section)}`
-                  : 'none',
-                'background-color': section.selected
-                  ? `${getBackgroundColor(section)}`
-                  : 'white'
-              }"
+            'border-left': section.selected ? `4px solid ${getBorderColor(section)}` : 'none',
+            'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
+          }"
         >
           <!-- {{ section.crn }} - {{ section.sessions[0].section }} -->
           {{ section.crn }} - {{ $store.getters.getSession(section.sessionIds[0]).section }}
@@ -62,6 +58,17 @@
 <script>
 import '@/typedef';
 
+import NotificationsMixin from '@/mixins/NotificationsMixin';
+
+import {
+  SELECT_COURSE_SECTION,
+  UNSELECT_COURSE_SECTION,
+  SELECT_COURSE,
+  UNSELECT_COURSE,
+  ADD_COURSE_SECTION,
+  REMOVE_COURSE_SECTION
+} from '@/store/mutations';
+
 import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
 import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
@@ -70,6 +77,7 @@ import { faTimes, faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icon
 
 export default {
   name: 'CourseListing',
+  mixins: [NotificationsMixin],
   props: {
     course: Object,
     actions: Object,
@@ -99,9 +107,12 @@ export default {
     },
     toggleCourse(course) {
       if (course.selected) {
-        this.$emit('removeCourse', course);
+        // this.$emit('removeCourse', course);
+        this.$store.commit(UNSELECT_COURSE, { id: course.id });
+        this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
       } else {
-        this.$emit('addCourse', course);
+        // this.$emit('addCourse', course);
+        this.$store.commit(SELECT_COURSE, { id: course.id });
       }
     },
     /**
@@ -115,9 +126,20 @@ export default {
      */
     toggleCourseSection(course, section) {
       if (section.selected) {
-        this.$emit('removeCourseSection', section);
+        // this.$emit('removeCourseSection', section);
+        this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
+        this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
       } else {
-        this.$emit('addCourseSection', course, section);
+        try {
+          // this.$emit('addCourseSection', course, section);
+          this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
+          this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
+        } catch (err) {
+          if (err.type === 'Schedule Conflict') {
+            this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+          }
+          console.log(err);
+        }
       }
     }
   },
@@ -129,8 +151,4 @@ export default {
 };
 </script>
 
-<style>
-
-  
-
-</style>
+<style></style>

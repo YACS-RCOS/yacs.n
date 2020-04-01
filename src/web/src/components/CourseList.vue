@@ -14,12 +14,18 @@
         <!-- >2 b/c default ALL option always present -->
         <b-col v-if="subsemesterOptions.length > 2">
           <b-form-group label="Filter Sub-Semester" for="sub-semester">
-            <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+            <b-form-select
+              v-model="selectedSubsemester"
+              :options="subsemesterOptions"
+            ></b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group label="Filter Department" for="department">
-            <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+            <b-form-select
+              v-model="selectedDepartment"
+              :options="departmentOptions"
+            ></b-form-select>
           </b-form-group>
         </b-col>
       </b-row>
@@ -28,12 +34,12 @@
     <hr />
 
     <b-list-group id="scroll-box" class="mb-2 mb-sm-0 flex-grow-1" flush>
-     <b-list-group-item
+      <b-list-group-item
         v-for="course in filteredCourses"
         :key="course.id"
-        :class="{'bg-light': course.selected}"
+        :class="{ 'bg-light': course.selected }"
       >
-        <CourseListing :course="course" :actions="{add:true}" v-on="$listeners" />
+        <CourseListing :course="course" :actions="{ add: true }" />
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -85,8 +91,7 @@ export default {
      */
     filteredCourses() {
       // return this.courses
-      return this.$store.getters.courses
-      .filter(({ date_start, date_end, department, title }) => {
+      return this.$store.getters.courses.filter(({ date_start, date_end, department, title }) => {
         return (
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
@@ -105,7 +110,7 @@ export default {
   overflow-y: scroll !important;
   overflow-x: hidden;
   flex-basis: 0px; // allows flex and scroll combo
-                   // flex-grow will set height during runtime
+  // flex-grow will set height during runtime
   min-height: 200px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
 }
 </style>

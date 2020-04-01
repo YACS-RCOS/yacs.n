@@ -8,7 +8,7 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1">
                 <b-card-text class="d-flex flex-grow-1">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" class="w-100" />
+                  <CourseList class="w-100" />
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
@@ -19,11 +19,7 @@
                   </div>
                 </template>
                 <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                  <SelectedCourses
-                    @removeCourse="removeCourse"
-                    @removeCourseSection="removeCourseSection"
-                    @addCourseSection="addCourseSection"
-                  />
+                  <SelectedCourses />
                 </b-card-text>
               </b-tab>
             </b-tabs>
@@ -67,7 +63,7 @@
 </template>
 
 <script>
-import NotificationsMixin from '@/mixins/NotificationsMixin';
+// import NotificationsMixin from '@/mixins/NotificationsMixin';
 
 import ScheduleComponent from '@/components/Schedule';
 import SelectedCoursesComponent from '@/components/SelectedCourses';
@@ -87,13 +83,13 @@ import HeaderComponent from '@/components/Header';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import {
-  SELECT_COURSE_SECTION,
-  UNSELECT_COURSE_SECTION,
-  SELECT_COURSE,
-  UNSELECT_COURSE,
+  // SELECT_COURSE_SECTION,
+  // UNSELECT_COURSE_SECTION,
+  // SELECT_COURSE,
+  // UNSELECT_COURSE,
   INIT_SELECTED_COURSES,
-  ADD_COURSE_SECTION,
-  REMOVE_COURSE_SECTION,
+  // ADD_COURSE_SECTION,
+  // REMOVE_COURSE_SECTION,
   ADD_SCHEDULE
 } from '@/store/mutations';
 
@@ -101,7 +97,7 @@ import { generateScheduleId } from '@/store/helpers';
 
 export default {
   name: 'MainPage',
-  mixins: [NotificationsMixin],
+  // mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
@@ -153,40 +149,40 @@ export default {
     this.$store.commit(INIT_SELECTED_COURSES);
   },
   methods: {
-    addCourse(course) {
-      console.log(`Adding ${course.title} to selected courses`);
-      console.log(course);
-      // course.selected = true;
-      // This must be vm.set since we're adding a property onto an object
-      // this.$set(this.selectedCourses, course.id, course);
-      this.$store.commit(SELECT_COURSE, { id: course.id });
-    },
+    // addCourse(course) {
+    //   console.log(`Adding ${course.title} to selected courses`);
+    //   console.log(course);
+    //   // course.selected = true;
+    //   // This must be vm.set since we're adding a property onto an object
+    //   // this.$set(this.selectedCourses, course.id, course);
+    //   this.$store.commit(SELECT_COURSE, { id: course.id });
+    // },
 
-    addCourseSection(course, section) {
-      try {
-        this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
-        // this.scheduler.addCourseSection(course, section);
-        // section.selected = true;
-        this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
-      } catch (err) {
-        if (err.type === 'Schedule Conflict') {
-          this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
-        }
-        console.log(err);
-      }
-    },
-    removeCourse(course) {
-      // this.$delete(this.selectedCourses, course.id);
-      // course.selected = false;
-      this.$store.commit(UNSELECT_COURSE, { id: course.id });
-      // this.scheduler.removeAllCourseSections(course);
-      this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
-    },
-    removeCourseSection(section) {
-      this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
-      // this.scheduler.removeCourseSection(section);
-      this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
-    },
+    // addCourseSection(course, section) {
+    //   try {
+    //     this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
+    //     // this.scheduler.addCourseSection(course, section);
+    //     // section.selected = true;
+    //     this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
+    //   } catch (err) {
+    //     if (err.type === 'Schedule Conflict') {
+    //       this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+    //     }
+    //     console.log(err);
+    //   }
+    // },
+    // removeCourse(course) {
+    //   // this.$delete(this.selectedCourses, course.id);
+    //   // course.selected = false;
+    //   this.$store.commit(UNSELECT_COURSE, { id: course.id });
+    //   // this.scheduler.removeAllCourseSections(course);
+    //   this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
+    // },
+    // removeCourseSection(section) {
+    //   this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
+    //   // this.scheduler.removeCourseSection(section);
+    //   this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
+    // },
     /**
      * Export all selected course sections to ICS
      */
