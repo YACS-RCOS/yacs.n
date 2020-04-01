@@ -1,5 +1,5 @@
 def test_get_classes_full(class_info):
-    (classes_full, error) = class_info.get_classes_full()
+    classes_full = class_info.get_classes_full()
 
     crns = []
     for row in classes_full:
