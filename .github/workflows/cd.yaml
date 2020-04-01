@@ -23,15 +23,15 @@ jobs:
       - name: Build
         run: |
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }}
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }} \
             -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:latest \
             src/data
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }}
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }} \
             -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:latest \
             src/api
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }}
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }} \
             -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest \
             src/web
 
