@@ -21,13 +21,13 @@ class Admin:
 				SET
 					semester = %s
 			"""
-			response, error = self.db_conn.execute(cmd, [semester], True)
+			response, error = self.db_conn.execute(cmd, [semester], False)
 
 		except Exception as e:
 			# self.db_conn.rollback()
 			return (False, e)
 
-		if response:
+		if response != None:
 			return(True, None) 
 		else:
 			return (False, error)
