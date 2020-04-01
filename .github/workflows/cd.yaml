@@ -28,7 +28,17 @@ jobs:
             -t $DOCKERHUB_USERNAME/yacs_n_db:${{ github.sha }} \
             -t $DOCKERHUB_USERNAME/yacs_n_db:latest \
             src/data
+          docker build \
+            -t $DOCKERHUB_USERNAME/yacs_n_api:${{ github.sha }} \
+            -t $DOCKERHUB_USERNAME/yacs_n_api:latest \
+            src/api
+          docker build \
+            -t $DOCKERHUB_USERNAME/yacs_n_web:${{ github.sha }} \
+            -t $DOCKERHUB_USERNAME/yacs_n_web:latest \
+            src/web
 
       - name: Push
         run: |
           docker push $DOCKERHUB_USERNAME/yacs_n_db
+          docker push $DOCKERHUB_USERNAME/yacs_n_api
+          docker push $DOCKERHUB_USERNAME/yacs_n_web
