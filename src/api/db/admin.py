@@ -16,7 +16,7 @@ class Admin:
 	def set_semester_default(self, semester):
 		try:
 			cmd = """
-				UPDATE 
+				UPDATE
 					admin_settings
 				SET
 					semester = %s
@@ -28,6 +28,6 @@ class Admin:
 			return (False, e)
 
 		if response:
-			return(True, None) 
+			return(True, None)
 		else:
 			return (False, error)
