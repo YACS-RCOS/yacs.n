@@ -149,7 +149,8 @@ class Schedule {
    * @returns {boolean} if course section was added to schedule
    * @throws Will throw error if `newCourseSession` conflicts with existing sessions
    */
-  addCourseSection(course, courseSection, sessionIndices = null) {
+  // addCourseSection(course, courseSection, sessionIndices = null) {
+  _addCourseSection(courseSection, sessionIndices = null) {
     if (!courseSection) {
       console.warn(`Ignoring add null/undefined courseSection`);
     } else if (courseSection.sessionIds.length === 0) {
@@ -223,7 +224,7 @@ class Schedule {
    * Does not check if individual course session removal succeeds
    * @param {CourseSection} courseSection
    */
-  removeCourseSection(courseSection) {
+  _removeCourseSection(courseSection) {
     if (!courseSection) {
       console.warn(`Ignoring remove null/undefined courseSection`);
     } else {
@@ -239,7 +240,8 @@ class Schedule {
    * Removes all sections of course
    * @param {Course} course
    */
-  removeCourse(course) {
+  _removeAllCourseSections(course) {
+    // removeCourse(course) {
     if (!course) {
       console.warn(`Ignoring remove null/undefined course`);
     } else if (course.sectionIds.length === 0) {
@@ -248,7 +250,7 @@ class Schedule {
     } else {
       for (const section of store.getters.getSections(course.sectionIds)) {
         // for (const section of course.sections) {
-        this.removeCourseSection(section);
+        this._removeCourseSection(section);
       }
     }
   }

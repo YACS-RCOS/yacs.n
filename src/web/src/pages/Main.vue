@@ -8,7 +8,7 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1">
                 <b-card-text class="d-flex flex-grow-1">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" class="w-100"/>
+                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" class="w-100" />
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
@@ -30,57 +30,34 @@
           </b-card>
         </b-col>
         <b-col md="8" class="d-flex flex-column">
+          <!-- :options="scheduler.scheduleSubsemesters" -->
           <b-form-select
             v-model="selectedScheduleSubsemester"
-            :options="scheduler.scheduleSubsemesters"
+            :options="scheduleSubsemesterOptions"
             text-field="display_string"
             value-field="display_string"
           ></b-form-select>
-
-<<<<<<< HEAD
           <!-- v-for="(schedule, index) in scheduler.schedules" -->
           <Schedule
-            v-for="(schedule, index) in $store.getters.schedules"
+            v-for="(scheduleId, index) in scheduleIds"
             :key="index"
-            :schedule="schedule"
+            :schedule="$store.getters.getSchedule(scheduleId)"
             v-show="selectedScheduleIndex === index"
-            class="flex-grow-1"
           />
-          <b-row class="justify-content-between">
-            <b-col cols="auto">
-              <h5>CRNs: {{ selectedCrns }}</h5>
-            </b-col>
-            <b-col cols="auto">
-              <button class="btn btn-success" @click="exportScheduleToIcs">
-                <font-awesome-icon :icon="exportIcon" class="mr-1" />Export to ICS
-              </button>
-            </b-col>
-=======
-          <template v-if="scheduler.schedules.length">
-            <Schedule
-              v-for="(schedule, index) in scheduler.schedules"
-              :key="index"
-              :schedule="schedule"
-              v-show="selectedScheduleIndex === index"
-            />
-          </template>
           <b-row>
-
             <b-col>
               <h5>CRNs: {{ selectedCrns }}</h5>
             </b-col>
 
-            <b-col md='4'>
+            <b-col md="4">
               <button
-                id='export-ics-button'
+                id="export-ics-button"
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+                <font-awesome-icon :icon="exportIcon" />Export to ICS
               </button>
             </b-col>
-
->>>>>>> master
           </b-row>
         </b-col>
       </b-row>
@@ -114,8 +91,13 @@ import {
   UNSELECT_COURSE_SECTION,
   SELECT_COURSE,
   UNSELECT_COURSE,
-  INIT_SELECTED_COURSES
+  INIT_SELECTED_COURSES,
+  ADD_COURSE_SECTION,
+  REMOVE_COURSE_SECTION,
+  ADD_SCHEDULE
 } from '@/store/mutations';
+
+import { generateScheduleId } from '@/store/helpers';
 
 export default {
   name: 'MainPage',
@@ -133,7 +115,7 @@ export default {
 
       selectedScheduleSubsemester: null,
 
-      scheduler: new SubSemesterScheduler(),
+      // scheduler: new SubSemesterScheduler(),
 
       // courses: [],
 
@@ -143,12 +125,28 @@ export default {
   },
   created() {
     getSubSemesters().then(subsemesters => {
-      subsemesters.forEach(subsemester => {
-        this.scheduler.addSubSemester(subsemester);
+      this.$store.commit(ADD_SCHEDULE, {
+        id: generateScheduleId(),
+        schedule: new SubSemesterScheduler(subsemesters)
       });
-      if (this.scheduler.scheduleSubsemesters.length > 0) {
-        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      const { scheduleSubsemesters } = this.$store.getters.getSchedule();
+      if (scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
       }
+      // subsemesters.forEach(subsemester => {
+      //   this.scheduler.addSubSemester(subsemester);
+      // });
+      // this.$store
+      //   .dispatch(CREATE_SCHEDULE, { schedule: new SubSemesterScheduler(subsemesters) })
+      //   .then(scheduleId => {
+      //     const { scheduleSubsemesters } = this.$store.getters.getSchedule(scheduleId);
+      //     if (scheduleSubsemesters.length > 0) {
+      //       this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
+      //     }
+      //   });
+      // if (this.scheduler.scheduleSubsemesters.length > 0) {
+      // this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      // }
     });
     // getCourses().then(courses => this.courses.push(...courses));
     this.$store.dispatch(LOAD_CLASSES);
@@ -166,7 +164,8 @@ export default {
 
     addCourseSection(course, section) {
       try {
-        this.scheduler.addCourseSection(course, section);
+        this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
+        // this.scheduler.addCourseSection(course, section);
         // section.selected = true;
         this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
       } catch (err) {
@@ -180,11 +179,13 @@ export default {
       // this.$delete(this.selectedCourses, course.id);
       // course.selected = false;
       this.$store.commit(UNSELECT_COURSE, { id: course.id });
-      this.scheduler.removeAllCourseSections(course);
+      // this.scheduler.removeAllCourseSections(course);
+      this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
     },
     removeCourseSection(section) {
       this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
-      this.scheduler.removeCourseSection(section);
+      // this.scheduler.removeCourseSection(section);
+      this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
     },
     /**
      * Export all selected course sections to ICS
@@ -229,7 +230,8 @@ export default {
   },
   computed: {
     selectedScheduleIndex() {
-      return this.scheduler.scheduleSubsemesters.findIndex(
+      return this.$store.getters.getSchedule()?.scheduleSubsemesters.findIndex(
+        // this.scheduler.scheduleSubsemesters.findIndex(
         s => s.display_string === this.selectedScheduleSubsemester
       );
     },
@@ -250,6 +252,13 @@ export default {
     numSelectedCourses() {
       return this.$store.getters.selectedCourses.length;
       // return Object.values(this.selectedCourses).length;
+    },
+    scheduleSubsemesterOptions() {
+      return this.$store.getters.getSchedule()?.scheduleSubsemesters ?? [];
+    },
+    scheduleIds() {
+      return this.$store.getters.getSchedule()?.scheduleIds ?? [];
+      // return this.$store.getters.getSchedule() ? this.$store.getters.getSchedule().scheduleIds : [];
     }
   }
 };
@@ -285,7 +294,6 @@ export default {
 }
 
 #export-ics-button {
-  background: #3D4959 !important;
+  background: #3d4959 !important;
 }
-
 </style>

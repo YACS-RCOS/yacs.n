@@ -8,17 +8,17 @@ import actions from './actions';
 
 Vue.use(Vuex);
 
-const state = {
-  _courses: {},
-  _courseSections: {},
-  _courseSessions: {},
-  selectedCourseIds: [],
-  selectedCourseSectionIds: [],
-  _schedules: {}
-};
-
 export default new Vuex.Store({
-  state,
+  state: {
+    _courses: {},
+    _courseSections: {},
+    _courseSessions: {},
+    selectedCourseIds: [],
+    selectedCourseSectionIds: [],
+    _schedules: {},
+    scheduleIdIndex: 0,
+    rootScheduleId: null
+  },
   mutations,
   actions,
   getters: {
@@ -34,7 +34,7 @@ export default new Vuex.Store({
     selectedCourses: (state, getters) => getters.getCourses(state.selectedCourseIds),
     selectedCourseSections: (state, getters) => getters.getSections(state.selectedCourseSectionIds),
     schedules: state => Object.values(state._schedules),
-    getSchedule: state => id => state._schedules[id]
+    getSchedule: state => id => state._schedules[id ?? state.rootScheduleId]
   },
   modules: {}
 });
