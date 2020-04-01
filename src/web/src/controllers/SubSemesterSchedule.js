@@ -11,7 +11,7 @@ import { generateScheduleId } from '@/store/helpers';
  * Manages schedules for subsemesters
  * Allows adding and removing Course sections
  */
-class SubSemesterScheduler {
+class SubSemesterSchedule {
   /**
    * List of schedules, each with a corresponding subsemester
    * in `scheduleSubsemesters`
@@ -148,4 +148,4 @@ class SubSemesterScheduler {
   }
 }
 
-export default SubSemesterScheduler;
+export default SubSemesterSchedule;

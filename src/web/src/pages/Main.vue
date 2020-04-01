@@ -70,7 +70,7 @@ import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
 import Footer from '@/components/Footer';
 
-import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
+import SubSemesterSchedule from '@/controllers/SubSemesterSchedule';
 
 import {
   getSubSemesters
@@ -123,7 +123,7 @@ export default {
     getSubSemesters().then(subsemesters => {
       this.$store.commit(ADD_SCHEDULE, {
         id: generateScheduleId(),
-        schedule: new SubSemesterScheduler(subsemesters)
+        schedule: new SubSemesterSchedule(subsemesters)
       });
       const { scheduleSubsemesters } = this.$store.getters.getSchedule();
       if (scheduleSubsemesters.length > 0) {
