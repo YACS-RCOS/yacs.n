@@ -46,6 +46,8 @@ import { DAY_SHORTNAMES } from '@/utils';
 
 import { getDepartments, getSubSemesters } from '@/services/YacsService';
 
+import { getSemester } from '@/services/AdminService';
+
 import CourseListingComponent from '@/components/CourseListing';
 
 export default {
@@ -63,7 +65,8 @@ export default {
       selectedSubsemester: null,
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: 'All', value: null }],
+      selectedSemester: null
     };
   },
   created() {
@@ -77,6 +80,11 @@ export default {
         })
       );
     });
+    getSemester().then(semester => {
+      console.log(semester);
+      //this.selectedSemester = semester.semester;
+    });
+
   },
   computed: {
     /**

@@ -2,6 +2,7 @@
   <div id='header'>
     <b-navbar type="light" variant="light">
         <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
+        <div> {{currentSemester}} </div>
         <b-navbar-nav class="ml-auto">
             <div>
             <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
@@ -61,17 +62,19 @@ export default {
       return {
         form: {
           email: '',
-          name: '',
-          currentSemester:''
+          name: ''
         },
         show: true,
-			  semesterOptions: []
+			  semesterOptions: [],
+        currentSemester: ''
       }
     },
     created () {
-      getSemester().then(({data}) => {
-            this.currentSemester = data.semester;
-        });
+      getSemester().then(semester => {
+        console.log("SEMESTER: ");
+        console.log(semester);
+        this.selectedSemester = semester.semester;
+      });
     },
     methods: {
       toggleModal() {

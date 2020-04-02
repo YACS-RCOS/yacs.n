@@ -10,4 +10,6 @@ export const mapDateRangeToSemesterPart = formData => client.post('/mapDateRange
 
 export const updateSemester = semester => client.post('/defaultsemesterset', {'default': semester});
 
-export const getSemester = () => client.get('/defaultsemester');
+export const getSemester = () => client.get('/defaultsemester').then(({ data }) => {
+    																return data;
+  																});

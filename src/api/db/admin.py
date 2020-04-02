@@ -9,8 +9,6 @@ class Admin:
 				semester
 			from
 				admin_settings
-			group by
-				semester
 		""", None, True)
 
 	def set_semester_default(self, semester):

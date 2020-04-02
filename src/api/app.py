@@ -57,7 +57,8 @@ def get_semesters():
 
 @app.route('/api/defaultsemester', methods=['GET'])
 def get_defaultSemester():
-    return jsonify(admin_info.get_semester_default())
+    semester, error = admin_info.get_semester_default()
+    return jsonify(semester) if not error else Response(error, status=500)
 
 @app.route('/api/defaultsemesterset', methods=['POST'])
 def set_defaultSemester():
