@@ -117,6 +117,15 @@ export default {
     };
   },
   created() {
+    if(this.$route.query.semester){
+      this.currentSemester = this.$route.query.semester;
+    }
+    else{
+      getSemester().then(semester => {
+        this.currentSemester = semester[0].semester;
+      });
+    }
+    
     getSubSemesters().then(subsemesters => {
       subsemesters.forEach(subsemester => {
         if(subsemester.parent_semester_name == this.currentSemester){
@@ -128,14 +137,7 @@ export default {
       }
     });
     getCourses().then(courses => this.courses.push(...courses));
-    if(this.$route.query.semester){
-      this.currentSemester = this.$route.query.semester;
-    }
-    else{
-      getSemester().then(semester => {
-        this.currentSemester = semester[0].semester;
-      });
-    }
+    
   },
   methods: {
     addCourse(course) {
