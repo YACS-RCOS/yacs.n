@@ -17,7 +17,7 @@
  * @property {string} department
  * @property {number} level
  * @property {string} semester
- * @property {CourseSession[]} sessions
+ * @property {string[]} sessionIds
  * @property {string} id
  * @property {string} courseId
  * @property {boolean} selected
@@ -26,7 +26,7 @@
  * @typedef Course
  * @property {string} department
  * @property {number} level
- * @property {CourseSection[]} sections
+ * @property {string[]} sectionIds
  * @property {string} title
  * @property {Date} date_start
  * @property {Date} date_end
