@@ -128,6 +128,7 @@ export default {
     getCourses().then(courses => this.courses.push(...courses));
     if(this.$route.query.semester){
       this.currentSemester = this.$route.query.semester;
+      console.log(this.currentSemester);
     }
     else{
       getSemester().then(semester => {
