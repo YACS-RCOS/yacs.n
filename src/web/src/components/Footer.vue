@@ -7,17 +7,14 @@
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
-            <!-- <div>
-              <template v-for="semester in semesterOptions" >
-                <a class="link" v-for="semester in semesterOptions" :class="link" :value="semester.value" :key="semester.text" :href="/?semester=FALL 2020">
-                  {{ semester.text }}
-                </a>
-              </template>
-            </div> -->
-            <a class="link" href=#>Fall 2019</a>
-            <a class="link" href=#>Fall 2020</a>
-            <a class="link" href=#>Spring 2020</a>
-            <a class="link" href=#>Summer 2020</a>
+            <a 
+              v-for="semester in semesterOptions"
+              v-bind:key="semester.text"
+              v-bind:value="semester.value"
+              v-bind:href="`/?semester=${semester.text}`"
+              class="link"
+              > {{semester.value}}
+            </a>
           </b-col>
 
           <b-col>
