@@ -5,6 +5,14 @@ import { INIT_COURSES } from './mutations';
 export const LOAD_CLASSES = 'LOAD_COURSES_SECTIONS_SESSIONS';
 
 export default {
+  /**
+   * Loads courses from YacsService,
+   * normalizes sections and sessions,
+   * then commits to store
+   * Potentially move this or at least
+   * id generation to the backend
+   * @param {import('vuex').Store} param0
+   */
   async [LOAD_CLASSES]({ commit }) {
     const courses = await getCourses();
     console.log(`received ${courses.length} courses`);
