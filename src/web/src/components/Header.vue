@@ -86,10 +86,14 @@ export default {
       }
     },
     created(){
-      getSemester().then(semester => {
-          console.log(semester);
-          this.selectedSemester = semester.semester;
+      if(this.$route.query.semester){
+        this.currentSemester = this.$route.query.semester;
+      }
+      else{
+        getSemester().then(semester => {
+          this.currentSemester = semester[0].semester;
         });
+      }
       this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
