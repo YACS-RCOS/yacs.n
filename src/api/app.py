@@ -16,7 +16,6 @@ import controller.session as session_controller
 import controller.userevent as event_controller
 
 from io import StringIO
-from flask_cors import CORS
 import json
 import os
 
@@ -27,10 +26,7 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 
-app = Flask(
-    __name__,
-    template_folder='./public/templates')
-CORS(app)
+app = Flask(__name__)
 
 @app.route('/')
 def root():
