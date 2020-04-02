@@ -18,7 +18,7 @@ class User(Model):
                             enable = %s"""
 
         args = (str(uid), name, email, phone, password, major, degree, enable)
-        return self.db.execute(sql, args, True)
+        return self.db.execute(sql, args, True)[0]
 
     def add_user(self, args):
         sql = """
@@ -42,12 +42,12 @@ class User(Model):
                     %(Enable)s
                 )
                 """
-        return self.db.execute(sql, args, False)
+        return self.db.execute(sql, args, False)[0]
 
     def delete_user(self, uid):
         sql = """UPDATE public.user_account SET enable = FALSE WHERE user_id = %s;"""
         args = (uid,)
-        return self.db.execute(sql, args, False)
+        return self.db.execute(sql, args, False)[0]
 
     def update_user(self, args):
         sql = """   UPDATE 
@@ -62,4 +62,4 @@ class User(Model):
                     WHERE 
                         user_id = %(UID)s;
                     """
-        return self.db.execute(sql, args, False)
+        return self.db.execute(sql, args, False)[0]

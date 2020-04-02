@@ -39,9 +39,9 @@ class database():
 
         except psycopg2.Error as e:
             print(e)
-            return (e)
+            return (ret, e)
 
-        return ret
+        return (ret, None)
 
     def get_connection(self):
         return self.conn
