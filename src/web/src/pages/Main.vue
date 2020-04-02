@@ -6,9 +6,9 @@
         <b-col md="4" class="d-flex flex-column">
           <b-card no-body class="h-100">
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-              <b-tab title="Course Search" active class="flex-grow-1">
-                <b-card-text class="d-flex flex-grow-1">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" />
+              <b-tab title="Course Search" active class="flex-grow-1 w-100">
+                <b-card-text class="d-flex flex-grow-1 w-100">
+                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100"/>
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
