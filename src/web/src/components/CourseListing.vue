@@ -55,8 +55,6 @@
 <script>
 import '@/typedef';
 
-import NotificationsMixin from '@/mixins/NotificationsMixin';
-
 import {
   SELECT_COURSE_SECTION,
   UNSELECT_COURSE_SECTION,
@@ -74,7 +72,6 @@ import { faTimes, faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icon
 
 export default {
   name: 'CourseListing',
-  mixins: [NotificationsMixin],
   props: {
     course: Object,
     actions: Object,
@@ -138,6 +135,32 @@ export default {
           console.log(err);
         }
       }
+    },
+    /**
+     * Generates a Bootstrap Toast notification of a schedule conflict
+     * using the provided information
+     * @param {Course} course
+     * @param {CourseSession} conflictSession
+     * @param {Subsemester} subsemester
+     */
+    notifyScheduleConflict(course, conflictSession, subsemester) {
+      const vNodesMsg = this.$createElement('p', { class: ['mb-0'] }, [
+        `${subsemester.display_string}: Conflict with ${conflictSession.crn} - ${conflictSession.section} `,
+        this.$createElement('div', {
+          style: `
+            background-color:${getBackgroundColor(conflictSession)};
+            border:1px solid ${getBorderColor(conflictSession)};
+            width:13px;
+            height:13px;
+            display:inline-block;`
+        })
+      ]);
+      this.$bvToast.toast(vNodesMsg, {
+        // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
+        title: `Cannot add ${course.title}`,
+        variant: 'danger',
+        noAutoHide: true
+      });
     }
   },
   computed: {
