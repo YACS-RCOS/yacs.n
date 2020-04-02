@@ -12,7 +12,7 @@ echo "Starting @ $(date)" > $PATH_ROOT/logs/dev.txt
 
 # run flask
 cd src/api/
-DB_USER=marchdan DB_PASS=" " flask run --reload >> $PATH_ROOT/logs/api.txt 2>&1 & # run in bg and port logs
+flask run --reload >> $PATH_ROOT/logs/api.txt 2>&1 & # run in bg and port logs
 FLASK_PID=($!)
 echo "FLASK_PID: $FLASK_PID" >> $PATH_ROOT/logs/dev.txt
 cd ../..

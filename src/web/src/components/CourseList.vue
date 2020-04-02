@@ -71,13 +71,13 @@ export default {
   },
   created() {
     if(this.$route.query.semester){
-        this.selectedSemester = this.$route.query.semester;
-      }
-      else{
-        getSemester().then(semester => {
-          this.selectedSemester = semester[0].semester;
-        });
-      }
+      this.selectedSemester = this.$route.query.semester;
+    }
+    else{
+      getSemester().then(semester => {
+        this.selectedSemester = semester[0].semester;
+      });
+    }
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
@@ -108,7 +108,7 @@ export default {
               this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
           (!this.selectedDepartment || this.selectedDepartment === department) &&
           (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
-          (!this.selectedSemester || this.selectedSemester ===
+          (this.selectedSemester ===
             semester)
         );
       });

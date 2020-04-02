@@ -9,9 +9,9 @@
             <strong class="section-head">Other Semesters</strong>
             <a 
               v-for="semester in semesterOptions"
-              v-bind:key="semester.text"
-              v-bind:value="semester.value"
-              v-bind:href="`/?semester=${semester.text}`"
+              :key="semester.text"
+              :value="semester.value"
+              :href="`/?semester=${semester.text}`"
               class="link"
               > {{semester.value}}
             </a>
@@ -50,7 +50,6 @@ export default {
     name: 'Footer',
     data() {
       return {
-        field: 0,
         semesterOptions: []
       }
     },
