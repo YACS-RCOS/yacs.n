@@ -87,7 +87,6 @@ export default {
     },
     created(){
       getSemester().then(semester => {
-          console.log("SEMESTER: ");
           console.log(semester);
           this.selectedSemester = semester.semester;
         });

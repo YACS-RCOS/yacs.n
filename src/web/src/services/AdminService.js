@@ -13,3 +13,4 @@ export const updateSemester = semester => client.post('/defaultsemesterset', {'d
 export const getSemester = () => client.get('/defaultsemester').then(({ data }) => {
     																return data;
   																});
+

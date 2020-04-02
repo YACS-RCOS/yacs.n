@@ -87,6 +87,8 @@ import HeaderComponent from '@/components/Header';
 
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
+import { getSemester } from '@/services/AdminService';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -124,6 +126,14 @@ export default {
       }
     });
     getCourses().then(courses => this.courses.push(...courses));
+    if(this.$route.query.semester){
+      this.currentSemester = this.$route.query.semester;
+    }
+    else{
+      getSemester().then(semester => {
+        console.log(semester);
+      });
+    }
   },
   methods: {
     addCourse(course) {
