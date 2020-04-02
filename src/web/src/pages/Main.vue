@@ -119,7 +119,9 @@ export default {
   created() {
     getSubSemesters().then(subsemesters => {
       subsemesters.forEach(subsemester => {
-        this.scheduler.addSubSemester(subsemester);
+        if(subsemester.parent_semester_name == this.currentSemester){
+          this.scheduler.addSubSemester(subsemester);
+        }
       });
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
