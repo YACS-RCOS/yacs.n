@@ -19,9 +19,7 @@ class database():
             host=DB_HOST,
             port=DB_PORT,
         )
-        print('-' * 50)
-        print("Database connected")
-        print('-' * 50)
+        print("[INFO] Database Connected")
 
     def close(self):
         self.conn.close()

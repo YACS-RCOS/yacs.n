@@ -15,14 +15,13 @@
                 <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
             </form>
         </section>
-        <a @click="back" class="btn btn-info text-white">Back</a>
         <b-spinner v-show="loading" />
-        <hr />
     </b-container>
 </template>
 
 <script>
 import { updateSemester } from '@/services/AdminService';
+import { getDefaultSemester } from '@/services/AdminService';
 import { getSemesters } from '@/services/YacsService';
 
 export default {
@@ -67,10 +66,17 @@ export default {
         }
     },
     created() {
-        getSemesters().then(data => {
-                this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
-            });
-      },
+      // assign semester to current semester
+      getDefaultSemester()
+        .then(semester => {
+          this.semester = semester
+        })
+      // create options for updating default
+      getSemesters()
+        .then(semesters => {
+          this.semesterOptions.push(...semesters.map(s => ({text: s.semester, value: s.semester})));
+        });
+    },
 }
 </script>
 
