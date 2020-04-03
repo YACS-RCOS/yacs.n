@@ -11,8 +11,8 @@
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>          
-          
+          </b-nav-item-dropdown>
+
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-if="sessionID===null">
             <div>
@@ -44,7 +44,7 @@
                         required
                         placeholder="Enter password"
                         ></b-form-input>
-                    </b-form-group>                    
+                    </b-form-group>
 
                     <b-button type="submit" variant="primary">Submit</b-button>
                     <b-button type="reset" variant="danger">Reset</b-button>
@@ -67,11 +67,13 @@
 </template>
 
 <script>
-import { getSemester } from '@/services/AdminService';
 import { login } from '@/services/UserService';
 
 export default {
     name: 'Header',
+    props: {
+      currentSemester: String
+    },
     data() {
       return {
         form: {
@@ -82,18 +84,9 @@ export default {
         sessionID: '',
         show: true,
         semesterOptions: [],
-        currentSemester: ''
       }
     },
     created(){
-      if(this.$route.query.semester){
-        this.currentSemester = this.$route.query.semester;
-      }
-      else{
-        getSemester().then(semester => {
-          this.currentSemester = semester[0].semester;
-        });
-      }
       this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
@@ -111,7 +104,7 @@ export default {
         evt.preventDefault()
         let userInfo = this.form;
         console.log(userInfo);
-        
+
         login(userInfo)
         .then(response => {
           console.log(response);
@@ -138,7 +131,7 @@ export default {
         this.$cookies.remove("sessionID");
         location.reload();
       }
-    
+
     }
 }
 </script>
