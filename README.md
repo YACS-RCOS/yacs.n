@@ -4,7 +4,24 @@
 
 YACS with support for multi and sub-semesters for any school
 
----
+
+## YACS at your school?
+
+Clone the repo and
+
+`docker-compose up -d`
+
+Once up,
+
+Head to the admin panel at `/admin`
+
+You'll be able to
+
+1. Import courses
+2. Select default semesters
+3. Rename semester parts (useful for semesters that are split in parts)
+
+Head to `/` and allow your peers/students to schedule away!
 
 ## Development
 
@@ -28,7 +45,3 @@ You should be able to access @ `localhost:8080`
 In `localhost:8080/admin` submit your school's courses by CSV and you're ready to schedule!
 
 For schema see /rpi-data/summer-2020.csv as an example
-
-## YACS at your school?
-
-`in development`
