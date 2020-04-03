@@ -1,0 +1,33 @@
+version: '3.4'
+
+# web (front-end) depends on api (back-end) depends on (db)
+# web -> api -> db [dependency chain]
+
+services:
+
+  yacs_web:
+    image: joshuawu3/yacs_n_web:latest
+    ports:
+      - 8080:8080
+    environment:
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      - HOST=${HOST:-localhost}
+
+  yacs_api:
+    image: joshuawu3/yacs_n_api:latest
+    restart: always
+    environment:
+      - ENV=production
+      - DEBUG=False
+      - DB_HOST=yacs_db
+      - DB_USER=yacs
+      - DB_PASS=${DB_PASS:-easy_dev_pass}
+      - DB_NAME=yacs
+      - WORKERS=${API_WORKERS:-4}
+
+  yacs_db:
+    image: joshuawu3/yacs_n_db:latest
+    environment:
+      - POSTGRES_DB=yacs
+      - POSTGRES_USER=yacs
+      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}

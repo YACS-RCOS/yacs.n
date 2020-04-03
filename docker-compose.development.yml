@@ -1,0 +1,60 @@
+version: '3.4'
+
+# web (front-end) depends on api (back-end) depends on (db)
+# nginx -> web -> api -> db [dependency chain]
+
+volumes:
+  web_node_modules:
+
+services:
+
+  yacs_nginx:
+    container_name: yacs_nginx
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./src/web/nginx.development.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - yacs_web
+
+  yacs_web:
+    build:
+      context: ./src/web
+      dockerfile: Dockerfile
+      target: develop-stage
+    command: npm run serve
+    ports:
+      - 8080:8080
+    volumes:
+      - ./src/web:/app
+      - web_node_modules:/app/node_modules/
+    environment:
+      - VUE_API_HOST=yacs_api
+
+  yacs_api:
+    build:
+      context: ./src/api/
+      dockerfile: Dockerfile
+    volumes:
+      - ./src/api:/usr/src
+    command: python app.py
+    restart: always
+    environment:
+      - ENV=development
+      - DEBUG=True
+      - DB_HOST=yacs_db
+      - DB_USER=yacs
+      - DB_PASS=${DB_PASS:-easy_dev_pass}
+      - DB_NAME=yacs
+
+  yacs_db:
+    build:
+      context: ./src/data/
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=yacs
+      - POSTGRES_USER=yacs
+      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
