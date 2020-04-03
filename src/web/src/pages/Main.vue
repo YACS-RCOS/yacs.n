@@ -148,6 +148,7 @@ export default {
       course.selected = true;
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
+      this.scheduler.addCourse(course);
     },
 
     addCourseSection(course, section) {

@@ -25,6 +25,8 @@
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
+          :name="findSectionName(courseSession.crn)"
+          :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
             'margin-top': eventPosition(courseSession) + 'px',
             height: eventHeight(courseSession) + 'px',
@@ -103,7 +105,37 @@ export default {
      */
     courseSessionsOnDay(dayOfWeek) {
       return this.schedule.dailySessions[dayOfWeek];
+    },
+    /**
+     * Returns the name (department level) of a selected CourseSection for
+     * display in each ScheduleEvent
+     * @param {number} crn
+     * @return {string}
+     */
+    findSectionName(crn) {
+      const sections = this.schedule.selectedSections;
+      for (let index = 0; index < sections.length; index++) {
+        if (crn == sections[index].crn) {
+          return sections[index].department + " " + sections[index].level;
+        }
+      }
+    },
+    /**
+     * Returns the title of a selected Course for
+     * display in each ScheduleEvent
+     * @param {string} name (formatted department level)
+     * @return {string}
+     */
+    findCourseTitle(name) {
+      const courses = this.schedule.selectedCourses;
+      for (let index = 0; index < courses.length; index++) {
+        const tmpName = courses[index].department + " " + courses[index].level;
+        if (tmpName == name) {
+          return courses[index].title;
+        }
+      }
     }
+
   },
   computed: {
     /**

@@ -1,8 +1,17 @@
 <template functional>
   <div class="schedule-event" :style="data.style">
     <div class="event-text">
-      {{ props.crn }} - {{ props.section }}
+      {{ props.title }}
       <br>
+      {{ props.name }} - {{ props.section }}
+      <br>
+      {{ props.crn }}
+      <br>
+      Location
+      <!-- location -->
+      <br>
+      Professor
+      <!-- professor -->
     </div>
   </div>
 </template>
