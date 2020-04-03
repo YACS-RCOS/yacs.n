@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { getSemester } from '@/services/AdminService';
+import { getDefaultSemester } from '@/services/AdminService';
 import { login } from '@/services/UserService';
 
 export default {
@@ -90,8 +90,8 @@ export default {
         this.currentSemester = this.$route.query.semester;
       }
       else{
-        getSemester().then(semester => {
-          this.currentSemester = semester[0].semester;
+        getDefaultSemester().then(semester => {
+          this.currentSemester = semester;
         });
       }
       this.sessionID = this.$cookies.get("sessionID");

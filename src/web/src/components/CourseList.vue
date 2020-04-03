@@ -46,7 +46,7 @@ import { DAY_SHORTNAMES } from '@/utils';
 
 import { getDepartments, getSubSemesters } from '@/services/YacsService';
 
-import { getSemester } from '@/services/AdminService';
+import { getDefaultSemester } from '@/services/AdminService';
 
 import CourseListingComponent from '@/components/CourseListing';
 
@@ -74,8 +74,8 @@ export default {
       this.selectedSemester = this.$route.query.semester;
     }
     else{
-      getSemester().then(semester => {
-        this.selectedSemester = semester[0].semester;
+      getDefaultSemester().then(semester => {
+        this.selectedSemester = semester;
       });
     }
     getDepartments().then(departments => {

@@ -49,7 +49,7 @@
 
 import { getSemesters } from '@/services/YacsService';
 
-import { getSemester }  from '@/services/AdminService';
+import { getDefaultSemester }  from '@/services/AdminService';
 
 export default {
     name: 'Footer',
@@ -66,8 +66,8 @@ export default {
         this.currentSemester = this.$route.query.semester;
       }
       else{
-        getSemester().then(semester => {
-          this.currentSemester = semester[0].semester;
+        getDefaultSemester().then(semester => {
+          this.currentSemester = semester;
         });
       }
       getSemesters().then(data  => {
