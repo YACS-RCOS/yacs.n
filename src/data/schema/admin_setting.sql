@@ -4,4 +4,4 @@ create table admin_settings(
 );
 
 INSERT INTO admin_settings (semester)
-VALUES ('SUMMER 2020');
+VALUES (NULL);

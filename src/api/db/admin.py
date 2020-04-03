@@ -6,9 +6,9 @@ class Admin:
 	def get_semester_default(self):
 		return self.db_conn.execute("""
 			select
-				semester
+				COALESCE(admin.semester, (SELECT c.semester FROM course c LIMIT 1))
 			from
-				admin_settings
+				admin_settings admin
 		""", None, True)
 
 	def set_semester_default(self, semester):
@@ -26,6 +26,6 @@ class Admin:
 			return (False, e)
 
 		if response != None:
-			return(True, None) 
+			return(True, None)
 		else:
 			return (False, error)
