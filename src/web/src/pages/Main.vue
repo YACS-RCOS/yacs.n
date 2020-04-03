@@ -127,7 +127,7 @@ export default {
     }
 
     getCourses().then(courses => {
-      this.courses.push(...courses)
+      this.courses = courses;
     })
 
     getSubSemesters().then(subsemesters => {

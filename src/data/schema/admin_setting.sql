@@ -4,4 +4,6 @@ create table admin_settings(
 );
 
 INSERT INTO admin_settings (semester)
-VALUES (NULL);
+VALUES (
+  (SELECT semester FROM course LIMIT 1)
+);
