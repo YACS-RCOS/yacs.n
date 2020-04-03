@@ -128,21 +128,17 @@ export default {
 
     getCourses().then(courses => {
       this.courses.push(...courses)
-      if (courses.length && this.currentSemester === null) {
-        this.currentSemester = courses.find(course => course.sections.length && course.sections.length).sections.find(section => section.semester).semester;
-      }
     })
-    .then(() => {
-      getSubSemesters().then(subsemesters => {
-        subsemesters.forEach(subsemester => {
-          if(subsemester.parent_semester_name == this.currentSemester){
-            this.scheduler.addSubSemester(subsemester);
-          }
-        });
-        if (this.scheduler.scheduleSubsemesters.length > 0) {
-          this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+
+    getSubSemesters().then(subsemesters => {
+      subsemesters.forEach(subsemester => {
+        if(subsemester.parent_semester_name == this.currentSemester){
+          this.scheduler.addSubSemester(subsemester);
         }
       });
+      if (this.scheduler.scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      }
     });
   },
   methods: {
