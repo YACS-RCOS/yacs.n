@@ -3,7 +3,7 @@ name: CD
 on:
   push:
     branches:
-      - add_build_workflow
+      - add_prod_dev_docker_compose
 
 jobs:
   PushImages:
