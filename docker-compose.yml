@@ -12,9 +12,6 @@ services:
 
   yacs_api:
     container_name: yacs_api
-    tty: true
-    ports:
-      - 5000:5000
     depends_on:
       - yacs_db
 

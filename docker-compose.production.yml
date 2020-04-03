@@ -8,7 +8,7 @@ services:
   yacs_web:
     image: joshuawu3/yacs_n_web:latest
     ports:
-      - 8080:8080
+      - 80:80
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       - HOST=${HOST:-localhost}

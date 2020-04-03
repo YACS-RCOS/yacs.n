@@ -29,16 +29,17 @@ services:
     volumes:
       - ./src/web:/app
       - web_node_modules:/app/node_modules/
-    environment:
-      - VUE_API_HOST=yacs_api
 
   yacs_api:
     build:
       context: ./src/api/
       dockerfile: Dockerfile
+    ports:
+      - 5000:5000
     volumes:
       - ./src/api:/usr/src
     command: python app.py
+    tty: true
     restart: always
     environment:
       - ENV=development
