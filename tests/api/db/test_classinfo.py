@@ -3,7 +3,6 @@ def test_get_classes_full(class_info):
 
     crns = []
     for row in classes_full:
-        print(row)
         for section in row['sections']:
             if section and section['crn']:
                 crns.append(section['crn'])

@@ -2,7 +2,7 @@
   <div id='header'>
     <b-navbar type="light" variant="light">
         <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
-        <div> {{currentSemester}} </div>
+        <div class="semester"> {{currentSemester}} </div>
         <b-navbar-nav class="ml-auto" v-if="sessionID!==null">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
@@ -67,6 +67,9 @@
 </template>
 
 <script>
+
+import { getDefaultSemester } from '@/services/AdminService';
+
 import { login } from '@/services/UserService';
 
 export default {
@@ -87,6 +90,14 @@ export default {
       }
     },
     created(){
+      if(this.$route.query.semester){
+        this.currentSemester = this.$route.query.semester;
+      }
+      else{
+        getDefaultSemester().then(semester => {
+          this.currentSemester = semester;
+        });
+      }
       this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
