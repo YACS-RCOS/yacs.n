@@ -4,10 +4,10 @@ import os
 
 # connection details
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
-DB_USER = os.environ.get('DB_USER', 'yacs')
-DB_HOST = os.environ.get('DB_HOST', '0.0.0.0')
-DB_PORT = os.environ.get('DB_PORT', 5432)
-DB_PASS = os.environ.get('DB_PASS', 'easy_dev_pass')
+DB_USER = os.environ.get('DB_USER', None)
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_PORT = os.environ.get('DB_PORT', None)
+DB_PASS = os.environ.get('DB_PASS', None)
 
 class database():
     def connect(self):
