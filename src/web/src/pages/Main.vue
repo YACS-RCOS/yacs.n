@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class='mb-3'></Header>
+    <Header class='mb-3' :currentSemester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -8,7 +8,7 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1 w-100">
                 <b-card-text class="d-flex flex-grow-1 w-100">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100"/>
+                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100" :selectedSemester="currentSemester"/>
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
@@ -108,7 +108,7 @@ export default {
       selectedScheduleSubsemester: null,
 
       scheduler: new SubSemesterScheduler(),
-      
+
       currentSemester: "",
       courses: [],
 
@@ -125,7 +125,11 @@ export default {
         this.currentSemester = semester[0].semester;
       });
     }
-    
+
+    getCourses().then(courses => {
+      this.courses = courses;
+    })
+
     getSubSemesters().then(subsemesters => {
       subsemesters.forEach(subsemester => {
         if(subsemester.parent_semester_name == this.currentSemester){
@@ -136,8 +140,6 @@ export default {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
-    getCourses().then(courses => this.courses.push(...courses));
-    
   },
   methods: {
     addCourse(course) {
@@ -169,7 +171,7 @@ export default {
     newSemester(sem){
       this.currentSemester = sem;
     },
-      
+
     /**
      * Export all selected course sections to ICS
      */
