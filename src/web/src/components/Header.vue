@@ -2,7 +2,7 @@
   <div id='header'>
     <b-navbar type="light" variant="light">
         <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
-        <div> {{currentSemester}} </div>
+        <div class="semester"> {{currentSemester}} </div>
         <b-navbar-nav class="ml-auto" v-if="sessionID!==null">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->

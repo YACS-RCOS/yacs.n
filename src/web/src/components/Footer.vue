@@ -7,8 +7,11 @@
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
+            <a class="link" id="current">
+              {{ currentSemester }}
+            </a>
             <a 
-              v-for="semester in semesterOptions"
+              v-for="semester in otherSemesters"
               :key="semester.text"
               :value="semester.value"
               :href="`/?semester=${semester.text}`"
@@ -46,21 +49,42 @@
 
 import { getSemesters } from '@/services/YacsService';
 
+import { getSemester }  from '@/services/AdminService';
+
 export default {
     name: 'Footer',
     data() {
       return {
-        semesterOptions: []
+        semesterOptions: [],
+        currentSemester: ''
       }
     },
     methods: {
     },
     created () {
-    getSemesters().then(({ data }) => {
-            this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
-            });
+      if(this.$route.query.semester){
+        this.currentSemester = this.$route.query.semester;
+      }
+      else{
+        getSemester().then(semester => {
+          this.currentSemester = semester[0].semester;
+        });
+      }
+      getSemesters().then(data  => {
+        this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
+        });
+    },
+    computed: {
+      otherSemesters: function() {
+        var retSemesters = [];
+        for(var item of this.semesterOptions){
+          if(item.value != this.currentSemester){
+            retSemesters.push(item);
+          }
+        }
+        return retSemesters;
+      } 
     }
-
 }
 </script>
 
@@ -83,6 +107,10 @@ export default {
     a.link {
       color: inherit;
       display: block;
+    }
+
+    a.link#current {
+      color: grey;
     }
 
   }

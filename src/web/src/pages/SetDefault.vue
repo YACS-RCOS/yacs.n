@@ -67,7 +67,7 @@ export default {
         }
     },
     created() {
-        getSemesters().then(({ data }) => {
+        getSemesters().then(data => {
                 this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
             });
       },
