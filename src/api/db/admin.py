@@ -4,13 +4,13 @@ class Admin:
 		self.interface_name = 'admin_info'
 
 	def get_semester_default(self):
-		return self.db_conn.execute("""
+		ret, error = self.db_conn.execute("""
 			select
 				COALESCE(admin.semester, (SELECT c.semester FROM course c LIMIT 1)) AS semester
 			from
 				admin_settings admin
 		""", None, True)
-
+		return (ret[0]["semester"], error)
 	def set_semester_default(self, semester):
 		try:
 			cmd = """
