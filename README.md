@@ -19,7 +19,9 @@ You'll be able to
 
 1. Import courses
 2. Select default semesters
-3. Rename semester parts (usefull for semesters that are split in parts)
+3. Rename semester parts (useful for semesters that are split in parts)
+
+Head to `/` and allow your peers/students to schedule away!
 
 ## Development
 
