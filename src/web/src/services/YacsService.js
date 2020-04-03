@@ -82,6 +82,4 @@ export const getSubSemesters = () =>
     });
   });
 
-  export const getSemesters = () => client.get('/semester').then(({data}) => {
-    return data;
-  });
+  export const getSemesters = () => client.get('/semester').then(res => res.data);
