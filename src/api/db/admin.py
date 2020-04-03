@@ -10,7 +10,7 @@ class Admin:
 			from
 				admin_settings admin
 		""", None, True)
-		return (ret[0]["semester"], error)
+		return (ret[0]["semester"], error) ## Only one record
 	def set_semester_default(self, semester):
 		try:
 			cmd = """
