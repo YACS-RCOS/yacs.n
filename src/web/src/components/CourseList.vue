@@ -83,14 +83,8 @@ export default {
     });
     getSubSemesters().then(subsemesters => {
       this.subsemesterOptions.push(
-        ...subsemesters.filter(subsemester => {
-          if(subsemester.parent_semester_name == this.selectedSemester){
-            return true;
-          }
-          else{
-            return false;
-          }
-        }).map(subsemester => {
+        ...subsemesters.filter(subsemester => subsemester.semester_name === this.selectedSemester)
+        .map(subsemester => {
           return { text: subsemester.display_string, value: subsemester };
         }))
     });
