@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
 # first stop
-docker-compose stop
+docker-compose \
+  -f docker-compose.yml \
+  -f docker-compose.production.yml \
+  stop
 
 # then remove old containers
-docker-compose rm -f
+docker-compose \
+  -f docker-compose.yml \
+  -f docker-compose.production.yml \
+  rm -f
+
