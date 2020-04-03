@@ -3,12 +3,14 @@ name: CD
 on:
   push:
     branches:
-      - master
+      - add_build_workflow
 
 jobs:
   PushImages:
     name: Build and push docker images
     runs-on: ubuntu-18.04
+    env:
+      DOCKERHUB_USERNAME: joshuawu3
 
     steps:
       - name: Update Ubuntu
@@ -17,30 +19,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Login to Github Package Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository }} --password-stdin
+      - name: Login
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u $DOCKERHUB_USERNAME --password-stdin
 
       - name: Build
         run: |
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }} \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:latest \
+            -t $DOCKERHUB_USERNAME/yacs_n_db:${{ github.sha }} \
+            -t $DOCKERHUB_USERNAME/yacs_n_db:latest \
             src/data
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }} \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:latest \
+            -t $DOCKERHUB_USERNAME/yacs_n_api:${{ github.sha }} \
+            -t $DOCKERHUB_USERNAME/yacs_n_api:latest \
             src/api
           docker build \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }} \
-            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest \
+            -t $DOCKERHUB_USERNAME/yacs_n_web:${{ github.sha }} \
+            -t $DOCKERHUB_USERNAME/yacs_n_web:latest \
             src/web
-
       - name: Push
         run: |
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }}
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }}
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }}
-          # Have latest tag be most recent
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:latest
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:latest
-          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest
+          docker push $DOCKERHUB_USERNAME/yacs_n_db
+          docker push $DOCKERHUB_USERNAME/yacs_n_api
+          docker push $DOCKERHUB_USERNAME/yacs_n_web
