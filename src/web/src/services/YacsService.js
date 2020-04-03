@@ -81,3 +81,5 @@ export const getSubSemesters = () =>
       return subsemester;
     });
   });
+
+  export const getSemesters = () => client.get('/semester');

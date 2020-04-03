@@ -7,10 +7,14 @@
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
-            <a class="link" href=#>Fall 2019</a>
-            <a class="link" href=#>Fall 2020</a>
-            <a class="link" href=#>Spring 2020</a>
-            <a class="link" href=#>Summer 2020</a>
+            <a 
+              v-for="semester in semesterOptions"
+              :key="semester.text"
+              :value="semester.value"
+              :href="`/?semester=${semester.text}`"
+              class="link"
+              > {{semester.value}}
+            </a>
           </b-col>
 
           <b-col>
@@ -40,15 +44,23 @@
 
 <script>
 
+import { getSemesters } from '@/services/YacsService';
+
 export default {
     name: 'Footer',
     data() {
       return {
-        field: 0
+        semesterOptions: []
       }
     },
     methods: {
+    },
+    created () {
+    getSemesters().then(({ data }) => {
+            this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
+            });
     }
+
 }
 </script>
 

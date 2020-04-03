@@ -46,6 +46,8 @@ import { DAY_SHORTNAMES } from '@/utils';
 
 import { getDepartments, getSubSemesters } from '@/services/YacsService';
 
+import { getSemester } from '@/services/AdminService';
+
 import CourseListingComponent from '@/components/CourseListing';
 
 export default {
@@ -63,19 +65,34 @@ export default {
       selectedSubsemester: null,
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: 'All', value: null }],
+      selectedSemester: null
     };
   },
   created() {
+    if(this.$route.query.semester){
+      this.selectedSemester = this.$route.query.semester;
+    }
+    else{
+      getSemester().then(semester => {
+        this.selectedSemester = semester[0].semester;
+      });
+    }
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
     getSubSemesters().then(subsemesters => {
       this.subsemesterOptions.push(
-        ...subsemesters.map(subsemester => {
+        ...subsemesters.filter(subsemester => {
+          if(subsemester.parent_semester_name == this.selectedSemester){
+            return true;
+          }
+          else{
+            return false;
+          }
+        }).map(subsemester => {
           return { text: subsemester.display_string, value: subsemester };
-        })
-      );
+        }))
     });
   },
   computed: {
@@ -84,13 +101,15 @@ export default {
      * @returns {Course[]}
      */
     filteredCourses() {
-      return this.courses.filter(({ date_start, date_end, department, title }) => {
+      return this.courses.filter(({ date_start, date_end, department, title, semester }) => {
         return (
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
           (!this.selectedDepartment || this.selectedDepartment === department) &&
-          (!this.textSearch || title.includes(this.textSearch.toUpperCase()))
+          (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
+          (this.selectedSemester ===
+            semester)
         );
       });
     }

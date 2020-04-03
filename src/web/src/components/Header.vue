@@ -1,7 +1,8 @@
 <template>
   <div id='header'>
-    <b-navbar variant="light">
-        <b-navbar-brand href="#">YACS</b-navbar-brand>
+    <b-navbar type="light" variant="light">
+        <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
+        <div> {{currentSemester}} </div>
         <b-navbar-nav class="ml-auto" v-if="sessionID!==null">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
@@ -66,6 +67,7 @@
 </template>
 
 <script>
+import { getSemester } from '@/services/AdminService';
 import { login } from '@/services/UserService';
 
 export default {
@@ -78,17 +80,26 @@ export default {
         },
         isLoggedIn: false,
         sessionID: '',
-        show: true
+        show: true,
+        semesterOptions: [],
+        currentSemester: ''
       }
     },
     created(){
-      this.sessionID = this.$cookies.get("sessionID")
+      if(this.$route.query.semester){
+        this.currentSemester = this.$route.query.semester;
+      }
+      else{
+        getSemester().then(semester => {
+          this.currentSemester = semester[0].semester;
+        });
+      }
+      this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
       } else {
         console.log('sessionID', this.sessionID);
       }
-
     },
     methods: {
       toggleModal() {
@@ -133,16 +144,24 @@ export default {
 </script>
 
 <style>
-
 .navbar {
   background: white !important;
   margin-bottom: none !important;
+}
+
+.semester{
+  font-size: 18px;
+  color: grey;
+}
+
+.logo{
+  font-size: 24px;
+  vertical-align: middle;
 }
 
 hr {
   margin: 0em;
   border-width: 1px;
 }
-
 
 </style>

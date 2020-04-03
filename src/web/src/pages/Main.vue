@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <Header class='mb-3'></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -45,6 +45,7 @@
               :key="index"
               :schedule="schedule"
               v-show="selectedScheduleIndex === index"
+
             />
           </template>
           <b-row>
@@ -86,6 +87,8 @@ import HeaderComponent from '@/components/Header';
 
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
+import { getSemester } from '@/services/AdminService';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -105,7 +108,8 @@ export default {
       selectedScheduleSubsemester: null,
 
       scheduler: new SubSemesterScheduler(),
-
+      
+      currentSemester: "",
       courses: [],
 
       exportIcon: faPaperPlane,
@@ -113,15 +117,27 @@ export default {
     };
   },
   created() {
+    if(this.$route.query.semester){
+      this.currentSemester = this.$route.query.semester;
+    }
+    else{
+      getSemester().then(semester => {
+        this.currentSemester = semester[0].semester;
+      });
+    }
+    
     getSubSemesters().then(subsemesters => {
       subsemesters.forEach(subsemester => {
-        this.scheduler.addSubSemester(subsemester);
+        if(subsemester.parent_semester_name == this.currentSemester){
+          this.scheduler.addSubSemester(subsemester);
+        }
       });
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
     getCourses().then(courses => this.courses.push(...courses));
+    
   },
   methods: {
     addCourse(course) {
@@ -150,6 +166,10 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
+    newSemester(sem){
+      this.currentSemester = sem;
+    },
+      
     /**
      * Export all selected course sections to ICS
      */
