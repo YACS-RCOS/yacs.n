@@ -4,6 +4,7 @@ module.exports = {
     node: true
   },
   extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
+  ignorePatterns: ["*.min.js"],
   parserOptions: {
     parser: 'babel-eslint'
   },
