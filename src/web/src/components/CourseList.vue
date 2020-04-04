@@ -14,18 +14,12 @@
         <!-- >2 b/c default ALL option always present -->
         <b-col v-if="subsemesterOptions.length > 2">
           <b-form-group label="Filter Sub-Semester" for="sub-semester">
-            <b-form-select
-              v-model="selectedSubsemester"
-              :options="subsemesterOptions"
-            ></b-form-select>
+            <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group label="Filter Department" for="department">
-            <b-form-select
-              v-model="selectedDepartment"
-              :options="departmentOptions"
-            ></b-form-select>
+            <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
           </b-form-group>
         </b-col>
       </b-row>
@@ -52,12 +46,17 @@ import { DAY_SHORTNAMES } from '@/utils';
 
 import { getDepartments, getSubSemesters } from '@/services/YacsService';
 
+import { getDefaultSemester } from '@/services/AdminService';
+
 import CourseListingComponent from '@/components/CourseListing';
 
 export default {
   name: 'CourseList',
   components: {
     CourseListing: CourseListingComponent
+  },
+  props: {
+    selectedSemester: null
   },
   data() {
     return {
@@ -70,14 +69,23 @@ export default {
     };
   },
   created() {
+    if (this.$route.query.semester) {
+      this.selectedSemester = this.$route.query.semester;
+    } else {
+      getDefaultSemester().then(semester => {
+        this.selectedSemester = semester;
+      });
+    }
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
     getSubSemesters().then(subsemesters => {
       this.subsemesterOptions.push(
-        ...subsemesters.map(subsemester => {
-          return { text: subsemester.display_string, value: subsemester };
-        })
+        ...subsemesters
+          .filter(subsemester => subsemester.semester_name === this.selectedSemester)
+          .map(subsemester => {
+            return { text: subsemester.display_string, value: subsemester };
+          })
       );
     });
   },
@@ -87,15 +95,18 @@ export default {
      * @returns {Course[]}
      */
     filteredCourses() {
-      return this.$store.getters.courses.filter(({ date_start, date_end, department, title }) => {
-        return (
-          (!this.selectedSubsemester ||
-            (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
-              this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
-          (!this.selectedDepartment || this.selectedDepartment === department) &&
-          (!this.textSearch || title.includes(this.textSearch.toUpperCase()))
-        );
-      });
+      return this.$store.getters.courses.filter(
+        ({ date_start, date_end, department, title, semester }) => {
+          return (
+            (!this.selectedSubsemester ||
+              (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
+                this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
+            (!this.selectedDepartment || this.selectedDepartment === department) &&
+            (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
+            this.selectedSemester === semester
+          );
+        }
+      );
     }
   }
 };

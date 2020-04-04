@@ -10,7 +10,8 @@ class ClassInfo:
                 level,
                 concat(course.department, '-', course.level) as name,
                 max(title) as title,
-                json_agg(crn) as crns
+                json_agg(crn) as crns,
+                semester
             from
                 course
             group by
@@ -29,7 +30,8 @@ class ClassInfo:
               c.date_end,
               json_agg(
                 row_to_json(section.*)
-              ) sections
+              ) sections,
+              c.semester
             from
               course c
             left join
@@ -59,7 +61,8 @@ class ClassInfo:
               c.department,
               c.level,
               c.date_start,
-              c.date_end
+              c.date_end,
+              c.semester
             order by
               c.department asc,
               c.level asc
@@ -102,3 +105,4 @@ class ClassInfo:
             group by
               semester
         """, None, True)
+        

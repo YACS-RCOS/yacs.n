@@ -13,9 +13,7 @@
                 <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
             </form>
         </section>
-        <a @click="back" class="btn btn-info text-white">Back</a>
         <b-spinner v-show="loading" />
-        <hr />
     </b-container>
 </template>
 

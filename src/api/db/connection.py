@@ -4,10 +4,10 @@ import os
 
 # connection details
 DB_NAME = os.environ.get('DB_NAME', 'yacs')
-DB_USER = os.environ.get('DB_USER', 'yacs')
-DB_HOST = os.environ.get('DB_HOST', '0.0.0.0')
-DB_PORT = os.environ.get('DB_PORT', 5432)
-DB_PASS = os.environ.get('DB_PASS', 'easy_dev_pass')
+DB_USER = os.environ.get('DB_USER', None)
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_PORT = os.environ.get('DB_PORT', None)
+DB_PASS = os.environ.get('DB_PASS', None)
 
 class database():
     def connect(self):
@@ -19,15 +19,14 @@ class database():
             host=DB_HOST,
             port=DB_PORT,
         )
-        print('-' * 50)
-        print("Database connected")
-        print('-' * 50)
+        print("[INFO] Database Connected")
 
     def close(self):
         self.conn.close()
 
     def execute(self, sql, args, isSELECT=True):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret = None
         try:
             if isSELECT:
                 cur.execute(sql, args)

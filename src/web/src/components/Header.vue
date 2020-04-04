@@ -1,7 +1,8 @@
 <template>
   <div id='header'>
-    <b-navbar variant="light">
-        <b-navbar-brand href="#">YACS</b-navbar-brand>
+    <b-navbar type="light" variant="light">
+        <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
+        <div class="semester"> {{currentSemester}} </div>
         <b-navbar-nav class="ml-auto" v-if="sessionID!==null">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
@@ -10,8 +11,8 @@
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>          
-          
+          </b-nav-item-dropdown>
+
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-if="sessionID===null">
             <div>
@@ -43,7 +44,7 @@
                         required
                         placeholder="Enter password"
                         ></b-form-input>
-                    </b-form-group>                    
+                    </b-form-group>
 
                     <b-button type="submit" variant="primary">Submit</b-button>
                     <b-button type="reset" variant="danger">Reset</b-button>
@@ -66,10 +67,16 @@
 </template>
 
 <script>
+
+import { getDefaultSemester } from '@/services/AdminService';
+
 import { login } from '@/services/UserService';
 
 export default {
     name: 'Header',
+    props: {
+      currentSemester: String
+    },
     data() {
       return {
         form: {
@@ -78,17 +85,25 @@ export default {
         },
         isLoggedIn: false,
         sessionID: '',
-        show: true
+        show: true,
+        semesterOptions: [],
       }
     },
     created(){
-      this.sessionID = this.$cookies.get("sessionID")
+      if(this.$route.query.semester){
+        this.currentSemester = this.$route.query.semester;
+      }
+      else{
+        getDefaultSemester().then(semester => {
+          this.currentSemester = semester;
+        });
+      }
+      this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
       } else {
         console.log('sessionID', this.sessionID);
       }
-
     },
     methods: {
       toggleModal() {
@@ -100,7 +115,7 @@ export default {
         evt.preventDefault()
         let userInfo = this.form;
         console.log(userInfo);
-        
+
         login(userInfo)
         .then(response => {
           console.log(response);
@@ -127,22 +142,30 @@ export default {
         this.$cookies.remove("sessionID");
         location.reload();
       }
-    
+
     }
 }
 </script>
 
 <style>
-
 .navbar {
   background: white !important;
   margin-bottom: none !important;
+}
+
+.semester{
+  font-size: 18px;
+  color: grey;
+}
+
+.logo{
+  font-size: 24px;
+  vertical-align: middle;
 }
 
 hr {
   margin: 0em;
   border-width: 1px;
 }
-
 
 </style>

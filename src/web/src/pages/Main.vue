@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Header></Header>
+    <Header class="mb-3" :currentSemester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
           <b-card no-body class="h-100">
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-              <b-tab title="Course Search" active class="flex-grow-1">
-                <b-card-text class="d-flex flex-grow-1">
+              <b-tab title="Course Search" active class="flex-grow-1 w-100">
+                <b-card-text class="d-flex flex-grow-1 w-100">
                   <CourseList class="w-100" />
                 </b-card-text>
               </b-tab>
@@ -76,6 +76,8 @@ import { LOAD_CLASSES } from '@/store/actions';
 
 import HeaderComponent from '@/components/Header';
 
+import { getDefaultSemester } from '@/services/AdminService';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { INIT_SELECTED_COURSES, ADD_SCHEDULE } from '@/store/mutations';
 
@@ -99,10 +101,24 @@ export default {
     };
   },
   created() {
+    if (this.$route.query.semester) {
+      this.currentSemester = this.$route.query.semester;
+    } else {
+      getDefaultSemester().then(semester => {
+        this.currentSemester = semester;
+      });
+    }
+
+    getCourses().then(courses => {
+      this.courses = courses;
+    });
+
     getSubSemesters().then(subsemesters => {
       this.$store.commit(ADD_SCHEDULE, {
         id: generateScheduleId(),
-        schedule: new SubSemesterSchedule(subsemesters)
+        schedule: new SubSemesterSchedule(
+          subsemesters.filter(s => s.parent_semester_name == this.currentSemester)
+        )
       });
       const { scheduleSubsemesters } = this.$store.getters.getSchedule();
       if (scheduleSubsemesters.length > 0) {
@@ -113,6 +129,9 @@ export default {
     this.$store.commit(INIT_SELECTED_COURSES);
   },
   methods: {
+    newSemester(sem) {
+      this.currentSemester = sem;
+    },
     /**
      * Export all selected course sections to ICS
      */
