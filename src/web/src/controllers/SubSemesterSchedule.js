@@ -4,6 +4,7 @@ import store from '@/store';
 
 import { ADD_COURSE_SECTION, ADD_SCHEDULE, REMOVE_COURSE_SECTION } from '@/store/mutations';
 import { generateScheduleId } from '@/store/helpers';
+import { SCHEDULE_CONFLICT_ERROR } from './Schedule';
 
 /**
  * Manages schedules for subsemesters
@@ -86,12 +87,12 @@ class SubSemesterSchedule {
           // Associate results with a schedule by `index`
           scheduleSessionIndices[index] = sessionIndices;
         } catch (err) {
-          if (err.type === 'Schedule Conflict') {
+          if (err.type === SCHEDULE_CONFLICT_ERROR) {
             err.subsemester = this.scheduleSubsemesters[index];
-            console.log(err);
+            err.message += ` in ${err.subsemester.display_string}`;
             throw err;
           }
-          console.log(err);
+          console.error(err);
         }
       }
     }

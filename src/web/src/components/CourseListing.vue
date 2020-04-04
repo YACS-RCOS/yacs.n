@@ -69,6 +69,7 @@ import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
 
 import { faTimes, faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { SCHEDULE_CONFLICT_ERROR } from '@/controllers/Schedule';
 
 export default {
   name: 'CourseListing',
@@ -129,10 +130,10 @@ export default {
           this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
           this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
         } catch (err) {
-          if (err.type === 'Schedule Conflict') {
+          if (err.type === SCHEDULE_CONFLICT_ERROR) {
             this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
           }
-          console.log(err);
+          console.error(err.message ?? err);
         }
       }
     },

@@ -2,6 +2,11 @@ import '@/typedef';
 
 import store from '@/store';
 
+export const SCHEDULE_CONFLICT_ERROR = 'Schedule Conflict';
+// Internal errors
+const INVALID_SESSION_INDICES_ERROR = 'Invalid Session Indices';
+const NULL_SESSION_INDEX_ERROR = 'Null Session Index';
+
 /**
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
@@ -42,69 +47,56 @@ class Schedule {
    * @throws Will throw error if `newCourseSession` conflicts with existing sessions
    */
   getAddCourseSessionIndex(newCourseSession) {
-    if (!newCourseSession) {
-      console.warn(`Ignoring add null/undefined courseSession`);
-    } else if (
-      newCourseSession.day_of_week === undefined ||
-      newCourseSession.time_end === undefined ||
-      newCourseSession.time_start === undefined
+    const daySessions = this.dailySessions[newCourseSession.day_of_week];
+    const numSessions = daySessions.length;
+
+    // If daySessions is empty, no conflicts
+    if (numSessions === 0) return 0;
+
+    // If session is after latest session, return last index
+    if (
+      newCourseSession.time_start >= daySessions[numSessions - 1].time_end &&
+      newCourseSession.time_end > daySessions[numSessions - 1].time_end
     ) {
-      console.error(`
-        Cannot add courseSession with undefined values 
-        ${JSON.stringify(newCourseSession)}
-      `);
-    } else {
-      const daySessions = this.dailySessions[newCourseSession.day_of_week];
-      const numSessions = daySessions.length;
-
-      // If daySessions is empty, no conflicts
-      if (numSessions === 0) return 0;
-
-      // If session is after latest session, return last index
-      if (
-        newCourseSession.time_start >= daySessions[numSessions - 1].time_end &&
-        newCourseSession.time_end > daySessions[numSessions - 1].time_end
-      ) {
-        return numSessions;
-      }
-
-      // Check courseSessions in the same day as newCourseSession for conflicts
-      for (let i = 0; i < daySessions.length; i++) {
-        let sess = daySessions[i];
-
-        // If newCourseSession time block is before sess time block return current index
-        if (
-          newCourseSession.time_end <= sess.time_start &&
-          newCourseSession.time_start < sess.time_start
-        ) {
-          return i;
-
-          // If newCourseSession time block is after sess time block
-        } else if (
-          newCourseSession.time_start >= sess.time_end &&
-          newCourseSession.time_end > sess.time_end
-        ) {
-          // Check next courseSession
-          continue;
-
-          // Otherwise there is a schedule conflict
-        } else {
-          console.error(`
-              Schedule conflict between 
-              ${JSON.stringify(newCourseSession)} 
-              and ${JSON.stringify(sess)}
-          `);
-          throw {
-            type: 'Schedule Conflict',
-            existingSession: sess,
-            addingSession: newCourseSession
-          };
-        }
-      }
-
-      // Should be unreachable
-      return null;
+      return numSessions;
     }
+
+    // Check courseSessions in the same day as newCourseSession for conflicts
+    for (let i = 0; i < daySessions.length; i++) {
+      let sess = daySessions[i];
+
+      // If newCourseSession time block is before sess time block return current index
+      if (
+        newCourseSession.time_end <= sess.time_start &&
+        newCourseSession.time_start < sess.time_start
+      ) {
+        return i;
+
+        // If newCourseSession time block is after sess time block
+      } else if (
+        newCourseSession.time_start >= sess.time_end &&
+        newCourseSession.time_end > sess.time_end
+      ) {
+        // Check next courseSession
+        continue;
+
+        // Otherwise there is a schedule conflict
+      } else {
+        throw {
+          type: SCHEDULE_CONFLICT_ERROR,
+          existingSession: sess,
+          addingSession: newCourseSession,
+          message: `
+            Schedule conflict between 
+            ${newCourseSession.id} 
+            and ${sess.id}
+        `
+        };
+      }
+    }
+
+    // Should be unreachable
+    return null;
   }
 
   /**
@@ -115,22 +107,14 @@ class Schedule {
    * @returns {boolean} if course session was removed from schedule
    */
   _removeCourseSession(courseSession) {
-    if (!courseSession) {
-      console.warn(`Ignoring remove null/undefined courseSession`);
-    } else {
-      let i = 0;
-      for (const sess of this.dailySessions[courseSession.day_of_week]) {
-        if (sess.id === courseSession.id) {
-          this.dailySessions[courseSession.day_of_week].splice(i, 1);
-          console.log(`Removed courseSession at index ${i}`);
-          return true;
-        }
-        i += 1;
-      }
+    const index = this.dailySessions[courseSession.day_of_week].findIndex(
+      cs => cs.id === courseSession.id
+    );
 
-      // console.error(`Failed to remove could not find ${JSON.stringify(courseSession)}`);
-      return false;
-    }
+    if (index === -1) return false;
+
+    // This should always return true
+    return this.dailySessions[courseSession.day_of_week].splice(index, 1).length > 0;
   }
 
   /**
@@ -143,70 +127,56 @@ class Schedule {
    * @throws Will throw error if `newCourseSession` conflicts with existing sessions
    */
   _addCourseSection(courseSection, sessionIndices = null) {
-    if (!courseSection) {
-      console.warn(`Ignoring add null/undefined courseSection`);
-    } else if (courseSection.sessionIds.length === 0) {
-      console.error(`Cannot add courseSection with no sessions ${JSON.stringify(courseSection)}`);
-    } else if (!!sessionIndices && sessionIndices.length != courseSection.sessionIds.length) {
-      console.warning(`Provided number of checked conflicts ${sessionIndices.length} 
+    if (!!sessionIndices && sessionIndices.length != courseSection.sessionIds.length) {
+      throw {
+        type: INVALID_SESSION_INDICES_ERROR,
+        message: `Provided number of checked conflicts ${sessionIndices.length} 
                             does not match number of sessions ${courseSection.sessionIds.length}, 
-                            ignoring..`);
-      sessionIndices = null;
-    } else {
-      /**
-       * @private
-       * @typedef Addition
-       * @property {number} index
-       * @property {number} day
-       * @property {CourseSession} courseSession
-       */
-      /**
-       * Keeps track of the courseSessions that will be added
-       * We need this in case we are inserting adjacent sessions
-       * @type {Addition[]}
-       * @private
-       */
-      const additions = [];
-
-      // Check that there are no session conflicts in course section sessions
-      // courseSection.sessions.forEach((courseSession, index) => {
-      store.getters.getSessions(courseSection.sessionIds).forEach((courseSession, index) => {
-        let sessionIndex =
-          sessionIndices !== null
-            ? sessionIndices[index] // If already checked for conflicts use provided indices
-            : this.getAddCourseSessionIndex(courseSession);
-
-        if (sessionIndex === null) {
-          // Should never happen
-          console.error(`The unthinkable hath occured`);
-          return false;
-        } else {
-          additions.push({
-            index: sessionIndex,
-            day: courseSession.day_of_week,
-            courseSession
-          });
-        }
-      });
-
-      additions.sort((a1, a2) =>
-        a1.day === a2.day
-          ? a1.day - a2.day
-          : a2.courseSession.time_start - a1.courseSession.time_start
-      );
-      for (const { index, day, courseSession } of additions) {
-        this.dailySessions[day].splice(index, 0, courseSession);
-
-        console.log(
-          `Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(
-            courseSession
-          )}`
-        );
-      }
-
-      console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);
-      return true;
+                            ignoring..`
+      };
     }
+    /**
+     * @private
+     * @typedef Addition
+     * @property {number} index
+     * @property {number} day
+     * @property {CourseSession} courseSession
+     */
+    /**
+     * Keeps track of the courseSessions that will be added
+     * We need this in case we are inserting adjacent sessions
+     * @type {Addition[]}
+     * @private
+     */
+    const additions = [];
+
+    // Check that there are no session conflicts in course section sessions
+    // courseSection.sessions.forEach((courseSession, index) => {
+    store.getters.getSessions(courseSection.sessionIds).forEach((courseSession, index) => {
+      const sessionIndex = sessionIndices?.[index] ?? this.getAddCourseSessionIndex(courseSession); // If already checked for conflicts use provided indices
+
+      if (sessionIndex === null) {
+        throw {
+          type: NULL_SESSION_INDEX_ERROR,
+          message: 'The unthinkable hath occureth'
+        };
+      } else {
+        additions.push({
+          index: sessionIndex,
+          day: courseSession.day_of_week,
+          courseSession
+        });
+      }
+    });
+
+    additions.sort(
+      (a1, a2) => a1.day - a2.day || a2.courseSession.time_start - a1.courseSession.time_start
+    );
+    for (const { index, day, courseSession } of additions) {
+      this.dailySessions[day].splice(index, 0, courseSession);
+    }
+
+    return true;
   }
 
   /**
@@ -215,12 +185,8 @@ class Schedule {
    * @param {CourseSection} courseSection
    */
   _removeCourseSection(courseSection) {
-    if (!courseSection) {
-      console.warn(`Ignoring remove null/undefined courseSection`);
-    } else {
-      for (const courseSession of store.getters.getSessions(courseSection.sessionIds)) {
-        this._removeCourseSession(courseSession);
-      }
+    for (const courseSession of store.getters.getSessions(courseSection.sessionIds)) {
+      this._removeCourseSession(courseSession);
     }
   }
 
@@ -229,14 +195,8 @@ class Schedule {
    * @param {Course} course
    */
   _removeAllCourseSections(course) {
-    if (!course) {
-      console.warn(`Ignoring remove null/undefined course`);
-    } else if (course.sectionIds.length === 0) {
-      console.error(`Cannot remove course with no sections ${JSON.stringify(course)}`);
-    } else {
-      for (const section of store.getters.getSections(course.sectionIds)) {
-        this._removeCourseSection(section);
-      }
+    for (const section of store.getters.getSections(course.sectionIds)) {
+      this._removeCourseSection(section);
     }
   }
 }
