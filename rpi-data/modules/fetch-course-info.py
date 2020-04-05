@@ -3,8 +3,7 @@ import threading
 import unicodedata
 import re
 from threading import Lock
-from time import time
-from io import StringIO, BytesIO
+from io import StringIO
 from bs4 import BeautifulSoup, SoupStrainer
 from lxml import etree
 
@@ -14,7 +13,6 @@ acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
 
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
-ending_catalog_regex = re.compile("</catalog>$")
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
 prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)\s*(?P<root><catalog.*?>)")
 
@@ -22,11 +20,13 @@ def dwrite_obj(obj):
     with open("temp-xml.xml", "w") as file:
         file.write(obj.__str__())
 
-# todo: try to use <fields>...</fields> to get all possible fields and map <course> to these.
+# todo: - [ ] try to use <fields>...</fields> to get all possible fields and map <course> to these.
 #       they'll just be that internal name like 'acalog-field-814'. Not sure if there's a good
-#       and easy way to have a dynamic key name to properly represent the data..
-#
-#       threads? haha
+#       and easy way to have a dynamic key name to properly represent the data.. Might just be easier to use static names
+#       - [ ] need to add to requirements.txt or if virtualenv is ever set up, lxml, requests(? not sure if standard)
+#       - [ ] need to dynamically fetch catalog id
+#       - [ ] documentation??
+#       - [ ] get rid of remaining part using beautifulsoup?
 
 class acalog_client():
     def __init__(self, api_key):
@@ -91,10 +91,6 @@ class acalog_client():
 
     def _get_all_courses(self, courses_xml_str):
         tree = etree.parse(StringIO(courses_xml_str))
-        # root = tree.getroot()
-        # namespace = etree.QName(root).namespace
-        # raw_courses_xml = BeautifulSoup(courses_xml_str, "xml", parse_only=only_courses).find_all("course")
-        # raw_courses_xml = root.findall(f"{{{namespace}}}courses//{{{namespace}}}course")
         # https://stackoverflow.com/a/4256011/8088388
         course_content_xml = tree.getroot().xpath("//*[local-name() = 'course']/*[local-name() = 'content']")
         courses = []
