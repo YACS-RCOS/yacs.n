@@ -1,0 +1,46 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  PushImages:
+    name: Build and push docker images
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Update Ubuntu
+        run: sudo apt-get update
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Github Package Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ${{ github.repository }} --password-stdin
+
+      - name: Build
+        run: |
+          docker build \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }} \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:latest \
+            src/data
+          docker build \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }} \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:latest \
+            src/api
+          docker build \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }} \
+            -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest \
+            src/web
+
+      - name: Push
+        run: |
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }}
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:${{ github.sha }}
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }}
+          # Have latest tag be most recent
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:latest
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_api:latest
+          docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest

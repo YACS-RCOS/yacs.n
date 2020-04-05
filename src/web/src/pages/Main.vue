@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header></Header>
+    <Header class='mb-3' :currentSemester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -8,7 +8,7 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1 w-100">
                 <b-card-text class="d-flex flex-grow-1 w-100">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100"/>
+                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100" :selectedSemester="currentSemester"/>
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
@@ -45,6 +45,7 @@
               :key="index"
               :schedule="schedule"
               v-show="selectedScheduleIndex === index"
+
             />
           </template>
           <b-row>
@@ -86,6 +87,8 @@ import HeaderComponent from '@/components/Header';
 
 import { getSubSemesters, getCourses } from '@/services/YacsService';
 
+import { getDefaultSemester } from '@/services/AdminService';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -106,6 +109,7 @@ export default {
 
       scheduler: new SubSemesterScheduler(),
 
+      currentSemester: "",
       courses: [],
 
       exportIcon: faPaperPlane,
@@ -113,15 +117,29 @@ export default {
     };
   },
   created() {
+    if(this.$route.query.semester){
+      this.currentSemester = this.$route.query.semester;
+    }
+    else{
+      getDefaultSemester().then(semester => {
+        this.currentSemester = semester;
+      });
+    }
+
+    getCourses().then(courses => {
+      this.courses = courses;
+    })
+
     getSubSemesters().then(subsemesters => {
       subsemesters.forEach(subsemester => {
-        this.scheduler.addSubSemester(subsemester);
+        if(subsemester.parent_semester_name == this.currentSemester){
+          this.scheduler.addSubSemester(subsemester);
+        }
       });
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
-    getCourses().then(courses => this.courses.push(...courses));
   },
   methods: {
     addCourse(course) {
@@ -150,6 +168,10 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
+    newSemester(sem){
+      this.currentSemester = sem;
+    },
+
     /**
      * Export all selected course sections to ICS
      */

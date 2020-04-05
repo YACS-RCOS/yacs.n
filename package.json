@@ -5,10 +5,8 @@
   "scripts": {
     "backend:dev": "FLASK_APP=src/api/app.py flask run --reload",
     "backend:prod": "FLASK_APP=src/api/app.py flask run",
-
     "frontend:dev": "cd ./src/web && npm run serve",
     "frontend:prod": "cd ./src/web && npm run serve:prod",
-
     "start": "npm-run-all --parallel backend:dev frontend:dev",
     "start:prod": "npm-run-all --parallel backend:prod frontend:prod"
   },
