@@ -152,7 +152,7 @@ class Schedule {
 
     // Check that there are no session conflicts in course section sessions
     // courseSection.sessions.forEach((courseSession, index) => {
-    store.getters.getSessions(courseSection.sessionIds).forEach((courseSession, index) => {
+    store.getters.getCourseSessions(courseSection.sessionIds).forEach((courseSession, index) => {
       const sessionIndex = sessionIndices?.[index] ?? this.getAddCourseSessionIndex(courseSession); // If already checked for conflicts use provided indices
 
       if (sessionIndex === null) {
@@ -182,22 +182,21 @@ class Schedule {
   /**
    * Remove all sessions in courseSection from schedule
    * Does not check if individual course session removal succeeds
-   * @param {CourseSection} courseSection
+   * @param {number} sectionId
    */
-  _removeCourseSection(courseSection) {
-    for (const courseSession of store.getters.getSessions(courseSection.sessionIds)) {
+  _removeCourseSection(sectionId) {
+    const courseSection = store.getters.getCourseSection(sectionId);
+    for (const courseSession of store.getters.getCourseSessions(courseSection.sessionIds)) {
       this._removeCourseSession(courseSession);
     }
   }
 
   /**
    * Removes all sections of course
-   * @param {Course} course
+   * @param {number} courseId
    */
-  _removeAllCourseSections(course) {
-    for (const section of store.getters.getSections(course.sectionIds)) {
-      this._removeCourseSection(section);
-    }
+  _removeAllCourseSections(courseId) {
+    store.getters.getCourse(courseId).sectionIds.forEach(id => this._removeCourseSection(id));
   }
 }
 

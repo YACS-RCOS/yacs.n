@@ -79,7 +79,7 @@ class SubSemesterSchedule {
            * @type {number[]}
            */
           const sessionIndices = [];
-          for (const session of store.getters.getSessions(section.sessionIds)) {
+          for (const session of store.getters.getCourseSessions(section.sessionIds)) {
             sessionIndices.push(
               store.getters.getSchedule(scheduleId).getAddCourseSessionIndex(session)
             );
@@ -109,21 +109,21 @@ class SubSemesterSchedule {
 
   /**
    * Remove all sessions of `section` from all schedules
-   * @param {CourseSection} section
+   * @param {number} sectionId
    */
-  _removeCourseSection(section) {
+  _removeCourseSection(sectionId) {
     this.scheduleIds.forEach(scheduleId =>
-      store.commit(REMOVE_COURSE_SECTION, { scheduleId, sectionId: section.id })
+      store.commit(REMOVE_COURSE_SECTION, { scheduleId, sectionId })
     );
   }
 
   /**
    * Remove all sessions of sections of `course` from all schedules
-   * @param {Course} course
+   * @param {number} courseId
    */
-  _removeAllCourseSections(course) {
+  _removeAllCourseSections(courseId) {
     this.scheduleIds.forEach(scheduleId =>
-      store.commit(REMOVE_COURSE_SECTION, { scheduleId, courseId: course.id })
+      store.commit(REMOVE_COURSE_SECTION, { scheduleId, courseId })
     );
   }
 }

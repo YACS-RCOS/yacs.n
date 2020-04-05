@@ -7,6 +7,7 @@ import Schedule from '@/controllers/Schedule';
 // Mutations for initializing state
 export const INIT_COURSES = 'INIT_COURSES';
 export const INIT_SELECTED_COURSES = 'INIT_SELECTED_COURSES';
+export const INIT_SCHEDULES = 'INIT_SCHEDULES';
 
 // User initiated mutations
 export const SELECT_COURSE = 'SELECT_COURSE';
@@ -18,6 +19,9 @@ export const UNSELECT_COURSE_SECTION = 'UNSELECT_COURSE_SECTION';
 export const ADD_SCHEDULE = 'ADD_SCHEDULE';
 export const REMOVE_SCHEDULE = 'REMOVE_SCHEDULE';
 
+// This is different from selecting course/sections
+// Selecting means the user has clicked on a course/section
+// Adding is when a section is added to a schedule controller
 export const ADD_COURSE_SECTION = 'ADD_COURSE_SECTION';
 export const REMOVE_COURSE_SECTION = 'REMOVE_COURSE_SECTION';
 
@@ -35,40 +39,38 @@ export default {
     state.selectedCourseIds.splice(0, state.selectedCourseIds.length);
     state.selectedCourseSectionIds.splice(0, state.selectedCourseSectionIds.length);
   },
-  [SELECT_COURSE](state, { id }) {
+  [INIT_SCHEDULES](state) {
+    state._schedules = {}; // Not reactive but old objects should get garbage collected?
+    state.scheduleIdIndex = 0;
+    state.rootScheduleId = null;
+  },
+  [SELECT_COURSE](state, { courseId }) {
     // Maybe dangerous to have two sources of truth for selected state
     //  but having selected on the actual course object is just too
     //  convenient to not have imo. As long as changes to selected state
     //  are done solely through the following mutations, they should be
     //  always in sync
-    state._courses[id].selected = true;
-    state.selectedCourseIds.push(id);
+    state._courses[courseId].selected = true;
+    state.selectedCourseIds.push(courseId);
   },
   // Unselect course and all its sections
-  [UNSELECT_COURSE](state, { id }) {
+  [UNSELECT_COURSE](state, { courseId }) {
     // This is kind of a hack and perhaps could be avoided by delegating
     // to an action
-    store.commit(UNSELECT_COURSE_SECTION, {
-      ids: store.getters
-        .getSections(state._courses[id].sectionIds)
-        .filter(s => s.selected)
-        .map(s => s.id)
-    });
-    state._courses[id].selected = false;
-    state.selectedCourseIds.splice(state.selectedCourseIds.indexOf(id), 1);
+    state._courses[courseId].sectionIds
+      .filter(sectionId => state._courseSections[sectionId].selected)
+      .forEach(sectionId => store.commit(UNSELECT_COURSE_SECTION, { sectionId }));
+
+    state._courses[courseId].selected = false;
+    state.selectedCourseIds.splice(state.selectedCourseIds.indexOf(courseId), 1);
   },
-  [SELECT_COURSE_SECTION](state, { id }) {
-    state._courseSections[id].selected = true;
-    state.selectedCourseSectionIds.push(id);
+  [SELECT_COURSE_SECTION](state, { sectionId }) {
+    state._courseSections[sectionId].selected = true;
+    state.selectedCourseSectionIds.push(sectionId);
   },
-  [UNSELECT_COURSE_SECTION](state, { id, ids }) {
-    if (id) {
-      ids = [id];
-    }
-    for (let id of ids) {
-      state._courseSections[id].selected = false;
-      state.selectedCourseSectionIds.splice(state.selectedCourseSectionIds.indexOf(id), 1);
-    }
+  [UNSELECT_COURSE_SECTION](state, { sectionId }) {
+    state._courseSections[sectionId].selected = false;
+    state.selectedCourseSectionIds.splice(state.selectedCourseSectionIds.indexOf(sectionId), 1);
   },
   // Add a new schedule to the schedule tree with the given id
   // By default adds a Schedule instance
@@ -107,18 +109,19 @@ export default {
   // If none is provided, defaults to the root schedule.
   // The default should be the main use case.
   [ADD_COURSE_SECTION](state, { scheduleId, sectionId, sessionIndices }) {
-    store.getters
-      .getSchedule(scheduleId ?? state.rootScheduleId)
-      ._addCourseSection(store.getters.getSection(sectionId), sessionIndices);
+    state._schedules[scheduleId ?? state.rootScheduleId]._addCourseSection(
+      state._courseSections[sectionId],
+      sessionIndices
+    );
   },
   // Calls the _removeCourseSection or _removeAllCourseSection depending
   //  on whether sectionId or courseId is provided respectively.
   [REMOVE_COURSE_SECTION](state, { scheduleId, sectionId, courseId }) {
     const schedule = state._schedules[scheduleId ?? state.rootScheduleId];
     if (courseId) {
-      schedule._removeAllCourseSections(store.getters.getCourse(courseId));
+      schedule._removeAllCourseSections(courseId);
     } else {
-      schedule._removeCourseSection(store.getters.getSection(sectionId));
+      schedule._removeCourseSection(sectionId);
     }
   },
   // Used by the system to generate schedule IDs

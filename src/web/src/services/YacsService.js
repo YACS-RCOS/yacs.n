@@ -48,8 +48,9 @@ const _getCourseSessionIdentifier = session =>
   ['SESSION', session.crn, session.day_of_week, session.time_start, session.time_end].join('|');
 
 /**
+ * SHOULD AVOID USING THIS, OPT FOR COURSES IN STORE
+ * Will deprecate soon
  * Returns a list of all courses
- * In most cases should defer to use store instead.
  * @returns {Promise<Course[]>}
  */
 export const getCourses = () =>
