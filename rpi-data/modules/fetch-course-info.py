@@ -2,6 +2,7 @@ import requests as req
 import threading
 import unicodedata
 import re
+import json
 from threading import Lock
 from io import StringIO
 from bs4 import BeautifulSoup, SoupStrainer
@@ -10,15 +11,20 @@ from lxml import etree
 catalog_id = 20 # 2019-2020 course catalog
 chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
+dev_output_files = True
 
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
 prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)\s*(?P<root><catalog.*?>)")
 
-def dwrite_obj(obj):
-    with open("temp-xml.xml", "w") as file:
+def dwrite_obj(obj, name):
+    with open(name, "w") as file:
         file.write(obj.__str__())
+
+def dwrite_text(text, name):
+    with open(name, "w") as file:
+        file.write(text)
 
 # todo: - [ ] try to use <fields>...</fields> to get all possible fields and map <course> to these.
 #       they'll just be that internal name like 'acalog-field-814'. Not sure if there's a good
@@ -40,7 +46,10 @@ class acalog_client():
         self._catalog_root = ""
 
     def _clean_utf(self, string):
-        return unicodedata.normalize("NFKD", string)
+        # unicodedata.normalize("NFKD", string)
+        # Format the unicode string into its normalized combined version,
+        # and get rid of unprintable characters
+        return unicodedata.normalize("NFKC", string).encode('cp1252','replace').decode('cp1252')
 
     def _all_threads_joined(self, threads):
         for thread in threads:
@@ -90,13 +99,15 @@ class acalog_client():
         return courses_xml
 
     def _get_all_courses(self, courses_xml_str):
-        tree = etree.parse(StringIO(courses_xml_str))
+        parser = etree.XMLParser(encoding="utf-8")
+        tree = etree.parse(StringIO(courses_xml_str), parser=parser)
         # https://stackoverflow.com/a/4256011/8088388
         course_content_xml = tree.getroot().xpath("//*[local-name() = 'course']/*[local-name() = 'content']")
         courses = []
         for raw_course in course_content_xml:
             # The description <field> can have multiple children tags, so get all text nodes.
             # One example of this is ARCH 4870 - Sonics Research Lab 1, catalog 20, courseid 38592
+            course_id = re.search("(?P<id>\d+)$", raw_course.getparent().attrib["id"]).group("id")
             description_xml = raw_course.xpath("*[local-name() = 'field'][@type='acalog-field-471']")
             name_xml = raw_course.xpath("*[local-name() = 'name']")
             # If it has the description, it will be the correct schema of a course object.
@@ -105,20 +116,24 @@ class acalog_client():
                 description = " ".join(description_xml[0].xpath(".//text()"))
                 name = name_xml[0].text
                 # https://stackoverflow.com/a/34669482/8088388
-                courses.append({"description": self._clean_utf(description), "full_name": self._clean_utf(name)})
+                courses.append({"id": course_id, "full_name": self._clean_utf(name), "description": self._clean_utf(description)})
         return courses
 
     def get_all_courses(self):
         ids_xml = self.get_course_ids_xml()
         ids = self._course_xml_ids_to_url_params(ids_xml)
         courses_xml_str = self.get_all_courses_xml(ids)
+        if dev_output_files:
+            parser = etree.XMLParser(remove_blank_text=True)
+            tree = etree.parse(StringIO(courses_xml_str), parser)
+            tree.write("courses20.xml", pretty_print=True)
         return self._get_all_courses(courses_xml_str)
 
 def main():
     c = acalog_client(acalog_api_key)
     courses = c.get_all_courses()
-    # print(len(courses))
-    print(courses[0])
+    if dev_output_files:
+        dwrite_text(json.dumps(courses, indent=4), "courses20.json")
 
 if __name__ == "__main__":
     main()
