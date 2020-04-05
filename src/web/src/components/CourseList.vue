@@ -55,9 +55,6 @@ export default {
   components: {
     CourseListing: CourseListingComponent
   },
-  props: {
-    selectedSemester: null
-  },
   data() {
     return {
       DAY_SHORTNAMES,
@@ -65,7 +62,8 @@ export default {
       selectedSubsemester: null,
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: 'All', value: null }],
+      selectedSemester: null
     };
   },
   created() {
@@ -103,7 +101,7 @@ export default {
                 this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
             (!this.selectedDepartment || this.selectedDepartment === department) &&
             (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
-            this.selectedSemester === semester
+            (!this.selectedSemester || this.selectedSemester === semester)
           );
         }
       );

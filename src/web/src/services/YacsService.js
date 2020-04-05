@@ -49,6 +49,7 @@ const _getCourseSessionIdentifier = session =>
 
 /**
  * Returns a list of all courses
+ * In most cases should defer to use store instead.
  * @returns {Promise<Course[]>}
  */
 export const getCourses = () =>
@@ -105,4 +106,4 @@ export const getSubSemesters = () =>
     });
   });
 
-  export const getSemesters = () => client.get('/semester').then(res => res.data);
+export const getSemesters = () => client.get('/semester').then(res => res.data);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-3" :currentSemester="currentSemester"></Header>
+    <Header class="mb-3"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -108,10 +108,6 @@ export default {
         this.currentSemester = semester;
       });
     }
-
-    getCourses().then(courses => {
-      this.courses = courses;
-    });
 
     getSubSemesters().then(subsemesters => {
       this.$store.commit(ADD_SCHEDULE, {
