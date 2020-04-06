@@ -36,6 +36,12 @@
         <CourseListing :course="course" :actions="{ add: true }" />
       </b-list-group-item>
     </b-list-group>
+    <!-- <CourseListing
+      :courses="filteredCourses"
+      :actions="{ add: true }"
+      id="scroll-box"
+      class="mb-2 mb-sm-0 flex-grow-1"
+    />-->
   </div>
 </template>
 

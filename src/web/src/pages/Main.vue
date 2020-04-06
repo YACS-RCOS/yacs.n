@@ -15,7 +15,7 @@
                 <template v-slot:title>
                   <div class="text-center">
                     Selected Courses
-                    <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
+                    <b-badge variant="light">{{ selectedCourses.length }}</b-badge>
                   </div>
                 </template>
                 <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -26,18 +26,16 @@
           </b-card>
         </b-col>
         <b-col md="8" class="d-flex flex-column">
-          <!-- :options="scheduler.scheduleSubsemesters" -->
           <b-form-select
             v-model="selectedScheduleSubsemester"
             :options="scheduleSubsemesterOptions"
             text-field="display_string"
             value-field="display_string"
           ></b-form-select>
-          <!-- v-for="(schedule, index) in scheduler.schedules" -->
           <Schedule
             v-for="(scheduleId, index) in scheduleIds"
             :key="index"
-            :schedule="$store.getters.getSchedule(scheduleId)"
+            :schedule="getSchedule(scheduleId)"
             v-show="selectedScheduleIndex === index"
           />
           <b-row>
@@ -79,9 +77,10 @@ import HeaderComponent from '@/components/Header';
 import { getDefaultSemester } from '@/services/AdminService';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { INIT_SELECTED_COURSES, ADD_SCHEDULE } from '@/store/mutations';
+import { INIT_SELECTED_COURSES, ADD_SCHEDULE, INIT_SCHEDULES } from '@/store/mutations';
 
 import { generateScheduleId } from '@/store/helpers';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MainPage',
@@ -97,37 +96,31 @@ export default {
       selectedScheduleSubsemester: null,
 
       exportIcon: faPaperPlane,
-      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
+      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'],
+
+      currentSemester: null
     };
   },
-  created() {
-    if (this.$route.query.semester) {
-      this.currentSemester = this.$route.query.semester;
-    } else {
-      getDefaultSemester().then(semester => {
-        this.currentSemester = semester;
-      });
-    }
-
-    getSubSemesters().then(subsemesters => {
-      this.$store.commit(ADD_SCHEDULE, {
-        id: generateScheduleId(),
-        schedule: new SubSemesterSchedule(
-          subsemesters.filter(s => s.parent_semester_name == this.currentSemester)
-        )
-      });
-      const { scheduleSubsemesters } = this.$store.getters.getSchedule();
-      if (scheduleSubsemesters.length > 0) {
-        this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
-      }
-    });
+  async created() {
     this.$store.dispatch(LOAD_CLASSES);
     this.$store.commit(INIT_SELECTED_COURSES);
+    this.$store.commit(INIT_SCHEDULES);
+
+    this.currentSemester = this.$route.query.semester ?? (await getDefaultSemester());
+
+    const subsemesters = await getSubSemesters();
+    this.$store.commit(ADD_SCHEDULE, {
+      id: generateScheduleId(),
+      schedule: new SubSemesterSchedule(
+        subsemesters.filter(s => s.parent_semester_name == this.currentSemester)
+      )
+    });
+    const { scheduleSubsemesters } = this.getSchedule();
+    if (scheduleSubsemesters.length > 0) {
+      this.selectedScheduleSubsemester = scheduleSubsemesters[0].display_string;
+    }
   },
   methods: {
-    newSemester(sem) {
-      this.currentSemester = sem;
-    },
     /**
      * Export all selected course sections to ICS
      */
@@ -135,9 +128,9 @@ export default {
       let calendarBuilder = window.ics();
       let semester;
 
-      for (const section of this.$store.getters.selectedCourseSections) {
-        const course = this.$store.getters.getCourse(section.courseId);
-        for (const session of this.$store.getters.getSessions(section.sessionIds)) {
+      for (const section of this.selectedCourseSections) {
+        const course = this.getCourse(section.courseId);
+        for (const session of this.getCourseSessions(section.sessionIds)) {
           // The dates from the DB have no timezone, so when they are
           // cast to a JS date they're by default at time midnight 00:00:00.
           // This will exclude all classes if they're on that final day, so bump
@@ -168,35 +161,30 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'getSchedule',
+      'selectedCourses',
+      'selectedCourseSections',
+      'getCourse',
+      'getCourseSessions'
+    ]),
     selectedScheduleIndex() {
-      return this.$store.getters
-        .getSchedule()
-        ?.scheduleSubsemesters.findIndex(
-          s => s.display_string === this.selectedScheduleSubsemester
-        );
+      return this.getSchedule()?.scheduleSubsemesters.findIndex(
+        s => s.display_string === this.selectedScheduleSubsemester
+      );
     },
     /**
      * Returns list of CRNs for all selected sections
      * @returns {string[]}
      */
     selectedCrns() {
-      return (
-        this.$store.getters.selectedCourseSections
-          // Object.values(this.selectedCourses)
-          // .map(c => c.sections.filter(s => s.selected))
-          // .flat()
-          .map(s => s.crn)
-          .join(', ')
-      );
-    },
-    numSelectedCourses() {
-      return this.$store.getters.selectedCourses.length;
+      return this.selectedCourseSections.map(s => s.crn).join(', ');
     },
     scheduleSubsemesterOptions() {
-      return this.$store.getters.getSchedule()?.scheduleSubsemesters ?? [];
+      return this.getSchedule()?.scheduleSubsemesters ?? [];
     },
     scheduleIds() {
-      return this.$store.getters.getSchedule()?.scheduleIds ?? [];
+      return this.getSchedule()?.scheduleIds ?? [];
     }
   }
 };

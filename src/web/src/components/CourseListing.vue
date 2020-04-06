@@ -1,4 +1,6 @@
 <template>
+  <!-- <b-list-group flush>
+  <b-list-group-item v-for="course in courses" :key="course.id">-->
   <div>
     <div class="d-flex w-100 justify-content-between">
       <div>
@@ -8,7 +10,7 @@
         {{ course.title }}
       </div>
       <div>
-        <button v-if="actions.add || actions.remove" class="btn" @click="toggleCourse(course)">
+        <button v-if="actions.add || actions.remove" class="btn" @click="toggleCourse(course.id)">
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
         </button>
@@ -26,19 +28,19 @@
       <b-list-group flush>
         <b-list-group-item
           button
-          v-for="section in courseSections"
-          :key="section.crn"
-          @click.stop="toggleCourseSection(course, section)"
+          v-for="section in getCourseSections(course.sectionIds)"
+          :key="section.id"
+          @click.stop="toggleCourseSection(section.id)"
           :style="{
             'border-left': section.selected ? `4px solid ${getBorderColor(section)}` : 'none',
             'background-color': section.selected ? `${getBackgroundColor(section)}` : 'white'
           }"
         >
-          {{ section.crn }} - {{ $store.getters.getSession(section.sessionIds[0]).section }}
+          {{ section.crn }} - {{ getCourseSession(section.sessionIds[0]).section }}
           <br />
 
           <span
-            v-for="courseSession in $store.getters.getSessions(section.sessionIds)"
+            v-for="courseSession in getCourseSessions(section.sessionIds)"
             :key="courseSession.id"
           >
             {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
@@ -50,6 +52,8 @@
       </b-list-group>
     </b-collapse>
   </div>
+  <!-- </b-list-group-item>
+  </b-list-group>-->
 </template>
 
 <script>
@@ -63,6 +67,7 @@ import {
   ADD_COURSE_SECTION,
   REMOVE_COURSE_SECTION
 } from '@/store/mutations';
+import { mapGetters } from 'vuex';
 
 import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
@@ -74,6 +79,7 @@ import { SCHEDULE_CONFLICT_ERROR } from '@/controllers/Schedule';
 export default {
   name: 'CourseListing',
   props: {
+    // courses: Array,
     course: Object,
     actions: Object,
     showSectionsInitial: Boolean
@@ -100,14 +106,12 @@ export default {
       }
       this.showSections = !this.showSections;
     },
-    toggleCourse(course) {
-      if (course.selected) {
-        // this.$emit('removeCourse', course);
-        this.$store.commit(UNSELECT_COURSE, { id: course.id });
-        this.$store.commit(REMOVE_COURSE_SECTION, { courseId: course.id });
+    toggleCourse(courseId) {
+      if (this.getCourse(courseId).selected) {
+        this.$store.commit(UNSELECT_COURSE, { courseId });
+        this.$store.commit(REMOVE_COURSE_SECTION, { courseId });
       } else {
-        // this.$emit('addCourse', course);
-        this.$store.commit(SELECT_COURSE, { id: course.id });
+        this.$store.commit(SELECT_COURSE, { courseId });
       }
     },
     /**
@@ -116,22 +120,23 @@ export default {
      * add course section to schedules
      * If the course section had already been clicked
      * remove course section from schedules
-     * @param {Course} course
-     * @param {CourseSection} section
+     * @param {number} sectionId
      */
-    toggleCourseSection(course, section) {
-      if (section.selected) {
-        // this.$emit('removeCourseSection', section);
-        this.$store.commit(UNSELECT_COURSE_SECTION, { id: section.id });
-        this.$store.commit(REMOVE_COURSE_SECTION, { sectionId: section.id });
+    toggleCourseSection(sectionId) {
+      if (this.getCourseSection(sectionId).selected) {
+        this.$store.commit(UNSELECT_COURSE_SECTION, { sectionId });
+        this.$store.commit(REMOVE_COURSE_SECTION, { sectionId });
       } else {
         try {
-          // this.$emit('addCourseSection', course, section);
-          this.$store.commit(ADD_COURSE_SECTION, { sectionId: section.id });
-          this.$store.commit(SELECT_COURSE_SECTION, { id: section.id });
+          this.$store.commit(ADD_COURSE_SECTION, { sectionId });
+          this.$store.commit(SELECT_COURSE_SECTION, { sectionId });
         } catch (err) {
           if (err.type === SCHEDULE_CONFLICT_ERROR) {
-            this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+            this.notifyScheduleConflict(
+              this.getCourse(err.addingSession.courseId),
+              err.existingSession,
+              err.subsemester
+            );
           }
           console.error(err.message ?? err);
         }
@@ -157,7 +162,6 @@ export default {
         })
       ]);
       this.$bvToast.toast(vNodesMsg, {
-        // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
         title: `Cannot add ${course.title}`,
         variant: 'danger',
         noAutoHide: true
@@ -165,9 +169,16 @@ export default {
     }
   },
   computed: {
-    courseSections() {
-      return this.$store.getters.getSections(this.course.sectionIds);
-    }
+    ...mapGetters([
+      'getCourse',
+      'getCourseSection',
+      'getCourseSections',
+      'getCourseSession',
+      'getCourseSessions'
+    ])
+    // courseSections() {
+    //   return this.getCourseSections(this.course.sectionIds);
+    // }
   }
 };
 </script>

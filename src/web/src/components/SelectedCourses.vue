@@ -8,6 +8,12 @@
       />
     </b-list-group-item>
   </b-list-group>
+  <!-- <CourseListing
+    :courses="courses"
+    :actions="{ remove: true, collapse: true }"
+    showSectionsInitial
+    class="flex-grow-1"
+  />-->
 </template>
 
 <script>
