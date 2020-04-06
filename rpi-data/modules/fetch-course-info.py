@@ -3,6 +3,7 @@ import threading
 import unicodedata
 import re
 import json
+from time import time
 from threading import Lock
 from io import StringIO
 from bs4 import BeautifulSoup, SoupStrainer
@@ -13,10 +14,25 @@ chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
 dev_output_files = True
 
+ACALOG_COURSE_FIELDS = {
+    "Department": "acalog-field-486",
+    "Level": "acalog-field-488",
+    "FullName": "acalog-field-490",
+    "Description": "acalog-field-471",
+    "PreCoReqs": "acalog-field-473",
+    "OfferFrequency": "acalog-field-475",
+    "CrossListed": "acalog-field-478",
+    "Graded": "acalog-field-480",
+    "CreditHours": "acalog-field-482",
+    "ContactLectureLabHours": "acalog-field-484",
+}
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
 prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)\s*(?P<root><catalog.*?>)")
+
+prereqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))")
+coreqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))")
 
 def dwrite_obj(obj, name):
     with open(name, "w") as file:
@@ -24,6 +40,10 @@ def dwrite_obj(obj, name):
 
 def dwrite_text(text, name):
     with open(name, "w") as file:
+        file.write(text)
+
+def dwrite_utf8_file(text, name):
+    with open(name, "w", encoding='utf-8') as file:
         file.write(text)
 
 # todo: - [ ] try to use <fields>...</fields> to get all possible fields and map <course> to these.
@@ -49,7 +69,8 @@ class acalog_client():
         # unicodedata.normalize("NFKD", string)
         # Format the unicode string into its normalized combined version,
         # and get rid of unprintable characters
-        return unicodedata.normalize("NFKC", string).encode('cp1252','replace').decode('cp1252')
+        return unicodedata.normalize("NFKC", string)
+        # return unicodedata.normalize("NFKC", string).encode('cp1252','replace').decode('cp1252')
 
     def _all_threads_joined(self, threads):
         for thread in threads:
@@ -114,9 +135,18 @@ class acalog_client():
             # For some reason the course tag is used for not actual courses. Fun.
             if (description_xml and name_xml):
                 description = " ".join(description_xml[0].xpath(".//text()"))
+                precoreqs = " ".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS['PreCoReqs']}']//text()"))
+                # prereqs = re.search("Prerequisites?:?\s*.*(Coreq)?")
                 name = name_xml[0].text
                 # https://stackoverflow.com/a/34669482/8088388
-                courses.append({"id": course_id, "full_name": self._clean_utf(name), "description": self._clean_utf(description)})
+                courses.append(
+                        {
+                            "id": course_id,
+                            "full_name": self._clean_utf(name),
+                            "description": self._clean_utf(description).encode("utf8").decode("utf8"),
+                            "prerequisites": self._clean_utf(precoreqs)
+                        }
+                )
         return courses
 
     def get_all_courses(self):
@@ -133,7 +163,7 @@ def main():
     c = acalog_client(acalog_api_key)
     courses = c.get_all_courses()
     if dev_output_files:
-        dwrite_text(json.dumps(courses, indent=4), "courses20.json")
+        dwrite_utf8_file(json.dumps(courses, indent=4), "courses20.json")
 
 if __name__ == "__main__":
     main()
