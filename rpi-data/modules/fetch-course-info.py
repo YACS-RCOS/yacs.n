@@ -2,6 +2,8 @@ import requests as req
 import threading
 import unicodedata
 import re
+# Needed for branch reset regex
+import regex
 import json
 from time import time
 from threading import Lock
@@ -31,8 +33,32 @@ COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
 prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)\s*(?P<root><catalog.*?>)")
 
-prereqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))")
-coreqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))")
+# group the most specific regex patterns first, then the more general ones for last
+# goal is to capture classes that are loosely of the form "Prerequisites: [CAPTURE COURSE LISTINGS TEXT]",
+# but does not capture classes explicitly stated to be corequisites. Tries to remove
+# periods, trailing and leading space.
+explicit_prereqs_include_syntax_regex = "(?:^\s*Prerequisites? include:?\s?(.*))"
+explicit_prereqs_preference_syntax_regex = "(?:^\s*Prerequisites? preferences?:?\s*(.*))"
+explicit_prereqs_or_coreqs_syntax_regex = "(?:^\s*Prerequisites? or Corequisites?:?\s?(.*))"
+explicit_prereqs_before_coreqs_syntax_regex = "(?:^\s*Prerequisites?.*?:\s?(.*?(?=\W*Coreq)))"
+explicit_prereqs_sequence_syntax_regex = "(?:^\s*Prerequisites?:?\s*(.*(?=[\. ;,])))"
+# https://stackoverflow.com/questions/406230/regular-expression-to-match-a-line-that-doesnt-contain-a-word
+# doesn't contain a "prerequisites:" sort of string
+# if there is leading space then it will be captured. I'm not sure how to not capture it.
+implicit_prereqs_syntax_regex = "(^((?!(Corequisite)).)*$)"
+implicit_prereqs_before_coreqs_syntax_regex = "(?:^\s*(.*?(?=\W*Coreq)))"
+full_prereqs_regex = "|".join([
+    explicit_prereqs_include_syntax_regex,
+    explicit_prereqs_preference_syntax_regex,
+    explicit_prereqs_or_coreqs_syntax_regex,
+    explicit_prereqs_before_coreqs_syntax_regex,
+    explicit_prereqs_sequence_syntax_regex,
+    implicit_prereqs_syntax_regex,
+    implicit_prereqs_before_coreqs_syntax_regex
+])
+# https://stackoverflow.com/a/44463324/8088388
+branch_reset_prereqs_regex = regex.compile(f"(?|{full_prereqs_regex})", flags=regex.IGNORECASE|regex.DOTALL)
+coreqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))", flags=regex.IGNORECASE)
 
 def dwrite_obj(obj, name):
     with open(name, "w") as file:
@@ -65,6 +91,7 @@ class acalog_client():
         self._xml_prolog = ""
         self._catalog_root = ""
 
+    # https://stackoverflow.com/a/34669482/8088388
     def _clean_utf(self, string):
         # unicodedata.normalize("NFKD", string)
         # Format the unicode string into its normalized combined version,
@@ -91,6 +118,11 @@ class acalog_client():
             # Don't see a reason to keep it as a bytestring, beautifulsoup
             # is eventually just going to convert it to utf8 anyway
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
+            if (match is None):
+                print("Somehow the XML document doesn't have a prolog or root???")
+                print(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=20&{id_params}")
+                print()
+                print(course_details_xml_str[:255])
             self._xml_prolog = match.group("prolog")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
@@ -119,6 +151,13 @@ class acalog_client():
         courses_xml = self._xml_prolog + self._catalog_root + "".join(self._course_details_xml_strs) + "</catalog>"
         return courses_xml
 
+    def _extract_prereqs(self, precoreqs):
+        match = regex.search(branch_reset_prereqs_regex, precoreqs)
+        if (match is not None):
+            if len(match.groups()) > 0:
+                return match.groups()[0]
+        return ""
+
     def _get_all_courses(self, courses_xml_str):
         parser = etree.XMLParser(encoding="utf-8")
         tree = etree.parse(StringIO(courses_xml_str), parser=parser)
@@ -136,15 +175,15 @@ class acalog_client():
             if (description_xml and name_xml):
                 description = " ".join(description_xml[0].xpath(".//text()"))
                 precoreqs = " ".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS['PreCoReqs']}']//text()"))
-                # prereqs = re.search("Prerequisites?:?\s*.*(Coreq)?")
+                prereqs = self._extract_prereqs(precoreqs)
                 name = name_xml[0].text
-                # https://stackoverflow.com/a/34669482/8088388
                 courses.append(
                         {
                             "id": course_id,
                             "full_name": self._clean_utf(name),
                             "description": self._clean_utf(description).encode("utf8").decode("utf8"),
-                            "prerequisites": self._clean_utf(precoreqs)
+                            "prerequisites": self._clean_utf(prereqs),
+                            "raw_precoreqs": self._clean_utf(precoreqs)
                         }
                 )
         return courses
