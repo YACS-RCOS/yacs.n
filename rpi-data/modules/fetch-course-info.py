@@ -31,7 +31,7 @@ ACALOG_COURSE_FIELDS = {
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
-prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)\s*(?P<root><catalog.*?>)")
+prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)?\s*(?P<root><catalog.*?>)")
 
 # group the most specific regex patterns first, then the more general ones for last
 # goal is to capture classes that are loosely of the form "Prerequisites: [CAPTURE COURSE LISTINGS TEXT]",
@@ -119,11 +119,10 @@ class acalog_client():
             # is eventually just going to convert it to utf8 anyway
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
             if (match is None):
-                print("Somehow the XML document doesn't have a prolog or root???")
-                print(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=20&{id_params}")
-                print()
-                print(course_details_xml_str[:255])
-            self._xml_prolog = match.group("prolog")
+                raise Error("XML document is missing prolog and root. Invalid.")
+            self._xml_prolog = match.group("prolog") if match.group("prolog") is not None else '<?xml version="1.0"?>'
+            if match.group("root") is None:
+                raise Error("XML document is missing root element. Invalid.")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
 
