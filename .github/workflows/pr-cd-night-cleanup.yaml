@@ -1,3 +1,5 @@
+
+name: Drop Infra at Night
 on:
   schedule:
     - cron: '0 5 * * *' # at midnight EST, drop all running vms to save money
