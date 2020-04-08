@@ -93,13 +93,12 @@ def dwrite_utf8_file(text, name):
     with open(name, "w+", encoding='utf-8') as file:
         file.write(text)
 
-# todo: - [ ] try to use <fields>...</fields> to get all possible fields and map <course> to these.
-#       they'll just be that internal name like 'acalog-field-814'. Not sure if there's a good
-#       and easy way to have a dynamic key name to properly represent the data.. Might just be easier to use static names
+# todo:
 #       - [ ] need to add to requirements.txt or if virtualenv is ever set up, lxml, requests(? not sure if standard)
 #       - [ ] need to dynamically fetch catalog id
 #       - [ ] documentation??
 #       - [ ] get rid of remaining part using beautifulsoup?
+#       - [ ] refactor so each json retains the order of properties as specified in USED_FIELDS
 
 class acalog_client():
     def __init__(self, api_key):
@@ -171,12 +170,22 @@ class acalog_client():
         courses_xml = self._xml_prolog + self._catalog_root + "".join(self._course_details_xml_strs) + "</catalog>"
         return courses_xml
 
-    def _extract_prereqs(self, precoreqs):
+    def _extract_prereq_from_precoreq_str(self, precoreqs):
         match = regex.search(branch_reset_prereqs_regex, precoreqs)
         if (match is not None):
             if len(match.groups()) > 0:
                 return match.groups()[0]
         return ""
+
+    def _extract_prereqs_from_prereq_str(self, prereq_str):
+        # All course department codes are of the form: 4 capital letters + "-" + 4 numbers
+        # Will a department code ever not be exactly 4 capital letters? Possibly!
+        course_short_names = []
+        # https://stackoverflow.com/questions/4697882/how-can-i-find-all-matches-to-a-regular-expression-in-python
+        for course_short_name in re.findall("([A-Z]{4} \d{4})", prereq_str):
+            # Frontend uses the format AAAA-1111 so replace space with dash
+            course_short_names.append(course_short_name.replace(" ", "-"))
+        return course_short_names
 
     def _is_actual_course(self, course_xml_element):
         # A valid course should have a name and description (can be empty, just not missing).
@@ -213,8 +222,9 @@ class acalog_client():
                         field_values['id'] = course_id
                     elif field_name == 'prerequisites':
                         if 'raw_precoreqs' in field_values:
-                            prereqs = self._extract_prereqs(field_values['raw_precoreqs'])
-                            field_values['prerequisites'] = self._clean_utf(prereqs)
+                            prereq_str = self._clean_utf(self._extract_prereq_from_precoreq_str(field_values['raw_precoreqs']))
+                            prereqs = self._extract_prereqs_from_prereq_str(prereq_str)
+                            field_values['prerequisites'] = prereqs
                     elif field_name == 'corequisites':
                         raise Error("Unimplemented")
                     elif field_name == 'short_name':
