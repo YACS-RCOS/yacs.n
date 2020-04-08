@@ -82,15 +82,15 @@ branch_reset_prereqs_regex = regex.compile(f"(?|{full_prereqs_regex})", flags=re
 coreqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))", flags=regex.IGNORECASE)
 
 def dwrite_obj(obj, name):
-    with open(name, "w") as file:
+    with open(name, "w+") as file:
         file.write(obj.__str__())
 
 def dwrite_text(text, name):
-    with open(name, "w") as file:
+    with open(name, "w+") as file:
         file.write(text)
 
 def dwrite_utf8_file(text, name):
-    with open(name, "w", encoding='utf-8') as file:
+    with open(name, "w+", encoding='utf-8') as file:
         file.write(text)
 
 # todo: - [ ] try to use <fields>...</fields> to get all possible fields and map <course> to these.
@@ -202,7 +202,7 @@ class acalog_client():
                 for field_name in used_standard_fields:
                     # A <field>, like description, can have multiple children tags, so get all text nodes.
                     # One example of this is ARCH 4870 - Sonics Research Lab 1, catalog 20, courseid 38592
-                    value = "".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS[field_name]}']//text()"))
+                    value = ("".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS[field_name]}']//text()"))).replace("\n", "").replace("\r","").strip()
                     if field_name == 'description':
                         field_values['description'] = self._clean_utf(value).encode("utf8").decode("utf8")
                     else:
@@ -238,7 +238,7 @@ def main():
     c = acalog_client(acalog_api_key)
     courses = c.get_all_courses()
     if dev_output_files:
-        dwrite_utf8_file(json.dumps(courses, indent=4), "courses20_2.json")
+        dwrite_utf8_file(json.dumps(courses, indent=4), "courses20.json")
 
 if __name__ == "__main__":
     main()
