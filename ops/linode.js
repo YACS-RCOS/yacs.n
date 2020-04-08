@@ -1,8 +1,6 @@
 const request = require('superagent')
 let Linode = {}
 
-// actions with nodes
-
 if (!process.env.LINODE_TOKEN) {
   console.error('env var LINODE_TOKEN is required');
 }
@@ -47,18 +45,6 @@ Linode.node = {
       throw new Error(e)
     }
   },
-
-  // view: async (id) => {
-  //   try {
-  //     res = await request
-  //       .get(`https://api.linode.com/v4/linode/instances/${id}`)
-  //       .set('Authorization', `Bearer ${LINODE_TOKEN}`)
-  //     return res.body.data
-  //   } catch (e) {
-  //     console.error(e);
-  //     throw new Error(e)
-  //   }
-  // },
 }
 
 Linode.script = {
@@ -112,22 +98,6 @@ Linode.script = {
       throw new Error(e)
     }
   },
-}
-
-Linode.domain = {
-
-  updateARecord: async (domain, ip) => {
-    try {
-      res = await request
-        .post(`https://api.linode.com/v4/linode/stackscripts/${id}`)
-        .set('Authorization', `Bearer ${LINODE_TOKEN}`)
-      return res.body
-    } catch (e) {
-      console.error(e);
-      throw new Error(e)
-    }
-  },
-
 }
 
 module.exports = Linode
