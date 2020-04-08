@@ -53,7 +53,7 @@ const infraSync = async () => {
   })
 
   // delete existing vm(s) after creation
-  const amountToRemove = (rcosVmIds.length + 1) - SETTINGS.ACTIVE_SERVER_COUNT // plus one since we just added one
+  let amountToRemove = (rcosVmIds.length + 1) - SETTINGS.ACTIVE_SERVER_COUNT // plus one since we just added one
 
   // after drop-all, no need to remove any so will be negative
   if (amountToRemove < 0) {
