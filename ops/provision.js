@@ -54,6 +54,12 @@ const infraSync = async () => {
 
   // delete existing vm(s) after creation
   const amountToRemove = (rcosVmIds.length + 1) - SETTINGS.ACTIVE_SERVER_COUNT // plus one since we just added one
+
+  // after drop-all, no need to remove any so will be negative
+  if (amountToRemove < 0) {
+    amountToRemove = 0;
+  }
+
   console.info(`[INFO] deleting old vm(s) by tag #yacs-rcos that surpass server allotment of ${SETTINGS.ACTIVE_SERVER_COUNT}`)
   console.info(`[INFO] amount to remove: ${amountToRemove}`)
   // rcosVmIds is sorted, this allows us to remove the oldest server(s)
