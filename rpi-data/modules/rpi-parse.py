@@ -15,20 +15,17 @@ sis_client = SisClient(semester_name, source_url)
 # todo, can't use. need to refactor vars in file to be class members
 acalog_client = AcalogClient(acalog_api_key)
 
-courses_df = sis_client.run()
+sis_course_info_df = sis_client.run()
+acalog_course_info_df = pd.DataFrame(acalog_client.get_all_courses())
 
-course_info_dict = {}
-with open(r"C:\\Users\\corey\\Documents\\Programming\\OpenSource\\yacs.n\\rpi-data\\modules\\courses20.json", "r") as file:
-    course_info_dict = json.load(file)
-ci_df = pd.DataFrame(course_info_dict)
-# ci_df.to_csv("catalog20.csv", header=True, index=False)
-ci_df = ci_df.drop(columns=['id'])
-courses_df = courses_df.assign(short_name=lambda row: row['course_department']+"-"+row['course_level'])
+# Will join on this temp field
+sis_course_info_df = sis_course_info_df.assign(short_name=lambda row: row['course_department']+"-"+row['course_level'])
 
-joined = courses_df.join(other=ci_df.set_index("short_name"), how="left", on=["short_name"])
+combined_course_info_df = sis_course_info_df.join(other=acalog_course_info_df.set_index("short_name"), how="left", on=["short_name"])
+combined_course_info_df = combined_course_info_df.drop(columns=['department', 'level'])
 
 headers = os.environ.get('HEADERS', 'True')
 headers = (headers == 'True')
 destination = os.environ.get('DEST', 'out.csv')
-joined.to_csv("catalog_sis_merged.csv", header=headers, index=False)
-# courses_df.to_csv(destination, header=headers, index=False)
+combined_course_info_df.to_csv("catalog_sis_merged.csv", header=headers, index=False)
+# combined_course_info_df.to_csv(destination, header=headers, index=False)

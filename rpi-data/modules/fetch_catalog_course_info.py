@@ -29,20 +29,20 @@ ACALOG_COURSE_FIELDS = {
     "contact_lecture_lab_hours": "acalog-field-484",
 }
 USED_FIELDS = {
-    "id": True, # custom
+    "id": False, # custom
     "department": True,
     "level": True,
     "full_name": True,
-    "short_name": True, # custom, requires department and level to be true
+    "short_name": True, # custom, requires department and level to be true. Use this to join with SIS data.
     "description": True,
     "prerequisites": True, # custom
     "corequisites": False, # custom
     "raw_precoreqs": True, #If either prereq or coreq is true, then this must be true cause the client needs to look at this field to understand the other two
     "offer_frequency": True,
-    "cross_listed": True,
-    "graded": True,
-    "credit_hours": True,
-    "contact_lecture_lab_hours": True,
+    "cross_listed": False,
+    "graded": False,
+    "credit_hours": False,
+    "contact_lecture_lab_hours": False,
 }
 SETTINGS = {
     "show_raw_precoreqs": True
