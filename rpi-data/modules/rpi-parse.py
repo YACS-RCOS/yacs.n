@@ -2,8 +2,6 @@
 # coding: utf-8
 
 # In[1]:
-
-
 from bs4 import BeautifulSoup
 from bs4 import NavigableString, Tag
 
@@ -11,15 +9,14 @@ import datetime
 import os
 import requests
 import pandas as pd
+import json
+from fetch_course_info import acalog_client
 
-
-SEMESTER_NAME = os.environ['SEMESTER']
+SEMESTER_NAME = "FALL 2020"
 
 # In[13]:
 
-
-source_url = os.environ.get('SOURCE_URL')
-assert(source_url)
+source_url = "https://sis.rpi.edu/reg/zfs202009.htm"
 
 response = requests.get(source_url)
 content = response.text
@@ -29,21 +26,14 @@ cont = content.split("\n")
 cont = filter(lambda x: not "div" in x, cont)
 content = "\n".join(cont)
 
-
-
 # In[14]:
-
 
 soup = BeautifulSoup(content, 'html.parser')
 
-
 # In[15]:
 
-
 tables = soup.findChildren('table')
-
 genInfo = soup.findChildren('center')
-
 
 # In[20]:
 
@@ -58,9 +48,6 @@ def get_course_titles(my_row):
                 res.append(child_2.contents[0])
     return res
 
-
-
-
 def get_course_row(my_row):
     res = []
     for item in my_row.findChildren('td'):
@@ -73,7 +60,6 @@ def get_course_row(my_row):
 
     res.pop()
     return res
-
 
 def parse_time(time_string):
     time = time_string.split('-')
@@ -91,7 +77,6 @@ def parse_time(time_string):
 
 # In[25]:
 
-
 data = []
 schls = []
 current_course_section = ''
@@ -101,8 +86,7 @@ current_course_max_enroll = ''
 current_course_enrolled = ''
 current_course_remained = ''
 
-time_raw = genInfo[0].findChildren('h3', recursive=True)[
-                                   1].findChildren('span')[0].contents[0]
+time_raw = genInfo[0].findChildren('h3', recursive=True)[1].findChildren('span')[0].contents[0]
 time = parse_time(time_raw)
 
 for gens in genInfo:
@@ -164,7 +148,7 @@ for i in range(len(tables)):
                 else:
                     info[6] += "AM"
         else:
-            info[6] = info[7] = None 
+            info[6] = info[7] = None
 
         if 'TBA' in info[9]:
         	info[9] = None
@@ -225,7 +209,19 @@ headers = (headers == 'True')
 
 destination = os.environ.get('DEST', 'out.csv')
 
-df.to_csv(destination, header=headers, index=False)
-
 
 # In[ ]:
+
+df = df.assign(short_name=lambda row: row['course_department']+"-"+row['course_level'])
+
+# In[]:
+
+course_info_dict = {}
+with open(r"C:\\Users\\corey\\Documents\\Programming\\OpenSource\\yacs.n\\rpi-data\\modules\\courses20.json", "r") as file:
+    course_info_dict = json.load(file)
+ci_df = pd.DataFrame(course_info_dict)
+joined = df.join(other=ci_df.set_index("short_name"), how="left", on=["short_name"])
+
+# df.to_csv(destination, header=headers, index=False)
+
+# %%
