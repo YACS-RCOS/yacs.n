@@ -1,0 +1,35 @@
+name: PR Temp Deploys
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  temp_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: rlespinasse/github-slug-action@master
+      - name: Use Node.js 13.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.x
+
+      - name: Provision Infrastructure
+        run: |
+          cd ops/
+          npm install
+          node provision.js | tee out.txt
+          echo "##[set-output name=link;]$(cat out.txt | grep http)"
+        env:
+          LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+          SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
+          SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
+          BRANCH: ${{ env.GITHUB_HEAD_REF_SLUG }}
+        id: provision
+
+      - name: Share Link on PR
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: 'See temp deploy @ ${{ steps.provision.outputs.link }}'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
