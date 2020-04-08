@@ -7,7 +7,7 @@ SETTINGS = {
   SSH_PUB_KEY: process.env.SSH_PUB_KEY,
   SERVER_ROOT_PASS: process.env.SERVER_ROOT_PASS || "some_pass",
   BRANCH: process.env.BRANCH || "master",
-  ACTIVE_SERVER_COUNT: process.env.ACTIVE_SERVER_COUNT || 3
+  ACTIVE_SERVER_COUNT: Number(process.env.ACTIVE_SERVER_COUNT) || 3
 }
 
 const infraSync = async () => {
