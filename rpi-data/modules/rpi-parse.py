@@ -220,6 +220,7 @@ course_info_dict = {}
 with open(r"C:\\Users\\corey\\Documents\\Programming\\OpenSource\\yacs.n\\rpi-data\\modules\\courses20.json", "r") as file:
     course_info_dict = json.load(file)
 ci_df = pd.DataFrame(course_info_dict)
+# ci_df.drop(columns=['id'])
 joined = df.join(other=ci_df.set_index("short_name"), how="left", on=["short_name"])
 
 # df.to_csv(destination, header=headers, index=False)

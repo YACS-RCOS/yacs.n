@@ -178,6 +178,16 @@ class acalog_client():
                 return match.groups()[0]
         return ""
 
+    def _is_actual_course(self, course_xml_element):
+        # A valid course should have a name and description (can be empty, just not missing).
+        # For some reason, the <course> tag is used in some places where there isn't an actual course.
+        # If you remove this check in _get_all_courses, the returned course count is 1939 when using
+        # catalog id 20. But if you count the course ids from the API it's 1933.
+        # This check correctly returns the 1933 courses.
+        desc_xml = course_xml_element.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS['description']}']")
+        name_xml = course_xml_element.xpath(f"*[local-name() = 'name']")
+        return desc_xml and name_xml
+
     def _get_all_courses(self, courses_xml_str):
         parser = etree.XMLParser(encoding="utf-8")
         tree = etree.parse(StringIO(courses_xml_str), parser=parser)
@@ -185,32 +195,33 @@ class acalog_client():
         course_content_xml = tree.getroot().xpath("//*[local-name() = 'course']/*[local-name() = 'content']")
         courses = []
         for raw_course in course_content_xml:
-            field_values = {}
-            used_standard_fields = filter(lambda key: key in ACALOG_COURSE_FIELDS and USED_FIELDS[key], USED_FIELDS)
-            used_custom_fields = filter(lambda key: key not in ACALOG_COURSE_FIELDS and USED_FIELDS[key], USED_FIELDS)
-            for field_name in used_standard_fields:
-                # A <field>, like description, can have multiple children tags, so get all text nodes.
-                # One example of this is ARCH 4870 - Sonics Research Lab 1, catalog 20, courseid 38592
-                value = "".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS[field_name]}']//text()"))
-                if field_name == 'description':
-                    field_values['description'] = self._clean_utf(value).encode("utf8").decode("utf8")
-                else:
-                    field_values[field_name] = self._clean_utf(value)
-            for field_name in used_custom_fields:
-                if field_name == 'id':
-                    course_id = re.search("(?P<id>\d+)$", raw_course.getparent().attrib["id"]).group("id")
-                    field_values['id'] = course_id
-                elif field_name == 'prerequisites':
-                    if 'raw_precoreqs' in field_values:
-                        prereqs = self._extract_prereqs(field_values['raw_precoreqs'])
-                        field_values['prerequisites'] = self._clean_utf(prereqs)
-                elif field_name == 'corequisites':
-                    raise Error("Unimplemented")
-                elif field_name == 'short_name':
-                    if 'department' in field_values and 'level' in field_values:
-                        field_values['short_name'] = field_values['department'] + '-' + field_values['level']
-            if (len(field_values) > 0):
-                courses.append(field_values)
+            if (self._is_actual_course(raw_course)):
+                field_values = {}
+                used_standard_fields = filter(lambda key: key in ACALOG_COURSE_FIELDS and USED_FIELDS[key], USED_FIELDS)
+                used_custom_fields = filter(lambda key: key not in ACALOG_COURSE_FIELDS and USED_FIELDS[key], USED_FIELDS)
+                for field_name in used_standard_fields:
+                    # A <field>, like description, can have multiple children tags, so get all text nodes.
+                    # One example of this is ARCH 4870 - Sonics Research Lab 1, catalog 20, courseid 38592
+                    value = "".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS[field_name]}']//text()"))
+                    if field_name == 'description':
+                        field_values['description'] = self._clean_utf(value).encode("utf8").decode("utf8")
+                    else:
+                        field_values[field_name] = self._clean_utf(value)
+                for field_name in used_custom_fields:
+                    if field_name == 'id':
+                        course_id = re.search("(?P<id>\d+)$", raw_course.getparent().attrib["id"]).group("id")
+                        field_values['id'] = course_id
+                    elif field_name == 'prerequisites':
+                        if 'raw_precoreqs' in field_values:
+                            prereqs = self._extract_prereqs(field_values['raw_precoreqs'])
+                            field_values['prerequisites'] = self._clean_utf(prereqs)
+                    elif field_name == 'corequisites':
+                        raise Error("Unimplemented")
+                    elif field_name == 'short_name':
+                        if 'department' in field_values and 'level' in field_values:
+                            field_values['short_name'] = field_values['department'] + '-' + field_values['level']
+                if (len(field_values) > 0):
+                    courses.append(field_values)
         return courses
 
     def get_all_courses(self):
