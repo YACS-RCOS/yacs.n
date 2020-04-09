@@ -17,10 +17,8 @@ jobs:
       - name: echo env (for info)
         shell: bash
         run: |
-          echo $GITHUB_SHA
-          echo $GITHUB_REF
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_BASE_REF
+          echo "##[set-output name=branch;]$(cat out.txt | echo $GITHUB_HEAD_REF)"
+        id: branch_out
 
       - name: Provision Infrastructure
         run: |
@@ -33,7 +31,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${GITHUB_HEAD_REF}
+          BRANCH: ${{ steps.branch_out.outputs.branch }}
         id: provision
 
       - name: Share Link on PR
