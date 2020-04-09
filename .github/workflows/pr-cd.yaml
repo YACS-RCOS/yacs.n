@@ -25,7 +25,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${{ env.GITHUB_REF }}
+          BRANCH: ${{ env.GITHUB_SHA }}
         id: provision
 
       - name: Share Link on PR
