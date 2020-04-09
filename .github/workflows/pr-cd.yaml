@@ -16,11 +16,7 @@ jobs:
 
       - name: Print Environment
         run: |
-          echo ${{ GITHUB_REF }}
-          echo ${{ GITHUB_SHA }}
-          echo ${{ GITHUB_SHA }}
           echo ${{ env.GITHUB_REF }}
-          echo ${{ env.GITHUB_SHA }}
           echo ${{ env.GITHUB_SHA }}
 
       - name: Provision Infrastructure
