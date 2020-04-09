@@ -19,11 +19,6 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: Print Environment
-        run: |
-          echo ${{ GITHUB_REF }}
-          echo ${{ GITHUB_SHA }}
-
       - name: Provision Infrastructure
         run: |
           cd ops/
