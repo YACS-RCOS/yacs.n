@@ -7,11 +7,9 @@
       <br>
       {{ props.crn }}
       <br>
-      Location
-      <!-- location -->
+      <!-- location placeholder -->
       <br>
-      Professor
-      <!-- professor -->
+      <!-- professor placeholder -->
     </div>
   </div>
 </template>
@@ -34,7 +32,7 @@
   .event-text {
     padding: 4px;
     font-weight: bold;
-    font-size: small;
+    font-size: 65%;
     box-sizing: border-box;
   }
 }
