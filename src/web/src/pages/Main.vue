@@ -136,7 +136,10 @@ export default {
         // Filter subsemesters in current semester
         .filter(s => s.parent_semester_name == this.currentSemester)
         // Filter out "full" subsemester
-        .filter((s, _, arr) => !arr.every(o => this.withinDuration(s, o)))
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+        )
         .forEach(subsemester => {
           this.scheduler.addSubSemester(subsemester);
         });
