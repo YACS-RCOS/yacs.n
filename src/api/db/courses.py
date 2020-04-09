@@ -94,7 +94,8 @@ class Courses:
                                     date_end,
                                     department,
                                     level,
-                                    title
+                                    title,
+                                    raw_precoreqs
                                 )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
@@ -107,7 +108,8 @@ class Courses:
                                 %(EndDate)s,
                                 NULLIF(%(Department)s, ''),
                                 %(Level)s,
-                                NULLIF(%(Title)s, '')
+                                NULLIF(%(Title)s, ''),
+                                NULLIF(%(RawPrecoreqText)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -122,7 +124,8 @@ class Courses:
                                 "EndDate": row['course_end_date'] if row['course_end_date'] and not row['course_end_date'].isspace() else None,
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
-                                "Title": row['course_name']
+                                "Title": row['course_name'],
+                                "RawPrecoreqText": row['raw_precoreqs']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
@@ -135,17 +138,20 @@ class Courses:
                         transaction.execute(
                             """
                             INSERT INTO course_prerequisite (
-                                crn,
+                                department,
+                                level,
                                 prerequisite
                             )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
+                                NULLIF(%(Department)s, ''),
+                                %(Level)s,
                                 NULLIF(%(Prerequisite)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
                             {
-                                "CRN": row['course_crn'],
+                                "Department": row['course_department'],
+                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Prerequisite": prereq
                             }
                         )
@@ -155,17 +161,20 @@ class Courses:
                         transaction.execute(
                             """
                             INSERT INTO course_corequisite (
-                                crn,
+                                department,
+                                level,
                                 corequisite
                             )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
+                                NULLIF(%(Department)s, ''),
+                                %(Level)s,
                                 NULLIF(%(Corequisite)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
                             {
-                                "CRN": row['course_crn'],
+                                "Department": row['course_department'],
+                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Corequisite": coreq
                             }
                         )

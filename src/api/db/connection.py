@@ -37,6 +37,7 @@ class database():
                 self.conn.commit()
 
         except psycopg2.Error as e:
+            print("DATABASE ERROR: ", end="")
             print(e)
             return (ret, e)
 

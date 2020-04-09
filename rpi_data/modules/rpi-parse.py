@@ -7,12 +7,11 @@ import os
 from fetch_catalog_course_info import acalog_client as AcalogClient
 from fetch_sis_course_info import sis_client as SisClient
 
-semester_name = "FALL 2020" #os.environ['SEMESTER']
-source_url = "https://sis.rpi.edu/reg/zfs202009.htm" #os.environ.get('SOURCE_URL')
+semester_name = os.environ['SEMESTER']
+source_url = os.environ.get('SOURCE_URL')
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
 
 sis_client = SisClient(semester_name, source_url)
-# todo, can't use. need to refactor vars in file to be class members
 acalog_client = AcalogClient(acalog_api_key)
 
 sis_course_info_df = sis_client.run()
@@ -27,5 +26,4 @@ combined_course_info_df = combined_course_info_df.drop(columns=['department', 'l
 headers = os.environ.get('HEADERS', 'True')
 headers = (headers == 'True')
 destination = os.environ.get('DEST', 'out.csv')
-combined_course_info_df.to_csv("catalog_sis_merged.csv", header=headers, index=False)
-# combined_course_info_df.to_csv(destination, header=headers, index=False)
+combined_course_info_df.to_csv(destination, header=headers, index=False)

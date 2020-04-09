@@ -11,6 +11,7 @@ create table course(
   title        varchar(255),
   full_title   text,
   description  text,
+  raw_precoreqs text,
   frequency    varchar(255),
   -- credit_hours int,
   -- class_days varchar(255),

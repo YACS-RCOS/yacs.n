@@ -14,7 +14,7 @@ from lxml import etree
 
 chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
-dev_output_files = False
+dev_output_files = True
 
 ACALOG_COURSE_FIELDS = {
     "department": "acalog-field-486",

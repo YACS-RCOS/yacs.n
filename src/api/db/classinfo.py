@@ -26,6 +26,22 @@ class ClassInfo:
               c.level,
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
+              c.full_title,
+              c.description,
+              c.frequency,
+              (
+                SELECT json_agg(copre.prerequisite)
+                FROM course_prerequisite copre
+                WHERE c.department=copre.department
+                  AND c.level=copre.level
+              ) AS prerequisites,
+              (
+                SELECT json_agg(coco.corequisite)
+                FROM course_corequisite coco
+                WHERE c.department=coco.department
+                  AND c.level=coco.level
+              ) AS corequisites,
+              c.raw_precoreqs,
               c.date_start,
               c.date_end,
               json_agg(
@@ -62,7 +78,11 @@ class ClassInfo:
               c.level,
               c.date_start,
               c.date_end,
-              c.semester
+              c.semester,
+              c.full_title,
+              c.description,
+              c.frequency,
+              c.raw_precoreqs
             order by
               c.department asc,
               c.level asc
@@ -105,4 +125,4 @@ class ClassInfo:
             group by
               semester
         """, None, True)
-        
+
