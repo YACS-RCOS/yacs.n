@@ -37,5 +37,7 @@ jobs:
       - name: Share Link on PR
         uses: thollander/actions-comment-pull-request@master
         with:
-          message: 'See temp deploy @ ${{ steps.provision.outputs.link }}'
+          message: |
+            Deploy Link: ${{ steps.provision.outputs.link }}/
+            Branch and Build Info: ${{ steps.provision.outputs.link }}:3000/info.txt
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
