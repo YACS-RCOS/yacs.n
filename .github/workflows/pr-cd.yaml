@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: 13.x
 
-      - name: echo env
+      - name: echo env (for info)
         shell: bash
         run: |
           echo $GITHUB_SHA
@@ -38,7 +38,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          BRANCH: ${{ env.GITHUB_HEAD_REF }}
         id: provision
 
       - name: Share Link on PR
