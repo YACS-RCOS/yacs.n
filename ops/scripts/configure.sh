@@ -9,7 +9,6 @@ apt install docker-compose -y;
 git clone https://github.com/YACS-RCOS/yacs.n;
 cd yacs.n;
 git checkout $BRANCH;
-BUILD_LOGS=$(docker-compose up -d);
 
 # get info
 GIT_STATUS_INFO=$(git status)
@@ -22,9 +21,11 @@ date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
 echo $GIT_STATUS_INFO >> $INFO_FILE
 echo "[build logs]"   >> $INFO_FILE
-echo $BUILD_LOGS      >> $INFO_FILE
 
+# start yacs
+docker-compose up -d  >> $INFO_FILE
+
+# start info server
 cd _info/
-
 apt install python3 -y;
 python3 -m http.server 3000;
