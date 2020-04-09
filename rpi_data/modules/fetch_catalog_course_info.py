@@ -5,16 +5,16 @@ import re
 # Needed for branch reset regex
 import regex
 import json
+from datetime import date
 from time import time
 from threading import Lock
 from io import StringIO
 from bs4 import BeautifulSoup, SoupStrainer
 from lxml import etree
 
-catalog_id = 20 # 2019-2020 course catalog
 chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
-dev_output_files = True
+dev_output_files = False
 
 ACALOG_COURSE_FIELDS = {
     "department": "acalog-field-486",
@@ -44,9 +44,9 @@ USED_FIELDS = {
     "credit_hours": False,
     "contact_lecture_lab_hours": False,
 }
-SETTINGS = {
-    "show_raw_precoreqs": True
-}
+# SETTINGS = {
+#     "show_raw_precoreqs": True
+# }
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")
@@ -116,8 +116,10 @@ class acalog_client():
     def __init__(self, api_key):
         self.search_endpoint = "http://rpi.apis.acalog.com/v2/search/courses"
         self.course_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses"
+        self.catalog_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&method=getCatalogs"
         self.api_key = api_key
         self.api_response_format = "xml"
+        self.catalog_id = self.get_current_catalog_id()
         self._lock = Lock()
         self._course_details_xml_strs = []
         self._xml_prolog = ""
@@ -138,8 +140,18 @@ class acalog_client():
                 return False
         return True
 
+    def get_current_catalog_id(self):
+        res = req.get(self.catalog_detail_endpoint)
+        tree = etree.parse(StringIO(res.content.decode()))
+        root = tree.getroot()
+        try:
+            currentCatalog = root.xpath("//*[local-name() = 'archived'][contains(text(), 'No')]")
+            return re.search("(?P<id>\d+)$", currentCatalog[0].getparent().getparent().attrib['id']).group("id")
+        except Exception as e:
+            print("Couldn't find an active catalog from acalog api.")
+
     def get_course_ids_xml(self):
-        return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={catalog_id}&options[limit]=0").content
+        return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={self.catalog_id}&options[limit]=0").content
 
     def _get_course_details(self, id_params):
         course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=20&{id_params}").content.decode("utf8")
