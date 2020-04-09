@@ -12,7 +12,7 @@ SETTINGS = {
 
 const infraSync = async () => {
 
-  console.info(`Deploying Branch: ${SETTINGS.BRANCH}`)
+  console.info(`Deploying: ${SETTINGS.COMMIT_SHA}`)
   console.info('--- manage script ---')
   console.info('[INFO] updating #yacs-rcos script')
 

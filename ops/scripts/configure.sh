@@ -14,10 +14,9 @@ docker-compose up -d;
 # get info
 GIT_STATUS_INFO=$(git status)
 
-# show info at host:5000/info.txt
+# build info file
 INFO_FILE=_info/info.txt
 mkdir -p _info;
-
 echo "[build time]"   >> $INFO_FILE
 date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
