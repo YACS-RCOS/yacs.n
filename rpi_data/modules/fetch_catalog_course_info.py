@@ -36,7 +36,7 @@ USED_FIELDS = {
     "short_name": True, # custom, requires department and level to be true. Use this to join with SIS data.
     "description": True,
     "prerequisites": True, # custom
-    "corequisites": False, # custom
+    "corequisites": True, # custom
     "raw_precoreqs": True, #If either prereq or coreq is true, then this must be true cause the client needs to look at this field to understand the other two
     "offer_frequency": True,
     "cross_listed": False,
@@ -66,7 +66,7 @@ explicit_prereqs_sequence_syntax_regex = "(?:\s*Prerequisites?:?\s*(.+(?=[\. ;,]
 # doesn't contain a "prerequisites:" sort of string
 # if there is leading space then it will be captured. I'm not sure how to not capture it.
 implicit_prereqs_syntax_regex = "(^((?!(Corequisite)).)*$)"
-implicit_prereqs_before_coreqs_syntax_regex = "(?:^\s*(.+?(?=\W*Coreq)))"
+implicit_prereqs_before_coreqs_syntax_regex = "(?:^\s*(.+?(?=\W*[^(is)(are)] Coreq)))"
 full_prereqs_regex = "|".join([
     explicit_prereqs_include_syntax_regex,
     explicit_prereqs_preference_syntax_regex,
@@ -79,7 +79,19 @@ full_prereqs_regex = "|".join([
 ])
 # https://stackoverflow.com/a/44463324/8088388
 branch_reset_prereqs_regex = regex.compile(f"(?|{full_prereqs_regex})", flags=regex.IGNORECASE|regex.DOTALL)
-coreqs_regex = re.compile("Prerequisites?:?\s*(?P<prereqs>.*?(?=\W*Coreq))", flags=regex.IGNORECASE)
+
+explicit_coreqs_before_prereqs_syntax_regex = "(?:^\s*Corequisites?.*?:\s?(.*?(?=\W*Prereq)))"
+explicit_coreqs_sequence_syntax_regex = "(?:\s*Corequisites?:?\s*(.+(?=[\. ;,])*))"
+implicit_coreqs_syntax_regex = "(^((?!(Prerequisite)).)*$)"
+full_coreqs_regex = "|".join([
+    explicit_prereqs_explicit_or_coreqs_syntax_regex,
+    explicit_prereqs_implicit_or_coreqs_syntax_regex,
+    explicit_coreqs_before_prereqs_syntax_regex,
+    explicit_coreqs_sequence_syntax_regex,
+#     implicit_prereqs_before_coreqs_syntax_regex,
+    implicit_coreqs_syntax_regex
+])
+branch_reset_coreqs_regex = regex.compile(f"(?|{full_coreqs_regex})", flags=regex.IGNORECASE|regex.DOTALL)
 
 def dwrite_obj(obj, name):
     with open(name, "w+") as file:
@@ -187,6 +199,20 @@ class acalog_client():
             course_short_names.append(course_short_name.replace(" ", "-"))
         return course_short_names
 
+    # bout same exact code as extract prereqs, can combine into one func but just wanna make it work rn
+    def _extract_coreq_from_precoreq_str(self, precoreqs):
+        match = regex.search(branch_reset_coreqs_regex, precoreqs)
+        if (match is not None):
+            if len(match.groups()) > 0:
+                return match.groups()[0]
+        return ""
+
+    def _extract_coreqs_from_coreq_str(self, coreq_str):
+        course_short_names = []
+        for course_short_name in re.findall("([A-Z]{4} \d{4})", coreq_str):
+            course_short_names.append(course_short_name.replace(" ", "-"))
+        return course_short_names
+
     def _is_actual_course(self, course_xml_element):
         # A valid course should have a name and description (can be empty, just not missing).
         # For some reason, the <course> tag is used in some places where there isn't an actual course.
@@ -226,7 +252,10 @@ class acalog_client():
                             prereqs = self._extract_prereqs_from_prereq_str(prereq_str)
                             field_values['prerequisites'] = prereqs
                     elif field_name == 'corequisites':
-                        raise Error("Unimplemented")
+                        if 'raw_precoreqs' in field_values:
+                            coreq_str = self._clean_utf(self._extract_coreq_from_precoreq_str(field_values['raw_precoreqs']))
+                            coreqs = self._extract_coreqs_from_coreq_str(coreq_str)
+                            field_values['corequisites'] = coreqs
                     elif field_name == 'short_name':
                         if 'department' in field_values and 'level' in field_values:
                             field_values['short_name'] = field_values['department'] + '-' + field_values['level']

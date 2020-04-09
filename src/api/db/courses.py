@@ -154,19 +154,19 @@ class Courses:
                     for coreq in coreqs:
                         transaction.execute(
                             """
-                            INSERT INTO course_prerequisite (
+                            INSERT INTO course_corequisite (
                                 crn,
-                                prerequisite
+                                corequisite
                             )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
-                                NULLIF(%(Prerequisite)s, '')
+                                NULLIF(%(Corequisite)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
                             {
                                 "CRN": row['course_crn'],
-                                "Prerequisite": coreq
+                                "Corequisite": coreq
                             }
                         )
                 except Exception as e:
@@ -178,8 +178,8 @@ class Courses:
 
 
 if __name__ == "__main__":
-    # os.chdir(os.path.abspath("../rpi-data"))
+    # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi-data/modules/catalog_sis_merged.csv', 'r')
+    csv_text = open('../../../rpi_data/modules/catalog_sis_merged.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
