@@ -17,8 +17,9 @@ jobs:
       - name: echo env (for info)
         shell: bash
         run: |
-          echo "##[set-output name=branch;]$(cat out.txt | echo $GITHUB_HEAD_REF)"
-        id: branch_out
+          echo "##[set-output name=branch;]$(echo $GITHUB_HEAD_REF)"
+          echo "##[set-output name=datetime_ready;]$(date -v +5M)"
+        id: info
 
       - name: Provision Infrastructure
         run: |
@@ -31,7 +32,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${{ steps.branch_out.outputs.branch }}
+          BRANCH: ${{ steps.info.outputs.branch }}
         id: provision
 
       - name: Share Link on PR
@@ -40,4 +41,5 @@ jobs:
           message: |
             Deploy Link: ${{ steps.provision.outputs.link }}/
             Branch and Build Info: ${{ steps.provision.outputs.link }}:3000/info.txt
+            Expected Time Ready: ${{ steps.info.outputs.datetime_ready }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

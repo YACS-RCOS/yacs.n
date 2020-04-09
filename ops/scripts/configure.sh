@@ -9,7 +9,7 @@ apt install docker-compose -y;
 git clone https://github.com/YACS-RCOS/yacs.n;
 cd yacs.n;
 git checkout $BRANCH;
-docker-compose up -d;
+BUILD_LOGS=$(docker-compose up -d);
 
 # get info
 GIT_STATUS_INFO=$(git status)
@@ -21,6 +21,8 @@ echo "[build time]"   >> $INFO_FILE
 date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
 echo $GIT_STATUS_INFO >> $INFO_FILE
+echo "[build logs]"   >> $INFO_FILE
+echo $BUILD_LOGS      >> $INFO_FILE
 
 cd _info/
 
