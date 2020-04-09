@@ -32,8 +32,10 @@
   .event-text {
     padding: 4px;
     font-weight: bold;
-    font-size: 65%;
+    font-size: 60%;
     box-sizing: border-box;
+    height: 100%;
+    overflow-y: scroll;
   }
 }
 </style>
