@@ -9,11 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: rlespinasse/github-slug-action@master
       - name: Use Node.js 13.x
         uses: actions/setup-node@v1
         with:
           node-version: 13.x
+
+      - name: echo env (for info)
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo $GITHUB_HEAD_REF)"
+          echo "##[set-output name=datetime_ready;]$(TZ='America/New_York' date --date '5 minutes')"
+        id: info
 
       - name: Provision Infrastructure
         run: |
@@ -26,11 +32,14 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${{ env.GITHUB_HEAD_REF_SLUG }}
+          BRANCH: ${{ steps.info.outputs.branch }}
         id: provision
 
       - name: Share Link on PR
         uses: thollander/actions-comment-pull-request@master
         with:
-          message: 'See temp deploy @ ${{ steps.provision.outputs.link }}'
+          message: |
+            Deploy Link: ${{ steps.provision.outputs.link }}/
+            Branch and Build Info: ${{ steps.provision.outputs.link }}:3000/info.txt
+            Expected Time Ready: ${{ steps.info.outputs.datetime_ready }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
