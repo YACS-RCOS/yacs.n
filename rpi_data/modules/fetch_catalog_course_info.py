@@ -14,7 +14,7 @@ from lxml import etree
 
 chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
-dev_output_files = True
+dev_output_files = False
 
 ACALOG_COURSE_FIELDS = {
     "department": "acalog-field-486",
@@ -105,13 +105,6 @@ def dwrite_utf8_file(text, name):
     with open(name, "w+", encoding='utf-8') as file:
         file.write(text)
 
-# todo:
-#       - [ ] need to add to requirements.txt or if virtualenv is ever set up, lxml, requests(? not sure if standard)
-#       - [ ] need to dynamically fetch catalog id
-#       - [ ] documentation??
-#       - [ ] get rid of remaining part using beautifulsoup?
-#       - [ ] refactor so each json retains the order of properties as specified in USED_FIELDS
-
 class acalog_client():
     def __init__(self, api_key):
         self.search_endpoint = "http://rpi.apis.acalog.com/v2/search/courses"
@@ -127,7 +120,6 @@ class acalog_client():
 
     # https://stackoverflow.com/a/34669482/8088388
     def _clean_utf(self, string):
-        # unicodedata.normalize("NFKD", string)
         # Format the unicode string into its normalized combined version,
         # and get rid of unprintable characters
         return unicodedata.normalize("NFKC", string)

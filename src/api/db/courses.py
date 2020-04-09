@@ -189,6 +189,6 @@ class Courses:
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi_data/modules/catalog_sis_merged.csv', 'r')
+    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
