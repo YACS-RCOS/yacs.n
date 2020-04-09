@@ -11,5 +11,3 @@ CREATE TABLE user_account
 	degree TEXT,
 	enable BOOLEAN DEFAULT TRUE
 );
-
-
