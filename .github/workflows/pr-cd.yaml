@@ -22,11 +22,6 @@ jobs:
           echo $GITHUB_HEAD_REF
           echo $GITHUB_BASE_REF
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-
       - name: Provision Infrastructure
         run: |
           cd ops/
@@ -38,7 +33,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          BRANCH: ${{ env.GITHUB_HEAD_REF }}
+          BRANCH: $GITHUB_HEAD_REF
         id: provision
 
       - name: Share Link on PR
