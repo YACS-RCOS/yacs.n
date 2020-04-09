@@ -18,7 +18,7 @@ jobs:
         shell: bash
         run: |
           echo "##[set-output name=branch;]$(echo $GITHUB_HEAD_REF)"
-          echo "##[set-output name=datetime_ready;]$(date -v +5M)"
+          echo "##[set-output name=datetime_ready;]$(TZ='America/New_York' date --date '5 minutes')"
         id: info
 
       - name: Provision Infrastructure
