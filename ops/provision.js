@@ -6,13 +6,13 @@ const path = require('path')
 SETTINGS = {
   SSH_PUB_KEY: process.env.SSH_PUB_KEY,
   SERVER_ROOT_PASS: process.env.SERVER_ROOT_PASS || "some_pass",
-  COMMIT_SHA: process.env.COMMIT_SHA || "master",
+  BRANCH: process.env.BRANCH || "master",
   ACTIVE_SERVER_COUNT: Number(process.env.ACTIVE_SERVER_COUNT) || 3
 }
 
 const infraSync = async () => {
 
-  console.info(`Deploying: ${SETTINGS.COMMIT_SHA}`)
+  console.info(`Deploying: ${SETTINGS.BRANCH}`)
   console.info('--- manage script ---')
   console.info('[INFO] updating #yacs-rcos script')
 
@@ -48,7 +48,7 @@ const infraSync = async () => {
     tags: ["yacs-rcos"],
     stackscript_id: script.id,
     stackscript_data: {
-      commit_sha: SETTINGS.COMMIT_SHA
+      branch: SETTINGS.BRANCH
     }
   })
 

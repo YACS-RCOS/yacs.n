@@ -14,10 +14,15 @@ jobs:
         with:
           node-version: 13.x
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Print Environment
         run: |
-          echo ${{ env.GITHUB_REF }}
-          echo ${{ env.GITHUB_SHA }}
+          echo ${{ GITHUB_REF }}
+          echo ${{ GITHUB_SHA }}
 
       - name: Provision Infrastructure
         run: |
@@ -30,7 +35,7 @@ jobs:
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
           SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
-          COMMIT_SHA: ${{ env.GITHUB_SHA }}
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
         id: provision
 
       - name: Share Link on PR
