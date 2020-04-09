@@ -1,0 +1,14 @@
+{
+  "name": "ops",
+  "version": "1.0.0",
+  "description": "",
+  "main": "definition.js",
+  "scripts": {
+    "test": "echo hashtag-no-tests"
+  },
+  "author": "Jacob Shomstein <jacob@shomstein.com>",
+  "license": "ISC",
+  "dependencies": {
+    "superagent": "^5.2.2"
+  }
+}

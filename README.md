@@ -1,6 +1,7 @@
 # YACS.n
 
 ![](https://github.com/YACS-RCOS/yacs.n/workflows/CI/badge.svg)
+[![CodeFactor](https://www.codefactor.io/repository/github/yacs-rcos/yacs.n/badge)](https://www.codefactor.io/repository/github/yacs-rcos/yacs.n)
 
 YACS with support for multi and sub-semesters for any school
 
