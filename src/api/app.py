@@ -78,8 +78,10 @@ def set_defaultSemester():
 @app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():
     # check for user files
-    if not len(request.files):
-        return Response("Need a *.csv file", 400)
+    if not request.files:
+        return Response("No file received", 400)
+    if request.files['file'].filename.rsplit('.', 1)[1].lower() != 'csv':
+        return Response("File must have csv extension", 400)
     # get file
     csv_file = StringIO(request.files['file'].read().decode())
     isSuccess, error = courses.populate_from_csv(csv_file)
