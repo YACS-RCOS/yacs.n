@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report a Bug. No project is perfect :)
-title: Bug — Something made an oopsie
+title: Bug — Someone made an oopsie
 labels: bug
 assignees: ''
 
