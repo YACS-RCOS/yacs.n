@@ -58,7 +58,7 @@ prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)?\s*(?P<root><c
 # periods, trailing and leading space.
 explicit_prereqs_include_syntax_regex = "(?:^\s*Prerequisites? include:?\s?(.*))"
 explicit_prereqs_preference_syntax_regex = "(?:^\s*Prerequisites? preferences?:?\s*(.*))"
-explicit_prereqs_explicit_or_coreqs_syntax_regex = "(?:^\s*Prerequisites? or Corequisites?:?\s?(.*))"
+explicit_prereqs_explicit_or_coreqs_syntax_regex = "(?:^\s*Prerequisites? or Corequisites?:?\s?(.*))|(?:(.+?)corequisites?.*?or prerequisites?)|(?:(.+?)prerequisites?.*?or corequisites?)"
 explicit_prereqs_implicit_or_coreqs_syntax_regex = "(?:^Prerequisites?\/Corequisites?:?\s*(.*))"
 explicit_prereqs_before_coreqs_syntax_regex = "(?:^\s*Prerequisites?.*?:\s?(.*?(?=\W*Coreq)))"
 explicit_prereqs_sequence_syntax_regex = "(?:\s*Prerequisites?:?\s*(.+(?=[\. ;,])*))"
@@ -82,14 +82,17 @@ branch_reset_prereqs_regex = regex.compile(f"(?|{full_prereqs_regex})", flags=re
 
 explicit_coreqs_before_prereqs_syntax_regex = "(?:^\s*Corequisites?.*?:\s?(.*?(?=\W*Prereq)))"
 explicit_coreqs_sequence_syntax_regex = "(?:\s*Corequisites?:?\s*(.+(?=[\. ;,])*))"
-implicit_coreqs_syntax_regex = "(^((?!(Prerequisite)).)*$)"
+explicit_coreqs_qualified_at_end_of_sequence_regex = "(?:(.+?)(?:(?:is(?: a)?)|are) corequisites?)"
+# I don't think the default is to assume something is a coreq if it's unqualified
+# implicit_coreqs_syntax_regex = "(^((?!(Prerequisite)).)*$)"
 full_coreqs_regex = "|".join([
     explicit_prereqs_explicit_or_coreqs_syntax_regex,
     explicit_prereqs_implicit_or_coreqs_syntax_regex,
     explicit_coreqs_before_prereqs_syntax_regex,
     explicit_coreqs_sequence_syntax_regex,
+    explicit_coreqs_qualified_at_end_of_sequence_regex
 #     implicit_prereqs_before_coreqs_syntax_regex,
-    implicit_coreqs_syntax_regex
+    # implicit_coreqs_syntax_regex
 ])
 branch_reset_coreqs_regex = regex.compile(f"(?|{full_coreqs_regex})", flags=regex.IGNORECASE|regex.DOTALL)
 
