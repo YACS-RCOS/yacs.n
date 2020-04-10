@@ -2,7 +2,6 @@ import requests as req
 import threading
 import unicodedata
 import re
-# Needed for branch reset regex
 import regex
 import json
 from datetime import date
@@ -44,9 +43,6 @@ USED_FIELDS = {
     "credit_hours": False,
     "contact_lecture_lab_hours": False,
 }
-# SETTINGS = {
-#     "show_raw_precoreqs": True
-# }
 COURSE_DETAIL_TIMEOUT = 120.00 # seconds
 
 allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\?>)")

@@ -81,8 +81,7 @@ class sis_client:
             for school in schools:
                 schls.append(school.findChildren('span')[0].contents[0])
 
-        for i in range(len(tables)):
-            table = tables[i]
+        for i, table in enumerate(tables):
             rows = table.findChildren(['tr'])
             if i == 0:
                 titles = self.get_course_titles(rows[1])
