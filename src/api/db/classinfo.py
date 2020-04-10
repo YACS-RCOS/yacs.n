@@ -125,4 +125,3 @@ class ClassInfo:
             group by
               semester
         """, None, True)
-

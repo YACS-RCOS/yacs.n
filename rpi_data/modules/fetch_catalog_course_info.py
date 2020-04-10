@@ -36,7 +36,7 @@ USED_FIELDS = {
     "description": True,
     "prerequisites": True, # custom
     "corequisites": True, # custom
-    "raw_precoreqs": True, #If either prereq or coreq is true, then this must be true cause the client needs to look at this field to understand the other two
+    "raw_precoreqs": True, # If either prereq or coreq is true, then this must be true cause the client needs to look at this field to understand the other two
     "offer_frequency": True,
     "cross_listed": False,
     "graded": False,
@@ -79,16 +79,12 @@ branch_reset_prereqs_regex = regex.compile(f"(?|{full_prereqs_regex})", flags=re
 explicit_coreqs_before_prereqs_syntax_regex = "(?:^\s*Corequisites?.*?:\s?(.*?(?=\W*Prereq)))"
 explicit_coreqs_sequence_syntax_regex = "(?:\s*Corequisites?:?\s*(.+(?=[\. ;,])*))"
 explicit_coreqs_qualified_at_end_of_sequence_regex = "(?:(.+?)(?:(?:is(?: a)?)|are) corequisites?)"
-# I don't think the default is to assume something is a coreq if it's unqualified
-# implicit_coreqs_syntax_regex = "(^((?!(Prerequisite)).)*$)"
 full_coreqs_regex = "|".join([
     explicit_prereqs_explicit_or_coreqs_syntax_regex,
     explicit_prereqs_implicit_or_coreqs_syntax_regex,
     explicit_coreqs_before_prereqs_syntax_regex,
     explicit_coreqs_sequence_syntax_regex,
     explicit_coreqs_qualified_at_end_of_sequence_regex
-#     implicit_prereqs_before_coreqs_syntax_regex,
-    # implicit_coreqs_syntax_regex
 ])
 branch_reset_coreqs_regex = regex.compile(f"(?|{full_coreqs_regex})", flags=regex.IGNORECASE|regex.DOTALL)
 
@@ -119,10 +115,8 @@ class acalog_client():
 
     # https://stackoverflow.com/a/34669482/8088388
     def _clean_utf(self, string):
-        # Format the unicode string into its normalized combined version,
-        # and get rid of unprintable characters
+        # Format the unicode string into its normalized combined version
         return unicodedata.normalize("NFKC", string)
-        # return unicodedata.normalize("NFKC", string).encode('cp1252','replace').decode('cp1252')
 
     def _all_threads_joined(self, threads):
         for thread in threads:
@@ -150,11 +144,10 @@ class acalog_client():
             # https://stackoverflow.com/questions/39119165/xml-what-does-that-question-mark-mean
             # Can only have one prolog per XML document in order for it to be well-formed.
             # Can also only have one root.
-            # Don't see a reason to keep it as a bytestring, beautifulsoup
-            # is eventually just going to convert it to utf8 anyway
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
             if (match is None):
                 raise Error("XML document is missing prolog and root. Invalid.")
+            # For some reason, the response is sometimes missing the XML prolog. Not sure how it's possible, but give default in that case.
             self._xml_prolog = match.group("prolog") if match.group("prolog") is not None else '<?xml version="1.0"?>'
             if match.group("root") is None:
                 raise Error("XML document is missing root element. Invalid.")
