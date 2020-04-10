@@ -12,7 +12,7 @@ SETTINGS = {
 
 const infraSync = async () => {
 
-  console.info(`Deploying Branch: ${SETTINGS.BRANCH}`)
+  console.info(`Deploying: ${SETTINGS.BRANCH}`)
   console.info('--- manage script ---')
   console.info('[INFO] updating #yacs-rcos script')
 
@@ -71,7 +71,7 @@ const infraSync = async () => {
   // print ip
   // USED IN GITHUB ACTIONS PIPELINE TO SHOW MESSAGE IN PR
   // DO NOT REFORMAT
-  console.log(`http://${info.ipv4[0]}/`)
+  console.log(`http://${info.ipv4[0]}`)
 
 }
 infraSync()
