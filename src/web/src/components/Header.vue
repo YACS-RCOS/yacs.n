@@ -3,23 +3,26 @@
     <b-navbar type="light" variant="light">
         <b-navbar-brand class="logo"  href="#">YACS</b-navbar-brand>
         <div class="semester"> {{currentSemester}} </div>
+        <!-- If user has logged in -->
         <b-navbar-nav class="ml-auto" v-if="sessionID!==null">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              {{ sessionID }}
+              Hi, {{ userName }}
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
 
         </b-navbar-nav>
+
+        <!-- If user has not logged in -->
         <b-navbar-nav class="ml-auto" v-if="sessionID===null">
-            <div>
+          <div>
             <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
 
-            <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In">
-                <div>
+            <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In/Sign Up">
+                <div v-if="!showSingUp">
                     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                     <b-form-group
                         id="input-group-1"
@@ -47,7 +50,9 @@
                     </b-form-group>
 
                     <b-button type="submit" variant="primary">Submit</b-button>
-                    <b-button type="reset" variant="danger">Reset</b-button>
+
+                    <b-button :pressed.sync="showSingUp" variant="primary" id="signUpButton">Sign Up</b-button>
+                    <!-- <b-button type="reset" variant="danger">Reset</b-button> -->
                     </b-form>
 
                     <!-- <b-card class="mt-3" header="Form Data Result">
@@ -55,10 +60,15 @@
                     </b-card> -->
 
                 </div>
-
+                      
+                <div v-if="showSingUp">
+                  <SignUpForm ></SignUpForm>
+                  <b-button :pressed.sync="showSingUp" variant="primary"> Go back to Log In</b-button>
+                </div>
+                
                 <!-- <b-button class="mt-2"  block @click="toggleModal">Toggle Me</b-button> -->
             </b-modal>
-            </div>
+          </div>
         </b-navbar-nav>
 
       </b-navbar>
@@ -72,10 +82,15 @@ import { getDefaultSemester } from '@/services/AdminService';
 
 import { login } from '@/services/UserService';
 
+import SignUpComponent from '@/components/SignUp';
+
 export default {
     name: 'Header',
     props: {
       currentSemester: String
+    },
+    components: {
+      SignUpForm : SignUpComponent
     },
     data() {
       return {
@@ -84,7 +99,9 @@ export default {
           password: '',
         },
         isLoggedIn: false,
+        showSingUp: false,
         sessionID: '',
+        userName: '',
         show: true,
         semesterOptions: [],
       }
@@ -99,6 +116,7 @@ export default {
         });
       }
       this.sessionID = this.$cookies.get("sessionID");
+      this.userName = this.$cookies.get("userName");
       if (this.sessionID == '') {
         console.log('not logged in');
       } else {
@@ -120,6 +138,7 @@ export default {
         .then(response => {
           console.log(response);
           this.$cookies.set("sessionID", response.data.content['sessionID']);
+          this.$cookies.set("userName", response.data.content['userName']);
           location.reload();
         })
         .catch(error => {
@@ -166,6 +185,10 @@ export default {
 hr {
   margin: 0em;
   border-width: 1px;
+}
+
+#signUpButton {
+  margin-left: 20px;
 }
 
 </style>
