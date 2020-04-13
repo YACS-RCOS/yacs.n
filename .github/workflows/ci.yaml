@@ -64,4 +64,4 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_USER: postgres
           DB_PASS: postgres
-          TEST_CSV: rpi-data/summer-2020.csv
+          TEST_CSV: rpi_data/summer-2020.csv
