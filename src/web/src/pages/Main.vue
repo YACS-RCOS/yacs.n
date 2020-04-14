@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class='mb-3' :currentSemester="currentSemester"></Header>
+    <Header class="mb-3" :currentSemester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -8,7 +8,13 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1 w-100">
                 <b-card-text class="d-flex flex-grow-1 w-100">
-                  <CourseList @addCourse="addCourse" @removeCourse="removeCourse" :courses="courses" class="w-100" :selectedSemester="currentSemester"/>
+                  <CourseList
+                    @addCourse="addCourse"
+                    @removeCourse="removeCourse"
+                    :courses="courses"
+                    class="w-100"
+                    :selectedSemester="currentSemester"
+                  />
                 </b-card-text>
               </b-tab>
               <b-tab class="flex-grow-1">
@@ -45,32 +51,28 @@
               :key="index"
               :schedule="schedule"
               v-show="selectedScheduleIndex === index"
-
             />
           </template>
           <b-row>
-
             <b-col>
               <h5>CRNs: {{ selectedCrns }}</h5>
             </b-col>
 
-            <b-col md='4'>
+            <b-col md="4">
               <button
-                id='export-ics-button'
+                id="export-ics-button"
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+                <font-awesome-icon :icon="exportIcon" />Export to ICS
               </button>
             </b-col>
-
           </b-row>
         </b-col>
       </b-row>
     </b-container>
     <Footer></Footer>
   </div>
-
 </template>
 
 <script>
@@ -109,7 +111,7 @@ export default {
 
       scheduler: new SubSemesterScheduler(),
 
-      currentSemester: "",
+      currentSemester: '',
       courses: [],
 
       exportIcon: faPaperPlane,
@@ -117,10 +119,9 @@ export default {
     };
   },
   created() {
-    if(this.$route.query.semester){
+    if (this.$route.query.semester) {
       this.currentSemester = this.$route.query.semester;
-    }
-    else{
+    } else {
       getDefaultSemester().then(semester => {
         this.currentSemester = semester;
       });
@@ -128,14 +129,20 @@ export default {
 
     getCourses().then(courses => {
       this.courses = courses;
-    })
+    });
 
     getSubSemesters().then(subsemesters => {
-      subsemesters.forEach(subsemester => {
-        if(subsemester.parent_semester_name == this.currentSemester){
+      subsemesters
+        // Filter subsemesters in current semester
+        .filter(s => s.parent_semester_name == this.currentSemester)
+        // Filter out "full" subsemester
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+        )
+        .forEach(subsemester => {
           this.scheduler.addSubSemester(subsemester);
-        }
-      });
+        });
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
@@ -168,7 +175,7 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
-    newSemester(sem){
+    newSemester(sem) {
       this.currentSemester = sem;
     },
 
@@ -187,7 +194,7 @@ export default {
             // This will exclude all classes if they're on that final day, so bump
             // the end date by 1 day.
             let exclusive_date_end = new Date(course.date_end);
-            exclusive_date_end.setDate(course.date_end.getDate()+1);
+            exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = session.semester;
             calendarBuilder.addEvent(
               `Class: ${course.title}`,
@@ -209,6 +216,18 @@ export default {
         `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function(_, semFirstLetter, semRest, year) {
           return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
         })}_Schedule`
+      );
+    },
+    /**
+     * Checks whether `s1` spans the entire duration of `s2`
+     * @param {Subsemester} s1
+     * @param {Subsemester} s2
+     * @returns {boolean}
+     */
+    withinDuration(s1, s2) {
+      return (
+        s1.date_start.getTime() <= s2.date_start.getTime() &&
+        s1.date_end.getTime() >= s2.date_end.getTime()
       );
     }
   },
@@ -266,7 +285,6 @@ export default {
 }
 
 #export-ics-button {
-  background: #3D4959 !important;
+  background: #3d4959 !important;
 }
-
 </style>

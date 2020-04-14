@@ -1,6 +1,5 @@
 from db.model import *
 
-
 class User(Model):
     def __init__(self):
         super().__init__()
@@ -9,11 +8,11 @@ class User(Model):
         sql = """   SELECT user_id, name, email, phone,password,major,degree,enable
                     FROM public.user_account
                     WHERE   user_id::text   LIKE %s AND
-                            name        LIKE %s AND 
-                            email       LIKE %s AND 
-                            phone       LIKE %s AND 
-                            password    LIKE %s AND 
-                            major       LIKE %s AND 
+                            name        LIKE %s AND
+                            email       LIKE %s AND
+                            phone       LIKE %s AND
+                            password    LIKE %s AND
+                            major       LIKE %s AND
                             degree      LIKE %s AND
                             enable = %s"""
 
@@ -22,23 +21,23 @@ class User(Model):
 
     def add_user(self, args):
         sql = """
-                INSERT INTO 
+                INSERT INTO
                     public.user_account (
                         name,
-                        email, 
-                        phone, 
-                        password, 
-                        major, 
+                        email,
+                        phone,
+                        password,
+                        major,
                         degree,
                         enable
-                    ) 
+                    )
                 VALUES (
-                    %(Name)s, 
-                    %(Email)s, 
-                    %(Phone)s, 
-                    %(Password)s, 
-                    %(Major)s, 
-                    %(Degree)s, 
+                    %(Name)s,
+                    %(Email)s,
+                    %(Phone)s,
+                    %(Password)s,
+                    %(Major)s,
+                    %(Degree)s,
                     %(Enable)s
                 )
                 """
@@ -50,16 +49,16 @@ class User(Model):
         return self.db.execute(sql, args, False)[0]
 
     def update_user(self, args):
-        sql = """   UPDATE 
-                        public.user_account 
-                    SET 
-                        name        = %(Name)s, 
+        sql = """   UPDATE
+                        public.user_account
+                    SET
+                        name        = %(Name)s,
                         email       = %(Email)s,
                         phone       = %(Phone)s,
                         password    = %(Password)s,
                         major       = %(Major)s,
                         degree      = %(Degree)s
-                    WHERE 
+                    WHERE
                         user_id = %(UID)s;
                     """
         return self.db.execute(sql, args, False)[0]
