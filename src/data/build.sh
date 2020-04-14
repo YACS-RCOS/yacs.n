@@ -5,3 +5,5 @@ psql -d yacs < schema/admin_setting.sql
 psql -d yacs < schema/semester_date_range.sql
 psql -d yacs < schema/course_corequisite.sql
 psql -d yacs < schema/course_prerequisite.sql
+psql -d yacs < schema/user.sql
+psql -d yacs < schema/student_course_selection.sql
