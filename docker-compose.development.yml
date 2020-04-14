@@ -5,9 +5,9 @@ version: '3.4'
 
 volumes:
   web_node_modules:
+  postgres_data:
 
 services:
-
   yacs_nginx:
     container_name: yacs_nginx
     image: nginx
@@ -20,8 +20,6 @@ services:
 
   yacs_web:
     build:
-      context: ./src/web
-      dockerfile: Dockerfile
       target: develop-stage
     command: npm run serve
     ports:
@@ -31,15 +29,11 @@ services:
       - web_node_modules:/app/node_modules/
 
   yacs_api:
-    build:
-      context: ./src/api/
-      dockerfile: Dockerfile
+    command: python app.py
     ports:
       - 5000:5000
     volumes:
       - ./src/api:/usr/src
-    command: python app.py
-    tty: true
     restart: always
     environment:
       - ENV=development
@@ -50,11 +44,10 @@ services:
       - DB_NAME=yacs
 
   yacs_db:
-    build:
-      context: ./src/data/
-      dockerfile: Dockerfile
     ports:
       - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs

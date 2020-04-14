@@ -4,9 +4,7 @@ version: '3.4'
 # web -> api -> db [dependency chain]
 
 services:
-
   yacs_web:
-    image: joshuawu3/yacs_n_web:latest
     ports:
       - 80:80
     environment:
@@ -14,7 +12,6 @@ services:
       - HOST=${HOST:-localhost}
 
   yacs_api:
-    image: joshuawu3/yacs_n_api:latest
     restart: always
     environment:
       - ENV=production
@@ -26,7 +23,6 @@ services:
       - WORKERS=${API_WORKERS:-4}
 
   yacs_db:
-    image: joshuawu3/yacs_n_db:latest
     environment:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs

@@ -4,16 +4,24 @@ version: '3.4'
 # web -> api -> db [dependency chain]
 
 services:
-
   yacs_web:
     container_name: yacs_web # makes logs nicer, otherwise would be yacs_web_1, but is yacs_web
+    build:
+      context: ./src/web
+      dockerfile: Dockerfile
     depends_on:
       - yacs_api
 
   yacs_api:
+    build:
+      context: ./src/api/
+      dockerfile: Dockerfile
     container_name: yacs_api
     depends_on:
       - yacs_db
 
   yacs_db:
+    build:
+      context: ./src/data/
+      dockerfile: Dockerfile
     container_name: yacs_db
