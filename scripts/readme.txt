@@ -6,8 +6,8 @@ dev scripts:
 ------------
 
 dev-build.sh : Builds docker images locally for faster start (uses volumes to link storage in container with host storage on start)
-dev-start.sh : Starts docker containers for development (Runs in background)
-dev-stop: Stops the docker containers that are running in the background
+dev-start.sh : Starts docker containers for development, ctrl c to stop containers
+dev-stop.sh: Removes stopped containers
 dev-start-legacy.sh : Starts /src/api and /src/web (API and Vue frontend)
 
 prod scripts:
