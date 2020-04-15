@@ -51,8 +51,8 @@ Alternatively to develop using docker
 
 **Start containers**
 
-`bash scripts/startdev.sh`
+`bash scripts/dev-start.sh`
 
 **Stop containers**
 
-`bash scripts/stopdev.sh`
+`bash scripts/dev-stop.sh`
