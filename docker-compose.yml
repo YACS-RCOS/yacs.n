@@ -1,55 +1,28 @@
-version: '3'
+version: '3.4'
 
 # web (front-end) depends on api (back-end) depends on (db)
 # web -> api -> db [dependency chain]
+# NOTE: env vars are in docker-compose.development.yml or docker-compose.production.yml depending on env
 
 services:
-
   yacs_web:
     container_name: yacs_web # makes logs nicer, otherwise would be yacs_web_1, but is yacs_web
     build:
       context: ./src/web
       dockerfile: Dockerfile
-    ports:
-      - 80:80
-    expose:
-      - 80
     depends_on:
       - yacs_api
-    environment:
-      # https://docs.docker.com/compose/compose-file/#variable-substitution
-      - HOST=${HOST:-localhost}
 
   yacs_api:
     container_name: yacs_api
     build:
       context: ./src/api/
       dockerfile: Dockerfile
-    tty: true
-    restart: always # on fail, always restart
-    ports:
-      - 5000:5000
     depends_on:
       - yacs_db
-    environment:
-      - ENV=production
-      - DEBUG=False
-      - DB_HOST=yacs_db
-      - DB_USER=yacs
-      - DB_PASS=${DB_PASS:-easy_dev_pass}
-      - DB_NAME=yacs
-      - WORKERS=${API_WORKERS:-4}
 
   yacs_db:
     container_name: yacs_db
     build:
       context: ./src/data/
       dockerfile: Dockerfile
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_DB=yacs
-      - POSTGRES_USER=yacs
-      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}

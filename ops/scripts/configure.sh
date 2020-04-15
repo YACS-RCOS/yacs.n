@@ -23,7 +23,7 @@ echo $GIT_STATUS_INFO >> $INFO_FILE
 echo "[build logs]"   >> $INFO_FILE
 
 # start yacs
-docker-compose up -d  >> $INFO_FILE
+bash scripts/start.sh >> $INFO_FILE
 
 # start info server
 cd _info/
