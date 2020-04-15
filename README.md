@@ -10,7 +10,7 @@ YACS with support for multi and sub-semesters for any school
 
 Clone the repo and
 
-`docker-compose up -d`
+`scripts/start.sh`
 
 Once up,
 
@@ -46,3 +46,13 @@ You should be able to access @ `localhost:8080`
 In `localhost:8080/admin` submit your school's courses by CSV and you're ready to schedule!
 
 For schema see /rpi_data/summer-2020.csv as an example
+
+Alternatively to develop using docker
+
+**Start containers**
+
+`bash scripts/dev-start.sh`
+
+**Stop containers**
+
+`bash scripts/dev-stop.sh`

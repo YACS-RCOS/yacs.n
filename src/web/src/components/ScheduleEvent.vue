@@ -1,8 +1,15 @@
 <template functional>
   <div class="schedule-event" :style="data.style">
     <div class="event-text">
-      {{ props.crn }} - {{ props.section }}
+      {{ props.title }}
       <br>
+      {{ props.name }} - {{ props.section }}
+      <br>
+      {{ props.crn }}
+      <br>
+      <!-- location placeholder -->
+      <br>
+      <!-- professor placeholder -->
     </div>
   </div>
 </template>
@@ -25,8 +32,10 @@
   .event-text {
     padding: 4px;
     font-weight: bold;
-    font-size: small;
+    font-size: 60%;
     box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
   }
 }
 </style>

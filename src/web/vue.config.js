@@ -3,9 +3,10 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: "localhost:5000",
         changeOrigin: true
       }
     }
