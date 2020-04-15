@@ -35,7 +35,7 @@
     font-size: 60%;
     box-sizing: border-box;
     height: 100%;
-    overflow-y: scroll;
+    y-overflow: auto;
   }
 }
 </style>
