@@ -2,8 +2,36 @@ class student_course_selection:
 	def __init__(self, db_conn):
 		self.db_conn = db_conn
 
-	def update_selection(self, selection):
-		pass
+	def add_selection(self, cid, sem, uid):
+		sql = 	"""
+				INSERT INTO
+					student_course_selection (user_id, semester, crn)
+				VALUES
+					(%d, %s, %s)
+				"""
+		self.db_conn.execute(sql, [uid, sem, cid], False)
 
-	def get_selection(self):
-		pass
+	def remove_selection(self, cid, sem, uid):
+		sql = 	"""
+				DELETE FROM
+					student_course_selection
+				WHERE
+					user_id = %d AND
+					semester = %s AND
+					crn = %d
+				"""
+		self.db_conn.execute(sql, [uid, sem, cid], False)
+
+	def get_selection(self, uid):
+		sql = """
+				select
+					crn
+					semester
+				from
+					student_course_selection
+				where
+					user_id = %d
+				group by
+					semester
+				"""
+		return self.db_conn.execute(sql, [uid], True)
