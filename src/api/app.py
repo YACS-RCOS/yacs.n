@@ -148,20 +148,20 @@ def log_out():
 def add_user_event():
     return event_controller.add_event(json.loads(request.data))
 
-# @app.route('/api/addcourse', methods=['POST'])
-# def add_student_course():
-#     info = request.json
-#     resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
+@app.route('/api/addcourse', methods=['POST'])
+def add_student_course():
+    info = request.json
+    resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
 
-# @app.route('/api/removecourse', methods=['POST'])
-# def remove_student_course():
-#     info = request.json
-#     resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
+@app.route('/api/removecourse', methods=['POST'])
+def remove_student_course():
+    info = request.json
+    resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
 
-# @app.route('/api/getcourses', methods=['GET'])
-# def get_student_courses():
-#     info = request.json
-#     resp, error = course_select.get_selection(info['uid'])
+@app.route('/api/getcourses', methods=['GET'])
+def get_student_courses():
+    info = request.json
+    resp, error = course_select.get_selection(info['uid'])
 
 
 
