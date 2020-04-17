@@ -7,7 +7,7 @@ class student_course_selection:
 				INSERT INTO
 					student_course_selection (user_id, semester, course_id)
 				VALUES
-					(%d, %s, %s)
+					(%s, %s, %s)
 				"""
 		self.db_conn.execute(sql, [uid, sem, cid], False)
 
@@ -16,9 +16,9 @@ class student_course_selection:
 				DELETE FROM
 					student_course_selection
 				WHERE
-					user_id = %d AND
+					user_id = %s AND
 					semester = %s AND
-					course_id = %d
+					course_id = %s
 				"""
 		self.db_conn.execute(sql, [uid, sem, cid], False)
 
@@ -30,7 +30,7 @@ class student_course_selection:
 				from
 					student_course_selection
 				where
-					user_id = %d
+					user_id = %s
 				group by
 					semester
 				"""
