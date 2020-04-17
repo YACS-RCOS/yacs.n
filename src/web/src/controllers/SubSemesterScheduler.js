@@ -47,6 +47,14 @@ class SubSemesterScheduler {
   }
 
   /**
+   * Adds record of selected class to all schedules
+   * @param {Course} course
+   */
+  addCourse(course) {
+    this.schedules.forEach(s => s.addCourse(course));
+  }
+
+  /**
    * Adds `section` to the appropriate schedule(s) based on the duration of `course`
    * @param {Course} course
    * @param {CourseSection} section
