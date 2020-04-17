@@ -34,7 +34,6 @@ jobs:
             -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:${{ github.sha }} \
             -t docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_web:latest \
             src/web
-
       - name: Push
         run: |
           docker push docker.pkg.github.com/yacs-rcos/yacs.n/yacs_n_db:${{ github.sha }}
