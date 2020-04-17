@@ -11,6 +11,7 @@ import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
+import db.student_course_selection as CourseSelect
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -25,6 +26,7 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
+course_select = CourseSelect.student_course_selection(db_conn)
 
 app = Flask(__name__)
 
@@ -146,6 +148,17 @@ def log_out():
 def add_user_event():
     return event_controller.add_event(json.loads(request.data))
 
+@app.route('/api/addcourse', methods=['POST'])
+def add_student_course():
+    info = request.json
+
+@app.route('/api/removecourse', methods=['POST'])
+def remove_student_course():
+    info = request.json
+
+@app.route('/api/getcourses', methods=['GET'])
+def get_student_courses():
+    info = request.json
 
 
 if __name__ == '__main__':

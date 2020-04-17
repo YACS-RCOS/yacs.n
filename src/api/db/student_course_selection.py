@@ -5,7 +5,7 @@ class student_course_selection:
 	def add_selection(self, cid, sem, uid):
 		sql = 	"""
 				INSERT INTO
-					student_course_selection (user_id, semester, crn)
+					student_course_selection (user_id, semester, course_id)
 				VALUES
 					(%d, %s, %s)
 				"""
@@ -18,14 +18,14 @@ class student_course_selection:
 				WHERE
 					user_id = %d AND
 					semester = %s AND
-					crn = %d
+					course_id = %d
 				"""
 		self.db_conn.execute(sql, [uid, sem, cid], False)
 
 	def get_selection(self, uid):
 		sql = """
 				select
-					crn
+					course_id
 					semester
 				from
 					student_course_selection
