@@ -125,3 +125,12 @@ class ClassInfo:
             group by
               semester
         """, None, True)
+
+    def get_all_semester_info(self):
+      return self.db_conn.execute("""
+            SELECT
+              *
+            FROM
+              semester_info
+            ;
+      """, None, True)
