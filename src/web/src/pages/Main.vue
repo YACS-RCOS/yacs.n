@@ -87,7 +87,7 @@ import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
 import HeaderComponent from '@/components/Header';
 
-import { getSubSemesters, getCourses } from '@/services/YacsService';
+import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse } from '@/services/YacsService';
 
 import { getDefaultSemester } from '@/services/AdminService';
 
@@ -113,6 +113,8 @@ export default {
 
       currentSemester: '',
       courses: [],
+
+      sessionID: '',
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -147,6 +149,7 @@ export default {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
+    this.sessionID = this.$cookies.get("sessionID");
   },
   methods: {
     addCourse(course) {
@@ -156,6 +159,10 @@ export default {
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
+      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.sessionID};
+      var ret = addStudentCourse(info);
+      console.log(`Response: ${ret}`);
+      console.log(`Saved ${course.name}!`);
     },
 
     addCourseSection(course, section) {
@@ -172,6 +179,9 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
+      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.$cookies.get("sessionID")};
+      removeStudentCourse(info);
+      console.log(`Unsaved ${course.name}!`);
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);

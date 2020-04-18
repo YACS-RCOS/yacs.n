@@ -84,7 +84,11 @@ export const getSubSemesters = () =>
 
 export const getSemesters = () => client.get('/semester').then(res => res.data);
 
-export const addStudentCourse = course_info => client.post('/addcourse', course_info);
+export const addStudentCourse = course_info => client.post('/addcourse', course_info).then(data => {
+  console.log("Returned: ")
+  console.log(data);
+  return ({data});
+});
 
 export const removeStudentCourse = course_info => client.post('/removecourse', course_info);
 

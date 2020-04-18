@@ -3,13 +3,22 @@ class student_course_selection:
 		self.db_conn = db_conn
 
 	def add_selection(self, cid, sem, uid):
-		sql = 	"""
-				INSERT INTO
-					student_course_selection (user_id, semester, course_id)
-				VALUES
-					(%s, %s, %s)
-				"""
-		self.db_conn.execute(sql, [uid, sem, cid], False)
+		try:
+			sql = 	"""
+					INSERT INTO
+						student_course_selection (user_id, semester, course_id)
+					VALUES
+						(%s, %s, %s)
+					"""
+			resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
+		except Exception as e:
+			return (False, e)
+
+
+		if error != None:
+			return (False, error)
+		else:
+			return (True, None)
 
 	def remove_selection(self, cid, sem, uid):
 		sql = 	"""

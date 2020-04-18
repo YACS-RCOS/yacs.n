@@ -1,1 +1,1 @@
-psql -d yacs < schema/user.sql
+psql -d yacs < schema/07_user.sql
