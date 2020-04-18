@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS user_session;
 CREATE TABLE user_session
 (
 	session_id UUID NOT NULL
