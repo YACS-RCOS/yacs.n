@@ -5,7 +5,7 @@ CREATE TABLE student_course_selection
 	semester	varchar(255),
 	course_id	varchar(255),
 
-	PRIMARY KEY (user_id, semester),
+	PRIMARY KEY (user_id, semester, course_id),
 	FOREIGN KEY (user_id) REFERENCES user_account(user_id)
 );
 
