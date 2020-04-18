@@ -15,8 +15,7 @@ class student_course_selection:
 		except Exception as e:
 			return (False, e)
 
-
-		if error != None:
+		if error is not None:
 			return (False, error)
 		else:
 			return (True, None)

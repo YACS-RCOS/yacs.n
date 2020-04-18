@@ -152,6 +152,7 @@ def add_user_event():
 def add_student_course():
     info = request.get_json()
     resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
+    
     if resp:
         return Response(status=200)
     else:
@@ -163,6 +164,7 @@ def add_student_course():
 def remove_student_course():
     info = request.json
     resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
+    
     if resp:
         return Response(status=200)
     else:
