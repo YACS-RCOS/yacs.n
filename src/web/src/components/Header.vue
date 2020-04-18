@@ -120,6 +120,7 @@ export default {
         .then(response => {
           console.log(response);
           this.$cookies.set("sessionID", response.data.content['sessionID']);
+          this.$cookies.set("userID", response.data.content['uid']);
           location.reload();
         })
         .catch(error => {
@@ -140,6 +141,7 @@ export default {
       },
       logOut(){
         this.$cookies.remove("sessionID");
+        this.$cookies.remove("userID");
         location.reload();
       }
 

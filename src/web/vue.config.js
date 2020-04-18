@@ -6,7 +6,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/api': {
-        target: "http://localhost:5000",
+        target: "localhost:5000",
         changeOrigin: true
       }
     }

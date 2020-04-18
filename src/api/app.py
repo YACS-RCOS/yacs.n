@@ -150,7 +150,7 @@ def add_user_event():
 
 @app.route('/api/addcourse', methods=['POST'])
 def add_student_course():
-    info = request.json
+    info = request.get_json()
     resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
     if resp:
         return Response(status=200)

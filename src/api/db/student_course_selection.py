@@ -11,6 +11,7 @@ class student_course_selection:
 						(%s, %s, %s)
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
+		
 		except Exception as e:
 			return (False, e)
 
@@ -21,15 +22,24 @@ class student_course_selection:
 			return (True, None)
 
 	def remove_selection(self, cid, sem, uid):
-		sql = 	"""
-				DELETE FROM
-					student_course_selection
-				WHERE
-					user_id = %s AND
-					semester = %s AND
-					course_id = %s
-				"""
-		self.db_conn.execute(sql, [uid, sem, cid], False)
+		try:
+			sql = 	"""
+					DELETE FROM
+						student_course_selection
+					WHERE
+						user_id = %s AND
+						semester = %s AND
+						course_id = %s
+					"""
+			resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
+
+		except Exception as e:
+			return (False, e)
+
+		if error != None:
+			return (False, error)
+		else:
+			return (True, None)
 
 	def get_selection(self, uid):
 		sql = """

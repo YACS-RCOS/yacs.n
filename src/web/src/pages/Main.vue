@@ -114,7 +114,7 @@ export default {
       currentSemester: '',
       courses: [],
 
-      sessionID: '',
+      userID: '',
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -149,7 +149,8 @@ export default {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
     });
-    this.sessionID = this.$cookies.get("sessionID");
+    this.userID = this.$cookies.get("userID");
+    console.log("ID stored");
   },
   methods: {
     addCourse(course) {
@@ -159,9 +160,16 @@ export default {
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
-      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.sessionID};
-      var ret = addStudentCourse(info);
-      console.log(`Response: ${ret}`);
+      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.userID};
+
+      addStudentCourse(info)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+
       console.log(`Saved ${course.name}!`);
     },
 
@@ -179,8 +187,16 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
-      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.$cookies.get("sessionID")};
-      removeStudentCourse(info);
+      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.userID};
+      
+      removeStudentCourse(info)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+
       console.log(`Unsaved ${course.name}!`);
     },
     removeCourseSection(section) {
