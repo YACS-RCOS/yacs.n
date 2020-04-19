@@ -87,7 +87,7 @@ import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
 import HeaderComponent from '@/components/Header';
 
-import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse } from '@/services/YacsService';
+import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse, getStudentCourses } from '@/services/YacsService';
 
 import { getDefaultSemester } from '@/services/AdminService';
 
@@ -115,6 +115,7 @@ export default {
       courses: [],
 
       userID: '',
+      savedCourses: [],
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -151,6 +152,23 @@ export default {
     });
     this.userID = this.$cookies.get("userID");
     console.log("ID stored");
+
+    const info = {"sem": this.currentSemester, "uid": this.$cookies.get("userID")};
+    console.log(info);
+    getStudentCourses(info).then(cids => {
+      cids.forEach(cid => {
+        var c = this.courses.find(
+          function(course) {return course.name == cid}
+        );
+        console.log(c);
+        c.selected = true;
+        this.$set(this.selectedCourses, c.id, c);
+        this.scheduler.addCourse(c);
+      });
+    })
+    .catch(error => {
+      console.log(error.response);
+    });
   },
   methods: {
     addCourse(course) {

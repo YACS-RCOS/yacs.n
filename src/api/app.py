@@ -173,9 +173,13 @@ def remove_student_course():
 
 @app.route('/api/getcourses', methods=['GET'])
 def get_student_courses():
-    info = request.json
-    resp, error = course_select.get_selection(info['uid'])
+    info = request.get_json()
+    courses, error = course_select.get_selection(info['sem'], info['uid'])
 
+    if courses:
+        return jsonify(courses)
+    else:
+        return Response(error, status=500)
 
 
 if __name__ == '__main__':

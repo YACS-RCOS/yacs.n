@@ -35,21 +35,30 @@ class student_course_selection:
 		except Exception as e:
 			return (False, e)
 
-		if error != None:
+		if error is not None:
 			return (False, error)
 		else:
 			return (True, None)
 
-	def get_selection(self, uid):
-		sql = """
-				select
-					course_id
-					semester
-				from
-					student_course_selection
-				where
-					user_id = %s
-				group by
-					semester
-				"""
-		return self.db_conn.execute(sql, [uid], True)
+	def get_selection(self, sem, uid):
+		try:
+			sql = """
+					select
+						course_id
+					from
+						student_course_selection
+					where
+						user_id = %s and
+						semester = %s
+					order by
+						course_id asc
+					"""
+			courses, error = self.db_conn.execute(sql, [uid, sem], True)
+
+		except Exception as e:
+			return (False, e)
+
+		if error is not None:
+			return (False, error)
+		else:
+			return (courses, None)
