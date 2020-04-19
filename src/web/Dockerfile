@@ -16,7 +16,7 @@ COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 # get openssl to do crypt(3)
 RUN \
   apt-get update --no-install-recommends && \
-  apt-get install openssl -y && \
+  apt-get install openssl --no-install-recommends -y && \
   rm /var/lib/apt/lists/* || true
 
 CMD ["/usr/local/bin/entrypoint.sh"]
