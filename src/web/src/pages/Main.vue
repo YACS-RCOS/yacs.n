@@ -118,20 +118,11 @@ export default {
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
   },
-  created() {
-    if (this.$route.query.semester) {
-      this.currentSemester = this.$route.query.semester;
-    } else {
-      getDefaultSemester().then(semester => {
-        this.currentSemester = semester;
-      });
-    }
+  async created() {
+    this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester().semester;
 
-    getCourses().then(courses => {
+    Promise.all([getCourses(), getSubSemesters()]).then(([courses, subsemesters]) => {
       this.courses = courses;
-    });
-
-    getSubSemesters().then(subsemesters => {
       subsemesters
         // Filter subsemesters in current semester
         .filter(s => s.parent_semester_name == this.currentSemester)

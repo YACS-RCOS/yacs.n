@@ -5,8 +5,7 @@ import axios from 'axios';
 import { readableDate, localToUTCDate } from '@/utils';
 
 const client = axios.create({
-  baseURL: '/api',
-  withCredentials: true
+  baseURL: '/api'
 });
 
 /**
