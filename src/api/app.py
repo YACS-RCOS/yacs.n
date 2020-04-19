@@ -65,7 +65,7 @@ def get_subsemesters():
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
-    if ('user' in session and session['user'].admin):
+    if ('user' in session and session['user']['admin'] == True):
         semesters, error = class_info.get_semesters(includeHidden=True)
         return jsonify(semesters) if not error else Response(error, status=500)
     else:
@@ -166,7 +166,8 @@ def log_in():
     session_res = session_controller.add_session(request.json).json
     if (session_res['success']):
         session_data = session_res['content']
-        user = users.get_user(uid=session_data['uid'])
+        # [0] b/c conn.exec uses fetchall() which wraps result in list
+        user = users.get_user(uid=session_data['uid'])[0]
         session['user'] = user
     return session_res
 
