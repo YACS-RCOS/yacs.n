@@ -8,8 +8,14 @@
                 link for more docs later)
             </div>
             <form @submit.prevent="onSubmit" class="form-group">
-                <input type="file" name="file" class="form-control-file" />
-                <br />
+                <div class="input-group">
+                    <input type="file" name="file" class="form-control-file" />
+                    <br />
+                    <label>
+                        <input type="checkbox" name="isPubliclyVisible" checked/>
+                        Make Public
+                    </label>
+                </div>
                 <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
             </form>
         </section>
@@ -26,7 +32,8 @@ export default {
     props: {},
     data () {
         return {
-            loading: false
+            loading: false,
+            isPublic: false,
         }
     },
     methods: {

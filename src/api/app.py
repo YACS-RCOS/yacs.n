@@ -18,6 +18,7 @@ import controller.userevent as event_controller
 from io import StringIO
 import json
 import os
+import pandas as pd
 
 
 # - init interfaces to db
@@ -92,6 +93,13 @@ def uploadHandler():
     # get file
     csv_file = StringIO(request.files['file'].read().decode())
     isSuccess, error = courses.populate_from_csv(csv_file)
+    # hide semester if needed
+    is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
+    # Like C, the cursor will be at EOF after full read, so reset to beginning
+    csv_file.seek(0)
+    semesters = pd.read_csv(csv_file)['semester'].unique()
+    for semester in semesters:
+        semester_info.update(semester, is_publicly_visible)
     if (isSuccess):
         return Response(status=200)
     else:
