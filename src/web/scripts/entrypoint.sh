@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # for use in docker image to start
-echo $ADMIN_PASS
 # store pass with crypt(3) with openssl
 mkdir -p /conf
 CRYPT3_PASS=$(openssl passwd $ADMIN_PASS)
