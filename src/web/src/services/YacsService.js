@@ -36,8 +36,12 @@ const _getCourseIdentifier = courseObj => {
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
-export const getCourses = () =>
-  client.get('/class').then(({ data }) => {
+export const getCourses = (semester) =>
+  client.get('/class', {
+      "params": {
+        "semester": semester
+      }
+  }).then(({ data }) => {
     return data.map(c => {
       c.date_start = localToUTCDate(new Date(c.date_start));
       c.date_end = localToUTCDate(new Date(c.date_end));

@@ -5,3 +5,11 @@ const client = axios.create({
 });
 
 export const login = userInfo => client.post('/session', userInfo);
+export const logout = sessionId => client.delete('/session', {
+  data: {
+    "sessionID": sessionId
+  },
+  headers: {
+    "Content-Type": "application/json"
+  }
+});

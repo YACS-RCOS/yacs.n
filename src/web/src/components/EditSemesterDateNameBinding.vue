@@ -4,7 +4,16 @@
         ref="editSemesterForm"
         @submit.prevent="onSubmit"
     >
+        <input type="hidden" name="semesterTitle" aria-label="Semester Title" :value="semesterTitle" />
         <h3>{{ semesterTitle }}</h3>
+        <b-form-checkbox v-model="isPublic" name="isPubliclyVisible" style="font-variant: small-caps">
+            <span v-show="isPublic">
+                Public <font-awesome-icon :icon="eye" />
+            </span>
+            <span v-show="!isPublic">
+                Admin Only <font-awesome-icon :icon="closedEye" />
+            </span>
+        </b-form-checkbox>
         <hr />
         <b-table
             :id="`edit${semesterTitle.replace(' ', '')}Tbl`"
@@ -44,17 +53,22 @@
 <script>
 import { mapDateRangeToSemesterPart as postDateMapping } from '@/services/AdminService';
 import { standardDate } from '@/utils';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default {
     name: "EditSemesterDateNameBinding",
     props: {
         semesterTitle: String,
+        semesterInfo: Object,
         subsemesters: Array
     },
     data () {
         return {
+            eye: faEye,
+            closedEye: faEyeSlash,
             displayedColumns: ['dateRange', 'semesterPartName'],
             loading: false,
+            isPublic: this.semesterInfo.public,
             // My SO post. Originally, I didn't want to have to use v-model since I don't really need its full power,
             // but because of all the weirdness of the keyboard events on the semester_part input and the submit button, here I am using v-model in a v-for.
             // https://stackoverflow.com/questions/60896159/prepopulated-form-input-element-doesnt-accept-first-input-when-submit-btn-is-di/60896544#60896544
@@ -122,7 +136,10 @@ export default {
                 let isValid = semesterName !== defaultValue;
                 anyValid |= isValid;
             }
-            return !anyValid;
+            // Disable if the visible toggle is still the same
+            // TODO would like to split out this validation logic, just focusing on getting
+            //      done for now
+            return !(anyValid || this.isPublic !== this.semesterInfo.public);
         }
     }
 }

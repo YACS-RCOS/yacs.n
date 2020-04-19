@@ -2,7 +2,7 @@ import VueRouter from 'vue-router';
 import AdminPage from './pages/Admin';
 import MainPage from './pages/Main';
 import UploadCsvPage from './pages/UploadCsv';
-import MapDatePage from './pages/MapDates';
+import EditSemestersPage from './pages/EditSemesters';
 
 var router = new VueRouter({
   routes: [
@@ -22,9 +22,9 @@ var router = new VueRouter({
       name: 'UploadCsv'
     },
     {
-      path: '/admin/mapdate',
-      component: MapDatePage,
-      name: 'MapDates'
+      path: '/admin/editsemesters',
+      component: EditSemestersPage,
+      name: 'EditSemesters'
     }
   ],
   mode: 'history'

@@ -5,7 +5,7 @@ class User(Model):
         super().__init__()
 
     def get_user(self, uid='%', name='%', email='%', password='%', phone='%', major='%', degree='%', enable=True):
-        sql = """   SELECT user_id, name, email, phone,password,major,degree,enable
+        sql = """   SELECT user_id, name, email, phone,password,major,degree,enable,admin,super_admin
                     FROM public.user_account
                     WHERE   user_id::text   LIKE %s AND
                             name        LIKE %s AND

@@ -6,17 +6,21 @@ from flask import Response
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import session
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
+import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
 from io import StringIO
 import json
 import os
+import pandas as pd
 
 
 # - init interfaces to db
@@ -25,8 +29,16 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
+semester_info = SemesterInfo.semester_info(db_conn)
+users = UserModel.User()
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
+
+def is_admin_user():
+    if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
+        return True
+    return False
 
 @app.route('/')
 def root():
@@ -40,8 +52,16 @@ def apiroot():
 
 @app.route('/api/class', methods=['GET'])
 def get_classes():
-    classes, error = class_info.get_classes_full()
-    return jsonify(classes) if not error else Response(error, status=500)
+    semester = request.args.get("semester", default=None)
+    if semester:
+        if not semester_info.is_public(semester):
+            if is_admin_user():
+                classes, error = class_info.get_classes_full(semester)
+                return jsonify(classes) if not error else Response(error, status=500)
+            return Response("Semester isn't available", status=401)
+        classes, error = class_info.get_classes_full(semester)
+        return jsonify(classes) if not error else Response(error, status=500)
+    return Response("missing semester option", status=400)
 
 
 @app.route('/api/department', methods=['GET'])
@@ -52,13 +72,27 @@ def get_departments():
 
 @app.route('/api/subsemester', methods=['GET'])
 def get_subsemesters():
+    semester = request.args.get("semester", default=None)
+    if semester:
+        subsemesters, error = class_info.get_subsemesters(semester)
+        return jsonify(subsemesters) if not error else Response(error, status=500)
+    # Some cases, we do want all subsemesters across all semesters like in Admin Panel
     subsemesters, error = class_info.get_subsemesters()
     return jsonify(subsemesters) if not error else Response(error, status=500)
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
+    if is_admin_user():
+        semesters, error = class_info.get_semesters(includeHidden=True)
+        return jsonify(semesters) if not error else Response(error, status=500)
     semesters, error = class_info.get_semesters()
     return jsonify(semesters) if not error else Response(error, status=500)
+
+
+@app.route('/api/semesterInfo', methods=['GET'])
+def get_all_semester_info():
+    all_semester_info, error = class_info.get_all_semester_info()
+    return jsonify(all_semester_info) if not error else Response(error, status=500)
 
 @app.route('/api/defaultsemester', methods=['GET'])
 def get_defaultSemester():
@@ -84,6 +118,18 @@ def uploadHandler():
         return Response("File must have csv extension", 400)
     # get file
     csv_file = StringIO(request.files['file'].read().decode())
+    # update semester infos based on isPubliclyVisible, hiding semester if needed
+    is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
+    semesters = pd.read_csv(csv_file)['semester'].unique()
+    for semester in semesters:
+        semester_info.upsert(semester, is_publicly_visible)
+    # Like C, the cursor will be at EOF after full read, so reset to beginning
+    csv_file.seek(0)
+    # Clear out course data of the same semester before population due to
+    # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
+    # courses.
+    courses.bulk_delete(semesters=semesters)
+    # Populate DB from CSV
     isSuccess, error = courses.populate_from_csv(csv_file)
     if (isSuccess):
         return Response(status=200)
@@ -99,11 +145,15 @@ def map_date_range_to_semester_part_handler():
     # look into request.parameter_storage_class which will change the default
     # ImmutableMultiDict class that request.form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
     if (request.form):
+        # If checkbox is false, then, by design, it is not included in the form data.
+        is_publicly_visible = request.form.get('isPubliclyVisible', default=False)
+        semester_title = request.form.get('semesterTitle')
         semester_part_names = request.form.getlist('semester_part_name')
         start_dates = request.form.getlist('date_start')
         end_dates = request.form.getlist('date_end')
-        if (start_dates and end_dates and semester_part_names):
+        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            semester_info.upsert(semester_title, is_publicly_visible)
             if (not error):
                 return Response(status=200)
             else:
@@ -134,11 +184,20 @@ def update_user_info():
 
 @app.route('/api/session', methods=['POST'])
 def log_in():
-    return session_controller.add_session(request.json)
+    session_res = session_controller.add_session(request.json).json
+    if (session_res['success']):
+        session_data = session_res['content']
+        # [0] b/c conn.exec uses fetchall() which wraps result in list
+        user = users.get_user(uid=session_data['uid'])[0]
+        session['user'] = user
+        # https://flask.palletsprojects.com/en/1.1.x/api/?highlight=session#flask.session.permanent
+        session.permanent = False
+    return session_res
 
 
 @app.route('/api/session', methods=['DELETE'])
 def log_out():
+    session.pop('user', None)
     return session_controller.delete_session(request.json)
 
 
