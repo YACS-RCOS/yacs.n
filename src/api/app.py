@@ -33,7 +33,7 @@ semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
 app = Flask(__name__)
-app.secret_key = os.environ["FLASK_SIGN_KEY"]
+app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
 
 def is_admin_user():
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):

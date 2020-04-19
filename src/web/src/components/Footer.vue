@@ -7,17 +7,15 @@
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
-            <a class="link" id="current">
-              {{ currentSemester }}
-            </a>
-            <a
-              v-for="semester in otherSemesters"
-              :key="semester.text"
-              :value="semester.value"
-              :href="`/?semester=${semester.text}`"
-              class="link"
-              > {{semester.value}}
-            </a>
+            <button
+              v-for="option of semesterOptions"
+              :key="option.text"
+              class="btn btn-info d-block mt-2"
+              :disabled="option.text === semester"
+              @click="updateCurrentSemester(option.text)"
+            >
+              {{option.value}}
+            </button>
           </b-col>
 
           <b-col>
@@ -48,41 +46,26 @@
 
 import { getSemesters } from '@/services/YacsService';
 
-import { getDefaultSemester }  from '@/services/AdminService';
-
 export default {
     name: 'Footer',
+    props: {
+      semester: String
+    },
     data() {
       return {
-        semesterOptions: [],
-        currentSemester: ''
+        semesterOptions: []
       }
     },
     methods: {
+      updateCurrentSemester(to) {
+        console.log("in change emit of footer");
+        this.$emit("changeCurrentSemester", to);
+      }
     },
     created () {
-      if(this.$route.query.semester){
-        this.currentSemester = this.$route.query.semester;
-      }
-      else{
-        getDefaultSemester().then(semester => {
-          this.currentSemester = semester;
-        });
-      }
       getSemesters().then(data  => {
         this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
       });
-    },
-    computed: {
-      otherSemesters: function() {
-        var retSemesters = [];
-        for(var item of this.semesterOptions){
-          if(item.value != this.currentSemester){
-            retSemesters.push(item);
-          }
-        }
-        return retSemesters;
-      }
     }
 }
 </script>

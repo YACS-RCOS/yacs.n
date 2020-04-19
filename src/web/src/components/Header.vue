@@ -67,15 +67,12 @@
 </template>
 
 <script>
-
-import { getDefaultSemester } from '@/services/AdminService';
-
 import { login, logout } from '@/services/UserService';
 
 export default {
     name: 'Header',
     props: {
-      currentSemester: String
+      semester: String
     },
     data() {
       return {
@@ -83,21 +80,22 @@ export default {
           email: '',
           password: '',
         },
+
         isLoggedIn: false,
         sessionID: '',
         show: true,
         semesterOptions: [],
       }
     },
+    computed: {
+      // When you assign a data var to a prop, the data var does not change on prop update (seems this is intended behavior)
+      // use computed instead to get current semester which reflects one in parent component.
+      // https://forum.vuejs.org/t/update-data-when-prop-changes-data-derived-from-prop/1517/15
+      currentSemester () {
+        return this.semester
+      }
+    },
     created(){
-      if(this.$route.query.semester){
-        this.currentSemester = this.$route.query.semester;
-      }
-      else{
-        getDefaultSemester().then(semester => {
-          this.currentSemester = semester;
-        });
-      }
       this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');

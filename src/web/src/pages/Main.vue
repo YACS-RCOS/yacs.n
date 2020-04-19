@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-3" :currentSemester="currentSemester"></Header>
+    <Header class="mb-3" :semester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -71,7 +71,10 @@
         </b-col>
       </b-row>
     </b-container>
-    <Footer></Footer>
+    <Footer
+      :semester="currentSemester"
+      @changeCurrentSemester="updateCurrentSemester"
+    />
   </div>
 </template>
 
@@ -120,29 +123,29 @@ export default {
   },
   async created() {
     this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester();
-
-    Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
-      this.courses = courses;
-      subsemesters
-        // Filter subsemesters in current semester
-        .filter(s => s.parent_semester_name == this.currentSemester)
-        // Filter out "full" subsemester
-        .filter(
-          (s, i, arr) =>
-            arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
-        )
-        .forEach(subsemester => {
-          this.scheduler.addSubSemester(subsemester);
-        });
-      if (this.scheduler.scheduleSubsemesters.length > 0) {
-        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
-      }
-    });
+    this.updateDataOnNewSemester();
   },
   methods: {
+    updateDataOnNewSemester() {
+      Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
+        this.courses = courses;
+        subsemesters
+          // Filter subsemesters in current semester
+          .filter(s => s.parent_semester_name == this.currentSemester)
+          // Filter out "full" subsemester
+          .filter(
+            (s, i, arr) =>
+              arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+          )
+          .forEach(subsemester => {
+            this.scheduler.addSubSemester(subsemester);
+          });
+        if (this.scheduler.scheduleSubsemesters.length > 0) {
+          this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+        }
+      });
+    },
     addCourse(course) {
-      console.log(`Adding ${course.title} to selected courses`);
-      console.log(course);
       course.selected = true;
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
@@ -167,8 +170,9 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
     },
-    newSemester(sem) {
+    updateCurrentSemester(sem) {
       this.currentSemester = sem;
+      this.updateDataOnNewSemester();
     },
 
     /**
