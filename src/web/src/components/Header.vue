@@ -67,9 +67,7 @@
 </template>
 
 <script>
-
-import { getDefaultSemester } from '@/services/AdminService';
-
+  
 import { login } from '@/services/UserService';
 
 export default {

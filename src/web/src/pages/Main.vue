@@ -122,7 +122,6 @@ export default {
     };
   },
   async created() {
-    console.log("MAIN:");
     if (this.$route.query.semester) {
       this.currentSemester = this.$route.query.semester;
     } else {
@@ -150,19 +149,16 @@ export default {
       }
 
     this.userID = this.$cookies.get("userID");
-    console.log("ID stored");
     
     if(this.userID){
       try{
         const info = {'uid': this.userID};
-        console.log(info);
         var cids = await getStudentCourses(info);
         console.log(cids);
         cids.forEach(cid => {
           var c = this.courses.find(
-            function(course) {return course.name == cid}
+            function(course) {return course.name == cid.course_id}
           );
-          console.log(c);
           c.selected = true;
           this.$set(this.selectedCourses, c.id, c);
           this.scheduler.addCourse(c);
@@ -173,7 +169,6 @@ export default {
         console.log(error);
       }
     }
-    console.log("All created!")
 
   },
   methods: {
@@ -188,7 +183,6 @@ export default {
       if(this.userID){
         const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
 
-        console.log(info);
         addStudentCourse(info)
           .then(response => {
             console.log(response);
@@ -197,7 +191,7 @@ export default {
             console.log(error.response);
           });
 
-        console.log(`Saved ${course.name}!`);
+        console.log(`Saved ${course.name}`);
       }
     },
 

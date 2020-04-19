@@ -46,8 +46,6 @@ import { DAY_SHORTNAMES } from '@/utils';
 
 import { getDepartments, getSubSemesters } from '@/services/YacsService';
 
-import { getDefaultSemester } from '@/services/AdminService';
-
 import CourseListingComponent from '@/components/CourseListing';
 
 export default {
