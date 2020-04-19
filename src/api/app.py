@@ -53,10 +53,7 @@ def apiroot():
 @app.route('/api/class', methods=['GET'])
 def get_classes():
     semester = request.args.get("semester", default=None)
-    if (semester):
-        possible_boolean = semester_info.is_public(semester)
-        print("Is semester visible?")
-        print(possible_boolean)
+    if semester:
         if not semester_info.is_public(semester):
             if is_admin_user():
                 classes, error = class_info.get_classes_full(semester)
@@ -75,12 +72,17 @@ def get_departments():
 
 @app.route('/api/subsemester', methods=['GET'])
 def get_subsemesters():
+    semester = request.args.get("semester", default=None)
+    if semester:
+        subsemesters, error = class_info.get_subsemesters(semester)
+        return jsonify(subsemesters) if not error else Response(error, status=500)
+    # Some cases, we do want all subsemesters across all semesters like in Admin Panel
     subsemesters, error = class_info.get_subsemesters()
     return jsonify(subsemesters) if not error else Response(error, status=500)
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
-    if is_admin_user:
+    if is_admin_user():
         semesters, error = class_info.get_semesters(includeHidden=True)
         return jsonify(semesters) if not error else Response(error, status=500)
     semesters, error = class_info.get_semesters()

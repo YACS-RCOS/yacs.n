@@ -100,8 +100,27 @@ class ClassInfo:
                 department asc
         """, None, True)
 
-    def get_subsemesters(self):
+    def get_subsemesters(self, semester=None):
+      if semester is not None:
         return self.db_conn.execute("""
+            select
+              c.date_start,
+              c.date_end,
+              (SELECT semester_part_name FROM semester_date_range sdr WHERE sdr.date_start = c.date_start AND sdr.date_end = c.date_end),
+              c.semester AS parent_semester_name
+            from
+              course c
+            WHERE
+              c.semester = %s
+            group by
+              c.date_start,
+              c.date_end,
+              c.semester
+            order by
+              c.date_start asc,
+              c.date_end desc
+        """, [semester], True)
+      return self.db_conn.execute("""
             select
               c.date_start,
               c.date_end,
@@ -126,15 +145,14 @@ class ClassInfo:
             from
               semester_info
         """, None, True)
-      else:
-        return self.db_conn.execute("""
-            select
-              semester
-            from
-              semester_info
-            where
-              public = true::boolean
-        """, None, True)
+      return self.db_conn.execute("""
+          select
+            semester
+          from
+            semester_info
+          where
+            public = true::boolean
+      """, None, True)
 
     def get_all_semester_info(self):
       return self.db_conn.execute("""
