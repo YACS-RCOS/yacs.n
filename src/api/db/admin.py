@@ -7,7 +7,7 @@ class Admin:
 		# NOTE: COALESCE takes first non-null vaue from the list
 		result, error = self.db_conn.execute("""
 			select
-				COALESCE(admin.semester, (SELECT c.semester FROM course c LIMIT 1)) AS semester
+				COALESCE(admin.semester, (SELECT si.semester FROM semester_info si WHERE si.public=true::boolean LIMIT 1)) AS semester
 			from
 				admin_settings admin
 		""", None, True)

@@ -10,6 +10,7 @@ services:
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       - HOST=${HOST:-localhost}
+      - ADMIN_PASS=${ADMIN_PASS:-difficult_password}
 
   yacs_api:
     restart: always
@@ -21,6 +22,7 @@ services:
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
       - WORKERS=${API_WORKERS:-4}
+      - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 
   yacs_db:
     environment:

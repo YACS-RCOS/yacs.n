@@ -2,22 +2,27 @@
     <b-container class="mt-3">
         <section id="MapDateRangeToName">
             <h2>Assign Semester Part Name to Date Ranges</h2>
-            <EditSemester
-                v-for="(standardSemesterName, key) in standardSemesterNames"
-                :key="key"
-                :semesterTitle="standardSemesterName"
-                :subsemesters="subsemesters.filter(x => x.semester_name === standardSemesterName)"
-            />
+            <!-- Can't put v-if in conjunction with v-for, so using div wrapper -->
+            <div v-if="semesterInfos.length">
+                <EditSemester
+                    v-for="(standardSemesterName, key) in standardSemesterNames"
+                    :key="key"
+                    :semesterTitle="standardSemesterName"
+                    :subsemesters="subsemesters.filter(x => x.semester_name === standardSemesterName)"
+                    :semesterInfo="semesterInfos.find(sem_info => sem_info.semester === standardSemesterName)"
+                />
+            </div>
         </section>
     </b-container>
 </template>
 
 <script>
 import { getSubSemesters } from '@/services/YacsService';
+import { getAllSemesterInfo } from '@/services/AdminService';
 import EditSemesterDateNameBinding from '@/components/EditSemesterDateNameBinding';
 
 export default {
-    name: "MapDates",
+    name: "EditSemesters",
     props: {},
     components: {
         "EditSemester": EditSemesterDateNameBinding
@@ -25,6 +30,7 @@ export default {
     data () {
         return {
             subsemesters: [],
+            semesterInfos: [],
             standardSemesterNames: []
         }
     },
@@ -33,6 +39,9 @@ export default {
             this.subsemesters = subsemesters;
             this.standardSemesterNames = new Set(subsemesters.map(subsemester => subsemester.semester_name));
         });
+        getAllSemesterInfo().then(sem_infos => {
+            this.semesterInfos = sem_infos;
+        })
     }
 }
 </script>
