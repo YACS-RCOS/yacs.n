@@ -33,7 +33,7 @@ semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
 app = Flask(__name__)
-app.secret_key = "someRandomStuffForNow"
+app.secret_key = os.environ["FLASK_SIGN_KEY"]
 
 def is_admin_user():
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -190,6 +190,8 @@ def log_in():
         # [0] b/c conn.exec uses fetchall() which wraps result in list
         user = users.get_user(uid=session_data['uid'])[0]
         session['user'] = user
+        # https://flask.palletsprojects.com/en/1.1.x/api/?highlight=session#flask.session.permanent
+        session.permanent = False
     return session_res
 
 
