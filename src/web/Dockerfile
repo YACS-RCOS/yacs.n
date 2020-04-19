@@ -10,4 +10,10 @@ RUN npm run build
 FROM nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/dist /app
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.template.conf
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+# get openssl to do crypt(3)
+RUN apt update && apt install openssl -y
+
+CMD ["/usr/local/bin/entrypoint.sh"]
