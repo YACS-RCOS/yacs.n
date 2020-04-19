@@ -3,9 +3,16 @@ class semester_info:
     def __init__(self, db_wrapper):
         self.db = db_wrapper
 
-    def update(self, semester, isActive):
+    def upsert(self, semester, isPublic):
         self.db.execute("""
-            UPDATE semester_info
-            SET public=%s
-            WHERE semester=%s
-        """, [isActive, semester], isSELECT=False)
+            INSERT INTO semester_info (semester, public)
+            VALUES (%(SemesterName)s, %(IsPublic)s)
+            ON CONFLICT ON CONSTRAINT semester_info_pkey
+            DO UPDATE
+            SET public=%(IsPublic)s
+            ;
+        """,
+        {
+            "SemesterName": semester,
+            "IsPublic": isPublic
+        }, isSELECT=False)

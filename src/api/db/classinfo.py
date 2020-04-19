@@ -116,14 +116,22 @@ class ClassInfo:
               c.date_end desc
         """, None, True)
 
-    def get_semesters(self):
+    def get_semesters(self, includeHidden=False):
+      if includeHidden:
         return self.db_conn.execute("""
             select
               semester
             from
-              course
-            group by
+              semester_info
+        """, None, True)
+      else:
+        return self.db_conn.execute("""
+            select
               semester
+            from
+              semester_info
+            where
+              public = true::boolean
         """, None, True)
 
     def get_all_semester_info(self):

@@ -65,9 +65,13 @@ def get_subsemesters():
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
-    semesters, error = class_info.get_semesters()
+    if ('user' in session and session['user'].admin):
+        semesters, error = class_info.get_semesters(includeHidden=True)
+        return jsonify(semesters) if not error else Response(error, status=500)
+    else:
+        semesters, error = class_info.get_semesters()
+        return jsonify(semesters) if not error else Response(error, status=500)
 
-    return jsonify(semesters) if not error else Response(error, status=500)
 
 @app.route('/api/semesterInfo', methods=['GET'])
 def get_all_semester_info():
@@ -105,7 +109,7 @@ def uploadHandler():
     csv_file.seek(0)
     semesters = pd.read_csv(csv_file)['semester'].unique()
     for semester in semesters:
-        semester_info.update(semester, is_publicly_visible)
+        semester_info.upsert(semester, is_publicly_visible)
     if (isSuccess):
         return Response(status=200)
     else:
@@ -128,7 +132,7 @@ def map_date_range_to_semester_part_handler():
         end_dates = request.form.getlist('date_end')
         if (start_dates and end_dates and semester_part_names and is_publicly_visible != None and semester_title):
             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-            semester_info.update(semester_title, is_publicly_visible)
+            semester_info.upsert(semester_title, is_publicly_visible)
             if (not error):
                 return Response(status=200)
             else:
@@ -164,7 +168,6 @@ def log_in():
         session_data = session_res['content']
         user = users.get_user(uid=session_data['uid'])
         session['user'] = user
-        print(session['user'])
     return session_res
 
 
