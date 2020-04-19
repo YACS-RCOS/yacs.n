@@ -36,22 +36,24 @@ class Courses:
         return set(filter(
             lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
+    def delete_by_semester(self, semester):
+        return self.db.execute("""
+            BEGIN TRANSACTION;
+                DELETE FROM course
+                WHERE semester=%(Semester)s;
+                DELETE FROM course_session
+                WHERE semester=%(Semester)s;
+            COMMIT;
+        """, {
+            "Semester": semester
+        }, isSELECT=False)
+
     def bulk_delete(self, semesters):
-        print (semesters)
-        if len(semesters):
-            # Because this function SHOULD NOT depend on user input,
-            # can do string operations on this query with the parameter
-            condition = "' OR semester='".join(semesters)
-            query = f"""
-                BEGIN TRANSACTION;
-                    DELETE FROM course
-                    WHERE semester='{condition}';
-                    DELETE FROM course_session
-                    WHERE semester='{condition}';
-                COMMIT;
-            """
-            print(query)
-            return self.db.execute(query, None, isSELECT=False)
+        for semester in semesters:
+            _, error = self.delete_by_semester(semester)
+            if error:
+                print(error)
+                return error
         return None
 
     def populate_from_csv(self, csv_text):

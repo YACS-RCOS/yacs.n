@@ -25,6 +25,6 @@ class semester_info:
         data, error = self.db.execute("""
             SELECT public FROM semester_info WHERE semester=%s LIMIT 1;
         """, [semester], isSELECT=True)
-        if data is not None and len(data):
+        if data is not None and len(data) > 0:
             return data[0]['public']
         return False

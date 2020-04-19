@@ -151,7 +151,7 @@ def map_date_range_to_semester_part_handler():
         semester_part_names = request.form.getlist('semester_part_name')
         start_dates = request.form.getlist('date_start')
         end_dates = request.form.getlist('date_end')
-        if (start_dates and end_dates and semester_part_names and is_publicly_visible != None and semester_title):
+        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
             semester_info.upsert(semester_title, is_publicly_visible)
             if (not error):

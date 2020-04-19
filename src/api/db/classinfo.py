@@ -19,8 +19,8 @@ class ClassInfo:
                 level
         """, None, True)
 
-    def get_classes_full(self, semester):
-        return self.db_conn.execute("""
+    def get_classes_full(self, semester=None):
+        query = """
             select
               c.department,
               c.level,
@@ -73,8 +73,10 @@ class ClassInfo:
               c.department = section.department and
               c.level = section.level and
               c.crn = section.crn
+        """ + ("""
             WHERE
               c.semester = %s
+        """ if semester is not None else "") + """
             group by
               c.department,
               c.level,
@@ -88,7 +90,11 @@ class ClassInfo:
             order by
               c.department asc,
               c.level asc
-        """, [semester], True)
+        """
+        if semester is not None:
+          return self.db_conn.execute(query, [semester], True)
+        self.db_conn.execute(query, None, True)
+
 
     def get_departments(self):
         return self.db_conn.execute("""
