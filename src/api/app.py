@@ -118,14 +118,19 @@ def uploadHandler():
         return Response("File must have csv extension", 400)
     # get file
     csv_file = StringIO(request.files['file'].read().decode())
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    # hide semester if needed
+    # update semester infos based on isPubliclyVisible, hiding semester if needed
     is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
-    # Like C, the cursor will be at EOF after full read, so reset to beginning
-    csv_file.seek(0)
     semesters = pd.read_csv(csv_file)['semester'].unique()
     for semester in semesters:
         semester_info.upsert(semester, is_publicly_visible)
+    # Like C, the cursor will be at EOF after full read, so reset to beginning
+    csv_file.seek(0)
+    # Clear out course data of the same semester before population due to
+    # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
+    # courses.
+    courses.bulk_delete(semesters=semesters)
+    # Populate DB from CSV
+    isSuccess, error = courses.populate_from_csv(csv_file)
     if (isSuccess):
         return Response(status=200)
     else:
