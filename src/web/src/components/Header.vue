@@ -74,9 +74,6 @@ import { login } from '@/services/UserService';
 
 export default {
     name: 'Header',
-    props: {
-      currentSemester: String
-    },
     data() {
       return {
         form: {
@@ -87,6 +84,7 @@ export default {
         sessionID: '',
         show: true,
         semesterOptions: [],
+        currentSemester: ''
       }
     },
     created(){

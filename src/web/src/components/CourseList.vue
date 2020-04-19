@@ -56,8 +56,7 @@ export default {
     CourseListing: CourseListingComponent
   },
   props: {
-    courses: Array,
-    selectedSemester: null
+    courses: Array
   },
   data() {
     return {
@@ -66,7 +65,8 @@ export default {
       selectedSubsemester: null,
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: 'All', value: null }],
+      selectedSemester: null
     };
   },
   created() {

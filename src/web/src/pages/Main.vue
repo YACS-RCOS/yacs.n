@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-3" :currentSemester="currentSemester"></Header>
+    <Header class="mb-3"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -13,7 +13,6 @@
                     @removeCourse="removeCourse"
                     :courses="courses"
                     class="w-100"
-                    :selectedSemester="currentSemester"
                   />
                 </b-card-text>
               </b-tab>
@@ -121,20 +120,16 @@ export default {
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
   },
-  created() {
+  async created() {
     if (this.$route.query.semester) {
       this.currentSemester = this.$route.query.semester;
     } else {
-      getDefaultSemester().then(semester => {
-        this.currentSemester = semester;
-      });
+      this.currentSemester = await getDefaultSemester();
     }
 
-    getCourses().then(courses => {
-      this.courses = courses;
-    });
+    this.courses = await getCourses();
 
-    getSubSemesters().then(subsemesters => {
+    var subsemesters = await getSubSemesters();
       subsemesters
         // Filter subsemesters in current semester
         .filter(s => s.parent_semester_name == this.currentSemester)
@@ -149,13 +144,15 @@ export default {
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
       }
-    });
+
     this.userID = this.$cookies.get("userID");
     console.log("ID stored");
-
-    const info = {"sem": this.currentSemester, "uid": this.$cookies.get("userID")};
-    console.log(info);
-    getStudentCourses(info).then(cids => {
+    
+    try{
+       const info = {'sem': this.currentSemester, 'uid': this.userID};
+      console.log(info);
+      var cids = await getStudentCourses(info);
+      console.log(cids);
       cids.forEach(cid => {
         var c = this.courses.find(
           function(course) {return course.name == cid}
@@ -165,10 +162,12 @@ export default {
         this.$set(this.selectedCourses, c.id, c);
         this.scheduler.addCourse(c);
       });
-    })
-    .catch(error => {
-      console.log(error.response);
-    });
+    }
+
+    catch(error){
+      console.log(error);
+    }
+
   },
   methods: {
     addCourse(course) {
@@ -178,7 +177,7 @@ export default {
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
-      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.userID};
+      const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
 
       addStudentCourse(info)
         .then(response => {
@@ -205,7 +204,7 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
-      const info = {"cid":course.name, "semester":this.currentSemester, "uid":this.userID};
+      const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
       
       removeStudentCourse(info)
         .then(response => {

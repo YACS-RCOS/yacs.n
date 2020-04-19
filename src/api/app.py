@@ -162,7 +162,7 @@ def add_student_course():
 
 @app.route('/api/removecourse', methods=['POST'])
 def remove_student_course():
-    info = request.json
+    info = request.get_json()
     resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
     
     if resp:
@@ -171,14 +171,14 @@ def remove_student_course():
         print(error)
         return Response(error.__str__(), status=500)
 
-@app.route('/api/getcourses', methods=['GET'])
+@app.route('/api/getcourses', methods=['POST'])
 def get_student_courses():
     info = request.get_json()
     courses, error = course_select.get_selection(info['sem'], info['uid'])
-
-    if courses:
+    if not error:
         return jsonify(courses)
     else:
+        print(error)
         return Response(error, status=500)
 
 
