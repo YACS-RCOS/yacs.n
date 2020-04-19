@@ -56,7 +56,8 @@ export default {
     CourseListing: CourseListingComponent
   },
   props: {
-    courses: Array
+    courses: Array,
+    selectedSemester: null
   },
   data() {
     return {
@@ -66,18 +67,9 @@ export default {
       subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
       departmentOptions: [{ text: 'All', value: null }],
-      selectedSemester: null
     };
   },
   created() {
-    if(this.$route.query.semester){
-      this.selectedSemester = this.$route.query.semester;
-    }
-    else{
-      getDefaultSemester().then(semester => {
-        this.selectedSemester = semester;
-      });
-    }
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });

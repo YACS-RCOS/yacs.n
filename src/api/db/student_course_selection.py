@@ -11,14 +11,16 @@ class student_course_selection:
 						(%s, %s, %s)
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
-		
+			
+			if error is not None:
+				return (False, error)
+			else:
+				return (True, None)
+
 		except Exception as e:
 			return (False, e)
 
-		if error is not None:
-			return (False, error)
-		else:
-			return (True, None)
+		
 
 	def remove_selection(self, cid, sem, uid):
 		try:
@@ -32,13 +34,14 @@ class student_course_selection:
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
 
+			if error is not None:
+				return (False, error)
+			else:
+				return (True, None)
+			
 		except Exception as e:
 			return (False, e)
 
-		if error is not None:
-			return (False, error)
-		else:
-			return (True, None)
 
 	def get_selection(self, uid):
 		# sqle = "SELECT EXISTS(SELECT * FROM student_course_selection WHERE user_id=%s)"
@@ -58,13 +61,15 @@ class student_course_selection:
 					"""
 			courses, error = self.db_conn.execute(sql, [uid], True)
 
+			if error is not None:
+				return (False, error)
+			else:
+				return (courses, None)
+				
 		except Exception as e:
 			return (False, e)
 
-		if error is not None:
-			return (False, error)
-		else:
-			return (courses, None)
+		
 	# else:
 	# 	if e is not None:
 	# 		return (False, e)

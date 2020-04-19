@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-3"></Header>
+    <Header class="mb-3" :currentSemester="currentSemester"></Header>
     <b-container fluid class="py-3 h-100">
       <b-row class="h-100">
         <b-col md="4" class="d-flex flex-column">
@@ -13,6 +13,7 @@
                     @removeCourse="removeCourse"
                     :courses="courses"
                     class="w-100"
+                    :selectedSemester="currentSemester"
                   />
                 </b-card-text>
               </b-tab>

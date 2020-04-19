@@ -74,6 +74,9 @@ import { login } from '@/services/UserService';
 
 export default {
     name: 'Header',
+    props: {  
+      currentSemester: String 
+    },
     data() {
       return {
         form: {
@@ -84,18 +87,9 @@ export default {
         sessionID: '',
         show: true,
         semesterOptions: [],
-        currentSemester: ''
       }
     },
     created(){
-      if(this.$route.query.semester){
-        this.currentSemester = this.$route.query.semester;
-      }
-      else{
-        getDefaultSemester().then(semester => {
-          this.currentSemester = semester;
-        });
-      }
       this.sessionID = this.$cookies.get("sessionID");
       if (this.sessionID == '') {
         console.log('not logged in');
