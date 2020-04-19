@@ -150,18 +150,33 @@ export default {
 
     this.userID = this.$cookies.get("userID");
     
-    if(this.userID){
+    if(this.userID && this.currentSemester){
+      console.log("Loading user courses...")
       try{
         const info = {'uid': this.userID};
         var cids = await getStudentCourses(info);
         console.log(cids);
         cids.forEach(cid => {
-          var c = this.courses.find(
-            function(course) {return course.name == cid.course_id}
-          );
-          c.selected = true;
-          this.$set(this.selectedCourses, c.id, c);
-          this.scheduler.addCourse(c);
+          var c;
+          if(cid.crn != '-1'){
+            c = this.courses.find(
+              function(course) {return course.name == cid.course_name}
+            );
+            var sect = c.sections.find(
+              function(section) {return section.crn == cid.crn}
+            );
+            this.scheduler.addCourseSection(c, sect);
+            sect.selected = true;
+
+          }
+          else{
+            c = this.courses.find(
+              function(course) {return course.name == cid.course_name}
+            );
+            c.selected = true;
+            this.$set(this.selectedCourses, c.id, c);
+            this.scheduler.addCourse(c);
+          }
         });
       }
 
@@ -181,7 +196,7 @@ export default {
       this.scheduler.addCourse(course);
 
       if(this.userID){
-        const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
 
         addStudentCourse(info)
           .then(response => {
@@ -197,8 +212,25 @@ export default {
 
     addCourseSection(course, section) {
       try {
+        console.log(section);
         this.scheduler.addCourseSection(course, section);
         section.selected = true;
+
+        if(this.userID){
+          const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+
+          addStudentCourse(info)
+            .then(response => {
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+
+          console.log(`Saved section ${section.crn}`);
+        }
+
+
       } catch (err) {
         if (err.type === 'Schedule Conflict') {
           this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
@@ -211,7 +243,7 @@ export default {
       this.scheduler.removeAllCourseSections(course);
 
       if(this.userID){
-        const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
         
         removeStudentCourse(info)
           .then(response => {
@@ -226,6 +258,21 @@ export default {
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+      if(this.userID){
+        var name = section.department + '-' + section.level;
+        const info = {'name':name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+        
+        removeStudentCourse(info)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+
+        console.log(`Unsaved section ${section.crn}!`);
+      }
+
     },
     newSemester(sem) {
       this.currentSemester = sem;

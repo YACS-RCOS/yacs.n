@@ -151,14 +151,14 @@ def add_user_event():
 @app.route('/api/addcourse', methods=['POST'])
 def add_student_course():
     info = request.get_json()
-    resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
+    resp, error = course_select.add_selection(info['name'], info['semester'], info['uid'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
 
 @app.route('/api/removecourse', methods=['POST'])
 def remove_student_course():
     info = request.get_json()
-    resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
+    resp, error = course_select.remove_selection(info['name'], info['semester'], info['uid'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
 @app.route('/api/getcourses', methods=['POST'])
