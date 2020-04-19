@@ -6,12 +6,14 @@ from flask import Response
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import session
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
+import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -28,8 +30,11 @@ courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
+users = UserModel.User()
 
 app = Flask(__name__)
+app.secret_key = "someRandomStuffForNow"
+# app.wsgi_app = auth_middleware(app.wsgi_app)
 
 @app.route('/')
 def root():
@@ -61,6 +66,7 @@ def get_subsemesters():
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
     semesters, error = class_info.get_semesters()
+
     return jsonify(semesters) if not error else Response(error, status=500)
 
 @app.route('/api/semesterInfo', methods=['GET'])
@@ -153,11 +159,18 @@ def update_user_info():
 
 @app.route('/api/session', methods=['POST'])
 def log_in():
-    return session_controller.add_session(request.json)
+    session_res = session_controller.add_session(request.json).json
+    if (session_res['success']):
+        session_data = session_res['content']
+        user = users.get_user(uid=session_data['uid'])
+        session['user'] = user
+        print(session['user'])
+    return session_res
 
 
 @app.route('/api/session', methods=['DELETE'])
 def log_out():
+    session.pop('user', None)
     return session_controller.delete_session(request.json)
 
 

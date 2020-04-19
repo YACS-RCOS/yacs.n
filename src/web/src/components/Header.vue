@@ -70,7 +70,7 @@
 
 import { getDefaultSemester } from '@/services/AdminService';
 
-import { login } from '@/services/UserService';
+import { login, logout } from '@/services/UserService';
 
 export default {
     name: 'Header',
@@ -139,8 +139,11 @@ export default {
         })
       },
       logOut(){
-        this.$cookies.remove("sessionID");
-        location.reload();
+        var sessionId = this.$cookies.get("sessionID");
+        logout(sessionId).then(() => {
+          this.$cookies.remove("sessionID");
+          location.reload();
+        });
       }
 
     }

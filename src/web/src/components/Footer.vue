@@ -10,7 +10,7 @@
             <a class="link" id="current">
               {{ currentSemester }}
             </a>
-            <a 
+            <a
               v-for="semester in otherSemesters"
               :key="semester.text"
               :value="semester.value"
@@ -71,7 +71,7 @@ export default {
       }
       getSemesters().then(data  => {
         this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
-        });
+      });
     },
     computed: {
       otherSemesters: function() {
@@ -82,7 +82,7 @@ export default {
           }
         }
         return retSemesters;
-      } 
+      }
     }
 }
 </script>
