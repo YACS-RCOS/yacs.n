@@ -152,34 +152,20 @@ def add_user_event():
 def add_student_course():
     info = request.get_json()
     resp, error = course_select.add_selection(info['cid'], info['semester'], info['uid'])
-    
-    if resp:
-        return Response(status=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status=500)
+    return Response(status=200) if not error else Response(error, status=500)
 
 
 @app.route('/api/removecourse', methods=['POST'])
 def remove_student_course():
     info = request.get_json()
     resp, error = course_select.remove_selection(info['cid'], info['semester'], info['uid'])
-    
-    if resp:
-        return Response(status=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status=500)
+    return Response(status=200) if not error else Response(error, status=500)
 
 @app.route('/api/getcourses', methods=['POST'])
 def get_student_courses():
     info = request.get_json()
     courses, error = course_select.get_selection(info['uid'])
-    if not error:
-        return jsonify(courses)
-    else:
-        print(error)
-        return Response(error, status=500)
+    return jsonify(courses) if not error else Response(error, status=500)
 
 
 if __name__ == '__main__':

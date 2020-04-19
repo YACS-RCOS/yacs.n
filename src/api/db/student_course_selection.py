@@ -10,11 +10,7 @@ class student_course_selection:
 					(%s, %s, %s)
 				"""
 		resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
-		
-		if error is not None:
-			return (False, error)
-		else:
-			return (True, None)
+		return (True, None) if not error else (False, error)
 
 		
 
@@ -28,11 +24,7 @@ class student_course_selection:
 					course_id = %s
 				"""
 		resp, error = self.db_conn.execute(sql, [uid, sem, cid], False)
-
-		if error is not None:
-			return (False, error)
-		else:
-			return (True, None)
+		return (True, None) if not error else (False, error)
 
 
 	def get_selection(self, uid):
@@ -48,8 +40,4 @@ class student_course_selection:
 					course_id asc
 				"""
 		courses, error = self.db_conn.execute(sql, [uid], True)
-
-		if error is not None:
-			return (False, error)
-		else:
-			return (courses, None)
+		return (courses, None) if not error else (False, error)
