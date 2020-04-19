@@ -9,8 +9,13 @@
             </div>
             <form @submit.prevent="onSubmit" class="form-group">
                 <div class="input-group">
-                    <input type="file" name="file" class="form-control-file" />
+                    <label>
+                        Upload CSV file
+                        <input type="file" name="file" class="form-control-file" />
+                    </label>
                     <br />
+                </div>
+                <div class="input-group">
                     <label>
                         <input type="checkbox" name="isPubliclyVisible" checked/>
                         Make Public

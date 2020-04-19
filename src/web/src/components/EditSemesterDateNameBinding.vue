@@ -4,7 +4,7 @@
         ref="editSemesterForm"
         @submit.prevent="onSubmit"
     >
-        <input type="hidden" name="semesterTitle" :value="semesterTitle" />
+        <input type="hidden" name="semesterTitle" aria-label="Semester Title" :value="semesterTitle" />
         <h3>{{ semesterTitle }}</h3>
         <b-form-checkbox v-model="isPublic" name="isPubliclyVisible" style="font-variant: small-caps">
             <span v-show="isPublic">

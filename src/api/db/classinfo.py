@@ -20,7 +20,8 @@ class ClassInfo:
         """, None, True)
 
     def get_classes_full(self, semester=None):
-        query = """
+        if semester is not None:
+          classes_by_semester_query = """
             select
               c.department,
               c.level,
@@ -73,10 +74,76 @@ class ClassInfo:
               c.department = section.department and
               c.level = section.level and
               c.crn = section.crn
-        """ + ("""
             WHERE
               c.semester = %s
-        """ if semester is not None else "") + """
+            group by
+              c.department,
+              c.level,
+              c.date_start,
+              c.date_end,
+              c.semester,
+              c.full_title,
+              c.description,
+              c.frequency,
+              c.raw_precoreqs
+            order by
+              c.department asc,
+              c.level asc
+          """
+          return self.db_conn.execute(classes_by_semester_query, [semester], True)
+        all_classes_query = """
+            select
+              c.department,
+              c.level,
+              concat(c.department, '-', c.level) as name,
+              max(c.title) as title,
+              c.full_title,
+              c.description,
+              c.frequency,
+              (
+                SELECT json_agg(copre.prerequisite)
+                FROM course_prerequisite copre
+                WHERE c.department=copre.department
+                  AND c.level=copre.level
+              ) AS prerequisites,
+              (
+                SELECT json_agg(coco.corequisite)
+                FROM course_corequisite coco
+                WHERE c.department=coco.department
+                  AND c.level=coco.level
+              ) AS corequisites,
+              c.raw_precoreqs,
+              c.date_start,
+              c.date_end,
+              json_agg(
+                row_to_json(section.*)
+              ) sections,
+              c.semester
+            from
+              course c
+            left join
+            (
+              select
+                c1.crn,
+                c1.semester,
+                max(c1.department) as department,
+                max(c1.level) as level,
+                json_agg(
+                  row_to_json(cs.*)
+                ) sessions
+              from
+                course c1
+              join course_session cs on
+                c1.crn = cs.crn and
+                c1.semester = cs.semester
+              group by
+                c1.crn,
+                c1.semester
+            ) section
+            on
+              c.department = section.department and
+              c.level = section.level and
+              c.crn = section.crn
             group by
               c.department,
               c.level,
@@ -91,9 +158,7 @@ class ClassInfo:
               c.department asc,
               c.level asc
         """
-        if semester is not None:
-          return self.db_conn.execute(query, [semester], True)
-        self.db_conn.execute(query, None, True)
+        return self.db_conn.execute(all_classes_query, None, True)
 
 
     def get_departments(self):
