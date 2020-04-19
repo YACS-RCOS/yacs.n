@@ -14,6 +14,6 @@ COPY nginx.conf /etc/nginx/nginx.template.conf
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # get openssl to do crypt(3)
-RUN apt update && apt install openssl -y
+RUN apt-get update && apt-get install openssl -y
 
 CMD ["/usr/local/bin/entrypoint.sh"]
