@@ -174,7 +174,7 @@ def remove_student_course():
 @app.route('/api/getcourses', methods=['POST'])
 def get_student_courses():
     info = request.get_json()
-    courses, error = course_select.get_selection(info['sem'], info['uid'])
+    courses, error = course_select.get_selection(info['uid'])
     if not error:
         return jsonify(courses)
     else:

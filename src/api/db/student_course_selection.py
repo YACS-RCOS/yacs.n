@@ -40,20 +40,23 @@ class student_course_selection:
 		else:
 			return (True, None)
 
-	def get_selection(self, sem, uid):
+	def get_selection(self, uid):
+		# sqle = "SELECT EXISTS(SELECT * FROM student_course_selection WHERE user_id=%s)"
+		# exists, e = self.db_conn.execute(sqle, [uid], True)
+		# if exists:
 		try:
 			sql = """
 					select
-						course_id
+						course_id,
+						semester
 					from
 						student_course_selection
 					where
-						user_id = %s and
-						semester = %s
+						user_id = %s
 					order by
 						course_id asc
 					"""
-			courses, error = self.db_conn.execute(sql, [uid, sem], True)
+			courses, error = self.db_conn.execute(sql, [uid], True)
 
 		except Exception as e:
 			return (False, e)
@@ -62,3 +65,8 @@ class student_course_selection:
 			return (False, error)
 		else:
 			return (courses, None)
+	# else:
+	# 	if e is not None:
+	# 		return (False, e)
+	# 	else:
+	# 		return ([], None)

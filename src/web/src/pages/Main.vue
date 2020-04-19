@@ -121,12 +121,15 @@ export default {
     };
   },
   async created() {
+    console.log("MAIN:");
     if (this.$route.query.semester) {
       this.currentSemester = this.$route.query.semester;
     } else {
       this.currentSemester = await getDefaultSemester();
     }
 
+    console.log(`Semester: ${this.currentSemester}`);
+    
     this.courses = await getCourses();
 
     var subsemesters = await getSubSemesters();
@@ -148,25 +151,28 @@ export default {
     this.userID = this.$cookies.get("userID");
     console.log("ID stored");
     
-    try{
-       const info = {'sem': this.currentSemester, 'uid': this.userID};
-      console.log(info);
-      var cids = await getStudentCourses(info);
-      console.log(cids);
-      cids.forEach(cid => {
-        var c = this.courses.find(
-          function(course) {return course.name == cid}
-        );
-        console.log(c);
-        c.selected = true;
-        this.$set(this.selectedCourses, c.id, c);
-        this.scheduler.addCourse(c);
-      });
-    }
+    if(this.userID){
+      try{
+        const info = {'uid': this.userID};
+        console.log(info);
+        var cids = await getStudentCourses(info);
+        console.log(cids);
+        cids.forEach(cid => {
+          var c = this.courses.find(
+            function(course) {return course.name == cid}
+          );
+          console.log(c);
+          c.selected = true;
+          this.$set(this.selectedCourses, c.id, c);
+          this.scheduler.addCourse(c);
+        });
+      }
 
-    catch(error){
-      console.log(error);
+      catch(error){
+        console.log(error);
+      }
     }
+    console.log("All created!")
 
   },
   methods: {
@@ -177,17 +183,21 @@ export default {
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
-      const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
 
-      addStudentCourse(info)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+      if(this.userID){
+        const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
 
-      console.log(`Saved ${course.name}!`);
+        console.log(info);
+        addStudentCourse(info)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+
+        console.log(`Saved ${course.name}!`);
+      }
     },
 
     addCourseSection(course, section) {
@@ -204,17 +214,20 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
-      const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
-      
-      removeStudentCourse(info)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
 
-      console.log(`Unsaved ${course.name}!`);
+      if(this.userID){
+        const info = {'cid':course.name, 'semester':this.currentSemester, 'uid':this.userID};
+        
+        removeStudentCourse(info)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+
+        console.log(`Unsaved ${course.name}!`);
+      }
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
