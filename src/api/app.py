@@ -34,7 +34,11 @@ users = UserModel.User()
 
 app = Flask(__name__)
 app.secret_key = "someRandomStuffForNow"
-# app.wsgi_app = auth_middleware(app.wsgi_app)
+
+def is_admin_user():
+    if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
+        return True
+    return False
 
 @app.route('/')
 def root():
@@ -48,8 +52,19 @@ def apiroot():
 
 @app.route('/api/class', methods=['GET'])
 def get_classes():
-    classes, error = class_info.get_classes_full()
-    return jsonify(classes) if not error else Response(error, status=500)
+    semester = request.args.get("semester", default=None)
+    if (semester):
+        possible_boolean = semester_info.is_public(semester)
+        print("Is semester visible?")
+        print(possible_boolean)
+        if not semester_info.is_public(semester):
+            if is_admin_user():
+                classes, error = class_info.get_classes_full(semester)
+                return jsonify(classes) if not error else Response(error, status=500)
+            return Response("Semester isn't available", status=401)
+        classes, error = class_info.get_classes_full(semester)
+        return jsonify(classes) if not error else Response(error, status=500)
+    return Response("missing semester option", status=400)
 
 
 @app.route('/api/department', methods=['GET'])
@@ -65,12 +80,11 @@ def get_subsemesters():
 
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
-    if ('user' in session and session['user']['admin'] == True):
+    if is_admin_user:
         semesters, error = class_info.get_semesters(includeHidden=True)
         return jsonify(semesters) if not error else Response(error, status=500)
-    else:
-        semesters, error = class_info.get_semesters()
-        return jsonify(semesters) if not error else Response(error, status=500)
+    semesters, error = class_info.get_semesters()
+    return jsonify(semesters) if not error else Response(error, status=500)
 
 
 @app.route('/api/semesterInfo', methods=['GET'])

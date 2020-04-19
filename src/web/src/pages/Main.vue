@@ -119,9 +119,9 @@ export default {
     };
   },
   async created() {
-    this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester().semester;
+    this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester();
 
-    Promise.all([getCourses(), getSubSemesters()]).then(([courses, subsemesters]) => {
+    Promise.all([getCourses(this.currentSemester), getSubSemesters()]).then(([courses, subsemesters]) => {
       this.courses = courses;
       subsemesters
         // Filter subsemesters in current semester

@@ -16,3 +16,12 @@ class semester_info:
             "SemesterName": semester,
             "IsPublic": isPublic
         }, isSELECT=False)
+
+    def is_public(self, semester):
+        """
+        @param: semester name
+        @returns: Boolean indicating if the semester is publicly viewable
+        """
+        self.db.execute("""
+            SELECT public FROM semester_info WHERE semester=%s;
+        """, [semester], isSELECT=True)
