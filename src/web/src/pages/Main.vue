@@ -141,10 +141,17 @@ export default {
         console.log(cids);
 
         const tempSem = this.currentSemester;
+
+        console.log(tempSem);
+        console.log(this.courses);
         
         cids.forEach(cid => {
           if(cid.semester == this.currentSemester){
-            var c = this.courses.find(function(course) {return ((course.name == cid.course_name) && (tempSem == course.semester))});
+            console.log(cid);
+            var c = this.courses.find(function(course) {
+              console.log(course);
+              return ((course.name == cid.course_name));});
+            console.log(c);
             if(cid.crn != '-1'){
               var sect = c.sections.find(
                 function(section) {console.log(section); return section.crn == cid.crn;}

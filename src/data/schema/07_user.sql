@@ -10,8 +10,8 @@ CREATE TABLE user_account
 	password TEXT,
 	major TEXT,
 	degree TEXT,
-	enable BOOLEAN DEFAULT TRUE
-  admin BOOLEAN DEFAULT FALSE,
+	enable BOOLEAN DEFAULT TRUE,
+  	admin BOOLEAN DEFAULT FALSE,
 	super_admin BOOLEAN DEFAULT FALSE
 );
 
