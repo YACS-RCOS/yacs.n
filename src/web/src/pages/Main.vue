@@ -129,7 +129,7 @@ export default {
     
     console.log(`Semester: ${this.currentSemester}`);
     
-    this.updateDataOnNewSemester();
+    await this.updateDataOnNewSemester();
 
     this.userID = this.$cookies.get("userID");
     
@@ -139,19 +139,12 @@ export default {
         const info = {'uid': this.userID};
         var cids = await getStudentCourses(info);
         console.log(cids);
-
-        const tempSem = this.currentSemester;
-
-        console.log(tempSem);
-        console.log(this.courses);
         
         cids.forEach(cid => {
           if(cid.semester == this.currentSemester){
-            console.log(cid);
             var c = this.courses.find(function(course) {
-              console.log(course);
-              return ((course.name == cid.course_name));});
-            console.log(c);
+              return ((course.name == cid.course_name) && (course.semester == cid.semester));});
+
             if(cid.crn != '-1'){
               var sect = c.sections.find(
                 function(section) {console.log(section); return section.crn == cid.crn;}
@@ -176,7 +169,7 @@ export default {
   methods: {
     updateDataOnNewSemester() {
       history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
-      Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
+      return Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
         subsemesters
           // Filter subsemesters in current semester
@@ -281,7 +274,9 @@ export default {
     },
     updateCurrentSemester(sem) {
       this.currentSemester = sem;
-      this.updateDataOnNewSemester();
+      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      //this.updateDataOnNewSemester();
+      location.reload();
     },
 
     /**
