@@ -156,26 +156,24 @@ export default {
         const info = {'uid': this.userID};
         var cids = await getStudentCourses(info);
         console.log(cids);
-        cids.forEach(cid => {
-          var c;
-          if(cid.crn != '-1'){
-            c = this.courses.find(
-              function(course) {return course.name == cid.course_name}
-            );
-            var sect = c.sections.find(
-              function(section) {return section.crn == cid.crn}
-            );
-            this.scheduler.addCourseSection(c, sect);
-            sect.selected = true;
 
-          }
-          else{
-            c = this.courses.find(
-              function(course) {return course.name == cid.course_name}
-            );
-            c.selected = true;
-            this.$set(this.selectedCourses, c.id, c);
-            this.scheduler.addCourse(c);
+        const tempSem = this.currentSemester;
+        
+        cids.forEach(cid => {
+          if(cid.semester == this.currentSemester){
+            var c = this.courses.find(function(course) {return ((course.name == cid.course_name) && (tempSem == course.semester))});
+            if(cid.crn != '-1'){
+              var sect = c.sections.find(
+                function(section) {console.log(section); return section.crn == cid.crn;}
+              );
+              sect.selected = true;
+              this.scheduler.addCourseSection(c, sect);
+            }
+            else{
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+              this.scheduler.addCourse(c);
+            }
           }
         });
       }
