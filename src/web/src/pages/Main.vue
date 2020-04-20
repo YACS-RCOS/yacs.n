@@ -127,6 +127,7 @@ export default {
   },
   methods: {
     updateDataOnNewSemester() {
+      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
         subsemesters
