@@ -22,6 +22,7 @@ services:
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
       - WORKERS=${API_WORKERS:-4}
+      - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 
   yacs_db:
     environment:

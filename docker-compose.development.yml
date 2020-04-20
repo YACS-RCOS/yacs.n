@@ -42,6 +42,7 @@ services:
       - DB_USER=yacs
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
+      - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 
   yacs_db:
     ports:
