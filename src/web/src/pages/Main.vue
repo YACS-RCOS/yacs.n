@@ -197,6 +197,7 @@ export default {
         addStudentCourse(info)
           .then(response => {
             console.log(`Saved ${course.name}`);
+            console.log(response);
           })
           .catch(error => {
             console.log(error.response);
@@ -215,6 +216,7 @@ export default {
           addStudentCourse(info)
             .then(response => {
               console.log(`Saved section ${section.crn}`);
+              console.log(response);
             })
             .catch(error => {
               console.log(error.response);
@@ -239,6 +241,7 @@ export default {
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved ${course.name}`);
+            console.log(response);
           })
           .catch(error => {
             console.log(error.response);
@@ -254,6 +257,7 @@ export default {
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved section ${section.crn}!`);
+            console.log(response);
           })
           .catch(error => {
             console.log(error.response);
