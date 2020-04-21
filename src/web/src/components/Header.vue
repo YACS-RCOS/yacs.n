@@ -159,6 +159,7 @@ export default {
         var sessionId = this.$cookies.get("sessionID");
         logout(sessionId).then(() => {
           this.$cookies.remove("sessionID");
+          this.$cookies.remove("userID");
           location.reload();
         });
       }

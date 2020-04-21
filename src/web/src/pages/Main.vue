@@ -91,7 +91,7 @@ import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
 import HeaderComponent from '@/components/Header';
 
-import { getSubSemesters, getCourses } from '@/services/YacsService';
+import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse, getStudentCourses } from '@/services/YacsService';
 
 import { getDefaultSemester } from '@/services/AdminService';
 
@@ -121,12 +121,53 @@ export default {
   },
   async created() {
     this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester();
-    this.updateDataOnNewSemester();
+
+    await this.updateDataOnNewSemester();
+    await this.loadStudentCourses(this.currentSemester);
+
   },
   methods: {
+    async loadStudentCourses(semester){
+      this.selectedCourses = {};
+      this.userID = this.$cookies.get("userID");
+    
+      if(this.userID && semester){
+        console.log("Loading user courses...")
+        try{
+          const info = {'uid': this.userID};
+          var cids = await getStudentCourses(info);
+          console.log(cids);
+          
+          cids.forEach(cid => {
+            if(cid.semester == this.currentSemester){
+              var c = this.courses.find(function(course) {
+                return ((course.name == cid.course_name) && (course.semester == cid.semester));});
+
+              if(cid.crn != '-1'){
+                var sect = c.sections.find(
+                  function(section) {return section.crn == cid.crn;}
+                );
+                sect.selected = true;
+                this.scheduler.addCourseSection(c, sect);
+              }
+              else{
+                c.selected = true;
+                this.$set(this.selectedCourses, c.id, c);
+                this.scheduler.addCourse(c);
+              }
+            }
+          });
+        }
+
+        catch(error){
+          console.log(error);
+        }
+      }
+    },
     updateDataOnNewSemester() {
       history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
-      Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
+      this.scheduler = new SubSemesterScheduler();
+      return Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
@@ -149,12 +190,40 @@ export default {
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
+
+      if(this.userID){
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
+
+        addStudentCourse(info)
+          .then(response => {
+            console.log(`Saved ${course.name}`);
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+      }
     },
 
     addCourseSection(course, section) {
       try {
         this.scheduler.addCourseSection(course, section);
         section.selected = true;
+
+        if(this.userID){
+          const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+
+          addStudentCourse(info)
+            .then(response => {
+              console.log(`Saved section ${section.crn}`);
+              console.log(response);
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+        }
+
+
       } catch (err) {
         if (err.type === 'Schedule Conflict') {
           this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
@@ -165,13 +234,42 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
+
+      if(this.userID){
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid': null};
+        
+        removeStudentCourse(info)
+          .then(response => {
+            console.log(`Unsaved ${course.name}`);
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+      }
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+      if(this.userID){
+        var name = section.department + '-' + section.level;
+        const info = {'name':name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+        
+        removeStudentCourse(info)
+          .then(response => {
+            console.log(`Unsaved section ${section.crn}!`);
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+      }
+
     },
-    updateCurrentSemester(sem) {
+    async updateCurrentSemester(sem) {
       this.currentSemester = sem;
-      this.updateDataOnNewSemester();
+      // history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      await this.updateDataOnNewSemester();
+      await this.loadStudentCourses(this.currentSemester);
     },
 
     /**

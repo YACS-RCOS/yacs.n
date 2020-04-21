@@ -64,7 +64,7 @@ export default {
       textSearch: null,
       selectedSubsemester: null,
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: 'All', value: null }],
     };
   },
   created() {

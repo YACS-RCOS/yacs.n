@@ -90,4 +90,17 @@ export const getSubSemesters = (semester) =>
     });
   });
 
-  export const getSemesters = () => client.get('/semester').then(res => res.data);
+export const getSemesters = () => client.get('/semester').then(res => res.data);
+
+export const addStudentCourse = course_info => client.post('/course', course_info).then(({data}) => {
+  return data;
+});
+
+export const removeStudentCourse = course_info => client.delete('/course', {
+    data: course_info
+}).then(res => res.data);
+
+export const getStudentCourses = user_info => client.get('/course', {
+    params: user_info
+  }).then(res => res.data);
+
