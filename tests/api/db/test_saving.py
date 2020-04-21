@@ -2,11 +2,11 @@ def test_save_student_courses(): ##save_semester, test_user):
 	assert(True)
 
 	## Code for future testing of semester saving system
-	# args = {"name":"Barb", "email":"user1@rpi.edu", "phone":"1234567890", "major":"CS", "password":"123456", "degree":"Undergraduate"}
-	# args1 = {"name":"Wes", "email":"user2@rpi.edu", "phone":"0123456789", "major":"CS", "password":"246810", "degree":"Undergraduate"}
+	# user = {"name":"Barb", "email":"user1@rpi.edu", "phone":"1234567890", "major":"CS", "password":"123456", "degree":"Undergraduate"}
+	# user1 = {"name":"Wes", "email":"user2@rpi.edu", "phone":"0123456789", "major":"CS", "password":"246810", "degree":"Undergraduate"}
 
-	# uid = test_user.add_user(args)
-	# uid1 = test_user.add_user(args1)
+	# uid = test_user.add_user(user)
+	# uid1 = test_user.add_user(user1)
 	# ##print(uid)
 	# ##print(uid1)
 
