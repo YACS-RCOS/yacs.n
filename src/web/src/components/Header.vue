@@ -141,6 +141,11 @@ export default {
         })
         .catch(error => {
           console.log(error.response);
+          this.$bvToast.toast(`Login Unsuccesful. Please double check your email and password, then try again!`, {
+                  title: 'Invalid login',
+                  variant: 'danger',
+                  noAutoHide: true
+                });
         });
         this.toggleModal();
       },
