@@ -1,4 +1,4 @@
-from db.model import *
+from src.api.db.model import *
 
 class User(Model):
     def __init__(self):
