@@ -118,7 +118,6 @@ export default {
       courses: [],
 
       userID: '',
-      savedCourses: [],
 
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
@@ -130,45 +129,50 @@ export default {
     console.log(`Semester: ${this.currentSemester}`);
     
     await this.updateDataOnNewSemester();
+    await this.loadStudentCourses(this.currentSemester);
 
-    this.userID = this.$cookies.get("userID");
-    
-    if(this.userID && this.currentSemester){
-      console.log("Loading user courses...")
-      try{
-        const info = {'uid': this.userID};
-        var cids = await getStudentCourses(info);
-        console.log(cids);
-        
-        cids.forEach(cid => {
-          if(cid.semester == this.currentSemester){
-            var c = this.courses.find(function(course) {
-              return ((course.name == cid.course_name) && (course.semester == cid.semester));});
-
-            if(cid.crn != '-1'){
-              var sect = c.sections.find(
-                function(section) {console.log(section); return section.crn == cid.crn;}
-              );
-              sect.selected = true;
-              this.scheduler.addCourseSection(c, sect);
-            }
-            else{
-              c.selected = true;
-              this.$set(this.selectedCourses, c.id, c);
-              this.scheduler.addCourse(c);
-            }
-          }
-        });
-      }
-
-      catch(error){
-        console.log(error);
-      }
-    }
   },
   methods: {
+    async loadStudentCourses(semester){
+      this.selectedCourses = {};
+      this.userID = this.$cookies.get("userID");
+    
+      if(this.userID && semester){
+        console.log("Loading user courses...")
+        try{
+          const info = {'uid': this.userID};
+          var cids = await getStudentCourses(info);
+          console.log(cids);
+          
+          cids.forEach(cid => {
+            if(cid.semester == this.currentSemester){
+              var c = this.courses.find(function(course) {
+                return ((course.name == cid.course_name) && (course.semester == cid.semester));});
+
+              if(cid.crn != '-1'){
+                var sect = c.sections.find(
+                  function(section) {console.log(section); return section.crn == cid.crn;}
+                );
+                sect.selected = true;
+                this.scheduler.addCourseSection(c, sect);
+              }
+              else{
+                c.selected = true;
+                this.$set(this.selectedCourses, c.id, c);
+                this.scheduler.addCourse(c);
+              }
+            }
+          });
+        }
+
+        catch(error){
+          console.log(error);
+        }
+      }
+    },
     updateDataOnNewSemester() {
       history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      this.scheduler = new SubSemesterScheduler();
       return Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
         subsemesters
@@ -241,7 +245,7 @@ export default {
       this.scheduler.removeAllCourseSections(course);
 
       if(this.userID){
-        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid': null};
         
         removeStudentCourse(info)
           .then(response => {
@@ -272,11 +276,11 @@ export default {
       }
 
     },
-    updateCurrentSemester(sem) {
+    async updateCurrentSemester(sem) {
       this.currentSemester = sem;
-      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
-      //this.updateDataOnNewSemester();
-      location.reload();
+      // history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      await this.updateDataOnNewSemester();
+      await this.loadStudentCourses(this.currentSemester);
     },
 
     /**

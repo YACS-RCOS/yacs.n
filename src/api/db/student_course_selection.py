@@ -15,7 +15,7 @@ class student_course_selection:
 		
 
 	def remove_selection(self, name, sem, uid, cid):
-		if cid == '-1':
+		if cid is None:
 			sql = 	"""
 					DELETE FROM
 						student_course_selection
@@ -23,7 +23,6 @@ class student_course_selection:
 						user_id = %s AND
 						semester = %s AND
 						course_name = %s
-
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, name], False)
 		else:

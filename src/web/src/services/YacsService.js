@@ -92,9 +92,11 @@ export const addStudentCourse = course_info => client.post('/addcourse', course_
   return data;
 });
 
-export const removeStudentCourse = course_info => client.post('/removecourse', course_info).then(({data}) => {
-  return data;
-});
+export const removeStudentCourse = course_info => client.delete('/removecourse', {
+    data: course_info
+}).then(res => res.data);
 
-export const getStudentCourses = user_info => client.post('/getcourses', user_info).then(res => res.data);
+export const getStudentCourses = user_info => client.get('/getcourses', {
+    params: user_info
+  }).then(res => res.data);
 

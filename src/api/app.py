@@ -214,15 +214,15 @@ def add_student_course():
     return Response(status=200) if not error else Response(error, status=500)
 
 
-@app.route('/api/removecourse', methods=['POST'])
+@app.route('/api/removecourse', methods=['DELETE'])
 def remove_student_course():
-    info = request.get_json()
+    info = request.json
     resp, error = course_select.remove_selection(info['name'], info['semester'], info['uid'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
-@app.route('/api/getcourses', methods=['POST'])
+@app.route('/api/getcourses', methods=['GET'])
 def get_student_courses():
-    info = request.get_json()
+    info = request.args
     courses, error = course_select.get_selection(info['uid'])
     return jsonify(courses) if not error else Response(error, status=500)
 
