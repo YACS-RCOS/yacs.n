@@ -1,6 +1,6 @@
-**Related Issues**
+**Issue**
 
-Note which issue number(s) this Pull Request closes
+Note which issue number(s) this Pull Request closes. All pull requests should close an issue, if one does not exists, make one. This helps us plan and discuss before we decide on implementation
 
 *Example:*
 > closes #113
