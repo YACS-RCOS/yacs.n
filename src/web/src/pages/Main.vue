@@ -196,13 +196,11 @@ export default {
 
         addStudentCourse(info)
           .then(response => {
-            console.log(response);
+            console.log(`Saved ${course.name}`);
           })
           .catch(error => {
             console.log(error.response);
           });
-
-        console.log(`Saved ${course.name}`);
       }
     },
 
@@ -216,13 +214,11 @@ export default {
 
           addStudentCourse(info)
             .then(response => {
-              console.log(response);
+              console.log(`Saved section ${section.crn}`);
             })
             .catch(error => {
               console.log(error.response);
             });
-
-          console.log(`Saved section ${section.crn}`);
         }
 
 
@@ -242,13 +238,11 @@ export default {
         
         removeStudentCourse(info)
           .then(response => {
-            console.log(response);
+            console.log(`Unsaved ${course.name}`);
           })
           .catch(error => {
             console.log(error.response);
           });
-
-        console.log(`Unsaved ${course.name}!`);
       }
     },
     removeCourseSection(section) {
@@ -259,13 +253,11 @@ export default {
         
         removeStudentCourse(info)
           .then(response => {
-            console.log(response);
+            console.log(`Unsaved section ${section.crn}!`);
           })
           .catch(error => {
             console.log(error.response);
           });
-
-        console.log(`Unsaved section ${section.crn}!`);
       }
 
     },
