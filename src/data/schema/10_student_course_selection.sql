@@ -10,13 +10,3 @@ CREATE TABLE student_course_selection
 	FOREIGN KEY (user_id) REFERENCES user_account(user_id)
 );
 
--- INSERT INTO student_course_selection (user_id, semester, course_id) 
--- (
---     SELECT DISTINCT
---         user_id,
---         NULL,
---         NULL
---     FROM
---         user_account
--- )
-
