@@ -14,10 +14,11 @@ from rpi_data.modules.fetch_catalog_course_info import acalog_client as AcalogCl
 TEST_CSV = os.environ.get('TEST_CSV', None)
 
 def test_model_factory(model):
-    class TestModel(model):
-        def __init__(self, db):
-	    self.db = db
-    return TestModel
+	class TestModel(model):
+		def __init__(self, db):
+			self.db = db
+
+	return TestModel
 
 @pytest.fixture(scope="session")
 def db_conn():
@@ -37,7 +38,7 @@ def save_semester(db_conn):
 
 @pytest.fixture(scope="session")
 def test_user(db_conn):
-    return test_model_factory(User)(db_conn)
+	return test_model_factory(User)(db_conn)
 
 @pytest.fixture(scope="session")
 def acalog_client():
