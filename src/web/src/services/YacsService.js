@@ -71,8 +71,12 @@ export const getDepartments = () =>
  * Returns a list of all subsemesters
  * @returns {Promise<Subsemester[]>}
  */
-export const getSubSemesters = () =>
-  client.get('/subsemester').then(({ data }) => {
+export const getSubSemesters = (semester) =>
+  client.get('/subsemester', {
+    params: {
+      "semester": semester
+    }
+  }).then(({ data }) => {
     return data.map(subsemester => {
       subsemester.date_start = localToUTCDate(new Date(subsemester.date_start));
       subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));

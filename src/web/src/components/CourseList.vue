@@ -44,7 +44,7 @@ import '@/typedef';
 
 import { DAY_SHORTNAMES } from '@/utils';
 
-import { getDepartments, getSubSemesters } from '@/services/YacsService';
+import { getDepartments } from '@/services/YacsService';
 
 import CourseListingComponent from '@/components/CourseListing';
 
@@ -55,6 +55,7 @@ export default {
   },
   props: {
     courses: Array,
+    subsemesters: Array,
     selectedSemester: null
   },
   data() {
@@ -62,7 +63,6 @@ export default {
       DAY_SHORTNAMES,
       textSearch: null,
       selectedSubsemester: null,
-      subsemesterOptions: [{ text: 'All', value: null }],
       selectedDepartment: null,
       departmentOptions: [{ text: 'All', value: null }],
     };
@@ -71,15 +71,21 @@ export default {
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
-    getSubSemesters().then(subsemesters => {
-      this.subsemesterOptions.push(
-        ...subsemesters.filter(subsemester => subsemester.semester_name === this.selectedSemester)
-        .map(subsemester => {
-          return { text: subsemester.display_string, value: subsemester };
-        }))
-    });
   },
   computed: {
+    subsemesterOptions() {
+      let options = [{ text: 'All', value: null }]
+      options.push(
+        ...this.subsemesters.map(subsemester => {
+          return { text: subsemester.display_string, value: subsemester }
+        })
+      );
+      // Once we get new data for the <select>, v-model will retain its old value.
+      // Need to update this value after receving new data to keep values consistent.
+      // eslint-disable-next-line
+      this.selectedSubsemester = options[0].value;
+      return options;
+    },
     /**
      * Returns a list of courses that match the selected filters
      * @returns {Course[]}
