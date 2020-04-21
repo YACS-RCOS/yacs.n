@@ -10,7 +10,7 @@ services:
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       - HOST=${HOST:-localhost}
-      - ADMIN_PASS=${ADMIN_PASS:-difficult_password}
+      - ADMIN_PASS=${ADMIN_PASS:-admin}
 
   yacs_api:
     restart: always
