@@ -22,7 +22,7 @@
             <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
 
             <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In/Sign Up">
-                <div v-if="!showSingUp">
+                <div v-if="!showSignUp">
                     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                     <b-form-group
                         id="input-group-1"
@@ -51,7 +51,7 @@
 
                     <b-button type="submit" variant="primary">Submit</b-button>
 
-                    <b-button :pressed.sync="showSingUp" variant="primary" id="signUpButton">Sign Up</b-button>
+                    <b-button :pressed.sync="showSignUp" variant="primary" id="signUpButton">Sign Up</b-button>
                     <!-- <b-button type="reset" variant="danger">Reset</b-button> -->
                     </b-form>
 
@@ -61,9 +61,9 @@
 
                 </div>
                       
-                <div v-if="showSingUp">
+                <div v-if="showSignUp">
                   <SignUpForm ></SignUpForm>
-                  <b-button :pressed.sync="showSingUp" variant="primary"> Go back to Log In</b-button>
+                  <b-button :pressed.sync="showSignUp" variant="primary"> Go back to Log In</b-button>
                 </div>
                 
                 <!-- <b-button class="mt-2"  block @click="toggleModal">Toggle Me</b-button> -->
@@ -97,7 +97,7 @@ export default {
         },
 
         isLoggedIn: false,
-        showSingUp: false,
+        showSignUp: false,
         sessionID: '',
         userName: '',
         show: true,
