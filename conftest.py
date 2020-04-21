@@ -7,6 +7,7 @@ from src.api.db.classinfo import ClassInfo
 from src.api.db.courses import Courses
 from src.api.db.admin import Admin
 from src.api.db.student_course_selection import student_course_selection
+from src.api.db.user import User
 
 from rpi_data.modules.fetch_catalog_course_info import acalog_client as AcalogClient
 
@@ -27,6 +28,10 @@ def admin_settings(db_conn):
 @pytest.fixture(scope="session")
 def save_semester(db_conn):
 	return student_course_selection(db_conn)
+
+@pytest.fixture(scope="session")
+def test_user():
+	return User()
 
 @pytest.fixture(scope="session")
 def acalog_client():
