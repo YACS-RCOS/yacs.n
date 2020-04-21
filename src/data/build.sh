@@ -9,4 +9,5 @@ psql -d yacs < $SCRIPTDIR/schema/06_course_prerequisite.sql
 psql -d yacs < $SCRIPTDIR/schema/07_user.sql
 psql -d yacs < $SCRIPTDIR/schema/08_user_session.sql
 psql -d yacs < $SCRIPTDIR/schema/09_user_event.sql
+psql -d yacs < $SCRIPTDIR/schema/10_student_course_selection.sql
 psql -d yacs < $SCRIPTDIR/schema/11_semester_info.sql

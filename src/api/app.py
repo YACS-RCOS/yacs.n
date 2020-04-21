@@ -13,6 +13,7 @@ import db.courses as Courses
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
+import db.student_course_selection as CourseSelect
 import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
@@ -29,6 +30,7 @@ class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
+course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
@@ -205,6 +207,24 @@ def log_out():
 def add_user_event():
     return event_controller.add_event(json.loads(request.data))
 
+@app.route('/api/course', methods=['POST'])
+def add_student_course():
+    info = request.get_json()
+    resp, error = course_select.add_selection(info['name'], info['semester'], info['uid'], info['cid'])
+    return Response(status=200) if not error else Response(error, status=500)
+
+
+@app.route('/api/course', methods=['DELETE'])
+def remove_student_course():
+    info = request.json
+    resp, error = course_select.remove_selection(info['name'], info['semester'], info['uid'], info['cid'])
+    return Response(status=200) if not error else Response(error, status=500)
+
+@app.route('/api/course', methods=['GET'])
+def get_student_courses():
+    info = request.args
+    courses, error = course_select.get_selection(info['uid'])
+    return jsonify(courses) if not error else Response(error, status=500)
 
 
 if __name__ == '__main__':
