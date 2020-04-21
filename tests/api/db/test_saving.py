@@ -21,4 +21,22 @@ def test_save_student_courses(save_semester):
 
     assert(len(selections) == 4)
     assert(len(selections1) == 2)
+
+
+    (status, err) = save_semester.remove_selection('rcos', 'FALL 2020', '42', '12345')
+    assert(err is None)
+    (status1, err) = save_semester.remove_selection('yacs-404', 'SPRING 2021', '21')
+    assert(err is None)
+
+    assert(status and status1)
+
+    (selections, err) = get_selection('21')
+    assert(err is None)
+    (selections1, err) = get_selection('42')
+    assert(err is None)
+
+
+    assert(len(selections) == 2)
+    assert(len(selections1) == 1)
+
     
