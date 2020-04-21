@@ -207,20 +207,20 @@ def log_out():
 def add_user_event():
     return event_controller.add_event(json.loads(request.data))
 
-@app.route('/api/addcourse', methods=['POST'])
+@app.route('/api/course', methods=['POST'])
 def add_student_course():
     info = request.get_json()
     resp, error = course_select.add_selection(info['name'], info['semester'], info['uid'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
 
-@app.route('/api/removecourse', methods=['DELETE'])
+@app.route('/api/course', methods=['DELETE'])
 def remove_student_course():
     info = request.json
     resp, error = course_select.remove_selection(info['name'], info['semester'], info['uid'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
-@app.route('/api/getcourses', methods=['GET'])
+@app.route('/api/course', methods=['GET'])
 def get_student_courses():
     info = request.args
     courses, error = course_select.get_selection(info['uid'])
