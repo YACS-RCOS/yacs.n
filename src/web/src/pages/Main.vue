@@ -121,9 +121,7 @@ export default {
   },
   async created() {
     this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester();
-    
-    console.log(`Semester: ${this.currentSemester}`);
-    
+
     await this.updateDataOnNewSemester();
     await this.loadStudentCourses(this.currentSemester);
 
@@ -147,7 +145,7 @@ export default {
 
               if(cid.crn != '-1'){
                 var sect = c.sections.find(
-                  function(section) {console.log(section); return section.crn == cid.crn;}
+                  function(section) {return section.crn == cid.crn;}
                 );
                 sect.selected = true;
                 this.scheduler.addCourseSection(c, sect);
@@ -210,7 +208,6 @@ export default {
 
     addCourseSection(course, section) {
       try {
-        console.log(section);
         this.scheduler.addCourseSection(course, section);
         section.selected = true;
 
