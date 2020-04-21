@@ -80,6 +80,8 @@ export default {
           return { text: subsemester.display_string, value: subsemester }
         })
       );
+      // Once we get new data for the <select>, v-model will retain its old value.
+      // Need to update this value after receving new data to keep values consistent.
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
