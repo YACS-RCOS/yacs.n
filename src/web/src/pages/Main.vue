@@ -12,6 +12,7 @@
                     @addCourse="addCourse"
                     @removeCourse="removeCourse"
                     :courses="courses"
+                    :subsemesters="subsemesters"
                     class="w-100"
                     :selectedSemester="currentSemester"
                   />
@@ -109,14 +110,11 @@ export default {
   data() {
     return {
       selectedCourses: {},
-
       selectedScheduleSubsemester: null,
-
       scheduler: new SubSemesterScheduler(),
-
+      subsemesters: [],
       currentSemester: '',
       courses: [],
-
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
@@ -130,17 +128,17 @@ export default {
       history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
-        subsemesters
-          // Filter subsemesters in current semester
-          .filter(s => s.parent_semester_name == this.currentSemester)
-          // Filter out "full" subsemester
-          .filter(
-            (s, i, arr) =>
-              arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
-          )
-          .forEach(subsemester => {
-            this.scheduler.addSubSemester(subsemester);
-          });
+        this.subsemesters = subsemesters;
+        // Less work to create a new scheduler which is meant for a single semester
+        this.scheduler = new SubSemesterScheduler()
+        // Filter out "full" subsemester
+        subsemesters.filter( (s, i, arr) =>
+            arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+        )
+        .forEach(subsemester => {
+          this.scheduler.addSubSemester(subsemester);
+        });
+
         if (this.scheduler.scheduleSubsemesters.length > 0) {
           this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
         }
