@@ -15,13 +15,13 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+      <b-form-group id="input-group-2" label="Full Name:" label-for="input-2">
         <b-form-input id="input-2" v-model="form.name" required placeholder="Enter name"></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-3" label="Phone Number:" label-for="input-3">
+      <!-- <b-form-group id="input-group-3" label="Phone Number:" label-for="input-3">
         <b-form-input id="input-3" v-model="form.phone" required placeholder="Enter your phone number"></b-form-input>
-      </b-form-group>
+      </b-form-group> -->
 
       <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input type="password" id="input-4" v-model="form.password" required placeholder="Enter your password"></b-form-input>
@@ -32,16 +32,15 @@
           id="input-5"
           v-model="form.degree"
           :options="degrees"
-          required
         ></b-form-select>
       </b-form-group>
 
       <b-form-group id="input-group-6" label="Major:" label-for="input-6">
-        <b-form-input id="input-6" v-model="form.major" required placeholder="Eg. CSCI or ITWS"></b-form-input>
+        <b-form-input id="input-6" v-model="form.major" placeholder="Eg. CSCI or ITWS"></b-form-input>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <!-- <b-button type="reset" variant="danger">Reset</b-button> -->
     </b-form>
   </div>
 </template>
