@@ -46,7 +46,7 @@
 
 <script>
 
-import { signup } from '@/services/UserService';
+import { login, signup } from '@/services/UserService';
 export default {
   name: 'SignUp',
   data() {
@@ -71,8 +71,14 @@ export default {
         console.log(response);
         if (response.data.content){
           alert(response.data.content['msg'])
-          alert('Please go to log in')
-          this.$router.go()
+          
+          login({'email' : this.form['email'], 'password': this.form['password']})
+          .then(response => {
+            console.log(response);
+            this.$cookies.set('sessionID', response.data.content['sessionID']);
+            this.$cookies.set('userName', response.data.content['userName']);
+            this.$router.go()
+          })
         } else {
           alert(response.data.errMsg)
         }
