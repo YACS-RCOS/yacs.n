@@ -17,8 +17,8 @@
       <b-navbar-nav class="ml-auto" v-if="sessionID===null">
         <div>
           <b-button v-b-modal.modal-1 size="sm" variant="light">Log In</b-button>
-          | 
-          <b-button v-b-modal.singup-modal size="sm" variant="light">Sign Up</b-button>
+
+          <b-button v-b-modal.singup-modal size="sm" variant="primary" class="ml-2">Sign Up</b-button>
 
           <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">

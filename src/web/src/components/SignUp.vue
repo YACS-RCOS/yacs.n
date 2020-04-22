@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit.prevent="onSubmit" v-if="show">
+
+      <b-form-group id="input-group-2" label="Full Name:" label-for="input-2">
+        <b-form-input id="input-2" v-model="form.name" required placeholder="Enter name"></b-form-input>
+      </b-form-group>
+
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -15,17 +20,13 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Full Name:" label-for="input-2">
-        <b-form-input id="input-2" v-model="form.name" required placeholder="Enter name"></b-form-input>
-      </b-form-group>
-
       <!-- <b-form-group id="input-group-3" label="Phone Number:" label-for="input-3">
         <b-form-input id="input-3" v-model="form.phone" required placeholder="Enter your phone number"></b-form-input>
       </b-form-group> -->
 
       <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input type="password" id="input-4" v-model="form.password" required placeholder="Enter your password"></b-form-input>
-      </b-form-group>      
+      </b-form-group>
 
       <b-form-group id="input-group-5" label="Degree:" label-for="input-5">
         <b-form-select
@@ -39,7 +40,7 @@
         <b-form-input id="input-6" v-model="form.major" placeholder="Eg. CSCI or ITWS"></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <button type="submit" class="btn-primary btn w-100">Finish Sign Up!</button>
     </b-form>
   </div>
 </template>
@@ -64,14 +65,10 @@ export default {
     };
   },
   methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
-      // alert(JSON.stringify(this.form));
+    onSubmit() {
       signup(this.form).then((response)=>{
         console.log(response);
         if (response.data.content){
-          alert(response.data.content['msg'])
-          
           login({'email' : this.form['email'], 'password': this.form['password']})
           .then(response => {
             console.log(response);
@@ -82,21 +79,8 @@ export default {
         } else {
           alert(response.data.errMsg)
         }
-        
+
       })
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      // Reset our form values
-      this.form.email = '';
-      this.form.name = '';
-      this.form.food = null;
-      this.form.checked = [];
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
     }
   }
 };
