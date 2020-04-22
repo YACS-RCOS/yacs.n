@@ -2,10 +2,22 @@ name: PR Temp Deploys
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
+  test_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build production
+        run: |
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            build
+
   temp_deploy:
+    needs: test_build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
