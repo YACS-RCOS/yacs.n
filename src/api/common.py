@@ -18,9 +18,9 @@ def assert_keys_in_form_exist(form, keys):
         if key not in form.keys():
             return False
 
-        value = form[key]
-        if value == None:
-            return False
+        # value = form[key]
+        # if value == None:
+        #     return False
 
     return True
 

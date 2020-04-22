@@ -58,4 +58,9 @@ def add_session(form):
     if res == None:
         return msg.error_msg("Failed to start a new session.")
 
-    return msg.success_msg({"sessionID": new_session_id, "uid": uid, "startTime": str(start_time)})
+    return msg.success_msg({
+        "sessionID": new_session_id, 
+        "uid": uid, 
+        "startTime": str(start_time),
+        "userName" : users_founded[0]['name']
+        })
