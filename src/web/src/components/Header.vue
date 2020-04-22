@@ -131,26 +131,34 @@ export default {
         })
         .catch(error => {
           console.log(error.response);
+          this.$bvToast.toast(`Login Unsuccesful. Please double check your email and password, then try again!`, {
+                  title: 'Invalid login',
+                  variant: 'danger',
+                  noAutoHide: true
+                });
         });
-      this.toggleModal();
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      // Reset our form values
-      this.form.email = 'aaa1@wa.com';
-      this.form.password = '123456';
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
-      });
-    },
-    logOut() {
-      var sessionId = this.$cookies.get('sessionID');
-      logout(sessionId).then(() => {
-        this.$cookies.remove('sessionID');
-        location.reload();
-      });
+        this.toggleModal();
+      },
+      onReset(evt) {
+        evt.preventDefault()
+        // Reset our form values
+        this.form.email = 'aaa1@wa.com'
+        this.form.password = '123456'
+        // Trick to reset/clear native browser form validation state
+        this.show = false
+        this.$nextTick(() => {
+          this.show = true
+        })
+      },
+      logOut(){
+        var sessionId = this.$cookies.get("sessionID");
+        logout(sessionId).then(() => {
+          this.$cookies.remove("sessionID");
+          this.$cookies.remove("userID");
+          location.reload();
+        });
+      }
+
     }
   }
 };

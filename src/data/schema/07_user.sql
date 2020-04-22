@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS user_account CASCADE; 
 CREATE TABLE user_account
 (
 	user_id SERIAL NOT NULL
@@ -10,6 +11,7 @@ CREATE TABLE user_account
 	major TEXT,
 	degree TEXT,
 	enable BOOLEAN DEFAULT TRUE,
-	admin BOOLEAN DEFAULT FALSE,
+  	admin BOOLEAN DEFAULT FALSE,
 	super_admin BOOLEAN DEFAULT FALSE
 );
+
