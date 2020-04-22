@@ -74,6 +74,7 @@ export default {
             console.log(response);
             this.$cookies.set('sessionID', response.data.content['sessionID']);
             this.$cookies.set('userName', response.data.content['userName']);
+            this.$cookies.set('userID', response.data.content['uid']);
             this.$router.go()
           })
         } else {
