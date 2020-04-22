@@ -72,6 +72,7 @@ export default {
         if (response.data.content){
           alert(response.data.content['msg'])
           alert('Please go to log in')
+          this.$router.go()
         } else {
           alert(response.data.errMsg)
         }
