@@ -130,14 +130,14 @@ export default {
     async loadStudentCourses(semester){
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
-    
+
       if(this.userID && semester){
         console.log("Loading user courses...")
         try{
           const info = {'uid': this.userID};
           var cids = await getStudentCourses(info);
           console.log(cids);
-          
+
           cids.forEach(cid => {
             if(cid.semester == this.currentSemester){
               var c = this.courses.find(function(course) {
@@ -237,7 +237,7 @@ export default {
 
       if(this.userID){
         const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid': null};
-        
+
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved ${course.name}`);
@@ -253,7 +253,7 @@ export default {
       if(this.userID){
         var name = section.department + '-' + section.level;
         const info = {'name':name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
-        
+
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved section ${section.crn}!`);
@@ -290,9 +290,10 @@ export default {
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = session.semester;
             calendarBuilder.addEvent(
-              `Class: ${course.title}`,
+              `Class: ${course.full_title ? course.full_title : course.title}`,
               'LEC day',
-              session.location,
+//              session.location,
+              '',
               new Date(`${course.date_start.toDateString()} ${session.time_start}`),
               new Date(`${course.date_start.toDateString()} ${session.time_end}`),
               {
