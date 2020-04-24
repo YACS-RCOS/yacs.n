@@ -1,12 +1,7 @@
 <template>
   <b-list-group id="selected-course-list" class="flex-grow-1" flush>
     <b-list-group-item v-for="course of courses" :key="course.id">
-      <CourseListing
-        :course="course"
-        :actions="{remove:true,collapse:true}"
-        showSectionsInitial
-        v-on="$listeners"
-      />
+      <CourseListing :course="course" openInitial v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
 </template>

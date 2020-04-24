@@ -28,12 +28,33 @@
     <hr />
 
     <b-list-group id="scroll-box" class="mb-2 mb-sm-0 flex-grow-1" flush>
-     <b-list-group-item
+      <b-list-group-item
         v-for="course in filteredCourses"
         :key="course.id"
         :class="{'bg-light': course.selected}"
       >
-        <CourseListing :course="course" :actions="{add:true}" v-on="$listeners" />
+        <CourseListing :course="course" lazyLoadCollapse v-on="$listeners">
+          <template #toggleCollapseButton="{ course, toggleCollapse }">
+            <button
+              class="btn"
+              @click="toggleCollapse()"
+              :disabled="!course.corequisites && !course.prerequisites"
+            >
+              <font-awesome-icon :icon="faInfoCircle" />
+            </button>
+          </template>
+          <template #collapseContent="{ course: {corequisites, prerequisites, description} }">
+            <span v-if="corequisites">
+              Coreqs: {{corequisites.join(", ")}}
+              <br />
+            </span>
+            <span v-if="prerequisites">
+              Prereqs: {{prerequisites.join(", ")}}
+              <br />
+            </span>
+            <span v-if="description">{{description}}</span>
+          </template>
+        </CourseListing>
       </b-list-group-item>
     </b-list-group>
   </div>
@@ -41,6 +62,8 @@
 
 <script>
 import '@/typedef';
+
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { DAY_SHORTNAMES } from '@/utils';
 
@@ -60,11 +83,12 @@ export default {
   },
   data() {
     return {
+      faInfoCircle,
       DAY_SHORTNAMES,
       textSearch: null,
       selectedSubsemester: null,
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }],
+      departmentOptions: [{ text: 'All', value: null }]
     };
   },
   created() {
@@ -74,10 +98,10 @@ export default {
   },
   computed: {
     subsemesterOptions() {
-      let options = [{ text: 'All', value: null }]
+      let options = [{ text: 'All', value: null }];
       options.push(
         ...this.subsemesters.map(subsemester => {
-          return { text: subsemester.display_string, value: subsemester }
+          return { text: subsemester.display_string, value: subsemester };
         })
       );
       // Once we get new data for the <select>, v-model will retain its old value.
@@ -98,8 +122,7 @@ export default {
               this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
           (!this.selectedDepartment || this.selectedDepartment === department) &&
           (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
-          (this.selectedSemester ===
-            semester)
+          this.selectedSemester === semester
         );
       });
     }
@@ -112,7 +135,7 @@ export default {
   overflow-y: scroll !important;
   overflow-x: hidden;
   flex-basis: 0px; // allows flex and scroll combo
-                   // flex-grow will set height during runtime
+  // flex-grow will set height during runtime
   min-height: 200px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
 }
 </style>
