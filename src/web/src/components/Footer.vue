@@ -101,7 +101,7 @@ export default {
 
     a.semester {
       color: inherit;
-      display: inline-block;
+      display: table;
       font-weight: bold;
       font-size:16px;
       cursor:pointer;
