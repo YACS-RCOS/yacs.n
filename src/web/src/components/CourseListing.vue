@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="d-flex w-100 justify-content-between click-me">
-      <div @click="actions.add ? toggleCourse(course) : toggleShowSection()">
+    <div @click="actions.add ? toggleCourse(course) : toggleShowSection()" class="d-flex w-100 justify-content-between click-me">
+      <div>
         <b>{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
         <br />

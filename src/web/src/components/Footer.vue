@@ -1,21 +1,22 @@
 <template>
   <div id='footer'>
-    <hr>
+    <hr />
     <section id='main-block'>
       <b-container>
         <b-row>
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
-            <button
-              v-for="option of semesterOptions"
+            <p class="disabled"> {{semester}} </p>
+            <a
+              v-for="option of otherSemesters"
               :key="option.text"
-              class="btn link"
+              class="semester"
               :disabled="option.text === semester"
               @click="updateCurrentSemester(option.text)"
             >
               {{option.value}}
-            </button>
+            </a>
           </b-col>
 
           <b-col>
@@ -62,6 +63,17 @@ export default {
         this.$emit("changeCurrentSemester", to);
       }
     },
+    computed: {
+      otherSemesters: function(){
+        var semesters = [];
+        for(var sem of this.semesterOptions){
+          if(sem.text != this.semester){
+            semesters.push(sem);
+          }
+        }
+        return semesters
+      }
+    },
     created () {
       getSemesters().then(data  => {
         this.semesterOptions.push(...data.map(s => ({text: s.semester, value: s.semester})));
@@ -73,28 +85,38 @@ export default {
 <style scoped lang="scss">
 
 #footer {
+  width: 100%;
   #main-block {
     background: white;
     color: black;
-    padding: 25px 0;
+    padding-top: 25px;
     width: 100%;
     height: auto;
-    padding-left: 150px;
+    margin: 0px !important;
 
     strong.section-head {
       color: #3D4959;
       margin-bottom: 2px;
     }
 
-    button.link {
+    a.semester {
       color: inherit;
-      border-style: none;
-      display: block;
+      display: inline-block;
       font-weight: bold;
+      font-size:16px;
+      cursor:pointer;
+      width:auto;
     }
 
-    button.link:enabled:hover{
+    a.semester:hover{
       text-decoration: underline;
+    }
+
+    p.disabled {
+      color: inherit;
+      display: block;
+      font-size:16px;
+      margin: 0;
     }
 
     a.link {

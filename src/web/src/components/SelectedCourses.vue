@@ -37,8 +37,8 @@ export default {
 .no-courses{
   border-style:solid;
   border-width:2px;
-  border-color:black;
+  border-color:rgb(0,0,0,0.05);
   font-size:16px;
-  padding: 5px;
+  padding: 20px;
 }
 </style>

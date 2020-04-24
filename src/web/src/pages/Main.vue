@@ -397,6 +397,10 @@ export default {
   }
 }
 
+Footer{
+  margin:0px !important;
+}
+
 #export-ics-button {
   background: #3d4959 !important;
 }
