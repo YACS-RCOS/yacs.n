@@ -298,23 +298,25 @@ export default {
     exportScheduleToIcs() {
       let calendarBuilder = window.ics();
       let semester;
-
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
-          for (const session of section.sessions) {
+          if (section.sessions.length) {
+            const days = section.sessions.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+            // This assumes each day a class happens, it will occur at the same time.
+            const session = section.sessions[0];
             // The dates from the DB have no timezone, so when they are
             // cast to a JS date they're by default at time midnight 00:00:00.
             // This will exclude all classes if they're on that final day, so bump
             // the end date by 1 day.
             let exclusive_date_end = new Date(course.date_end);
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
-            semester = session.semester;
+            semester = section.semester;
             // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
             calendarBuilder.addEvent(
               `${course.full_title || course.title}`,
               // Add professor and type of class (LEC || LAB) to this description arg when data is available
               '',
-//              session.location,
+  //              session.location,
               '',
               new Date(`${course.date_start.toDateString()} ${session.time_start}`),
               new Date(`${course.date_start.toDateString()} ${session.time_end}`),
@@ -322,7 +324,7 @@ export default {
                 freq: 'WEEKLY',
                 interval: 1,
                 until: exclusive_date_end,
-                byday: [this.ICS_DAY_SHORTNAMES[session.day_of_week]]
+                byday: days
               }
             );
           }
