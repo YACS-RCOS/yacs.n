@@ -10,7 +10,7 @@
             <button
               v-for="option of semesterOptions"
               :key="option.text"
-              class="btn btn-info d-block mt-2"
+              class="btn link"
               :disabled="option.text === semester"
               @click="updateCurrentSemester(option.text)"
             >
@@ -86,6 +86,17 @@ export default {
       margin-bottom: 2px;
     }
 
+    button.link {
+      color: inherit;
+      border-style: none;
+      display: block;
+      font-weight: bold;
+    }
+
+    button.link:enabled:hover{
+      text-decoration: underline;
+    }
+
     a.link {
       color: inherit;
       display: block;
@@ -93,6 +104,10 @@ export default {
 
     a.link#current {
       color: grey;
+    }
+
+    button:disabled {
+      cursor: inherit;
     }
 
   }
