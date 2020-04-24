@@ -121,7 +121,7 @@ export default {
 
     a.link {
       color: inherit;
-      display: block;
+      display: table;
     }
 
     a.link#current {
