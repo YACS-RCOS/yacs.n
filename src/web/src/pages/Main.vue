@@ -65,7 +65,7 @@
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" />Export to ICS
+                <font-awesome-icon :icon="exportIcon" /> Export to ICS
               </button>
             </b-col>
           </b-row>
@@ -130,14 +130,14 @@ export default {
     async loadStudentCourses(semester){
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
-    
+
       if(this.userID && semester){
         console.log("Loading user courses...")
         try{
           const info = {'uid': this.userID};
           var cids = await getStudentCourses(info);
           console.log(cids);
-          
+
           cids.forEach(cid => {
             if(cid.semester == this.currentSemester){
               var c = this.courses.find(function(course) {
@@ -257,7 +257,7 @@ export default {
 
       if(this.userID){
         const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid': null};
-        
+
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved ${course.name}`);
@@ -273,7 +273,7 @@ export default {
       if(this.userID){
         var name = section.department + '-' + section.level;
         const info = {'name':name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
-        
+
         removeStudentCourse(info)
           .then(response => {
             console.log(`Unsaved section ${section.crn}!`);
