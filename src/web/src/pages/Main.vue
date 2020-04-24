@@ -309,6 +309,7 @@ export default {
             let exclusive_date_end = new Date(course.date_end);
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = session.semester;
+            // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
             calendarBuilder.addEvent(
               `${course.full_title || course.title}`,
               // Add professor and type of class (LEC || LAB) to this description arg when data is available
