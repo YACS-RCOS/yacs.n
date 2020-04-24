@@ -290,8 +290,9 @@ export default {
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = session.semester;
             calendarBuilder.addEvent(
-              `Class: ${course.full_title || course.title}`,
-              'LEC day',
+              `${course.full_title || course.title}`,
+              // Add professor and type of class (LEC || LAB) to this description arg when data is available
+              '',
 //              session.location,
               '',
               new Date(`${course.date_start.toDateString()} ${session.time_start}`),
