@@ -1,7 +1,14 @@
 <template>
   <div>
     <div class="d-flex w-100 justify-content-between">
-      <div>
+      <div v-if="actions.add" @click="toggleCourse(course)">
+        <b>{{ course.name }}</b>
+        ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
+        <br />
+        {{ course.title }}
+      </div>
+
+      <div v-else @click="toggleShowSection()">
         <b>{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
         <br />
@@ -22,7 +29,8 @@
           @click="toggleShowSection()"
           :disabled="!course.sections.length"
         >
-          <font-awesome-icon :icon="faChevronDown" />
+          <font-awesome-icon v-if="!this.showSections" :icon="faChevronDown" />
+          <font-awesome-icon v-else :icon="faChevronUp" />
         </button>
       </div>
     </div>
@@ -67,7 +75,7 @@ import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
 import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
 
-import { faTimes, faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export default {
   name: 'CourseListing',
@@ -81,6 +89,7 @@ export default {
       faTimes,
       faPlus,
       faChevronDown,
+      faChevronUp,
       DAY_SHORTNAMES,
 
       showSections: this.showSectionsInitial,
