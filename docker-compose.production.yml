@@ -25,6 +25,8 @@ services:
       - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 
   yacs_db:
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs
