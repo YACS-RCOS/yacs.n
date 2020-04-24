@@ -1,14 +1,7 @@
 <template>
   <div>
-    <div class="d-flex w-100 justify-content-between">
-      <div v-if="actions.add" @click="toggleCourse(course)">
-        <b>{{ course.name }}</b>
-        ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
-        <br />
-        {{ course.title }}
-      </div>
-
-      <div v-else @click="toggleShowSection()">
+    <div class="d-flex w-100 justify-content-between click-me">
+      <div @click="actions.add ? toggleCourse(course) : toggleShowSection()">
         <b>{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
         <br />
@@ -135,7 +128,9 @@ export default {
 </script>
 
 <style>
-
+.click-me{
+  cursor: pointer;
+}
   
 
 </style>
