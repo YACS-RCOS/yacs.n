@@ -191,6 +191,24 @@ export default {
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
 
+      let i = 0;
+      for (; i < course.sections.length; i++) {
+        try {
+          this._addCourseSection(course, course.sections[i]);
+          break;
+        } catch (err) {
+          if (err.type == 'Schedule Conflict') {
+            if (i == course.sections.length - 1) {
+              this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+            } else {
+              continue;
+            }
+          } else {
+            throw err;
+          }
+        }
+      }
+
       if(this.userID){
         const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
 
@@ -205,25 +223,27 @@ export default {
       }
     },
 
+    _addCourseSection(course, section) {
+      this.scheduler.addCourseSection(course, section);
+      section.selected = true;
+
+      if(this.userID){
+        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+
+        addStudentCourse(info)
+          .then(response => {
+            console.log(`Saved section ${section.crn}`);
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+      }
+    },
+
     addCourseSection(course, section) {
       try {
-        this.scheduler.addCourseSection(course, section);
-        section.selected = true;
-
-        if(this.userID){
-          const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
-
-          addStudentCourse(info)
-            .then(response => {
-              console.log(`Saved section ${section.crn}`);
-              console.log(response);
-            })
-            .catch(error => {
-              console.log(error.response);
-            });
-        }
-
-
+        this._addCourseSection(course, section);
       } catch (err) {
         if (err.type === 'Schedule Conflict') {
           this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
