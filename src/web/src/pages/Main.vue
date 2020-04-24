@@ -65,7 +65,7 @@
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" />Export to ICS
+                <font-awesome-icon :icon="exportIcon" /> Export to ICS
               </button>
             </b-col>
           </b-row>
