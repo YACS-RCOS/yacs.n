@@ -290,7 +290,7 @@ export default {
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = session.semester;
             calendarBuilder.addEvent(
-              `Class: ${course.full_title ? course.full_title : course.title}`,
+              `Class: ${course.full_title || course.title}`,
               'LEC day',
 //              session.location,
               '',
