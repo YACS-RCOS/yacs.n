@@ -26,7 +26,6 @@
                 id="input-group-1"
                 label="Email address:"
                 label-for="input-1"
-                description="We'll never share your email with anyone else."
               >
                 <b-form-input
                   id="input-1"
