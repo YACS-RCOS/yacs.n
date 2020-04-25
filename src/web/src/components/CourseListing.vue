@@ -9,13 +9,9 @@
       </div>
       <div>
         <button
-          v-if="actions.remove"
+          v-if="actions.add || actions.remove"
           class="btn"
-          @click="toggleCourse(course)"
-        >
-        <button
-          v-if="actions.add"
-          class="btn"
+          @click="actions.remove ? toggleCourse(course):null"
         >
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
