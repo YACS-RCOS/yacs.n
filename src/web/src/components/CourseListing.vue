@@ -9,7 +9,12 @@
       </div>
       <div>
         <button
-          v-if="actions.add || actions.remove"
+          v-if="actions.remove"
+          class="btn"
+          @click="toggleCourse(course)"
+        >
+        <button
+          v-if="actions.add"
           class="btn"
         >
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
