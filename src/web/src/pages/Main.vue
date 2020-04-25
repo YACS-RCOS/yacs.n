@@ -95,6 +95,8 @@ import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse, get
 
 import { getDefaultSemester } from '@/services/AdminService';
 
+import { partition } from '@/utils';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
@@ -301,32 +303,48 @@ export default {
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
           if (section.sessions.length) {
-            const days = section.sessions.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
-            // This assumes each day a class happens, it will occur at the same time.
-            const session = section.sessions[0];
-            // The dates from the DB have no timezone, so when they are
-            // cast to a JS date they're by default at time midnight 00:00:00.
-            // This will exclude all classes if they're on that final day, so bump
-            // the end date by 1 day.
-            let exclusive_date_end = new Date(course.date_end);
-            exclusive_date_end.setDate(course.date_end.getDate() + 1);
-            semester = section.semester;
-            // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
-            calendarBuilder.addEvent(
-              `${course.full_title || course.title}`,
-              // Add professor and type of class (LEC || LAB) to this description arg when data is available
-              '',
-  //              session.location,
-              '',
-              new Date(`${course.date_start.toDateString()} ${session.time_start}`),
-              new Date(`${course.date_start.toDateString()} ${session.time_end}`),
-              {
-                freq: 'WEEKLY',
-                interval: 1,
-                until: exclusive_date_end,
-                byday: days
+            let sessionsPartitionedByStartAndEnd = partition(section.sessions,
+            (session1, session2) => {
+              let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
+              let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
+              let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
+              let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
+              if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
+                  return 0;
               }
-            );
+              else if (d1_s < d2_s) {
+                  return -1;
+              }
+              return 1;
+            });
+            for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
+              const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+              // This assumes each day a class happens, it will occur at the same time.
+              const session = sessionGroupOfSameMeetTime[0];
+              // The dates from the DB have no timezone, so when they are
+              // cast to a JS date they're by default at time midnight 00:00:00.
+              // This will exclude all classes if they're on that final day, so bump
+              // the end date by 1 day.
+              let exclusive_date_end = new Date(course.date_end);
+              exclusive_date_end.setDate(course.date_end.getDate() + 1);
+              semester = section.semester;
+              // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
+              calendarBuilder.addEvent(
+                `${course.full_title || course.title}`,
+                // Add professor and type of class (LEC || LAB) to this description arg when data is available
+                '',
+    //              session.location,
+                '',
+                new Date(`${course.date_start.toDateString()} ${session.time_start}`),
+                new Date(`${course.date_start.toDateString()} ${session.time_end}`),
+                {
+                  freq: 'WEEKLY',
+                  interval: 1,
+                  until: exclusive_date_end,
+                  byday: days
+                }
+              );
+            }
           }
         }
       }

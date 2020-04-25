@@ -93,3 +93,26 @@ export const toMinutes = timeString => {
   const mmt = moment(timeString, 'kk:mm:ss');
   return mmt.hours() * 60 + mmt.minutes();
 };
+
+export function partition (arr, cmpFunc = null) {
+  let pkgs = cmpFunc ? arr.sort(cmpFunc) : arr.sort();
+  if (pkgs.length) {
+      let groups = []
+      let group = [pkgs[0]]
+      for (let i = 1; i < pkgs.length; i++) {
+          var pkg = pkgs[i];
+          if (cmpFunc(pkg, group[0]) == 0) {
+              group.push(pkg)
+          }
+          else {
+              groups.push(group)
+              group = [pkg]
+          }
+      }
+      if (group.length) {
+          groups.push(group);
+      }
+      return groups;
+  }
+  return pkgs;
+}
