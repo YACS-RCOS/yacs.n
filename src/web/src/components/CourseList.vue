@@ -34,30 +34,19 @@
         :class="{'bg-light': course.selected}"
       >
         <CourseListing :course="course" defaultAction="toggleCourse" v-on="$listeners">
-          <template #action="{ course }">
+          <template #toggleCollapseButton="{ course }">
             <button
               v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
               class="btn"
-              @click.stop="modalshow(course)"
+              @click.stop="courseInfoModalToggle(course)"
             >
               <font-awesome-icon :icon="faInfoCircle" />
             </button>
           </template>
-          <template #toggleCollapseButton>
-            <!-- <button
-              v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
-              class="btn"
-              @click.stop="toggleCollapse()"
-            >
-              <font-awesome-icon :icon="faInfoCircle" />
-            </button>-->
-            <div></div>
-          </template>
           <template
             #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, frequency, description} }"
           >
-            <!-- <div class="ml-3"> -->
-            <b-modal :id="course.name" :title="course.name" hide-footer>
+            <b-modal :id="course.name" :title="course.name  + ' ' + course.title" hide-footer>
               <span v-if="frequency">
                 Offered: {{frequency}}
                 <br />
@@ -69,8 +58,14 @@
                 <br />
                 {{description}}
               </span>
+              <br />
+              <br />
+              <b-button
+                variant="primary"
+                @click="toggleCourse(course);courseInfoModalToggle(course)"
+              >{{course.selected ? 'Remove from schedule' : 'Add to schedule'}}</b-button>
+              <b-button class="ml-2" variant="danger" @click="courseInfoModalToggle(course)">Close</b-button>
             </b-modal>
-            <!-- </div> -->
           </template>
         </CourseListing>
       </b-list-group-item>
@@ -115,8 +110,18 @@ export default {
     });
   },
   methods: {
-    modalshow(course) {
-      console.log('hello');
+    /**
+     * Toggle course selected state
+     * Emits removeCourse and addCourse events
+     */
+    toggleCourse(course) {
+      if (course.selected) {
+        this.$emit('removeCourse', course);
+      } else {
+        this.$emit('addCourse', course);
+      }
+    },
+    courseInfoModalToggle(course) {
       this.$root.$emit('bv::toggle::modal', course.name);
     },
     generateRequirementsText(prereqs, coreqs, raw) {
@@ -135,7 +140,7 @@ export default {
         if (prereqs && coreqs) text.push(same ? 'or' : 'and');
 
         if (coreqs) {
-          text.push('current enrollment in');
+          text.push('concurrent enrollment in');
 
           text.push(coreqs.join(', '));
         }

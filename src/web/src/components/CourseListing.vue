@@ -8,7 +8,6 @@
         {{ (course.full_title && course.full_title.toUpperCase()) || course.title }}
       </div>
       <div class="d-flex">
-        <slot name="action" :course="course"></slot>
         <slot name="toggleCollapseButton" :course="course" :toggleCollapse="toggleCollapse">
           <button class="btn" v-if="course.sections.length" @click.stop="toggleCollapse()">
             <font-awesome-icon v-if="!this.showCollapse" :icon="faChevronDown" />
