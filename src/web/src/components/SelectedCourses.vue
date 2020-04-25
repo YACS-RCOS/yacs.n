@@ -1,5 +1,9 @@
 <template>
   <b-list-group id="selected-course-list" class="flex-grow-1" flush>
+    <div v-if="Object.keys(courses).length==0" class="no-courses">
+      Oops! It looks like you haven't selected anything!
+      <br />Please select some courses from the "Course Search" tab!
+    </div>
     <b-list-group-item v-for="course of courses" :key="course.id">
       <CourseListing :course="course" openInitial v-on="$listeners" />
     </b-list-group-item>
@@ -27,5 +31,12 @@ export default {
   overflow-y: scroll !important;
   overflow-x: auto;
   height: 0px;
+}
+.no-courses {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 20px;
 }
 </style>

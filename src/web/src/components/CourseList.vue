@@ -33,11 +33,16 @@
         :key="course.id"
         :class="{'bg-light': course.selected}"
       >
-        <CourseListing :course="course" lazyLoadCollapse v-on="$listeners">
+        <CourseListing
+          :course="course"
+          lazyLoadCollapse
+          defaultAction="toggleCourse"
+          v-on="$listeners"
+        >
           <template #toggleCollapseButton="{ course, toggleCollapse }">
             <button
               class="btn"
-              @click="toggleCollapse()"
+              @click.stop="toggleCollapse()"
               :disabled="!course.corequisites && !course.prerequisites && !course.raw_precoreqs"
             >
               <font-awesome-icon :icon="faInfoCircle" />

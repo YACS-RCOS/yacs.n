@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="d-flex w-100 justify-content-between">
+    <div @click="callDefaultAction()" class="d-flex w-100 justify-content-between click-me">
       <div>
         <b>{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
@@ -8,13 +8,14 @@
         {{ course.title }}
       </div>
       <div>
-        <button class="btn" @click="toggleCourse(course)">
+        <button class="btn" @click.stop="toggleCourse()">
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
         </button>
         <slot name="toggleCollapseButton" :course="course" :toggleCollapse="toggleCollapse">
-          <button class="btn" @click="toggleCollapse()" :disabled="!course.sections.length">
-            <font-awesome-icon :icon="faChevronDown" />
+          <button class="btn" @click.stop="toggleCollapse()" :disabled="!course.sections.length">
+            <font-awesome-icon v-if="!this.showCollapse" :icon="faChevronDown" />
+            <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
       </div>
@@ -26,7 +27,7 @@
             button
             v-for="section in course.sections"
             :key="section.crn"
-            @click.stop="toggleCourseSection(course, section)"
+            @click.stop="toggleCourseSection(section)"
             :style="{
                 'border-left': section.selected
                   ? `4px solid ${getBorderColor(section)}`
@@ -62,7 +63,7 @@ import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
 
 import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
 
-import { faTimes, faPlus, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
@@ -87,6 +88,16 @@ export default {
     lazyLoadCollapse: {
       type: Boolean,
       default: false
+    },
+
+    // Method name of default action
+    // When body of CourseListing is clicked on, the
+    // defaultAction is called
+    // Kind of hacky, doesnt allow parameters, but keeps it
+    // relatively flexible
+    defaultAction: {
+      type: String,
+      default: 'toggleCollapse'
     }
   },
   data() {
@@ -94,6 +105,7 @@ export default {
       faTimes,
       faPlus,
       faChevronDown,
+      faChevronUp,
       DAY_SHORTNAMES,
 
       // v-model with collapse
@@ -110,6 +122,12 @@ export default {
     readableDate,
     getBackgroundColor,
     getBorderColor,
+
+    // Just a wrapper, can't call `[defaultAction]()` in html
+    callDefaultAction() {
+      this[this.defaultAction]();
+    },
+
     /**
      * Toggle collapse state
      * @param {boolean} collapse If provided, set collapse state
@@ -125,13 +143,12 @@ export default {
     /**
      * Toggle course selected state
      * Emits removeCourse and addCourse events
-     * @param {Course} course
      */
-    toggleCourse(course) {
-      if (course.selected) {
-        this.$emit('removeCourse', course);
+    toggleCourse() {
+      if (this.course.selected) {
+        this.$emit('removeCourse', this.course);
       } else {
-        this.$emit('addCourse', course);
+        this.$emit('addCourse', this.course);
       }
     },
     /**
@@ -140,14 +157,13 @@ export default {
      * add course section to schedules
      * If the course section had already been clicked
      * remove course section from schedules
-     * @param {Course} course
      * @param {CourseSection} section
      */
-    toggleCourseSection(course, section) {
+    toggleCourseSection(section) {
       if (section.selected) {
         this.$emit('removeCourseSection', section);
       } else {
-        this.$emit('addCourseSection', course, section);
+        this.$emit('addCourseSection', this.course, section);
       }
     }
   }
@@ -155,4 +171,7 @@ export default {
 </script>
 
 <style>
+.click-me {
+  cursor: pointer;
+}
 </style>
