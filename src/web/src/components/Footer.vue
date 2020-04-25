@@ -141,12 +141,14 @@ export default {
     height: auto;
     padding: 0px;
     margin: 0px;
+    margin-top: 10px;
     padding: 10px 0px;
     font-size: 15px;
 
     p {
       color: #3D4959;
       margin: 0;
+      margin-left: -30px;
     }
   }
 
