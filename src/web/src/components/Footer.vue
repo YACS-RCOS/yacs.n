@@ -4,6 +4,7 @@
     <section id='main-block'>
       <b-container>
         <b-row>
+          <b-col/>
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
@@ -31,7 +32,7 @@
             <a class="link" href="http://opensource-template.wikidot.com/legal:terms-of-use" target="_blank">Terms of Use</a>
             <!-- <a class="link" href=#>Cookies</a> -->
           </b-col>
-
+          <b-col/>
         </b-row>
       </b-container>
     </section>
@@ -140,11 +141,14 @@ export default {
     height: auto;
     padding: 0px;
     margin: 0px;
+    margin-top: 10px;
     padding: 10px 0px;
+    font-size: 15px;
 
     p {
       color: #3D4959;
       margin: 0;
+      margin-left: -30px;
     }
   }
 
