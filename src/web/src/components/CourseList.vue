@@ -49,21 +49,21 @@
             </button>
           </template>
           <template
-            #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, description} }"
+            #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, frequency, description} }"
           >
-            <span v-if="prerequisites">
-              Prereqs: {{prerequisites.join(", ")}}
-              <br />
-            </span>
-            <span v-if="corequisites">
-              Coreqs: {{corequisites.join(", ")}}
-              <br />
-            </span>
-            <span v-if="!prerequisites && !corequisites && raw_precoreqs">
-              {{raw_precoreqs}}
-              <br />
-            </span>
-            <span v-if="description">{{description}}</span>
+            <div class="ml-3">
+              <span v-if="frequency">
+                Offered: {{frequency}}
+                <br />
+                <br />
+              </span>
+              <span>{{generateRequirementsText(prerequisites, corequisites, raw_precoreqs)}}</span>
+              <span v-if="description">
+                <br />
+                <br />
+                {{description}}
+              </span>
+            </div>
           </template>
         </CourseListing>
       </b-list-group-item>
@@ -106,6 +106,34 @@ export default {
     getDepartments().then(departments => {
       this.departmentOptions.push(...departments.map(d => d.department));
     });
+  },
+  methods: {
+    generateRequirementsText(prereqs, coreqs, raw) {
+      let text = [];
+      if (prereqs || coreqs) {
+        const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
+
+        text.push('Requires');
+
+        if (prereqs) {
+          text.push('completion of');
+
+          if (!same) text.push(prereqs.join(', '));
+        }
+
+        if (prereqs && coreqs) text.push(same ? 'or' : 'and');
+
+        if (coreqs) {
+          text.push('current enrollment in');
+
+          text.push(coreqs.join(', '));
+        }
+      } else {
+        text.push('Requirements:', raw);
+      }
+
+      return text.join(' ');
+    }
   },
   computed: {
     subsemesterOptions() {

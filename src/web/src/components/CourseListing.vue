@@ -5,7 +5,7 @@
         <b>{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
         <br />
-        {{ course.title }}
+        {{ (course.full_title && course.full_title.toUpperCase()) || course.title }}
       </div>
       <div>
         <slot name="toggleCollapseButton" :course="course" :toggleCollapse="toggleCollapse">
