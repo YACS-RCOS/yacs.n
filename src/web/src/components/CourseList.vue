@@ -33,25 +33,31 @@
         :key="course.id"
         :class="{'bg-light': course.selected}"
       >
-        <CourseListing
-          :course="course"
-          lazyLoadCollapse
-          defaultAction="toggleCourse"
-          v-on="$listeners"
-        >
-          <template #toggleCollapseButton="{ course, toggleCollapse }">
+        <CourseListing :course="course" defaultAction="toggleCourse" v-on="$listeners">
+          <template #action="{ course }">
             <button
+              v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
+              class="btn"
+              @click.stop="modalshow(course)"
+            >
+              <font-awesome-icon :icon="faInfoCircle" />
+            </button>
+          </template>
+          <template #toggleCollapseButton>
+            <!-- <button
               v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
               class="btn"
               @click.stop="toggleCollapse()"
             >
               <font-awesome-icon :icon="faInfoCircle" />
-            </button>
+            </button>-->
+            <div></div>
           </template>
           <template
             #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, frequency, description} }"
           >
-            <div class="ml-3">
+            <!-- <div class="ml-3"> -->
+            <b-modal :id="course.name" :title="course.name" hide-footer>
               <span v-if="frequency">
                 Offered: {{frequency}}
                 <br />
@@ -63,7 +69,8 @@
                 <br />
                 {{description}}
               </span>
-            </div>
+            </b-modal>
+            <!-- </div> -->
           </template>
         </CourseListing>
       </b-list-group-item>
@@ -108,6 +115,10 @@ export default {
     });
   },
   methods: {
+    modalshow(course) {
+      console.log('hello');
+      this.$root.$emit('bv::toggle::modal', course.name);
+    },
     generateRequirementsText(prereqs, coreqs, raw) {
       let text = [];
       if (prereqs || coreqs) {
