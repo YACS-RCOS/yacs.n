@@ -8,16 +8,16 @@
         {{ course.title }}
       </div>
       <div>
-        <button class="btn" @click.stop="toggleCourse()">
-          <font-awesome-icon v-if="course.selected" :icon="faTimes" />
-          <font-awesome-icon v-else :icon="faPlus" />
-        </button>
         <slot name="toggleCollapseButton" :course="course" :toggleCollapse="toggleCollapse">
-          <button class="btn" @click.stop="toggleCollapse()" :disabled="!course.sections.length">
+          <button class="btn" v-if="course.sections.length" @click.stop="toggleCollapse()">
             <font-awesome-icon v-if="!this.showCollapse" :icon="faChevronDown" />
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
+        <button class="btn" @click.stop="toggleCourse()">
+          <font-awesome-icon v-if="course.selected" :icon="faTimes" />
+          <font-awesome-icon v-else :icon="faPlus" />
+        </button>
       </div>
     </div>
     <b-collapse v-if="loaded || !lazyLoadCollapse" v-model="showCollapse" :id="course.id">

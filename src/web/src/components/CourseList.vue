@@ -41,9 +41,9 @@
         >
           <template #toggleCollapseButton="{ course, toggleCollapse }">
             <button
+              v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
               class="btn"
               @click.stop="toggleCollapse()"
-              :disabled="!course.corequisites && !course.prerequisites && !course.raw_precoreqs"
             >
               <font-awesome-icon :icon="faInfoCircle" />
             </button>
