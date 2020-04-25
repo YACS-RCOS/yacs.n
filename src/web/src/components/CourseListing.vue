@@ -11,7 +11,7 @@
         <button
           v-if="actions.add || actions.remove"
           class="btn"
-          @click="toggleCourse(course)"
+          @click.stop="toggleCourse(course)"
         >
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
@@ -19,8 +19,8 @@
         <button
           v-if="actions.collapse"
           class="btn"
-          @click="toggleShowSection()"
           :disabled="!course.sections.length"
+          @click.stop="toggleShowSection()"
         >
           <font-awesome-icon v-if="!this.showSections" :icon="faChevronDown" />
           <font-awesome-icon v-else :icon="faChevronUp" />
