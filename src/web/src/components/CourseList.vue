@@ -38,18 +38,24 @@
             <button
               class="btn"
               @click="toggleCollapse()"
-              :disabled="!course.corequisites && !course.prerequisites"
+              :disabled="!course.corequisites && !course.prerequisites && !course.raw_precoreqs"
             >
               <font-awesome-icon :icon="faInfoCircle" />
             </button>
           </template>
-          <template #collapseContent="{ course: {corequisites, prerequisites, description} }">
+          <template
+            #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, description} }"
+          >
+            <span v-if="prerequisites">
+              Prereqs: {{prerequisites.join(", ")}}
+              <br />
+            </span>
             <span v-if="corequisites">
               Coreqs: {{corequisites.join(", ")}}
               <br />
             </span>
-            <span v-if="prerequisites">
-              Prereqs: {{prerequisites.join(", ")}}
+            <span v-if="!prerequisites && !corequisites && raw_precoreqs">
+              {{raw_precoreqs}}
               <br />
             </span>
             <span v-if="description">{{description}}</span>
