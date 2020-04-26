@@ -99,6 +99,8 @@ import { partition } from '@/utils';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
+import moment from 'moment';
+
 export default {
   name: 'MainPage',
   mixins: [NotificationsMixin],
@@ -293,7 +295,11 @@ export default {
       await this.updateDataOnNewSemester();
       await this.loadStudentCourses(this.currentSemester);
     },
-
+    addDays(date, days) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    },
     /**
      * Export all selected course sections to ICS
      */
@@ -319,6 +325,16 @@ export default {
             });
             for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
               const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+              const firstDay = sessionGroupOfSameMeetTime.sort((o1, o2) => {
+                if (o1.day_of_week < o2.day_of_week) {
+                  return -1;
+                }
+                else if (o1.day_of_week > o2.day_of_week) {
+                  return 1;
+                }
+                return 0;
+              })[0].day_of_week;
+              console.log("first day: " + firstDay);
               // This assumes each day a class happens, it will occur at the same time.
               const session = sessionGroupOfSameMeetTime[0];
               // The dates from the DB have no timezone, so when they are
@@ -326,17 +342,21 @@ export default {
               // This will exclude all classes if they're on that final day, so bump
               // the end date by 1 day.
               let exclusive_date_end = new Date(course.date_end);
+              let DELTA = (course.date_start.getDay() + firstDay) % 5;
+              let dtStart = this.addDays(course.date_start, DELTA);
+              console.log(course.date_start);
+              console.log(session);
+              console.log("Delta: " + DELTA);
+              console.log(dtStart);
               exclusive_date_end.setDate(course.date_end.getDate() + 1);
               semester = section.semester;
               // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
               calendarBuilder.addEvent(
                 `${course.full_title || course.title}`,
-                // Add professor and type of class (LEC || LAB) to this description arg when data is available
-                '',
-    //              session.location,
-                '',
-                new Date(`${course.date_start.toDateString()} ${session.time_start}`),
-                new Date(`${course.date_start.toDateString()} ${session.time_end}`),
+                '', // Add professor and type of class (LEC || LAB) to this description arg when data is available
+                '', // session.location,
+                new Date(`${dtStart.toDateString()} ${session.time_start}`),
+                new Date(`${dtStart.toDateString()} ${session.time_end}`),
                 {
                   freq: 'WEEKLY',
                   interval: 1,

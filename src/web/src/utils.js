@@ -116,3 +116,15 @@ export function partition (arr, cmpFunc = null) {
   }
   return pkgs;
 }
+
+// Returns date where the passed in date has been adjusted to be on the next occurence of
+// the given day 1 MON-5 FRI
+export function dayFromDate(dt, daynum) {
+  let offset = daynum - dt.getDay();
+  if (dt.getDay() > daynum) {
+      offset = (dt.getDay() + daynum) % 5 + 2
+  }
+  let dn = new Date(dt);
+  dn.setDate(dn.getDate() + offset)
+  return dn;
+}
