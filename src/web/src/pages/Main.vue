@@ -322,7 +322,6 @@ export default {
     async updateCurrentSemester(sem) {
       this.loading = true;
       this.currentSemester = sem;
-      // history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       await this.updateDataOnNewSemester();
       await this.loadStudentCourses(this.currentSemester);
       this.loading = false;
