@@ -1,18 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="https://user-images.githubusercontent.com/11034221/80246576-a274a500-863a-11ea-8d18-93ef2c095b7b.jpg">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="https://user-images.githubusercontent.com/11034221/80246576-a274a500-863a-11ea-8d18-93ef2c095b7b.jpg"
+    />
     <script src="./ics.min.js" type="application/javascript"></script>
     <title>YACS</title>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without
+        JavaScript enabled. Please enable it to continue.</strong
+      >
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <!-- Everything in here gets replaced when Vue loads -->
+      <div class="loadContainer">
+        <div class="loader"></div>
+        <h1>Loading YACS...</h1>
+      </div>
+      <style>
+        #app,
+        body,
+        html {
+          height: 100%;
+          width: 100%;
+        }
+
+        .loadContainer {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .loader {
+          border: 16px solid black;
+          /* Light grey */
+          border-top: 16px solid white;
+          /* Blue */
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          margin-bottom: 10px;
+
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      </style>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
