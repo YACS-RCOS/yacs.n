@@ -135,8 +135,9 @@ export default {
     };
   },
   async created() {
+    const querySemester = this.$route.query.semester;
     this.updateCurrentSemester(
-      this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester()
+      querySemester && querySemester != 'null' ? querySemester : await getDefaultSemester()
     );
   },
   methods: {
