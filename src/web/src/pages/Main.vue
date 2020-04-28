@@ -107,7 +107,6 @@ import {
 } from '@/services/YacsService';
 
 import { getDefaultSemester } from '@/services/AdminService';
-
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 export default {
