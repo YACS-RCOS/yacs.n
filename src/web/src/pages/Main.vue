@@ -380,11 +380,8 @@ export default {
           const sessionsPartitionedByStartAndEnd = partition(section.sessions, this.sortSessionsByDate);
           for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
             const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
-            console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
-            console.log(days)
             // Gets closest day to the course start date
             const firstDay = this.getClosestDay(course.date_start.getDay(), sessionGroupOfSameMeetTime);
-            console.log("first day: " + firstDay);
             const session = sessionGroupOfSameMeetTime[0];
             // The dates from the DB have no timezone, so when they are
             // cast to a JS date they're by default at time midnight 00:00:00.
@@ -399,8 +396,6 @@ export default {
               // Go to NEXT week, uses the current week by default
               dtStart = moment(course.date_start).day(firstDay+1+7).toDate();
             }
-            console.log("Start date:");
-            console.log(dtStart);
             semester = section.semester;
             // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
             calendarBuilder.addEvent(
