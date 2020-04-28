@@ -8,7 +8,16 @@
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b-tab title="Course Search" active class="flex-grow-1 w-100">
                 <b-card-text class="d-flex flex-grow-1 w-100">
+                  <div
+                    v-if="loading"
+                    class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                  >
+                    <b-spinner></b-spinner>
+
+                    <strong>Loading courses...</strong>
+                  </div>
                   <CourseList
+                    v-if="!loading"
                     @addCourse="addCourse"
                     @removeCourse="removeCourse"
                     :courses="courses"
@@ -39,14 +48,14 @@
         </b-col>
         <b-col md="8">
           <b-form-select
-            v-if="scheduler.scheduleSubsemesters.length > 1"
+            v-if="!loading && scheduler.scheduleSubsemesters && scheduler.scheduleSubsemesters.length > 1"
             v-model="selectedScheduleSubsemester"
             :options="scheduler.scheduleSubsemesters"
             text-field="display_string"
             value-field="display_string"
           ></b-form-select>
 
-          <template v-if="scheduler.schedules.length">
+          <template v-if="scheduler.schedules">
             <Schedule
               v-for="(schedule, index) in scheduler.schedules"
               :key="index"
@@ -54,6 +63,8 @@
               v-show="selectedScheduleIndex === index"
             />
           </template>
+          <Schedule v-else :schedule="scheduler"></Schedule>
+
           <b-row>
             <b-col>
               <h5>CRNs: {{ selectedCrns }}</h5>
@@ -65,17 +76,14 @@
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" /> Export to ICS
+                <font-awesome-icon :icon="exportIcon" />Export to ICS
               </button>
             </b-col>
           </b-row>
         </b-col>
       </b-row>
     </b-container>
-    <Footer
-      :semester="currentSemester"
-      @changeCurrentSemester="updateCurrentSemester"
-    />
+    <Footer :semester="currentSemester" @changeCurrentSemester="updateCurrentSemester" />
   </div>
 </template>
 
@@ -87,11 +95,18 @@ import SelectedCoursesComponent from '@/components/SelectedCourses';
 import CourseListComponent from '@/components/CourseList';
 import Footer from '@/components/Footer';
 
+import Schedule from '@/controllers/Schedule';
 import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
 
 import HeaderComponent from '@/components/Header';
 
-import { getSubSemesters, getCourses, addStudentCourse, removeStudentCourse, getStudentCourses } from '@/services/YacsService';
+import {
+  getSubSemesters,
+  getCourses,
+  addStudentCourse,
+  removeStudentCourse,
+  getStudentCourses
+} from '@/services/YacsService';
 
 import { getDefaultSemester } from '@/services/AdminService';
 
@@ -115,73 +130,75 @@ export default {
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
-      scheduler: new SubSemesterScheduler(),
+      scheduler: new Schedule(),
       subsemesters: [],
       currentSemester: '',
       courses: [],
+      loading: false,
       exportIcon: faPaperPlane,
       ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
     };
   },
   async created() {
-    this.currentSemester = this.$route.query.semester ? this.$route.query.semester : await getDefaultSemester();
-
-    await this.updateDataOnNewSemester();
-    await this.loadStudentCourses(this.currentSemester);
-
+    const querySemester = this.$route.query.semester;
+    this.updateCurrentSemester(
+      querySemester && querySemester != 'null' ? querySemester : await getDefaultSemester()
+    );
   },
   methods: {
-    async loadStudentCourses(semester){
+    async loadStudentCourses(semester) {
       this.selectedCourses = {};
-      this.userID = this.$cookies.get("userID");
+      this.userID = this.$cookies.get('userID');
 
-      if(this.userID && semester){
-        console.log("Loading user courses...")
-        try{
-          const info = {'uid': this.userID};
+      if (this.userID && semester) {
+        console.log('Loading user courses...');
+        try {
+          const info = { uid: this.userID };
           var cids = await getStudentCourses(info);
           console.log(cids);
 
           cids.forEach(cid => {
-            if(cid.semester == this.currentSemester){
+            if (cid.semester == this.currentSemester) {
               var c = this.courses.find(function(course) {
-                return ((course.name == cid.course_name) && (course.semester == cid.semester));});
+                return course.name == cid.course_name && course.semester == cid.semester;
+              });
 
-              if(cid.crn != '-1'){
-                var sect = c.sections.find(
-                  function(section) {return section.crn == cid.crn;}
-                );
+              if (cid.crn != '-1') {
+                var sect = c.sections.find(function(section) {
+                  return section.crn == cid.crn;
+                });
                 sect.selected = true;
                 this.scheduler.addCourseSection(c, sect);
-              }
-              else{
+              } else {
                 c.selected = true;
                 this.$set(this.selectedCourses, c.id, c);
                 this.scheduler.addCourse(c);
               }
             }
           });
-        }
-
-        catch(error){
+        } catch (error) {
           console.log(error);
         }
       }
     },
     updateDataOnNewSemester() {
-      this.scheduler = new SubSemesterScheduler();
-      return Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
+      return Promise.all([
+        getCourses(this.currentSemester),
+        getSubSemesters(this.currentSemester)
+      ]).then(([courses, subsemesters]) => {
         this.courses = courses;
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
-        this.scheduler = new SubSemesterScheduler()
+        this.scheduler = new SubSemesterScheduler();
         // Filter out "full" subsemester
-        subsemesters.filter( (s, i, arr) =>
-            arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
-        )
-        .forEach(subsemester => {
-          this.scheduler.addSubSemester(subsemester);
-        });
+        subsemesters
+          .filter(
+            (s, i, arr) =>
+              arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+          )
+          .forEach(subsemester => {
+            this.scheduler.addSubSemester(subsemester);
+          });
 
         if (this.scheduler.scheduleSubsemesters.length > 0) {
           this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
@@ -212,8 +229,13 @@ export default {
         }
       }
 
-      if(this.userID){
-        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':'-1'};
+      if (this.userID) {
+        const info = {
+          name: course.name,
+          semester: this.currentSemester,
+          uid: this.userID,
+          cid: '-1'
+        };
 
         addStudentCourse(info)
           .then(response => {
@@ -230,8 +252,13 @@ export default {
       this.scheduler.addCourseSection(course, section);
       section.selected = true;
 
-      if(this.userID){
-        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+      if (this.userID) {
+        const info = {
+          name: course.name,
+          semester: this.currentSemester,
+          uid: this.userID,
+          cid: section.crn
+        };
 
         addStudentCourse(info)
           .then(response => {
@@ -258,8 +285,13 @@ export default {
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
 
-      if(this.userID){
-        const info = {'name':course.name, 'semester':this.currentSemester, 'uid':this.userID, 'cid': null};
+      if (this.userID) {
+        const info = {
+          name: course.name,
+          semester: this.currentSemester,
+          uid: this.userID,
+          cid: null
+        };
 
         removeStudentCourse(info)
           .then(response => {
@@ -273,9 +305,14 @@ export default {
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
-      if(this.userID){
+      if (this.userID) {
         var name = section.department + '-' + section.level;
-        const info = {'name':name, 'semester':this.currentSemester, 'uid':this.userID, 'cid':section.crn};
+        const info = {
+          name: name,
+          semester: this.currentSemester,
+          uid: this.userID,
+          cid: section.crn
+        };
 
         removeStudentCourse(info)
           .then(response => {
@@ -286,13 +323,14 @@ export default {
             console.log(error.response);
           });
       }
-
     },
     async updateCurrentSemester(sem) {
+      this.loading = true;
       this.currentSemester = sem;
       history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       await this.updateDataOnNewSemester();
       await this.loadStudentCourses(this.currentSemester);
+      this.loading = false;
     },
     addDays(date, days) {
       var result = new Date(date);
@@ -453,8 +491,8 @@ export default {
   }
 }
 
-Footer{
-  margin:0px !important;
+footer {
+  margin: 0px !important;
 }
 
 #export-ics-button {

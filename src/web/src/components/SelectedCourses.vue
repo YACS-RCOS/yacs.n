@@ -1,13 +1,11 @@
 <template>
   <b-list-group id="selected-course-list" class="flex-grow-1" flush>
-    <div v-if="Object.keys(courses).length==0" class="no-courses">Oops! It looks like you haven't selected anything! <br /> Please select some courses from the "Course Search" tab!</div>
+    <div v-if="Object.keys(courses).length==0" class="no-courses">
+      Oops! It looks like you haven't selected anything!
+      <br />Please select some courses from the "Course Search" tab!
+    </div>
     <b-list-group-item v-for="course of courses" :key="course.id">
-      <CourseListing
-        :course="course"
-        :actions="{remove:true,collapse:true}"
-        showSectionsInitial
-        v-on="$listeners"
-      />
+      <CourseListing :course="course" openInitial v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
 </template>
@@ -34,11 +32,11 @@ export default {
   overflow-x: auto;
   height: 0px;
 }
-.no-courses{
-  border-style:solid;
-  border-width:2px;
-  border-color:rgb(0,0,0,0.05);
-  font-size:16px;
+.no-courses {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0, 0.05);
+  font-size: 16px;
   padding: 20px;
 }
 </style>
