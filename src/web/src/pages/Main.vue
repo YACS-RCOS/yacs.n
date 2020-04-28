@@ -48,7 +48,7 @@
         </b-col>
         <b-col md="8">
           <b-form-select
-            v-if="!loading && scheduler.scheduleSubsemesters.length > 1"
+            v-if="!loading && scheduler.scheduleSubsemesters && scheduler.scheduleSubsemesters.length > 1"
             v-model="selectedScheduleSubsemester"
             :options="scheduler.scheduleSubsemesters"
             text-field="display_string"
