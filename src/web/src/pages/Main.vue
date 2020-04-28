@@ -169,7 +169,6 @@ export default {
       }
     },
     updateDataOnNewSemester() {
-      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       this.scheduler = new SubSemesterScheduler();
       return Promise.all([getCourses(this.currentSemester), getSubSemesters(this.currentSemester)]).then(([courses, subsemesters]) => {
         this.courses = courses;
@@ -291,7 +290,7 @@ export default {
     },
     async updateCurrentSemester(sem) {
       this.currentSemester = sem;
-      // history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
       await this.updateDataOnNewSemester();
       await this.loadStudentCourses(this.currentSemester);
     },
@@ -311,20 +310,22 @@ export default {
           if (section.sessions.length) {
             console.log("Course start date:")
             console.log(course.date_start)
+            // https://stackoverflow.com/questions/6212305/how-can-i-compare-two-time-strings-in-the-format-hhmmss
             let sessionsPartitionedByStartAndEnd = partition(section.sessions,
-            (session1, session2) => {
-              let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
-              let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
-              let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
-              let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
-              if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
-                  return 0;
+              (session1, session2) => {
+                let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
+                let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
+                let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
+                let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
+                if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
+                    return 0;
+                }
+                else if (d1_s < d2_s) {
+                    return -1;
+                }
+                return 1;
               }
-              else if (d1_s < d2_s) {
-                  return -1;
-              }
-              return 1;
-            });
+            );
             for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
               const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
               console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
