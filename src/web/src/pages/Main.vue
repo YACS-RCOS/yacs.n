@@ -333,47 +333,45 @@ export default {
       let semester;
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
-          if (section.sessions.length) {
-            let sessionsPartitionedByStartAndEnd = partition(section.sessions, this.sortSessionsByDate);
-            for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
-              const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
-              console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
-              console.log(days)
-              // Gets closest day to the course start date
-              const firstDay = sessionGroupOfSameMeetTime.sort(this.sortByClosestToDay.bind({"day": course.date_start.getDay()}))[0].day_of_week;
-              console.log("first day: " + firstDay);
-              // This assumes each day a class happens, it will occur at the same time.
-              const session = sessionGroupOfSameMeetTime[0];
-              // The dates from the DB have no timezone, so when they are
-              // cast to a JS date they're by default at time midnight 00:00:00.
-              // This will exclude all classes if they're on that final day, so bump
-              // the end date by 1 day.
-              let exclusive_date_end = new Date(course.date_end);
-              // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
-              let dtStart = moment(course.date_start).day(firstDay+1).toDate();
-              if (dtStart < course.date_start) {
-                // Go to NEXT week, uses the current week by default
-                dtStart = moment(course.date_start).day(firstDay+1+7).toDate();
-              }
-              console.log("Start date:")
-              console.log(dtStart)
-              exclusive_date_end.setDate(course.date_end.getDate() + 1);
-              semester = section.semester;
-              // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
-              calendarBuilder.addEvent(
-                `${course.full_title || course.title}`,
-                `${course.department}-${course.level} ${session.section}\nCRN: ${session.crn}`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
-                '', // session.location,
-                new Date(`${dtStart.toDateString()} ${session.time_start}`),
-                new Date(`${dtStart.toDateString()} ${session.time_end}`),
-                {
-                  freq: 'WEEKLY',
-                  interval: 1,
-                  until: exclusive_date_end,
-                  byday: days
-                }
-              );
+          const sessionsPartitionedByStartAndEnd = partition(section.sessions, this.sortSessionsByDate);
+          for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
+            const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+            console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
+            console.log(days)
+            // Gets closest day to the course start date
+            const firstDay = sessionGroupOfSameMeetTime.sort(this.sortByClosestToDay.bind({"day": course.date_start.getDay()}))[0].day_of_week;
+            console.log("first day: " + firstDay);
+            // This assumes each day a class happens, it will occur at the same time.
+            const session = sessionGroupOfSameMeetTime[0];
+            // The dates from the DB have no timezone, so when they are
+            // cast to a JS date they're by default at time midnight 00:00:00.
+            // This will exclude all classes if they're on that final day, so bump
+            // the end date by 1 day.
+            let exclusive_date_end = new Date(course.date_end);
+            // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
+            let dtStart = moment(course.date_start).day(firstDay+1).toDate();
+            if (dtStart < course.date_start) {
+              // Go to NEXT week, uses the current week by default
+              dtStart = moment(course.date_start).day(firstDay+1+7).toDate();
             }
+            console.log("Start date:");
+            console.log(dtStart);
+            exclusive_date_end.setDate(course.date_end.getDate() + 1);
+            semester = section.semester;
+            // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
+            calendarBuilder.addEvent(
+              `${course.full_title || course.title}`,
+              `${course.department}-${course.level} ${session.section}, CRN: ${session.crn}  [from YACS]`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
+              '', // session.location,
+              new Date(`${dtStart.toDateString()} ${session.time_start}`),
+              new Date(`${dtStart.toDateString()} ${session.time_end}`),
+              {
+                freq: 'WEEKLY',
+                interval: 1,
+                until: exclusive_date_end,
+                byday: days
+              }
+            );
           }
         }
       }
