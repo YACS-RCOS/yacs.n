@@ -312,18 +312,24 @@ export default {
       }
       return 1;
     },
-    sortByClosestToDay(session1, session2, day) {
-      // In DB, days are numbered MON 0 - FRI 4
-      // In JS, days are numbered SUN 0 - SAT 6
-      // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
-      // Shift the JS date range back by 1
-      if (Math.abs(day - 1 - session1.day_of_week) < Math.abs(day - 1 - session2.day_of_week)) {
-        return -1;
+    getClosestDay(fromDay, sessions) {
+      if (sessions.length) {
+        sessions.sort((session1, session2) => {
+          // In DB, days are numbered MON 0 - FRI 4
+          // In JS, days are numbered SUN 0 - SAT 6
+          // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
+          // Shift the JS date range back by 1
+          if (Math.abs(fromDay - 1 - session1.day_of_week) < Math.abs(fromDay - 1 - session2.day_of_week)) {
+            return -1;
+          }
+          else if (Math.abs(fromDay - 1 - session1.day_of_week) > Math.abs(fromDay - 1 - session2.day_of_week)) {
+            return 1;
+          }
+          return 0;
+        });
+        return sessions[0].day_of_week;
       }
-      else if (Math.abs(day - 1 - session1.day_of_week) > Math.abs(day - 1 - session2.day_of_week)) {
-        return 1;
-      }
-      return 0;
+      return -1;
     },
     /**
      * Export all selected course sections to ICS
@@ -339,16 +345,17 @@ export default {
             console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
             console.log(days)
             // Gets closest day to the course start date
-            const firstDay = sessionGroupOfSameMeetTime.sort(this.sortByClosestToDay.bind({"day": course.date_start.getDay()}))[0].day_of_week;
+            const firstDay = this.getClosestDay(course.date_start.getDay(), sessionGroupOfSameMeetTime);
             console.log("first day: " + firstDay);
-            // This assumes each day a class happens, it will occur at the same time.
             const session = sessionGroupOfSameMeetTime[0];
             // The dates from the DB have no timezone, so when they are
             // cast to a JS date they're by default at time midnight 00:00:00.
             // This will exclude all classes if they're on that final day, so bump
             // the end date by 1 day.
             let exclusive_date_end = new Date(course.date_end);
+            exclusive_date_end.setDate(course.date_end.getDate() + 1);
             // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
+            // firstDay is numbered     0 MON - 4 FRI, so need to add 1 to match moment's spec
             let dtStart = moment(course.date_start).day(firstDay+1).toDate();
             if (dtStart < course.date_start) {
               // Go to NEXT week, uses the current week by default
@@ -356,7 +363,6 @@ export default {
             }
             console.log("Start date:");
             console.log(dtStart);
-            exclusive_date_end.setDate(course.date_end.getDate() + 1);
             semester = section.semester;
             // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
             calendarBuilder.addEvent(
