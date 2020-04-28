@@ -299,6 +299,32 @@ export default {
       result.setDate(result.getDate() + days);
       return result;
     },
+    sortSessionsByDate(session1, session2) {
+      let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
+      let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
+      let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
+      let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
+      if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
+          return 0;
+      }
+      else if (d1_s < d2_s) {
+          return -1;
+      }
+      return 1;
+    },
+    sortByClosestToDay(session1, session2, day) {
+      // In DB, days are numbered MON 0 - FRI 4
+      // In JS, days are numbered SUN 0 - SAT 6
+      // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
+      // Shift the JS date range back by 1
+      if (Math.abs(day - 1 - session1.day_of_week) < Math.abs(day - 1 - session2.day_of_week)) {
+        return -1;
+      }
+      else if (Math.abs(day - 1 - session1.day_of_week) > Math.abs(day - 1 - session2.day_of_week)) {
+        return 1;
+      }
+      return 0;
+    },
     /**
      * Export all selected course sections to ICS
      */
@@ -308,42 +334,13 @@ export default {
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
           if (section.sessions.length) {
-            console.log("Course start date:")
-            console.log(course.date_start)
-            // https://stackoverflow.com/questions/6212305/how-can-i-compare-two-time-strings-in-the-format-hhmmss
-            let sessionsPartitionedByStartAndEnd = partition(section.sessions,
-              (session1, session2) => {
-                let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
-                let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
-                let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
-                let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
-                if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
-                    return 0;
-                }
-                else if (d1_s < d2_s) {
-                    return -1;
-                }
-                return 1;
-              }
-            );
+            let sessionsPartitionedByStartAndEnd = partition(section.sessions, this.sortSessionsByDate);
             for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
               const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
               console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
               console.log(days)
               // Gets closest day to the course start date
-              const firstDay = sessionGroupOfSameMeetTime.sort((o1, o2) => {
-                // In DB, days are numbered MON 0 - FRI 4
-                // In JS, days are numbered SUN 0 - SAT 6
-                // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
-                // Shift the JS date range back by 1
-                if (Math.abs(course.date_start.getDay() - 1 - o1.day_of_week) < Math.abs(course.date_start.getDay() - 1 - o2.day_of_week)) {
-                  return -1;
-                }
-                else if (Math.abs(course.date_start.getDay() - 1 - o1.day_of_week) > Math.abs(course.date_start.getDay() - 1 - o2.day_of_week)) {
-                  return 1;
-                }
-                return 0;
-              })[0].day_of_week;
+              const firstDay = sessionGroupOfSameMeetTime.sort(this.sortByClosestToDay.bind({"day": course.date_start.getDay()}))[0].day_of_week;
               console.log("first day: " + firstDay);
               // This assumes each day a class happens, it will occur at the same time.
               const session = sessionGroupOfSameMeetTime[0];
@@ -365,7 +362,7 @@ export default {
               // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
               calendarBuilder.addEvent(
                 `${course.full_title || course.title}`,
-                '', // Add professor and type of class (LEC || LAB) to this description arg when data is available
+                `${course.department}-${course.level} ${session.section}\nCRN: ${session.crn}`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
                 '', // session.location,
                 new Date(`${dtStart.toDateString()} ${session.time_start}`),
                 new Date(`${dtStart.toDateString()} ${session.time_end}`),
