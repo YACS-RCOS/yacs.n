@@ -55,7 +55,7 @@
             value-field="display_string"
           ></b-form-select>
 
-          <template v-if="scheduler.schedules.length">
+          <template v-if="scheduler.schedules">
             <Schedule
               v-for="(schedule, index) in scheduler.schedules"
               :key="index"
@@ -63,6 +63,8 @@
               v-show="selectedScheduleIndex === index"
             />
           </template>
+          <Schedule v-else :schedule="scheduler"></Schedule>
+
           <b-row>
             <b-col>
               <h5>CRNs: {{ selectedCrns }}</h5>
