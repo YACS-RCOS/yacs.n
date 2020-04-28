@@ -18,53 +18,7 @@
         JavaScript enabled. Please enable it to continue.</strong
       >
     </noscript>
-    <div id="app">
-      <!-- Everything in here gets replaced when Vue loads -->
-      <div class="loadContainer">
-        <div class="loader"></div>
-        <h1>Loading YACS...</h1>
-      </div>
-      <style>
-        #app,
-        body,
-        html {
-          height: 100%;
-          width: 100%;
-        }
-
-        .loadContainer {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-          height: 100%;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .loader {
-          border: 16px solid black;
-          /* Light grey */
-          border-top: 16px solid white;
-          /* Blue */
-          border-radius: 50%;
-          width: 120px;
-          height: 120px;
-          margin-bottom: 10px;
-
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-      </style>
-    </div>
+    <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>
