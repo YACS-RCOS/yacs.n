@@ -309,6 +309,8 @@ export default {
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
           if (section.sessions.length) {
+            console.log("Course start date:")
+            console.log(course.date_start)
             let sessionsPartitionedByStartAndEnd = partition(section.sessions,
             (session1, session2) => {
               let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
@@ -325,11 +327,18 @@ export default {
             });
             for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
               const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+              console.log("Session " + sessionGroupOfSameMeetTime[0].time_start);
+              console.log(days)
+              // Gets closest day to the course start date
               const firstDay = sessionGroupOfSameMeetTime.sort((o1, o2) => {
-                if (o1.day_of_week < o2.day_of_week) {
+                // In DB, days are numbered MON 0 - FRI 4
+                // In JS, days are numbered SUN 0 - SAT 6
+                // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
+                // Shift the JS date range back by 1
+                if (Math.abs(course.date_start.getDay() - 1 - o1.day_of_week) < Math.abs(course.date_start.getDay() - 1 - o2.day_of_week)) {
                   return -1;
                 }
-                else if (o1.day_of_week > o2.day_of_week) {
+                else if (Math.abs(course.date_start.getDay() - 1 - o1.day_of_week) > Math.abs(course.date_start.getDay() - 1 - o2.day_of_week)) {
                   return 1;
                 }
                 return 0;
@@ -342,12 +351,14 @@ export default {
               // This will exclude all classes if they're on that final day, so bump
               // the end date by 1 day.
               let exclusive_date_end = new Date(course.date_end);
-              let DELTA = (course.date_start.getDay() + firstDay) % 5;
-              let dtStart = this.addDays(course.date_start, DELTA);
-              console.log(course.date_start);
-              console.log(session);
-              console.log("Delta: " + DELTA);
-              console.log(dtStart);
+              // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
+              let dtStart = moment(course.date_start).day(firstDay+1).toDate();
+              if (dtStart < course.date_start) {
+                // Go to NEXT week, uses the current week by default
+                dtStart = moment(course.date_start).day(firstDay+1+7).toDate();
+              }
+              console.log("Start date:")
+              console.log(dtStart)
               exclusive_date_end.setDate(course.date_end.getDate() + 1);
               semester = section.semester;
               // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
