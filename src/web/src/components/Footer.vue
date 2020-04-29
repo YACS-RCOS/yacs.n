@@ -8,11 +8,10 @@
           <b-col>
             <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
-            <p class="disabled"> {{semester}} </p>
             <a
               v-for="option of otherSemesters"
               :key="option.text"
-              class="semester"
+              class="link"
               :disabled="option.text === semester"
               @click="updateCurrentSemester(option.text)"
             >
@@ -100,24 +99,9 @@ export default {
       margin-bottom: 2px;
     }
 
-    a.semester {
-      color: inherit;
-      display: table;
-      font-weight: bold;
-      font-size:16px;
-      cursor:pointer;
-      width:auto;
-    }
-
-    a.semester:hover{
+    a.link:hover{
       text-decoration: underline;
-    }
-
-    p.disabled {
-      color: inherit;
-      display: block;
-      font-size:16px;
-      margin: 0;
+      cursor:pointer;
     }
 
     a.link {
@@ -127,10 +111,6 @@ export default {
 
     a.link#current {
       color: grey;
-    }
-
-    button:disabled {
-      cursor: inherit;
     }
 
   }
