@@ -6,7 +6,6 @@
         <b-row>
           <b-col/>
           <b-col>
-            <!-- TODO: Autogenerate these when doing the user side, semester select -->
             <strong class="section-head">Other Semesters</strong>
             <a
               v-for="option of otherSemesters"
