@@ -20,6 +20,7 @@
                     v-if="!loading"
                     @addCourse="addCourse"
                     @removeCourse="removeCourse"
+                    @showCourseInfo="showCourseInfo"
                     :courses="courses"
                     :subsemesters="subsemesters"
                     class="w-100"
@@ -31,7 +32,7 @@
                 <template v-slot:title>
                   <div class="text-center">
                     Selected Courses
-                    <b-badge variant="light">{{numSelectedCourses}}</b-badge>
+                    <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
                   </div>
                 </template>
                 <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -48,7 +49,11 @@
         </b-col>
         <b-col md="8">
           <b-form-select
-            v-if="!loading && scheduler.scheduleSubsemesters && scheduler.scheduleSubsemesters.length > 1"
+            v-if="
+              !loading &&
+                scheduler.scheduleSubsemesters &&
+                scheduler.scheduleSubsemesters.length > 1
+            "
             v-model="selectedScheduleSubsemester"
             :options="scheduler.scheduleSubsemesters"
             text-field="display_string"
@@ -84,6 +89,44 @@
       </b-row>
     </b-container>
     <Footer :semester="currentSemester" @changeCurrentSemester="updateCurrentSemester" />
+    <b-modal
+      id="courseInfoModal"
+      v-if="courseInfoModalCourse"
+      v-model="showCourseInfoModal"
+      :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
+      hide-footer
+    >
+      <span v-if="courseInfoModalCourse.frequency">
+        Offered: {{ courseInfoModalCourse.frequency }}
+        <br />
+        <br />
+      </span>
+      <span>{{
+        generateRequirementsText(
+          courseInfoModalCourse.prerequisites,
+          courseInfoModalCourse.corequisites,
+          courseInfoModalCourse.raw_precoreqs
+        )
+      }}</span>
+      <span v-if="courseInfoModalCourse.description">
+        <br />
+        <br />
+        {{ courseInfoModalCourse.description }}
+      </span>
+      <br />
+      <br />
+      <b-button
+        variant="primary"
+        @click="
+          toggleCourse(courseInfoModalCourse);
+          showCourseInfoModal = !showCourseInfoModal;
+        "
+        >{{ courseInfoModalCourse.selected ? 'Remove from schedule' : 'Add to schedule' }}</b-button
+      >
+      <b-button class="ml-2" variant="danger" @click="showCourseInfoModal = !showCourseInfoModal"
+        >Close</b-button
+      >
+    </b-modal>
   </div>
 </template>
 
@@ -136,7 +179,9 @@ export default {
       courses: [],
       loading: false,
       exportIcon: faPaperPlane,
-      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
+      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'],
+      courseInfoModalCourse: null,
+      showCourseInfoModal: false
     };
   },
   async created() {
@@ -338,15 +383,14 @@ export default {
       return result;
     },
     sortSessionsByDate(session1, session2) {
-      let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`)
-      let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`)
-      let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`)
-      let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`)
+      let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`);
+      let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`);
+      let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`);
+      let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`);
       if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
-          return 0;
-      }
-      else if (d1_s < d2_s) {
-          return -1;
+        return 0;
+      } else if (d1_s < d2_s) {
+        return -1;
       }
       return 1;
     },
@@ -357,10 +401,15 @@ export default {
           // In JS, days are numbered SUN 0 - SAT 6
           // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
           // Shift the JS date range back by 1
-          if (Math.abs(fromDay - 1 - session1.day_of_week) < Math.abs(fromDay - 1 - session2.day_of_week)) {
+          if (
+            Math.abs(fromDay - 1 - session1.day_of_week) <
+            Math.abs(fromDay - 1 - session2.day_of_week)
+          ) {
             return -1;
-          }
-          else if (Math.abs(fromDay - 1 - session1.day_of_week) > Math.abs(fromDay - 1 - session2.day_of_week)) {
+          } else if (
+            Math.abs(fromDay - 1 - session1.day_of_week) >
+            Math.abs(fromDay - 1 - session2.day_of_week)
+          ) {
             return 1;
           }
           return 0;
@@ -377,11 +426,19 @@ export default {
       let semester;
       for (const course of Object.values(this.courses)) {
         for (const section of course.sections.filter(s => s.selected)) {
-          const sessionsPartitionedByStartAndEnd = partition(section.sessions, this.sortSessionsByDate);
+          const sessionsPartitionedByStartAndEnd = partition(
+            section.sessions,
+            this.sortSessionsByDate
+          );
           for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
-            const days = sessionGroupOfSameMeetTime.map(sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]);
+            const days = sessionGroupOfSameMeetTime.map(
+              sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]
+            );
             // Gets closest day to the course start date
-            const firstDay = this.getClosestDay(course.date_start.getDay(), sessionGroupOfSameMeetTime);
+            const firstDay = this.getClosestDay(
+              course.date_start.getDay(),
+              sessionGroupOfSameMeetTime
+            );
             const session = sessionGroupOfSameMeetTime[0];
             // The dates from the DB have no timezone, so when they are
             // cast to a JS date they're by default at time midnight 00:00:00.
@@ -391,10 +448,14 @@ export default {
             exclusive_date_end.setDate(course.date_end.getDate() + 1);
             // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
             // firstDay is numbered     0 MON - 4 FRI, so need to add 1 to match moment's spec
-            let dtStart = moment(course.date_start).day(firstDay+1).toDate();
+            let dtStart = moment(course.date_start)
+              .day(firstDay + 1)
+              .toDate();
             if (dtStart < course.date_start) {
               // Go to NEXT week, uses the current week by default
-              dtStart = moment(course.date_start).day(firstDay+1+7).toDate();
+              dtStart = moment(course.date_start)
+                .day(firstDay + 1 + 7)
+                .toDate();
             }
             semester = section.semester;
             // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
@@ -431,6 +492,50 @@ export default {
         s1.date_start.getTime() <= s2.date_start.getTime() &&
         s1.date_end.getTime() >= s2.date_end.getTime()
       );
+    },
+    /**
+     * @param {Course} course
+     */
+    showCourseInfo(course) {
+      this.courseInfoModalCourse = course;
+      this.showCourseInfoModal = true;
+    },
+    generateRequirementsText(prereqs, coreqs, raw) {
+      let text = [];
+      if (prereqs || coreqs) {
+        const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
+
+        text.push('Requires');
+
+        if (prereqs) {
+          text.push('completion of');
+
+          if (!same) text.push(prereqs.join(', '));
+        }
+
+        if (prereqs && coreqs) text.push(same ? 'or' : 'and');
+
+        if (coreqs) {
+          text.push('concurrent enrollment in');
+
+          text.push(coreqs.join(', '));
+        }
+      } else {
+        text.push('Requirements:', raw);
+      }
+
+      return text.join(' ');
+    },
+    /**
+     * Toggle course selected state
+     * Emits removeCourse and addCourse events
+     */
+    toggleCourse(course) {
+      if (course.selected) {
+        this.removeCourse(course);
+      } else {
+        this.addCourse(course);
+      }
     }
   },
   computed: {

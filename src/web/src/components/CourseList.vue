@@ -14,62 +14,55 @@
         <!-- >2 b/c default ALL option always present -->
         <b-col v-if="subsemesterOptions.length > 2">
           <b-form-group label="Filter Sub-Semester" for="sub-semester">
-            <b-form-select v-model="selectedSubsemester" :options="subsemesterOptions"></b-form-select>
+            <b-form-select
+              v-model="selectedSubsemester"
+              :options="subsemesterOptions"
+            ></b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
           <b-form-group label="Filter Department" for="department">
-            <b-form-select v-model="selectedDepartment" :options="departmentOptions"></b-form-select>
+            <b-form-select
+              v-model="selectedDepartment"
+              :options="departmentOptions"
+            ></b-form-select>
           </b-form-group>
         </b-col>
       </b-row>
     </div>
 
     <hr />
-
-    <b-list-group id="scroll-box" class="mb-2 mb-sm-0 flex-grow-1" flush>
-      <b-list-group-item
-        v-for="course in filteredCourses"
-        :key="course.id"
-        :class="{'bg-light': course.selected}"
+    <div id="scroll-box">
+      <recycle-scroller
+        class="scroller"
+        :items="filteredCourses"
+        :item-size="100"
+        typeField="vscrl_type"
+        v-slot="{ item: course }"
       >
-        <CourseListing :course="course" defaultAction="toggleCourse" v-on="$listeners">
-          <template #toggleCollapseButton="{ course }">
-            <button
-              v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
-              class="btn"
-              @click.stop="courseInfoModalToggle(course)"
-            >
-              <font-awesome-icon :icon="faInfoCircle" />
-            </button>
-          </template>
-          <template
-            #collapseContent="{ course: {corequisites, prerequisites, raw_precoreqs, frequency, description} }"
+        <div class="course-listing" :class="{ 'bg-light': course.selected }">
+          <CourseListing
+            :course="course"
+            defaultAction="toggleCourse"
+            v-on="$listeners"
+            lazyLoadCollapse
           >
-            <b-modal :id="course.name" :title="course.name  + ' ' + course.title" hide-footer>
-              <span v-if="frequency">
-                Offered: {{frequency}}
-                <br />
-                <br />
-              </span>
-              <span>{{generateRequirementsText(prerequisites, corequisites, raw_precoreqs)}}</span>
-              <span v-if="description">
-                <br />
-                <br />
-                {{description}}
-              </span>
-              <br />
-              <br />
-              <b-button
-                variant="primary"
-                @click="toggleCourse(course);courseInfoModalToggle(course)"
-              >{{course.selected ? 'Remove from schedule' : 'Add to schedule'}}</b-button>
-              <b-button class="ml-2" variant="danger" @click="courseInfoModalToggle(course)">Close</b-button>
-            </b-modal>
-          </template>
-        </CourseListing>
-      </b-list-group-item>
-    </b-list-group>
+            <template #toggleCollapseButton="{ course }">
+              <button
+                v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
+                class="btn"
+                @click.stop="courseInfoModalToggle(course)"
+              >
+                <font-awesome-icon :icon="faInfoCircle" />
+              </button>
+            </template>
+            <template #collapseContent>
+              {{ null }}
+            </template>
+          </CourseListing>
+        </div>
+      </recycle-scroller>
+    </div>
   </div>
 </template>
 
@@ -84,10 +77,13 @@ import { getDepartments } from '@/services/YacsService';
 
 import CourseListingComponent from '@/components/CourseListing';
 
+import { RecycleScroller } from 'vue-virtual-scroller';
+
 export default {
   name: 'CourseList',
   components: {
-    CourseListing: CourseListingComponent
+    CourseListing: CourseListingComponent,
+    RecycleScroller
   },
   props: {
     courses: Array,
@@ -110,45 +106,8 @@ export default {
     });
   },
   methods: {
-    /**
-     * Toggle course selected state
-     * Emits removeCourse and addCourse events
-     */
-    toggleCourse(course) {
-      if (course.selected) {
-        this.$emit('removeCourse', course);
-      } else {
-        this.$emit('addCourse', course);
-      }
-    },
     courseInfoModalToggle(course) {
-      this.$root.$emit('bv::toggle::modal', course.name);
-    },
-    generateRequirementsText(prereqs, coreqs, raw) {
-      let text = [];
-      if (prereqs || coreqs) {
-        const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
-
-        text.push('Requires');
-
-        if (prereqs) {
-          text.push('completion of');
-
-          if (!same) text.push(prereqs.join(', '));
-        }
-
-        if (prereqs && coreqs) text.push(same ? 'or' : 'and');
-
-        if (coreqs) {
-          text.push('concurrent enrollment in');
-
-          text.push(coreqs.join(', '));
-        }
-      } else {
-        text.push('Requirements:', raw);
-      }
-
-      return text.join(' ');
+      this.$emit('showCourseInfo', course);
     }
   },
   computed: {
@@ -187,10 +146,22 @@ export default {
 
 <style scoped lang="scss">
 #scroll-box {
-  overflow-y: scroll !important;
-  overflow-x: hidden;
+  // overflow-y: scroll !important;
+  // overflow-x: hidden;
+  flex-grow: 1;
   flex-basis: 0px; // allows flex and scroll combo
   // flex-grow will set height during runtime
   min-height: 200px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
+}
+
+.scroller {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.course-listing {
+  height: 100px;
+  padding-top: 10px;
+  border-bottom: 1px solid #e9ecef;
 }
 </style>
