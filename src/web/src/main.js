@@ -6,7 +6,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
 import router from './routes';
-import VueCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 Vue.config.productionTip = false;
 
