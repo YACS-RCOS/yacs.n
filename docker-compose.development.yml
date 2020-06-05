@@ -34,7 +34,6 @@ services:
       - 5000:5000
     volumes:
       - ./src/api:/usr/src
-    restart: always
     environment:
       - ENV=development
       - DEBUG=True
