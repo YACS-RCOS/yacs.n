@@ -20,7 +20,12 @@
             Make Public
           </label>
         </div>
-        <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
+        <input
+          type="Submit"
+          label="submit"
+          class="btn btn-success btn-sm"
+          value="Submit"
+        />
       </form>
     </section>
     <b-spinner v-show="loading" />

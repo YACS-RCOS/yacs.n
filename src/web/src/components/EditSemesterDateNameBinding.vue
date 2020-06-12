@@ -16,9 +16,13 @@
       name="isPubliclyVisible"
       style="font-variant: small-caps;"
     >
-      <span v-show="isPublic"> Public <font-awesome-icon :icon="eye" /> </span>
+      <span v-show="isPublic">
+        Public
+        <font-awesome-icon :icon="eye" />
+      </span>
       <span v-show="!isPublic">
-        Admin Only <font-awesome-icon :icon="closedEye" />
+        Admin Only
+        <font-awesome-icon :icon="closedEye" />
       </span>
     </b-form-checkbox>
     <hr />
@@ -32,11 +36,13 @@
         <input
           type="hidden"
           name="date_start"
+          label="date_start"
           :value="standardDate(data.item.date_start)"
         />
         <input
           type="hidden"
           name="date_end"
+          label="date_end"
           :value="standardDate(data.item.date_end)"
         />
       </template>
@@ -45,6 +51,7 @@
           type="text"
           class="form-control text-dark"
           name="semester_part_name"
+          label="semester_part_name"
           v-model="inputtedSemesterPartNames[data.index]"
         />
       </template>
@@ -61,7 +68,8 @@
       @animationend="removeFeedbackClasses($event.target)"
       :disabled="isDisabled"
     >
-      Update <b-spinner class="d-none" />
+      Update
+      <b-spinner class="d-none" />
     </button>
   </form>
 </template>

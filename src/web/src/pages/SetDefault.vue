@@ -4,16 +4,18 @@
       <h2>Set Default Semester</h2>
       <div class="well well-sm"></div>
       <form @submit="onUpdate" class="form-group" method="post">
-        <label for="semester">Select default Semester: &nbsp;</label>
-        <select v-model="semester">
-          <option
-            v-for="sem in semesterOptions"
-            v-bind:value="sem.value"
-            v-bind:key="sem.text"
-          >
-            {{ sem.text }}
-          </option>
-        </select>
+        <label for="semester">
+          Select default Semester: &nbsp;
+          <select v-model="semester">
+            <option
+              v-for="sem in semesterOptions"
+              v-bind:value="sem.value"
+              v-bind:key="sem.text"
+            >
+              {{ sem.text }}
+            </option>
+          </select>
+        </label>
         <br />
         <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
       </form>
