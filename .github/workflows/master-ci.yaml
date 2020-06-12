@@ -20,7 +20,7 @@ jobs:
           PRETTIER_VERSION=$(cat package.json | \
             grep \"prettier\" | \
             tr -d '[:space:]' | \
-            awk -F: '{print substr($2, 3, length($2) - 4)}')
+            awk -F: '{print substr($2, 2, length($2) - 3)}')
             
           echo "Installing prettier @ $PRETTIER_VERSION"
           npm install --global prettier@$PRETTIER_VERSION
