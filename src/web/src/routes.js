@@ -1,33 +1,33 @@
-import VueRouter from 'vue-router';
-import AdminPage from './pages/Admin';
-import MainPage from './pages/Main';
-import UploadCsvPage from './pages/UploadCsv';
-import EditSemestersPage from './pages/EditSemesters';
+import VueRouter from "vue-router";
+import AdminPage from "./pages/Admin";
+import MainPage from "./pages/Main";
+import UploadCsvPage from "./pages/UploadCsv";
+import EditSemestersPage from "./pages/EditSemesters";
 
 var router = new VueRouter({
   routes: [
     {
-      path: '/',
+      path: "/",
       component: MainPage,
-      name: 'Schedule'
+      name: "Schedule",
     },
     {
-      path: '/Admin',
+      path: "/Admin",
       component: AdminPage,
-      name: 'Admin'
+      name: "Admin",
     },
     {
-      path: '/admin/csv',
+      path: "/admin/csv",
       component: UploadCsvPage,
-      name: 'UploadCsv'
+      name: "UploadCsv",
     },
     {
-      path: '/admin/editsemesters',
+      path: "/admin/editsemesters",
       component: EditSemestersPage,
-      name: 'EditSemesters'
-    }
+      name: "EditSemesters",
+    },
   ],
-  mode: 'history'
+  mode: "history",
 });
 
 export default router;

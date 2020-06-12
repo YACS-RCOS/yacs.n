@@ -1,6 +1,6 @@
 <template>
   <b-list-group id="selected-course-list" class="flex-grow-1" flush>
-    <div v-if="Object.keys(courses).length==0" class="no-courses">
+    <div v-if="Object.keys(courses).length == 0" class="no-courses">
       Oops! It looks like you haven't selected anything!
       <br />Please select some courses from the "Course Search" tab!
     </div>
@@ -11,18 +11,18 @@
 </template>
 
 <script>
-import '@/typedef';
+import "@/typedef";
 
-import CourseListingComponent from '@/components/CourseListing';
+import CourseListingComponent from "@/components/CourseListing";
 
 export default {
-  name: 'SelectedCourses',
+  name: "SelectedCourses",
   components: {
-    CourseListing: CourseListingComponent
+    CourseListing: CourseListingComponent,
   },
   props: {
-    courses: Object
-  }
+    courses: Object,
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
-import '@/typedef';
+import "@/typedef";
 
-import Schedule from '@/controllers/Schedule';
+import Schedule from "@/controllers/Schedule";
 
 /**
  * Manages schedules for subsemesters
@@ -51,7 +51,7 @@ class SubSemesterScheduler {
    * @param {Course} course
    */
   addCourse(course) {
-    this.schedules.forEach(s => s.addCourse(course));
+    this.schedules.forEach((s) => s.addCourse(course));
   }
 
   /**
@@ -82,7 +82,7 @@ class SubSemesterScheduler {
           // Associate results with a schedule by `index`
           scheduleSessionIndices[index] = sessionIndices;
         } catch (err) {
-          if (err.type === 'Schedule Conflict') {
+          if (err.type === "Schedule Conflict") {
             err.subsemester = this.scheduleSubsemesters[index];
             console.log(err);
             throw err;
@@ -92,9 +92,15 @@ class SubSemesterScheduler {
     }
 
     // If there are no schedule conflicts, add the sessions to the appropriate schedules
-    Object.entries(scheduleSessionIndices).forEach(([scheduleIndex, sessionIndices]) => {
-      this.schedules[scheduleIndex].addCourseSection(course, section, sessionIndices);
-    });
+    Object.entries(scheduleSessionIndices).forEach(
+      ([scheduleIndex, sessionIndices]) => {
+        this.schedules[scheduleIndex].addCourseSection(
+          course,
+          section,
+          sessionIndices
+        );
+      }
+    );
   }
 
   /**
@@ -102,7 +108,7 @@ class SubSemesterScheduler {
    * @param {CourseSection} section
    */
   removeCourseSection(section) {
-    this.schedules.forEach(s => s.removeCourseSection(section));
+    this.schedules.forEach((s) => s.removeCourseSection(section));
   }
 
   /**
@@ -110,7 +116,7 @@ class SubSemesterScheduler {
    * @param {Course} course
    */
   removeAllCourseSections(course) {
-    this.schedules.forEach(s => s.removeCourse(course));
+    this.schedules.forEach((s) => s.removeCourse(course));
   }
 }
 
