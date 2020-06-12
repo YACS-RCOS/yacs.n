@@ -36,7 +36,7 @@ run `bash build.sh` to build the schema
 **2. Run**
 
 ```bash
-npm i && FLASK_APP=src/app.py npm start
+npm i && FLASK_APP=src/api/app.py npm start
 ```
 
 You should be able to access @ `localhost:8080`
