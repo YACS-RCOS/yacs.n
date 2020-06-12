@@ -1,0 +1,39 @@
+name: Master Branch CI
+
+on:
+  push:
+    branches:
+      - master
+      - prettier_upgrade
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run prettier on src/web
+        working-directory: src/web
+        run: |
+          PRETTIER_VERSION=$(cat package.json | \
+            grep \"prettier\" | \
+            tr -d '[:space:]' | \
+            awk -F: '{print substr($2, 3, length($2) - 4)}')
+            
+          echo "Installing prettier @ $PRETTIER_VERSION"
+          npm install --global prettier@$PRETTIER_VERSION
+
+          if ! prettier --check .;
+          then
+            echo "Running prettier"
+            prettier --write .
+            echo "Committing changes" 
+            git add .
+            git commit -m "Master Branch CI Prettier"
+            git push origin
+            echo "Changes pushed"
+          else
+            echo "Files are clean"
+          fi
