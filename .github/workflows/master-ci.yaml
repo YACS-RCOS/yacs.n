@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - prettier_upgrade
 
 jobs:
   prettier:
@@ -28,11 +27,11 @@ jobs:
             npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --write
 
             echo "Setting up git"
-            git config --global user.name "Github Action - Master Branch CI - Prettier"
+            git config --global user.name "I'm a Github Action"
             git config --global user.email "beepboop@github.com"
 
             echo "Committing changes" 
-            git commit -am "Master Branch CI Prettier"
+            git commit -am "beep boop Github Action Master Branch CI Prettier hard at work"
             git push
             echo "Changes pushed"
           else
