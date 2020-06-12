@@ -1,15 +1,15 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
-  extends: ['plugin:vue/essential', 'eslint:recommended', 'prettier'],
+  extends: ["plugin:vue/essential", "eslint:recommended", "prettier"],
   ignorePatterns: ["*.min.js"],
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: "babel-eslint",
   },
   rules: {
-    'no-console': process.env.ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.ENV === 'production' ? 'error' : 'off'
-  }
+    "no-console": process.env.ENV === "production" ? "error" : "off",
+    "no-debugger": process.env.ENV === "production" ? "error" : "off",
+  },
 };

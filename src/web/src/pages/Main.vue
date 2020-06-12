@@ -51,8 +51,8 @@
           <b-form-select
             v-if="
               !loading &&
-                scheduler.scheduleSubsemesters &&
-                scheduler.scheduleSubsemesters.length > 1
+              scheduler.scheduleSubsemesters &&
+              scheduler.scheduleSubsemesters.length > 1
             "
             v-model="selectedScheduleSubsemester"
             :options="scheduler.scheduleSubsemesters"
@@ -88,7 +88,10 @@
         </b-col>
       </b-row>
     </b-container>
-    <Footer :semester="currentSemester" @changeCurrentSemester="updateCurrentSemester" />
+    <Footer
+      :semester="currentSemester"
+      @changeCurrentSemester="updateCurrentSemester"
+    />
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
@@ -121,9 +124,16 @@
           toggleCourse(courseInfoModalCourse);
           showCourseInfoModal = !showCourseInfoModal;
         "
-        >{{ courseInfoModalCourse.selected ? 'Remove from schedule' : 'Add to schedule' }}</b-button
+        >{{
+          courseInfoModalCourse.selected
+            ? "Remove from schedule"
+            : "Add to schedule"
+        }}</b-button
       >
-      <b-button class="ml-2" variant="danger" @click="showCourseInfoModal = !showCourseInfoModal"
+      <b-button
+        class="ml-2"
+        variant="danger"
+        @click="showCourseInfoModal = !showCourseInfoModal"
         >Close</b-button
       >
     </b-modal>
@@ -131,43 +141,43 @@
 </template>
 
 <script>
-import NotificationsMixin from '@/mixins/NotificationsMixin';
+import NotificationsMixin from "@/mixins/NotificationsMixin";
 
-import ScheduleComponent from '@/components/Schedule';
-import SelectedCoursesComponent from '@/components/SelectedCourses';
-import CourseListComponent from '@/components/CourseList';
-import Footer from '@/components/Footer';
+import ScheduleComponent from "@/components/Schedule";
+import SelectedCoursesComponent from "@/components/SelectedCourses";
+import CourseListComponent from "@/components/CourseList";
+import Footer from "@/components/Footer";
 
-import Schedule from '@/controllers/Schedule';
-import SubSemesterScheduler from '@/controllers/SubSemesterScheduler';
+import Schedule from "@/controllers/Schedule";
+import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
-import HeaderComponent from '@/components/Header';
+import HeaderComponent from "@/components/Header";
 
 import {
   getSubSemesters,
   getCourses,
   addStudentCourse,
   removeStudentCourse,
-  getStudentCourses
-} from '@/services/YacsService';
+  getStudentCourses,
+} from "@/services/YacsService";
 
-import { getDefaultSemester } from '@/services/AdminService';
+import { getDefaultSemester } from "@/services/AdminService";
 
-import { partition } from '@/utils';
+import { partition } from "@/utils";
 
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import moment from 'moment';
+import moment from "moment";
 
 export default {
-  name: 'MainPage',
+  name: "MainPage",
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
     Header: HeaderComponent,
-    Footer: Footer
+    Footer: Footer,
   },
   data() {
     return {
@@ -175,41 +185,46 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
       subsemesters: [],
-      currentSemester: '',
+      currentSemester: "",
       courses: [],
       loading: false,
       exportIcon: faPaperPlane,
-      ICS_DAY_SHORTNAMES: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'],
+      ICS_DAY_SHORTNAMES: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
       courseInfoModalCourse: null,
-      showCourseInfoModal: false
+      showCourseInfoModal: false,
     };
   },
   async created() {
     const querySemester = this.$route.query.semester;
     this.updateCurrentSemester(
-      querySemester && querySemester != 'null' ? querySemester : await getDefaultSemester()
+      querySemester && querySemester != "null"
+        ? querySemester
+        : await getDefaultSemester()
     );
   },
   methods: {
     async loadStudentCourses(semester) {
       this.selectedCourses = {};
-      this.userID = this.$cookies.get('userID');
+      this.userID = this.$cookies.get("userID");
 
       if (this.userID && semester) {
-        console.log('Loading user courses...');
+        console.log("Loading user courses...");
         try {
           const info = { uid: this.userID };
           var cids = await getStudentCourses(info);
           console.log(cids);
 
-          cids.forEach(cid => {
+          cids.forEach((cid) => {
             if (cid.semester == this.currentSemester) {
-              var c = this.courses.find(function(course) {
-                return course.name == cid.course_name && course.semester == cid.semester;
+              var c = this.courses.find(function (course) {
+                return (
+                  course.name == cid.course_name &&
+                  course.semester == cid.semester
+                );
               });
 
-              if (cid.crn != '-1') {
-                var sect = c.sections.find(function(section) {
+              if (cid.crn != "-1") {
+                var sect = c.sections.find(function (section) {
                   return section.crn == cid.crn;
                 });
                 sect.selected = true;
@@ -229,7 +244,7 @@ export default {
     updateDataOnNewSemester() {
       return Promise.all([
         getCourses(this.currentSemester),
-        getSubSemesters(this.currentSemester)
+        getSubSemesters(this.currentSemester),
       ]).then(([courses, subsemesters]) => {
         this.courses = courses;
         this.subsemesters = subsemesters;
@@ -239,9 +254,10 @@ export default {
         subsemesters
           .filter(
             (s, i, arr) =>
-              arr.length == 1 || !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+              arr.length == 1 ||
+              !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
           )
-          .forEach(subsemester => {
+          .forEach((subsemester) => {
             this.scheduler.addSubSemester(subsemester);
           });
 
@@ -262,9 +278,13 @@ export default {
           this._addCourseSection(course, course.sections[i]);
           break;
         } catch (err) {
-          if (err.type == 'Schedule Conflict') {
+          if (err.type == "Schedule Conflict") {
             if (i == course.sections.length - 1) {
-              this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+              this.notifyScheduleConflict(
+                course,
+                err.existingSession,
+                err.subsemester
+              );
             } else {
               continue;
             }
@@ -279,15 +299,15 @@ export default {
           name: course.name,
           semester: this.currentSemester,
           uid: this.userID,
-          cid: '-1'
+          cid: "-1",
         };
 
         addStudentCourse(info)
-          .then(response => {
+          .then((response) => {
             console.log(`Saved ${course.name}`);
             console.log(response);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -302,15 +322,15 @@ export default {
           name: course.name,
           semester: this.currentSemester,
           uid: this.userID,
-          cid: section.crn
+          cid: section.crn,
         };
 
         addStudentCourse(info)
-          .then(response => {
+          .then((response) => {
             console.log(`Saved section ${section.crn}`);
             console.log(response);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -320,8 +340,12 @@ export default {
       try {
         this._addCourseSection(course, section);
       } catch (err) {
-        if (err.type === 'Schedule Conflict') {
-          this.notifyScheduleConflict(course, err.existingSession, err.subsemester);
+        if (err.type === "Schedule Conflict") {
+          this.notifyScheduleConflict(
+            course,
+            err.existingSession,
+            err.subsemester
+          );
         }
       }
     },
@@ -335,15 +359,15 @@ export default {
           name: course.name,
           semester: this.currentSemester,
           uid: this.userID,
-          cid: null
+          cid: null,
         };
 
         removeStudentCourse(info)
-          .then(response => {
+          .then((response) => {
             console.log(`Unsaved ${course.name}`);
             console.log(response);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -351,20 +375,20 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
       if (this.userID) {
-        var name = section.department + '-' + section.level;
+        var name = section.department + "-" + section.level;
         const info = {
           name: name,
           semester: this.currentSemester,
           uid: this.userID,
-          cid: section.crn
+          cid: section.crn,
         };
 
         removeStudentCourse(info)
-          .then(response => {
+          .then((response) => {
             console.log(`Unsaved section ${section.crn}!`);
             console.log(response);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -372,7 +396,11 @@ export default {
     async updateCurrentSemester(sem) {
       this.loading = true;
       this.currentSemester = sem;
-      history.pushState(null, '', encodeURI(`/?semester=${this.currentSemester}`));
+      history.pushState(
+        null,
+        "",
+        encodeURI(`/?semester=${this.currentSemester}`)
+      );
       await this.updateDataOnNewSemester();
       await this.loadStudentCourses(this.currentSemester);
       this.loading = false;
@@ -387,7 +415,10 @@ export default {
       let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`);
       let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`);
       let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`);
-      if (d1_s.getTime() === d2_s.getTime() && d1_e.getTime() === d2_e.getTime()) {
+      if (
+        d1_s.getTime() === d2_s.getTime() &&
+        d1_e.getTime() === d2_e.getTime()
+      ) {
         return 0;
       } else if (d1_s < d2_s) {
         return -1;
@@ -425,14 +456,14 @@ export default {
       let calendarBuilder = window.ics();
       let semester;
       for (const course of Object.values(this.courses)) {
-        for (const section of course.sections.filter(s => s.selected)) {
+        for (const section of course.sections.filter((s) => s.selected)) {
           const sessionsPartitionedByStartAndEnd = partition(
             section.sessions,
             this.sortSessionsByDate
           );
           for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
             const days = sessionGroupOfSameMeetTime.map(
-              sess => this.ICS_DAY_SHORTNAMES[sess.day_of_week]
+              (sess) => this.ICS_DAY_SHORTNAMES[sess.day_of_week]
             );
             // Gets closest day to the course start date
             const firstDay = this.getClosestDay(
@@ -462,21 +493,26 @@ export default {
             calendarBuilder.addEvent(
               `${course.full_title || course.title}`,
               `${course.department}-${course.level} ${session.section}, CRN: ${session.crn}  [from YACS]`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
-              '', // session.location,
+              "", // session.location,
               new Date(`${dtStart.toDateString()} ${session.time_start}`),
               new Date(`${dtStart.toDateString()} ${session.time_end}`),
               {
-                freq: 'WEEKLY',
+                freq: "WEEKLY",
                 interval: 1,
                 until: exclusive_date_end,
-                byday: days
+                byday: days,
               }
             );
           }
         }
       }
       calendarBuilder.download(
-        `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function(_, semFirstLetter, semRest, year) {
+        `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (
+          _,
+          semFirstLetter,
+          semRest,
+          year
+        ) {
           return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
         })}_Schedule`
       );
@@ -505,26 +541,26 @@ export default {
       if (prereqs || coreqs) {
         const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
 
-        text.push('Requires');
+        text.push("Requires");
 
         if (prereqs) {
-          text.push('completion of');
+          text.push("completion of");
 
-          if (!same) text.push(prereqs.join(', '));
+          if (!same) text.push(prereqs.join(", "));
         }
 
-        if (prereqs && coreqs) text.push(same ? 'or' : 'and');
+        if (prereqs && coreqs) text.push(same ? "or" : "and");
 
         if (coreqs) {
-          text.push('concurrent enrollment in');
+          text.push("concurrent enrollment in");
 
-          text.push(coreqs.join(', '));
+          text.push(coreqs.join(", "));
         }
       } else {
-        text.push('Requirements:', raw);
+        text.push("Requirements:", raw);
       }
 
-      return text.join(' ');
+      return text.join(" ");
     },
     /**
      * Toggle course selected state
@@ -536,12 +572,12 @@ export default {
       } else {
         this.addCourse(course);
       }
-    }
+    },
   },
   computed: {
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
-        s => s.display_string === this.selectedScheduleSubsemester
+        (s) => s.display_string === this.selectedScheduleSubsemester
       );
     },
     /**
@@ -550,15 +586,15 @@ export default {
      */
     selectedCrns() {
       return Object.values(this.selectedCourses)
-        .map(c => c.sections.filter(s => s.selected))
+        .map((c) => c.sections.filter((s) => s.selected))
         .flat()
-        .map(s => s.crn)
-        .join(', ');
+        .map((s) => s.crn)
+        .join(", ");
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
-    }
-  }
+    },
+  },
 };
 </script>
 
