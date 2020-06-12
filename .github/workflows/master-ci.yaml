@@ -21,14 +21,11 @@ jobs:
             grep \"prettier\" | \
             tr -d '[:space:]' | \
             awk -F: '{print substr($2, 2, length($2) - 3)}')
-            
-          echo "Installing prettier @ $PRETTIER_VERSION"
-          npm install --global prettier@$PRETTIER_VERSION
 
-          if ! prettier --check .;
+          if ! npx prettier@$PRETTIER_VERSION . --check;
           then
             echo "Running prettier"
-            prettier --write .
+            npx prettier@$PRETTIER_VERSION . --write
             echo "Committing changes" 
             git add .
             git commit -m "Master Branch CI Prettier"
