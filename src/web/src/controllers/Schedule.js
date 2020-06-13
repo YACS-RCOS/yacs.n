@@ -1,15 +1,16 @@
-import '@/typedef';
+import "@/typedef";
 
 /**
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
  */
 class Schedule {
-  static SCHEDULE_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr'];
+  static SCHEDULE_DAYS = ["Mo", "Tu", "We", "Th", "Fr"];
   // hours indicate start (inclusive) of one hour block with exclusive end e.g. [8, 9) in ascending order
   static SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   static SCHEDULE_DAY_DURATION =
-    Schedule.SCHEDULE_HOURS[Schedule.SCHEDULE_HOURS.length - 1] - Schedule.SCHEDULE_HOURS[0];
+    Schedule.SCHEDULE_HOURS[Schedule.SCHEDULE_HOURS.length - 1] -
+    Schedule.SCHEDULE_HOURS[0];
 
   /**
    * Each sub array contains the `CourseSession`s for the corresponding entry in `SCHEDULE_DAYS`
@@ -33,8 +34,7 @@ class Schedule {
    * by matching the department and level from a CourseSection to its Course
    * @type {Array<Course>}
    */
-   selectedCourses;
-
+  selectedCourses;
 
   /**
    * Create a new `Schedule`
@@ -112,9 +112,9 @@ class Schedule {
               and ${JSON.stringify(sess)}
           `);
           throw {
-            type: 'Schedule Conflict',
+            type: "Schedule Conflict",
             existingSession: sess,
-            addingSession: newCourseSession
+            addingSession: newCourseSession,
           };
         }
       }
@@ -169,8 +169,15 @@ class Schedule {
     if (!courseSection) {
       console.warn(`Ignoring add null/undefined courseSection`);
     } else if (courseSection.sessions.length === 0) {
-      console.error(`Cannot add courseSection with no sessions ${JSON.stringify(courseSection)}`);
-    } else if (!!sessionIndices && sessionIndices.length != courseSection.sessions.length) {
+      console.error(
+        `Cannot add courseSection with no sessions ${JSON.stringify(
+          courseSection
+        )}`
+      );
+    } else if (
+      !!sessionIndices &&
+      sessionIndices.length != courseSection.sessions.length
+    ) {
       console.warning(`Provided number of checked conflicts ${sessionIndices.length}
                             does not match number of sessions ${courseSection.sessions.length},
                             ignoring..`);
@@ -206,7 +213,7 @@ class Schedule {
           additions.push({
             index: sessionIndex,
             day: courseSession.day_of_week,
-            courseSession
+            courseSession,
           });
         }
       });
@@ -277,7 +284,9 @@ class Schedule {
     if (!course) {
       console.warn(`Ignoring remove null/undefined course`);
     } else if (course.sections.length === 0) {
-      console.error(`Cannot remove course with no sections ${JSON.stringify(course)}`);
+      console.error(
+        `Cannot remove course with no sections ${JSON.stringify(course)}`
+      );
     } else {
       for (const section of course.sections) {
         this.removeCourseSection(section);
@@ -299,7 +308,7 @@ class Schedule {
    */
   addCourse(course) {
     if (!course) {
-      console.warn('Ignoring add null/undefined course');
+      console.warn("Ignoring add null/undefined course");
     } else {
       this.selectedCourses.push(course);
     }

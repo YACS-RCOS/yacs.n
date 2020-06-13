@@ -2,6 +2,7 @@
 
 ![](https://github.com/YACS-RCOS/yacs.n/workflows/CI/badge.svg)
 [![CodeFactor](https://www.codefactor.io/repository/github/yacs-rcos/yacs.n/badge)](https://www.codefactor.io/repository/github/yacs-rcos/yacs.n)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 YACS with support for multi and sub-semesters for any school
 

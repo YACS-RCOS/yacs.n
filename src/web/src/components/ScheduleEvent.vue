@@ -2,13 +2,13 @@
   <div class="schedule-event" :style="data.style">
     <div class="event-text">
       {{ props.title }}
-      <br>
+      <br />
       {{ props.name }} - {{ props.section }}
-      <br>
+      <br />
       {{ props.crn }}
-      <br>
+      <br />
       <!-- location placeholder -->
-      <br>
+      <br />
       <!-- professor placeholder -->
     </div>
   </div>

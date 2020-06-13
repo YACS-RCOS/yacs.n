@@ -1,16 +1,33 @@
 <template>
   <div>
-    <div @click="callDefaultAction()" class="d-flex w-100 justify-content-between click-me">
+    <div
+      @click="callDefaultAction()"
+      class="d-flex w-100 justify-content-between click-me"
+    >
       <div>
         <b>{{ course.name }}</b>
-        ({{ readableDate(course.date_start) }} - {{ readableDate(course.date_end) }})
+        ({{ readableDate(course.date_start) }} -
+        {{ readableDate(course.date_end) }})
         <br />
-        {{ (course.full_title && course.full_title.toUpperCase()) || course.title }}
+        {{
+          (course.full_title && course.full_title.toUpperCase()) || course.title
+        }}
       </div>
       <div class="d-flex">
-        <slot name="toggleCollapseButton" :course="course" :toggleCollapse="toggleCollapse">
-          <button class="btn" v-if="course.sections.length" @click.stop="toggleCollapse()">
-            <font-awesome-icon v-if="!this.showCollapse" :icon="faChevronDown" />
+        <slot
+          name="toggleCollapseButton"
+          :course="course"
+          :toggleCollapse="toggleCollapse"
+        >
+          <button
+            class="btn"
+            v-if="course.sections.length"
+            @click.stop="toggleCollapse()"
+          >
+            <font-awesome-icon
+              v-if="!this.showCollapse"
+              :icon="faChevronDown"
+            />
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
@@ -20,7 +37,11 @@
         </button>
       </div>
     </div>
-    <b-collapse v-if="loaded || !lazyLoadCollapse" v-model="showCollapse" :id="course.id">
+    <b-collapse
+      v-if="loaded || !lazyLoadCollapse"
+      v-model="showCollapse"
+      :id="course.id"
+    >
       <slot name="collapseContent" :course="course">
         <b-list-group flush>
           <b-list-group-item
@@ -29,20 +50,24 @@
             :key="section.crn"
             @click.stop="toggleCourseSection(section)"
             :style="{
-                'border-left': section.selected
-                  ? `4px solid ${getBorderColor(section)}`
-                  : 'none',
-                'background-color': section.selected
-                  ? `${getBackgroundColor(section)}`
-                  : 'white'
-              }"
+              'border-left': section.selected
+                ? `4px solid ${getBorderColor(section)}`
+                : 'none',
+              'background-color': section.selected
+                ? `${getBackgroundColor(section)}`
+                : 'white',
+            }"
           >
             {{ section.crn }} - {{ section.sessions[0].section }}
             <br />
 
             <span
               v-for="courseSession in section.sessions"
-              :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
+              :key="
+                courseSession.crn +
+                courseSession.day_of_week +
+                courseSession.time_start
+              "
             >
               {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
               {{ readableTime(courseSession.time_start) }} -
@@ -57,13 +82,18 @@
 </template>
 
 <script>
-import '@/typedef';
+import "@/typedef";
 
-import { DAY_SHORTNAMES, readableTime, readableDate } from '@/utils';
+import { DAY_SHORTNAMES, readableTime, readableDate } from "@/utils";
 
-import { getBackgroundColor, getBorderColor } from '@/services/ColorService';
+import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 
-import { faTimes, faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTimes,
+  faPlus,
+  faChevronDown,
+  faChevronUp,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
@@ -72,7 +102,7 @@ import { faTimes, faPlus, faChevronDown, faChevronUp } from '@fortawesome/free-s
 // 1) toggleCollapseButton { course, toggleCollapse() }
 // 2) collapseContent { course }
 export default {
-  name: 'CourseListing',
+  name: "CourseListing",
   props: {
     course: Object,
 
@@ -80,14 +110,14 @@ export default {
     // If lazyLoadCollapse is true, this is ignored
     openInitial: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // If true, do not render/add collapse content to the DOM
     // until collapse is opened
     // default false
     lazyLoadCollapse: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     // Method name of default action
@@ -97,8 +127,8 @@ export default {
     // relatively flexible
     defaultAction: {
       type: String,
-      default: 'toggleCollapse'
-    }
+      default: "toggleCollapse",
+    },
   },
   data() {
     return {
@@ -114,7 +144,7 @@ export default {
 
       // initially false, set to true on first collapse toggle
       // Used for lazy loading
-      loaded: false
+      loaded: false,
     };
   },
   methods: {
@@ -137,7 +167,8 @@ export default {
         this.loaded = true;
       }
 
-      this.showCollapse = collapse !== undefined ? collapse : !this.showCollapse;
+      this.showCollapse =
+        collapse !== undefined ? collapse : !this.showCollapse;
     },
 
     /**
@@ -146,9 +177,9 @@ export default {
      */
     toggleCourse() {
       if (this.course.selected) {
-        this.$emit('removeCourse', this.course);
+        this.$emit("removeCourse", this.course);
       } else {
-        this.$emit('addCourse', this.course);
+        this.$emit("addCourse", this.course);
       }
     },
     /**
@@ -161,12 +192,12 @@ export default {
      */
     toggleCourseSection(section) {
       if (section.selected) {
-        this.$emit('removeCourseSection', section);
+        this.$emit("removeCourseSection", section);
       } else {
-        this.$emit('addCourseSection', this.course, section);
+        this.$emit("addCourseSection", this.course, section);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

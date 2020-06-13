@@ -21,7 +21,11 @@
         <div class="day-label">{{ day.longname }}</div>
         <ScheduleEvent
           v-for="courseSession in courseSessionsOnDay(index)"
-          :key="courseSession.crn + courseSession.day_of_week + courseSession.time_start"
+          :key="
+            courseSession.crn +
+            courseSession.day_of_week +
+            courseSession.time_start
+          "
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
@@ -33,7 +37,7 @@
             backgroundColor: getBackgroundColor(courseSession),
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
-            width: dayWidth + '%'
+            width: dayWidth + '%',
           }"
         ></ScheduleEvent>
         <div
@@ -47,23 +51,27 @@
   </div>
 </template>
 <script>
-import '@/typedef';
+import "@/typedef";
 
-import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from '@/utils';
+import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from "@/utils";
 
-import { getBackgroundColor, getBorderColor, getTextColor } from '@/services/ColorService';
+import {
+  getBackgroundColor,
+  getBorderColor,
+  getTextColor,
+} from "@/services/ColorService";
 
-import Schedule from '@/controllers/Schedule';
+import Schedule from "@/controllers/Schedule";
 
-import ScheduleEventComponent from '@/components/ScheduleEvent';
+import ScheduleEventComponent from "@/components/ScheduleEvent";
 
 export default {
-  name: 'Schedule',
+  name: "Schedule",
   components: {
-    ScheduleEvent: ScheduleEventComponent
+    ScheduleEvent: ScheduleEventComponent,
   },
   props: {
-    schedule: Schedule
+    schedule: Schedule,
   },
   data() {
     return {
@@ -71,7 +79,7 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalHeight: 600
+      totalHeight: 600,
     };
   },
   methods: {
@@ -85,7 +93,8 @@ export default {
      * @returns {number}
      */
     eventHeight(courseSession) {
-      const eventDuration = toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
+      const eventDuration =
+        toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
       return this.totalHeight * (eventDuration / this.numMinutes);
     },
     /**
@@ -96,7 +105,9 @@ export default {
      */
     eventPosition(courseSession) {
       const eventStart = toMinutes(courseSession.time_start);
-      return this.totalHeight * ((eventStart - this.startTime) / this.numMinutes);
+      return (
+        this.totalHeight * ((eventStart - this.startTime) / this.numMinutes)
+      );
     },
     /**
      * Returns the `CourseSession`s in the given dayOfWeek
@@ -134,8 +145,7 @@ export default {
           return courses[index].title;
         }
       }
-    }
-
+    },
   },
   computed: {
     /**
@@ -166,7 +176,10 @@ export default {
     days() {
       const days = [];
       for (let day = this.startDay; day <= this.endDay; ++day) {
-        days.push({ longname: DAY_LONGNAMES[day], shortname: DAY_SHORTNAMES[day] });
+        days.push({
+          longname: DAY_LONGNAMES[day],
+          shortname: DAY_SHORTNAMES[day],
+        });
       }
       return days;
     },
@@ -181,8 +194,8 @@ export default {
      */
     hourHeight() {
       return (60 * 100) / this.numMinutes;
-    }
-  }
+    },
+  },
 };
 </script>
 
