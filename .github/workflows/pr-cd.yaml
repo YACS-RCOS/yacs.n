@@ -5,7 +5,40 @@ on:
     branches: [master]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run prettier on src/web
+        working-directory: src/web
+        run: |
+          PRETTIER_VERSION=$(cat package.json | \
+            grep \"prettier\" | \
+            tr -d '[:space:]' | \
+            awk -F: '{print substr($2, 2, length($2) - 3)}')
+
+          if ! npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --check;
+          then
+            echo "Running prettier"
+            npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --write
+
+            echo "Setting up git"
+            git config --global user.name "I'm a Github Action"
+            git config --global user.email "beepboop@github.com"
+
+            echo "Committing changes" 
+            git commit -am "beep boop Github Action Master Branch CI Prettier hard at work"
+            git push
+            echo "Changes pushed"
+             
+            exit 1
+          else
+            echo "Files are clean"
+          fi
+
   test_build:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
