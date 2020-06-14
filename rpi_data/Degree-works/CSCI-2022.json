@@ -1,0 +1,82 @@
+{
+    "class": 2022, 
+    "major": "csci",
+    "totalCredits": 128,
+    "requirments": [
+        {   
+            "option": "Science Option",
+            "Filed": ["ASTR", "BIOL", "CHEM", "ERTH", "ENVI" , "PHYC"],
+            "PnC": "NA",
+            "Exceptions": "ERTH 1030",
+            "Number of classes": 1
+        },
+        {
+            "option": "Mathematics Option I",
+            "Filed":  ["MATH 2010", "MATH 4030", "MATH 4040", "MATH 4100", "MATP 4600"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Mathematics Option II",
+            "Filed": ["MATH 2xxx", "MATH 4xxx"],
+            "PnC": "NA",
+            "Exceptions": "MATH 2800",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Computer Science(CS) Options",
+            "Filed":  ["CSCI 4xxx"],
+            "PnC": "NA",
+            "Exceptions": "Reading and independent study courses",
+            "Number of classes": 4
+        },
+        {
+            "option": "Computer Science Capstone",
+            "Filed": ["URP 4xxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        }
+    ],
+    
+    "Concentrations": 
+    {
+        "Courese": 3,
+        "options": 
+        [
+            {
+            "name" :"Theory and Algorithms",
+            "Filed":  ["CSCI 4020/6020", "CSCI 4030/6220", "CSCI 4040/6040", "CSCI 4100/6100", 
+                "CSCI 4110/6110", "CSCI 4120/6120", "CSCI 4150", "CSCI 4230/6230", "CSCI 4240/6240",
+                "CSCI 4250/6250", "CSCI 4260", "MATH 4150", "CSCI 4420", "PHIL 4420", "MATH 4030", 
+                "CSCI 4510/6510", "CSCI 4800", "MATH 4800", "CSCI 4820", "MATH 4820", "CSCI 496x/696x",
+                "COGS 4410", "CSCI 6800", "MATH 6800", "CSCI 6820", "MATH 6820", "CSCI 6840", 
+                "MATH 6840", "CSCI 6860", "MATH 6860", "CSCI696x", "ECSE 4170/6170", "ECSE 4850", 
+                "ECSE 496x/696x", "ECSE 6610", "MATH 4840", "MATP 4820/6610", "MATP 6640"]
+            },
+            {
+            "name" :"Systems and Software",
+            "Filed":  ["CSCI 4220", "CSCI 4310/6310", "CSCI 4320/6360", "CSCI 4380", "CSCI 4440", 
+                "CSCI 4450/6450", "CSCI 4460/6460","CSCI 4500/6500","CSCI 4510/6510","CSCI 496x",
+                "CSCI 496x/696x", "ITWS 496x","ITWS 4500","ECSE 4670","CSCI 4470", 
+                "ECSE 4740","ECSE 4770","ECSE 4780","ECSE 4790","ECSE 496x"]
+            },
+            {
+            "name": "Artificial Intelligence and Data",
+            "Filed":  ["CSCI 4100/6100","CSCI 4110/6110","CSCI 4130/6130","CSCI 4150","CSCI 4270/6270",
+                "CSCI 4340/6340","CSCI 4350/6350","ITWS 4350/6350","CSCI 4370/6370","CSCI 4380",
+                "CSCI 4390/6390","CSCI 4400/6400","CSCI 4420" ,"PHIL 4420 ","MATH 4030","CSCI 4480",
+                "ECSE 4480","CSCI 4490/6490","ECSE 4490/6490","CSCI 496x/696x","COGS 4410",
+                "ECSE 4850/496x","ECSE 496x","ECSE 6610"]
+            },
+            {
+            "name" :"Vision, Graphics, Robotics, and Games",
+            "Filed": ["CSCI 4270/6270","CSCI 4320/6360","CSCI 4480","ECSE 4480","CSCI 4490/6490",
+                "ECSE 4490/6490","CSCI 4520","CSCI 4530/6530","CSCI 4540","CSCI 4550/6550",
+                "CSCI 496x/696x","ECSE 4740","ECSE 4750/696x","ECSE4620/6620","ECSE 6650",
+                "ECSE 696x","GSAS 4550"]
+            }
+        ]
+    }
+}
