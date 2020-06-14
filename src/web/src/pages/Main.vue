@@ -81,7 +81,8 @@
                 class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
                 @click="exportScheduleToIcs"
               >
-                <font-awesome-icon :icon="exportIcon" />Export to ICS
+                <font-awesome-icon :icon="exportIcon" />
+                Export to ICS
               </button>
             </b-col>
           </b-row>
@@ -104,13 +105,15 @@
         <br />
         <br />
       </span>
-      <span>{{
-        generateRequirementsText(
-          courseInfoModalCourse.prerequisites,
-          courseInfoModalCourse.corequisites,
-          courseInfoModalCourse.raw_precoreqs
-        )
-      }}</span>
+      <span>
+        {{
+          generateRequirementsText(
+            courseInfoModalCourse.prerequisites,
+            courseInfoModalCourse.corequisites,
+            courseInfoModalCourse.raw_precoreqs
+          )
+        }}
+      </span>
       <span v-if="courseInfoModalCourse.description">
         <br />
         <br />
@@ -124,18 +127,20 @@
           toggleCourse(courseInfoModalCourse);
           showCourseInfoModal = !showCourseInfoModal;
         "
-        >{{
+      >
+        {{
           courseInfoModalCourse.selected
             ? "Remove from schedule"
             : "Add to schedule"
-        }}</b-button
-      >
+        }}
+      </b-button>
       <b-button
         class="ml-2"
         variant="danger"
         @click="showCourseInfoModal = !showCourseInfoModal"
-        >Close</b-button
       >
+        Close
+      </b-button>
     </b-modal>
   </div>
 </template>

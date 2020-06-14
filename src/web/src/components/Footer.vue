@@ -24,20 +24,23 @@
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n"
               target="_blank"
-              >Contribute (GitHub)</a
             >
+              Contribute (GitHub)
+            </a>
             <a
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n/issues/new?assignees=&labels=Feature+Request&template=feature-request.md&title=Feature+Request+—+Make+YACS+Great"
               target="_blank"
-              >Request a Feature</a
             >
+              Request a Feature
+            </a>
             <a
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n/issues/new?assignees=&labels=bug&template=bug_report.md&title=Bug+—+Someone+made+an+oopsie"
               target="_blank"
-              >Report a Bug</a
             >
+              Report a Bug
+            </a>
           </b-col>
 
           <b-col>
@@ -46,8 +49,9 @@
               class="link"
               href="http://opensource-template.wikidot.com/legal:terms-of-use"
               target="_blank"
-              >Terms of Use</a
             >
+              Terms of Use
+            </a>
             <!-- <a class="link" href=#>Cookies</a> -->
           </b-col>
           <b-col />

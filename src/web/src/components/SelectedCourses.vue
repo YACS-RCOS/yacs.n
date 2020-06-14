@@ -2,7 +2,8 @@
   <b-list-group id="selected-course-list" class="flex-grow-1" flush>
     <div v-if="Object.keys(courses).length == 0" class="no-courses">
       Oops! It looks like you haven't selected anything!
-      <br />Please select some courses from the "Course Search" tab!
+      <br />
+      Please select some courses from the "Course Search" tab!
     </div>
     <b-list-group-item v-for="course of courses" :key="course.id">
       <CourseListing :course="course" openInitial v-on="$listeners" />
