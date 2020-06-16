@@ -5,10 +5,10 @@
     "requirments": [
         {   
             "option": "Science Option",
-            "Filed": ["ASTR", "BIOL", "CHEM", "ERTH", "ENVI" , "PHYC"],
+            "Field": ["ASTRxxxx", "BIOLxxxx", "CHEMxxxx", "ERTHxxxx", "ENVIxxxx" , "PHYCxxxx"],
             "PnC": "NA",
             "Exceptions": "ERTH 1030",
-            "Number of classes": 1
+            "Number of classes": 2
         },
         {
             "option": "Mathematics Option I",
