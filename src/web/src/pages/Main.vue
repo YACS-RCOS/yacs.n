@@ -29,7 +29,9 @@
                 </b-card-text>
               </b-tab>
               <b-tab title="Explore" class="flex-grow-1 w-100">
-
+                <DepartmentList
+                  :courses="courses"
+                />
               </b-tab>
               <b-tab class="flex-grow-1">
                 <template v-slot:title>
@@ -154,6 +156,7 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
+import DepartmentListComponent from "@/components/DepartmentList";
 import Footer from "@/components/Footer";
 
 import Schedule from "@/controllers/Schedule";
@@ -184,6 +187,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
+    DepartmentList: DepartmentListComponent,
     Header: HeaderComponent,
     Footer: Footer,
   },
