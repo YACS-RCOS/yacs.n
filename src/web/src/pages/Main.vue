@@ -6,7 +6,7 @@
         <b-col md="4" class="d-flex flex-column">
           <b-card no-body class="h-100">
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-              <b-tab title="Course Search" active class="flex-grow-1 w-100">
+              <b-tab title="Search" active class="flex-grow-1 w-100">
                 <b-card-text class="d-flex flex-grow-1 w-100">
                   <div
                     v-if="loading"
@@ -28,10 +28,13 @@
                   />
                 </b-card-text>
               </b-tab>
+              <b-tab title="Explore" class="flex-grow-1 w-100">
+
+              </b-tab>
               <b-tab class="flex-grow-1">
                 <template v-slot:title>
                   <div class="text-center">
-                    Selected Courses
+                    Selected
                     <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
                   </div>
                 </template>
