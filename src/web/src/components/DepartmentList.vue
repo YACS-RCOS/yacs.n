@@ -1,15 +1,15 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
     <div id="scroll-box">
-      <recycle-scroller
-        class="scroller"
-        :items="departmentsComputed"
-        :item-size="40"
-        typeField="vscrl_type"
-        v-slot="{item: department}"
-      >
-        <h6>{{department}}</h6>
-      </recycle-scroller>
+      <div class="scroller">
+        <h6
+          v-for="department in departmentsComputed"
+          :key="department"
+          class="grid-item"
+        >
+          {{department}}
+        </h6>
+      </div>
     </div>
   </div>
 </template>
@@ -19,12 +19,9 @@ import "@/typedef";
 
 import { getDepartments } from "@/services/YacsService";
 
-import { RecycleScroller } from "vue-virtual-scroller";
-
 export default {
   name: "DepartmentList",
   components: {
-    RecycleScroller,
   },
   props: {
     courses: Array,
@@ -59,7 +56,8 @@ export default {
 }
 
 .scroller {
+  display: grid;
+  grid-template-columns: auto auto;
   height: 100%;
-  overflow-x: hidden;
 }
 </style>
