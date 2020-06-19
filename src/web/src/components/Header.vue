@@ -3,6 +3,18 @@
     <b-navbar type="light" variant="light">
       <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
       <div class="semester">{{ currentSemester }}</div>
+      <b-navbar-nav>
+        <b-nav-item>
+          <router-link :to="{ name: 'CourseScheduler' }">
+            Schedule
+          </router-link>
+        </b-nav-item>
+        <b-nav-item>
+          <router-link :to="{ name: 'CourseExplorer' }">
+            Explore
+          </router-link>
+        </b-nav-item>
+      </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID !== null">
         <b-nav-item-dropdown right>
@@ -95,7 +107,7 @@ import SignUpComponent from "@/components/SignUp";
 export default {
   name: "Header",
   props: {
-    semester: String,
+    currentSemester: String,
   },
   components: {
     SignUpForm: SignUpComponent,
@@ -114,14 +126,6 @@ export default {
       show: true,
       semesterOptions: [],
     };
-  },
-  computed: {
-    // When you assign a data var to a prop, the data var does not change on prop update (seems this is intended behavior)
-    // use computed instead to get current semester which reflects one in parent component.
-    // https://forum.vuejs.org/t/update-data-when-prop-changes-data-derived-from-prop/1517/15
-    currentSemester() {
-      return this.semester;
-    },
   },
   created() {
     this.sessionID = this.$cookies.get("sessionID");

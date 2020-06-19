@@ -1,98 +1,91 @@
 <template>
-  <div>
-    <Header class="mb-3" :semester="currentSemester"></Header>
-    <b-container fluid class="py-3 h-100">
-      <b-row class="h-100">
-        <b-col md="4" class="d-flex flex-column">
-          <b-card no-body class="h-100">
-            <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-              <b-tab title="Course Search" active class="flex-grow-1 w-100">
-                <b-card-text class="d-flex flex-grow-1 w-100">
-                  <div
-                    v-if="loading"
-                    class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                  >
-                    <b-spinner></b-spinner>
+  <b-container fluid class="py-3 h-100">
+    <b-row class="h-100">
+      <b-col md="4" class="d-flex flex-column">
+        <b-card no-body class="h-100">
+          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+            <b-tab title="Course Search" active class="flex-grow-1 w-100">
+              <b-card-text class="d-flex flex-grow-1 w-100">
+                <div
+                  v-if="loading"
+                  class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                >
+                  <b-spinner></b-spinner>
 
-                    <strong>Loading courses...</strong>
-                  </div>
-                  <CourseList
-                    v-if="!loading"
-                    @addCourse="addCourse"
-                    @removeCourse="removeCourse"
-                    @showCourseInfo="showCourseInfo"
-                    :courses="courses"
-                    :subsemesters="subsemesters"
-                    class="w-100"
-                    :selectedSemester="currentSemester"
-                  />
-                </b-card-text>
-              </b-tab>
-              <b-tab class="flex-grow-1">
-                <template v-slot:title>
-                  <div class="text-center">
-                    Selected Courses
-                    <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
-                  </div>
-                </template>
-                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                  <SelectedCourses
-                    :courses="selectedCourses"
-                    @removeCourse="removeCourse"
-                    @removeCourseSection="removeCourseSection"
-                    @addCourseSection="addCourseSection"
-                  />
-                </b-card-text>
-              </b-tab>
-            </b-tabs>
-          </b-card>
-        </b-col>
-        <b-col md="8">
-          <b-form-select
-            v-if="
-              !loading &&
-              scheduler.scheduleSubsemesters &&
-              scheduler.scheduleSubsemesters.length > 1
-            "
-            v-model="selectedScheduleSubsemester"
-            :options="scheduler.scheduleSubsemesters"
-            text-field="display_string"
-            value-field="display_string"
-          ></b-form-select>
+                  <strong>Loading courses...</strong>
+                </div>
+                <CourseList
+                  v-if="!loading"
+                  @addCourse="addCourse"
+                  @removeCourse="removeCourse"
+                  @showCourseInfo="showCourseInfo"
+                  :courses="courses"
+                  :subsemesters="subsemesters"
+                  class="w-100"
+                  :selectedSemester="currentSemester"
+                />
+              </b-card-text>
+            </b-tab>
+            <b-tab class="flex-grow-1">
+              <template v-slot:title>
+                <div class="text-center">
+                  Selected Courses
+                  <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
+                </div>
+              </template>
+              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                <SelectedCourses
+                  :courses="selectedCourses"
+                  @removeCourse="removeCourse"
+                  @removeCourseSection="removeCourseSection"
+                  @addCourseSection="addCourseSection"
+                />
+              </b-card-text>
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </b-col>
+      <b-col md="8">
+        <b-form-select
+          v-if="
+            !loading &&
+            scheduler.scheduleSubsemesters &&
+            scheduler.scheduleSubsemesters.length > 1
+          "
+          v-model="selectedScheduleSubsemester"
+          :options="scheduler.scheduleSubsemesters"
+          text-field="display_string"
+          value-field="display_string"
+        ></b-form-select>
 
-          <template v-if="scheduler.schedules">
-            <Schedule
-              v-for="(schedule, index) in scheduler.schedules"
-              :key="index"
-              :schedule="schedule"
-              v-show="selectedScheduleIndex === index"
-            />
-          </template>
-          <Schedule v-else :schedule="scheduler"></Schedule>
+        <template v-if="scheduler.schedules">
+          <Schedule
+            v-for="(schedule, index) in scheduler.schedules"
+            :key="index"
+            :schedule="schedule"
+            v-show="selectedScheduleIndex === index"
+          />
+        </template>
+        <Schedule v-else :schedule="scheduler"></Schedule>
 
-          <b-row>
-            <b-col>
-              <h5>CRNs: {{ selectedCrns }}</h5>
-            </b-col>
+        <b-row>
+          <b-col>
+            <h5>CRNs: {{ selectedCrns }}</h5>
+          </b-col>
 
-            <b-col md="4">
-              <button
-                id="export-ics-button"
-                class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
-                @click="exportScheduleToIcs"
-              >
-                <font-awesome-icon :icon="exportIcon" />
-                Export to ICS
-              </button>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-    </b-container>
-    <Footer
-      :semester="currentSemester"
-      @changeCurrentSemester="updateCurrentSemester"
-    />
+          <b-col md="4">
+            <button
+              id="export-ics-button"
+              class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
+              @click="exportScheduleToIcs"
+            >
+              <font-awesome-icon :icon="exportIcon" />
+              Export to ICS
+            </button>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
@@ -142,7 +135,7 @@
         Close
       </b-button>
     </b-modal>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -151,12 +144,9 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-import Footer from "@/components/Footer";
 
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
-
-import HeaderComponent from "@/components/Header";
 
 import {
   getSubSemesters,
@@ -165,8 +155,6 @@ import {
   removeStudentCourse,
   getStudentCourses,
 } from "@/services/YacsService";
-
-import { getDefaultSemester } from "@/services/AdminService";
 
 import { partition } from "@/utils";
 
@@ -181,8 +169,9 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
-    Header: HeaderComponent,
-    Footer: Footer,
+  },
+  props: {
+    currentSemester: String,
   },
   data() {
     return {
@@ -190,7 +179,6 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
       subsemesters: [],
-      currentSemester: "",
       courses: [],
       loading: false,
       exportIcon: faPaperPlane,
@@ -198,14 +186,6 @@ export default {
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
     };
-  },
-  async created() {
-    const querySemester = this.$route.query.semester;
-    this.updateCurrentSemester(
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester()
-    );
   },
   methods: {
     async loadStudentCourses(semester) {
@@ -398,18 +378,7 @@ export default {
           });
       }
     },
-    async updateCurrentSemester(sem) {
-      this.loading = true;
-      this.currentSemester = sem;
-      history.pushState(
-        null,
-        "",
-        encodeURI(`/?semester=${this.currentSemester}`)
-      );
-      await this.updateDataOnNewSemester();
-      await this.loadStudentCourses(this.currentSemester);
-      this.loading = false;
-    },
+
     addDays(date, days) {
       var result = new Date(date);
       result.setDate(result.getDate() + days);
@@ -598,6 +567,19 @@ export default {
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
+    },
+  },
+  watch: {
+    currentSemester: {
+      immediate: true,
+      handler(newSemester) {
+        this.loading = true;
+        history.pushState(null, "", encodeURI(`/?semester=${newSemester}`));
+
+        this.updateDataOnNewSemester()
+          .then(() => this.loadStudentCourses(newSemester))
+          .then(() => (this.loading = false));
+      },
     },
   },
 };
