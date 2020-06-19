@@ -156,11 +156,13 @@ import {
   getStudentCourses,
 } from "@/services/YacsService";
 
-import { partition } from "@/utils";
+import {
+  withinDuration,
+  generateRequirementsText,
+  exportScheduleToIcs,
+} from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-
-import moment from "moment";
 
 export default {
   name: "MainPage",
@@ -182,12 +184,16 @@ export default {
       courses: [],
       loading: false,
       exportIcon: faPaperPlane,
-      ICS_DAY_SHORTNAMES: ["MO", "TU", "WE", "TH", "FR", "SA", "SU"],
+
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
     };
   },
   methods: {
+    generateRequirementsText,
+    exportScheduleToIcs() {
+      exportScheduleToIcs(Object.values(this.selectedCourses));
+    },
     async loadStudentCourses(semester) {
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
@@ -240,7 +246,7 @@ export default {
           .filter(
             (s, i, arr) =>
               arr.length == 1 ||
-              !arr.every((o, oi) => oi == i || this.withinDuration(s, o))
+              !arr.every((o, oi) => oi == i || withinDuration(s, o))
           )
           .forEach((subsemester) => {
             this.scheduler.addSubSemester(subsemester);
@@ -297,7 +303,6 @@ export default {
           });
       }
     },
-
     _addCourseSection(course, section) {
       this.scheduler.addCourseSection(course, section);
       section.selected = true;
@@ -379,130 +384,6 @@ export default {
       }
     },
 
-    addDays(date, days) {
-      var result = new Date(date);
-      result.setDate(result.getDate() + days);
-      return result;
-    },
-    sortSessionsByDate(session1, session2) {
-      let d1_s = new Date(`Sat Apr 25 2020 ${session1.time_start}`);
-      let d2_s = new Date(`Sat Apr 25 2020 ${session2.time_start}`);
-      let d1_e = new Date(`Sat Apr 25 2020 ${session1.time_end}`);
-      let d2_e = new Date(`Sat Apr 25 2020 ${session2.time_end}`);
-      if (
-        d1_s.getTime() === d2_s.getTime() &&
-        d1_e.getTime() === d2_e.getTime()
-      ) {
-        return 0;
-      } else if (d1_s < d2_s) {
-        return -1;
-      }
-      return 1;
-    },
-    getClosestDay(fromDay, sessions) {
-      if (sessions.length) {
-        sessions.sort((session1, session2) => {
-          // In DB, days are numbered MON 0 - FRI 4
-          // In JS, days are numbered SUN 0 - SAT 6
-          // Course start date will be on a week day, JS Date, Mon 1 - Fri 5
-          // Shift the JS date range back by 1
-          if (
-            Math.abs(fromDay - 1 - session1.day_of_week) <
-            Math.abs(fromDay - 1 - session2.day_of_week)
-          ) {
-            return -1;
-          } else if (
-            Math.abs(fromDay - 1 - session1.day_of_week) >
-            Math.abs(fromDay - 1 - session2.day_of_week)
-          ) {
-            return 1;
-          }
-          return 0;
-        });
-        return sessions[0].day_of_week;
-      }
-      return -1;
-    },
-    /**
-     * Export all selected course sections to ICS
-     */
-    exportScheduleToIcs() {
-      let calendarBuilder = window.ics();
-      let semester;
-      for (const course of Object.values(this.courses)) {
-        for (const section of course.sections.filter((s) => s.selected)) {
-          const sessionsPartitionedByStartAndEnd = partition(
-            section.sessions,
-            this.sortSessionsByDate
-          );
-          for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
-            const days = sessionGroupOfSameMeetTime.map(
-              (sess) => this.ICS_DAY_SHORTNAMES[sess.day_of_week]
-            );
-            // Gets closest day to the course start date
-            const firstDay = this.getClosestDay(
-              course.date_start.getDay(),
-              sessionGroupOfSameMeetTime
-            );
-            const session = sessionGroupOfSameMeetTime[0];
-            // The dates from the DB have no timezone, so when they are
-            // cast to a JS date they're by default at time midnight 00:00:00.
-            // This will exclude all classes if they're on that final day, so bump
-            // the end date by 1 day.
-            let exclusive_date_end = new Date(course.date_end);
-            exclusive_date_end.setDate(course.date_end.getDate() + 1);
-            // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
-            // firstDay is numbered     0 MON - 4 FRI, so need to add 1 to match moment's spec
-            let dtStart = moment(course.date_start)
-              .day(firstDay + 1)
-              .toDate();
-            if (dtStart < course.date_start) {
-              // Go to NEXT week, uses the current week by default
-              dtStart = moment(course.date_start)
-                .day(firstDay + 1 + 7)
-                .toDate();
-            }
-            semester = section.semester;
-            // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
-            calendarBuilder.addEvent(
-              `${course.full_title || course.title}`,
-              `${course.department}-${course.level} ${session.section}, CRN: ${session.crn}  [from YACS]`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
-              "", // session.location,
-              new Date(`${dtStart.toDateString()} ${session.time_start}`),
-              new Date(`${dtStart.toDateString()} ${session.time_end}`),
-              {
-                freq: "WEEKLY",
-                interval: 1,
-                until: exclusive_date_end,
-                byday: days,
-              }
-            );
-          }
-        }
-      }
-      calendarBuilder.download(
-        `${semester.replace(/^(\w)(\w*?)\s?(\d+)/, function (
-          _,
-          semFirstLetter,
-          semRest,
-          year
-        ) {
-          return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
-        })}_Schedule`
-      );
-    },
-    /**
-     * Checks whether `s1` spans the entire duration of `s2`
-     * @param {Subsemester} s1
-     * @param {Subsemester} s2
-     * @returns {boolean}
-     */
-    withinDuration(s1, s2) {
-      return (
-        s1.date_start.getTime() <= s2.date_start.getTime() &&
-        s1.date_end.getTime() >= s2.date_end.getTime()
-      );
-    },
     /**
      * @param {Course} course
      */
@@ -510,32 +391,7 @@ export default {
       this.courseInfoModalCourse = course;
       this.showCourseInfoModal = true;
     },
-    generateRequirementsText(prereqs, coreqs, raw) {
-      let text = [];
-      if (prereqs || coreqs) {
-        const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
 
-        text.push("Requires");
-
-        if (prereqs) {
-          text.push("completion of");
-
-          if (!same) text.push(prereqs.join(", "));
-        }
-
-        if (prereqs && coreqs) text.push(same ? "or" : "and");
-
-        if (coreqs) {
-          text.push("concurrent enrollment in");
-
-          text.push(coreqs.join(", "));
-        }
-      } else {
-        text.push("Requirements:", raw);
-      }
-
-      return text.join(" ");
-    },
     /**
      * Toggle course selected state
      * Emits removeCourse and addCourse events
@@ -554,16 +410,17 @@ export default {
         (s) => s.display_string === this.selectedScheduleSubsemester
       );
     },
+    selectedSections() {
+      return Object.values(this.selectedCourses)
+        .map((c) => c.sections.filter((s) => s.selected))
+        .flat();
+    },
     /**
      * Returns list of CRNs for all selected sections
      * @returns {string[]}
      */
     selectedCrns() {
-      return Object.values(this.selectedCourses)
-        .map((c) => c.sections.filter((s) => s.selected))
-        .flat()
-        .map((s) => s.crn)
-        .join(", ");
+      return this.selectedSections.map((s) => s.crn).join(", ");
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
