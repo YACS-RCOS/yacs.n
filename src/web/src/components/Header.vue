@@ -2,7 +2,7 @@
   <div id="header">
     <b-navbar type="light" variant="light">
       <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
-      <div class="semester">{{ currentSemester }}</div>
+      <div class="semester">{{ selectedSemester }}</div>
       <b-navbar-nav>
         <b-nav-item>
           <router-link :to="{ name: 'CourseScheduler' }">
@@ -98,7 +98,7 @@ import SignUpComponent from "@/components/SignUp";
 export default {
   name: "Header",
   props: {
-    currentSemester: String,
+    selectedSemester: String,
   },
   components: {
     SignUpForm: SignUpComponent,

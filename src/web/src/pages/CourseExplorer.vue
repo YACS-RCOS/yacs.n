@@ -8,7 +8,7 @@
 export default {
   name: "CourseExplorer",
   props: {
-    currentSemester: String,
+    selectedSemester: String,
   },
 };
 </script>

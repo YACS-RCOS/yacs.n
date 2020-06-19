@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Header class="mb-3" :currentSemester="currentSemester"></Header>
-    <router-view :current-semester="currentSemester" />
+    <Header class="mb-3" :selectedSemester="selectedSemester"></Header>
+    <router-view :selected-semester="selectedSemester" />
     <Footer
-      :semester="currentSemester"
-      @changeCurrentSemester="updateCurrentSemester"
+      :selectedSemester="selectedSemester"
+      @changeSelectedSemester="updateSelectedSemester"
     />
   </div>
 </template>
@@ -22,20 +22,20 @@ export default {
   },
   data() {
     return {
-      currentSemester: "",
+      selectedSemester: "",
     };
   },
   async created() {
     const querySemester = this.$route.query.semester;
 
-    this.currentSemester =
+    this.selectedSemester =
       querySemester && querySemester != "null"
         ? querySemester
         : await getDefaultSemester();
   },
   methods: {
-    updateCurrentSemester(newSemester) {
-      this.currentSemester = newSemester;
+    updateSelectedSemester(newSemester) {
+      this.selectedSemester = newSemester;
     },
   },
 };

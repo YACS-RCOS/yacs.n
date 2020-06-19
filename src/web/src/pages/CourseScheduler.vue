@@ -22,7 +22,7 @@
                   :courses="courses"
                   :subsemesters="subsemesters"
                   class="w-100"
-                  :selectedSemester="currentSemester"
+                  :selectedSemester="selectedSemester"
                 />
               </b-card-text>
             </b-tab>
@@ -171,7 +171,7 @@ export default {
     CourseList: CourseListComponent,
   },
   props: {
-    currentSemester: String,
+    selectedSemester: String,
   },
   data() {
     return {
@@ -200,7 +200,7 @@ export default {
           console.log(cids);
 
           cids.forEach((cid) => {
-            if (cid.semester == this.currentSemester) {
+            if (cid.semester == this.selectedSemester) {
               var c = this.courses.find(function (course) {
                 return (
                   course.name == cid.course_name &&
@@ -228,8 +228,8 @@ export default {
     },
     updateDataOnNewSemester() {
       return Promise.all([
-        getCourses(this.currentSemester),
-        getSubSemesters(this.currentSemester),
+        getCourses(this.selectedSemester),
+        getSubSemesters(this.selectedSemester),
       ]).then(([courses, subsemesters]) => {
         this.courses = courses;
         this.subsemesters = subsemesters;
@@ -282,7 +282,7 @@ export default {
       if (this.userID) {
         const info = {
           name: course.name,
-          semester: this.currentSemester,
+          semester: this.selectedSemester,
           uid: this.userID,
           cid: "-1",
         };
@@ -305,7 +305,7 @@ export default {
       if (this.userID) {
         const info = {
           name: course.name,
-          semester: this.currentSemester,
+          semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
         };
@@ -342,7 +342,7 @@ export default {
       if (this.userID) {
         const info = {
           name: course.name,
-          semester: this.currentSemester,
+          semester: this.selectedSemester,
           uid: this.userID,
           cid: null,
         };
@@ -363,7 +363,7 @@ export default {
         var name = section.department + "-" + section.level;
         const info = {
           name: name,
-          semester: this.currentSemester,
+          semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
         };
@@ -570,7 +570,7 @@ export default {
     },
   },
   watch: {
-    currentSemester: {
+    selectedSemester: {
       immediate: true,
       handler(newSemester) {
         this.loading = true;

@@ -11,8 +11,8 @@
               v-for="option of otherSemesters"
               :key="option.text"
               class="link"
-              :disabled="option.text === semester"
-              @click="updateCurrentSemester(option.text)"
+              :disabled="option.text === selectedSemester"
+              @click="updateSelectedSemester(option.text)"
             >
               {{ option.value }}
             </a>
@@ -71,7 +71,7 @@ import { getSemesters } from "@/services/YacsService";
 export default {
   name: "Footer",
   props: {
-    semester: String,
+    selectedSemester: String,
   },
   data() {
     return {
@@ -79,9 +79,8 @@ export default {
     };
   },
   methods: {
-    updateCurrentSemester(to) {
-      console.log("in change emit of footer");
-      this.$emit("changeCurrentSemester", to);
+    updateSelectedSemester(newSemester) {
+      this.$emit("changeSelectedSemester", newSemester);
     },
   },
   computed: {
