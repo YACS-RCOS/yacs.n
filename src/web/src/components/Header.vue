@@ -28,12 +28,12 @@
       <!-- If user has not logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID === null">
         <div>
-          <b-button v-b-modal.modal-1 size="sm" variant="light">
+          <b-button v-b-modal.login-modal size="sm" variant="light">
             Log In
           </b-button>
 
           <b-button
-            v-b-modal.singup-modal
+            v-b-modal.signup-modal
             size="sm"
             variant="primary"
             class="ml-2"
@@ -41,8 +41,13 @@
             Sign Up
           </b-button>
 
-          <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In">
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-modal
+            id="login-modal"
+            ref="login-modal"
+            hide-footer
+            title="Log In"
+          >
+            <b-form @submit="onSubmit" @reset="onReset" v-if="showForm">
               <b-form-group
                 id="input-group-1"
                 label="Email address:"
@@ -72,24 +77,10 @@
               </b-form-group>
 
               <b-button type="submit" variant="primary">Submit</b-button>
-
-              <!-- <b-button :pressed.sync="showSignUp" variant="primary" id="signUpButton">Sign Up</b-button> -->
             </b-form>
-
-            <div v-if="showSignUp">
-              <SignUpForm></SignUpForm>
-              <b-button :pressed.sync="showSignUp" variant="primary">
-                Go back to Log In
-              </b-button>
-            </div>
           </b-modal>
 
-          <b-modal
-            id="singup-modal"
-            ref="singup-modal"
-            hide-footer
-            title="Sign Up"
-          >
+          <b-modal id="signup-modal" hide-footer title="Sign Up">
             <SignUpForm></SignUpForm>
           </b-modal>
         </div>
@@ -120,10 +111,9 @@ export default {
       },
 
       isLoggedIn: false,
-      showSignUp: false,
       sessionID: "",
       userName: "",
-      show: true,
+      showForm: true,
       semesterOptions: [],
     };
   },
@@ -137,9 +127,6 @@ export default {
     }
   },
   methods: {
-    toggleModal() {
-      this.$refs["modal-1"].hide();
-    },
     onSubmit(evt) {
       evt.preventDefault();
       let userInfo = this.form;
@@ -164,7 +151,7 @@ export default {
             }
           );
         });
-      this.toggleModal();
+      this.$refs["login-modal"].hide();
     },
     onReset(evt) {
       evt.preventDefault();
@@ -172,9 +159,9 @@ export default {
       this.form.email = "aaa1@wa.com";
       this.form.password = "123456";
       // Trick to reset/clear native browser form validation state
-      this.show = false;
+      this.showForm = false;
       this.$nextTick(() => {
-        this.show = true;
+        this.showForm = true;
       });
     },
     logOut() {
