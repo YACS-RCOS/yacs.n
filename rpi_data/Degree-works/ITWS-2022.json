@@ -1,0 +1,147 @@
+{
+    "class": 2022, 
+    "major": "itws",
+    "totalCredits": 128,
+    "requirments": [
+        {   
+            "Option": "Physical Science Elective",
+            "Field": ["PHYS xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "Option": "Life Science Elective",
+            "Field": ["BIOL xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {
+            "Option": "Mathematics/Science Required",
+            "Field":  ["MATH 1010", "CSCI 1200", "CSCI 1100"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 3
+        },
+        {   
+            "Option": "Mathematics Option II",
+            "Field": ["MATH xxxx"],
+            "PnC": "NA",
+            "Exceptions": "MATH 1010",
+            "Number of classes": 1
+        },
+        {   
+            "Option": "HASS Required",
+            "Field": ["ITWS-1220", "ITWS-2210"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "Option": "HASS Elective: Humanities",
+            "Field": [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "Option": "HASS Elective: Social Science",
+            "Field": [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "Option": "HASS Elective: HASS",
+            "Field": [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "Option": "Free Elective",
+            "Field":  ["xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "Option": "ITWS Core",
+            "Field":  ["CSCI-4380 ", "MGMT-4170 "],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 4
+        },
+        {   
+            "Option": "ITWS Elective",
+            "Field":  ["ITWS-1100", "ITWS-2110", "ITWS-4500", "ITWS-4310"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 4
+        },
+        {   
+            "Option": "Capstone/Thesis",
+            "Field":  ["ITWS-4100", "ITWS-4990"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Note": "TWS-4100 Information Technology and Web Science Capstone (Professional Track) or ITWS-4990 Senior Thesis (Research Track – Two Semesters)" ,
+            "Number of classes": 1
+        },
+        {
+            "Option": "Technical Tracks",
+            "Field": [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 3
+        },
+        {   
+            "Option": "Student-Selected Concentration courses",
+            "Field":  [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 6
+        },
+        {   
+            "Option": "Student-Selected Concentration Elective",
+            "Field":  [""],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        }
+    ],
+    "Technical Tracks": 
+    [
+        {
+            "Track Title" : "Computer Engineering Track",
+            "Course I": ["ECSE-2610"],
+            "Course II": ["ENGR-2350"],
+            "Course III": ["ECSE-2660"]
+        },
+        {
+            "Track Title" : "Computer Science Track",
+            "Course I": ["CSCI-2200"],
+            "Course II": ["CSCI-2300"],
+            "Course III": ["CSCI-2500"]
+        },
+        {
+            "Track Title" : "Information Systems Track",
+            "Course I": ["CSCI-2200"],
+            "Course II": ["CSCI-2500"],
+            "Course III": ["MGMT-2100", "BIOL-4200", "CSCI-2300"]
+        },
+        {
+            "Track Title" : "Web Science Track",
+            "Course I": ["ECSE-2610"],
+            "Course II": ["ENGR-2350"],
+            "Course III": ["ECSE-2660"]
+        }
+    ],
+    "Concentrations": 
+    [{
+        "Title": "Arts",
+        "Options": 
+        [
+        ]
+    }]
+}
