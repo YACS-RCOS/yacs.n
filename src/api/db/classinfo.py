@@ -233,3 +233,44 @@ class ClassInfo:
               semester_info
             ;
       """, None, True)
+
+    def get_courses_by_search(self, semester=None, search=None):
+      if semester is not None:
+        # parse search string to a format recognized by to_tsquery
+        ts_search = None if search is None else search.trim().replace(' ', ' | ')
+        return self.db_conn.execute("""
+            SELECT
+              c.department,
+              c.level,
+              concat(c.department, '-', c.level) as name,
+              max(c.title) as title,
+              c.full_title,
+              c.description,
+              c.frequency,
+              (
+                SELECT json_agg(copre.prerequisite)
+                FROM course_prerequisite copre
+                WHERE c.department=copre.department
+                  AND c.level=copre.level
+              ) AS prerequisites,
+              (
+                SELECT json_agg(coco.corequisite)
+                FROM course_corequisite coco
+                WHERE c.department=coco.department
+                  AND c.level=coco.level
+              ) AS corequisites,
+              c.raw_precoreqs,
+              c.date_start,
+              c.date_end,
+              json_agg(
+                row_to_json(section.*)
+              ) sections,
+              c.semester
+            FROM
+              course c
+            WHERE c.semester = %s
+            AND c.tsvector @@ ts_toquery(%s)
+        """, [semester], True)
+      else:
+        return None
+
