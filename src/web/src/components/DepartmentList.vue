@@ -1,15 +1,35 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
-    <div id="scroll-box">
-      <div class="scroller">
-        <h6
+    <!-- <div id="scroll-box">
+      <div class="border-left border-top scroller">
+        <b-collapse
+          accordion= "accordion"
           v-for="department in departmentsComputed"
           :key="department"
-          class="grid-item"
+          class="border-right border-bottom grid-item"
         >
-          {{department}}
-        </h6>
+          <h6 class="p-0 m-0">{{department}}</h6>
+        </b-collapse>
       </div>
+    </div> -->
+    <div
+      v-for="(department, index) in departmentsComputed"
+      :index="index"
+      :key="department"
+      role="tablist"
+    >
+      <template>
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block v-b-toggle="'accordion-' + index" variant="info">{{department}}</b-button>
+          </b-card-header>
+          <b-collapse :id="'accordion-' + index" accordion="accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>This is some tester text</b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
+      </template>
     </div>
   </div>
 </template>
@@ -34,6 +54,7 @@ export default {
   created() {
     getDepartments().then((departments) => {
       this.departments=departments;
+      console.log(this.departments[0]);
     });
   },
   computed: {
@@ -49,15 +70,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#scroll-box {
-  flex-grow: 1;
-  flex-basis: 0px;
-  min-height: 200px;
-}
-
-.scroller {
-  display: grid;
-  grid-template-columns: auto auto;
-  height: 100%;
-}
 </style>
