@@ -121,3 +121,13 @@ export const getStudentCourses = (user_info) =>
       params: user_info,
     })
     .then((res) => res.data);
+
+export const getCoursesBySearch = (semester, search) =>
+    client
+      .get("/course/search", {
+        params: {
+          semester: semester,
+          search: search,
+        }
+      })
+      .then((res) => res.data);

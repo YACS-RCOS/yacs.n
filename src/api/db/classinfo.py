@@ -242,19 +242,19 @@ class ClassInfo:
             SELECT
               c.department,
               c.level,
-              concat(c.department, '-', c.level) as name,
-              max(c.title) as title,
+              CONCAT(c.department, '-', c.level) AS name,
+              MAX(c.title) as title,
               c.full_title,
               c.description,
               c.frequency,
               (
-                SELECT json_agg(copre.prerequisite)
+                SELECT JSON_AGG(copre.prerequisite)
                 FROM course_prerequisite copre
                 WHERE c.department=copre.department
                   AND c.level=copre.level
               ) AS prerequisites,
               (
-                SELECT json_agg(coco.corequisite)
+                SELECT JSON_AGG(coco.corequisite)
                 FROM course_corequisite coco
                 WHERE c.department=coco.department
                   AND c.level=coco.level
@@ -262,15 +262,52 @@ class ClassInfo:
               c.raw_precoreqs,
               c.date_start,
               c.date_end,
-              json_agg(
+              JSON_AGG(
                 row_to_json(section.*)
               ) sections,
               c.semester
             FROM
               course c
-            WHERE c.semester = %s
-            AND c.tsvector @@ ts_toquery(%s)
-        """, [semester], True)
+            LEFT JOIN
+            (
+              SELECT
+                c1.crn,
+                c1.semester,
+                MAX(c1.department) AS department,
+                MAX(c1.level) as level,
+                JSON_AGG(
+                  row_to_json(cs.*)
+                ) sessions
+              FROM
+                course c1
+              JOIN course_session cs on
+                c1.crn = cs.crn and
+                c1.semester = cs.semester
+              GROUP BY
+                c1.crn,
+                c1.semester
+            ) section
+            ON
+              c.department = section.department and
+              c.level = section.level and
+              c.crn = section.crn
+            WHERE
+              c.semester = %s
+              AND c.tsv @@ to_tsquery(%s)
+            GROUP BY
+              c.department,
+              c.level,
+              c.date_start,
+              c.date_end,
+              c.semester,
+              c.full_title,
+              c.description,
+              c.frequency,
+              c.raw_precoreqs
+            ORDER BY
+              c.department asc,
+              c.level asc
+        """, [semester, ts_search], True)
       else:
         return None
 
