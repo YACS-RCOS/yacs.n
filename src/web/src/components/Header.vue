@@ -2,7 +2,19 @@
   <div id="header">
     <b-navbar type="light" variant="light">
       <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
-      <div class="semester">{{ currentSemester }}</div>
+      <div class="semester">{{ selectedSemester }}</div>
+      <b-navbar-nav>
+        <b-nav-item>
+          <router-link :to="{ name: 'CourseScheduler' }">
+            Schedule
+          </router-link>
+        </b-nav-item>
+        <b-nav-item>
+          <router-link :to="{ name: 'CourseExplorer' }">
+            Explore
+          </router-link>
+        </b-nav-item>
+      </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID !== null">
         <b-nav-item-dropdown right>
@@ -16,12 +28,12 @@
       <!-- If user has not logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID === null">
         <div>
-          <b-button v-b-modal.modal-1 size="sm" variant="light">
+          <b-button v-b-modal.login-modal size="sm" variant="light">
             Log In
           </b-button>
 
           <b-button
-            v-b-modal.singup-modal
+            v-b-modal.signup-modal
             size="sm"
             variant="primary"
             class="ml-2"
@@ -29,8 +41,13 @@
             Sign Up
           </b-button>
 
-          <b-modal id="modal-1" ref="modal-1" hide-footer title="Log In">
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-modal
+            id="login-modal"
+            ref="login-modal"
+            hide-footer
+            title="Log In"
+          >
+            <b-form @submit="onSubmit" @reset="onReset" v-if="showForm">
               <b-form-group
                 id="input-group-1"
                 label="Email address:"
@@ -60,24 +77,10 @@
               </b-form-group>
 
               <b-button type="submit" variant="primary">Submit</b-button>
-
-              <!-- <b-button :pressed.sync="showSignUp" variant="primary" id="signUpButton">Sign Up</b-button> -->
             </b-form>
-
-            <div v-if="showSignUp">
-              <SignUpForm></SignUpForm>
-              <b-button :pressed.sync="showSignUp" variant="primary">
-                Go back to Log In
-              </b-button>
-            </div>
           </b-modal>
 
-          <b-modal
-            id="singup-modal"
-            ref="singup-modal"
-            hide-footer
-            title="Sign Up"
-          >
+          <b-modal id="signup-modal" hide-footer title="Sign Up">
             <SignUpForm></SignUpForm>
           </b-modal>
         </div>
@@ -95,7 +98,7 @@ import SignUpComponent from "@/components/SignUp";
 export default {
   name: "Header",
   props: {
-    semester: String,
+    selectedSemester: String,
   },
   components: {
     SignUpForm: SignUpComponent,
@@ -108,20 +111,11 @@ export default {
       },
 
       isLoggedIn: false,
-      showSignUp: false,
       sessionID: "",
       userName: "",
-      show: true,
+      showForm: true,
       semesterOptions: [],
     };
-  },
-  computed: {
-    // When you assign a data var to a prop, the data var does not change on prop update (seems this is intended behavior)
-    // use computed instead to get current semester which reflects one in parent component.
-    // https://forum.vuejs.org/t/update-data-when-prop-changes-data-derived-from-prop/1517/15
-    currentSemester() {
-      return this.semester;
-    },
   },
   created() {
     this.sessionID = this.$cookies.get("sessionID");
@@ -133,9 +127,6 @@ export default {
     }
   },
   methods: {
-    toggleModal() {
-      this.$refs["modal-1"].hide();
-    },
     onSubmit(evt) {
       evt.preventDefault();
       let userInfo = this.form;
@@ -160,7 +151,7 @@ export default {
             }
           );
         });
-      this.toggleModal();
+      this.$refs["login-modal"].hide();
     },
     onReset(evt) {
       evt.preventDefault();
@@ -168,9 +159,9 @@ export default {
       this.form.email = "aaa1@wa.com";
       this.form.password = "123456";
       // Trick to reset/clear native browser form validation state
-      this.show = false;
+      this.showForm = false;
       this.$nextTick(() => {
-        this.show = true;
+        this.showForm = true;
       });
     },
     logOut() {
