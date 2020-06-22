@@ -124,10 +124,29 @@ export const getStudentCourses = (user_info) =>
 
 export const getCoursesBySearch = (semester, search) =>
     client
-      .get("/course/search", {
+      .get("/search", {
         params: {
           semester: semester,
           search: search,
-        }
+        },
       })
-      .then((res) => res.data);
+      .then(({ data }) => {
+        return data.map((c) => {
+          c.date_start = localToUTCDate(new Date(c.date_start));
+          c.date_end = localToUTCDate(new Date(c.date_end));
+  
+          // Filter out sections that are null
+          c.sections = c.sections.filter((s) => !!s);
+          // Initialize section.selected to false
+          c.sections.forEach((s) => {
+            if (s) s.selected = false;
+          });
+          // Initialize course.selected to false
+          c.selected = false;
+          // Generate id based on course content
+          c.id = _getCourseIdentifier(c);
+  
+          c.vscrl_type = c.description ? "with-info" : "without-info";
+          return c;
+        });
+      });

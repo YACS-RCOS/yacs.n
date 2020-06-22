@@ -237,7 +237,7 @@ class ClassInfo:
     def get_courses_by_search(self, semester=None, search=None):
       if semester is not None:
         # parse search string to a format recognized by to_tsquery
-        ts_search = None if search is None else search.trim().replace(' ', ' | ')
+        ts_search = None if search is None else search.strip().replace(' ', '&')
         return self.db_conn.execute("""
             SELECT
               c.department,
@@ -247,6 +247,7 @@ class ClassInfo:
               c.full_title,
               c.description,
               c.frequency,
+              ts_rank_cd(c.tsv, to_tsquery(%s)) AS rank,
               (
                 SELECT JSON_AGG(copre.prerequisite)
                 FROM course_prerequisite copre
@@ -303,11 +304,13 @@ class ClassInfo:
               c.full_title,
               c.description,
               c.frequency,
-              c.raw_precoreqs
+              c.raw_precoreqs,
+              c.tsv
             ORDER BY
-              c.department asc,
-              c.level asc
-        """, [semester, ts_search], True)
+              rank DESC,
+              c.department ASC,
+              c.level ASC
+        """, [ts_search, semester, ts_search], True)
       else:
         return None
 

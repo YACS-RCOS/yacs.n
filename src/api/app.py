@@ -162,7 +162,7 @@ def map_date_range_to_semester_part_handler():
                 return Response(error, status=500)
     return Response("Did not receive proper form data", status=500)
 
-@app.route('/api/class/search', methods=['GET'])
+@app.route('/api/search', methods=['GET'])
 def get_courses_by_search():
     semester = request.args.get("semester", default=None)
     search = request.args.get("search", default=None)
@@ -170,7 +170,7 @@ def get_courses_by_search():
         courses, error = class_info.get_courses_by_search(semester, search)
         return jsonify(courses) if not error else Response(error, status=500)
     else:
-        return Response("missing semester option", status=400)
+        return Response("missing semester option", status=500)
 
 
 # - user system api
@@ -235,7 +235,6 @@ def get_student_courses():
     info = request.args
     courses, error = course_select.get_selection(info['uid'])
     return jsonify(courses) if not error else Response(error, status=500)
-
 
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)

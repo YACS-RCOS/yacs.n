@@ -35,7 +35,7 @@
     <div id="scroll-box">
       <recycle-scroller
         class="scroller"
-        :items="filteredCourses"
+        :items="courseList"
         :item-size="100"
         typeField="vscrl_type"
         v-slot="{ item: course }"
@@ -77,7 +77,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments } from "@/services/YacsService";
+import { getDepartments, getCoursesBySearch } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -102,6 +102,7 @@ export default {
       selectedSubsemester: null,
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
+      courseList: [],
     };
   },
   created() {
@@ -113,6 +114,14 @@ export default {
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
+  },
+  watch: {
+    textSearch: function (newSearch) {
+      getCoursesBySearch(this.selectedSemester, newSearch).then((course_list) => {
+        console.log(course_list);
+        this.courseList = course_list;
+      });
+    }
   },
   computed: {
     subsemesterOptions() {
