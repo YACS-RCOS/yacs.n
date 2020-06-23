@@ -1,23 +1,68 @@
 <template>
-  <div>Hi im the course explorer with {{ this.courses.length }} courses</div>
+  <div class="gridContainer w-100">
+    <div
+      v-for="n in 6"
+      :key="n"
+      class="departmentBox"
+    >
+
+    </div>
+  </div>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
+//import DepartmentListComponenet from "@/components/DepartmentList";
 export default {
   name: "CourseExplorer",
+  components: {
+    //DepartmentList: DepartmentListComponenet,
+  },
   props: {
     selectedSemester: String,
   },
   data() {
     return {
-      courses: [],
+      //an object with keys being the dept, and values a list of courses
+      deptClassDict: {},
     };
   },
   async created() {
-    this.courses = await getCourses(this.selectedSemester);
+    getCourses(this.selectedSemester).then((courses) => {
+      for(let c of courses){
+        if(this.deptClassDict[c.department]){
+          this.deptClassDict[c.department].push(c);
+        }else{
+          this.deptClassDict[c.department] = [c];
+        }
+      }
+      console.log(this.deptClassDict);
+    });
+  },
+  computed: {
+    coursesChunked() {
+      let arr = this.depClassDict.keys();
+      var chunkedArr = [];
+      var noOfChunks = Math.ceil(arr.length/6);
+      console.log(noOfChunks);
+      for(var i=0; i<noOfChunks; i++){
+        chunkedArr.push(arr.slice(i*6, (i+1)*6));
+      }
+      return chunkedArr;
+    }
   },
 };
 </script>
 
-<style></style>
+<style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: space-around;
+  align-content: center;
+}
+
+.departmentBox {
+  width: 100%;
+}
+</style>
