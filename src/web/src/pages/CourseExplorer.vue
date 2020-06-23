@@ -1,22 +1,22 @@
 <template>
-  <div class="gridContainer w-100">
-    <div
-      v-for="n in 6"
-      :key="n"
-      class="departmentBox"
-    >
-
-    </div>
+  <div v-if="ready" class="gridContainer w-100">
+      <div
+        v-for="n in 6"
+        :key="n"
+        class="departmentBox m-2 bg-secondary"
+      >
+        <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
+      </div>
   </div>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
-//import DepartmentListComponenet from "@/components/DepartmentList";
+import DepartmentListComponenet from "@/components/DepartmentList";
 export default {
   name: "CourseExplorer",
   components: {
-    //DepartmentList: DepartmentListComponenet,
+    DepartmentList: DepartmentListComponenet,
   },
   props: {
     selectedSemester: String,
@@ -25,6 +25,7 @@ export default {
     return {
       //an object with keys being the dept, and values a list of courses
       deptClassDict: {},
+      ready: false,
     };
   },
   async created() {
@@ -36,15 +37,14 @@ export default {
           this.deptClassDict[c.department] = [c];
         }
       }
-      console.log(this.deptClassDict);
+      this.ready = true;
     });
   },
   computed: {
     coursesChunked() {
-      let arr = this.depClassDict.keys();
-      var chunkedArr = [];
-      var noOfChunks = Math.ceil(arr.length/6);
-      console.log(noOfChunks);
+      let arr = Object.keys(this.deptClassDict);
+      let chunkedArr = [];
+      let noOfChunks = Math.ceil(arr.length/6);
       for(var i=0; i<noOfChunks; i++){
         chunkedArr.push(arr.slice(i*6, (i+1)*6));
       }
@@ -63,6 +63,6 @@ export default {
 }
 
 .departmentBox {
-  width: 100%;
+  width: 15rem;
 }
 </style>

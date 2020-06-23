@@ -1,22 +1,31 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
     <div
-      v-for="(department, index) in departmentsComputed"
+      v-for="(major, index) in majors"
       :index="index"
-      :key="department"
+      :key="major"
       role="tablist"
     >
       <template>
-        <b-card no-body class="mb-1">
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block v-b-toggle="'accordion-' + index" variant="info">{{department}}</b-button>
+        <div class="p-2 mb-1 w-100">
+          <b-card-header header-tag="header" class="border-0 p-1" role="tab">
+            <b-button
+              block v-b-toggle="id + 'accordion-' + index"
+              variant="info"
+            >
+              {{major}}
+            </b-button>
           </b-card-header>
-          <b-collapse :id="'accordion-' + index" accordion="accordion" role="tabpanel">
+          <b-collapse
+            :id="id + 'accordion-' + index"
+            accordion="accordion"
+            role="tabpanel"
+          >
             <b-card-body>
               <b-card-text>This is some tester text</b-card-text>
             </b-card-body>
           </b-collapse>
-        </b-card>
+        </div>
       </template>
     </div>
   </div>
@@ -30,17 +39,10 @@ export default {
   components: {
   },
   props: {
-    courses: Array,
-    departments: Array,
+    majors: Array,
+    id: Number,
   },
   computed: {
-    departmentsComputed() {
-      let titlelist = [];
-      for(let i = 0; i < this.departments.length; i++){
-        titlelist.push(this.departments[i].department);
-      }
-      return titlelist;
-    },
   },
 };
 </script>
