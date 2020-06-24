@@ -8,14 +8,13 @@
     >
       <template>
         <div class="p-2 mb-1 w-100">
-          <b-card-header header-tag="header" class="border-0 p-1" role="tab">
-            <b-button
-              block v-b-toggle="id + 'accordion-' + index"
-              variant="info"
-            >
-              {{major}}
-            </b-button>
-          </b-card-header>
+          <b-button
+            squared v-b-toggle="id + 'accordion-' + index"
+            variant="light"
+            class="major-button m-0 ml-2"
+          >
+            {{major}}
+          </b-button>
           <b-collapse
             :id="id + 'accordion-' + index"
             accordion="accordion"
@@ -48,4 +47,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.major-button {
+  display: inline;
+  background: white;
+  border-style: none;
+  text-align: justify;
+  width: 95%
+}
+
+.major-button:hover {
+  //important because when you click the color changes and thats annoying
+  background: rgba(108, 90, 90, 0.15) !important;
+}
 </style>

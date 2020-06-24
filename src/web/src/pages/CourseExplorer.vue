@@ -1,15 +1,15 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100">
+  <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <b-col>
         <b-row
           v-for="n in 3"
           :key="n"
-          class="departmentBox border m-2"
+          class="departmentBox border m-2 mb-4"
         >
           <b-col>
-            <b-row>
-              <h2>School Name (i.e. HASS)</h2>
+            <b-row class="school-name">
+              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
             </b-row>
             <b-row>
               <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
@@ -21,11 +21,11 @@
         <b-row
           v-for="n in 3"
           :key="n"
-          class="departmentBox border m-2"
+          class="departmentBox border m-2 mb-4"
         >
           <b-col>
-            <b-row>
-              <h2>School Name (i.e. HASS)</h2>
+            <b-row class="school-name">
+              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
             </b-row>
             <b-row>
               <DepartmentList :majors="coursesChunked[n+2]" :id="n+2"></DepartmentList>
@@ -91,7 +91,12 @@ export default {
 
 .departmentBox {
   width: 30rem;
-  box-shadow: 5px 5px #888888;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
+}
+
+.school-name {
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
 </style>
