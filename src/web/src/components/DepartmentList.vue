@@ -22,7 +22,7 @@
             role="tabpanel"
           >
             <b-card-body>
-              <b-card-text>This is some tester text</b-card-text>
+              <b-card-text>TODO: Insert Major's Classes</b-card-text>
             </b-card-body>
           </b-collapse>
         </div>

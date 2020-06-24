@@ -1,15 +1,39 @@
 <template>
   <div v-if="ready" class="gridContainer w-100">
-      <div
-        v-for="n in 6"
-        :key="n"
-        class="departmentBox border m-2"
-      >
-        <template>
-          <h1>Engineering</h1>
-          <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
-        </template>
-      </div>
+    <b-row>
+      <b-col>
+        <b-row
+          v-for="n in 3"
+          :key="n"
+          class="departmentBox border m-2"
+        >
+          <b-col>
+            <b-row>
+              <h2>School Name (i.e. HASS)</h2>
+            </b-row>
+            <b-row>
+              <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col>
+        <b-row
+          v-for="n in 3"
+          :key="n"
+          class="departmentBox border m-2"
+        >
+          <b-col>
+            <b-row>
+              <h2>School Name (i.e. HASS)</h2>
+            </b-row>
+            <b-row>
+              <DepartmentList :majors="coursesChunked[n+2]" :id="n+2"></DepartmentList>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
