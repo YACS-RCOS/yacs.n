@@ -3,9 +3,12 @@
       <div
         v-for="n in 6"
         :key="n"
-        class="departmentBox m-2 bg-secondary"
+        class="departmentBox border m-2"
       >
-        <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
+        <template>
+          <h1>Engineering</h1>
+          <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
+        </template>
       </div>
   </div>
 </template>
@@ -58,11 +61,13 @@ export default {
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
-  justify-content: space-around;
+  justify-content: center;
   align-content: center;
 }
 
 .departmentBox {
-  width: 15rem;
+  width: 30rem;
+  box-shadow: 5px 5px #888888;
+  text-align: center;
 }
 </style>
