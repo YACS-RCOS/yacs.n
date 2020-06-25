@@ -40,6 +40,7 @@
 <script>
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
+
 export default {
   name: "CourseExplorer",
   components: {
@@ -80,6 +81,7 @@ export default {
   },
 };
 </script>
+
 
 <style>
 .gridContainer {
