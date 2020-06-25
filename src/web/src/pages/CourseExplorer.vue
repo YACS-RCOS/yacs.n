@@ -60,7 +60,7 @@ export default {
   },
   async created() {
     getCourses(this.selectedSemester).then((courses) => {
-      for (let c of courses) {
+      for (const c of courses) {
         if (this.deptClassDict[c.department]) {
           this.deptClassDict[c.department].push(c);
         } else {
@@ -72,9 +72,9 @@ export default {
   },
   computed: {
     coursesChunked() {
-      let arr = Object.keys(this.deptClassDict);
-      let chunkedArr = [];
-      let noOfChunks = Math.ceil(arr.length / 6);
+      const arr = Object.keys(this.deptClassDict);
+      const chunkedArr = [];
+      const noOfChunks = Math.ceil(arr.length / 6);
       for (var i = 0; i < noOfChunks; i++) {
         chunkedArr.push(arr.slice(i * 6, (i + 1) * 6));
       }
