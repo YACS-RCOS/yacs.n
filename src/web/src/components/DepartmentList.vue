@@ -31,12 +31,10 @@ import "@/typedef";
 
 export default {
   name: "DepartmentList",
-  components: {},
   props: {
     majors: Array,
     id: Number,
   },
-  computed: {},
 };
 </script>
 
