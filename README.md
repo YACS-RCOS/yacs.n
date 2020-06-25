@@ -6,7 +6,6 @@
 
 YACS with support for multi and sub-semesters for any school
 
-
 ## YACS at your school?
 
 Clone the repo and
