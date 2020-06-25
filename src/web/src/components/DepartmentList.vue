@@ -9,11 +9,12 @@
       <template>
         <div class="p-2 mb-1 w-100">
           <b-button
-            squared v-b-toggle="id + 'accordion-' + index"
+            squared
+            v-b-toggle="id + 'accordion-' + index"
             variant="light"
             class="major-button m-0 ml-2"
           >
-            {{major}}
+            {{ major }}
           </b-button>
           <b-collapse
             :id="id + 'accordion-' + index"
@@ -35,14 +36,12 @@ import "@/typedef";
 
 export default {
   name: "DepartmentList",
-  components: {
-  },
+  components: {},
   props: {
     majors: Array,
     id: Number,
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
 
@@ -52,7 +51,7 @@ export default {
   background: white;
   border-style: none;
   text-align: justify;
-  width: 95%
+  width: 95%;
 }
 
 .major-button:hover {

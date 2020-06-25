@@ -2,33 +2,31 @@
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <b-col>
-        <b-row
-          v-for="n in 3"
-          :key="n"
-          class="departmentBox border m-2 mb-4"
-        >
+        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
               <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
             </b-row>
             <b-row>
-              <DepartmentList :majors="coursesChunked[n-1]" :id="n"></DepartmentList>
+              <DepartmentList
+                :majors="coursesChunked[n - 1]"
+                :id="n"
+              ></DepartmentList>
             </b-row>
           </b-col>
         </b-row>
       </b-col>
       <b-col>
-        <b-row
-          v-for="n in 3"
-          :key="n"
-          class="departmentBox border m-2 mb-4"
-        >
+        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
               <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
             </b-row>
             <b-row>
-              <DepartmentList :majors="coursesChunked[n+2]" :id="n+3"></DepartmentList>
+              <DepartmentList
+                :majors="coursesChunked[n + 2]"
+                :id="n + 3"
+              ></DepartmentList>
             </b-row>
           </b-col>
         </b-row>
@@ -58,10 +56,10 @@ export default {
   },
   async created() {
     getCourses(this.selectedSemester).then((courses) => {
-      for(let c of courses){
-        if(this.deptClassDict[c.department]){
+      for (let c of courses) {
+        if (this.deptClassDict[c.department]) {
           this.deptClassDict[c.department].push(c);
-        }else{
+        } else {
           this.deptClassDict[c.department] = [c];
         }
       }
@@ -72,16 +70,15 @@ export default {
     coursesChunked() {
       let arr = Object.keys(this.deptClassDict);
       let chunkedArr = [];
-      let noOfChunks = Math.ceil(arr.length/6);
-      for(var i=0; i<noOfChunks; i++){
-        chunkedArr.push(arr.slice(i*6, (i+1)*6));
+      let noOfChunks = Math.ceil(arr.length / 6);
+      for (var i = 0; i < noOfChunks; i++) {
+        chunkedArr.push(arr.slice(i * 6, (i + 1) * 6));
       }
       return chunkedArr;
-    }
+    },
   },
 };
 </script>
-
 
 <style>
 .gridContainer {
