@@ -28,7 +28,7 @@
               <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
             </b-row>
             <b-row>
-              <DepartmentList :majors="coursesChunked[n+2]" :id="n+2"></DepartmentList>
+              <DepartmentList :majors="coursesChunked[n+2]" :id="n+3"></DepartmentList>
             </b-row>
           </b-col>
         </b-row>
