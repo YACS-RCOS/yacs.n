@@ -33,6 +33,10 @@
       </b-col>
     </b-row>
   </div>
+  <div v-else>
+    <b-spinner></b-spinner>
+    <strong class="m-2">Loading courses...</strong>
+  </div>
 </template>
 
 <script>
