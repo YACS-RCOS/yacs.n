@@ -1,11 +1,6 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
-    <div
-      v-for="(major, index) in majors"
-      :index="index"
-      :key="major"
-      role="tablist"
-    >
+    <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
         <div class="p-2 mb-1 w-100">
           <b-button
