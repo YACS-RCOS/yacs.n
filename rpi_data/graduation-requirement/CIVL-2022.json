@@ -1,0 +1,150 @@
+{
+    "class": 2022, 
+    "major": "CIVL",
+    "totalCredits": 128,
+    "requirments": [
+        {
+            "option": "Mathematics Core",
+            "Field":  ["MATH 1010", "MATH 1020", "MATH 2400"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 3
+        },
+        {   
+            "option": "Physics Option I",
+            "Field": ["PHYS 1100"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Chemistry Option I",
+            "Field": ["CHEM 1100", "CHEM 1110"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Physics Option II",
+            "Field": ["PHYS 1200", "PHYS1250"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Communication-Intensive",
+            "Field":  ["COMM xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "option": "HASS-Social science elective",
+            "Field":  ["xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "option": "HASS-Humanity elective",
+            "Field":  ["HASS xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {   
+            "option": "HASS-4000 level elective",
+            "Field":  ["HASS 4xxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "HASS - Professional development",
+            "Field":  ["HASS 4xxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Free Elective",
+            "Field":  ["xxxx"],
+            "PnC": "Yes",
+            "Exceptions": "NA",
+            "Number of classes": 3
+        },
+        {   
+            "option": "Engineering Core - Required",
+            "Field":  ["ENGR 1100", "ENGR 2600", "ENGR 4010"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 3
+        },
+        {   
+            "option": "Engineering Core - Engineering Graphics & CAD",
+            "Field":  ["CIVL 1200", "ENGR 1200" , "ENGR 1400"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Engineering Core - 1-Credit Engineering Introductory Course",
+            "Field":  ["ENGR 1300", "CHME 1010", "CIVL 1100",  "ISYE 1100", "MANE 1100", "MTLE 1200"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Engineering Core - Intro to Engineering Design",
+            "Field":  ["ENGR 2050"],
+            "PnC": "NA",
+            "Exceptions": "( 4 Credits in ENGR 2050* ) or ( 3 Credits in ENGR 2050* and 1010 )",
+            "Number of classes": 1
+        },
+        {   
+            "option": "Engineering Core - Beginning Programming for Engineering or Comp Sci I",
+            "Field":  ["CSCI 1190","CSCI 1100"],
+            "PnC": "NA",
+            "Exceptions": "( 4 Credits in ENGR 2050* ) or ( 3 Credits in ENGR 2050* and 1010 )",
+            "Number of classes": 1
+        },
+        {
+            "option": "Civil Engineering Major Requirements - Required",
+            "Field": ["ENGR 2090*", "ENGR 2250*", "ENGR 2530*", "CIVL 2030", "CIVL 2630*", 
+                        "CIVL 2670*", "ENVE 2110*"," MATH 2010", "CIVL 4920"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 9
+        },
+        {
+            "option": "Civil Engineering Major Requirements - CE Design Elective ",
+            "Field": [ "CIVL 4010*", "CIVL 4070*", "CIVL 4080*", "CIVL 4140", "CIVL 4150", "CIVL 4620*",
+                 "CIVL 4640*", "CIVL 4660*", "CIVL 4670", "ENVE 4200", "ENVE 4330*", "ENVE 4340*", "ENVE 4350*"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 2
+        },
+        {
+            "option": "Civil Engineering Major Requirements - CE Technical Elective ",
+            "Field": [ "CIVL 2040", "CIVL 4010*", "CIVL 4070*", "CIVL 4080*", "CIVL 4140", "CIVL 4150",
+                 "CIVL 4240*", "CIVL 4270", "CIVL 4440*", "CIVL 4620*", "CIVL 4640*", "CIVL 4660*", 
+                 "CIVL 4670", "CIVL 4110", "ENEV 4200", "ENEV 4330*", "ENEV 4340*", "ENEV 4350*", 
+                 "ENEV 2120*", "ERTH 2330*", "ERTH 4710*", "ERTH 4800*"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        },
+        {
+            "option": "Civil Engineering Major Requirements - Math & Science Elective",
+            "Field": ["MATH xxxx", "HASS xxxx"],
+            "PnC": "NA",
+            "Exceptions": "NA",
+            "Number of classes": 1
+        }
+    ],
+    
+    "Concentrations": 
+    {
+        "exist": "NA"
+    }
+}
