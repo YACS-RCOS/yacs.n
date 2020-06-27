@@ -1,0 +1,86 @@
+{
+    "Topics":
+    [
+        {
+            "Topic" :"Artificial Intelligence",
+            "requirments": [
+                {
+                    "option": "Pathway Course I",
+                    "Field":  ["IHSS 1140", "IHSS 1972", "IHSS 1235"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 1
+                },
+                {
+                    "option": "Pathway Course II",
+                    "Field":  ["COGS 2120"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 1
+                },
+                {
+                    "option": "Pathway Course III",
+                    "Field":  ["COGS 4210","COGS 4410","COGS 4420","COGS 4640", "COGS 4880" ,"COGS 4960", 
+                            "COGS 4960","PHIL 4960" ],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 1
+                }
+            ],
+            "Compatible minors": ["Cognitive Science of Artificial Intelligence"]
+        },
+        {
+            "Topic" :"Arts History, Theory, and Criticism",
+            "requirments": [
+                {
+                    "option": "Pathway Course I",
+                    "Field":  ["ARTS 1050","IHSS 1080","IHSS 1300","IHSS 1170","IHSS 1700","IHSS 1965","IHSS 1960"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 1
+                },
+                {
+                    "option": "Pathway Course II",
+                    "Field":  ["ARTS 2500","ARTS 2540","ARTS 4130"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 2
+                }                
+            ],
+            "Compatible minors": ["NA"]
+        },
+        {
+            "Topic" :"Artificial Intelligence",
+            "requirments": [
+                {
+                    "option": "Pathway Course I",
+                    "Field":  ["PSYC 1200"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 1
+                },
+                {
+                    "option": "Pathway Course II",
+                    "Field":  ["IHSS 19XX","PSYC 4320/COGS","PSYC 4330/COGS","PSYC 4500","PSYC 4600/COGS","PSYC 4610/COGS","PSYC 4700/COGS"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 2
+                }
+            ],
+            "Compatible minors": ["Behavioral and Cognitive Neuroscience"]
+        },
+        {
+            "Topic" :"Artificial Intelligence",
+            "requirments": [
+                {
+                    "option": "Pathway Course I",
+                    "Field":  ["LANG 1010","LANG 2340","LANG 4420","LANG 4430","LANG 4470"],
+                    "PnC": "NA",
+                    "Exceptions": "NA",
+                    "Number of classes": 3
+                }
+            ],
+            "Compatible minors": ["Chinese Language"]
+        }
+    ]
+}
