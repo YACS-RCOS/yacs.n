@@ -102,7 +102,7 @@ export default {
       selectedSubsemester: null,
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
-      courseList: [],
+      courseList: this.courses,
     };
   },
   created() {
@@ -117,9 +117,13 @@ export default {
   },
   watch: {
     textSearch: function (newSearch) {
+      if (newSearch === "") {
+        this.courseList = this.courses;
+        return;
+      }
       getCoursesBySearch(this.selectedSemester, newSearch).then((course_list) => {
-        console.log(course_list);
         this.courseList = course_list;
+        console.log(this.courseList);
       });
     }
   },
@@ -136,29 +140,7 @@ export default {
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
-    },
-    /**
-     * Returns a list of courses that match the selected filters
-     * @returns {Course[]}
-     */
-    filteredCourses() {
-      return this.courses.filter(
-        ({ date_start, date_end, department, title, semester }) => {
-          return (
-            (!this.selectedSubsemester ||
-              (this.selectedSubsemester.date_start.getTime() ===
-                date_start.getTime() &&
-                this.selectedSubsemester.date_end.getTime() ===
-                  date_end.getTime())) &&
-            (!this.selectedDepartment ||
-              this.selectedDepartment === department) &&
-            (!this.textSearch ||
-              title.includes(this.textSearch.toUpperCase())) &&
-            this.selectedSemester === semester
-          );
-        }
-      );
-    },
+    }
   },
 };
 </script>

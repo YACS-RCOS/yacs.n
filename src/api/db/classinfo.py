@@ -243,11 +243,11 @@ class ClassInfo:
               c.department,
               c.level,
               CONCAT(c.department, '-', c.level) AS name,
-              MAX(c.title) as title,
+              MAX(c.title) AS title,
               c.full_title,
               c.description,
               c.frequency,
-              ts_rank_cd(c.tsv, to_tsquery(%s)) AS rank,
+              MAX(c.ts_rank) AS ts_rank,
               (
                 SELECT JSON_AGG(copre.prerequisite)
                 FROM course_prerequisite copre
@@ -268,7 +268,13 @@ class ClassInfo:
               ) sections,
               c.semester
             FROM
-              course c
+            (
+              SELECT 
+                *,
+                ts_rank_cd(course.tsv, to_tsquery(%(search)s)) AS ts_rank
+              FROM
+                course
+            ) AS c
             LEFT JOIN
             (
               SELECT
@@ -293,8 +299,8 @@ class ClassInfo:
               c.level = section.level and
               c.crn = section.crn
             WHERE
-              c.semester = %s
-              AND c.tsv @@ to_tsquery(%s)
+              c.semester = %(semester)s
+              AND c.tsv @@ to_tsquery(%(search)s)
             GROUP BY
               c.department,
               c.level,
@@ -304,13 +310,15 @@ class ClassInfo:
               c.full_title,
               c.description,
               c.frequency,
-              c.raw_precoreqs,
-              c.tsv
+              c.raw_precoreqs
             ORDER BY
-              rank DESC,
-              c.department ASC,
-              c.level ASC
-        """, [ts_search, semester, ts_search], True)
+              ts_rank DESC,
+              department ASC,
+              level ASC            
+        """, {
+          'search': ts_search,
+          'semester': semester
+        }, True)
       else:
         return None
 
