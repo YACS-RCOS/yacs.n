@@ -115,7 +115,8 @@ class Courses:
                                     department,
                                     level,
                                     title,
-                                    raw_precoreqs
+                                    raw_precoreqs,
+                                    tsv
                                 )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
@@ -129,7 +130,13 @@ class Courses:
                                 NULLIF(%(Department)s, ''),
                                 %(Level)s,
                                 NULLIF(%(Title)s, ''),
-                                NULLIF(%(RawPrecoreqText)s, '')
+                                NULLIF(%(RawPrecoreqText)s, ''),
+                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') || 
+                                setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') || 
+                                setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') || 
+                                setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') || 
+                                setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') || 
+                                setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
