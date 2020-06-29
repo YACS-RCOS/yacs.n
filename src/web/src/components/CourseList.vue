@@ -124,7 +124,7 @@ export default {
   },
   watch: {
     textSearch: function (newSearch) {
-      if (newSearch === "") {
+      if (newSearch.length === 0) {
         this.courseList = this.courses;
         return;
       }
@@ -150,6 +150,8 @@ export default {
     // return a list of the titles of each course.
     mapCourseNames() {
       return this.courseList
+        .filter(course => this.selectedDepartment === null ||
+          course.department === this.selectedDepartment)
         .map((course) => {
           if (course.full_title !== null) return course.full_title;
           else return course.title;
@@ -158,12 +160,12 @@ export default {
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
-      console.log(this.selectedDepartment)
       let filtered = this.courseList
         .filter(course => (course.full_title !== null && 
           course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase());
-      if (filtered.length === 1) return filtered;
+      if (filtered.length === 1 && (this.selectedDepartment === null || 
+        (filtered[0].department === this.selectedDepartment))) return filtered;
       else return this.courseList
         .filter(course => this.selectedDepartment === null ||
           course.department === this.selectedDepartment
