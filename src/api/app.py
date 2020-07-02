@@ -169,8 +169,7 @@ def get_courses_by_search():
     if semester:
         courses, error = class_info.get_courses_by_search(semester, search)
         return jsonify(courses) if not error else Response(error, status=500)
-    else:
-        return Response("missing semester option", status=500)
+    return Response("missing semester option", status=500)
 
 
 # - user system api

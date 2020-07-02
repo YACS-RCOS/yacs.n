@@ -10,5 +10,5 @@ def test_get_classes_full(class_info):
     assert len(crns) == len(set(crns))
 
 def test_get_classes_by_search(class_info):
-    (_, err) = class_info.get_courses_by_search()
-    assert err == None
+    (classes, err) = class_info.get_courses_by_search(semester="FALL 2020", search="CSCI")
+    assert len(classes) > 0

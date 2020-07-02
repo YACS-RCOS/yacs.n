@@ -407,6 +407,4 @@ class ClassInfo:
           'searchAny': '%' + search + '%',
           'semester': semester
         }, True)
-      else:
-        return None
-
+      return None
