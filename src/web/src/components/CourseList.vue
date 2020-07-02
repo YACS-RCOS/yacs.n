@@ -9,10 +9,10 @@
           placeholder="Intro to College - COLG 1030"
           list="list-id"
         ></b-form-input>
-        <b-form-datalist 
+        <b-form-datalist
           id="list-id"
           :options="mapCourseNames"
-          :select-size=10
+          :select-size="10"
         ></b-form-datalist>
       </b-form-group>
 
@@ -128,10 +128,12 @@ export default {
         this.courseList = this.courses;
         return;
       }
-      getCoursesBySearch(this.selectedSemester, newSearch).then((course_list) => {
-        this.courseList = course_list;
-      });
-    }
+      getCoursesBySearch(this.selectedSemester, newSearch).then(
+        (course_list) => {
+          this.courseList = course_list;
+        }
+      );
+    },
   },
   computed: {
     subsemesterOptions() {
@@ -150,27 +152,39 @@ export default {
     // return a list of the titles of each course.
     mapCourseNames() {
       return this.courseList
-        .filter(course => this.selectedDepartment === null ||
-          course.department === this.selectedDepartment)
+        .filter(
+          (course) =>
+            this.selectedDepartment === null ||
+            course.department === this.selectedDepartment
+        )
         .map((course) => {
           if (course.full_title !== null) return course.full_title;
           else return course.title;
-        })
+        });
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
-      let filtered = this.courseList
-        .filter(course => (course.full_title !== null && 
-          course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase());
-      if (filtered.length === 1 && (this.selectedDepartment === null || 
-        (filtered[0].department === this.selectedDepartment))) return filtered;
-      else return this.courseList
-        .filter(course => this.selectedDepartment === null ||
-          course.department === this.selectedDepartment
+      let filtered = this.courseList.filter(
+        (course) =>
+          (course.full_title !== null &&
+            course.full_title.toUpperCase() ===
+              this.textSearch.toUpperCase()) ||
+          course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
-    }
+      if (
+        filtered.length === 1 &&
+        (this.selectedDepartment === null ||
+          filtered[0].department === this.selectedDepartment)
+      )
+        return filtered;
+      else
+        return this.courseList.filter(
+          (course) =>
+            this.selectedDepartment === null ||
+            course.department === this.selectedDepartment
+        );
+    },
   },
 };
 </script>
