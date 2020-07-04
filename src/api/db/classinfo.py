@@ -234,7 +234,7 @@ class ClassInfo:
             ;
       """, None, True)
 
-    def get_courses_by_search(self, semester=None, search=None):
+    def get_classes_by_search(self, semester=None, search=None):
       if semester is not None:
         # parse search string to a format recognized by to_tsquery
         ts_search = None if search is None else search.strip().replace(' ', '&')

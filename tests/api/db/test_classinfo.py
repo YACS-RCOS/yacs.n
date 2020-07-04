@@ -12,3 +12,6 @@ def test_get_classes_full(class_info):
 def test_get_classes_by_search(class_info):
     (classes, err) = class_info.get_courses_by_search(semester="FALL 2020", search="CSCI")
     assert len(classes) >= 0
+    for class_row in classes:
+        assert class_row.semester == "FALL 2020"
+        assert class_row.department == "CSCI"
