@@ -123,10 +123,9 @@ export default {
     },
     // wrapper for querying with search
     updateCourseList() {
-      getCourses(this.selectedSemester, this.textSearch)
-          .then(course_list => {
-            this.courseList = course_list;
-          });
+      getCourses(this.selectedSemester, this.textSearch).then((course_list) => {
+        this.courseList = course_list;
+      });
     },
     /**
      * Given a function and time in ms, will not execute function until it stops being called.
@@ -143,8 +142,8 @@ export default {
           func(...args);
           timerId = null;
         }, wait);
-      }
-    }
+      };
+    },
   },
   watch: {
     textSearch: function (newSearch) {
@@ -156,7 +155,7 @@ export default {
 
       // debounce query for courses
       this.courseUpdate();
-    }
+    },
   },
   computed: {
     subsemesterOptions() {
@@ -176,26 +175,30 @@ export default {
     // if no exact match exists, returns similar options.
     filterCourses() {
       // filter by selected department
-      const filtered = this.courseList.filter(course =>
-        !this.selectedDepartment || course.department === this.selectedDepartment
+      const filtered = this.courseList.filter(
+        (course) =>
+          !this.selectedDepartment ||
+          course.department === this.selectedDepartment
       );
 
       // returns exact match, if not found, then department filtered list
-      const find = filtered.find(course => 
-        (course.full_title &&
-        course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
-        course.title.toUpperCase() === this.textSearch.toUpperCase());
+      const find = filtered.find(
+        (course) =>
+          (course.full_title &&
+            course.full_title.toUpperCase() ===
+              this.textSearch.toUpperCase()) ||
+          course.title.toUpperCase() === this.textSearch.toUpperCase()
+      );
 
       if (find) return [find];
       else return filtered;
     },
     // return a list of the titles of each course.
     mapCourseNames() {
-      return Array.from(this.filterCourses)
-        .map((course) => {
-          return course.full_title || course.title;
-        });
-    }
+      return Array.from(this.filterCourses).map((course) => {
+        return course.full_title || course.title;
+      });
+    },
   },
 };
 </script>

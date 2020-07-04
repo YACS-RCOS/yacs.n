@@ -36,7 +36,7 @@ const _getCourseIdentifier = (courseObj) => {
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
-export const getCourses = (semester, search=null) =>
+export const getCourses = (semester, search = null) =>
   client
     .get("/class", {
       params: {
