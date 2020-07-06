@@ -109,7 +109,7 @@ export default {
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
       courseList: this.courses,
-      courseUpdate: this.debounce(this.updateCourseList, 350),
+      courseUpdate: _.debounce(this.updateCourseList, 350),
     };
   },
   created() {
@@ -195,7 +195,7 @@ export default {
     },
     // return a list of the titles of each course.
     mapCourseNames() {
-      return Array.from(this.filterCourses).map((course) => {
+      return this.filterCourses.map((course) => {
         return course.full_title || course.title;
       });
     },
