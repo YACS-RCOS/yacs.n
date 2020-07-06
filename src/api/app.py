@@ -55,13 +55,17 @@ def apiroot():
 @app.route('/api/class', methods=['GET'])
 def get_classes():
     semester = request.args.get("semester", default=None)
+    search  = request.args.get("search", default=None)
     if semester:
         if not semester_info.is_public(semester):
             if is_admin_user():
                 classes, error = class_info.get_classes_full(semester)
                 return jsonify(classes) if not error else Response(error, status=500)
             return Response("Semester isn't available", status=401)
-        classes, error = class_info.get_classes_full(semester)
+        if search is not None:
+            classes, error = class_info.get_classes_by_search(semester, search)
+        else:
+            classes, error = class_info.get_classes_full(semester)
         return jsonify(classes) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
 
@@ -225,7 +229,6 @@ def get_student_courses():
     info = request.args
     courses, error = course_select.get_selection(info['uid'])
     return jsonify(courses) if not error else Response(error, status=500)
-
 
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
