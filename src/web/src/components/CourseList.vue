@@ -109,7 +109,7 @@ export default {
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
       courseList: this.courses,
-      courseUpdate: _.debounce(this.updateCourseList, 350),
+      courseUpdate: this.debounce(this.updateCourseList, 350),
     };
   },
   created() {
