@@ -16,6 +16,9 @@ Vue.use(VueCookies);
 
 Vue.$cookies.config("7d");
 
+// global dark mode variable
+Vue.prototype.$darkMode = localStorage.darkMode;
+
 new Vue({
   render: (h) => h(App),
   router,

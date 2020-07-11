@@ -25,6 +25,13 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
+      <b-form-checkbox 
+        v-model="$darkMode" 
+        switch
+      >
+        Dark Mode
+      </b-form-checkbox>
+
       <!-- If user has not logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID === null">
         <div>
@@ -114,7 +121,7 @@ export default {
       sessionID: "",
       userName: "",
       showForm: true,
-      semesterOptions: [],
+      semesterOptions: []
     };
   },
   created() {
