@@ -25,8 +25,8 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
-      <b-form-checkbox 
-        v-model="$darkMode" 
+      <b-form-checkbox
+        v-model="darkModeEnabled"
         switch
       >
         Dark Mode
@@ -121,7 +121,8 @@ export default {
       sessionID: "",
       userName: "",
       showForm: true,
-      semesterOptions: []
+      semesterOptions: [],
+      darkModeEnabled: this.$cookies.get("darkMode"),
     };
   },
   created() {
@@ -131,6 +132,11 @@ export default {
       console.log("not logged in");
     } else {
       console.log("sessionID", this.sessionID);
+    }
+  },
+  watch: {
+    darkModeEnabled (newVal) {
+      this.$store.commit("setDarkMode", newVal);
     }
   },
   methods: {

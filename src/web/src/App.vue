@@ -1,7 +1,7 @@
 <template>
   <div
-    id="root" 
-    :class="$darkMode ? 'dark' : ' '"
+    id="root"
+    :class="$store.state.darkMode ? 'dark' : ' '"
   >
     <router-view></router-view>
   </div>
@@ -11,10 +11,8 @@
 export default {
   name: "App",
   components: {},
-  beforeDestroy () {
-    // save style state to local storage
-    localStorage.darkMode = this.$darkMode;
-    console.log(this.$darkMode);
+  created () {
+    this.$store.commit("setDarkMode", this.$cookies.get("darkMode") == 'true');
   },
 };
 </script>
