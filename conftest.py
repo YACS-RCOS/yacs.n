@@ -36,8 +36,7 @@ def db_conn():
 
 @pytest.fixture(scope="session")
 def class_info(db_conn):
-    mock_cache = MockCache()
-    return ClassInfo(db_conn, mock_cache)
+    return ClassInfo(db_conn)
 
 @pytest.fixture(scope="session")
 def admin_settings(db_conn):
