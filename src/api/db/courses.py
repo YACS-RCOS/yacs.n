@@ -14,9 +14,9 @@ else:
 
 
 class Courses:
-
-    def __init__(self, db_wrapper):
+    def __init__(self, db_wrapper, cache):
         self.db = db_wrapper
+        self.cache = cache
 
     def dayToNum(self, day_char):
         day_map = {
@@ -47,6 +47,8 @@ class Courses:
         """, {
             "Semester": semester
         }, isSELECT=False)
+        # clear cache so this semester does not come up again
+        self.cache.clear()
 
     def bulk_delete(self, semesters):
         for semester in semesters:
@@ -54,6 +56,8 @@ class Courses:
             if error:
                 print(error)
                 return error
+        # on success, invalidate cache
+        self.cache.clear()
         return None
 
     def populate_from_csv(self, csv_text):
@@ -210,6 +214,8 @@ class Courses:
                     conn.rollback()
                     return (False, e)
         conn.commit()
+        # invalidate cache so we can get new classes
+        self.cache.clear()
         return (True, None)
 
 

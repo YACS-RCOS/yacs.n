@@ -7,6 +7,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask_caching import Cache
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
@@ -22,20 +23,27 @@ from io import StringIO
 import json
 import os
 import pandas as pd
+from constants import Constants
+"""
+NOTE: on caching
+on add of semester of change of data from GET
+do a cache.clear() to ensure data integrity
+"""
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
+app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
+cache.init_app(app)
 
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
-courses = Courses.Courses(db_conn)
+courses = Courses.Courses(db_conn, cache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
-
-app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
 
 def is_admin_user():
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -43,6 +51,7 @@ def is_admin_user():
     return False
 
 @app.route('/')
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def root():
     return "YACS API is Up!"
 
@@ -52,7 +61,12 @@ def apiroot():
 
 # - data routes
 
+"""
+GET /api/class?semester={}&search={}
+Cached: 1 Hour
+"""
 @app.route('/api/class', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_classes():
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
@@ -69,14 +83,27 @@ def get_classes():
         return jsonify(classes) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
 
+"""
+GET /api/department
+Cached: 1 Hour
 
+List of departments i.e. COGS, CIVL, CSCI, BIOL
+"""
 @app.route('/api/department', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_departments():
     departments, error = class_info.get_departments()
     return jsonify(departments) if not error else Response(error, status=500)
 
+"""
+GET /api/subsemester?semester={}
+Cached: 1 Hour
 
+Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+(Used in dropdown in "Course Search"
+"""
 @app.route('/api/subsemester', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_subsemesters():
     semester = request.args.get("semester", default=None)
     if semester:
@@ -86,6 +113,10 @@ def get_subsemesters():
     subsemesters, error = class_info.get_subsemesters()
     return jsonify(subsemesters) if not error else Response(error, status=500)
 
+"""
+GET /api/semester
+Cached: DO NOT CACHE - we show different semester's based on session
+"""
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
     if is_admin_user():
