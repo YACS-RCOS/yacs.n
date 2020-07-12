@@ -7,6 +7,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from flask import session
+from flask_caching import Cache
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
@@ -23,19 +24,26 @@ import json
 import os
 import pandas as pd
 
+"""
+NOTE: on caching
+on add of semester of change of data from GET
+do a cache.clear() to ensure data integrity
+"""
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+
+app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
+cache.init_app(app)
 
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
-courses = Courses.Courses(db_conn)
+courses = Courses.Courses(db_conn, cache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
-
-app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
 
 def is_admin_user():
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -43,6 +51,7 @@ def is_admin_user():
     return False
 
 @app.route('/')
+@cache.cached(timeout=600)
 def root():
     return "YACS API is Up!"
 
@@ -51,8 +60,12 @@ def apiroot():
     return "wow"
 
 # - data routes
-
+"""
+GET /api/class?semester{}&search={}
+Cached: 1 Hour
+"""
 @app.route('/api/class', methods=['GET'])
+@cache.cached(timeout=600, query_string=True)
 def get_classes():
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
