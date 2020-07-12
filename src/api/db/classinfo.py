@@ -1,15 +1,8 @@
-"""
-Class Info
-----------
-Fetch info about classes and semesters
-Contains all we need to rendering the schedule
-"""
 class ClassInfo:
     def __init__(self, db_conn):
         self.db_conn = db_conn
         self.interface_name = 'class-info'
 
-    """get simplfied class data in json_encoded format"""
     def get_classes(self):
         return self.db_conn.execute("""
             select
