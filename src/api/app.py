@@ -23,7 +23,7 @@ from io import StringIO
 import json
 import os
 import pandas as pd
-
+from constants import Constants
 """
 NOTE: on caching
 on add of semester of change of data from GET
@@ -51,7 +51,7 @@ def is_admin_user():
     return False
 
 @app.route('/')
-@cache.cached(timeout=600)
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def root():
     return "YACS API is Up!"
 
@@ -60,12 +60,13 @@ def apiroot():
     return "wow"
 
 # - data routes
+
 """
-GET /api/class?semester{}&search={}
+GET /api/class?semester={}&search={}
 Cached: 1 Hour
 """
 @app.route('/api/class', methods=['GET'])
-@cache.cached(timeout=600, query_string=True)
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_classes():
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
@@ -82,14 +83,27 @@ def get_classes():
         return jsonify(classes) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
 
+"""
+GET /api/department
+Cached: 1 Hour
 
+List of departments i.e. COGS, CIVL, CSCI, BIOL
+"""
 @app.route('/api/department', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_departments():
     departments, error = class_info.get_departments()
     return jsonify(departments) if not error else Response(error, status=500)
 
+"""
+GET /api/subsemester?semester={}
+Cached: 1 Hour
 
+Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+(Used in dropdown in "Course Search"
+"""
 @app.route('/api/subsemester', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_subsemesters():
     semester = request.args.get("semester", default=None)
     if semester:
@@ -99,6 +113,10 @@ def get_subsemesters():
     subsemesters, error = class_info.get_subsemesters()
     return jsonify(subsemesters) if not error else Response(error, status=500)
 
+"""
+GET /api/semester
+Cached: DO NOT CACHE - we show different semester's based on session
+"""
 @app.route('/api/semester', methods=['GET'])
 def get_semesters():
     if is_admin_user():
