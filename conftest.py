@@ -62,4 +62,4 @@ if TEST_CSV is not None:
     with open(TEST_CSV) as csvfile:
         mock_cache = MockCache()
         Courses(db, mock_cache).populate_from_csv(csvfile)
-        assert(mock_cache.__is_cleared())
+        assert(mock_cache.cache_cleared)
