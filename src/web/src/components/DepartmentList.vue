@@ -95,11 +95,21 @@ export default {
   flex-grow: 1;
   flex-basis: 0px;
   min-height: 200px;
-  border: 5px 5px solid;
+  border: 1px rgba(108, 90, 90, 0.15) solid;
+  padding: 1em;
 }
 
 .scroller {
   max-height: 20em;
+  overflow-x: hidden;
+  text-align: left;
+}
+
+.course-listing {
+  height: 100px;
+  padding-top: 10px;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .major-button {
