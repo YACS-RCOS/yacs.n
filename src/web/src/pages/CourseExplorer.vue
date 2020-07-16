@@ -13,6 +13,7 @@
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
                 :id="n"
+                v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
           </b-col>
@@ -30,12 +31,62 @@
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
                 :id="n + 3"
+                v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
+    <b-modal
+      id="courseInfoModal"
+      v-if="courseInfoModalCourse"
+      v-model="showCourseInfoModal"
+      :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
+      hide-footer
+    >
+      <span v-if="courseInfoModalCourse.frequency">
+        Offered: {{ courseInfoModalCourse.frequency }}
+        <br />
+        <br />
+      </span>
+      <span>
+        {{
+          generateRequirementsText(
+            courseInfoModalCourse.prerequisites,
+            courseInfoModalCourse.corequisites,
+            courseInfoModalCourse.raw_precoreqs
+          )
+        }}
+      </span>
+      <span v-if="courseInfoModalCourse.description">
+        <br />
+        <br />
+        {{ courseInfoModalCourse.description }}
+      </span>
+      <br />
+      <br />
+      <b-button
+        variant="primary"
+        @click="
+          toggleCourse(courseInfoModalCourse);
+          showCourseInfoModal = !showCourseInfoModal;
+        "
+      >
+        {{
+          courseInfoModalCourse.selected
+            ? "Remove from schedule"
+            : "Add to schedule"
+        }}
+      </b-button>
+      <b-button
+        class="ml-2"
+        variant="danger"
+        @click="showCourseInfoModal = !showCourseInfoModal"
+      >
+        Close
+      </b-button>
+    </b-modal>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -46,6 +97,7 @@
 <script>
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
+import { generateRequirementsText } from "@/utils";
 
 export default {
   name: "CourseExplorer",
@@ -60,6 +112,9 @@ export default {
       //an object with keys being the dept, and values a list of courses
       deptClassDict: {},
       ready: false,
+
+      courseInfoModalCourse: null,
+      showCourseInfoModal: false,
     };
   },
   async created() {
@@ -73,6 +128,13 @@ export default {
       }
       this.ready = true;
     });
+  },
+  methods: {
+    generateRequirementsText,
+    showCourseInfo(course) {
+      this.courseInfoModalCourse = course;
+      this.showCourseInfoModal = true;
+    },
   },
   computed: {
     coursesChunked() {

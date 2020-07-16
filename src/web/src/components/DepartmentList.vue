@@ -87,6 +87,11 @@ export default {
     selectedSemester: String,
     id: Number,
   },
+  methods: {
+    courseInfoModalToggle(course) {
+      this.$emit("showCourseInfo", course);
+    },
+  },
 };
 </script>
 
