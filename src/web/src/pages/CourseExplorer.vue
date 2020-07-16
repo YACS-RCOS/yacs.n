@@ -10,6 +10,8 @@
             <b-row>
               <DepartmentList
                 :majors="coursesChunked[n - 1]"
+                :deptClassDict="deptClassDict"
+                :selectedSemester="selectedSemester"
                 :id="n"
               ></DepartmentList>
             </b-row>
@@ -25,6 +27,8 @@
             <b-row>
               <DepartmentList
                 :majors="coursesChunked[n + 2]"
+                :deptClassDict="deptClassDict"
+                :selectedSemester="selectedSemester"
                 :id="n + 3"
               ></DepartmentList>
             </b-row>
