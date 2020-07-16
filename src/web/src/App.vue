@@ -26,8 +26,9 @@ body {
 
 .dark {
   --dark-primary: #262833;
-  --dark-secondary: #000;
+  --dark-secondary: #181a21;
   --dark-text: #f2f2f2;
+  --dark-text-secondary: #777777;
   background-color: var(--dark-primary) !important;
   color: var(--dark-text) !important;
   .navbar {
@@ -45,6 +46,9 @@ body {
   #footer {
     background: var(--dark-primary) !important;
   }
+  .bg-light {
+    background-color: var(--dark-secondary) !important;
+  }
   .card {
     background: var(--dark-primary) !important;
     .card-header {
@@ -53,7 +57,29 @@ body {
   }
   .nav-link.active {
     background-color: var(--dark-primary) !important;
+    color: var(--dark-text) !important;
     border-color: var(--dark-secondary) !important;
+  }
+  .navbar-brand {
+    color: var(--dark-text) !important;
+  }
+  .btn {
+    color: var(--dark-text) !important;
+  }
+  .dropdown-menu {
+    background-color: var(--dark-secondary) !important;
+  }
+  .dropdown-item {
+    color: var(--dark-text) !important;
+  }
+  .link {
+    color: var(--dark-text) !important;
+  }
+  .section-head {
+    color: var(--dark-text-secondary) !important;
+  }
+  .text-center {
+    color: var(--dark-text-secondary) !important;
   }
 }
 
