@@ -63,7 +63,11 @@ body {
   .navbar-brand {
     color: var(--dark-text) !important;
   }
-  .btn {
+  .d-flex .btn {
+    color: var(--dark-text) !important;
+  }
+  .btn.bg-light {
+    background-color: var(--dark-primary) !important;
     color: var(--dark-text) !important;
   }
   .dropdown-menu {
@@ -78,8 +82,34 @@ body {
   .section-head {
     color: var(--dark-text-secondary) !important;
   }
-  .text-center {
+  .no-courses {
+    border-color: var(--dark-text-secondary) !important;
+  }
+  .form-control {
+    color: var(--dark-text) !important;
+    background-color: var(--dark-primary) !important;
+    border: 1px solid var(--dark-secondary) !important;
+  }
+  .custom-select {
+    color: var(--dark-text) !important;
+    background-color: var(--dark-primary) !important;
+    border: 1px solid var(--dark-secondary) !important;
+  }
+  .course-listing {
+    color: var(--dark-text) !important;
+    border-bottom: 1px solid var(--dark-text-secondary) !important;
+  }
+  hr {
+    border-top: 1px solid var(--dark-text-secondary) !important;
+  }
+  .course-search {
+    color: var(--dark-text) !important;
+  }
+  .built-by {
     color: var(--dark-text-secondary) !important;
+  }
+  .nav-link.dropdown-toggle {
+    color: var(--dark-text) !important;
   }
 }
 

@@ -25,13 +25,6 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
-      <b-form-checkbox
-        v-model="darkModeEnabled"
-        switch
-      >
-        Dark Mode
-      </b-form-checkbox>
-
       <!-- If user has not logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID === null">
         <div>
@@ -92,6 +85,14 @@
           </b-modal>
         </div>
       </b-navbar-nav>
+      <b-form-checkbox
+        class="dark-mode-switch"
+        v-model="darkModeEnabled"
+        switch
+      >
+        <font-awesome-icon v-if="darkModeEnabled" :icon="faMoon" />
+        <font-awesome-icon v-if="!darkModeEnabled" :icon="faSun" />
+      </b-form-checkbox>
     </b-navbar>
     <hr />
   </div>
@@ -99,6 +100,8 @@
 
 <script>
 import { login, logout } from "@/services/UserService";
+
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 import SignUpComponent from "@/components/SignUp";
 
@@ -112,6 +115,8 @@ export default {
   },
   data() {
     return {
+      faMoon,
+      faSun,
       form: {
         email: "",
         password: "",
@@ -213,4 +218,9 @@ hr {
 #signUpButton {
   margin-left: 20px;
 }
+
+.dark-mode-switch {
+  margin-left: 1em;
+}
+
 </style>
