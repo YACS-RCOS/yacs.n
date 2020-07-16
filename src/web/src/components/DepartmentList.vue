@@ -96,7 +96,7 @@ export default {
   flex-basis: 0px;
   min-height: 200px;
   border: 1px rgba(108, 90, 90, 0.15) solid;
-  padding: 1em;
+  padding: 0 1em 0 1em;
 }
 
 .scroller {
