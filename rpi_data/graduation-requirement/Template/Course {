@@ -1,0 +1,37 @@
+Course {
+  type: "Course",
+  name: str,
+  department: str,
+  creditHours: int,
+  description?: str,
+  pre-requsit-of: str
+}
+
+Options-Courses : Course {
+  creditHours: int
+  type: "Options",
+  name: str,
+  description: str,
+  options: Course[]
+}
+
+Options-Department : Course {
+  creditHours: int
+  type: "Options",
+  name: str,
+  description: str,
+  Departments: str[]
+}
+
+Semester {
+ name: str
+ courses: (Course|Options-Courses|Options-Department) []
+}
+
+Template {
+ id: str,
+ degree: str,
+ major: str,
+ year: int,
+ semesters: Semester[]
+}
