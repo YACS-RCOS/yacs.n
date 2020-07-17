@@ -259,11 +259,9 @@ export default {
     },
     addCourse(course) {
       let i = 0;
-
       for (; i < course.sections.length; i++) {
         try {
           this._addCourseSection(course, course.sections[i]);
-
           break;
         } catch (err) {
           if (err.type == "Schedule Conflict") {
