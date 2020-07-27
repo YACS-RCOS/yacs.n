@@ -24,6 +24,10 @@ body {
   height: 100%;
 }
 
+.custom-select {
+    transition: 0s;
+  }
+
 .dark {
   --dark-primary: #262833;
   --dark-secondary: #181a21;
@@ -91,6 +95,7 @@ body {
     border: 1px solid var(--dark-secondary) !important;
   }
   .custom-select {
+    transition: 0s;
     color: var(--dark-text) !important;
     background-color: var(--dark-primary) !important;
     border: 1px solid var(--dark-secondary) !important;
@@ -110,6 +115,12 @@ body {
   }
   .nav-link.dropdown-toggle {
     color: var(--dark-text) !important;
+  }
+  .gridContainer {
+    background-color: var(--dark-primary) !important;
+  }
+  .major-button {
+    background-color: var(--dark-secondary) !important;
   }
 }
 
