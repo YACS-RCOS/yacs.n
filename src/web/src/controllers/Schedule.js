@@ -51,12 +51,27 @@ class Schedule {
   }
 
   /**
+   * Wrapper around `getAddCourseSessionIndex`
+   * @param {CourseSection} courseSection
+   * @returns {boolean} whether courseSection has conflict with schedule
+   */
+  hasConflict(courseSection) {
+    for (let session of courseSection.sessions) {
+      if (this.getAddCourseSessionIndex(session) === null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
    * Returns the index that newCourseSession should be inserted at or `null` if there
    * is a schedule conflict
    * Assumes that `newCourseSession.time_start != newCourseSession.time_end`
    * @param {CourseSession} newCourseSession
-   * @returns {number|null} the index to insert the new course session
-   * @throws Will throw error if `newCourseSession` conflicts with existing sessions
+   * @returns {number|null} the index to insert the new course session or null if there
+   * is a schedule conflict
    */
   getAddCourseSessionIndex(newCourseSession) {
     if (!newCourseSession) {
@@ -111,15 +126,11 @@ class Schedule {
               ${JSON.stringify(newCourseSession)}
               and ${JSON.stringify(sess)}
           `);
-          throw {
-            type: "Schedule Conflict",
-            existingSession: sess,
-            addingSession: newCourseSession,
-          };
+          break;
         }
       }
 
-      // Should be unreachable
+      // Schedule conflict
       return null;
     }
   }
@@ -162,8 +173,7 @@ class Schedule {
    * @param {Course} course
    * @param {number[]} [sessionIndices=null] If schedule conflict has already been checked, pass
    * the resultant indices in to avoid rechecking
-   * @returns {boolean} if course section was added to schedule
-   * @throws Will throw error if `newCourseSession` conflicts with existing sessions
+   * @returns {boolean} true if course section was added to schedule, false if schedule conflict
    */
   addCourseSection(course, courseSection, sessionIndices = null) {
     if (!courseSection) {
@@ -206,8 +216,7 @@ class Schedule {
               this.getAddCourseSessionIndex(courseSession);
 
         if (sessionIndex === null) {
-          // Should never happen
-          console.error(`Failed to add course section`);
+          // console.error(`Schedule Conflict`);
           return false;
         } else {
           additions.push({
@@ -227,15 +236,7 @@ class Schedule {
       console.log(`Additions after sort: ${JSON.stringify(additions)}`);
       for (const { index, day, courseSession } of additions) {
         this.dailySessions[day].splice(index, 0, courseSession);
-        // Allow for sessions to have a reference to their parent course
-        // but don't copy the sections so we avoid circular JSON (which will cause JSON.stringify to fail).
-        // Am giving a 'backpointer' so the ICS schedule can be easily built based on what sessions are
-        // currently selected / inserted.
-        // eslint-disable-next-line
-        // let courseInfo = (({sections, ...o}) => o)(course);
-        // courseSession.course = courseInfo;
-        courseSession._courseKey = course.id;
-        // courseSession._courseKey = this._getCourseIdentifier(course);
+
         console.log(
           `Inserted on day ${day} at index ${index} new courseSession ${JSON.stringify(
             courseSession
