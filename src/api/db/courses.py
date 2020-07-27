@@ -159,7 +159,7 @@ class Courses:
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
-                                "School", row['school']
+                                "School": row['school']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
