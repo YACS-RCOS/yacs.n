@@ -58,8 +58,7 @@ class SubSemesterScheduler {
    * Adds `section` to the appropriate schedule(s) based on the duration of `course`
    * @param {Course} course
    * @param {CourseSection} section
-   * @throws Will throw an error if there is a schedule conflict.
-   * Error will include the subsemester
+   * @returns {boolean} true if course session is added, false if schedule conflict
    */
   addCourseSection(course, section) {
     /** @type {Object<number, number>} */
@@ -69,25 +68,23 @@ class SubSemesterScheduler {
     // the sessions of the selected section for schedule conflicts
     for (const [index, schedule] of this.schedules.entries()) {
       if (this.withinCourseDuration(course, this.scheduleSubsemesters[index])) {
-        try {
-          /**
-           * Store results of schedule conflict checking to use when
-           * actually adding `section` to the schedule
-           * @type {number[]}
-           */
-          const sessionIndices = [];
-          for (const session of section.sessions) {
-            sessionIndices.push(schedule.getAddCourseSessionIndex(session));
+        /**
+         * Store results of schedule conflict checking to use when
+         * actually adding `section` to the schedule
+         * @type {number[]}
+         */
+        const sessionIndices = [];
+        for (const session of section.sessions) {
+          const sessionIndex = schedule.getAddCourseSessionIndex(session);
+
+          if (sessionIndex === null) {
+            return false;
           }
-          // Associate results with a schedule by `index`
-          scheduleSessionIndices[index] = sessionIndices;
-        } catch (err) {
-          if (err.type === "Schedule Conflict") {
-            err.subsemester = this.scheduleSubsemesters[index];
-            console.log(err);
-            throw err;
-          }
+
+          sessionIndices.push(sessionIndex);
         }
+        // Associate results with a schedule by `index`
+        scheduleSessionIndices[index] = sessionIndices;
       }
     }
 
@@ -101,6 +98,8 @@ class SubSemesterScheduler {
         );
       }
     );
+
+    return true;
   }
 
   /**
