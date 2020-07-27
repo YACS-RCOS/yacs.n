@@ -48,7 +48,8 @@ class ClassInfo:
               json_agg(
                 row_to_json(section.*)
               ) sections,
-              c.semester
+              c.semester,
+              c.school
             from
               course c
             left join
@@ -85,7 +86,8 @@ class ClassInfo:
               c.full_title,
               c.description,
               c.frequency,
-              c.raw_precoreqs
+              c.raw_precoreqs,
+              c.school
             order by
               c.department asc,
               c.level asc
@@ -118,7 +120,8 @@ class ClassInfo:
               json_agg(
                 row_to_json(section.*)
               ) sections,
-              c.semester
+              c.semester,
+              c.school
             from
               course c
             left join
@@ -153,7 +156,8 @@ class ClassInfo:
               c.full_title,
               c.description,
               c.frequency,
-              c.raw_precoreqs
+              c.raw_precoreqs,
+              c.school
             order by
               c.department asc,
               c.level asc
