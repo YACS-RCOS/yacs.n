@@ -26,18 +26,18 @@ class SchoolDepartmentMapping:
     with open(path) as f:
       data = yaml.safe_load(f.read())
 
-    """
-    data is a dict with the following form
-    {
-      'schools': {
-        'longname': str ('Humanities, Arts and Social Sciences'),
-        'subjects': {
-          'shortname': str ('ARTS'),
-          'longname: str ('Arts')
-        }[]
-      }[]
-    }
-    """
+    
+    # data is a dict with the following form
+    # {
+    #   'schools': {
+    #     'longname': str ('Humanities, Arts and Social Sciences'),
+    #     'subjects': {
+    #       'shortname': str ('ARTS'),
+    #       'longname: str ('Arts')
+    #     }[]
+    #   }[]
+    # }
+    
 
     mapping: Dict[str, str] = {}
 
@@ -56,6 +56,6 @@ class SchoolDepartmentMapping:
 def add_school_column(df: pd.DataFrame, school_department_mapping_path = SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME) -> pd.DataFrame:
   school_department_mapping = SchoolDepartmentMapping.parse_yaml(school_department_mapping_path)
 
-  df['school'] = df['course_department'].apply(lambda department: school_department_mapping.get(department))
+  df['school'] = df['course_department'].apply(school_department_mapping.get)
 
   return df

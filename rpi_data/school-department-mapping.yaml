@@ -78,7 +78,7 @@ schools:
       - shortname: ITWS
         longname: Information Technology and Web Science
   - longname: Architecture
-    subjects:  
+    subjects:
       - shortname: ARCH
         longname: Architecture
       - shortname: LGHT
