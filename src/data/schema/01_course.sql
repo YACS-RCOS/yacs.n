@@ -13,6 +13,7 @@ create table course(
   description   text,
   raw_precoreqs text,
   frequency     varchar(255),
+  school        varchar(255),
   tsv           tsvector,
   -- credit_hours int,
   -- class_days varchar(255),
