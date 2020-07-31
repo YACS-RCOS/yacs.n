@@ -29,9 +29,9 @@ body {
   }
 
 .dark {
-  --dark-primary: #262833;
+  --dark-primary: #22252e;
   --dark-secondary: #181a21;
-  --dark-text: #f2f2f2;
+  --dark-text: #e6e4e4;
   --dark-text-secondary: #777777;
   background-color: var(--dark-primary) !important;
   color: var(--dark-text) !important;
@@ -70,9 +70,10 @@ body {
   .d-flex .btn {
     color: var(--dark-text) !important;
   }
-  .btn.bg-light {
+  .btn.btn-light {
     background-color: var(--dark-primary) !important;
     color: var(--dark-text) !important;
+    border-color: var(--dark-primary) !important;
   }
   .dropdown-menu {
     background-color: var(--dark-secondary) !important;
@@ -121,6 +122,10 @@ body {
   }
   .major-button {
     background-color: var(--dark-secondary) !important;
+  }
+  .badge {
+    color: var(--dark-text);
+    background-color: var(--dark-secondary);
   }
 }
 

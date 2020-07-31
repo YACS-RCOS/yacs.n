@@ -90,8 +90,7 @@
         v-model="darkModeEnabled"
         switch
       >
-        <font-awesome-icon v-if="darkModeEnabled" :icon="faMoon" />
-        <font-awesome-icon v-if="!darkModeEnabled" :icon="faSun" />
+        <font-awesome-icon :icon="faMoon" />
       </b-form-checkbox>
     </b-navbar>
     <hr />
@@ -101,7 +100,7 @@
 <script>
 import { login, logout } from "@/services/UserService";
 
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import SignUpComponent from "@/components/SignUp";
 
@@ -116,7 +115,6 @@ export default {
   data() {
     return {
       faMoon,
-      faSun,
       form: {
         email: "",
         password: "",
