@@ -35,6 +35,9 @@
 
     <hr />
     <div id="scroll-box">
+      <div v-if="filterCourses.length == 0" class="no-courses">
+        Oops, no results!
+      </div>
       <recycle-scroller
         class="scroller"
         :items="filterCourses"
@@ -195,5 +198,13 @@ export default {
   height: 100px;
   padding-top: 10px;
   border-bottom: 1px solid #e9ecef;
+}
+
+.no-courses {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 20px;
 }
 </style>
