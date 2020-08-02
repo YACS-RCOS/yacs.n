@@ -8,6 +8,7 @@ from src.api.db.courses import Courses
 from src.api.db.admin import Admin
 # from src.api.db.student_course_selection import student_course_selection
 # from src.api.db.user import User
+from rpi_data.modules.add_school_column import SchoolDepartmentMapping, SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME
 
 
 class MockCache:
@@ -56,6 +57,12 @@ def admin_settings(db_conn):
 def acalog_client():
     acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
     return AcalogClient(acalog_api_key)
+
+@pytest.fixture(scope="session")
+def school_department_mapping():
+    file_path = "rpi_data/" + SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME
+
+    return SchoolDepartmentMapping.parse_yaml(file_path)
 
 if TEST_CSV is not None:
     with open(TEST_CSV) as csvfile:
