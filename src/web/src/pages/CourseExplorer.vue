@@ -64,6 +64,11 @@
         <br />
         {{ courseInfoModalCourse.description }}
       </span>
+      <span v-else>
+        <br />
+        <br />
+        {{ "No course description found" }}
+      </span>
       <br />
       <br />
       <b-button
