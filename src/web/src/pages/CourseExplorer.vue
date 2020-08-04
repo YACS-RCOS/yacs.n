@@ -72,19 +72,6 @@
       <br />
       <br />
       <b-button
-        variant="primary"
-        @click="
-          toggleCourse(courseInfoModalCourse);
-          showCourseInfoModal = !showCourseInfoModal;
-        "
-      >
-        {{
-          courseInfoModalCourse.selected
-            ? "Remove from schedule"
-            : "Add to schedule"
-        }}
-      </b-button>
-      <b-button
         class="ml-2"
         variant="danger"
         @click="showCourseInfoModal = !showCourseInfoModal"
