@@ -31,17 +31,14 @@
                   >
                     <CourseListing
                       :course="course"
-                      defaultAction="toggleCourse"
+                      :showAddButton="false"
+                      defaultAction="showInfoModal"
                       v-on="$listeners"
                       lazyLoadCollapse
                     >
                       <template #toggleCollapseButton="{ course }">
                         <button
-                          v-show="
-                            course.corequisites ||
-                            course.prerequisites ||
-                            course.raw_precoreqs
-                          "
+                          v-show="false"
                           class="btn"
                           @click.stop="courseInfoModalToggle(course)"
                         >
@@ -89,7 +86,7 @@ export default {
   },
   methods: {
     courseInfoModalToggle(course) {
-      this.$emit("showCourseInfo", course);
+      console.log(course);
     },
   },
 };
