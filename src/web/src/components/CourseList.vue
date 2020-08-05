@@ -49,7 +49,11 @@
           >
             <template #toggleCollapseButton="{ course }">
               <button
-                v-show="course.corequisites || course.prerequisites || course.raw_precoreqs"
+                v-show="
+                  course.corequisites ||
+                  course.prerequisites ||
+                  course.raw_precoreqs
+                "
                 class="btn"
                 @click.stop="courseInfoModalToggle(course)"
               >
@@ -67,28 +71,28 @@
 </template>
 
 <script>
-import '@/typedef';
+import "@/typedef";
 
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { DAY_SHORTNAMES } from '@/utils';
+import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments } from '@/services/YacsService';
+import { getDepartments } from "@/services/YacsService";
 
-import CourseListingComponent from '@/components/CourseListing';
+import CourseListingComponent from "@/components/CourseListing";
 
-import { RecycleScroller } from 'vue-virtual-scroller';
+import { RecycleScroller } from "vue-virtual-scroller";
 
 export default {
-  name: 'CourseList',
+  name: "CourseList",
   components: {
     CourseListing: CourseListingComponent,
-    RecycleScroller
+    RecycleScroller,
   },
   props: {
     courses: Array,
     subsemesters: Array,
-    selectedSemester: null
+    selectedSemester: null,
   },
   data() {
     return {
@@ -97,24 +101,24 @@ export default {
       textSearch: null,
       selectedSubsemester: null,
       selectedDepartment: null,
-      departmentOptions: [{ text: 'All', value: null }]
+      departmentOptions: [{ text: "All", value: null }],
     };
   },
   created() {
-    getDepartments().then(departments => {
-      this.departmentOptions.push(...departments.map(d => d.department));
+    getDepartments().then((departments) => {
+      this.departmentOptions.push(...departments.map((d) => d.department));
     });
   },
   methods: {
     courseInfoModalToggle(course) {
-      this.$emit('showCourseInfo', course);
-    }
+      this.$emit("showCourseInfo", course);
+    },
   },
   computed: {
     subsemesterOptions() {
-      let options = [{ text: 'All', value: null }];
+      let options = [{ text: "All", value: null }];
       options.push(
-        ...this.subsemesters.map(subsemester => {
+        ...this.subsemesters.map((subsemester) => {
           return { text: subsemester.display_string, value: subsemester };
         })
       );
@@ -129,18 +133,24 @@ export default {
      * @returns {Course[]}
      */
     filteredCourses() {
-      return this.courses.filter(({ date_start, date_end, department, title, semester }) => {
-        return (
-          (!this.selectedSubsemester ||
-            (this.selectedSubsemester.date_start.getTime() === date_start.getTime() &&
-              this.selectedSubsemester.date_end.getTime() === date_end.getTime())) &&
-          (!this.selectedDepartment || this.selectedDepartment === department) &&
-          (!this.textSearch || title.includes(this.textSearch.toUpperCase())) &&
-          this.selectedSemester === semester
-        );
-      });
-    }
-  }
+      return this.courses.filter(
+        ({ date_start, date_end, department, title, semester }) => {
+          return (
+            (!this.selectedSubsemester ||
+              (this.selectedSubsemester.date_start.getTime() ===
+                date_start.getTime() &&
+                this.selectedSubsemester.date_end.getTime() ===
+                  date_end.getTime())) &&
+            (!this.selectedDepartment ||
+              this.selectedDepartment === department) &&
+            (!this.textSearch ||
+              title.includes(this.textSearch.toUpperCase())) &&
+            this.selectedSemester === semester
+          );
+        }
+      );
+    },
+  },
 };
 </script>
 

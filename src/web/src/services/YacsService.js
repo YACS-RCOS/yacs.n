@@ -1,11 +1,11 @@
-import '@/typedef';
+import "@/typedef";
 
-import axios from 'axios';
+import axios from "axios";
 
-import { readableDate, localToUTCDate } from '@/utils';
+import { readableDate, localToUTCDate } from "@/utils";
 
 const client = axios.create({
-  baseURL: '/api'
+  baseURL: "/api",
 });
 
 /**
@@ -19,7 +19,7 @@ const client = axios.create({
  * @param {Course} courseObj an object that is a subclass of course
  * @returns {string} the unique identifier of a course
  */
-const _getCourseIdentifier = courseObj => {
+const _getCourseIdentifier = (courseObj) => {
   return `
     ${courseObj.department}
     ${courseObj.level}
@@ -36,22 +36,22 @@ const _getCourseIdentifier = courseObj => {
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
-export const getCourses = semester =>
+export const getCourses = (semester) =>
   client
-    .get('/class', {
+    .get("/class", {
       params: {
-        semester: semester
-      }
+        semester: semester,
+      },
     })
     .then(({ data }) => {
-      return data.map(c => {
+      return data.map((c) => {
         c.date_start = localToUTCDate(new Date(c.date_start));
         c.date_end = localToUTCDate(new Date(c.date_end));
 
         // Filter out sections that are null
-        c.sections = c.sections.filter(s => !!s);
+        c.sections = c.sections.filter((s) => !!s);
         // Initialize section.selected to false
-        c.sections.forEach(s => {
+        c.sections.forEach((s) => {
           if (s) s.selected = false;
         });
         // Initialize course.selected to false
@@ -59,7 +59,7 @@ export const getCourses = semester =>
         // Generate id based on course content
         c.id = _getCourseIdentifier(c);
 
-        c.vscrl_type = c.description ? 'with-info' : 'without-info';
+        c.vscrl_type = c.description ? "with-info" : "without-info";
         return c;
       });
     });
@@ -68,23 +68,25 @@ export const getCourses = semester =>
  * @returns {Promise<Department>}
  */
 export const getDepartments = () =>
-  client.get('/department').then(({ data }) => {
+  client.get("/department").then(({ data }) => {
     return data;
   });
 /**
  * Returns a list of all subsemesters
  * @returns {Promise<Subsemester[]>}
  */
-export const getSubSemesters = semester =>
+export const getSubSemesters = (semester) =>
   client
-    .get('/subsemester', {
+    .get("/subsemester", {
       params: {
-        semester: semester
-      }
+        semester: semester,
+      },
     })
     .then(({ data }) => {
-      return data.map(subsemester => {
-        subsemester.date_start = localToUTCDate(new Date(subsemester.date_start));
+      return data.map((subsemester) => {
+        subsemester.date_start = localToUTCDate(
+          new Date(subsemester.date_start)
+        );
         subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));
         subsemester.date_start_display = readableDate(subsemester.date_start);
         subsemester.date_end_display = readableDate(subsemester.date_end);
@@ -98,23 +100,24 @@ export const getSubSemesters = semester =>
       });
     });
 
-export const getSemesters = () => client.get('/semester').then(res => res.data);
+export const getSemesters = () =>
+  client.get("/semester").then((res) => res.data);
 
-export const addStudentCourse = course_info =>
-  client.post('/course', course_info).then(({ data }) => {
+export const addStudentCourse = (course_info) =>
+  client.post("/course", course_info).then(({ data }) => {
     return data;
   });
 
-export const removeStudentCourse = course_info =>
+export const removeStudentCourse = (course_info) =>
   client
-    .delete('/course', {
-      data: course_info
+    .delete("/course", {
+      data: course_info,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 
-export const getStudentCourses = user_info =>
+export const getStudentCourses = (user_info) =>
   client
-    .get('/course', {
-      params: user_info
+    .get("/course", {
+      params: user_info,
     })
-    .then(res => res.data);
+    .then((res) => res.data);
