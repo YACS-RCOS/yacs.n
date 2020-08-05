@@ -11,8 +11,8 @@
               v-for="option of otherSemesters"
               :key="option.text"
               class="link"
-              :disabled="option.text === semester"
-              @click="updateCurrentSemester(option.text)"
+              :disabled="option.text === selectedSemester"
+              @click="updateSelectedSemester(option.text)"
             >
               {{ option.value }}
             </a>
@@ -24,20 +24,23 @@
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n"
               target="_blank"
-              >Contribute (GitHub)</a
             >
+              Contribute (GitHub)
+            </a>
             <a
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n/issues/new?assignees=&labels=Feature+Request&template=feature-request.md&title=Feature+Request+—+Make+YACS+Great"
               target="_blank"
-              >Request a Feature</a
             >
+              Request a Feature
+            </a>
             <a
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n/issues/new?assignees=&labels=bug&template=bug_report.md&title=Bug+—+Someone+made+an+oopsie"
               target="_blank"
-              >Report a Bug</a
             >
+              Report a Bug
+            </a>
           </b-col>
 
           <b-col>
@@ -46,8 +49,9 @@
               class="link"
               href="http://opensource-template.wikidot.com/legal:terms-of-use"
               target="_blank"
-              >Terms of Use</a
             >
+              Terms of Use
+            </a>
             <!-- <a class="link" href=#>Cookies</a> -->
           </b-col>
           <b-col />
@@ -67,7 +71,7 @@ import { getSemesters } from "@/services/YacsService";
 export default {
   name: "Footer",
   props: {
-    semester: String,
+    selectedSemester: String,
   },
   data() {
     return {
@@ -75,9 +79,8 @@ export default {
     };
   },
   methods: {
-    updateCurrentSemester(to) {
-      console.log("in change emit of footer");
-      this.$emit("changeCurrentSemester", to);
+    updateSelectedSemester(newSemester) {
+      this.$emit("changeSelectedSemester", newSemester);
     },
   },
   computed: {

@@ -1,15 +1,31 @@
 import VueRouter from "vue-router";
 import AdminPage from "./pages/Admin";
-import MainPage from "./pages/Main";
+import StudentPage from "./pages/Student";
+import CourseSchedulerPage from "./pages/CourseScheduler";
 import UploadCsvPage from "./pages/UploadCsv";
 import EditSemestersPage from "./pages/EditSemesters";
+import CourseExplorerPage from "./pages/CourseExplorer";
 
 var router = new VueRouter({
   routes: [
     {
       path: "/",
-      component: MainPage,
-      name: "Schedule",
+      component: StudentPage,
+      props: true,
+      children: [
+        {
+          path: "/",
+          component: CourseSchedulerPage,
+          name: "CourseScheduler",
+          props: true,
+        },
+        {
+          path: "/explore",
+          component: CourseExplorerPage,
+          name: "CourseExplorer",
+          props: true,
+        },
+      ],
     },
     {
       path: "/Admin",

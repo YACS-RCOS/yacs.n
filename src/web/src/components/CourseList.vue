@@ -5,8 +5,10 @@
         <b-form-input
           id="search"
           v-model="textSearch"
+          :debounce="debounceTime"
           trim
           placeholder="Intro to College - COLG 1030"
+          list="list-id"
         ></b-form-input>
       </b-form-group>
 
@@ -33,9 +35,12 @@
 
     <hr />
     <div id="scroll-box">
+      <div v-if="filterCourses.length == 0" class="no-courses">
+        Oops, no results!
+      </div>
       <recycle-scroller
         class="scroller"
-        :items="filteredCourses"
+        :items="filterCourses"
         :item-size="100"
         typeField="vscrl_type"
         v-slot="{ item: course }"
@@ -77,7 +82,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments } from "@/services/YacsService";
+import { getDepartments, getCourses } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -98,10 +103,12 @@ export default {
     return {
       faInfoCircle,
       DAY_SHORTNAMES,
-      textSearch: null,
+      textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
+      courseList: this.courses,
+      debounceTime: 300,
     };
   },
   created() {
@@ -112,6 +119,18 @@ export default {
   methods: {
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
+    },
+    /* wrapper for querying with search */
+    updateCourseList() {
+      getCourses(this.selectedSemester, this.textSearch).then((course_list) => {
+        this.courseList = course_list;
+      });
+    },
+  },
+  watch: {
+    /* This value gets debounced */
+    textSearch: function () {
+      this.updateCourseList();
     },
   },
   computed: {
@@ -128,27 +147,33 @@ export default {
       this.selectedSubsemester = options[0].value;
       return options;
     },
-    /**
-     * Returns a list of courses that match the selected filters
-     * @returns {Course[]}
-     */
-    filteredCourses() {
-      return this.courses.filter(
-        ({ date_start, date_end, department, title, semester }) => {
-          return (
-            (!this.selectedSubsemester ||
-              (this.selectedSubsemester.date_start.getTime() ===
-                date_start.getTime() &&
-                this.selectedSubsemester.date_end.getTime() ===
-                  date_end.getTime())) &&
-            (!this.selectedDepartment ||
-              this.selectedDepartment === department) &&
-            (!this.textSearch ||
-              title.includes(this.textSearch.toUpperCase())) &&
-            this.selectedSemester === semester
-          );
-        }
+    // returns exact match if possible.
+    // if no exact match exists, returns similar options.
+    filterCourses() {
+      // filter by selected department
+      const filtered = this.courseList.filter(
+        (course) =>
+          !this.selectedDepartment ||
+          course.department === this.selectedDepartment
       );
+
+      // returns exact match, if not found, then department filtered list
+      const find = filtered.find(
+        (course) =>
+          (course.full_title &&
+            course.full_title.toUpperCase() ===
+              this.textSearch.toUpperCase()) ||
+          course.title.toUpperCase() === this.textSearch.toUpperCase()
+      );
+
+      if (find) return [find];
+      else return filtered;
+    },
+    // return a list of the titles of each course.
+    mapCourseNames() {
+      return this.filterCourses.map((course) => {
+        return course.full_title || course.title;
+      });
     },
   },
 };
@@ -173,5 +198,13 @@ export default {
   height: 100px;
   padding-top: 10px;
   border-bottom: 1px solid #e9ecef;
+}
+
+.no-courses {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 20px;
 }
 </style>

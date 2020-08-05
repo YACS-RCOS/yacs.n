@@ -32,7 +32,7 @@ export default {
         // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
         title: `Cannot add ${course.title}`,
         variant: "danger",
-        noAutoHide: true,
+        noAutoHide: false,
       });
     },
   },

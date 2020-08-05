@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS user_event;
+DROP TABLE IF EXISTS event;
+
 CREATE TABLE user_event
 (
 	event_id INTEGER,

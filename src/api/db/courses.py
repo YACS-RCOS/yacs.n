@@ -14,9 +14,9 @@ else:
 
 
 class Courses:
-
-    def __init__(self, db_wrapper):
+    def __init__(self, db_wrapper, cache):
         self.db = db_wrapper
+        self.cache = cache
 
     def dayToNum(self, day_char):
         day_map = {
@@ -47,6 +47,8 @@ class Courses:
         """, {
             "Semester": semester
         }, isSELECT=False)
+        # clear cache so this semester does not come up again
+        self.cache.clear()
 
     def bulk_delete(self, semesters):
         for semester in semesters:
@@ -54,6 +56,8 @@ class Courses:
             if error:
                 print(error)
                 return error
+        # on success, invalidate cache
+        self.cache.clear()
         return None
 
     def populate_from_csv(self, csv_text):
@@ -115,7 +119,9 @@ class Courses:
                                     department,
                                     level,
                                     title,
-                                    raw_precoreqs
+                                    raw_precoreqs,
+                                    school,
+                                    tsv
                                 )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
@@ -129,7 +135,14 @@ class Courses:
                                 NULLIF(%(Department)s, ''),
                                 %(Level)s,
                                 NULLIF(%(Title)s, ''),
-                                NULLIF(%(RawPrecoreqText)s, '')
+                                NULLIF(%(RawPrecoreqText)s, ''),
+                                %(School)s,
+                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
+                                    setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -145,7 +158,8 @@ class Courses:
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Title": row['course_name'],
-                                "RawPrecoreqText": row['raw_precoreqs']
+                                "RawPrecoreqText": row['raw_precoreqs'],
+                                "School": row['school']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
@@ -203,6 +217,8 @@ class Courses:
                     conn.rollback()
                     return (False, e)
         conn.commit()
+        # invalidate cache so we can get new classes
+        self.cache.clear()
         return (True, None)
 
 

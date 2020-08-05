@@ -3,14 +3,15 @@
   "description": "YACS - with support for multi semester and partial semesters",
   "version": "0.1.0",
   "scripts": {
-    "backend:dev": "FLASK_APP=src/api/app.py flask run --reload",
-    "backend:prod": "FLASK_APP=src/api/app.py flask run",
+    "backend:dev": "cross-env FLASK_APP=src/api/app.py flask run --reload",
+    "backend:prod": "cross-env FLASK_APP=src/api/app.py flask run",
     "frontend:dev": "cd ./src/web && npm run serve",
     "frontend:prod": "cd ./src/web && npm run serve:prod",
     "start": "npm-run-all --parallel backend:dev frontend:dev",
     "start:prod": "npm-run-all --parallel backend:prod frontend:prod"
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "npm-run-all": "^4.1.5"
   }
 }
