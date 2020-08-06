@@ -9,6 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Wait for unit tests to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: ci
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
+
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
