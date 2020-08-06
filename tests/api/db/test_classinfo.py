@@ -8,7 +8,6 @@ def test_get_classes_full(class_info):
                 crns.append(section['crn'])
 
     assert len(crns) == len(set(crns))
-    assert False
 
 def test_get_classes_by_search(class_info):
     (classes, err) = class_info.get_classes_by_search(semester="FALL 2020", search="CSCI")
