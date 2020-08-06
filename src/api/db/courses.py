@@ -120,6 +120,7 @@ class Courses:
                                     level,
                                     title,
                                     raw_precoreqs,
+                                    school,
                                     tsv
                                 )
                             VALUES (
@@ -135,11 +136,12 @@ class Courses:
                                 %(Level)s,
                                 NULLIF(%(Title)s, ''),
                                 NULLIF(%(RawPrecoreqText)s, ''),
-                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') || 
-                                    setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') || 
-                                    setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') || 
-                                    setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') || 
-                                    setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') || 
+                                %(School)s,
+                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
                                     setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
@@ -156,7 +158,8 @@ class Courses:
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Title": row['course_name'],
-                                "RawPrecoreqText": row['raw_precoreqs']
+                                "RawPrecoreqText": row['raw_precoreqs'],
+                                "School": row['school']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity

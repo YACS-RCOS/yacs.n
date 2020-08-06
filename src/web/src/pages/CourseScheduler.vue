@@ -258,11 +258,6 @@ export default {
       });
     },
     addCourse(course) {
-      course.selected = true;
-      // This must be vm.set since we're adding a property onto an object
-      this.$set(this.selectedCourses, course.id, course);
-      this.scheduler.addCourse(course);
-
       let i = 0;
       for (; i < course.sections.length; i++) {
         try {
@@ -276,6 +271,7 @@ export default {
                 err.existingSession,
                 err.subsemester
               );
+              return;
             } else {
               continue;
             }
@@ -284,6 +280,11 @@ export default {
           }
         }
       }
+
+      course.selected = true;
+      // This must be vm.set since we're adding a property onto an object
+      this.$set(this.selectedCourses, course.id, course);
+      this.scheduler.addCourse(course);
 
       if (this.userID) {
         const info = {

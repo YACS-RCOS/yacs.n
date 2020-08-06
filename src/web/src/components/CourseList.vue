@@ -5,15 +5,11 @@
         <b-form-input
           id="search"
           v-model="textSearch"
+          :debounce="debounceTime"
           trim
           placeholder="Intro to College - COLG 1030"
           list="list-id"
         ></b-form-input>
-        <b-form-datalist
-          id="list-id"
-          :options="mapCourseNames"
-          :select-size="10"
-        ></b-form-datalist>
       </b-form-group>
 
       <b-row>
@@ -39,6 +35,9 @@
 
     <hr />
     <div id="scroll-box">
+      <div v-if="filterCourses.length == 0" class="no-courses">
+        Oops, no results!
+      </div>
       <recycle-scroller
         class="scroller"
         :items="filterCourses"
@@ -109,7 +108,7 @@ export default {
       selectedDepartment: null,
       departmentOptions: [{ text: "All", value: null }],
       courseList: this.courses,
-      courseUpdate: this.debounce(this.updateCourseList, 350),
+      debounceTime: 300,
     };
   },
   created() {
@@ -121,40 +120,17 @@ export default {
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
-    // wrapper for querying with search
+    /* wrapper for querying with search */
     updateCourseList() {
       getCourses(this.selectedSemester, this.textSearch).then((course_list) => {
         this.courseList = course_list;
       });
     },
-    /**
-     * Given a function and time in ms, will not execute function until it stops being called.
-     * @param func: Function to be called
-     * @param wait: timeout in ms
-     */
-    debounce(func, wait) {
-      let timerId;
-      return function (...args) {
-        if (timerId) {
-          clearTimeout(timerId);
-        }
-        timerId = setTimeout(() => {
-          func(...args);
-          timerId = null;
-        }, wait);
-      };
-    },
   },
   watch: {
-    textSearch: function (newSearch) {
-      // default list if no input
-      if (newSearch.length === 0) {
-        this.courseList = this.courses;
-        return;
-      }
-
-      // debounce query for courses
-      this.courseUpdate();
+    /* This value gets debounced */
+    textSearch: function () {
+      this.updateCourseList();
     },
   },
   computed: {
@@ -222,5 +198,13 @@ export default {
   height: 100px;
   padding-top: 10px;
   border-bottom: 1px solid #e9ecef;
+}
+
+.no-courses {
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(0, 0, 0, 0.05);
+  font-size: 16px;
+  padding: 20px;
 }
 </style>
