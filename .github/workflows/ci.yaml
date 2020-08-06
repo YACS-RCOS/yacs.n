@@ -76,3 +76,11 @@ jobs:
         run: |
           pytest --cov=. --cov-config=.coveragec
           coveralls
+
+      - name: Publish status checks
+        uses: LouisBrunner/checks-action@v0.1.0
+        if: always()
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: CI
+          conclusion: ${{ job.status }}
