@@ -1,0 +1,14 @@
+[run]
+omit =
+  # ignore all tests
+  tests/*
+  conftest.py
+
+  # ignore db and web
+  src/data/*
+  src/web/*
+  
+  # ignore non application code
+  scripts/*
+  ops/*
+  bin/*
