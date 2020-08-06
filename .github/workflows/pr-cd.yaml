@@ -25,7 +25,7 @@ jobs:
         run: exit 1
 
   lint:
-    needs: check_ci
+    needs: wait_ci
     runs-on: ubuntu-latest
 
     steps:
