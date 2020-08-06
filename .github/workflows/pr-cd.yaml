@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  check_ci:
+  wait_ci:
     runs-on: ubuntu-latest
 
     steps:

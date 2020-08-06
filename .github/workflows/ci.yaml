@@ -58,14 +58,6 @@ jobs:
           PGUSER: postgres
           PGPASSWORD: postgres
 
-      # - name: Run unit tests
-      #   run: pytest --ignore="src/yacs-web" -s
-      #   env:
-      #     DB_PORT: ${{ job.services.postgres.ports[5432] }}
-      #     DB_USER: postgres
-      #     DB_PASS: postgres
-      #     TEST_CSV: rpi_data/summer-2020.csv
-
       - name: Run unit tests with coverage
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
