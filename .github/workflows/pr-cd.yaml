@@ -17,7 +17,11 @@ jobs:
           checkName: ci
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - if: steps.wait-for-ci.outputs.conclusion != 'success'
+      - name: Check if unit tests were successful
+        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
+
+      - name: testing
         run: exit 1
 
       - uses: actions/checkout@v2
