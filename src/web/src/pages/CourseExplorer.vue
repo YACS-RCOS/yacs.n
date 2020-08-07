@@ -2,10 +2,10 @@
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <b-col>
-        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
-              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
+              <h2 class="m-2 ml-3">{{ schoolOrder[n - 1] }}</h2>
             </b-row>
             <b-row>
               <DepartmentList
@@ -20,14 +20,14 @@
         </b-row>
       </b-col>
       <b-col>
-        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
-              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
+              <h2 class="m-2 ml-3">{{ schoolOrder[n + 1] }}</h2>
             </b-row>
             <b-row>
               <DepartmentList
-                :majors="coursesChunked[n + 2]"
+                :majors="coursesChunked[n + 1]"
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
                 :id="n + 3"
@@ -103,8 +103,23 @@ export default {
     return {
       //an object with keys being the dept, and values a list of courses
       deptClassDict: {},
+      schoolsMajorDict: {},
       ready: false,
 
+      /*
+       *Used to define the order that the schools are placed into the two main
+       *columns. This could be implemented generically, but making the columns
+       *more or less "even" is NP-Hard so its more convenient to just define
+       *manually
+       */
+      schoolOrder: [
+        "Engineering",
+        "Science",
+        "Humanities, Arts and Social Sciences",
+        "Architecture",
+        "Business Management",
+        "Other",
+      ],
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
     };
@@ -112,6 +127,13 @@ export default {
   async created() {
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
+        if (!this.schoolsMajorDict[c.school]) {
+          this.schoolsMajorDict[c.school] = [c.department];
+        } else {
+          if (!this.schoolsMajorDict[c.school].includes(c.department)) {
+            this.schoolsMajorDict[c.school].push(c.department);
+          }
+        }
         if (this.deptClassDict[c.department]) {
           this.deptClassDict[c.department].push(c);
         } else {
@@ -129,12 +151,11 @@ export default {
     },
   },
   computed: {
+    //Used to define the placement of each department into the two main columns
     coursesChunked() {
-      const arr = Object.keys(this.deptClassDict);
       const chunkedArr = [];
-      const noOfChunks = Math.ceil(arr.length / 6);
-      for (var i = 0; i < noOfChunks; i++) {
-        chunkedArr.push(arr.slice(i * 6, (i + 1) * 6));
+      for (var i = 0; i < 6; i++) {
+        chunkedArr.push(this.schoolsMajorDict[this.schoolOrder[i]]);
       }
       return chunkedArr;
     },
