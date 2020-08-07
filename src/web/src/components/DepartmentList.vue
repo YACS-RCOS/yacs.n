@@ -2,12 +2,12 @@
   <div class="d-flex flex-column flex-grow-1">
     <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
-        <div class="p-2 mb-1 w-100">
+        <div class="mt-1 mb-1 w-100">
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
             variant="light"
-            class="major-button m-0 ml-2"
+            class="major-button m-0 ml-1"
           >
             {{ major }}
           </b-button>

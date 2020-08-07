@@ -5,7 +5,7 @@
         <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
-              <h2 class="m-2 ml-3">{{ schoolOrder[n - 1] }}</h2>
+              <h3 class="m-1 ml-2">{{ schoolOrder[n - 1] }}</h3>
             </b-row>
             <b-row>
               <DepartmentList
@@ -23,7 +23,7 @@
         <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
-              <h2 class="m-2 ml-3">{{ schoolOrder[n + 1] }}</h2>
+              <h3 class="m-1 ml-2">{{ schoolOrder[n + 1] }}</h3>
             </b-row>
             <b-row>
               <DepartmentList
