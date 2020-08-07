@@ -53,7 +53,7 @@ def is_admin_user():
 @app.route('/')
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def root():
-    return "YACS API is Up!"
+    return "YACS API is Up!, yes it is"
 
 @app.route('/api/')
 def apiroot():
