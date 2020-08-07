@@ -1,6 +1,9 @@
 import os
 
+from typing import List, Set, Dict
+
 import pytest
+import csv
 
 from src.api.db.connection import db
 from src.api.db.classinfo import ClassInfo
@@ -9,7 +12,7 @@ from src.api.db.admin import Admin
 # from src.api.db.student_course_selection import student_course_selection
 # from src.api.db.user import User
 from rpi_data.modules.add_school_column import SchoolDepartmentMapping, SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME
-
+from rpi_data.modules.fetch_catalog_course_info import acalog_client as AcalogClient
 
 class MockCache:
     """simple cache mock"""
@@ -25,15 +28,43 @@ class MockCache:
     def __reset(self):
         self.cache_cleared = True
 
+class TestData:
+    def __init__(self, course_sessions_by_id, semesters, departments):
+        self.course_sessions_by_id: dict = course_sessions_by_id
+        self.departments = departments
+        self.semesters = semesters
+    
+    @property
+    def course_sessions_iter(self):
+        return iter(self.course_sessions_by_id.values())
 
-from rpi_data.modules.fetch_catalog_course_info import acalog_client as AcalogClient
+    @classmethod
+    def read(cls, filename):
+        with open(filename) as f:
+            reader = csv.DictReader(f)
 
-TEST_CSV = os.environ.get('TEST_CSV', None)
+            course_sessions_by_id: Dict[str, dict] = {}
+            semesters: Set[str] = set()
+            departments: Set[str] = set()
+            
+            for row in reader:
+                course_sessions_by_id[row['course_crn']] = row
+
+                semesters.add(row['semester'])
+                departments.add(row['course_department'])
+            
+            return cls(course_sessions_by_id, semesters, departments)
+
+
+TEST_CSV = os.environ.get('TEST_CSV', 'tests/test_data.csv')
+
+@pytest.fixture(scope="session")
+def test_data() -> TestData:
+    return TestData.read(TEST_CSV)
 
 @pytest.fixture(scope="session")
 def db_conn():
     return db
-
 
 @pytest.fixture(scope="session")
 def class_info(db_conn):
