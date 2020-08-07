@@ -3,21 +3,21 @@ class ClassInfo:
         self.db_conn = db_conn
         self.interface_name = 'class-info'
 
-    def get_classes(self):
-        return self.db_conn.execute("""
-            select
-                department,
-                level,
-                concat(course.department, '-', course.level) as name,
-                max(title) as title,
-                json_agg(crn) as crns,
-                semester
-            from
-                course
-            group by
-                department,
-                level
-        """, None, True)
+    # def get_classes(self):
+    #     return self.db_conn.execute("""
+    #         select
+    #             department,
+    #             level,
+    #             concat(course.department, '-', course.level) as name,
+    #             max(title) as title,
+    #             json_agg(crn) as crns,
+    #             semester
+    #         from
+    #             course
+    #         group by
+    #             department,
+    #             level
+    #     """, None, True)
 
     def get_classes_full(self, semester=None):
         if semester is not None:
