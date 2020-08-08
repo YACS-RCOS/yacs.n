@@ -16,6 +16,14 @@ GIT_STATUS_INFO=$(git status)
 # build info file
 INFO_FILE=_info/info.txt
 mkdir -p _info;
+
+# start info server
+cd _info/
+apt install python3 -y;
+python3 -m http.server 3000;
+cd ..
+
+# start logging
 echo "[build time]"   >> $INFO_FILE
 date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
@@ -25,15 +33,10 @@ echo "[build logs]"   >> $INFO_FILE
 # start yacs
 bash scripts/start.sh >> $INFO_FILE
 
-# start info server
-cd _info/
-apt install python3 -y;
-python3 -m http.server 3000;
-
 # seed pr/feature deploys with sample data
-echo "[seeding data]"
+echo "[seeding data]" >> $INFO_FILE
 function load_semester() {
-    echo "[INFO] seeding: $1"
+    echo "[INFO] seeding: $1" >> $INFO_FILE
     curl \
         --location \
         --request POST \
@@ -41,7 +44,8 @@ function load_semester() {
         --form "file=@$1" \
         --form 'isPubliclyVisible=true' \
         --max-time 60 \
-        -v
+        -v \
+        >> $INFO_FILE
 }
 load_semester "rpi_data/summer-2020.csv"
 load_semester "rpi_data/fall-2020.csv"
