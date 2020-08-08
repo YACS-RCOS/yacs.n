@@ -3,27 +3,28 @@
 # <UDF name="branch" label="The BRANCH from which to deploy yacs">
 # BRANCH=
 
-apt update -y;
-apt install docker -y;
-apt install docker-compose -y;
-git clone https://github.com/YACS-RCOS/yacs.n;
-cd yacs.n;
-git checkout $BRANCH;
+apt update -y
+apt install docker -y
+apt install docker-compose -y
+git clone https://github.com/YACS-RCOS/yacs.n
+cd yacs.n
+git checkout $BRANCH
 
 # get info
 GIT_STATUS_INFO=$(git status)
 
 # build info file
 INFO_FILE=_info/info.txt
-mkdir -p _info;
+mkdir -p _info
 
-# start info server
-cd _info/
-apt install python3 -y;
-python3 -m http.server 3000;
-cd ..
+(
+    # start info server
+    cd _info/
+    apt install python3 -y
+    python3 -m http.server 3000
+    # start logging
+)
 
-# start logging
 echo "[build time]"   >> $INFO_FILE
 date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
@@ -36,7 +37,7 @@ bash scripts/start.sh >> $INFO_FILE
 # seed pr/feature deploys with sample data
 echo "[seeding data]" >> $INFO_FILE
 function load_semester() {
-    echo "[INFO] seeding: $1" >> $INFO_FILE
+    echo "$date [INFO] seeding: $1" >> $INFO_FILE
     curl \
         --location \
         --request POST \
@@ -44,8 +45,8 @@ function load_semester() {
         --form "file=@$1" \
         --form 'isPubliclyVisible=true' \
         --max-time 60 \
-        -v \
-        >> $INFO_FILE
+        -v
 }
+
 load_semester "rpi_data/summer-2020.csv"
 load_semester "rpi_data/fall-2020.csv"
