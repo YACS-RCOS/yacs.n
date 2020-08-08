@@ -1,4 +1,3 @@
-const request = require('superagent')
 const fs = require('fs')
 const Linode = require('./linode.js')
 const path = require('path')

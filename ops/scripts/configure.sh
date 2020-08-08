@@ -31,14 +31,17 @@ apt install python3 -y;
 python3 -m http.server 3000;
 
 # seed pr/feature deploys with sample data
+echo "[seeding data]"
 function load_semester() {
+    echo "[INFO] seeding: $1"
     curl \
         --location \
         --request POST \
         'http://localhost/api/bulkCourseUpload' \
-        --form "file=@$1"
+        --form "file=@$1" \
+        --form 'isPubliclyVisible=true' \
+        --max-time 60 \
+        -v
 }
-
-# split semester
 load_semester "rpi_data/summer-2020.csv"
 load_semester "rpi_data/fall-2020.csv"
