@@ -15,11 +15,10 @@ GIT_STATUS_INFO=$(git status)
 
 # build info file
 INFO_FILE=_info/info.txt
-mkdir -p _info
-
+mkdir -p /_info/
 (
     # start info server
-    cd _info/
+    cd /_info/
     apt install python3 -y
     python3 -m http.server 3000
     # start logging
