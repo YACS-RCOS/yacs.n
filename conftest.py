@@ -9,6 +9,7 @@ from src.api.db.connection import db
 from src.api.db.classinfo import ClassInfo
 from src.api.db.courses import Courses
 from src.api.db.admin import Admin
+from src.api.db.semester_info import semester_info as SemesterInfo
 # from src.api.db.student_course_selection import student_course_selection
 # from src.api.db.user import User
 from rpi_data.modules.add_school_column import SchoolDepartmentMapping, SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME
@@ -58,9 +59,11 @@ class TestData:
 
 TEST_CSV = os.environ.get('TEST_CSV', 'tests/test_data.csv')
 
+TEST_DATA = TestData.read(TEST_CSV)
+
 @pytest.fixture(scope="session")
 def test_data() -> TestData:
-    return TestData.read(TEST_CSV)
+    return TEST_DATA
 
 @pytest.fixture(scope="session")
 def db_conn():
@@ -95,8 +98,12 @@ def school_department_mapping():
 
     return SchoolDepartmentMapping.parse_yaml(file_path)
 
-if TEST_CSV is not None:
-    with open(TEST_CSV) as csvfile:
-        mock_cache = MockCache()
-        Courses(db, mock_cache).populate_from_csv(csvfile)
-        assert(mock_cache.cache_cleared)
+
+with open(TEST_CSV) as csvfile:
+    mock_cache = MockCache()
+    for semester in TEST_DATA.semesters:
+        SemesterInfo(db).upsert(semester, True)
+    courses = Courses(db, mock_cache)
+    courses.bulk_delete(TEST_DATA.semesters)
+    courses.populate_from_csv(csvfile)
+    assert(mock_cache.cache_cleared)
