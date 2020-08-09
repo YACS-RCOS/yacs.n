@@ -1,6 +1,7 @@
 import os
-
-from typing import List, Set, Dict
+from dataclasses import dataclass
+from datetime import date
+from typing import List, Set, Dict, Tuple
 
 import pytest
 import csv
@@ -29,11 +30,29 @@ class MockCache:
     def __reset(self):
         self.cache_cleared = True
 
+@dataclass(frozen=True, eq=True)
+class Subsemester:
+    parent_semester: str
+    start_date: str
+    end_date: str
+
 class TestData:
-    def __init__(self, course_sessions_by_id, semesters, departments):
-        self.course_sessions_by_id: dict = course_sessions_by_id
-        self.departments = departments
-        self.semesters = semesters
+    def __init__(self, filename, course_sessions_by_id, semesters, departments, subsemesters):
+        self.filename: str = filename
+        self.course_sessions_by_id: Dict[str, dict] = course_sessions_by_id
+        self.departments: Set[str] = departments
+        self.semesters: Set[str] = semesters
+        self.subsemesters: Set[Subsemester] = subsemesters
+
+    def reload_db(self, db_conn):
+        with open(self.filename) as csvfile:
+            mock_cache = MockCache()
+            for semester in self.semesters:
+                SemesterInfo(db_conn).upsert(semester, True)
+            courses = Courses(db_conn, mock_cache)
+            courses.bulk_delete(TEST_DATA.semesters)
+            courses.populate_from_csv(csvfile)
+            assert(mock_cache.cache_cleared)
     
     @property
     def course_sessions_iter(self):
@@ -47,14 +66,16 @@ class TestData:
             course_sessions_by_id: Dict[str, dict] = {}
             semesters: Set[str] = set()
             departments: Set[str] = set()
+            subsemesters: Set[Subsemester] = set()
             
             for row in reader:
                 course_sessions_by_id[row['course_crn']] = row
 
                 semesters.add(row['semester'])
                 departments.add(row['course_department'])
-            
-            return cls(course_sessions_by_id, semesters, departments)
+                subsemesters.add(Subsemester(row['semester'], row['course_start_date'], row['course_end_date']))
+
+            return cls(filename, course_sessions_by_id, semesters, departments, subsemesters)
 
 
 TEST_CSV = os.environ.get('TEST_CSV', 'tests/test_data.csv')
@@ -62,12 +83,14 @@ TEST_CSV = os.environ.get('TEST_CSV', 'tests/test_data.csv')
 TEST_DATA = TestData.read(TEST_CSV)
 
 @pytest.fixture(scope="session")
-def test_data() -> TestData:
-    return TEST_DATA
-
-@pytest.fixture(scope="session")
 def db_conn():
     return db
+
+@pytest.fixture(scope="module")
+def test_data(db_conn) -> TestData:
+    TEST_DATA.reload_db(db_conn)
+
+    return TEST_DATA
 
 @pytest.fixture(scope="session")
 def class_info(db_conn):
@@ -76,6 +99,10 @@ def class_info(db_conn):
 @pytest.fixture(scope="session")
 def admin_settings(db_conn):
     return Admin(db_conn)
+
+@pytest.fixture(scope="session")
+def semester_info(db_conn):
+    return SemesterInfo(db_conn)
 
 ## For future save semester testing
 # @pytest.fixture(scope="session")
@@ -97,13 +124,3 @@ def school_department_mapping():
     file_path = "rpi_data/" + SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME
 
     return SchoolDepartmentMapping.parse_yaml(file_path)
-
-
-with open(TEST_CSV) as csvfile:
-    mock_cache = MockCache()
-    for semester in TEST_DATA.semesters:
-        SemesterInfo(db).upsert(semester, True)
-    courses = Courses(db, mock_cache)
-    courses.bulk_delete(TEST_DATA.semesters)
-    courses.populate_from_csv(csvfile)
-    assert(mock_cache.cache_cleared)
