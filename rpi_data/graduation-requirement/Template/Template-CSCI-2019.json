@@ -1,12 +1,12 @@
 {
-  "id": "UN-CSCI-2019",
+  "id": "UN_CSCI_2019",
   "degree": "UN",
   "major": "CSCI",
   "year": 2019,
   "semesters": 
   [
     {
-      "semester-nmae":"Semester One",
+      "semester-name":"SemesterOne",
       "courses":
       [
         {
@@ -44,7 +44,7 @@
     },
 
     {
-      "semester-nmae":"Semester Two",
+      "semester-name":"SemesterTwo",
       "courses":
       [
         {
@@ -90,7 +90,7 @@
     },
 
     {
-      "semester-nmae":"Semester Three",
+      "semester-name":"SemesterThree",
       "courses":
       [
         {
@@ -127,7 +127,7 @@
     },
 
     {
-      "semester-nmae":"Semester Four",
+      "semester-name":"SemesterFour",
       "courses":
       [
         {
@@ -165,7 +165,7 @@
     },
 
     {
-      "semester-nmae":"Semester Five",
+      "semester-name":"SemesterFive",
       "courses":
       [
         {
@@ -202,7 +202,7 @@
     },
 
     {
-      "semester-nmae":"Semester Six",
+      "semester-name":"SemesterSix",
       "courses":
       [
         {
@@ -248,7 +248,7 @@
     },
 
     {
-      "semester-nmae":"Semester Seven",
+      "semester-name":"SemesterSeven",
       "courses":
       [
         {
@@ -285,7 +285,7 @@
     },
 
     {
-      "semester-nmae":"Semester Eight",
+      "semester-name":"SemesterEight",
       "courses":
       [
         {
