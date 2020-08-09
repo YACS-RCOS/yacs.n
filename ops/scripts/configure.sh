@@ -38,7 +38,7 @@ bash scripts/start.sh >> $INFO_FILE
 # seed pr/feature deploys with sample data
 echo "[seeding data]" >> $INFO_FILE
 function load_semester() {
-    echo "$date [INFO] seeding: $1" >> $INFO_FILE
+    echo "$(date) [INFO] seeding: $1" >> $INFO_FILE
     curl \
         --location \
         --request POST \
