@@ -45,7 +45,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 
-degree_templates = DegreeTemplates.DegreeTemplates(db_conn)
+degree_templates = DegreeTemplates.DegreeTemplate(db_conn)
 
 users = UserModel.User()
 
