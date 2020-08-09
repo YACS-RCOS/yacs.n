@@ -14,7 +14,7 @@ git checkout $BRANCH
 GIT_STATUS_INFO=$(git status)
 
 # build info file
-INFO_FILE=_info/info.txt
+INFO_FILE="/_info/info.txt"
 mkdir -p /_info/
 (
     # start info server
