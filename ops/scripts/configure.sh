@@ -16,19 +16,21 @@ GIT_STATUS_INFO=$(git status)
 # build info file
 INFO_FILE="/_info/info.txt"
 mkdir -p /_info/
-(
-    # start info server
-    cd /_info/
-    apt install python3 -y
-    python3 -m http.server 3000
-    # start logging
-)
 
 echo "[build time]"   >> $INFO_FILE
 date                  >> $INFO_FILE
 echo "[git status]"   >> $INFO_FILE
 echo $GIT_STATUS_INFO >> $INFO_FILE
 echo "[build logs]"   >> $INFO_FILE
+
+# start info server in sub-shell
+(
+    cd /_info/
+    apt install python3 -y
+    python3 -m http.server 3000 &
+    # start logging
+)
+
 
 # start yacs
 bash scripts/start.sh >> $INFO_FILE
