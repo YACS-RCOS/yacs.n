@@ -74,7 +74,7 @@ def test_get_all_semester_info(class_info, test_data):
     assert len(test_data.semesters) == len(semesters_info)
 
     for semester in semesters_info:
-        assert True == semester['public']
+        assert semester['public']
 
 def test_get_classes_by_search_by_department(class_info, test_data):
     expected = next(test_data.course_sessions_iter)

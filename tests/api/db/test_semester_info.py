@@ -1,6 +1,6 @@
 def test_semester_info(semester_info, test_data):
     for semester in test_data.semesters:
-        assert True == semester_info.is_public(semester)
+        assert semester_info.is_public(semester)
 
     expected_public_semester = next(iter(test_data.semesters))
     semester_info.upsert(expected_public_semester, False)
@@ -11,4 +11,4 @@ def test_semester_info(semester_info, test_data):
     semester_info.upsert(expected_public_semester, True)
 
     for semester in test_data.semesters:
-        assert True == semester_info.is_public(semester)
+        assert semester_info.is_public(semester)
