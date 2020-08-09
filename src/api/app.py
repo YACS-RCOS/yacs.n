@@ -16,6 +16,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.degree_templates as DegreeTemplates
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -43,6 +44,9 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
+
+degree_templates = DegreeTemplates.DegreeTemplates(db_conn)
+
 users = UserModel.User()
 
 def is_admin_user():
@@ -261,5 +265,19 @@ def get_student_courses():
     courses, error = course_select.get_selection(info['uid'])
     return jsonify(courses) if not error else Response(error, status=500)
 
+@app.route('/api/degreeTemplate', methods=['GET'])
+def get_degree_template():
+    templates, error = degree_templates.get_template()
+    return jsonify(templates) if not error else Response(error, status=500)
+
+@app.route('/api/degreeTemplate', methods=['POST'])
+def add_degree_template():
+    template = request.get_json()
+    resp, error = degree_templates.import_degree_template(template)
+    return Response(status=204) if not error else Response(error, status=500)
+
+
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
+
+

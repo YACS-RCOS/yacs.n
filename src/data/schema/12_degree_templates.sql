@@ -5,7 +5,7 @@ CREATE TABLE degree_templates (
     degree      varchar(255),
     major       varchar(255),
     year        int,
-    information   json,/*ITWS_2018_sm1 */
+    template   text,/*ITWS_2018_sm1 */
     PRIMARY KEY (id)
 );
 
