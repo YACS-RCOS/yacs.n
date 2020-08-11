@@ -128,12 +128,9 @@ export default {
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
         if (!this.schoolsMajorDict[c.school]) {
-          this.schoolsMajorDict[c.school] = [c.department];
-        } else {
-          if (!this.schoolsMajorDict[c.school].includes(c.department)) {
-            this.schoolsMajorDict[c.school].push(c.department);
-          }
+          this.schoolsMajorDict[c.school] = new Set();
         }
+        this.schoolsMajorDict[c.school].add(c.department);
         if (this.deptClassDict[c.department]) {
           this.deptClassDict[c.department].push(c);
         } else {
