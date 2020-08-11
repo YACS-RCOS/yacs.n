@@ -98,6 +98,8 @@ export default {
   max-height: 20em;
   overflow-x: hidden;
   text-align: left;
+  list-style: none;
+  padding-left: 0;
 }
 
 .course-listing {
