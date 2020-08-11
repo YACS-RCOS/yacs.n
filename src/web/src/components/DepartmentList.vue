@@ -18,15 +18,11 @@
           >
             <b-card-body>
               <div id="scroll-box">
-                <recycle-scroller
-                  class="scroller"
-                  :items="deptClassDict[major]"
-                  :item-size="100"
-                  typeField="vscrl_type"
-                  v-slot="{ item: course }"
-                >
-                  <div
+                <ul class="scroller">
+                  <li
                     class="course-listing"
+                    v-for="course in deptClassDict[major]"
+                    :key="course.name + course.date_start + course.date_end"
                     :class="{ 'bg-light': course.selected }"
                   >
                     <CourseListing
@@ -49,8 +45,8 @@
                         {{ null }}
                       </template>
                     </CourseListing>
-                  </div>
-                </recycle-scroller>
+                  </li>
+                </ul>
               </div>
             </b-card-body>
           </b-collapse>
@@ -65,13 +61,10 @@ import "@/typedef";
 import CourseListingComponent from "@/components/CourseListing";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { RecycleScroller } from "vue-virtual-scroller";
-
 export default {
   name: "DepartmentList",
   components: {
     CourseListing: CourseListingComponent,
-    RecycleScroller,
   },
   data() {
     return {
@@ -79,7 +72,7 @@ export default {
     };
   },
   props: {
-    majors: Array,
+    majors: Set,
     deptClassDict: Object,
     selectedSemester: String,
     id: Number,
