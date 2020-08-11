@@ -48,16 +48,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r src/api/requirements.txt -r tests/requirements.txt
 
-      - name: Create database tables
-        run: |
-          bash build.sh
-        working-directory: ./src/data
-        env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGUSER: postgres
-          PGPASSWORD: postgres
-
       - name: Run unit tests with coverage
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -65,8 +55,12 @@ jobs:
           DB_USER: postgres
           DB_PASS: postgres
           TEST_CSV: rpi_data/summer-2020.csv
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGUSER: postgres
+          PGPASSWORD: postgres
         run: |
-          pytest --cov=. --cov-config=.coveragec
+          bash scripts/test.sh
           coveralls
 
       - name: Publish status checks
