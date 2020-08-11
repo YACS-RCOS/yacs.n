@@ -163,7 +163,7 @@ export const withinDuration = (s1, s2) => {
 
 export const generateRequirementsText = (prereqs, coreqs, raw) => {
   let text = [];
-  if (!prereqs && !coreqs) {
+  if (!prereqs && !coreqs && !raw) {
     return "This course has no prerequisites";
   }
   if (prereqs || coreqs) {
