@@ -3,12 +3,10 @@
   "degree": "UN",
   "major": "CSCI",
   "year": 2019,
-  "semesters": 
-  [
+  "semesters": [
     {
-      "semester-name":"SemesterOne",
-      "courses":
-      [
+      "semester-name": "SemesterOne",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-1100",
@@ -35,25 +33,24 @@
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterTwo",
-      "courses":
-      [
+      "semester-name": "SemesterTwo",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-1200",
           "department": "CSCI",
           "creditHours": 4,
           "description": "",
-          "pre-requsit-of": ["CSCI-2200","CSCI-2500"]
+          "pre-requsit-of": ["CSCI-2200", "CSCI-2500"]
         },
         {
           "type": "Course",
@@ -81,18 +78,17 @@
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterThree",
-      "courses":
-      [
+      "semester-name": "SemesterThree",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-2200",
@@ -112,24 +108,29 @@
         {
           "type": "Option-Courses",
           "name": "Mathematics Option I",
-          "courses": ["MATH 2010", "MATH 4030", "MATH 4040", "MATH 4100", "MATP 4600"],
+          "courses": [
+            "MATH 2010",
+            "MATH 4030",
+            "MATH 4040",
+            "MATH 4100",
+            "MATP 4600"
+          ],
           "creditHours": 4,
           "description": "Non"
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterFour",
-      "courses":
-      [
+      "semester-name": "SemesterFour",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-2300",
@@ -156,18 +157,17 @@
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterFive",
-      "courses":
-      [
+      "semester-name": "SemesterFive",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-4210",
@@ -186,25 +186,24 @@
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterSix",
-      "courses":
-      [
+      "semester-name": "SemesterSix",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-4430",
@@ -223,34 +222,38 @@
         },
         {
           "type": "Option-Departments",
-          "name":"HASS ELECTIVE",
+          "name": "HASS ELECTIVE",
           "creditHours": 16,
           "description": "Non",
-          "Departments":["HASS"]
+          "Departments": ["HASS"]
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         },
         {
           "type": "Option-Departments",
-          "name":"Science Option",
+          "name": "Science Option",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ASTR-XXXX", "BIOL-XXXX", "CHEM-XXXX", "ERTH-XXXX", "ENVI-XXXX" , "PHYS-XXXX"]
+          "Departments": [
+            "ASTR-XXXX",
+            "BIOL-XXXX",
+            "CHEM-XXXX",
+            "ERTH-XXXX",
+            "ENVI-XXXX",
+            "PHYS-XXXX"
+          ]
         }
-
-        
       ]
     },
 
     {
-      "semester-name":"SemesterSeven",
-      "courses":
-      [
+      "semester-name": "SemesterSeven",
+      "courses": [
         {
           "type": "Course",
           "name": "CSCI-4430",
@@ -269,25 +272,24 @@
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         }
       ]
     },
 
     {
-      "semester-name":"SemesterEight",
-      "courses":
-      [
+      "semester-name": "SemesterEight",
+      "courses": [
         {
           "type": "Option-Courses",
           "name": "CS Option/Capstone",
@@ -306,20 +308,19 @@
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         },
         {
           "type": "Option-Departments",
-          "name":"Free ELECTIVE",
+          "name": "Free ELECTIVE",
           "creditHours": 4,
           "description": "Non",
-          "Departments":["ALL-XXXX"]
+          "Departments": ["ALL-XXXX"]
         }
       ]
     }
-
   ]
 }

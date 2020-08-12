@@ -22,7 +22,8 @@
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.0",
     "vue-router": "^3.1.6",
-    "vue-virtual-scroller": "^1.0.10"
+    "vue-virtual-scroller": "^1.0.10",
+    "vuedraggable": "^2.24.0"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.8.7",
