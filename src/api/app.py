@@ -266,9 +266,9 @@ def get_student_courses():
     return jsonify(courses) if not error else Response(error, status=500)
 
 @app.route('/api/degreeTemplate', methods=['GET'])
-def get_degree_template():
-    templates, error = degree_templates.get_template()
-    return jsonify(templates) if not error else Response(error, status=500)
+def get_degree_template_demo():
+    templates = degree_templates.get_template_demo()
+    return jsonify(templates) 
 
 @app.route('/api/degreeTemplate', methods=['POST'])
 def add_degree_template():

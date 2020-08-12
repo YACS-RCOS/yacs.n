@@ -122,3 +122,15 @@ export const getStudentCourses = (user_info) =>
       params: user_info,
     })
     .then((res) => res.data);
+
+export const getDegreeTemplate = () =>
+  client.get("/degreeTemplate").then(({ data }) => {
+    return data;
+  });
+
+/*
+export const addDegreeTemplate = () =>
+  client.post("/degreeTemplate").then(({ data }) => {
+    return data;
+  });
+*/
