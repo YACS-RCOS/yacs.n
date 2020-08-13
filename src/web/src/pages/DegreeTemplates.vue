@@ -7,7 +7,13 @@
         <p>Required credits: {{ modelShowing.creditHours }}</p>
         <p>Description: {{ modelShowing.description }}</p>
         <p v-if="modelShowing.courses != null">
-          Possible courses: {{ modelShowing.courses }}
+          <b-button
+            @click="changeTitle(courseName)"
+            v-for="courseName in modelShowing.courses"
+            :key="courseName"
+          >
+            {{ courseName }} | {{ modelShowing.creditHours }}
+          </b-button>
         </p>
         <p v-if="modelShowing.Departments != null">
           Possible categories: {{ modelShowing.Departments }}
@@ -59,7 +65,11 @@ export default {
   methods: {
     showModal(course) {
       this.modelShowing = course;
+      this.modelShowing.subName = null;
       this.$refs["my-modal"].show();
+    },
+    changeTitle(courseName) {
+      this.modelShowing.name = courseName;
     },
   },
   data() {
