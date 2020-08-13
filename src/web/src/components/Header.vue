@@ -90,7 +90,7 @@
         v-model="darkModeEnabled"
         switch
       >
-        <font-awesome-icon :icon="faMoon" />
+        <font-awesome-icon class="style-icon" :icon="faMoon" />
       </b-form-checkbox>
     </b-navbar>
     <hr />
@@ -119,7 +119,6 @@ export default {
         email: "",
         password: "",
       },
-
       isLoggedIn: false,
       sessionID: "",
       userName: "",
