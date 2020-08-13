@@ -1,4 +1,4 @@
-<template>
+<template id = "body">
   <div fluid class="py-3 h-100">
     <h1>Graduatation Requirements</h1>
     <b-modal ref="my-modal">
@@ -11,41 +11,39 @@
             @click="changeTitle(courseName)"
             v-for="courseName in modelShowing.courses"
             :key="courseName"
-          >
-            {{ courseName }} | {{ modelShowing.creditHours }}
-          </b-button>
+          >{{ courseName }} | {{ modelShowing.creditHours }}</b-button>
         </p>
-        <p v-if="modelShowing.Departments != null">
-          Possible categories: {{ modelShowing.Departments }}
-        </p>
-        <p v-if="modelShowing['pre-requsit-of'] != null">
-          Prerequsit of: {{ modelShowing["pre-requsit-of"] }}
-        </p>
+        <p
+          v-if="modelShowing.Departments != null"
+        >Possible categories: {{ modelShowing.Departments }}</p>
+        <p
+          v-if="modelShowing['pre-requsit-of'] != null"
+        >Prerequsit of: {{ modelShowing["pre-requsit-of"] }}</p>
       </div>
     </b-modal>
     <b-row>
-      <b-col sm="12">
-        <p>Select your degree, graduatation year and major</p>
-        <tr v-for="template in templates" :key="template.id">
-          <td scope="row">{{ template.id }}</td>
-        </tr>
+      <b-col sm="4">
+        <b-form-select v-model="selected" :options="optionsDegree"></b-form-select>
       </b-col>
+      <b-col sm="4">
+        <b-form-select v-model="selected" :options="optionsMajor"></b-form-select>
+      </b-col>
+      <b-col sm="4">
+        <b-form-select v-model="selected" :options="optionsYear"></b-form-select>
+      </b-col>
+      <tr v-for="template in templates" :key="template.id" text-align:center>
+        <td scope="row">{{ template.id }}</td>
+      </tr>
     </b-row>
     <b-row>
-      <b-col
-        md="6"
-        v-for="semester in semesterAll"
-        :key="semester['semester-name']"
-      >
+      <b-col md="6" v-for="semester in semesterAll" :key="semester['semester-name']">
         <h2>{{ semester["semester-name"] }}</h2>
         <draggable class="list-group" :list="list1" group="people">
           <b-button
             @click="showModal(course)"
             v-for="course in semester.courses"
             :key="course"
-          >
-            {{ course.name }} | {{ course.creditHours }}
-          </b-button>
+          >{{ course.name }} | {{ course.creditHours }}</b-button>
         </draggable>
       </b-col>
     </b-row>
@@ -77,6 +75,25 @@ export default {
       templates: [],
       semsterAll: [],
       modelShowing: null,
+      degree: "UNGD",
+      selected: null,
+      optionsDegree: [
+        { value: null, text: "Plese select a Degree" },
+        { value: "a", text: "GRAD" },
+        { value: "b", text: "UNGD" },
+      ],
+      optionsYear: [
+        { value: null, text: "Plese select your entering Year" },
+        { value: "a", text: "2017" },
+        { value: "a", text: "2018" },
+        { value: "b", text: "2019" },
+        { value: "a", text: "2020" },
+      ],
+      optionsMajor: [
+        { value: null, text: "Plese select your major" },
+        { value: "a", text: "CSCI" },
+        { value: "b", text: "ITWS" },
+      ],
     };
   },
 
@@ -90,13 +107,16 @@ export default {
 </script>
 
 <style>
+body {
+  text-align: center;
+}
 .draggable-placeholder-inner {
   border: 1px dashed #0088f8;
   box-sizing: border-box;
-  background: rgba(0, 136, 249, 0.09);
-  color: #0088f9;
+  background: red;
+  color: red;
   text-align: center;
-  padding: 0;
+  padding: 10px;
   display: flex;
   align-items: center;
 }
