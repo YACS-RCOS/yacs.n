@@ -21,11 +21,11 @@ const store = new Vuex.Store({
     darkMode: false,
   },
   mutations: {
-    setDarkMode (state, bool) {
+    setDarkMode(state, bool) {
       state.darkMode = bool;
-      Vue.$cookies.set('darkMode', bool, null, null, null, null, "Strict");
-    }
-  }
+      Vue.$cookies.set("darkMode", bool, null, null, null, null, "Strict");
+    },
+  },
 });
 
 Vue.$cookies.config("7d");

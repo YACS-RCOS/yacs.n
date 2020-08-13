@@ -56,8 +56,10 @@
                 : 'none',
               'background-color': section.selected
                 ? `${getBackgroundColor(section)} !important`
-                : (`${$store.state.darkMode}` ? 'var(--dark-primary)' : 'white'),
-              'color': section.selected ? 'black' : 'var(--dark-text-primary)',
+                : `${$store.state.darkMode}`
+                ? 'var(--dark-primary)'
+                : 'white',
+              color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
             {{ section.crn }} - {{ section.sessions[0].section }}

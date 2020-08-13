@@ -137,9 +137,9 @@ export default {
     }
   },
   watch: {
-    darkModeEnabled (newVal) {
+    darkModeEnabled(newVal) {
       this.$store.commit("setDarkMode", newVal);
-    }
+    },
   },
   methods: {
     onSubmit(evt) {
@@ -219,5 +219,4 @@ hr {
 .dark-mode-switch {
   margin-left: 1em;
 }
-
 </style>
