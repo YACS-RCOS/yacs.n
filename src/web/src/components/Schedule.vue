@@ -235,6 +235,7 @@ $hourFontSize: 0.5em;
   color: #777777;
   display: block;
   margin: 0 auto;
+  margin-bottom: 3px;
   text-align: center;
   font-size: 0.8em;
   font-variant: small-caps;
