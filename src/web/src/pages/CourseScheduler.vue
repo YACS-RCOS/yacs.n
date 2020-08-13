@@ -59,7 +59,12 @@
         ></b-form-select>
 
         <template v-if="scheduler.schedules">
-          <Schedule v-for="(schedule, index) in scheduler.schedules" :key="index" :schedule="schedule" v-show="selectedScheduleIndex === index"/>
+          <Schedule
+            v-for="(schedule, index) in scheduler.schedules"
+            :key="index"
+            :schedule="schedule"
+            v-show="selectedScheduleIndex === index"
+          />
         </template>
         <Schedule v-else :schedule="scheduler"></Schedule>
 
@@ -393,13 +398,10 @@ export default {
      * Emits removeCourse and addCourse events
      */
     toggleCourse(course) {
-      if (course.selected
-
-
-) {
+      if (course.selected) {
         this.removeCourse(course);
       } else {
-        this.addCourse(course)
+        this.addCourse(course);
       }
     },
   },
