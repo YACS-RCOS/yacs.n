@@ -49,7 +49,7 @@
           "name": "CSCI-1200",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
+          "description": "Non",
           "pre-requsit-of": ["CSCI-2200", "CSCI-2500"]
         },
         {
@@ -94,16 +94,14 @@
           "name": "CSCI-2200",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Course",
           "name": "CSCI-2500",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Option-Courses",
@@ -136,24 +134,21 @@
           "name": "CSCI-2300",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Course",
           "name": "CSCI-2600",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Option-Courses",
           "name": "Mathematics Option II",
           "courses": ["MATH-2XXX"],
           "creditHours": 4,
-          "description": "Mathematics Option II must be any course in MATH/MATP at the 2000 level or above (excluding MATH 2800)",
-          "pre-requsit-of": []
+          "description": "Mathematics Option II must be any course in MATH/MATP at the 2000 level or above (excluding MATH 2800)"
         },
         {
           "type": "Option-Departments",
@@ -173,16 +168,14 @@
           "name": "CSCI-4210",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Option-Courses",
           "name": "CS Option/Capstone",
           "courses": ["CSCI-4XXX"],
           "creditHours": 16,
-          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits.",
-          "pre-requsit-of": []
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
         },
         {
           "type": "Option-Departments",
@@ -209,16 +202,14 @@
           "name": "CSCI-4430",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Option-Courses",
           "name": "CS Option/Capstone",
           "courses": ["CSCI-4XXX"],
           "creditHours": 16,
-          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits.",
-          "pre-requsit-of": []
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
         },
         {
           "type": "Option-Departments",
@@ -259,16 +250,14 @@
           "name": "CSCI-4430",
           "department": "CSCI",
           "creditHours": 4,
-          "description": "",
-          "pre-requsit-of": []
+          "description": "Non"
         },
         {
           "type": "Option-Courses",
           "name": "CS Option/Capstone",
           "courses": ["CSCI-4XXX"],
           "creditHours": 16,
-          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits.",
-          "pre-requsit-of": []
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
         },
         {
           "type": "Option-Departments",
@@ -295,16 +284,14 @@
           "name": "CS Option/Capstone",
           "courses": ["CSCI-4XXX"],
           "creditHours": 16,
-          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits.",
-          "pre-requsit-of": []
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
         },
         {
           "type": "Option-Courses",
           "name": "CS Option/Capstone",
           "courses": ["CSCI-4XXX"],
           "creditHours": 16,
-          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits.",
-          "pre-requsit-of": []
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
         },
         {
           "type": "Option-Departments",

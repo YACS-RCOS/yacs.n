@@ -2,8 +2,19 @@
   <div fluid class="py-3 h-100">
     <h1>Graduatation Requirements</h1>
     <b-modal ref="my-modal">
-      <div class="d-block text-center" v-if="modelShowing !== null">
-        <h3>{{ modelShowing }}</h3>
+      <div class="d-block text-center" v-if="modelShowing != null">
+        <h3>{{ modelShowing.name }}</h3>
+        <p>Required credits: {{ modelShowing.creditHours }}</p>
+        <p>Description: {{ modelShowing.description }}</p>
+        <p v-if="modelShowing.courses != null">
+          Possible courses: {{ modelShowing.courses }}
+        </p>
+        <p v-if="modelShowing.Departments != null">
+          Possible categories: {{ modelShowing.Departments }}
+        </p>
+        <p v-if="modelShowing['pre-requsit-of'] != null">
+          Prerequsit of: {{ modelShowing["pre-requsit-of"] }}
+        </p>
       </div>
     </b-modal>
     <b-row>
@@ -27,7 +38,7 @@
             v-for="course in semester.courses"
             :key="course"
           >
-            {{ course.name }}
+            {{ course.name }} | {{ course.creditHours }}
           </b-button>
         </draggable>
       </b-col>
