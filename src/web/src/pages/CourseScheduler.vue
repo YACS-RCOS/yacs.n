@@ -356,7 +356,7 @@ export default {
         removeStudentCourse(info)
           .then((response) => {
             console.log(`Unsaved ${course.name}`);
-            console.log(response                 );
+            console.log(response);
           })
           .catch((error) => {
             console.log(error.response);
