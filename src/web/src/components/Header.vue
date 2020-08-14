@@ -125,7 +125,6 @@ export default {
       userName: "",
       showForm: true,
       semesterOptions: [],
-      darkMode: false,
     };
   },
   created() {

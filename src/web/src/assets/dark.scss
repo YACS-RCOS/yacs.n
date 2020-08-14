@@ -7,6 +7,10 @@
   transition: 0s;
 }
 
+.btn-light {
+  transition: 0s;
+}
+
 /* use !important to make sure components are overridden */
 .dark {
   --dark-primary: #22252e;
@@ -60,6 +64,10 @@
 
   .d-flex .btn {
     color: var(--dark-text-primary) !important;
+  }
+
+  .btn {
+    transition: 0s;
   }
 
   .btn.btn-light {
