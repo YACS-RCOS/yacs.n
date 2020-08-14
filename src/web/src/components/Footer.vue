@@ -60,7 +60,7 @@
     </section>
     <!-- <hr> -->
     <section id="credits">
-      <p class="text-center">Built by YACS under RCOS at RPI</p>
+      <p class="text-center built-by">Built by YACS under RCOS at RPI</p>
     </section>
   </div>
 </template>

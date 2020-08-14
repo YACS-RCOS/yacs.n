@@ -45,6 +45,7 @@
       <slot name="collapseContent" :course="course">
         <b-list-group flush>
           <b-list-group-item
+            class="selected"
             button
             v-for="section in course.sections"
             :key="section.crn"
@@ -54,8 +55,11 @@
                 ? `4px solid ${getBorderColor(section)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)}`
+                ? `${getBackgroundColor(section)} !important`
+                : `${$store.state.darkMode}`
+                ? 'var(--dark-primary)'
                 : 'white',
+              color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
             {{ section.crn }} - {{ section.sessions[0].section }}
