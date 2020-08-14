@@ -87,7 +87,8 @@
       </b-navbar-nav>
       <b-form-checkbox
         class="dark-mode-switch"
-        v-model="darkModeEnabled"
+        :checked="$store.state.darkMode"
+        @change="$store.commit('TOGGLE_DARK_MODE')"
         switch
       >
         <font-awesome-icon class="style-icon" :icon="faMoon" />
@@ -124,22 +125,18 @@ export default {
       userName: "",
       showForm: true,
       semesterOptions: [],
-      darkModeEnabled: this.$cookies.get("darkMode"),
+      darkMode: false
     };
   },
   created() {
     this.sessionID = this.$cookies.get("sessionID");
     this.userName = this.$cookies.get("userName");
+
     if (this.sessionID == "") {
       console.log("not logged in");
     } else {
       console.log("sessionID", this.sessionID);
     }
-  },
-  watch: {
-    darkModeEnabled(newVal) {
-      this.$store.commit("setDarkMode", newVal);
-    },
   },
   methods: {
     onSubmit(evt) {

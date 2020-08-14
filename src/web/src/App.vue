@@ -9,7 +9,9 @@ export default {
   name: "App",
   components: {},
   created() {
-    this.$store.commit("setDarkMode", this.$cookies.get("darkMode") == "true");
+    if (this.$cookies.get("darkMode") == "true") {
+      this.$store.commit("TOGGLE_DARK_MODE");
+    }
   },
 };
 </script>
