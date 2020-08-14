@@ -88,7 +88,7 @@
       <b-form-checkbox
         class="dark-mode-switch"
         :checked="$store.state.darkMode"
-        @change="$store.commit('TOGGLE_DARK_MODE')"
+        @change="toggle_style()"
         switch
       >
         <font-awesome-icon class="style-icon" :icon="faMoon" />
@@ -104,6 +104,8 @@ import { login, logout } from "@/services/UserService";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
 import SignUpComponent from "@/components/SignUp";
+
+import { TOGGLE_DARK_MODE } from "@/store";
 
 export default {
   name: "Header",
@@ -138,6 +140,9 @@ export default {
     }
   },
   methods: {
+    toggle_style() {
+      this.$store.commit(TOGGLE_DARK_MODE);
+    },
     onSubmit(evt) {
       evt.preventDefault();
       let userInfo = this.form;

@@ -5,12 +5,14 @@
 </template>
 
 <script>
+import { TOGGLE_DARK_MODE } from "@/store";
+
 export default {
   name: "App",
   components: {},
   created() {
     if (this.$cookies.get("darkMode") == "true") {
-      this.$store.commit("TOGGLE_DARK_MODE");
+      this.$store.commit(TOGGLE_DARK_MODE);
     }
   },
 };
