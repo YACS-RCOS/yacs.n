@@ -9,9 +9,17 @@ const store = new Vuex.Store({
     darkMode: false,
   },
   mutations: {
-    [TOGGLE_DARK_MODE] (state) {
-        state.darkMode = !state.darkMode;
-        Vue.$cookies.set("darkMode", state.darkMode, null, null, null, null, "Strict");
+    [TOGGLE_DARK_MODE](state) {
+      state.darkMode = !state.darkMode;
+      Vue.$cookies.set(
+        "darkMode",
+        state.darkMode,
+        null,
+        null,
+        null,
+        null,
+        "Strict"
+      );
     },
   },
 });

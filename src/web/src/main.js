@@ -16,7 +16,7 @@ Vue.use(VueCookies);
 
 Vue.$cookies.config("7d");
 
-import store from "./store"
+import store from "./store";
 
 new Vue({
   render: (h) => h(App),
