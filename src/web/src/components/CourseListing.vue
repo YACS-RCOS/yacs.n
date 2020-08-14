@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div data-cy="course-listing">
     <div
       @click="callDefaultAction()"
       class="d-flex w-100 justify-content-between click-me"
     >
       <div>
-        <b>{{ course.name }}</b>
+        <b data-cy="name">{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} -
         {{ readableDate(course.date_end) }})
         <br />

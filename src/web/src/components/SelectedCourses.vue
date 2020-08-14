@@ -1,5 +1,10 @@
 <template>
-  <b-list-group id="selected-course-list" class="flex-grow-1" flush>
+  <b-list-group
+    id="selected-course-list"
+    class="flex-grow-1"
+    flush
+    data-cy="selected-courses"
+  >
     <div v-if="Object.keys(courses).length == 0" class="no-courses">
       Oops! It looks like you haven't selected anything!
       <br />
