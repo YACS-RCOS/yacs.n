@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="root"
-    :class="$store.state.darkMode ? 'dark' : 'light'"
-  >
+  <div id="root" :class="$store.state.darkMode ? 'dark' : 'light'">
     <router-view></router-view>
   </div>
 </template>
@@ -11,14 +8,14 @@
 export default {
   name: "App",
   components: {},
-  created () {
-    this.$store.commit("setDarkMode", this.$cookies.get("darkMode") == 'true');
+  created() {
+    this.$store.commit("setDarkMode", this.$cookies.get("darkMode") == "true");
   },
 };
 </script>
 
 <style lang="scss">
-@import './assets/dark.scss';
+@import "./assets/dark.scss";
 #root,
 html,
 body {
