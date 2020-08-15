@@ -31,7 +31,7 @@
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
-        <button class="btn" @click.stop="toggleCourse()">
+        <button v-show="showAdd" class="btn" @click.stop="toggleCourse()">
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
         </button>
@@ -45,6 +45,7 @@
       <slot name="collapseContent" :course="course">
         <b-list-group flush>
           <b-list-group-item
+            class="selected"
             button
             v-for="section in course.sections"
             :key="section.crn"
@@ -54,8 +55,11 @@
                 ? `4px solid ${getBorderColor(section)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)}`
+                ? `${getBackgroundColor(section)} !important`
+                : `${$store.state.darkMode}`
+                ? 'var(--dark-primary)'
                 : 'white',
+              color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
             {{ section.crn }} - {{ section.sessions[0].section }}
@@ -129,6 +133,13 @@ export default {
       type: String,
       default: "toggleCollapse",
     },
+
+    //if this is false the add course + button wont appear
+    //this is useful for the course explorer
+    showAddButton: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -145,6 +156,8 @@ export default {
       // initially false, set to true on first collapse toggle
       // Used for lazy loading
       loaded: false,
+
+      showAdd: this.showAddButton,
     };
   },
   methods: {
@@ -196,6 +209,11 @@ export default {
       } else {
         this.$emit("addCourseSection", this.course, section);
       }
+    },
+
+    //used in the course explorer to show a courses info modal
+    showInfoModal() {
+      this.$emit("showCourseInfo", this.course);
     },
   },
 };

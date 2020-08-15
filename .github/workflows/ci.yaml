@@ -1,9 +1,6 @@
 name: CI
 
-on:
-  push:
-    paths-ignore:
-      - "src/web/**"
+on: push
 
 jobs:
   BackendUnitTests:

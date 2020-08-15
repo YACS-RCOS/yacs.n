@@ -10,7 +10,11 @@
       <br />
       Please select some courses from the "Course Search" tab!
     </div>
-    <b-list-group-item v-for="course of courses" :key="course.id">
+    <b-list-group-item
+      class="selected"
+      v-for="course of courses"
+      :key="course.id"
+    >
       <CourseListing :course="course" openInitial v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
