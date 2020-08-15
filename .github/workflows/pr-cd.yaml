@@ -23,11 +23,35 @@ jobs:
         if: steps.wait-for-ci.outputs.conclusion != 'success'
         run: exit 1
 
+      - name: Wait for codefactor to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-codefactor
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CodeFactor
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check if codefactor was successful
+        if: steps.wait-for-codefactor.outputs.conclusion != 'success'
+        run: exit 1
+
+      - name: Wait for accesslint to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-accesslint
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: AccessLint
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check if accesslint was successful
+        if: steps.wait-for-accesslint.outputs.conclusion != 'success'
+        run: exit 1
+
       - name: testing
         run: exit 1
 
   test_build:
-    needs: wait_checks
+    needs: wait-checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
