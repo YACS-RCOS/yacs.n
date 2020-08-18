@@ -146,10 +146,12 @@ jobs:
 
       - name: Upload coverage
         working-directory: tests/integration
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: npm run coveralls
 
   publish-action-status:
-    needs: backend-unit-tests
+    needs: [backend-unit-tests, cypress]
     if: always()
     runs-on: ubuntu-latest
 
