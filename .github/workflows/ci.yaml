@@ -126,7 +126,7 @@ jobs:
           bash build.sh
 
       - name: Start API
-        working-directory: src/api
+        # working-directory: src/api
         run: |
           docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d yacs_api
           curl \
