@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cov-report": "nyc report --reporter=text-lcov"
-   },
+    "coveralls": "nyc report --reporter=text-lcov"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

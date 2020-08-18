@@ -97,11 +97,60 @@ jobs:
           bash scripts/test.sh
           coveralls
 
+  cypress:
+    needs: lint
+    runs-on: ubuntu-latest
+
+    services:
+      yacs_db:
+        image: postgres
+        env:
+          POSTGRES_USER: yacs
+          POSTGRES_PASSWORD: easy_dev_pass
+          POSTGRES_DB: yacs
+        ports:
+          - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Start API and web
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api yacs_web
+
+      - name: Run cypress
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: tests/integration
+          wait-on: "http://localhost"
+
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/integration/cypress/screenshots
+      # Test run video was always captured, so this action uses "always()" condition
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: tests/integration/cypress/videos
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: nyc-report
+          path: tests/integration/coverage/lcov-report
+
+      - name: Upload coverage
+        working-directory: tests/integration
+        run: npm run coveralls
+
   publish-action-status:
     needs: backend-unit-tests
     if: always()
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: technote-space/workflow-conclusion-action@v1
       - name: Publish status checks
