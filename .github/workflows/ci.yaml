@@ -115,17 +115,53 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Start API and web
+      - name: Setup database
+        working-directory: src/data
+        env:
+          PGHOST: localhost
+          PGPORT: ${{ job.services.yacs_db.ports[5432] }}
+          PGUSER: yacs
+          PGPASSWORD: easy_dev_pass
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api yacs_web
+          bash build.sh
+
+      - name: Start API
+        working-directory: src/api
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d yacs_api
+          curl \
+            --retry 5 \
+            --retry-delay 1 \
+            --retry-connrefused \
+            http://localhost:5000
+
+      - name: Start web
+        working-directory: src/web
+        run: |
+          npm ci
+          npm run serve:test &
+
+      - name: Seed test data
+        working-directory: rpi_data
+        run: |
+          function load_semester() {
+              curl \
+                  --location \
+                  --request POST \
+                  'http://localhost:8080/api/bulkCourseUpload' \
+                  --form "file=@$1" \
+                  --form 'isPubliclyVisible=true' \
+                  --max-time 60 \
+                  -v
+          }
+          load_semester "summer-2020.csv"
+          load_semester "fall-2020.csv"
 
       - name: Run cypress
         uses: cypress-io/github-action@v2
-        env:
-          CYPRESS_BASE_URL: http://localhost
         with:
           working-directory: tests/integration
-          wait-on: "http://localhost"
+          wait-on: "http://localhost:8080"
 
       - uses: actions/upload-artifact@v1
         if: failure()
