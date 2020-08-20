@@ -125,10 +125,15 @@ jobs:
         run: |
           bash build.sh
 
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
       - name: Start API
-        # working-directory: src/api
+        working-directory: src/api
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d yacs_api
+          python app.py &  
           curl \
             --retry 5 \
             --retry-delay 1 \
