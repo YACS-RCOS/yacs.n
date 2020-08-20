@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@cypress/code-coverage": "^3.8.1",
+    "codecov": "^3.7.2",
     "cypress": "^4.12.1",
-    "coveralls": "^3.1.0",
     "nyc": "^15.1.0"
   }
 }

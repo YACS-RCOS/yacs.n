@@ -84,7 +84,6 @@ jobs:
 
       - name: Run unit tests with coverage
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_USER: postgres
           DB_PASS: postgres
@@ -93,9 +92,10 @@ jobs:
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGUSER: postgres
           PGPASSWORD: postgres
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
           bash scripts/test.sh
-          coveralls
+          bash <(curl -s https://codecov.io/bash)
 
   cypress:
     needs: lint
@@ -207,8 +207,9 @@ jobs:
       - name: Upload coverage
         working-directory: tests/integration
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: npm run coveralls
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          npm run report-coverage
 
   publish-action-status:
     needs: [backend-unit-tests, cypress]
