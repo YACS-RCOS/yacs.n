@@ -119,9 +119,9 @@ jobs:
         working-directory: src/data
         env:
           PGHOST: localhost
-          PGPORT: ${{ job.services.yacs_db.ports[5432] }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGUSER: yacs
-          PGPASSWORD: easy_dev_pass
+          PGPASSWORD: postgres
         run: |
           bash build.sh
 
