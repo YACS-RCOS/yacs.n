@@ -102,11 +102,11 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      yacs_db:
+      postgres:
         image: postgres
         env:
-          POSTGRES_USER: yacs
-          POSTGRES_PASSWORD: easy_dev_pass
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
           POSTGRES_DB: yacs
         ports:
           - 5432/tcp
@@ -148,7 +148,9 @@ jobs:
       - name: Start API
         working-directory: src/api
         env:
-          DB_PORT: ${{ job.services.yacs_db.ports[5432] }}
+          DB_USER: postgres
+          DB_PASS: postgres
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
         run: |
           python app.py &  
           curl \
