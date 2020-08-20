@@ -41,7 +41,7 @@ jobs:
 
   backend-unit-tests:
     needs: lint
-    name: Run unit unit tests on backend
+    name: Run backend unit tests
     runs-on: ubuntu-18.04
 
     services:
@@ -99,6 +99,7 @@ jobs:
 
   cypress:
     needs: lint
+    name: Run integration tests using cypress
     runs-on: ubuntu-latest
 
     services:
