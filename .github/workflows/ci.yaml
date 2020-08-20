@@ -120,7 +120,7 @@ jobs:
         env:
           PGHOST: localhost
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGUSER: yacs
+          PGUSER: postgres
           PGPASSWORD: postgres
         run: |
           bash build.sh
