@@ -147,6 +147,8 @@ jobs:
 
       - name: Start API
         working-directory: src/api
+        env:
+          DB_PORT: ${{ job.services.yacs_db.ports[5432] }}
         run: |
           python app.py &  
           curl \
