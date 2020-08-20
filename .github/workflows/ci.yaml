@@ -213,8 +213,20 @@ jobs:
           npm run report-coverage
           bash <(curl -s https://codecov.io/bash)
 
+  test-build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build production
+        run: |
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            build
+
   publish-action-status:
-    needs: [backend-unit-tests, cypress]
+    needs: [backend-unit-tests, cypress, test-build]
     if: always()
     runs-on: ubuntu-latest
 
