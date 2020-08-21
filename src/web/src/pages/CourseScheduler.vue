@@ -4,7 +4,12 @@
       <b-col md="4" class="d-flex flex-column">
         <b-card no-body class="h-100">
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b-tab title="Course Search" active class="flex-grow-1 w-100">
+            <b-tab
+              title="Course Search"
+              active
+              class="flex-grow-1 w-100"
+              data-cy="course-search-tab"
+            >
               <b-card-text class="d-flex flex-grow-1 w-100">
                 <div
                   v-if="loading"
@@ -26,11 +31,13 @@
                 />
               </b-card-text>
             </b-tab>
-            <b-tab class="flex-grow-1">
+            <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
               <template v-slot:title>
-                <div class="text-center">
+                <div class="text-center" data-cy="selected-courses-tab-header">
                   Selected Courses
-                  <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
+                  <b-badge variant="light" data-cy="num-selected-courses">
+                    {{ numSelectedCourses }}
+                  </b-badge>
                 </div>
               </template>
               <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -92,6 +99,7 @@
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
+      data-cy="course-info-modal"
     >
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}

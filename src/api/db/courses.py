@@ -37,6 +37,8 @@ class Courses:
             lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
     def delete_by_semester(self, semester):
+        # clear cache so this semester does not come up again
+        self.cache.clear()
         return self.db.execute("""
             BEGIN TRANSACTION;
                 DELETE FROM course
@@ -47,8 +49,6 @@ class Courses:
         """, {
             "Semester": semester
         }, isSELECT=False)
-        # clear cache so this semester does not come up again
-        self.cache.clear()
 
     def bulk_delete(self, semesters):
         for semester in semesters:

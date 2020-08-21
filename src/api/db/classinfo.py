@@ -3,21 +3,21 @@ class ClassInfo:
         self.db_conn = db_conn
         self.interface_name = 'class-info'
 
-    def get_classes(self):
-        return self.db_conn.execute("""
-            select
-                department,
-                level,
-                concat(course.department, '-', course.level) as name,
-                max(title) as title,
-                json_agg(crn) as crns,
-                semester
-            from
-                course
-            group by
-                department,
-                level
-        """, None, True)
+    # def get_classes(self):
+    #     return self.db_conn.execute("""
+    #         select
+    #             department,
+    #             level,
+    #             concat(course.department, '-', course.level) as name,
+    #             max(title) as title,
+    #             json_agg(crn) as crns,
+    #             semester
+    #         from
+    #             course
+    #         group by
+    #             department,
+    #             level
+    #     """, None, True)
 
     def get_classes_full(self, semester=None):
         if semester is not None:
@@ -240,8 +240,8 @@ class ClassInfo:
 
     def get_classes_by_search(self, semester=None, search=None):
       if semester is not None:
-        # parse search string to a format recognized by to_tsquery
-        ts_search = None if search is None else search.strip().replace(' ', '|')
+        # # parse search string to a format recognized by to_tsquery
+        # ts_search = None if search is None else search.strip().replace(' ', '|')
         return self.db_conn.execute("""
             WITH ts AS (
               SELECT
@@ -276,7 +276,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, to_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -305,7 +305,7 @@ class ClassInfo:
                 c.crn = section.crn
               WHERE
                 c.semester = %(semester)s
-                AND c.tsv @@ to_tsquery(%(search)s)
+                AND c.tsv @@ plainto_tsquery(%(search)s)
               GROUP BY
                 c.department,
                 c.level,
@@ -358,7 +358,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, to_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -407,7 +407,7 @@ class ClassInfo:
               SELECT * FROM ts
             )            
         """, {
-          'search': ts_search,
+          'search': search,#ts_search,
           'searchAny': '%' + search + '%',
           'semester': semester
         }, True)

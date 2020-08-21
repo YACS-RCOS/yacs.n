@@ -5,56 +5,51 @@ on:
     branches: [master]
 
 jobs:
-  lint:
+  wait-checks:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      # action doesn't support multiple checks yet so
+      #  use a step for each check
+      - name: Wait for ci to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-ci
         with:
-          persist-credentials: false
-          ref: ${{ github.head_ref }}
-      - name: Run prettier on src/web
-        working-directory: src/web
-        run: |
-          PRETTIER_VERSION=$(cat package.json | \
-            grep \"prettier\" | \
-            tr -d '[:space:]' | \
-            awk -F: '{print substr($2, 2, length($2) - 3)}')
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CI
+          ref: ${{ github.event.pull_request.head.sha }}
 
-          if ! npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --check;
-          then
-            echo "Running prettier"
-            npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --write
+      - name: Check if ci was successful
+        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
 
-            echo "Setting up git"
-            git config --global user.name "I'm a Github Action"
-            git config --global user.email "beepboop@github.com"
-            git remote set-url origin https://x-access-token:${{ secrets.LINT_PAT }}@github.com/${{ github.repository }}
+      - name: Wait for codefactor to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-codefactor
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CodeFactor
+          ref: ${{ github.event.pull_request.head.sha }}
 
-            echo "Committing changes"
-            git commit -am "beep boop Github Action Master Branch CI Prettier hard at work"
-            git push
-            echo "Changes pushed"
+      - name: Check if codefactor was successful
+        if: steps.wait-for-codefactor.outputs.conclusion != 'success'
+        run: exit 1
 
-            exit 1
-          else
-            echo "Files are clean"
-          fi
-
-  test_build:
-    needs: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build production
-        run: |
-          docker-compose \
-            -f docker-compose.yml \
-            -f docker-compose.production.yml \
-            build
+      # sorry accesslint u too slow
+      #      - name: Wait for accesslint to complete
+      #        uses: fountainhead/action-wait-for-check@v1.0.0
+      #        id: wait-for-accesslint
+      #        with:
+      #          token: ${{ secrets.GITHUB_TOKEN }}
+      #          checkName: AccessLint
+      #          ref: ${{ github.event.pull_request.head.sha }}
+      #
+      #      - name: Check if accesslint was successful
+      #        if: steps.wait-for-accesslint.outputs.conclusion != 'success'
+      #        run: exit 1
 
   temp_deploy:
-    needs: test_build
+    needs: wait-checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

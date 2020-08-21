@@ -1,5 +1,9 @@
 <template>
-  <div class="schedule" :style="{ height: totalHeight + 'px' }">
+  <div
+    class="schedule"
+    :style="{ height: totalHeight + 'px' }"
+    data-cy="schedule"
+  >
     <div class="schedule-legend">
       <div
         class="hour-label"
