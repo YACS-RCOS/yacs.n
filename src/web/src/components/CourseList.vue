@@ -34,7 +34,7 @@
     </div>
 
     <hr />
-    <div id="scroll-box">
+    <div id="scroll-box" data-cy="course-list">
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
       </div>
@@ -61,6 +61,7 @@
                 "
                 class="btn"
                 @click.stop="courseInfoModalToggle(course)"
+                data-cy="course-info-button"
               >
                 <font-awesome-icon :icon="faInfoCircle" />
               </button>

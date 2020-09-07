@@ -1,0 +1,17 @@
+{
+  "name": "integration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "report-coverage": "nyc report --reporter=text-lcov"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cypress/code-coverage": "^3.8.1",
+    "cypress": "^4.12.1",
+    "nyc": "^15.1.0"
+  }
+}
