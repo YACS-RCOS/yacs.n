@@ -353,7 +353,6 @@ export default {
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
 
-
       if (this.userID) {
         const info = {
           name: course.name,
