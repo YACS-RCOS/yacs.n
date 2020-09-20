@@ -27,8 +27,8 @@ services:
     volumes:
       - ./src/web:/app
       - web_node_modules:/app/node_modules/
-    environment: 
-      - YACS_API_HOSTNAME=http://yacs_api:5000
+    environment:
+      - YACS_API_HOST=yacs_api:5000
 
   yacs_api:
     command: python app.py

@@ -6,7 +6,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       "/api": {
-        target: process.env.YACS_API_HOSTNAME || "http://localhost:5000",
+        target: process.env.YACS_API_HOST || "localhost:5000",
         changeOrigin: true,
         secure: false,
       },
