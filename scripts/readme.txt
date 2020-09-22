@@ -17,24 +17,31 @@ stop.sh : Stops production background containers and removes data
 
 usage guide:
 ------------
-(windows users should use the corresponding .bat script e.g. instead of dev-build.sh do dev-build.bat)
+(windows users should use the corresponding .bat script e.g. instead of dev-start.sh do dev-start.bat)
 
-1) If any of the following are true
-  - first time setup
+If any of the following are true
   - database tables changed
   - web dependencies changed
 
   Run: 
-        dev-build.sh 
-  (this will delete all data stored in the database)
+        dev-clear-volumes.sh 
+  (NOTE! this will delete all data stored in the database)
+  
+    If the above command throws an error saying the volumes are in use, 
+    run 
+        dev-stop.sh
+    and try again
 
-2) To start developing, run: 
+
+To start developing, run: 
         dev-start.sh
     Changing code in `src/web` and `src/api` will automatically update the respective service
 
     To stop, press `ctrl-c` in the terminal that you are ran `dev-start.sh` in.
     The program should show each service exiting then exit.
 
+When you finished developing, run:
+        dev-stop.sh
 
 
 TODO: channel CLI args to start.sh and dev-start.sh so that we can add root users and alt top level env vars
