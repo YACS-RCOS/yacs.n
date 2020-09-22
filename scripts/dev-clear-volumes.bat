@@ -1,0 +1,1 @@
+docker volume rm yacsn_postgres_data yacsn_web_node_modules
