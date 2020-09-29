@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
     </div>
-
+    <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
     <div id="scroll-box" data-cy="course-list">
       <div v-if="filterCourses.length == 0" class="no-courses">
@@ -42,15 +42,21 @@
         <DynamicScroller
           class="scroller"
           :items="filterCourses"
-          :item-size="100"
+          :min-item-size="10"
           typeField="vscrl_type"
         >
-          <template v-slot="{ item: course }">
-            <DynamicScrollerItem>
-              <div
-                class="course-listing"
-                :class="{ 'bg-light': course.selected }"
-              >
+          <template v-slot="{ item: course, index, active }">
+            <DynamicScrollerItem
+              :item="course"
+              :active="active"
+              :size-dependencies="[
+                course.full_title,
+                course.title,
+              ]"
+              :data-index="index"
+              :emitResize=true 
+            >
+              <div class="course-listing" :class="{ 'bg-light':  course.selected }">
                 <CourseListing
                   :course="course"
                   defaultAction="toggleCourse"
@@ -79,7 +85,7 @@
             </DynamicScrollerItem>
           </template>
         </DynamicScroller>
-      </template>
+      </template> 
     </div>
   </div>
 </template>
