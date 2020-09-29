@@ -46,9 +46,11 @@
           typeField="vscrl_type"
         >
           <template v-slot="{ item: course }">
-            <DynamicScrollerItem
-            >
-              <div class="course-listing" :class="{ 'bg-light': course.selected }">
+            <DynamicScrollerItem>
+              <div
+                class="course-listing"
+                :class="{ 'bg-light': course.selected }"
+              >
                 <CourseListing
                   :course="course"
                   defaultAction="toggleCourse"
@@ -77,7 +79,7 @@
             </DynamicScrollerItem>
           </template>
         </DynamicScroller>
-      </template> 
+      </template>
     </div>
   </div>
 </template>
