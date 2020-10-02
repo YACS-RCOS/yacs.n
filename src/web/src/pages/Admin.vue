@@ -34,7 +34,7 @@
 
     <router-link :to="{ name: 'ManageAccounts' }">
       Manage Accounts
-    </router-link>   
+    </router-link>
     <!-- Footer of Admin Panel -->
     <br />
     <hr />
