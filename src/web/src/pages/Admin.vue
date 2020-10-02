@@ -32,10 +32,14 @@
       <SetDefault />
     </b-modal>
 
+    <router-link :to="{ name: 'ManageAccounts' }">
+      Manage Accounts
+    </router-link>   
     <!-- Footer of Admin Panel -->
     <br />
     <hr />
     <br />
+
     <b-button href="/">Go back home</b-button>
   </b-container>
 </template>
@@ -51,6 +55,7 @@ export default {
     UploadCsv,
     EditSemesters,
     SetDefault,
+    // ManageAccounts,
   },
   data() {
     return {};
