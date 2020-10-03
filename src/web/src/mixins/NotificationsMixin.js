@@ -18,7 +18,7 @@ export default {
      */
     notifyScheduleConflict(course, existSession, addSession, subsemester) {
       // const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
-      //   `${subsemester.display_string}: Conflict With ${existSession.crn} 
+      //   `${subsemester.display_string}: Conflict With ${existSession.crn}
       //         - ${existSession.section} `,
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
         `${subsemester.display_string}: 
