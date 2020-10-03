@@ -16,13 +16,14 @@ export default {
      * @param {CourseSession} conflictSession
      * @param {Subsemester} subsemester
      */
-    notifyScheduleConflict(course, existSession, addSession, subsemester) {
+    notifyScheduleConflict(course, existSession, addSession) {
+      //NOTE: If Sub-Semester Data Desired, Need To Add As Parameter + 
+      //Pass From CourseScheduler.vue. 
       // const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
       //   `${subsemester.display_string}: Conflict With ${existSession.crn} 
       //         - ${existSession.section} `,
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
-        `${subsemester.display_string}: 
-         ${existSession.crn} Conflicts With ${addSession.crn} 
+        `${existSession.crn} Conflicts With ${addSession.crn} 
           At ${addSession.time_start} `,
         this.$createElement("div", {
           style: `
