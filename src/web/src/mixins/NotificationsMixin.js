@@ -2,6 +2,7 @@ import "@/typedef";
 
 import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 
+import moment from 'moment';
 /**
  * Allows components to create various toast notifications
  * I'm thinking should probably move this to a plugin
@@ -23,10 +24,13 @@ export default {
       // const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
       //   `${subsemester.display_string}: Conflict With ${existSession.crn}
       //         - ${existSession.section} `,
+      //Format Time Into Human-Readable Via Moment (e.g., 10:00 AM):
+      const formatStartTime = moment(existSession.time_start, ["HH.mm"]).format("hh:mm A");
+      //Format All Message Data For Conflict Message:
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
         `${addCourse.title} [${addSession.crn}] 
           Conflicts With ${existCourse.title} [${existSession.crn}]
-          At ${existSession.time_start} `,
+          At ${formatStartTime} `,
         this.$createElement("div", {
           style: `
             background-color:${getBackgroundColor(existSession)};
@@ -39,7 +43,7 @@ export default {
       //Format All Header-Data For Conflict Message:
       this.$bvToast.toast(vNodesMsg, {
         // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
-        title: `Failure: Cannot Add ${addCourse.title} [${addSession.crn}]`,
+        title: `Cannot Add ${addCourse.title}`,
         variant: "danger",
         noAutoHide: false,
       });
