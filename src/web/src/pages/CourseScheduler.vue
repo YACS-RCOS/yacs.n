@@ -290,7 +290,7 @@ export default {
                 course,
                 existCourse,
                 err.addingSession,
-                err.existingSession,
+                err.existingSession
               );
               return;
             } else {
@@ -369,7 +369,7 @@ export default {
             course,
             existCourse,
             err.addingSession,
-            err.existingSession,
+            err.existingSession
           );
         }
       }
