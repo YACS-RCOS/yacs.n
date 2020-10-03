@@ -10,11 +10,12 @@ import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 export default {
   methods: {
     /**
-     * Generates a Bootstrap Toast notification of a schedule conflict
-     * using the provided information
-     * @param {Course} course
-     * @param {CourseSession} conflictSession
-     * @param {Subsemester} subsemester
+     * Generates a Bootstrap Toast Notification of a Schedule Conflict
+     * Using The Provided Information, Specified Below:
+     * @param {Course} addCourse = Course Tried To Add,
+     * @param {Course} existCourse = Existing Conflict Course,
+     * @param {CourseSession} addSession = Course Session Data For Attemped Course.
+     * @param {CourseSession} existSession = Course Session Data For Existing Course.
      */
     notifyScheduleConflict(addCourse, existCourse, addSession, existSession) {
       //NOTE: If Sub-Semester Data Desired, Need To Add As Parameter +
@@ -35,6 +36,7 @@ export default {
             display:inline-block;`,
         }),
       ]);
+      //Format All Header-Data For Conflict Message:
       this.$bvToast.toast(vNodesMsg, {
         // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
         title: `Failure: Cannot Add ${addCourse.title} [${addSession.crn}]`,
