@@ -277,6 +277,7 @@ export default {
               this.notifyScheduleConflict(
                 course,
                 err.existingSession,
+                err.addingSession,
                 err.subsemester
               );
               return;
@@ -343,6 +344,7 @@ export default {
           this.notifyScheduleConflict(
             course,
             err.existingSession,
+            err.addingSession,
             err.subsemester
           );
         }
