@@ -343,7 +343,7 @@ export default {
           this.notifyScheduleConflict(
             course,
             err.existingSession,
-            err.addingSession,
+            err.addingSession
           );
         }
       }
