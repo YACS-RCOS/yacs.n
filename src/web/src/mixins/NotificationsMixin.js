@@ -2,7 +2,7 @@ import "@/typedef";
 
 import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 
-import moment from 'moment';
+import moment from "moment";
 /**
  * Allows components to create various toast notifications
  * I'm thinking should probably move this to a plugin
@@ -25,7 +25,9 @@ export default {
       //   `${subsemester.display_string}: Conflict With ${existSession.crn}
       //         - ${existSession.section} `,
       //Format Time Into Human-Readable Via Moment (e.g., 10:00 AM):
-      const formatStartTime = moment(existSession.time_start, ["HH.mm"]).format("hh:mm A");
+      const formatStartTime = moment(existSession.time_start, ["HH.mm"]).format(
+        "hh:mm A"
+      );
       //Format All Message Data For Conflict Message:
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
         `${addCourse.title} [${addSession.crn}] 
