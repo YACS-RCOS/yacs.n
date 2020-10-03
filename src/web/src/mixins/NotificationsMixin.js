@@ -16,15 +16,16 @@ export default {
      * @param {CourseSession} conflictSession
      * @param {Subsemester} subsemester
      */
-    notifyScheduleConflict(course, existSession, addSession) {
+    notifyScheduleConflict(addCourse, existCourse, addSession, existSession) {
       //NOTE: If Sub-Semester Data Desired, Need To Add As Parameter +
       //Pass From CourseScheduler.vue.
       // const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
       //   `${subsemester.display_string}: Conflict With ${existSession.crn}
       //         - ${existSession.section} `,
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
-        `${existSession.crn} Conflicts With ${addSession.crn} 
-          At ${addSession.time_start} `,
+        `${addCourse.title} [${addSession.crn}] 
+          Conflicts With ${existCourse.title} [${existSession.crn}]
+          At ${existSession.time_start} `,
         this.$createElement("div", {
           style: `
             background-color:${getBackgroundColor(existSession)};
@@ -36,7 +37,7 @@ export default {
       ]);
       this.$bvToast.toast(vNodesMsg, {
         // title: `Cannot add ${section.crn} - ${section.sessions[0].section}`,
-        title: `Cannot Add ${course.title} [${addSession.crn}]`,
+        title: `Failure: Cannot Add ${addCourse.title} [${addSession.crn}]`,
         variant: "danger",
         noAutoHide: false,
       });

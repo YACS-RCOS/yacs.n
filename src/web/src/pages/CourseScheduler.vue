@@ -274,10 +274,20 @@ export default {
         } catch (err) {
           if (err.type == "Schedule Conflict") {
             if (i == course.sections.length - 1) {
+              //Compute Existing Course That Caused Conflict.
+              const existCourse = this.courses.find(function(currentCourse){
+                  var isFound = currentCourse.sections.find(function(currentSection){
+                    return currentSection.crn == err.existingSession.crn; 
+                  });
+                  if(isFound){
+                    return currentCourse;
+                  }
+              });
               this.notifyScheduleConflict(
                 course,
+                existCourse,
+                err.addingSession,
                 err.existingSession,
-                err.addingSession
               );
               return;
             } else {
@@ -340,10 +350,20 @@ export default {
         this._addCourseSection(course, section);
       } catch (err) {
         if (err.type === "Schedule Conflict") {
+          //Compute Existing Course That Caused Conflict.
+          const existCourse = this.courses.find(function(currentCourse){
+              var isFound = currentCourse.sections.find(function(currentSection){
+                return currentSection.crn == err.existingSession.crn; 
+              });
+              if(isFound){
+                return currentCourse;
+              }
+          });
           this.notifyScheduleConflict(
             course,
+            existCourse,
+            err.addingSession,
             err.existingSession,
-            err.addingSession
           );
         }
       }
