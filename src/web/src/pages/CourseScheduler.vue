@@ -344,7 +344,6 @@ export default {
             course,
             err.existingSession,
             err.addingSession,
-            err.subsemester
           );
         }
       }
