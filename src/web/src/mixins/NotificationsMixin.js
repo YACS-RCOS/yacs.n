@@ -20,7 +20,7 @@ export default {
       //NOTE: If Sub-Semester Data Desired, Need To Add As Parameter + 
       //Pass From CourseScheduler.vue. 
       // const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
-      //   `${subsemester.display_string}: Conflict With ${existSession.crn} 
+      //   `${subsemester.display_string}: Conflict With ${existSession.crn}
       //         - ${existSession.section} `,
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
         `${existSession.crn} Conflicts With ${addSession.crn} 
