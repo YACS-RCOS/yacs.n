@@ -2,7 +2,7 @@ import "@/typedef";
 
 import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 
-import moment from 'moment';
+import moment from "moment";
 /**
  * Allows components to create various toast notifications
  * I'm thinking should probably move this to a plugin
