@@ -167,6 +167,7 @@ import {
 import {
   withinDuration,
   generateRequirementsText,
+  conflictCourse,
   exportScheduleToIcs,
 } from "@/utils";
 
@@ -274,23 +275,9 @@ export default {
         } catch (err) {
           if (err.type == "Schedule Conflict") {
             if (i == course.sections.length - 1) {
-              //Compute Existing Course That Caused Conflict.
-              const existCourse = this.courses.find(function (currentCourse) {
-                //Search For Desired CRN In Current Course.
-                var isFound = currentCourse.sections.find(function (
-                  currentSection
-                ) {
-                  return currentSection.crn == err.existingSession.crn;
-                });
-                //Found Course w/ Appropriate CRN.
-                if (isFound) {
-                  return currentCourse;
-                }
-              });
-              //Call Helper Function To Actually Notify Client.
               this.notifyScheduleConflict(
                 course,
-                existCourse,
+                conflictCourse(this.courses, err.existingSession.crn),
                 err.addingSession,
                 err.existingSession
               );
@@ -355,23 +342,9 @@ export default {
         this._addCourseSection(course, section);
       } catch (err) {
         if (err.type === "Schedule Conflict") {
-          //Compute Existing Course That Caused Conflict.
-          const existCourse = this.courses.find(function (currentCourse) {
-            //Search For Desired CRN In Current Course.
-            var isFound = currentCourse.sections.find(function (
-              currentSection
-            ) {
-              return currentSection.crn == err.existingSession.crn;
-            });
-            //Found Course w/ Appropriate CRN.
-            if (isFound) {
-              return currentCourse;
-            }
-          });
-          //Call Helper Function To Actually Notify Client.
           this.notifyScheduleConflict(
             course,
-            existCourse,
+            conflictCourse(this.courses, err.existingSession.crn),
             err.addingSession,
             err.existingSession
           );
