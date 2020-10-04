@@ -18,8 +18,15 @@ export default {
      * @param {CourseSession} addSession = Course Session Data For Attempted Course.
      * @param {CourseSession} existSession = Course Session Data For Existing Course.
      */
-    notifyScheduleConflict(addCourse, conflictCourse, addSession, existSession) {
-      const formatStartTime = moment(existSession.time_start, ["HH.mm"]).format("hh:mm A");
+    notifyScheduleConflict(
+      addCourse,
+      conflictCourse,
+      addSession,
+      existSession
+    ) {
+      const formatStartTime = moment(existSession.time_start, ["HH.mm"]).format(
+        "hh:mm A"
+      );
       //Format All Message Data For Conflict Message:
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
         `${addCourse.title} [${addSession.crn}] 
