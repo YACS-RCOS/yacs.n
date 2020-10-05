@@ -3,6 +3,7 @@ name: PR Temp Deploys
 on:
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   wait-checks:
