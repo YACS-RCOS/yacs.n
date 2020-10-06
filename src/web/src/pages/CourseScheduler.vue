@@ -167,6 +167,7 @@ import {
 import {
   withinDuration,
   generateRequirementsText,
+  findCourseByCourseSessionCRN,
   exportScheduleToIcs,
 } from "@/utils";
 
@@ -276,8 +277,12 @@ export default {
             if (i == course.sections.length - 1) {
               this.notifyScheduleConflict(
                 course,
-                err.existingSession,
-                err.subsemester
+                findCourseByCourseSessionCRN(
+                  this.courses,
+                  err.existingSession.crn
+                ),
+                err.addingSession,
+                err.existingSession
               );
               return;
             } else {
@@ -342,8 +347,9 @@ export default {
         if (err.type === "Schedule Conflict") {
           this.notifyScheduleConflict(
             course,
-            err.existingSession,
-            err.subsemester
+            findCourseByCourseSessionCRN(this.courses, err.existingSession.crn),
+            err.addingSession,
+            err.existingSession
           );
         }
       }
