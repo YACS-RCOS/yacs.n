@@ -277,7 +277,10 @@ export default {
             if (i == course.sections.length - 1) {
               this.notifyScheduleConflict(
                 course,
-                findCourseByCourseSessionCRN(this.courses, err.existingSession.crn),
+                findCourseByCourseSessionCRN(
+                  this.courses,
+                  err.existingSession.crn
+                ),
                 err.addingSession,
                 err.existingSession
               );
