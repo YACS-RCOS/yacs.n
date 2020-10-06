@@ -211,9 +211,9 @@ export const addDays = (date, days) => {
 };
 
 /**
- * Export Course Data Given CRN Value.
+ * Export Course Data Given Course Session CRN Value.
  */
-export const conflictCourse = (allCourseData, inputCRNValue) => {
+export const findCourseByCourseSessionCRN = (allCourseData, inputCRNValue) => {
   return allCourseData.find((currentCourse) => {
     //Search For Desired CRN In Current Course.
     let isFound = currentCourse.sections.some((currentSection) => {
