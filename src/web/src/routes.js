@@ -7,7 +7,7 @@ import EditSemestersPage from "./pages/EditSemesters";
 import CourseExplorerPage from "./pages/CourseExplorer";
 import DegreeTemplatesPage from "./pages/DegreeTemplates";
 import ManageUserAccountPage from "./pages/ManageAccounts";
-
+import SubjectExplorerPage from "./pages/SubjectExplorer";
 var router = new VueRouter({
   routes: [
     {
@@ -31,6 +31,11 @@ var router = new VueRouter({
           path: "/template",
           component: DegreeTemplatesPage,
           name: "DegreeTemplates",
+        },
+        {
+          path: "/subject/subject_code_lowercase",
+          component: SubjectExplorerPage,
+          name: "SubjectExplorer",
         },
       ],
     },

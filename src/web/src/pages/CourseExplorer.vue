@@ -1,12 +1,15 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
+      <!-- Left side of the column  -->
       <b-col>
         <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
+            <!-- Department Title  -->
             <b-row class="school-name">
               <h3 class="m-1 ml-2">{{ schoolOrder[n - 1] }}</h3>
             </b-row>
+            <!-- Subject Title  -->
             <b-row>
               <DepartmentList
                 :majors="coursesChunked[n - 1]"
@@ -19,6 +22,8 @@
           </b-col>
         </b-row>
       </b-col>
+
+      <!-- Right side of the column  -->
       <b-col>
         <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>

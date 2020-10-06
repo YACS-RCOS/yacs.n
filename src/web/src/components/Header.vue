@@ -5,14 +5,10 @@
       <div class="semester">{{ selectedSemester }}</div>
       <b-navbar-nav>
         <b-nav-item>
-          <router-link :to="{ name: 'CourseScheduler' }">
-            Schedule
-          </router-link>
+          <router-link :to="{ name: 'CourseScheduler' }">Schedule</router-link>
         </b-nav-item>
         <b-nav-item>
-          <router-link :to="{ name: 'CourseExplorer' }">
-            Explore
-          </router-link>
+          <router-link :to="{ name: 'CourseExplorer' }">Explore</router-link>
         </b-nav-item>
         <b-nav-item>
           <router-link :to="{ name: 'DegreeTemplates' }">
