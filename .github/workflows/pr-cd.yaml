@@ -3,6 +3,7 @@ name: PR Temp Deploys
 on:
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   temp_deploy:
@@ -30,7 +31,7 @@ jobs:
         env:
           LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
-          SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
+          SSH_PUB_KEYS: ${{ secrets.SSH_PUB_KEYS }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
           BRANCH: ${{ steps.info.outputs.branch }}
         id: provision
