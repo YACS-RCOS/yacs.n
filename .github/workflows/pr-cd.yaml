@@ -36,19 +36,6 @@ jobs:
         if: steps.wait-for-codefactor.outputs.conclusion != 'success'
         run: exit 1
 
-      # sorry accesslint u too slow
-      #      - name: Wait for accesslint to complete
-      #        uses: fountainhead/action-wait-for-check@v1.0.0
-      #        id: wait-for-accesslint
-      #        with:
-      #          token: ${{ secrets.GITHUB_TOKEN }}
-      #          checkName: AccessLint
-      #          ref: ${{ github.event.pull_request.head.sha }}
-      #
-      #      - name: Check if accesslint was successful
-      #        if: steps.wait-for-accesslint.outputs.conclusion != 'success'
-      #        run: exit 1
-
   temp_deploy:
     needs: wait-checks
     runs-on: ubuntu-latest
@@ -75,7 +62,7 @@ jobs:
         env:
           LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
           SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
-          SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
+          SSH_PUB_KEYS: ${{ secrets.SSH_PUB_KEYS }}
           ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
           BRANCH: ${{ steps.info.outputs.branch }}
         id: provision
