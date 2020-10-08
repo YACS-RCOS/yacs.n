@@ -211,6 +211,8 @@ export default {
 }
 
 .course-listing {
+  padding-top: 7px;
+  padding-bottom: 7px;
   padding-left: 10px;
   border-bottom: 1px solid #e9ecef;
 }
