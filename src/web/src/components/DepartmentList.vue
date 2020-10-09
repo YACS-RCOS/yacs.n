@@ -14,9 +14,10 @@
             v-b-toggle="id + 'accordion-' + index"
             variant="light"
             class="major-button m-0 ml-1"
-            @click="
-              $router.push({ name: 'SubjectExplorer', params: { majors } })
-            "
+            :to="{
+              name: 'SubjectExplorer',
+              params: { subject: major },
+            }"
           >
             {{ major }}
           </b-button>
