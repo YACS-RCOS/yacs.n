@@ -5,6 +5,7 @@ import CourseSchedulerPage from "./pages/CourseScheduler";
 import UploadCsvPage from "./pages/UploadCsv";
 import EditSemestersPage from "./pages/EditSemesters";
 import CourseExplorerPage from "./pages/CourseExplorer";
+import CoursePage from "./pages/CoursePage";
 import DegreeTemplatesPage from "./pages/DegreeTemplates";
 import ManageUserAccountPage from "./pages/ManageAccounts";
 import SubjectExplorerPage from "./pages/SubjectExplorer";
@@ -33,9 +34,10 @@ var router = new VueRouter({
           name: "DegreeTemplates",
         },
         {
-          path: "/subject/subject_code_lowercase",
-          component: SubjectExplorerPage,
-          name: "SubjectExplorer",
+          path: "/:course",
+          component: CoursePage,
+          name: "CoursePage",
+          props: true,
         },
       ],
     },

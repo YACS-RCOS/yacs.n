@@ -36,6 +36,14 @@
                     :key="course.name + course.date_start + course.date_start"
                     :class="{ 'bg-light': course.selected }"
                   >
+                    <router-link
+                      :to="{
+                        name: 'CoursePage',
+                        params: { course: course.name },
+                      }"
+                    >
+                      {{ course.name }}
+                    </router-link>
                     <CourseListing
                       :course="course"
                       :showAddButton="false"
