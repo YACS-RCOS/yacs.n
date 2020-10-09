@@ -14,11 +14,6 @@
             Explore
           </router-link>
         </b-nav-item>
-        <b-nav-item>
-          <router-link :to="{ name: 'DegreeTemplates' }">
-            Graduation
-          </router-link>
-        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto" v-if="sessionID !== null">
