@@ -32,46 +32,58 @@
         </b-col>
       </b-row>
     </div>
-
+    <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
     <div id="scroll-box" data-cy="course-list">
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
       </div>
-      <recycle-scroller
+      <DynamicScroller
         class="scroller"
         :items="filterCourses"
-        :item-size="100"
+        :min-item-size="10"
         typeField="vscrl_type"
-        v-slot="{ item: course }"
       >
-        <div class="course-listing" :class="{ 'bg-light': course.selected }">
-          <CourseListing
-            :course="course"
-            defaultAction="toggleCourse"
-            v-on="$listeners"
-            lazyLoadCollapse
+        <template v-slot="{ item: course, index, active }">
+          <DynamicScrollerItem
+            :item="course"
+            :active="active"
+            :size-dependencies="[course.full_title, course.title]"
+            :data-index="index"
+            :emitResize="true"
           >
-            <template #toggleCollapseButton="{ course }">
-              <button
-                v-show="
-                  course.corequisites ||
-                  course.prerequisites ||
-                  course.raw_precoreqs
-                "
-                class="btn"
-                @click.stop="courseInfoModalToggle(course)"
-                data-cy="course-info-button"
+            <div
+              class="course-listing"
+              :class="{ 'bg-light': course.selected }"
+            >
+              <CourseListing
+                :course="course"
+                defaultAction="toggleCourse"
+                v-on="$listeners"
+                lazyLoadCollapse
               >
-                <font-awesome-icon :icon="faInfoCircle" />
-              </button>
-            </template>
-            <template #collapseContent>
-              {{ null }}
-            </template>
-          </CourseListing>
-        </div>
-      </recycle-scroller>
+                <template #toggleCollapseButton="{ course }">
+                  <button
+                    v-show="
+                      course.corequisites ||
+                      course.prerequisites ||
+                      course.raw_precoreqs
+                    "
+                    class="btn"
+                    @click.stop="courseInfoModalToggle(course)"
+                    data-cy="course-info-button"
+                  >
+                    <font-awesome-icon :icon="faInfoCircle" />
+                  </button>
+                </template>
+                <template #collapseContent>
+                  {{ null }}
+                </template>
+              </CourseListing>
+            </div>
+          </DynamicScrollerItem>
+        </template>
+      </DynamicScroller>
     </div>
   </div>
 </template>
@@ -87,13 +99,14 @@ import { getDepartments, getCourses } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
-import { RecycleScroller } from "vue-virtual-scroller";
+import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
 
 export default {
   name: "CourseList",
   components: {
     CourseListing: CourseListingComponent,
-    RecycleScroller,
+    DynamicScroller,
+    DynamicScrollerItem,
   },
   props: {
     courses: Array,
@@ -196,8 +209,7 @@ export default {
 }
 
 .course-listing {
-  height: 100px;
-  padding-top: 10px;
+  padding: 10px;
   border-bottom: 1px solid #e9ecef;
 }
 
