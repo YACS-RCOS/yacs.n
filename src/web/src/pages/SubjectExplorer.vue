@@ -1,8 +1,8 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
-    <!-- 
+    <!--
       - Department Title
-      - mb: margin button  
+      - mb: margin button
     -->
     <b-row>
       <b-col class="school-name">
@@ -51,8 +51,7 @@ export default {
   data() {
     return {
       //an object with keys being the dept, and values a list of courses
-      deptClassDict: {},
-      schoolsMajorDict: {},
+      department: this.$route.params.subject,
       ready: false,
 
       /*
@@ -75,15 +74,9 @@ export default {
   },
   async created() {
     getCourses(this.selectedSemester).then((courses) => {
+      console.log(this.major);
       for (const c of courses) {
-        if (!this.schoolsMajorDict[c.school]) {
-          this.schoolsMajorDict[c.school] = new Set();
-        }
-        this.schoolsMajorDict[c.school].add(c.department);
-        if (this.deptClassDict[c.department]) {
-          this.deptClassDict[c.department].push(c);
-        } else {
-          this.deptClassDict[c.department] = [c];
+        if (c.department === this.department) {
         }
       }
       this.ready = true;

@@ -33,12 +33,6 @@ var router = new VueRouter({
           component: DegreeTemplatesPage,
           name: "DegreeTemplates",
         },
-        // {
-        //   path: "/:course",
-        //   component: CoursePage,
-        //   name: "CoursePage",
-        //   props: true,
-        // },
         {
           path: "/:subject",
           component: SubjectExplorerPage,
@@ -54,7 +48,6 @@ var router = new VueRouter({
           ],
         },
       ],
-     
     },
     {
       path: "/Admin",

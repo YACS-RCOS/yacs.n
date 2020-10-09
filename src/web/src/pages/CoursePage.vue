@@ -25,7 +25,7 @@
   </div>
   <div v-else>
     <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
+    <strong class="m-2">Loading Course...</strong>
   </div>
 </template>
 
@@ -41,6 +41,8 @@ export default {
       ready: false,
       courseName: this.$route.params.course,
       courseObj: {},
+      allCoursePreReqs: {},
+      treeData: {},
       selectedSemester: String,
     };
   },
@@ -55,13 +57,23 @@ export default {
         : await getDefaultSemester();
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
+        this.allCoursePreReqs[c.name] = c.prerequisites;
         if (c.name === this.courseName) {
           this.courseObj = c;
-          console.log(this.courseObj);
         }
       }
+      this.treeData = this.prereqTree;
+      console.log("logging:");
+      console.log(this.treeData);
       this.ready = true;
     });
+  },
+  computed: {
+    prereqTree() {
+      let treeData = {};
+      treeData.name = this.courseName;
+      return treeData;
+    },
   },
 };
 </script>
