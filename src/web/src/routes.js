@@ -54,7 +54,6 @@ var router = new VueRouter({
           ],
         },
       ],
-     
     },
     {
       path: "/Admin",
