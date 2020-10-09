@@ -38,54 +38,52 @@
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
       </div>
-      <template>
-        <DynamicScroller
-          class="scroller"
-          :items="filterCourses"
-          :min-item-size="10"
-          typeField="vscrl_type"
-        >
-          <template v-slot="{ item: course, index, active }">
-            <DynamicScrollerItem
-              :item="course"
-              :active="active"
-              :size-dependencies="[course.full_title, course.title]"
-              :data-index="index"
-              :emitResize="true"
+      <DynamicScroller
+        class="scroller"
+        :items="filterCourses"
+        :min-item-size="10"
+        typeField="vscrl_type"
+      >
+        <template v-slot="{ item: course, index, active }">
+          <DynamicScrollerItem
+            :item="course"
+            :active="active"
+            :size-dependencies="[course.full_title, course.title]"
+            :data-index="index"
+            :emitResize="true"
+          >
+            <div
+              class="course-listing"
+              :class="{ 'bg-light': course.selected }"
             >
-              <div
-                class="course-listing"
-                :class="{ 'bg-light': course.selected }"
+              <CourseListing
+                :course="course"
+                defaultAction="toggleCourse"
+                v-on="$listeners"
+                lazyLoadCollapse
               >
-                <CourseListing
-                  :course="course"
-                  defaultAction="toggleCourse"
-                  v-on="$listeners"
-                  lazyLoadCollapse
-                >
-                  <template #toggleCollapseButton="{ course }">
-                    <button
-                      v-show="
-                        course.corequisites ||
-                        course.prerequisites ||
-                        course.raw_precoreqs
-                      "
-                      class="btn"
-                      @click.stop="courseInfoModalToggle(course)"
-                      data-cy="course-info-button"
-                    >
-                      <font-awesome-icon :icon="faInfoCircle" />
-                    </button>
-                  </template>
-                  <template #collapseContent>
-                    {{ null }}
-                  </template>
-                </CourseListing>
-              </div>
-            </DynamicScrollerItem>
-          </template>
-        </DynamicScroller>
-      </template>
+                <template #toggleCollapseButton="{ course }">
+                  <button
+                    v-show="
+                      course.corequisites ||
+                      course.prerequisites ||
+                      course.raw_precoreqs
+                    "
+                    class="btn"
+                    @click.stop="courseInfoModalToggle(course)"
+                    data-cy="course-info-button"
+                  >
+                    <font-awesome-icon :icon="faInfoCircle" />
+                  </button>
+                </template>
+                <template #collapseContent>
+                  {{ null }}
+                </template>
+              </CourseListing>
+            </div>
+          </DynamicScrollerItem>
+        </template>
+      </DynamicScroller>
     </div>
   </div>
 </template>
