@@ -1,13 +1,29 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
-      <!-- Left side of the column  -->
+      <!-- 
+        - Left side of the column
+        - Displays the first 2 departments in the schoolOrder (Science" and "Engineering")
+        - n starts with 1
+      -->
       <b-col>
         <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <!-- Department Title  -->
             <b-row class="school-name">
-              <h3 class="m-1 ml-2">{{ schoolOrder[n - 1] }}</h3>
+              <h3
+                class="m-1 ml-2"
+                @click="
+                  $router.push({
+                    name: 'SubjectExplorer',
+                    params: {
+                      majors,
+                    },
+                  })
+                "
+              >
+                {{ schoolOrder[n - 1] }}
+              </h3>
             </b-row>
             <!-- Subject Title  -->
             <b-row>
@@ -153,7 +169,12 @@ export default {
     },
   },
   computed: {
-    //Used to define the placement of each department into the two main columns
+    /**
+     *coursesChunked
+     * Used to define the placement of each department into the two main columns
+     * Data structure -> An Array contains 6 list, each list contains one string
+     * @returns [{String}]
+     */
     coursesChunked() {
       const chunkedArr = [];
       for (var i = 0; i < 6; i++) {

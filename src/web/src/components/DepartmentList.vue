@@ -8,14 +8,15 @@
           - Subject button
           - Disable the accordion by remove 'accordion-'
           -->
-          <router-link :to="{ name: 'SubjectExplorer' }" tag="button">
-            Subject Explorer
-          </router-link>
+          <router-link></router-link>
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
             variant="light"
             class="major-button m-0 ml-1"
+            @click="
+              $router.push({ name: 'SubjectExplorer', params: { majors } })
+            "
           >
             {{ major }}
           </b-button>
@@ -32,7 +33,7 @@
                   <li
                     class="course-listing"
                     v-for="course in deptClassDict[major]"
-                    :key="course.name + course.date_start + course.date_end"
+                    :key="course.name + course.date_start + course.date_start"
                     :class="{ 'bg-light': course.selected }"
                   >
                     <CourseListing

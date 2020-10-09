@@ -6,6 +6,7 @@
     -->
     <b-row>
       <b-col class="school-name">
+        <!-- The subject title should be depending on the input parameter from DepartmentList.vue -->
         <h3 class="m-5">{{ schoolOrder[0] }}</h3>
       </b-col>
       <b-col>
