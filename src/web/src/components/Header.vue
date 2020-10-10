@@ -1,109 +1,87 @@
 <template>
   <div id="header">
-    <b-navbar type="light" variant="light">
+    <b-navbar toggleable="md" type="light" variant="light">
       <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
-      <div class="semester">{{ selectedSemester }}</div>
-      <b-navbar-nav>
-        <b-nav-item>
-          <router-link :to="{ name: 'CourseScheduler' }">
-            Schedule
-          </router-link>
-        </b-nav-item>
-        <b-nav-item>
-          <router-link :to="{ name: 'CourseExplorer' }">
-            Explore
-          </router-link>
-        </b-nav-item>
-      </b-navbar-nav>
-      <!-- If user has logged in -->
-      <b-navbar-nav class="ml-auto" v-if="sessionID !== null">
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>Hi, {{ userName }}</template>
-          <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
-          <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
+      <b-nav-text class="semester">{{ selectedSemester }}</b-nav-text>
+      <b-navbar-toggle target="header-navbar-collapse"></b-navbar-toggle>
+      <b-collapse id="header-navbar-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item>
+            <router-link :to="{ name: 'CourseScheduler' }">
+              <font-awesome-icon :icon="faCalendar" />
+              Schedule
+            </router-link>
+          </b-nav-item>
+          <b-nav-item>
+            <router-link :to="{ name: 'CourseExplorer' }">
+              <font-awesome-icon :icon="faList" />
+              Explore
+            </router-link>
+          </b-nav-item>
+        </b-navbar-nav>
+        <!-- If user has logged in -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown right v-if="sessionID !== null">
+            <!-- Using 'button-content' slot -->
+            <template v-slot:button-content>Hi, {{ userName }}</template>
+            <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
+            <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <!-- </b-navbar-nav> -->
 
-      <!-- If user has not logged in -->
-      <b-navbar-nav class="ml-auto" v-if="sessionID === null">
-        <div>
-          <b-button v-b-modal.login-modal size="sm" variant="light">
-            Log In
-          </b-button>
+          <!-- If user has not logged in -->
+          <!-- <b-navbar-nav class="ml-auto" v-else> -->
+          <template v-else>
+            <b-button v-b-modal.login-modal size="sm" variant="light">
+              Log In
+            </b-button>
 
-          <b-button
-            v-b-modal.signup-modal
-            size="sm"
-            variant="primary"
-            class="ml-2"
-          >
-            Sign Up
-          </b-button>
+            <b-button v-b-modal.signup-modal size="sm" variant="primary">
+              Sign Up
+            </b-button>
 
-          <b-modal
-            id="login-modal"
-            ref="login-modal"
-            hide-footer
-            title="Log In"
-          >
-            <b-form @submit="onSubmit" @reset="onReset" v-if="showForm">
-              <b-form-group
-                id="input-group-1"
-                label="Email address:"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  v-model="form.email"
-                  type="email"
-                  required
-                  placeholder="Enter email"
-                ></b-form-input>
-              </b-form-group>
+            <b-modal
+              id="login-modal"
+              ref="login-modal"
+              hide-footer
+              title="Log In"
+            >
+              <LoginForm @submit="onLogIn()" />
+            </b-modal>
 
-              <b-form-group
-                id="input-group-2"
-                label="Password:"
-                label-for="input-2"
-              >
-                <b-form-input
-                  id="input-2"
-                  type="password"
-                  v-model="form.password"
-                  required
-                  placeholder="Enter password"
-                ></b-form-input>
-              </b-form-group>
-
-              <b-button type="submit" variant="primary">Submit</b-button>
-            </b-form>
-          </b-modal>
-
-          <b-modal id="signup-modal" hide-footer title="Sign Up">
-            <SignUpForm></SignUpForm>
-          </b-modal>
-        </div>
-      </b-navbar-nav>
-      <b-form-checkbox
-        class="dark-mode-switch"
-        :checked="$store.state.darkMode"
-        @change="toggle_style()"
-        switch
-      >
-        <font-awesome-icon class="style-icon" :icon="faMoon" />
-      </b-form-checkbox>
+            <b-modal id="signup-modal" hide-footer title="Sign Up">
+              <SignUpForm />
+            </b-modal>
+          </template>
+          <b-nav-form>
+            <b-form-checkbox
+              class="dark-mode-switch"
+              :checked="$store.state.darkMode"
+              @change="toggle_style()"
+              switch
+            >
+              <font-awesome-icon class="style-icon" :icon="faMoon" />
+            </b-form-checkbox>
+          </b-nav-form>
+        </b-navbar-nav>
+      </b-collapse>
     </b-navbar>
     <hr />
   </div>
 </template>
 
 <script>
-import { login, logout } from "@/services/UserService";
+import { logout } from "@/services/UserService";
 
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMoon,
+  faCog,
+  faCalendar,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
 
 import SignUpComponent from "@/components/SignUp";
+import LoginComponent from "@/components/Login";
 
 import { TOGGLE_DARK_MODE } from "@/store";
 
@@ -114,18 +92,17 @@ export default {
   },
   components: {
     SignUpForm: SignUpComponent,
+    LoginForm: LoginComponent,
   },
   data() {
     return {
       faMoon,
-      form: {
-        email: "",
-        password: "",
-      },
+      faCog,
+      faCalendar,
+      faList,
       isLoggedIn: false,
       sessionID: "",
       userName: "",
-      showForm: true,
       semesterOptions: [],
     };
   },
@@ -143,42 +120,8 @@ export default {
     toggle_style() {
       this.$store.commit(TOGGLE_DARK_MODE);
     },
-    onSubmit(evt) {
-      evt.preventDefault();
-      let userInfo = this.form;
-      console.log(userInfo);
-
-      login(userInfo)
-        .then((response) => {
-          console.log(response);
-          this.$cookies.set("sessionID", response.data.content["sessionID"]);
-          this.$cookies.set("userName", response.data.content["userName"]);
-          this.$cookies.set("userID", response.data.content["uid"]);
-          location.reload();
-        })
-        .catch((error) => {
-          console.log(error.response);
-          this.$bvToast.toast(
-            `Login Unsuccesful. Please double check your email and password, then try again!`,
-            {
-              title: "Invalid login",
-              variant: "danger",
-              noAutoHide: true,
-            }
-          );
-        });
+    onLogIn() {
       this.$refs["login-modal"].hide();
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      // Reset our form values
-      this.form.email = "aaa1@wa.com";
-      this.form.password = "123456";
-      // Trick to reset/clear native browser form validation state
-      this.showForm = false;
-      this.$nextTick(() => {
-        this.showForm = true;
-      });
     },
     logOut() {
       var sessionId = this.$cookies.get("sessionID");
@@ -193,15 +136,19 @@ export default {
 </script>
 
 <style>
-.navbar {
+#header .navbar {
   background: white !important;
   margin-bottom: none !important;
 }
 
-.semester {
+#header .nav-item {
+  text-align: center;
+}
+
+/* .semester {
   font-size: 18px;
   color: grey;
-}
+} */
 
 .logo {
   font-size: 24px;
