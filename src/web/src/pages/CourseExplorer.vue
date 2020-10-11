@@ -101,6 +101,7 @@
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
+import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "CourseExplorer",
@@ -136,6 +137,13 @@ export default {
     };
   },
   async created() {
+    if (this.selectedSemester === "") {
+      const querySemester = this.$route.query.semester;
+      this.selectedSemester =
+        querySemester && querySemester != "null"
+          ? querySemester
+          : await getDefaultSemester();
+    }
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
         if (!this.schoolsMajorDict[c.school]) {
