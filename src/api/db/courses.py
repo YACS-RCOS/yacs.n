@@ -111,6 +111,8 @@ class Courses:
                                     crn,
                                     section,
                                     semester,
+                                    min_credits,
+                                    max_credits,
                                     description,
                                     frequency,
                                     full_title,
@@ -127,6 +129,8 @@ class Courses:
                                 NULLIF(%(CRN)s, ''),
                                 NULLIF(%(Section)s, ''),
                                 NULLIF(%(Semester)s, ''),
+                                %(MinCredits)s,
+                                %(MaxCredits)s,
                                 NULLIF(%(Description)s, ''),
                                 NULLIF(%(Frequency)s, ''),
                                 NULLIF(%(FullTitle)s, ''),
@@ -150,6 +154,8 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
+                                "MinCredits": row['course_credit_hours'].split("-")[0],
+                                "MaxCredits": row['course_credit_hours'].split("-")[-1],
                                 "Description": row['description'], # new
                                 "Frequency": row['offer_frequency'], # new
                                 "FullTitle": row["full_name"], # new
