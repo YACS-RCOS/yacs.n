@@ -69,7 +69,7 @@ const infraSync = async () => {
   // print ip
   // USED IN GITHUB ACTIONS PIPELINE TO SHOW MESSAGE IN PR
   // DO NOT REFORMAT
-  console.log(`http://${info.ipv4[0]}`)
+  console.log(`https://${info.ipv4[0]}`)
 
 }
 
