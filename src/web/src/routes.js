@@ -38,14 +38,12 @@ var router = new VueRouter({
           component: SubjectExplorerPage,
           name: "SubjectExplorer",
           props: true,
-          children: [
-            {
-              path: "/:course",
-              component: CoursePage,
-              name: "CoursePage",
-              props: true,
-            },
-          ],
+        },
+        {
+          path: ":subject/:course",
+          component: CoursePage,
+          name: "CoursePage",
+          props: true,
         },
       ],
     },

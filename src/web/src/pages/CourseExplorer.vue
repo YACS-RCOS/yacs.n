@@ -1,7 +1,7 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
-      <!-- 
+      <!--
         - Left side of the column
         - Displays the first 2 departments in the schoolOrder (Science" and "Engineering")
         - n starts with 1
@@ -11,17 +11,7 @@
           <b-col>
             <!-- Department Title  -->
             <b-row class="school-name">
-              <h3
-                class="m-1 ml-2"
-                @click="
-                  $router.push({
-                    name: 'SubjectExplorer',
-                    params: {
-                      majors,
-                    },
-                  })
-                "
-              >
+              <h3 class="m-1 ml-2">
                 {{ schoolOrder[n - 1] }}
               </h3>
             </b-row>

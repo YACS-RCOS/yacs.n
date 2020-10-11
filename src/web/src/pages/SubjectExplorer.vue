@@ -13,6 +13,17 @@
         <!-- Course slide bar section -->
         <b-button v-b-toggle.courseSidebar-1>Course Sidebar</b-button>
         <b-button to="/explore">Back</b-button>
+        <b-button
+          :to="{
+            name: 'CoursePage',
+            params: {
+              course: 'BMED-2011',
+              subject: 'BMED',
+            },
+          }"
+        >
+          test
+        </b-button>
 
         <b-sidebar id="courseSidebar-1" title="Department/Subject name" shadow>
           <div class="px-3 py-2">
@@ -77,6 +88,7 @@ export default {
       console.log(this.major);
       for (const c of courses) {
         if (c.department === this.department) {
+          console.log("test");
         }
       }
       this.ready = true;
