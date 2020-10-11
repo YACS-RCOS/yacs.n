@@ -62,7 +62,7 @@ export const getCourses = (semester, search = null) =>
 
         c.vscrl_type = c.description ? "with-info" : "without-info";
         return c;
-      });
+      }).filter(c => c.sections.length != 0);
     });
 /**
  * Returns a list of all departments
