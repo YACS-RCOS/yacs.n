@@ -17,7 +17,7 @@
           :to="{
             name: 'CoursePage',
             params: {
-              course: 'BMED-2011',
+              course: 'BMED-2100',
               subject: 'BMED',
             },
           }"
