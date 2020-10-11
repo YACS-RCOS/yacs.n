@@ -13,15 +13,18 @@ envsubst '\$HOST' < \
   /etc/nginx/nginx.template.conf > \
   /etc/nginx/nginx.conf
 
-# Generating SSL Certificates
-mkdir /etc/nginx/certs
-cd /etc/nginx/certs
-openssl genrsa -passout pass:x -out $HOST.pass.key 2048
-openssl rsa -passin pass:x -in $HOST.pass.key -out $HOST.key
-rm $HOST.pass.key
-openssl req -new -key $HOST.key -out $HOST.csr \
-    -subj "/C=US/ST=New York/O=RPI RCOS"
-openssl x509 -req -days 365 -in $HOST.csr -signkey $HOST.key -out $HOST.crt
+
+# If SSL Certificate folder isn't present, generate one
+if [ ! -d "/etc/nginx/certificate" ];then
+  echo "--------------------------------------"
+  mkdir /etc/nginx/certificate
+  cd /etc/nginx/certificate
+  openssl genrsa -passout pass:x -out $HOST.pass.key 2048
+  openssl rsa -passin pass:x -in $HOST.pass.key -out $HOST.key
+  rm $HOST.pass.key
+  openssl req -new -key $HOST.key -out $HOST.csr -subj "/C=US/ST=New York/O=RPI RCOS"
+  openssl x509 -req -days 365 -in $HOST.csr -signkey $HOST.key -out $HOST.crt
+fi
 
 # start nginx
 echo "starting nginx:"
