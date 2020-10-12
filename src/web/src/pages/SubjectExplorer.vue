@@ -13,6 +13,17 @@
         <!-- Subject slide bar section -->
         <b-button v-b-toggle.courseSidebar-1>Subject Sidebar</b-button>
         <b-button to="/explore">Back</b-button>
+        <b-button
+          :to="{
+            name: 'CoursePage',
+            params: {
+              course: 'BMED-2100',
+              subject: 'BMED',
+            },
+          }"
+        >
+          test
+        </b-button>
 
         <b-sidebar id="courseSidebar-1" title="subject name" shadow>
           <div class="px-3 py-2">

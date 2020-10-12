@@ -1,7 +1,7 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
-      <!-- 
+      <!--
         - Left side of the column
         - Displays the first 2 departments in the schoolOrder (Science" and "Engineering")
         - n starts with 1
@@ -109,6 +109,7 @@
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
+import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "CourseExplorer",
@@ -144,6 +145,13 @@ export default {
     };
   },
   async created() {
+    if (this.selectedSemester === "") {
+      const querySemester = this.$route.query.semester;
+      this.selectedSemester =
+        querySemester && querySemester != "null"
+          ? querySemester
+          : await getDefaultSemester();
+    }
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
         if (!this.schoolsMajorDict[c.school]) {

@@ -4,7 +4,7 @@
     <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
         <div class="mt-1 mb-1 w-100">
-          <!-- 
+          <!--
           - Subject button
           -->
           <b-button
@@ -35,14 +35,14 @@
                     :key="course.name + course.date_start + course.date_start"
                     :class="{ 'bg-light': course.selected }"
                   >
-                    <router-link
+                    <!-- <router-link
                       :to="{
                         name: 'CoursePage',
                         params: { course: course.name },
                       }"
                     >
                       {{ course.name }}
-                    </router-link>
+                    </router-link> -->
                     <CourseListing
                       :course="course"
                       :showAddButton="false"
