@@ -44,9 +44,8 @@
               :to="{
                 name: 'CoursePage',
                 params: {
-                  course: subjectClassArr[n + leftColumnCourseNum - 1].name,
-                  subject:
-                    subjectClassArr[n + leftColumnCourseNum - 1].department,
+                  course: subjectClassArr[n - 1].name,
+                  subject: subjectClassArr[n - 1].department,
                 },
               }"
             >
