@@ -13,17 +13,6 @@
         <!-- Subject slide bar section -->
         <b-button v-b-toggle.courseSidebar-1>Subject Sidebar</b-button>
         <b-button to="/explore">Back</b-button>
-        <b-button
-          :to="{
-            name: 'CoursePage',
-            params: {
-              course: 'BMED-2100',
-              subject: 'BMED',
-            },
-          }"
-        >
-          test
-        </b-button>
 
         <b-sidebar id="courseSidebar-1" title="subject name" shadow>
           <div class="px-3 py-2">
@@ -51,8 +40,19 @@
         >
           <!-- Department Title  -->
           <b-col class="m-1 ml-2">
-            <h3>{{ subjectClassArr[n - 1].title }}</h3>
-            {{ subjectClassArr[n - 1].level }}
+            <router-link
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: subjectClassArr[n + leftColumnCourseNum - 1].name,
+                  subject:
+                    subjectClassArr[n + leftColumnCourseNum - 1].department,
+                },
+              }"
+            >
+              {{ subjectClassArr[n - 1].title }}
+              {{ subjectClassArr[n - 1].level }}
+            </router-link>
           </b-col>
         </b-row>
       </b-col>
@@ -67,10 +67,19 @@
       >
         <!-- Department Title  -->
         <b-col class="m-1 ml-2">
-          <h3>
+          <router-link
+            :to="{
+              name: 'CoursePage',
+              params: {
+                course: subjectClassArr[n + leftColumnCourseNum - 1].name,
+                subject:
+                  subjectClassArr[n + leftColumnCourseNum - 1].department,
+              },
+            }"
+          >
             {{ subjectClassArr[n + leftColumnCourseNum - 1].title }}
             {{ subjectClassArr[n + leftColumnCourseNum - 1].level }}
-          </h3>
+          </router-link>
         </b-col>
       </b-row>
     </b-col>
