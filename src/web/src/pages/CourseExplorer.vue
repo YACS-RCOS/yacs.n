@@ -16,9 +16,7 @@
                 @click="
                   $router.push({
                     name: 'SubjectExplorer',
-                    params: {
-                      majors,
-                    },
+                    params: {},
                   })
                 "
               >

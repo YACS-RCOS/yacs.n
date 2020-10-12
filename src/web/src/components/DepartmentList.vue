@@ -6,9 +6,7 @@
         <div class="mt-1 mb-1 w-100">
           <!-- 
           - Subject button
-          - Disable the accordion by remove 'accordion-'
           -->
-          <router-link></router-link>
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
