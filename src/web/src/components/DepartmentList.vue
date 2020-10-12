@@ -128,7 +128,7 @@ export default {
 }
 
 .major-button {
-  display: inline;
+  display: inline-block;
   background: white;
   border-style: none;
   text-align: justify;
