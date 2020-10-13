@@ -1,9 +1,6 @@
 <template>
   <div v-if="ready" class="gridContainer w-100 mb-4">
-    <!--
-      - subject Title
-      - mb: margin button
-    -->
+    <!-- Subject Title -->
     <b-row>
       <b-col class="school-name">
         <!-- The subject title should be depending on the input parameter from subjectList.vue -->
@@ -28,7 +25,7 @@
     </b-row>
     <br />
 
-    <!-- left column of course -->
+    <!-- left column of courses -->
     <b-col>
       <b-row
         v-for="n in this.leftColumnCourseNum"
@@ -36,7 +33,6 @@
         class="courseBox border m-2 mb-4"
       >
         <!-- Navigates to course page by click on the course button  -->
-
         <b-col class="m-1 ml-0">
           <b-button
             squared
@@ -46,22 +42,22 @@
               name: 'CoursePage',
 
               params: {
-                course: subjectClassArr[n - 1].name,
-                subject: subjectClassArr[n - 1].department,
+                course: subjectCourseArr[n - 1].name,
+                subject: subjectCourseArr[n - 1].department,
               },
             }"
           >
-            {{ subjectClassArr[n - 1].title }}
+            {{ subjectCourseArr[n - 1].title }}
             <br />
-            {{ subjectClassArr[n - 1].department }}
-            {{ subjectClassArr[n - 1].level }}
+            {{ subjectCourseArr[n - 1].department }}
+            {{ subjectCourseArr[n - 1].level }}
             <br />
           </b-button>
         </b-col>
       </b-row>
     </b-col>
 
-    <!-- right column of course -->
+    <!-- right column of courses -->
     <b-col>
       <b-row
         v-for="n in this.rightColumnCourseNum"
@@ -76,15 +72,15 @@
             :to="{
               name: 'CoursePage',
               params: {
-                course: subjectClassArr[n - 1].name,
-                subject: subjectClassArr[n - 1].department,
+                course: subjectCourseArr[n - 1].name,
+                subject: subjectCourseArr[n - 1].department,
               },
             }"
           >
-            {{ subjectClassArr[n - 1].title }}
+            {{ subjectCourseArr[n - 1].title }}
             <br />
-            {{ subjectClassArr[n - 1].department }}
-            {{ subjectClassArr[n - 1].level }}
+            {{ subjectCourseArr[n - 1].department }}
+            {{ subjectCourseArr[n - 1].level }}
             <br />
           </b-button>
         </b-col>
@@ -101,21 +97,17 @@
 
 <script>
 import { getCourses } from "../services/YacsService";
-//import CourseListingComponent from "@/components/CourseListing";
 import { generateRequirementsText } from "@/utils";
 
 export default {
   name: "SubjectExplorer",
-  components: {
-    //CourseListing: CourseListingComponent,
-  },
+  components: {},
   props: {
     selectedSemester: String,
   },
   data() {
     return {
-      // subject
-      subjectClassArr: [],
+      subjectCourseArr: [], // array of courses for the selected subject
       subject: this.$route.params.subject,
       leftColumnCourseNum: Number,
       rightColumnCourseNum: Number,
@@ -144,29 +136,25 @@ export default {
    * created function calls automatically once the page is access/ object is created
    * Loop through all courses in data base
    * Only store the courses within the same subject/major into an array
-   * subjectClassArr is an array of course objects
+   * subjectCourseArr is an array of course objects
    */
   async created() {
     getCourses(this.selectedSemester).then((courses) => {
-      console.log("\nThe page object is created, subject-> " + this.subject);
       for (const c of courses) {
         if (c.department === this.subject) {
-          this.subjectClassArr.push(c);
+          this.subjectCourseArr.push(c);
         }
       }
-      this.leftColumnCourseNum = Math.ceil(this.subjectClassArr.length / 2);
+      this.leftColumnCourseNum = Math.ceil(this.subjectCourseArr.length / 2);
       this.rightColumnCourseNum =
-        this.subjectClassArr.length - this.leftColumnCourseNum;
-
-      console.log("subjectClassArr is " + this.subjectClassArr[0].name);
-      console.log("subjectClassArr is " + this.subjectClassArr[0].title);
-
-      console.log("course size is " + courses.length);
-      console.log("subjectClassArr size is " + this.subjectClassArr.length);
-      console.log("leftColumnCourseNum size is " + this.leftColumnCourseNum);
-      console.log("rightColumnCourseNum size is " + this.rightColumnCourseNum);
-
+        this.subjectCourseArr.length - this.leftColumnCourseNum;
       this.ready = true;
+
+      // console.log("\nThe page object is created, subject-> " + this.subject);
+      // console.log("course size is " + courses.length);
+      // console.log("subjectCourseArr size is " + this.subjectCourseArr.length);
+      // console.log("leftColumnCourseNum size is " + this.leftColumnCourseNum);
+      // console.log("rightColumnCourseNum size is " + this.rightColumnCourseNum);
     });
   },
   methods: {
@@ -176,16 +164,7 @@ export default {
       this.showCourseInfoModal = true;
     },
   },
-  computed: {
-    //Used to define the placement of each subject into the two main columns
-    coursesChunked() {
-      const chunkedArr = [];
-      for (var i = 0; i < 6; i++) {
-        chunkedArr.push(this.schoolssubjectDict[this.schoolOrder[i]]);
-      }
-      return chunkedArr;
-    },
-  },
+  computed: {},
 };
 </script>
 
