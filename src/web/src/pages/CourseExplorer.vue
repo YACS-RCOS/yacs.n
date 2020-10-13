@@ -13,12 +13,10 @@
             <b-row class="school-name">
               <h3
                 class="m-1 ml-2"
-                @click="
-                  $router.push({
-                    name: 'SubjectExplorer',
-                    params: {},
-                  })
-                "
+                :to="{
+                  name: 'SubjectPage',
+                  params: {},
+                }"
               >
                 {{ schoolOrder[n - 1] }}
               </h3>

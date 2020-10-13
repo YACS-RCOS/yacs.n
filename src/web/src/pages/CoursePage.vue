@@ -22,6 +22,7 @@
         {{ courseObj.description }}
       </b-col>
     </b-row>
+    <b-button to="/explore">Back</b-button>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -81,6 +82,6 @@ export default {
 <style>
 .container {
   text-align: center;
-  margin: ;
+  /* margin: ; */
 }
 </style>
