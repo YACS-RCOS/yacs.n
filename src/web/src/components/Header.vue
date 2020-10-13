@@ -210,8 +210,8 @@ export default {
 .logo {
   font-size: 24px;
   vertical-align: middle;
-  text-decoration: none;
-  color: inherit;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 hr {
