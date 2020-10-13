@@ -1,12 +1,10 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
-    <!-- lOOP Through the majors list -->
+    <!-- LOOP Through the majors list -->
     <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
         <div class="mt-1 mb-1 w-100">
-          <!--
-          - Subject button
-          -->
+          <!-- Subject button -->
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
@@ -20,7 +18,10 @@
             {{ major }}
           </b-button>
 
-          <!-- Collapsed elements inside of subject button-->
+          <!-- 
+            - Collapsed elements inside of subject button
+            - The accordion functionality disabled after implementing the new feature(issue #191) 
+          -->
           <b-collapse
             :id="id + 'accordion-' + index"
             accordion="accordion"
@@ -35,14 +36,6 @@
                     :key="course.name + course.date_start + course.date_start"
                     :class="{ 'bg-light': course.selected }"
                   >
-                    <!-- <router-link
-                      :to="{
-                        name: 'CoursePage',
-                        params: { course: course.name },
-                      }"
-                    >
-                      {{ course.name }}
-                    </router-link> -->
                     <CourseListing
                       :course="course"
                       :showAddButton="false"
@@ -95,6 +88,11 @@ export default {
     selectedSemester: String,
     id: Number,
   },
+
+  /**
+   * courseInfoModalToggle
+   * Display the course object information onn console
+   */
   methods: {
     courseInfoModalToggle(course) {
       console.log(course);

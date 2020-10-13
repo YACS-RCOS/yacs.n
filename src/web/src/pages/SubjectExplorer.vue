@@ -108,16 +108,17 @@ export default {
   data() {
     return {
       subjectCourseArr: [], // array of courses for the selected subject
-      subject: this.$route.params.subject,
+      subject: this.$route.params.subject, // subject object from CourseExplorer
+      // split the total course number to half, left column rounds up
       leftColumnCourseNum: Number,
       rightColumnCourseNum: Number,
       ready: false,
 
-      /*
-       *Used to define the order that the schools are placed into the two main
-       *columns. This could be implemented generically, but making the columns
-       *more or less "even" is NP-Hard so its more convenient to just define
-       *manually
+      /**
+       * Used to define the order that the schools are placed into the two main
+       * columns. This could be implemented generically, but making the columns
+       * more or less "even" is NP-Hard so its more convenient to just define
+       * manually
        */
       schoolOrder: [
         "Engineering",
