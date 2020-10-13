@@ -2,7 +2,7 @@
   <div id="header">
     <b-navbar type="light" variant="light">
       <b-navbar-brand class="logo">
-        <router-link :to="{ name: 'CourseScheduler' }">
+        <router-link class="logo" :to="{ name: 'CourseScheduler' }">
           YACS
         </router-link>
       </b-navbar-brand>
@@ -210,6 +210,8 @@ export default {
 .logo {
   font-size: 24px;
   vertical-align: middle;
+  text-decoration: none;
+  color: inherit;
 }
 
 hr {
