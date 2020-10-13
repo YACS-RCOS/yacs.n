@@ -7,7 +7,7 @@
     <b-row>
       <b-col class="school-name">
         <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-        <h3 class="m-5">{{ subject }}</h3>
+        <h3 class="m-3">{{ subject }}</h3>
       </b-col>
       <b-col>
         <!-- Subject slide bar section -->
@@ -28,34 +28,38 @@
     </b-row>
     <br />
 
-    <div id="scroll-box">
-      <ul class="scroller"></ul>
+    <!-- left column of course -->
+    <b-col>
+      <b-row
+        v-for="n in this.leftColumnCourseNum"
+        :key="n"
+        class="courseBox border m-2 mb-4"
+      >
+        <!-- Navigates to course page by click on the course button  -->
 
-      <!-- left column of course -->
-      <b-col>
-        <b-row
-          v-for="n in this.leftColumnCourseNum"
-          :key="n"
-          class="courseBox border m-2 mb-4"
-        >
-          <!-- Department Title  -->
-          <b-col class="m-1 ml-2">
-            <router-link
-              :to="{
-                name: 'CoursePage',
-                params: {
-                  course: subjectClassArr[n - 1].name,
-                  subject: subjectClassArr[n - 1].department,
-                },
-              }"
-            >
-              {{ subjectClassArr[n - 1].title }}
-              {{ subjectClassArr[n - 1].level }}
-            </router-link>
-          </b-col>
-        </b-row>
-      </b-col>
-    </div>
+        <b-col class="m-1 ml-0">
+          <b-button
+            squared
+            variant="light"
+            class="course-button m-0 ml-0"
+            :to="{
+              name: 'CoursePage',
+
+              params: {
+                course: subjectClassArr[n - 1].name,
+                subject: subjectClassArr[n - 1].department,
+              },
+            }"
+          >
+            {{ subjectClassArr[n - 1].title }}
+            <br />
+            {{ subjectClassArr[n - 1].department }}
+            {{ subjectClassArr[n - 1].level }}
+            <br />
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-col>
 
     <!-- right column of course -->
     <b-col>
@@ -64,21 +68,25 @@
         :key="n"
         class="courseBox border m-2 mb-4"
       >
-        <!-- Department Title  -->
+        <!-- Navigates to course page by click on the course button  -->
         <b-col class="m-1 ml-2">
-          <router-link
+          <b-button
+            squared
+            variant="light"
             :to="{
               name: 'CoursePage',
               params: {
-                course: subjectClassArr[n + leftColumnCourseNum - 1].name,
-                subject:
-                  subjectClassArr[n + leftColumnCourseNum - 1].department,
+                course: subjectClassArr[n - 1].name,
+                subject: subjectClassArr[n - 1].department,
               },
             }"
           >
-            {{ subjectClassArr[n + leftColumnCourseNum - 1].title }}
-            {{ subjectClassArr[n + leftColumnCourseNum - 1].level }}
-          </router-link>
+            {{ subjectClassArr[n - 1].title }}
+            <br />
+            {{ subjectClassArr[n - 1].department }}
+            {{ subjectClassArr[n - 1].level }}
+            <br />
+          </b-button>
         </b-col>
       </b-row>
     </b-col>
