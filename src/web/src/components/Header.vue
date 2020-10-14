@@ -22,15 +22,11 @@
         <!-- If user has logged in -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right v-if="sessionID !== null">
-            <!-- Using 'button-content' slot -->
             <template v-slot:button-content>Hi, {{ userName }}</template>
-            <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
             <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
-          <!-- </b-navbar-nav> -->
 
           <!-- If user has not logged in -->
-          <!-- <b-navbar-nav class="ml-auto" v-else> -->
           <template v-else>
             <b-button v-b-modal.login-modal size="sm" variant="light">
               Log In
