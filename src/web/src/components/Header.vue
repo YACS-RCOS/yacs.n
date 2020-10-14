@@ -18,16 +18,16 @@
       id="header-navbar-collapse-toggle"
       target="header-navbar-collapse"
     >
-      <font-awesome-icon :icon="faBars" />
+      <font-awesome-icon icon="bars" />
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item :to="{ name: 'CourseScheduler' }">
-          <font-awesome-icon :icon="faCalendar" />
+          <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
-          <font-awesome-icon :icon="faList" />
+          <font-awesome-icon icon="list" />
           Explore
         </b-nav-item>
       </b-navbar-nav>
@@ -41,7 +41,7 @@
           >
             <div>
               <!-- We need the outer div to keep the icon aligned with the checkbox -->
-              <font-awesome-icon :icon="faMoon" />
+              <font-awesome-icon icon="moon" />
             </div>
           </b-form-checkbox>
         </b-nav-form>
@@ -94,14 +94,6 @@
 <script>
 import { logout } from "@/services/UserService";
 
-import {
-  faMoon,
-  faCog,
-  faCalendar,
-  faList,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
-
 import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
 
@@ -118,11 +110,6 @@ export default {
   },
   data() {
     return {
-      faMoon,
-      faCog,
-      faCalendar,
-      faList,
-      faBars,
       isLoggedIn: false,
       sessionID: "",
       userName: "",
