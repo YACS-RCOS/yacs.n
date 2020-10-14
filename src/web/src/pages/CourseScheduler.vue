@@ -99,7 +99,7 @@
       v-if = "courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      content-class="($store.state.darkMode == true) ? courseInfoModalCourseStyle : "
+      content-class= "`${$store.state.darkMode}` ? onStyleDarkMode : offStyleDarkMode"
       hide-footer
       data-cy="course-info-modal"
     >
@@ -406,6 +406,7 @@ export default {
     showCourseInfo(course) {
       this.courseInfoModalCourse = course;
       this.showCourseInfoModal = true;
+      alert(this.state.darkMode);
     },
 
     /**
@@ -460,9 +461,14 @@ export default {
 
 <style scoped>
 
-/deep/ .courseInfoModalCourseStyle {
-  background: var(--dark-primary);
-  color: var(--dark-text-primary);
+/deep/ .onStyleDarkMode {
+  background: 'var(--dark-primary)';
+  color: white;
+}
+
+/deep/ .offStyleDarkMode {
+  background: white;
+  color: black;
 }
 
 </style>
