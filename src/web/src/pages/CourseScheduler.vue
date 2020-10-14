@@ -97,6 +97,7 @@
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
+      content-class="courseInfoModalCourseStyle"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
       data-cy="course-info-modal"
@@ -456,6 +457,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/deep/ .courseInfoModalCourseStyle {
+  background: black;
+  color: white;
+}
+</style>
 
 <style lang="scss">
 // NOTE!
