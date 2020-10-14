@@ -16,8 +16,8 @@ envsubst '\$HOST' < \
 
 # If SSL Certificate folder isn't present, generate one
 if [ ! "/etc/nginx/certificate/$HOST.crt" ] && \
-     [ ! "/etc/nginx/certificate/$HOST.csr" ] && \
-     [ ! "/etc/nginx/certificate/$HOST.key" ];then
+[ ! "/etc/nginx/certificate/$HOST.csr" ] && \
+[ ! "/etc/nginx/certificate/$HOST.key" ];then
   mkdir /etc/nginx/certificate
   cd /etc/nginx/certificate
   openssl genrsa -passout pass:x -out $HOST.pass.key 2048
