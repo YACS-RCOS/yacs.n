@@ -7,7 +7,10 @@
     type="primary"
     variant="light"
   >
-    <b-navbar-brand class="align-middle text-dark" href="#">
+    <b-navbar-brand
+      class="align-middle text-dark"
+      :to="{ name: 'CourseScheduler' }"
+    >
       YACS
     </b-navbar-brand>
     <b-nav-text class="text-secondary">{{ selectedSemester }}</b-nav-text>
