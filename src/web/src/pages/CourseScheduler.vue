@@ -97,7 +97,7 @@
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
-      content-class = "courseInfoModalCourseStyle"
+      content-class="courseInfoModalCourseStyle"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
       data-cy="course-info-modal"
@@ -148,7 +148,6 @@
 </template>
 
 <script>
-
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
