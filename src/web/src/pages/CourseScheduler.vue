@@ -93,12 +93,13 @@
         </b-row>
       </b-col>
     </b-row>
+    <!-- NOTE: Content Class Specifies The Styling For Modal In Dark Mode. -->
     <b-modal
       id="courseInfoModal"
-      v-if="courseInfoModalCourse"
+      v-if = "courseInfoModalCourse"
       v-model="showCourseInfoModal"
-      content-class = "courseInfoModalCourseStyle"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
+      content-class="($store.state.darkMode == true) ? courseInfoModalCourseStyle : "
       hide-footer
       data-cy="course-info-modal"
     >
@@ -459,18 +460,12 @@ export default {
 </script>
 
 <style scoped>
+
 /deep/ .courseInfoModalCourseStyle {
-  /*@if $store.state.darkMode == 'dark' {
-    background: black;
-    color: white; 
-  }    
-  @else {
-    background: black;
-    color: white;
-  }*/
   background: var(--dark-primary);
   color: var(--dark-text-primary);
 }
+
 </style>
 
 <style lang="scss">
