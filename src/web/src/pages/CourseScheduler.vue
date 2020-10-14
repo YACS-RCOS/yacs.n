@@ -97,7 +97,7 @@
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
-      content-class="courseInfoModalCourseStyle"
+      content-class = "courseInfoModalCourseStyle"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
       data-cy="course-info-modal"
@@ -148,8 +148,8 @@
 </template>
 
 <script>
-import NotificationsMixin from "@/mixins/NotificationsMixin";
 
+import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
@@ -460,8 +460,16 @@ export default {
 
 <style scoped>
 /deep/ .courseInfoModalCourseStyle {
-  background: black;
-  color: white;
+  /*@if $store.state.darkMode == 'dark' {
+    background: black;
+    color: white; 
+  }    
+  @else {
+    background: black;
+    color: white;
+  }*/
+  background: var(--dark-primary);
+  color: var(--dark-text-primary);
 }
 </style>
 
