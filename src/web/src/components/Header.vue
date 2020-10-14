@@ -1,69 +1,80 @@
 <template>
-  <div id="header">
-    <b-navbar toggleable="md" type="light" variant="light">
-      <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
-      <b-nav-text class="semester">{{ selectedSemester }}</b-nav-text>
-      <b-navbar-toggle target="header-navbar-collapse"></b-navbar-toggle>
-      <b-collapse id="header-navbar-collapse" is-nav>
-        <b-navbar-nav>
-          <b-nav-item>
-            <router-link :to="{ name: 'CourseScheduler' }">
-              <font-awesome-icon :icon="faCalendar" />
-              Schedule
-            </router-link>
-          </b-nav-item>
-          <b-nav-item>
-            <router-link :to="{ name: 'CourseExplorer' }">
-              <font-awesome-icon :icon="faList" />
-              Explore
-            </router-link>
-          </b-nav-item>
-        </b-navbar-nav>
-        <!-- If user has logged in -->
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown right v-if="sessionID !== null">
-            <template v-slot:button-content>Hi, {{ userName }}</template>
-            <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown>
+  <b-navbar
+    id="header"
+    class="bg-white"
+    style="margin-bottom: 0 !important;"
+    toggleable="md"
+    type="primary"
+    variant="light"
+  >
+    <b-navbar-brand class="align-middle text-dark" href="#">
+      YACS
+    </b-navbar-brand>
+    <b-nav-text class="text-secondary">{{ selectedSemester }}</b-nav-text>
+    <b-navbar-toggle target="header-navbar-collapse">
+      <font-awesome-icon :icon="faBars" />
+    </b-navbar-toggle>
+    <b-collapse id="header-navbar-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item :to="{ name: 'CourseScheduler' }">
+          <font-awesome-icon :icon="faCalendar" />
+          Schedule
+        </b-nav-item>
+        <b-nav-item :to="{ name: 'CourseExplorer' }">
+          <font-awesome-icon :icon="faList" />
+          Explore
+        </b-nav-item>
+      </b-navbar-nav>
+      <!-- If user has logged in -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown right v-if="sessionID !== null">
+          <!-- Using 'button-content' slot -->
+          <template v-slot:button-content>Hi, {{ userName }}</template>
+          <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
+        </b-nav-item-dropdown>
 
-          <!-- If user has not logged in -->
-          <template v-else>
-            <b-button v-b-modal.login-modal size="sm" variant="light">
-              Log In
-            </b-button>
+        <!-- If user has not logged in -->
+        <template v-else>
+          <b-button
+            id="login-button"
+            v-b-modal.login-modal
+            size="sm"
+            variant="secondary"
+            class="mr-md-2"
+          >
+            Log In
+          </b-button>
 
-            <b-button v-b-modal.signup-modal size="sm" variant="primary">
-              Sign Up
-            </b-button>
+          <b-button v-b-modal.signup-modal size="sm" variant="primary">
+            Sign Up
+          </b-button>
 
-            <b-modal
-              id="login-modal"
-              ref="login-modal"
-              hide-footer
-              title="Log In"
-            >
-              <LoginForm @submit="onLogIn()" />
-            </b-modal>
+          <b-modal
+            id="login-modal"
+            ref="login-modal"
+            hide-footer
+            title="Log In"
+          >
+            <LoginForm @submit="onLogIn()" />
+          </b-modal>
 
-            <b-modal id="signup-modal" hide-footer title="Sign Up">
-              <SignUpForm />
-            </b-modal>
-          </template>
-          <b-nav-form>
-            <b-form-checkbox
-              class="dark-mode-switch"
-              :checked="$store.state.darkMode"
-              @change="toggle_style()"
-              switch
-            >
-              <font-awesome-icon class="style-icon" :icon="faMoon" />
-            </b-form-checkbox>
-          </b-nav-form>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-    <hr />
-  </div>
+          <b-modal id="signup-modal" hide-footer title="Sign Up">
+            <SignUpForm />
+          </b-modal>
+        </template>
+        <b-nav-form>
+          <b-form-checkbox
+            class="dark-mode-switch ml-md-3"
+            :checked="$store.state.darkMode"
+            @change="toggle_style()"
+            switch
+          >
+            <font-awesome-icon class="style-icon" :icon="faMoon" />
+          </b-form-checkbox>
+        </b-nav-form>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
@@ -74,6 +85,7 @@ import {
   faCog,
   faCalendar,
   faList,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 import SignUpComponent from "@/components/SignUp";
@@ -96,6 +108,7 @@ export default {
       faCog,
       faCalendar,
       faList,
+      faBars,
       isLoggedIn: false,
       sessionID: "",
       userName: "",
@@ -131,36 +144,15 @@ export default {
 };
 </script>
 
-<style>
-#header .navbar {
-  background: white !important;
-  margin-bottom: none !important;
+<style lang="scss" scoped>
+@include media-breakpoint-down(sm) {
+  #login-button {
+    // equivalent to mb-1
+    margin-bottom: $spacer * 0.25;
+  }
 }
 
 #header .nav-item {
   text-align: center;
-}
-
-/* .semester {
-  font-size: 18px;
-  color: grey;
-} */
-
-.logo {
-  font-size: 24px;
-  vertical-align: middle;
-}
-
-hr {
-  margin: 0em;
-  border-width: 1px;
-}
-
-#signUpButton {
-  margin-left: 20px;
-}
-
-.dark-mode-switch {
-  margin-left: 1em;
 }
 </style>
