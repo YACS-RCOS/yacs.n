@@ -27,6 +27,19 @@
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
+        <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
+          <b-form-checkbox
+            :checked="$store.state.darkMode"
+            @change="toggle_style()"
+            switch
+          >
+            <div>
+              <!-- We need the outer div to keep the icon aligned with the checkbox -->
+              <font-awesome-icon :icon="faMoon" />
+            </div>
+          </b-form-checkbox>
+        </b-nav-form>
+
         <b-nav-item-dropdown right v-if="sessionID !== null">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>Hi, {{ userName }}</template>
@@ -45,7 +58,12 @@
             Log In
           </b-button>
 
-          <b-button v-b-modal.signup-modal size="sm" variant="primary">
+          <b-button
+            id="signup-button"
+            v-b-modal.signup-modal
+            size="sm"
+            variant="primary"
+          >
             Sign Up
           </b-button>
 
@@ -62,16 +80,6 @@
             <SignUpForm />
           </b-modal>
         </template>
-        <b-nav-form>
-          <b-form-checkbox
-            class="dark-mode-switch ml-md-3"
-            :checked="$store.state.darkMode"
-            @change="toggle_style()"
-            switch
-          >
-            <font-awesome-icon class="style-icon" :icon="faMoon" />
-          </b-form-checkbox>
-        </b-nav-form>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -146,13 +154,22 @@ export default {
 
 <style lang="scss" scoped>
 @include media-breakpoint-down(sm) {
-  #login-button {
+  #login-button,
+  #signup-button,
+  #darkmode-toggle-form {
     // equivalent to mb-1
     margin-bottom: $spacer * 0.25;
+    margin-top: $spacer * 0.25;
   }
 }
 
-#header .nav-item {
-  text-align: center;
+#header {
+  .nav-item {
+    text-align: center;
+  }
+  .inline-form,
+  .form-inline {
+    justify-content: center;
+  }
 }
 </style>
