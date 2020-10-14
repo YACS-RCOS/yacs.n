@@ -149,7 +149,6 @@
 </template>
 
 <script>
-
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
