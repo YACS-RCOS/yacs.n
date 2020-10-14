@@ -14,7 +14,10 @@
       YACS
     </b-navbar-brand>
     <b-nav-text class="text-secondary">{{ selectedSemester }}</b-nav-text>
-    <b-navbar-toggle target="header-navbar-collapse">
+    <b-navbar-toggle
+      id="header-navbar-collapse-toggle"
+      target="header-navbar-collapse"
+    >
       <font-awesome-icon :icon="faBars" />
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
@@ -170,9 +173,15 @@ export default {
   .nav-item {
     text-align: center;
   }
+  // centering of the dark mode toggle
   .inline-form,
   .form-inline {
     justify-content: center;
   }
+}
+
+// no idea why but need to manually set this for it to show up
+.dark #header-navbar-collapse-toggle {
+  color: var(--dark-text-primary) !important;
 }
 </style>
