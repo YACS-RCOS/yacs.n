@@ -96,7 +96,7 @@
     <!-- NOTE: Content Class Specifies The Styling For Modal In Dark Mode. -->
     <b-modal
       id="courseInfoModal"
-      v-if = "courseInfoModalCourse"
+      v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       content-class= "`${$store.state.darkMode}` ? onStyleDarkMode : offStyleDarkMode"
