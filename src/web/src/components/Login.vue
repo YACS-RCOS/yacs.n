@@ -53,7 +53,7 @@ export default {
           location.reload();
         })
         .catch((error) => {
-          console.log(error.response);
+          console.error(error.response);
           this.$bvToast.toast(
             `Login Unsuccesful. Please double check your email and password, then try again!`,
             {
@@ -64,13 +64,12 @@ export default {
           );
         });
       this.$emit("submit");
-      // this.$refs["login-modal"].hide();
     },
     onReset(evt) {
       evt.preventDefault();
       // Reset our form values
-      this.form.email = "aaa1@wa.com";
-      this.form.password = "123456";
+      this.form.email = "";
+      this.form.password = "";
       // Trick to reset/clear native browser form validation state
       this.showForm = false;
       this.$nextTick(() => {
