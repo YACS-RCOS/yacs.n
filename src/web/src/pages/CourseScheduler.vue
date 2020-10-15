@@ -99,7 +99,9 @@
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      :content-class= "$store.state.darkMode ? 'onStyleDarkMode' : 'offStyleDarkMode'"
+      :content-class="
+        $store.state.darkMode ? 'onStyleDarkMode' : 'offStyleDarkMode'
+      "
       hide-footer
       data-cy="course-info-modal"
     >
