@@ -33,7 +33,7 @@
                   <li
                     class="course-listing"
                     v-for="course in deptClassDict[major]"
-                    :key="course.name + course.date_start + course.date_start"
+                    :key="course.name + course.date_start + course.date_end"
                     :class="{ 'bg-light': course.selected }"
                   >
                     <CourseListing

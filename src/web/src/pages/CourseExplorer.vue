@@ -148,7 +148,7 @@ export default {
     if (this.selectedSemester === "") {
       const querySemester = this.$route.query.semester;
       this.selectedSemester =
-        querySemester && querySemester != "null"
+        querySemester && querySemester !== "null"
           ? querySemester
           : await getDefaultSemester();
     }
@@ -179,7 +179,7 @@ export default {
      *coursesChunked
      * Used to define the placement of each department into the two main columns
      * Data structure -> An Array contains 6 list, each list contains one string
-     * @returns [{String}]
+     * @returns {string[][]} courses grouped by visual blocks
      */
     coursesChunked() {
       const chunkedArr = [];
