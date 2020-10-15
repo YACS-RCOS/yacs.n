@@ -183,7 +183,7 @@ export default {
      */
     coursesChunked() {
       const chunkedArr = [];
-      for (var i = 0; i < 6; i++) {
+      for (let i = 0; i < 6; i++) {
         chunkedArr.push(this.schoolsMajorDict[this.schoolOrder[i]]);
       }
       return chunkedArr;
