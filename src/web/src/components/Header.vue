@@ -1,7 +1,11 @@
 <template>
   <div id="header">
     <b-navbar type="light" variant="light">
-      <b-navbar-brand class="logo" href="#">YACS</b-navbar-brand>
+      <b-navbar-brand class="logo">
+        <router-link class="logo" :to="{ name: 'CourseScheduler' }">
+          YACS
+        </router-link>
+      </b-navbar-brand>
       <div class="semester">{{ selectedSemester }}</div>
       <b-navbar-nav>
         <b-nav-item>
@@ -206,6 +210,8 @@ export default {
 .logo {
   font-size: 24px;
   vertical-align: middle;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 hr {

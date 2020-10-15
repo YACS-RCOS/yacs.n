@@ -139,7 +139,7 @@
       </b-button>
       <b-button
         class="ml-2"
-        variant="danger"
+        variant="secondary"
         @click="showCourseInfoModal = !showCourseInfoModal"
       >
         Close
