@@ -460,6 +460,7 @@ export default {
 };
 </script>
 
+<!-- All Styling For Dark Mode For Course Information Modals.  -->
 <style scoped>
 /deep/ .onStyleDarkMode {
   background: #22252e;
