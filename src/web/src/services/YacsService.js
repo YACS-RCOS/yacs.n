@@ -45,7 +45,7 @@ export const getCourses = (semester, search = null, filter = true) =>
       },
     })
     .then(({ data }) => {
-      var courses = data.map((c) => {
+      let courses = data.map((c) => {
         c.date_start = localToUTCDate(new Date(c.date_start));
         c.date_end = localToUTCDate(new Date(c.date_end));
 
@@ -63,7 +63,7 @@ export const getCourses = (semester, search = null, filter = true) =>
         c.vscrl_type = c.description ? "with-info" : "without-info";
         return c;
       });
-      return filter ? courses.filter((c) => c.sections.length != 0) : courses;
+      return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
     });
 /**
  * Returns a list of all departments
