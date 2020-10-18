@@ -125,7 +125,7 @@ export default {
     };
   },
   async created() {
-    getCourses(this.selectedSemester).then((courses) => {
+    getCourses(this.selectedSemester, undefined, false).then((courses) => {
       for (const c of courses) {
         if (!this.schoolsMajorDict[c.school]) {
           this.schoolsMajorDict[c.school] = new Set();
