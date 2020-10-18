@@ -123,7 +123,7 @@ export default {
     },
     /* wrapper for querying with search */
     updateCourseList() {
-      getCourses(this.selectedSemester, this.textSearch).then((course_list) => {
+      getCourses(this.selectedSemester, this.textSearch, false).then((course_list) => {
         this.courseList = course_list;
       });
     },

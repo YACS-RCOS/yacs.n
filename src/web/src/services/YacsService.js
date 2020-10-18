@@ -36,7 +36,7 @@ const _getCourseIdentifier = (courseObj) => {
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
-export const getCourses = (semester, search = null) =>
+export const getCourses = (semester, search = null, filter = true) =>
   client
     .get("/class", {
       params: {
@@ -45,7 +45,7 @@ export const getCourses = (semester, search = null) =>
       },
     })
     .then(({ data }) => {
-      return data.map((c) => {
+      var courses = data.map((c) => {
         c.date_start = localToUTCDate(new Date(c.date_start));
         c.date_end = localToUTCDate(new Date(c.date_end));
 
@@ -62,7 +62,8 @@ export const getCourses = (semester, search = null) =>
 
         c.vscrl_type = c.description ? "with-info" : "without-info";
         return c;
-      }).filter(c => c.sections.length != 0);
+      })
+      return (filter ? courses.filter(c => c.sections.length != 0) : courses)
     });
 /**
  * Returns a list of all departments
