@@ -2,11 +2,13 @@
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h3 class="subjectBox m-3">{{ subject }}</h3>
+      <h3 class="subjectBox">{{ subject }}</h3>
       <b-col>
-        <b-button to="/explore">Back</b-button>
+        <b-button class="k-primary" to="/explore">Back</b-button>
       </b-col>
+      <h2 class="headerLine"></h2>
     </b-row>
+
     <br />
 
     <!-- left column of courses -->
@@ -129,10 +131,23 @@ export default {
   align-content: center;
 }
 
+.headerLine {
+  width: 100%;
+  margin: 0 auto;
+  border: 0;
+  height: 8px;
+  background: #333;
+  background-image: linear-gradient(to right, red, #333, rgb(9, 206, 91));
+}
+
 .subjectBox {
-  width: 20rem;
+  border: 3px solid black;
+  background: rgb(255, 255, 255);
+  height: 3rem;
+  width: 15rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  text-align: left;
+
+  text-align: center;
 }
 
 .courseBox {
@@ -140,5 +155,9 @@ export default {
   width: 30rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: left;
+}
+
+.major-courseBox:hover {
+  background: rgba(108, 90, 90, 0.15);
 }
 </style>
