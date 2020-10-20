@@ -5,44 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-          ref: ${{ github.head_ref }}
-      - name: Run prettier on src/web
-        working-directory: src/web
-        run: |
-          PRETTIER_VERSION=$(cat package.json | \
-            grep \"prettier\" | \
-            tr -d '[:space:]' | \
-            awk -F: '{print substr($2, 2, length($2) - 3)}')
-
-          if ! npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --check;
-          then
-            echo "Running prettier"
-            npx prettier@$PRETTIER_VERSION "**/*.(js|vue)" --write
-
-            echo "Setting up git"
-            git config --global user.name "I'm a Github Action"
-            git config --global user.email "beepboop@github.com"
-            git remote set-url origin https://x-access-token:${{ secrets.LINT_PAT }}@github.com/${{ github.repository }}
-
-            echo "Committing changes"
-            git commit -am "beep boop Github Action Master Branch CI Prettier hard at work"
-            git push
-            echo "Changes pushed"
-
-            exit 1
-          else
-            echo "Files are clean"
-          fi
-
   backend-unit-tests:
-    needs: lint
     name: Run backend unit tests
     runs-on: ubuntu-18.04
 
@@ -100,7 +63,6 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
 
   cypress:
-    needs: lint
     name: Run integration tests using cypress
     runs-on: ubuntu-latest
 
@@ -216,7 +178,6 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
 
   test-build:
-    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -226,4 +187,3 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             build
-
