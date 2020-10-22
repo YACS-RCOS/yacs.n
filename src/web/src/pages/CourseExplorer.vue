@@ -126,20 +126,6 @@ export default {
       schoolsMajorDict: {},
       ready: false,
 
-      /*
-       *Used to define the order that the schools are placed into the two main
-       *columns. This could be implemented generically, but making the columns
-       *more or less "even" is NP-Hard so its more convenient to just define
-       *manually
-       */
-      schoolOrder: [
-        "Engineering",
-        "Science",
-        "Humanities, Arts and Social Sciences",
-        "Architecture",
-        "Business Management",
-        "Other",
-      ],
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
     };
@@ -183,10 +169,26 @@ export default {
      */
     coursesChunked() {
       const chunkedArr = [];
+      let majorsArr = Object.values(this.schoolsMajorDict);
+      majorsArr.sort((a, b) => b.size - a.size);
       for (let i = 0; i < 6; i++) {
-        chunkedArr.push(this.schoolsMajorDict[this.schoolOrder[i]]);
+        chunkedArr.push(majorsArr[i]);
       }
       return chunkedArr;
+    },
+
+    schoolOrder() {
+      const schoolsArr = [];
+      let majorsArr = Object.values(this.schoolsMajorDict);
+      majorsArr.sort((a, b) => b.size - a.size);
+      for (let i = 0; i < 6; i++) {
+        schoolsArr.push(
+          Object.keys(this.schoolsMajorDict).find(
+            (key) => this.schoolsMajorDict[key] === majorsArr[i]
+          )
+        );
+      }
+      return schoolsArr;
     },
   },
 };
