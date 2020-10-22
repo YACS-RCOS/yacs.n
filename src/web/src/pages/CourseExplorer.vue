@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
+  <div v-if="ready" class="gridContainer w-100">
     <b-row>
       <!--
         - Left side of the column
