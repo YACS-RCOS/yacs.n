@@ -2,7 +2,8 @@
   <div v-if="ready" class="container w-100 mb-4">
     <b-row>
       <b-col>
-        <h1>{{ courseName }}</h1>
+        <h1 class="mt-4">{{ courseTitle }}</h1>
+        <h4 class="mb-1">{{ courseName }}</h4>
       </b-col>
     </b-row>
     <b-row>
@@ -17,12 +18,12 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col>
+      <b-col class="mb-4">
         <br />
         {{ courseObj.description }}
       </b-col>
     </b-row>
-    <b-button to="/explore">Back</b-button>
+    <b-button :to="backRoute">Back</b-button>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -41,10 +42,11 @@ export default {
     return {
       ready: false,
       courseName: this.$route.params.course,
+      courseTitle: String,
       courseObj: {},
       allCoursePreReqs: {},
-      treeData: {},
       selectedSemester: String,
+      backRoute: String,
     };
   },
   methods: {
@@ -60,12 +62,11 @@ export default {
       for (const c of courses) {
         this.allCoursePreReqs[c.name] = c.prerequisites;
         if (c.name === this.courseName) {
+          this.courseTitle = c.title;
           this.courseObj = c;
         }
       }
-      this.treeData = this.prereqTree;
-      console.log("logging:");
-      console.log(this.treeData);
+      this.backRoute = "/explore/" + this.courseObj.department;
       this.ready = true;
     });
   },
@@ -82,6 +83,5 @@ export default {
 <style>
 .container {
   text-align: center;
-  /* margin: ; */
 }
 </style>
