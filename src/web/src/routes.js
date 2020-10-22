@@ -34,13 +34,13 @@ var router = new VueRouter({
           name: "DegreeTemplates",
         },
         {
-          path: "/:subject",
+          path: "/explore/:subject",
           component: SubjectExplorerPage,
           name: "SubjectExplorer",
           props: true,
         },
         {
-          path: ":subject/:course",
+          path: "/explore/:subject/:course",
           component: CoursePage,
           name: "CoursePage",
           props: true,
