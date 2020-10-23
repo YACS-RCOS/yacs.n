@@ -37,7 +37,7 @@ jobs:
         id: provision
 
       - name: Share Link on PR
-        uses: thollander/actions-comment-pull-request@master
+        uses: vinodsai-a/actions-comment-pull-request@master
         with:
           message: |
             Deploy Link: ${{ steps.provision.outputs.link }}/
