@@ -3,23 +3,13 @@
     <b-row>
       <!--
         - Left side of the column
-        - Displays the first 2 departments in the schoolOrder (Science" and "Engineering")
-        - n starts with 1
       -->
       <b-col>
         <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <!-- Department Title  -->
             <b-row class="school-name">
-              <h3
-                class="m-1 ml-2"
-                @click="
-                  $router.push({
-                    name: 'SubjectExplorer',
-                    params: {},
-                  })
-                "
-              >
+              <h3 class="m-1 ml-2">
                 {{ schoolOrder[n - 1] }}
               </h3>
             </b-row>
@@ -42,7 +32,9 @@
         <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
           <b-col>
             <b-row class="school-name">
-              <h3 class="m-1 ml-2">{{ schoolOrder[n + 1] }}</h3>
+              <h3 class="m-1 ml-2">
+                {{ schoolOrder[n + 1] }}
+              </h3>
             </b-row>
             <b-row>
               <DepartmentList
@@ -179,7 +171,7 @@ export default {
 
     schoolOrder() {
       const schoolsArr = [];
-      let majorsArr = Object.values(this.schoolsMajorDict);
+      const majorsArr = Object.values(this.schoolsMajorDict);
       majorsArr.sort((a, b) => b.size - a.size);
       for (let i = 0; i < 6; i++) {
         schoolsArr.push(
