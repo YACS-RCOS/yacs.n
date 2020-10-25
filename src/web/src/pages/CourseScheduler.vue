@@ -466,12 +466,7 @@ export default {
 <style scoped>
 /deep/ .onStyleDarkMode {
   background: var(--dark-primary);
-  color: white;
-}
-
-/deep/ .offStyleDarkMode {
-  background: white;
-  color: black;
+  color: var(--dark-primary-text);
 }
 </style>
 
