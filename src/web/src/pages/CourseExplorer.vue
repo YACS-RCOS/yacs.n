@@ -55,47 +55,6 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-modal
-      id="courseInfoModal"
-      v-if="courseInfoModalCourse"
-      v-model="showCourseInfoModal"
-      :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      hide-footer
-    >
-      <span v-if="courseInfoModalCourse.frequency">
-        Offered: {{ courseInfoModalCourse.frequency }}
-        <br />
-        <br />
-      </span>
-      <span>
-        {{
-          generateRequirementsText(
-            courseInfoModalCourse.prerequisites,
-            courseInfoModalCourse.corequisites,
-            courseInfoModalCourse.raw_precoreqs
-          )
-        }}
-      </span>
-      <span v-if="courseInfoModalCourse.description">
-        <br />
-        <br />
-        {{ courseInfoModalCourse.description }}
-      </span>
-      <span v-else>
-        <br />
-        <br />
-        {{ "No course description found" }}
-      </span>
-      <br />
-      <br />
-      <b-button
-        class="ml-2"
-        variant="danger"
-        @click="showCourseInfoModal = !showCourseInfoModal"
-      >
-        Close
-      </b-button>
-    </b-modal>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -123,9 +82,6 @@ export default {
       deptClassDict: {},
       schoolsMajorDict: {},
       ready: false,
-
-      courseInfoModalCourse: null,
-      showCourseInfoModal: false,
     };
   },
   async created() {
@@ -153,10 +109,6 @@ export default {
   },
   methods: {
     generateRequirementsText,
-    showCourseInfo(course) {
-      this.courseInfoModalCourse = course;
-      this.showCourseInfoModal = true;
-    },
   },
   computed: {
     schoolDepartmentObjects() {
