@@ -5,21 +5,24 @@
         - Left side of the column
       -->
       <b-col>
-        <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row
+          v-for="deptObj in schoolDepartmentObjects[0]"
+          :key="deptObj.school"
+          class="departmentBox border m-2 mb-4"
+        >
           <b-col>
             <!-- Department Title  -->
             <b-row class="school-name">
               <h3 class="m-1 ml-2">
-                {{ schoolOrder[n - 1] }}
+                {{ deptObj.school }}
               </h3>
             </b-row>
             <!-- Subject Title  -->
             <b-row>
               <DepartmentList
-                :majors="coursesChunked[n - 1]"
+                :majors="deptObj.departments"
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
-                :id="n"
                 v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
@@ -29,19 +32,22 @@
 
       <!-- Right side of the column  -->
       <b-col>
-        <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row
+          v-for="deptObj in schoolDepartmentObjects[1]"
+          :key="deptObj.school"
+          class="departmentBox border m-2 mb-4"
+        >
           <b-col>
             <b-row class="school-name">
               <h3 class="m-1 ml-2">
-                {{ schoolOrder[n + 1] }}
+                {{ deptObj.school }}
               </h3>
             </b-row>
             <b-row>
               <DepartmentList
-                :majors="coursesChunked[n + 1]"
+                :majors="deptObj.departments"
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
-                :id="n + 3"
                 v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
@@ -153,34 +159,23 @@ export default {
     },
   },
   computed: {
-    /**
-     *coursesChunked
-     * Used to define the placement of each department into the two main columns
-     * Data structure -> An Array contains 6 list, each list contains one string
-     * @returns {string[][]} courses grouped by visual blocks
-     */
-    coursesChunked() {
-      const chunkedArr = [];
-      let majorsArr = Object.values(this.schoolsMajorDict);
-      majorsArr.sort((a, b) => b.size - a.size);
-      for (let i = 0; i < 6; i++) {
-        chunkedArr.push(majorsArr[i]);
+    schoolDepartmentObjects() {
+      let keyArr = Object.entries(this.schoolsMajorDict)
+        .map((schoolDepartmentMapping) => ({
+          school: schoolDepartmentMapping[0],
+          departments: schoolDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
+        } else {
+          columnArr[1].push(keyArr[i]);
+        }
       }
-      return chunkedArr;
-    },
-
-    schoolOrder() {
-      const schoolsArr = [];
-      const majorsArr = Object.values(this.schoolsMajorDict);
-      majorsArr.sort((a, b) => b.size - a.size);
-      for (let i = 0; i < 6; i++) {
-        schoolsArr.push(
-          Object.keys(this.schoolsMajorDict).find(
-            (key) => this.schoolsMajorDict[key] === majorsArr[i]
-          )
-        );
-      }
-      return schoolsArr;
+      return columnArr;
     },
   },
 };
