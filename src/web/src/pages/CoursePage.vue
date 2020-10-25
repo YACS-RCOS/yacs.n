@@ -58,17 +58,16 @@ export default {
       querySemester && querySemester != "null"
         ? querySemester
         : await getDefaultSemester();
-    getCourses(this.selectedSemester).then((courses) => {
-      for (const c of courses) {
-        this.allCoursePreReqs[c.name] = c.prerequisites;
-        if (c.name === this.courseName) {
-          this.courseTitle = c.title;
-          this.courseObj = c;
-        }
+    const courses = await getCourses(this.selectedSemester);
+    for (const c of courses) {
+      this.allCoursePreReqs[c.name] = c.prerequisites;
+      if (c.name === this.courseName) {
+        this.courseTitle = c.title;
+        this.courseObj = c;
       }
-      this.backRoute = "/explore/" + this.courseObj.department;
-      this.ready = true;
-    });
+    }
+    this.backRoute = "/explore/" + this.courseObj.department;
+    this.ready = true;
   },
   computed: {
     prereqTree() {
