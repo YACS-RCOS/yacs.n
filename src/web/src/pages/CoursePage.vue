@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="w-100 ml-4 mb-4">
+  <div v-if="ready" class="w-90 ml-4 mb-4">
     <b-row>
       <b-col>
         <h1 class="mt-4">{{ courseTitle }}</h1>
