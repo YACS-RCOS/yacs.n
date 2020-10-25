@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="container w-100 mb-4">
+  <div v-if="ready" class="w-100 mb-4">
     <b-row>
       <b-col>
         <h1 class="mt-4">{{ courseTitle }}</h1>
@@ -79,9 +79,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.container {
-  text-align: center;
-}
-</style>
