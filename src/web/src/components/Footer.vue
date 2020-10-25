@@ -1,11 +1,9 @@
 <template>
   <div id="footer">
-    <hr />
     <section id="main-block">
       <b-container>
-        <b-row>
-          <b-col />
-          <b-col>
+        <b-row cols="2" cols-md="3" align-h="center">
+          <b-col class="link-group">
             <strong class="section-head">Other Semesters</strong>
             <a
               v-for="option of otherSemesters"
@@ -18,7 +16,7 @@
             </a>
           </b-col>
 
-          <b-col>
+          <b-col class="link-group">
             <strong class="section-head">Contact Us</strong>
             <a
               class="link"
@@ -43,7 +41,7 @@
             </a>
           </b-col>
 
-          <b-col>
+          <b-col class="link-group">
             <strong class="section-head">Legal Stuff</strong>
             <a
               class="link"
@@ -52,15 +50,14 @@
             >
               Terms of Use
             </a>
-            <!-- <a class="link" href=#>Cookies</a> -->
           </b-col>
-          <b-col />
+          <!-- This column is used for alignment in mobile -->
+          <b-col class="d-block d-sm-none"></b-col>
         </b-row>
       </b-container>
     </section>
-    <!-- <hr> -->
-    <section id="credits">
-      <p class="text-center built-by">Built by YACS under RCOS at RPI</p>
+    <section id="credits" class="text-center">
+      Built by YACS under RCOS at RPI
     </section>
   </div>
 </template>
@@ -84,21 +81,18 @@ export default {
     },
   },
   computed: {
-    otherSemesters: function () {
-      var semesters = [];
-      for (var sem of this.semesterOptions) {
-        if (sem.text != this.semester) {
-          semesters.push(sem);
-        }
-      }
-      return semesters;
+    otherSemesters() {
+      return this.semesterOptions.filter(
+        (semester) => semester.text != this.semester
+      );
     },
   },
   created() {
     getSemesters().then((data) => {
-      this.semesterOptions.push(
-        ...data.map((s) => ({ text: s.semester, value: s.semester }))
-      );
+      this.semesterOptions = data.map((s) => ({
+        text: s.semester,
+        value: s.semester,
+      }));
     });
   },
 };
@@ -107,6 +101,17 @@ export default {
 <style scoped lang="scss">
 #footer {
   width: 100%;
+  border-top: 1px solid lightgrey;
+
+  .link-group {
+    @include media-breakpoint-up(sm) {
+      flex-grow: 0;
+      flex-basis: 0;
+    }
+
+    white-space: nowrap;
+  }
+
   #main-block {
     background: white;
     color: black;
@@ -144,12 +149,7 @@ export default {
     margin-top: 10px;
     padding: 10px 0px;
     font-size: 15px;
-
-    p {
-      color: #3d4959;
-      margin: 0;
-      margin-left: -30px;
-    }
+    color: #3d4959;
   }
 }
 </style>
