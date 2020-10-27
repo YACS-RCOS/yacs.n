@@ -78,17 +78,11 @@
             ref="login-modal"
             hide-footer
             title="Log In"
-            :header-close-variant="$store.state.darkMode ? 'light' : 'secondary'"
           >
             <LoginForm @submit="onLogIn()" />
           </b-modal>
 
-          <b-modal 
-            id="signup-modal" 
-            hide-footer 
-            title="Sign Up"
-            :header-close-variant="$store.state.darkMode ? 'light' : 'secondary'"
-          >
+          <b-modal id="signup-modal" hide-footer title="Sign Up">
             <SignUpForm />
           </b-modal>
         </template>
