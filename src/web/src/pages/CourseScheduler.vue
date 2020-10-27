@@ -93,15 +93,12 @@
         </b-row>
       </b-col>
     </b-row>
-    <!-- NOTE: Content Class Specifies The Styling For Modal In Dark Mode, -->
-    <!-- + Header-Close-Variant Specifies The Color For X Close Button.  -->
+    
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      :content-class="{ onStyleDarkMode: $store.state.darkMode }"
-      :header-close-variant="$store.state.darkMode ? 'light' : 'secondary'"
       hide-footer
       data-cy="course-info-modal"
     >
