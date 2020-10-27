@@ -17,50 +17,6 @@
           >
             {{ major }}
           </b-button>
-
-          <!-- 
-            - Collapsed elements inside of subject button
-            - The accordion functionality disabled after implementing the new feature(issue #191) 
-          -->
-          <b-collapse
-            :id="id + 'accordion-' + index"
-            accordion="accordion"
-            role="tabpanel"
-          >
-            <b-card-body>
-              <div id="scroll-box">
-                <ul class="scroller">
-                  <li
-                    class="course-listing"
-                    v-for="course in deptClassDict[major]"
-                    :key="course.name + course.date_start + course.date_end"
-                    :class="{ 'bg-light': course.selected }"
-                  >
-                    <CourseListing
-                      :course="course"
-                      :showAddButton="false"
-                      defaultAction="showInfoModal"
-                      v-on="$listeners"
-                      lazyLoadCollapse
-                    >
-                      <template #toggleCollapseButton="{ course }">
-                        <button
-                          v-show="false"
-                          class="btn"
-                          @click.stop="courseInfoModalToggle(course)"
-                        >
-                          <font-awesome-icon :icon="faInfoCircle" />
-                        </button>
-                      </template>
-                      <template #collapseContent>
-                        {{ null }}
-                      </template>
-                    </CourseListing>
-                  </li>
-                </ul>
-              </div>
-            </b-card-body>
-          </b-collapse>
         </div>
       </template>
     </div>
@@ -69,14 +25,11 @@
 
 <script>
 import "@/typedef";
-import CourseListingComponent from "@/components/CourseListing";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "DepartmentList",
-  components: {
-    CourseListing: CourseListingComponent,
-  },
+  components: {},
   data() {
     return {
       faInfoCircle,
@@ -102,29 +55,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#scroll-box {
-  flex-grow: 1;
-  flex-basis: 0px;
-  min-height: 200px;
-  border: 1px rgba(108, 90, 90, 0.15) solid;
-  padding: 0 1em 0 1em;
-}
-
-.scroller {
-  max-height: 20em;
-  overflow-x: hidden;
-  text-align: left;
-  list-style: none;
-  padding-left: 0;
-}
-
-.course-listing {
-  height: 100px;
-  padding-top: 10px;
-  border-top: 1px solid #e9ecef;
-  border-bottom: 1px solid #e9ecef;
-}
-
 .major-button {
   display: inline-block;
   background: white;
