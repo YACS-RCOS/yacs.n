@@ -61,7 +61,6 @@ var router = new VueRouter({
       component: EditSemestersPage,
       name: "EditSemesters",
     },
-
   ],
   mode: "history",
 });
