@@ -93,11 +93,15 @@
         </b-row>
       </b-col>
     </b-row>
+    <!-- NOTE: Content Class Specifies The Styling For Modal In Dark Mode, -->
+    <!-- + Header-Close-Variant Specifies The Color For X Close Button.  -->
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
+      :content-class="{ onStyleDarkMode: $store.state.darkMode }"
+      :header-close-variant="$store.state.darkMode ? 'light' : 'secondary'"
       hide-footer
       data-cy="course-info-modal"
     >
@@ -148,7 +152,6 @@
 
 <script>
 import NotificationsMixin from "@/mixins/NotificationsMixin";
-
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
@@ -456,6 +459,14 @@ export default {
   },
 };
 </script>
+
+<!-- All Styling For Dark Mode For Course Information Modals.  -->
+<style scoped>
+/deep/ .onStyleDarkMode {
+  background: var(--dark-primary);
+  color: var(--dark-primary-text);
+}
+</style>
 
 <style lang="scss">
 // NOTE!
