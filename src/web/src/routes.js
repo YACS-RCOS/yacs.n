@@ -7,7 +7,6 @@ import EditSemestersPage from "./pages/EditSemesters";
 import CourseExplorerPage from "./pages/CourseExplorer";
 import CoursePage from "./pages/CoursePage";
 import DegreeTemplatesPage from "./pages/DegreeTemplates";
-import ManageUserAccountPage from "./pages/ManageAccounts";
 import SubjectExplorerPage from "./pages/SubjectExplorer";
 var router = new VueRouter({
   routes: [
@@ -62,11 +61,7 @@ var router = new VueRouter({
       component: EditSemestersPage,
       name: "EditSemesters",
     },
-    {
-      path: "/admin/manageaccounts",
-      component: ManageUserAccountPage,
-      name: "ManageAccounts",
-    },
+
   ],
   mode: "history",
 });
