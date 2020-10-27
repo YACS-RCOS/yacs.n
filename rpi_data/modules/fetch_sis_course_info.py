@@ -91,7 +91,10 @@ class sis_client:
                 if(len(info) < 12):
                     continue
 
-                elif(len(info) == 12):
+                info.pop(3)
+                ##print(info)
+
+                if(len(info) == 12):
                     info.insert(9, 'TBA')
 
                 if not info[0]:
