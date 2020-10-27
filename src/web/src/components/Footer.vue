@@ -53,13 +53,13 @@
               Terms of Use
             </a>
             <!-- <a class="link" href=#>Cookies</a> -->
-            <a 
-              class="link" 
-              href = "http://opensource-template.wikidot.com/legal:privacy-policy"
+            <a
+              class="link"
+              href="http://opensource-template.wikidot.com/legal:privacy-policy"
               target="_blank"
             >
               Cookie Policy
-            </a> 
+            </a>
           </b-col>
           <b-col />
         </b-row>
