@@ -91,8 +91,7 @@ class sis_client:
                 if(len(info) < 12):
                     continue
 
-                info.pop(3)
-                ##print(info)
+                info.pop(3) #pops unneeded data
 
                 if(len(info) == 12):
                     info.insert(9, 'TBA')
