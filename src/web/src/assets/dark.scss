@@ -150,4 +150,13 @@
   .selected {
     background-color: var(--dark-primary) !important;
   }
+  
+  .modal-header{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+  }
+  .modal-content{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+  }
 }
