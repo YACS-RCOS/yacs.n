@@ -9,9 +9,7 @@
         ({{ readableDate(course.date_start) }} -
         {{ readableDate(course.date_end) }})
         <br />
-        {{
-          course.title
-        }}
+        {{ course.title }}
       </div>
       <div class="d-flex">
         <slot
