@@ -93,7 +93,7 @@
         </b-row>
       </b-col>
     </b-row>
-    
+
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
