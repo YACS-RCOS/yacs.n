@@ -111,7 +111,7 @@ export default {
       querySemester && querySemester != "null"
         ? querySemester
         : await getDefaultSemester();
-    getCourses(this.selectedSemester).then((courses) => {
+    const courses = await getCourses(this.selectedSemester).then((courses) => {
       this.rightColumnCourses = courses.filter(
         (c) => c.department === this.subject
       );
