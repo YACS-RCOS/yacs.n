@@ -93,6 +93,7 @@
         </b-row>
       </b-col>
     </b-row>
+
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
@@ -148,7 +149,6 @@
 
 <script>
 import NotificationsMixin from "@/mixins/NotificationsMixin";
-
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
@@ -456,6 +456,14 @@ export default {
   },
 };
 </script>
+
+<!-- All Styling For Dark Mode For Course Information Modals.  -->
+<style scoped>
+/deep/ .onStyleDarkMode {
+  background: var(--dark-primary);
+  color: var(--dark-primary-text);
+}
+</style>
 
 <style lang="scss">
 // NOTE!

@@ -50,6 +50,13 @@
             >
               Terms of Use
             </a>
+            <a
+              class="link"
+              href="http://opensource-template.wikidot.com/legal:privacy-policy"
+              target="_blank"
+            >
+              Cookie Policy
+            </a>
           </b-col>
           <!-- This column is used for alignment in mobile -->
           <b-col class="d-block d-sm-none"></b-col>

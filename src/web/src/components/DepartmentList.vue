@@ -1,16 +1,27 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
+    <!-- LOOP Through the majors list -->
     <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
         <div class="mt-1 mb-1 w-100">
+          <!-- Subject button -->
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
             variant="light"
             class="major-button m-0 ml-1"
+            :to="{
+              name: 'SubjectExplorer',
+              params: { subject: major },
+            }"
           >
             {{ major }}
           </b-button>
+
+          <!-- 
+            - Collapsed elements inside of subject button
+            - The accordion functionality disabled after implementing the new feature(issue #191) 
+          -->
           <b-collapse
             :id="id + 'accordion-' + index"
             accordion="accordion"
@@ -77,6 +88,11 @@ export default {
     selectedSemester: String,
     id: Number,
   },
+
+  /**
+   * courseInfoModalToggle
+   * Display the course object information onn console
+   */
   methods: {
     courseInfoModalToggle(course) {
       console.log(course);
@@ -110,7 +126,7 @@ export default {
 }
 
 .major-button {
-  display: inline;
+  display: inline-block;
   background: white;
   border-style: none;
   text-align: justify;
