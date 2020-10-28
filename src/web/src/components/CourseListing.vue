@@ -10,7 +10,7 @@
         {{ readableDate(course.date_end) }})
         <br />
         {{
-          (course.full_title && course.full_title.toUpperCase()) || course.title
+          course.title || (course.full_title && course.full_title.toUpperCase())
         }}
       </div>
       <div class="d-flex">
