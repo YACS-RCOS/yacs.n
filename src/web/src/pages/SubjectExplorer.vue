@@ -111,18 +111,17 @@ export default {
       querySemester && querySemester != "null"
         ? querySemester
         : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester).then((courses) => {
-      this.rightColumnCourses = courses.filter(
-        (c) => c.department === this.subject
-      );
-      this.leftColumnCourses = this.rightColumnCourses.splice(
-        0,
-        Math.ceil(this.rightColumnCourses.length / 2)
-      );
-      this.rightColumnCourses.splice(0, 0);
+    const courses = await getCourses(this.selectedSemester);
+    this.rightColumnCourses = courses.filter(
+      (c) => c.department === this.subject
+    );
+    this.leftColumnCourses = this.rightColumnCourses.splice(
+      0,
+      Math.ceil(this.rightColumnCourses.length / 2)
+    );
+    this.rightColumnCourses.splice(0, 0);
 
-      this.ready = true;
-    });
+    this.ready = true;
   },
   methods: {},
   computed: {},
