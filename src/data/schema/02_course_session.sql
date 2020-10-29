@@ -7,6 +7,8 @@ create table course_session(
   crn varchar(255),
   section varchar(255),
   semester varchar(255),
+  min_credits int,
+  max_credits int,
   time_start time,
   time_end time,
   day_of_week int,

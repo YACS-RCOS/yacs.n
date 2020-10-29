@@ -4,6 +4,8 @@ create table course(
   crn           varchar(255),
   section       varchar(255),
   semester      varchar(255),
+  min_credits   int,
+  max_credits   int,
   date_start    date,
   date_end      date,
   department    varchar(255),
@@ -14,7 +16,7 @@ create table course(
   raw_precoreqs text,
   frequency     varchar(255),
   school        varchar(255),
-  tsv           tsvector,
+  tsv           tsvector
   -- credit_hours int,
   -- class_days varchar(255),
   -- instructor varchar(255),

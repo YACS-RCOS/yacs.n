@@ -77,6 +77,8 @@ class Courses:
                                     crn,
                                     section,
                                     semester,
+                                    min_credits,
+                                    max_credits,
                                     time_start,
                                     time_end,
                                     day_of_week,
@@ -86,6 +88,8 @@ class Courses:
                                 NULLIF(%(CRN)s, ''),
                                 NULLIF(%(Section)s, ''),
                                 NULLIF(%(Semester)s, ''),
+                                %(MinCredits)s,
+                                %(MaxCredits)s,
                                 %(StartTime)s,
                                 %(EndTime)s,
                                 %(WeekDay)s,
@@ -97,6 +101,8 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
+                                "MinCredits": row['course_credit_hours'].split("-")[0],
+                                "MaxCredits": row['course_credit_hours'].split("-")[-1],
                                 "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
                                 "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
                                 "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
@@ -111,6 +117,8 @@ class Courses:
                                     crn,
                                     section,
                                     semester,
+                                    min_credits,
+                                    max_credits,
                                     description,
                                     frequency,
                                     full_title,
@@ -127,6 +135,8 @@ class Courses:
                                 NULLIF(%(CRN)s, ''),
                                 NULLIF(%(Section)s, ''),
                                 NULLIF(%(Semester)s, ''),
+                                %(MinCredits)s,
+                                %(MaxCredits)s,
                                 NULLIF(%(Description)s, ''),
                                 NULLIF(%(Frequency)s, ''),
                                 NULLIF(%(FullTitle)s, ''),
@@ -150,6 +160,8 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
+                                "MinCredits": row['course_credit_hours'].split("-")[0],
+                                "MaxCredits": row['course_credit_hours'].split("-")[-1],
                                 "Description": row['description'], # new
                                 "Frequency": row['offer_frequency'], # new
                                 "FullTitle": row["full_name"], # new
@@ -160,6 +172,7 @@ class Courses:
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
                                 "School": row['school']
+                                
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
