@@ -57,6 +57,8 @@ class ClassInfo:
               select
                 c1.crn,
                 c1.semester,
+                c1.min_credits,
+                c1.max_credits,
                 max(c1.department) as department,
                 max(c1.level) as level,
                 json_agg(
