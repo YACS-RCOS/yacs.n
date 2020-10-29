@@ -28,6 +28,8 @@ class ClassInfo:
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
               c.full_title,
+              c.min_credits,
+              c.max_credits,
               c.description,
               c.frequency,
               (
@@ -87,6 +89,8 @@ class ClassInfo:
               c.semester,
               c.full_title,
               c.description,
+              c.min_credits,
+              c.max_credits,
               c.frequency,
               c.raw_precoreqs,
               c.school
@@ -102,6 +106,8 @@ class ClassInfo:
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
               c.full_title,
+              c.min_credits,
+              c.max_credits,
               c.description,
               c.frequency,
               (
@@ -130,6 +136,8 @@ class ClassInfo:
             (
               select
                 c1.crn,
+                c.min_credits,
+                c.max_credits,
                 c1.semester,
                 max(c1.department) as department,
                 max(c1.level) as level,
@@ -155,6 +163,8 @@ class ClassInfo:
               c.date_start,
               c.date_end,
               c.semester,
+              c.min_credits,
+              c.max_credits,
               c.full_title,
               c.description,
               c.frequency,
@@ -252,6 +262,8 @@ class ClassInfo:
                 CONCAT(c.department, '-', c.level) AS name,
                 MAX(c.title) AS title,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 MAX(c.ts_rank) AS ts_rank,
@@ -315,6 +327,8 @@ class ClassInfo:
                 c.date_end,
                 c.semester,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 c.raw_precoreqs
@@ -334,6 +348,8 @@ class ClassInfo:
                 CONCAT(c.department, '-', c.level) AS name,
                 MAX(c.title) AS title,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 MAX(c.ts_rank) AS ts_rank,
@@ -397,6 +413,8 @@ class ClassInfo:
                 c.date_end,
                 c.semester,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 c.raw_precoreqs
