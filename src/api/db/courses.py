@@ -29,8 +29,6 @@ class Courses:
         day_num = day_map.get(day_char, -1)
         if day_num != -1:
             return day_num
-        else:
-            raise Exception("Invalid day code provided")
 
     def getDays(self, daySequenceStr):
         return set(filter(
