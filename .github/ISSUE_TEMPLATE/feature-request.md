@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Suggest an idea for this project
-title: Feature Request — Make YACS Great
+title: Feature Request — Improve YACS with this feature
 labels: Feature Request
 assignees: ''
 

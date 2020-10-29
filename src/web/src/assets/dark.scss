@@ -20,7 +20,7 @@
 
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
-  
+
   .navbar {
     background-color: var(--dark-primary) !important;
   }
@@ -78,6 +78,7 @@
 
   .dropdown-menu {
     background-color: var(--dark-secondary) !important;
+    color: var(--dark-text-primary) !important;
   }
 
   .dropdown-item {
@@ -146,11 +147,19 @@
     transition: 0s !important;
   }
 
-  .style-icon {
-    color: var(--dark-text-primary) !important;
-  }
-
   .selected {
     background-color: var(--dark-primary) !important;
+  }
+  
+  .modal-header{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+    .close{
+      color: $gray-100;
+    }
+  }
+  .modal-content{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
   }
 }
