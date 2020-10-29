@@ -136,8 +136,8 @@ class ClassInfo:
             (
               select
                 c1.crn,
-                c.min_credits,
-                c.max_credits,
+                c1.min_credits,
+                c1.max_credits,
                 c1.semester,
                 max(c1.department) as department,
                 max(c1.level) as level,
