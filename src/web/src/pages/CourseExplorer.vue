@@ -135,6 +135,7 @@ export default {
 
 <style>
 .gridContainer {
+  margin-top: 30px;
   display: inline-grid;
   grid-template-columns: auto auto;
   justify-content: center;
