@@ -61,13 +61,13 @@ def apiroot():
 
 # - data routes
 
-"""
-GET /api/class?semester={}&search={}
-Cached: 1 Hour
-"""
 @app.route('/api/class', methods=['GET'])
-@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
+@cache.cached(timeout=Constants.DAY_IN_SECONDS, query_string=True)
 def get_classes():
+    """
+    GET /api/class?semester={}&search={}
+    Cached: 24 Hours
+    """
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
     if semester:
@@ -113,18 +113,15 @@ def get_subsemesters():
     subsemesters, error = class_info.get_subsemesters()
     return jsonify(subsemesters) if not error else Response(error, status=500)
 
-"""
-GET /api/semester
-Cached: DO NOT CACHE - we show different semester's based on session
-"""
 @app.route('/api/semester', methods=['GET'])
+@cache.cached(timeout=Constants.DAY_IN_SECONDS)
 def get_semesters():
-    if is_admin_user():
-        semesters, error = class_info.get_semesters(includeHidden=True)
-        return jsonify(semesters) if not error else Response(error, status=500)
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
     semesters, error = class_info.get_semesters()
     return jsonify(semesters) if not error else Response(error, status=500)
-
 
 @app.route('/api/semesterInfo', methods=['GET'])
 def get_all_semester_info():
@@ -132,6 +129,7 @@ def get_all_semester_info():
     return jsonify(all_semester_info) if not error else Response(error, status=500)
 
 @app.route('/api/defaultsemester', methods=['GET'])
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_defaultSemester():
     semester, error = admin_info.get_semester_default()
     return jsonify(semester) if not error else Response(error, status=500)
