@@ -120,7 +120,7 @@ export default {
     this.leftColumnCourses = [];
     this.rightColumnCourses = [];
     //Loop Through All Temp Data:
-    for(var k=0; k<allTempData.length-1; k+=1){
+    for(var k=0; k<allTempData.length-1; k+=2){
       this.leftColumnCourses.push(allTempData[k]);
       this.rightColumnCourses.push(allTempData[k+1]);
     }
