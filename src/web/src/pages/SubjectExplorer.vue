@@ -112,17 +112,11 @@ export default {
         ? querySemester
         : await getDefaultSemester();
     const courses = await getCourses(this.selectedSemester);
-    this.rightColumnCourses = courses.filter(
+    //Obtain All Courses Such That Department Matches The Subject Name.
+    const allTempData = courses.filter(
       (c) => c.department === this.subject
     );
-    this.leftColumnCourses = this.rightColumnCourses.splice(
-      0,
-      Math.ceil(this.rightColumnCourses.length / 2)
-    );
-    this.rightColumnCourses.splice(0, 0);
-
-    const allTempData = this.leftColumnCourses.concat(this.rightColumnCourses);
-    //Reset All Column Data.
+    //Initialize All Column Data To Display.
     this.leftColumnCourses = [];
     this.rightColumnCourses = [];
     //Loop Through All Temp Data:
