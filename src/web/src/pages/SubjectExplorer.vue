@@ -117,7 +117,7 @@ export default {
       (c) => c.department === this.subject
     );
 
-    for(var k=0; k<allTempData.length-1; k+=2){
+    for(let k=0; k<allTempData.length-1; k+=2){
       this.leftColumnCourses.push(allTempData[k]);
       this.rightColumnCourses.push(allTempData[k+1]);
     }
