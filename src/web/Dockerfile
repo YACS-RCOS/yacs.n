@@ -12,6 +12,7 @@ RUN mkdir /app
 COPY --from=build-stage /app/dist /app
 COPY nginx.conf /etc/nginx/nginx.template.conf
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY certificate/ /etc/nginx/certificate
 
 # get openssl to do crypt(3)
 RUN \
