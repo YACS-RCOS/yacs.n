@@ -132,8 +132,14 @@ def add_user(form):
     major = form['major']
     degree = form['degree']
 
+    if name.strip() == "":
+        return msg.error_msg("Username cannot be empty.")
+
     if password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
+
+    if len(password) < 6:
+        return msg.error_msg("Password cannot less than 6 character.")
 
     if len(name) > 255:
         return msg.error_msg("Username cannot exceed 255 characters.")
@@ -149,7 +155,7 @@ def add_user(form):
     print('findUser', findUser)
     print(len(findUser))
     if len(findUser) != 0:
-        return msg.error_msg("User already exists.")
+        return msg.error_msg("User already exists. (Email already in use)")
 
     args = {
         "Name": name,

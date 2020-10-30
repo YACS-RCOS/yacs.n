@@ -36,6 +36,7 @@
     <br />
     <hr />
     <br />
+
     <b-button href="/">Go back home</b-button>
   </b-container>
 </template>
@@ -51,6 +52,7 @@ export default {
     UploadCsv,
     EditSemesters,
     SetDefault,
+    // ManageAccounts,
   },
   data() {
     return {};

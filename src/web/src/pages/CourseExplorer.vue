@@ -1,36 +1,53 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
+  <div v-if="ready" class="gridContainer w-100">
     <b-row>
+      <!--
+        - Left side of the column
+      -->
       <b-col>
-        <b-row v-for="n in 2" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row
+          v-for="deptObj in schoolDepartmentObjects[0]"
+          :key="deptObj.school"
+          class="departmentBox border m-2 mb-4"
+        >
           <b-col>
+            <!-- Department Title  -->
             <b-row class="school-name">
-              <h3 class="m-1 ml-2">{{ schoolOrder[n - 1] }}</h3>
+              <h3 class="m-1 ml-2">
+                {{ deptObj.school }}
+              </h3>
             </b-row>
+            <!-- Subject Title  -->
             <b-row>
               <DepartmentList
-                :majors="coursesChunked[n - 1]"
+                :majors="deptObj.departments"
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
-                :id="n"
                 v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
           </b-col>
         </b-row>
       </b-col>
+
+      <!-- Right side of the column  -->
       <b-col>
-        <b-row v-for="n in 4" :key="n" class="departmentBox border m-2 mb-4">
+        <b-row
+          v-for="deptObj in schoolDepartmentObjects[1]"
+          :key="deptObj.school"
+          class="departmentBox border m-2 mb-4"
+        >
           <b-col>
             <b-row class="school-name">
-              <h3 class="m-1 ml-2">{{ schoolOrder[n + 1] }}</h3>
+              <h3 class="m-1 ml-2">
+                {{ deptObj.school }}
+              </h3>
             </b-row>
             <b-row>
               <DepartmentList
-                :majors="coursesChunked[n + 1]"
+                :majors="deptObj.departments"
                 :deptClassDict="deptClassDict"
                 :selectedSemester="selectedSemester"
-                :id="n + 3"
                 v-on:showCourseInfo="showCourseInfo($event)"
               ></DepartmentList>
             </b-row>
@@ -38,47 +55,6 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-modal
-      id="courseInfoModal"
-      v-if="courseInfoModalCourse"
-      v-model="showCourseInfoModal"
-      :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      hide-footer
-    >
-      <span v-if="courseInfoModalCourse.frequency">
-        Offered: {{ courseInfoModalCourse.frequency }}
-        <br />
-        <br />
-      </span>
-      <span>
-        {{
-          generateRequirementsText(
-            courseInfoModalCourse.prerequisites,
-            courseInfoModalCourse.corequisites,
-            courseInfoModalCourse.raw_precoreqs
-          )
-        }}
-      </span>
-      <span v-if="courseInfoModalCourse.description">
-        <br />
-        <br />
-        {{ courseInfoModalCourse.description }}
-      </span>
-      <span v-else>
-        <br />
-        <br />
-        {{ "No course description found" }}
-      </span>
-      <br />
-      <br />
-      <b-button
-        class="ml-2"
-        variant="danger"
-        @click="showCourseInfoModal = !showCourseInfoModal"
-      >
-        Close
-      </b-button>
-    </b-modal>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -90,6 +66,7 @@
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
+import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "CourseExplorer",
@@ -105,27 +82,17 @@ export default {
       deptClassDict: {},
       schoolsMajorDict: {},
       ready: false,
-
-      /*
-       *Used to define the order that the schools are placed into the two main
-       *columns. This could be implemented generically, but making the columns
-       *more or less "even" is NP-Hard so its more convenient to just define
-       *manually
-       */
-      schoolOrder: [
-        "Engineering",
-        "Science",
-        "Humanities, Arts and Social Sciences",
-        "Architecture",
-        "Business Management",
-        "Other",
-      ],
-      courseInfoModalCourse: null,
-      showCourseInfoModal: false,
     };
   },
   async created() {
-    getCourses(this.selectedSemester, undefined, false).then((courses) => {
+    if (this.selectedSemester === "") {
+      const querySemester = this.$route.query.semester;
+      this.selectedSemester =
+        querySemester && querySemester !== "null"
+          ? querySemester
+          : await getDefaultSemester();
+    }
+    getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
         if (!this.schoolsMajorDict[c.school]) {
           this.schoolsMajorDict[c.school] = new Set();
@@ -142,19 +109,25 @@ export default {
   },
   methods: {
     generateRequirementsText,
-    showCourseInfo(course) {
-      this.courseInfoModalCourse = course;
-      this.showCourseInfoModal = true;
-    },
   },
   computed: {
-    //Used to define the placement of each department into the two main columns
-    coursesChunked() {
-      const chunkedArr = [];
-      for (var i = 0; i < 6; i++) {
-        chunkedArr.push(this.schoolsMajorDict[this.schoolOrder[i]]);
+    schoolDepartmentObjects() {
+      let keyArr = Object.entries(this.schoolsMajorDict)
+        .map((schoolDepartmentMapping) => ({
+          school: schoolDepartmentMapping[0],
+          departments: schoolDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
+        } else {
+          columnArr[1].push(keyArr[i]);
+        }
       }
-      return chunkedArr;
+      return columnArr;
     },
   },
 };

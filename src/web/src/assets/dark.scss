@@ -150,4 +150,16 @@
   .selected {
     background-color: var(--dark-primary) !important;
   }
+  
+  .modal-header{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+    .close{
+      color: $gray-100;
+    }
+  }
+  .modal-content{
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+  }
 }
