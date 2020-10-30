@@ -16,7 +16,6 @@ envsubst '\$HOST' < \
 
 # If SSL Certificate folder isn't present, generate one
 if [ ! -f /etc/nginx/certificate/$HOST.crt ] &&
-[ ! -f /etc/nginx/certificate/$HOST.csr ] &&
 [ ! -f /etc/nginx/certificate/$HOST.key ];then
   mkdir /etc/nginx/certificate
   cd /etc/nginx/certificate
