@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100">
+  <b-container v-if="ready">
     <b-row>
       <!--
         - Left side of the column
@@ -55,7 +55,7 @@
         </b-row>
       </b-col>
     </b-row>
-  </div>
+  </b-container>
   <div v-else>
     <b-spinner></b-spinner>
     <strong class="m-2">Loading courses...</strong>
@@ -134,16 +134,7 @@ export default {
 </script>
 
 <style>
-.gridContainer {
-  margin-top: 25px;
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-content: center;
-}
-
 .departmentBox {
-  width: 30rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
 }
