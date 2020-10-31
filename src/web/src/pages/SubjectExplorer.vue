@@ -6,7 +6,6 @@
       <b-col>
         <b-button class="k-primary" to="/explore">Back</b-button>
       </b-col>
-      <h2 class="headerLine"></h2>
     </b-row>
 
     <br />
@@ -133,15 +132,6 @@ export default {
   grid-template-columns: auto auto;
   justify-content: center;
   align-content: center;
-}
-
-.headerLine {
-  width: 100%;
-  margin: 0 auto;
-  border: 0;
-  height: 8px;
-  background: #333;
-  background-image: linear-gradient(to right, red, #333, rgb(9, 206, 91));
 }
 
 .subjectBox {
