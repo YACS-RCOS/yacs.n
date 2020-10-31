@@ -457,14 +457,6 @@ export default {
 };
 </script>
 
-<!-- All Styling For Dark Mode For Course Information Modals.  -->
-<style scoped>
-/deep/ .onStyleDarkMode {
-  background: var(--dark-primary);
-  color: var(--dark-primary-text);
-}
-</style>
-
 <style lang="scss">
 // NOTE!
 // for every v-tab a div.tab-content container is generated
