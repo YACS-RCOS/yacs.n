@@ -17,6 +17,8 @@ services:
   yacs_api:
     restart: unless-stopped
     container_name: yacs_api
+    stdin_open: true
+    tty: true
     build:
       context: ./src/api/
       dockerfile: Dockerfile
