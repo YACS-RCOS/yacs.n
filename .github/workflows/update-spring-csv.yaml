@@ -1,0 +1,40 @@
+name: Check spring csv for updates
+
+on:
+  # Run this workflow at end of every day
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update_spring_csv:
+    name: Update spring csv
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Pull spring 2021 csv
+        run: bash get-spring-2021.sh
+        working-directory: rpi_data
+
+      - name: Export git status to environment variable
+        run: |
+          echo 'GIT_STATUS<<EOF' >> $GITHUB_ENV
+          git status >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: If there are changes open a pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.LINT_PAT }}
+          commit-message: spring 2021 csv update
+          title: "Update Spring 2021 csv"
+          body: ${{ env.GIT_STATUS }}
+          labels: |
+            Spring 2021
+          reviewers: |
+            123joshuawu
+            jshom
