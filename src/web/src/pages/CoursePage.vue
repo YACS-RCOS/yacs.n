@@ -1,12 +1,12 @@
 <template>
   <div v-if="ready" class="w-90 ml-4 mb-4">
-    <b-row>
+    <b-row class="m-0">
       <b-col>
         <h1 class="mt-4">{{ courseTitle }}</h1>
         <h4 class="mb-1">{{ courseName }}</h4>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="m-0">
       <b-col>
         {{
           generateRequirementsText(
@@ -17,7 +17,7 @@
         }}
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="m-0">
       <b-col class="mb-4">
         <br />
         {{ courseObj.description }}
