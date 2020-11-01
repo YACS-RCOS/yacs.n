@@ -29,8 +29,6 @@ class Courses:
         day_num = day_map.get(day_char, -1)
         if day_num != -1:
             return day_num
-        else:
-            raise Exception("Invalid day code provided")
 
     def getDays(self, daySequenceStr):
         return set(filter(
@@ -111,6 +109,8 @@ class Courses:
                                     crn,
                                     section,
                                     semester,
+                                    min_credits,
+                                    max_credits,
                                     description,
                                     frequency,
                                     full_title,
@@ -127,6 +127,8 @@ class Courses:
                                 NULLIF(%(CRN)s, ''),
                                 NULLIF(%(Section)s, ''),
                                 NULLIF(%(Semester)s, ''),
+                                %(MinCredits)s,
+                                %(MaxCredits)s,
                                 NULLIF(%(Description)s, ''),
                                 NULLIF(%(Frequency)s, ''),
                                 NULLIF(%(FullTitle)s, ''),
@@ -150,6 +152,8 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
+                                "MinCredits": row['course_credit_hours'].split("-")[0],
+                                "MaxCredits": row['course_credit_hours'].split("-")[-1],
                                 "Description": row['description'], # new
                                 "Frequency": row['offer_frequency'], # new
                                 "FullTitle": row["full_name"], # new
@@ -159,7 +163,7 @@ class Courses:
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
-                                "School": row['school']
+                                "School": row['school']  
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
@@ -220,7 +224,6 @@ class Courses:
         # invalidate cache so we can get new classes
         self.cache.clear()
         return (True, None)
-
 
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
