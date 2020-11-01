@@ -33,7 +33,6 @@
   </b-container>
 </template>
 
-
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
