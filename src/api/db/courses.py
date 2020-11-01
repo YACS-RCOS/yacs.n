@@ -163,8 +163,7 @@ class Courses:
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
-                                "School": row['school']
-                                
+                                "School": row['school']  
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
@@ -225,7 +224,6 @@ class Courses:
         # invalidate cache so we can get new classes
         self.cache.clear()
         return (True, None)
-
 
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
