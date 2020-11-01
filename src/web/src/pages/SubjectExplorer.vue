@@ -6,7 +6,6 @@
       <b-col>
         <b-button class="k-primary" to="/explore">Back</b-button>
       </b-col>
-      <h2 class="headerLine"></h2>
     </b-row>
 
     <br />
@@ -78,6 +77,7 @@
 
 <script>
 import { getCourses } from "../services/YacsService";
+import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "SubjectExplorer",
@@ -105,29 +105,21 @@ export default {
    * subjectCourseArr is an array of course objects
    */
   async created() {
-    getCourses(this.selectedSemester).then((courses) => {
-      this.rightColumnCourses = courses.filter(
-        (c) => c.department === this.subject
-      );
-      this.leftColumnCourses = this.rightColumnCourses.splice(
-        0,
-        Math.ceil(this.rightColumnCourses.length / 2)
-      );
-      this.rightColumnCourses.splice(0, 0);
+    const querySemester = this.$route.query.semester;
+    this.selectedSemester =
+      querySemester && querySemester != "null"
+        ? querySemester
+        : await getDefaultSemester();
+    const courses = await getCourses(this.selectedSemester);
+    //Obtain All Courses Such That Department Matches The Subject Name.
+    const allTempData = courses.filter((c) => c.department === this.subject);
 
-<<<<<<< Updated upstream
-      this.ready = true;
-    });
-=======
-    for (let k = 0; k < allTempData.length - 1; k += 2) {
-      this.leftColumnCourses.push(allTempData[k]);
-      this.rightColumnCourses.push(allTempData[k + 1]);
+    for (let k = 0; k < allTempData.length; k++) {
+      if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
+      else this.rightColumnCourses.push(allTempData[k]);
     }
-    console.log(
-      "Total course number of " + this.subject + ": " + allTempData.length
-    );
+
     this.ready = true;
->>>>>>> Stashed changes
   },
   methods: {},
   computed: {},
@@ -140,15 +132,6 @@ export default {
   grid-template-columns: auto auto;
   justify-content: center;
   align-content: center;
-}
-
-.headerLine {
-  width: 100%;
-  margin: 0 auto;
-  border: 0;
-  height: 8px;
-  background: #333;
-  background-image: linear-gradient(to right, red, #333, rgb(9, 206, 91));
 }
 
 .subjectBox {
