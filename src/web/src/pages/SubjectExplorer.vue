@@ -115,8 +115,19 @@ export default {
       );
       this.rightColumnCourses.splice(0, 0);
 
+<<<<<<< Updated upstream
       this.ready = true;
     });
+=======
+    for (let k = 0; k < allTempData.length - 1; k += 2) {
+      this.leftColumnCourses.push(allTempData[k]);
+      this.rightColumnCourses.push(allTempData[k + 1]);
+    }
+    console.log(
+      "Total course number of " + this.subject + ": " + allTempData.length
+    );
+    this.ready = true;
+>>>>>>> Stashed changes
   },
   methods: {},
   computed: {},
@@ -144,7 +155,6 @@ export default {
   border: 3px solid black;
   height: 3rem;
   width: 15rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   text-align: center;
 }
@@ -152,7 +162,6 @@ export default {
 .courseBox {
   height: 5rem;
   width: 30rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: left;
 }
 
