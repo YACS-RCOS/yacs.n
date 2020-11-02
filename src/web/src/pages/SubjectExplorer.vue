@@ -113,12 +113,10 @@ export default {
     const courses = await getCourses(this.selectedSemester);
     //Obtain All Courses Such That Department Matches The Subject Name.
     const allTempData = courses.filter((c) => c.department === this.subject);
-
-    for (let k = 0; k < allTempData.length - 1; k += 2) {
-      this.leftColumnCourses.push(allTempData[k]);
-      this.rightColumnCourses.push(allTempData[k + 1]);
+    for (let k = 0; k < allTempData.length; k++) {
+      if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
+      else this.rightColumnCourses.push(allTempData[k]);
     }
-
     this.ready = true;
   },
   methods: {},

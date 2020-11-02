@@ -4,20 +4,20 @@
     <hr />
     <br />
 
-    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
+    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer">
       Import Courses via CSV
     </a>
     <a
       v-b-modal.editSemestersModal
       class="text-primary"
-      style="cursor: pointer;"
+      style="cursor: pointer"
     >
       Edit Semesters
     </a>
     <a
       v-b-modal.defaultModal
       class="text-primary d-block"
-      style="cursor: pointer;"
+      style="cursor: pointer"
     >
       Set Default Semester
     </a>
