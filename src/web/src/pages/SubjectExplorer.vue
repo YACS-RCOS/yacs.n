@@ -113,12 +113,10 @@ export default {
     const courses = await getCourses(this.selectedSemester);
     //Obtain All Courses Such That Department Matches The Subject Name.
     const allTempData = courses.filter((c) => c.department === this.subject);
-
     for (let k = 0; k < allTempData.length; k++) {
       if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
       else this.rightColumnCourses.push(allTempData[k]);
     }
-
     this.ready = true;
   },
   methods: {},
@@ -138,6 +136,7 @@ export default {
   border: 3px solid black;
   height: 3rem;
   width: 15rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
   text-align: center;
 }
@@ -145,6 +144,7 @@ export default {
 .courseBox {
   height: 5rem;
   width: 30rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: left;
 }
 
