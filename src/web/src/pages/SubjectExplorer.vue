@@ -2,7 +2,7 @@
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h3 class="subjectBox">{{ subject }}</h3>
+      <h1 class="subjectBox">{{ subject }}</h1>
       <b-col>
         <b-button class="k-primary" to="/explore">Back</b-button>
       </b-col>
@@ -133,11 +133,13 @@ export default {
 }
 
 .subjectBox {
-  border: 3px solid black;
-  height: 3rem;
+  /* border: 3px solid black; */
+  margin-bottom: 20px;
+  height: 2.5rem;
   width: 15rem;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  font-size: xx-large;
+  font-weight: 600;
   text-align: center;
 }
 
