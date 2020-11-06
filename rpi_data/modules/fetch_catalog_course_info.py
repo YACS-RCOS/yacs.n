@@ -13,9 +13,10 @@ from lxml import etree
 
 chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
-dev_output_files = True
+dev_output_files = False
 
-# May Change Semester To Semester.
+# May Change Semester To Semester, So Update Based On Generated XML.
+# NOTE: Make Sure That Catalog # Refers To The Correct Year.
 ACALOG_COURSE_FIELDS = {
     "department": "acalog-field-508",
     "level": "acalog-field-510",
