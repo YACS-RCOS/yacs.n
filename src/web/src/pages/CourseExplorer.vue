@@ -56,7 +56,7 @@
       </b-col>
     </b-row>
   </b-container>
-  <div v-else>
+  <div id="spinnerWrapper" v-else>
     <b-spinner></b-spinner>
     <strong class="m-2">Loading courses...</strong>
   </div>
@@ -141,5 +141,11 @@ export default {
 .school-name {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+#spinnerWrapper {
+  text-align: center;
+  margin-top: 15%;
+  margin-bottom: 20%;
+  font-size: 1.4em;
 }
 </style>
