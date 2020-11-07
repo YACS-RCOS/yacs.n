@@ -39,8 +39,7 @@ class database():
         except psycopg2.Error as e:
             print("DATABASE ERROR: ", end="")
             print(e)
-            self.conn.close()
-            self.connect()
+            self.conn.rollback()
             return (ret, e)
 
         return (ret, None)
