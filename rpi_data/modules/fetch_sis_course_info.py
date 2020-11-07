@@ -73,8 +73,10 @@ class sis_client:
         current_course_enrolled = ''
         current_course_remained = ''
 
-        time_raw = genInfo[0].findChildren('h3', recursive=True)[1].findChildren('span')[0].contents[0]
-        time = self.parse_time(time_raw)
+        # NOTE: The Value 2, findChildren('h3', recursive=True)[2], 
+        # May Change Semester To Semester Depending On # Lines Above/Below Each SIS Section. 
+        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[2].findChildren('span')[0].contents[0]
+        semester_start_end_data = self.parse_time(raw_semester_start_end_data)
 
         for gens in genInfo:
             schools = gens.findChildren('h4', recursive=False)
@@ -108,8 +110,8 @@ class sis_client:
                     info[12] = prev[11]
 
                 info.append(schls[i])
-                info.append(time[0])
-                info.append(time[1])
+                info.append(semester_start_end_data[0])
+                info.append(semester_start_end_data[1])
                 info.append(self.SEMESTER_NAME)
 
                 if(info[5]):
