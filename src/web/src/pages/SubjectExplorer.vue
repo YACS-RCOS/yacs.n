@@ -69,7 +69,7 @@
     </b-col>
   </div>
 
-  <div v-else>
+  <div id="spinnerWrapper" v-else>
     <b-spinner></b-spinner>
     <strong class="m-2">Loading courses...</strong>
   </div>
@@ -150,5 +150,12 @@ export default {
 
 .major-courseBox:hover {
   background: rgba(108, 90, 90, 0.15);
+}
+
+#spinnerWrapper {
+  text-align: center;
+  padding-top: 30vh;
+  font-size: 1.4em;
+  height: 80vh;
 }
 </style>

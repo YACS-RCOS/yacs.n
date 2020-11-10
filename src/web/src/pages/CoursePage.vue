@@ -25,7 +25,7 @@
     </b-row>
     <b-button :to="backRoute">Back</b-button>
   </div>
-  <div v-else>
+  <div id="spinnerWrapper" v-else>
     <b-spinner></b-spinner>
     <strong class="m-2">Loading Course...</strong>
   </div>
@@ -78,3 +78,11 @@ export default {
   },
 };
 </script>
+<style scope>
+#spinnerWrapper {
+  text-align: center;
+  padding-top: 30vh;
+  font-size: 1.4em;
+  height: 80vh;
+}
+</style>

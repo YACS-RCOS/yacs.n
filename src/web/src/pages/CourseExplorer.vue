@@ -144,8 +144,8 @@ export default {
 }
 #spinnerWrapper {
   text-align: center;
-  margin-top: 15%;
-  margin-bottom: 20%;
+  padding-top: 30vh;
+  height: 80vh;
   font-size: 1.4em;
 }
 </style>
