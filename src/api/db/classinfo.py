@@ -58,6 +58,9 @@ class ClassInfo:
             (
               select
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 c1.min_credits,
                 c1.max_credits,
@@ -138,6 +141,9 @@ class ClassInfo:
                 c1.crn,
                 c1.min_credits,
                 c1.max_credits,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 max(c1.department) as department,
                 max(c1.level) as level,
@@ -298,12 +304,15 @@ class ClassInfo:
               (
               SELECT
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 MAX(c1.department) AS department,
                 MAX(c1.level) as level,
                 JSON_AGG(
                   row_to_json(cs.*)
-                ) sessions
+                ) sessions,
               FROM
                 course c1
               JOIN course_session cs on
@@ -384,6 +393,9 @@ class ClassInfo:
               (
               SELECT
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 MAX(c1.department) AS department,
                 MAX(c1.level) as level,
