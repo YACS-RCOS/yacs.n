@@ -125,8 +125,11 @@ class sis_client:
                     if info[7][-2:] == 'AM':
                         info[6] += 'AM'
                     else:
-                        col = info[6].find(':')
-                        if (int(info[6][:col]) < 8) or (int(info[6][:col]) == 12):
+                        col1 = info[6].find(':')
+                        col2 = info[7].find(':')
+                        if int(info[6][:col1]) == 12:
+                            info[6] += "PM"
+                        elif int(info[6][:col1]) < int(info[7][:col2]):
                             info[6] += "PM"
                         else:
                             info[6] += "AM"
