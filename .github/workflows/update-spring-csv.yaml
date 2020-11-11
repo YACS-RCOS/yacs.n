@@ -49,15 +49,12 @@ jobs:
 
       - run: echo $GITHUB_ENV
 
-      # - name: If there are changes open a pull request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.LINT_PAT }}
-      #     commit-message: spring 2021 csv update
-      #     title: "Update Spring 2021 csv"
-      #     body: ${{ env.GIT_STATUS }}
-      #     labels: |
-      #       Spring 2021
-      #     reviewers: |
-      #       123joshuawu
-      #       jshom
+      - name: If there are changes open a pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.LINT_PAT }}
+          commit-message: spring 2021 csv update
+          title: "Update Spring 2021 csv"
+          body: ${{ env.GIT_STATUS }}
+          labels: |
+            Spring 2021
