@@ -47,10 +47,6 @@ jobs:
           git diff --stat >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
-          echo 'GIT_DIFF_WORD_DIFF_REGEX<<EOF' >> $GITHUB_ENV
-          git diff --word-diff-regex="[^[:space:],]+" >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
       - name: If there are changes open a pull request
         uses: peter-evans/create-pull-request@v3
         with:
