@@ -60,24 +60,16 @@
               color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
-            <b-row class="mb-2">
-              <b-col>
+            <b-row class="mb-2" align-h="between">
+              <b-col cols="auto">
                 {{ section.crn }} - {{ section.sessions[0].section }}
               </b-col>
-              <b-col>
-                <b-badge
-                  v-if="section.seats_total > 0"
-                  :variant="
-                    section.seats_open / section.seats_total < 0.2
-                      ? 'warning'
-                      : 'success'
-                  "
-                >
-                  {{ section.seats_open }} / {{ section.seats_total }} open
-                </b-badge>
-                <b-badge v-else-if="section.seats_open == 0" variant="danger">
-                  Full
-                </b-badge>
+              <b-col v-if="section.seats_total > 0" cols="auto">
+                <course-section-seats-badge
+                  :seatsOpen="section.seats_open"
+                  :seatsFilled="section.seats_filled"
+                  :seatsTotal="section.seats_total"
+                />
               </b-col>
             </b-row>
 
@@ -115,6 +107,8 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+import CourseSectionSeatsBadge from "./CourseSectionSeatsBadge.vue";
+
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
 // However, there are slots available to customize the information displayed
@@ -123,6 +117,9 @@ import {
 // 2) collapseContent { course }
 export default {
   name: "CourseListing",
+  components: {
+    CourseSectionSeatsBadge,
+  },
   props: {
     course: Object,
 
