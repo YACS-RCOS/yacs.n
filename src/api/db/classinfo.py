@@ -312,7 +312,7 @@ class ClassInfo:
                 MAX(c1.level) as level,
                 JSON_AGG(
                   row_to_json(cs.*)
-                ) sessions,
+                ) sessions
               FROM
                 course c1
               JOIN course_session cs on
