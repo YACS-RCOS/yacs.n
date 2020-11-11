@@ -41,20 +41,24 @@ jobs:
         run: bash get-spring-2021.sh
         working-directory: rpi_data
 
-      - name: Export git status to environment variable
+      - name: Export git diffs to environment variable
         run: |
-          echo 'GIT_STATUS<<EOF' >> $GITHUB_ENV
-          git status >> $GITHUB_ENV
+          echo 'GIT_DIFF_STAT<<EOF' >> $GITHUB_ENV
+          git diff --stat >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
-      - run: echo $GITHUB_ENV
+          echo 'GIT_DIFF_WORD_DIFF_REGEX<<EOF' >> $GITHUB_ENV
+          git diff --word-diff-regex="[^[:space:],]+" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: If there are changes open a pull request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.LINT_PAT }}
+          branch: spring_2021_update
           commit-message: spring 2021 csv update
+          delete-branch: true
           title: "Update Spring 2021 csv"
-          body: ${{ env.GIT_STATUS }}
+          body: ${{ env.GIT_DIFF_STAT }}
           labels: |
             Spring 2021
