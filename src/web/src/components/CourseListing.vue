@@ -60,8 +60,26 @@
               color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
-            {{ section.crn }} - {{ section.sessions[0].section }}
-            <br />
+            <b-row class="mb-2">
+              <b-col>
+                {{ section.crn }} - {{ section.sessions[0].section }}
+              </b-col>
+              <b-col>
+                <b-badge
+                  v-if="section.seats_total > 0"
+                  :variant="
+                    section.seats_open / section.seats_total < 0.2
+                      ? 'warning'
+                      : 'success'
+                  "
+                >
+                  {{ section.seats_open }} / {{ section.seats_total }} open
+                </b-badge>
+                <b-badge v-else-if="section.seats_open == 0" variant="danger">
+                  Full
+                </b-badge>
+              </b-col>
+            </b-row>
 
             <span
               v-for="courseSession in section.sessions"
