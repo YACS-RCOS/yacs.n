@@ -21,6 +21,8 @@ const client = axios.create({
  */
 const _getCourseIdentifier = (courseObj) => {
   return `
+    ${courseObj.name}
+    ${courseObj.title}
     ${courseObj.department}
     ${courseObj.level}
     ${courseObj.date_start.getMonth() + 1}
