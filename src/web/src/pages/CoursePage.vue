@@ -8,13 +8,7 @@
     </b-row>
     <b-row>
       <b-col>
-        {{
-          generateRequirementsText(
-            courseObj.prerequisites,
-            courseObj.corequisites,
-            courseObj.raw_precoreqs
-          )
-        }}
+        <p v-html="transformed" />
       </b-col>
     </b-row>
     <b-row>
@@ -67,6 +61,25 @@ export default {
     this.backRoute = "/explore/" + this.courseObj.department;
     this.ready = true;
   },
-  computed: {},
+  computed: {
+    transformed() {
+      let precoreqtext = this.courseObj.raw_precoreqs;
+      const regex = /([A-Z]){4}( )([0-9]){4}/g;
+      while (precoreqtext.search(regex) != -1) {
+        let index = precoreqtext.search(regex);
+        let beforetext = precoreqtext.slice(0, index);
+        let dept = precoreqtext.slice(index, index + 4);
+        let cn = precoreqtext
+          .slice(index, index + 9)
+          .split(" ")
+          .join("-");
+        let link = '<a href="/explore/'.concat(dept, "/", cn, '">', cn, "</a>");
+        let aftertext = precoreqtext.slice(index + 9);
+        precoreqtext = beforetext.concat(link, aftertext);
+        console.log(precoreqtext);
+      }
+      return precoreqtext;
+    },
+  },
 };
 </script>
