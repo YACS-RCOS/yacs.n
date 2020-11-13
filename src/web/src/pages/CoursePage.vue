@@ -64,6 +64,9 @@ export default {
   computed: {
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
+      if (precoreqtext === null) {
+        return "This course has no prerequisites";
+      }
       const regex = /([A-Z]){4}( )([0-9]){4}/g;
       while (precoreqtext.search(regex) != -1) {
         let index = precoreqtext.search(regex);
