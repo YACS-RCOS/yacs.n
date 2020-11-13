@@ -1,34 +1,36 @@
 <template>
-  <div v-if="ready" class="w-90 ml-4 mb-4">
-    <b-row>
-      <b-col>
-        <h1 class="mt-4">{{ courseTitle }}</h1>
-        <h4 class="mb-1">{{ courseName }}</h4>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        {{
-          generateRequirementsText(
-            courseObj.prerequisites,
-            courseObj.corequisites,
-            courseObj.raw_precoreqs
-          )
-        }}
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col class="mb-4">
-        <br />
-        {{ courseObj.description }}
-      </b-col>
-    </b-row>
-    <b-button :to="backRoute">Back</b-button>
-  </div>
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading Course...</strong>
-  </div>
+  <b-container fluid>
+    <div v-if="ready" class="w-90 ml-4 mb-4">
+      <b-row>
+        <b-col>
+          <h1 class="mt-4">{{ courseTitle }}</h1>
+          <h4 class="mb-1">{{ courseName }}</h4>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          {{
+            generateRequirementsText(
+              courseObj.prerequisites,
+              courseObj.corequisites,
+              courseObj.raw_precoreqs
+            )
+          }}
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="mb-4">
+          <br />
+          {{ courseObj.description }}
+        </b-col>
+      </b-row>
+      <b-button :to="backRoute">Back</b-button>
+    </div>
+    <div v-else>
+      <b-spinner></b-spinner>
+      <strong class="m-2">Loading Course...</strong>
+    </div>
+  </b-container>
 </template>
 
 <script>
