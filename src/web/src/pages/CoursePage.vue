@@ -79,7 +79,6 @@ export default {
         let link = '<a href="/explore/'.concat(dept, "/", cn, '">', cn, "</a>");
         let aftertext = precoreqtext.slice(index + 9);
         precoreqtext = beforetext.concat(link, aftertext);
-        console.log(precoreqtext);
       }
       return precoreqtext;
     },
