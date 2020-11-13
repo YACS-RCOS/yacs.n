@@ -72,11 +72,18 @@ export default {
         let index = precoreqtext.search(regex);
         let beforetext = precoreqtext.slice(0, index);
         let dept = precoreqtext.slice(index, index + 4);
-        let cn = precoreqtext
+        let course_name = precoreqtext
           .slice(index, index + 9)
           .split(" ")
           .join("-");
-        let link = '<a href="/explore/'.concat(dept, "/", cn, '">', cn, "</a>");
+        let link = '<a href="/explore/'.concat(
+          dept,
+          "/",
+          course_name,
+          '">',
+          course_name,
+          "</a>"
+        );
         let aftertext = precoreqtext.slice(index + 9);
         precoreqtext = beforetext.concat(link, aftertext);
       }
