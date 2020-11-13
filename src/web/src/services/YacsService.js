@@ -19,7 +19,7 @@ const client = axios.create({
  * @param {Course} courseObj an object that is a subclass of course
  * @returns {string} the unique identifier of a course
  * NOTE: In The Case Course Listings Have Random Spaces In The Future,
- * This Is Likely Due To Two Course Objects Having The Same Identifier. 
+ * This Is Likely Due To Two Course Objects Having The Same Identifier.
  * Thus, Should Revise The Following Code, If Necessary.
  */
 const _getCourseIdentifier = (courseObj) => {
