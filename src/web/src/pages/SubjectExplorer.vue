@@ -70,18 +70,18 @@
   </div>
 
   <div id="spinnerWrapper" v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
+    <CenterSpinner/>
   </div>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
+import CenterSpinner from "../components/CenterSpinner";
 
 export default {
   name: "SubjectExplorer",
-  components: {},
+  components: {CenterSpinner},
   props: {
     selectedSemester: String,
   },
@@ -150,12 +150,5 @@ export default {
 
 .major-courseBox:hover {
   background: rgba(108, 90, 90, 0.15);
-}
-
-#spinnerWrapper {
-  text-align: center;
-  padding-top: 30vh;
-  font-size: 1.4em;
-  height: 80vh;
 }
 </style>

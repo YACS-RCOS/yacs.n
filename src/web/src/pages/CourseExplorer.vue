@@ -57,8 +57,7 @@
     </b-row>
   </b-container>
   <div id="spinnerWrapper" v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
+    <CenterSpinner/>
   </div>
 </template>
 
@@ -67,11 +66,13 @@ import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import { getDefaultSemester } from "@/services/AdminService";
+import CenterSpinner from "../components/CenterSpinner";
 
 export default {
   name: "CourseExplorer",
   components: {
     DepartmentList: DepartmentListComponenet,
+    CenterSpinner,
   },
   props: {
     selectedSemester: String,
@@ -141,11 +142,5 @@ export default {
 .school-name {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
-}
-#spinnerWrapper {
-  text-align: center;
-  padding-top: 30vh;
-  height: 80vh;
-  font-size: 1.4em;
 }
 </style>

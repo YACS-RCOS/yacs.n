@@ -26,8 +26,7 @@
     <b-button :to="backRoute">Back</b-button>
   </div>
   <div id="spinnerWrapper" v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading Course...</strong>
+    <CenterSpinner/>
   </div>
 </template>
 
@@ -35,8 +34,10 @@
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
+import CenterSpinner from '../components/CenterSpinner.vue';
 
 export default {
+  components: { CenterSpinner },
   name: "CoursePage",
   data() {
     return {
@@ -78,11 +79,4 @@ export default {
   },
 };
 </script>
-<style scope>
-#spinnerWrapper {
-  text-align: center;
-  padding-top: 30vh;
-  font-size: 1.4em;
-  height: 80vh;
-}
-</style>
+
