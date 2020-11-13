@@ -150,7 +150,7 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-import CenterSpinner from "../components/CenterSpinner";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
@@ -178,7 +178,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
-    CenterSpinner
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,

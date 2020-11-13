@@ -34,10 +34,12 @@
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
-import CenterSpinner from '../components/CenterSpinner.vue';
+import CenterSpinnerComponent from '../components/CenterSpinner.vue';
 
 export default {
-  components: { CenterSpinner },
+  components: { 
+    CenterSpinner: CenterSpinnerComponent,
+   },
   name: "CoursePage",
   data() {
     return {

@@ -77,11 +77,13 @@
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
-import CenterSpinner from "../components/CenterSpinner";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "SubjectExplorer",
-  components: {CenterSpinner},
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+  },
   props: {
     selectedSemester: String,
   },

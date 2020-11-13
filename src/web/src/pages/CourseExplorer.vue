@@ -66,13 +66,13 @@ import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import { getDefaultSemester } from "@/services/AdminService";
-import CenterSpinner from "../components/CenterSpinner";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "CourseExplorer",
   components: {
     DepartmentList: DepartmentListComponenet,
-    CenterSpinner,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
