@@ -4,6 +4,7 @@
       <b-col>
         <h1 class="mt-4">{{ courseTitle }}</h1>
         <h4 class="mb-1">{{ courseName }}</h4>
+        <h6 class="mb-1">{{getCredits}} Credits</h6>
       </b-col>
     </b-row>
     <b-row>
@@ -74,6 +75,15 @@ export default {
       let treeData = {};
       treeData.name = this.courseName;
       return treeData;
+    },
+    getCredits() {
+      var credits;
+      if (this.courseObj.min_credits != this.courseObj.min_credits){
+        credits = [this.courseObj.min_credits,this.courseObj.max_credits].join("-");
+      } else{
+        credits = this.courseObj.min_credits;
+      }
+      return credits;
     },
   },
 };

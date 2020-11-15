@@ -78,7 +78,10 @@
         <b-row>
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
+            <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
+
+          
 
           <b-col md="4">
             <button
@@ -104,6 +107,16 @@
     >
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}
+        <br />
+        <br />
+      </span>
+      <span v-if= "courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits">
+        Credits: {{ courseInfoModalCourse.min_credits }}
+        <br />
+        <br />
+      </span>
+      <span v-if= "courseInfoModalCourse.min_credits != courseInfoModalCourse.max_credits">
+        Credits: {{ courseInfoModalCourse.min_credits }} - {{ courseInfoModalCourse.max_credits }}
         <br />
         <br />
       </span>
@@ -436,6 +449,17 @@ export default {
      */
     selectedCrns() {
       return this.selectedSections.map((s) => s.crn).join(", ");
+    },
+    /**
+     * Returns sum of credits being taken from all selected sections
+     */
+    totalCredits() {
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+    
+      // Getting sum of numbers
+      var sum = array.reduce(function(a, b){
+        return a + b;}, 0);
+      return sum;
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
