@@ -15,8 +15,14 @@
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
                 >
-                  <CenterSpinner/>
+                  <CenterSpinner
+                    :height = "30"
+                    :fontSize = "1"
+                    loadingMessage = "Courses"
+                    :topSpacing = "0"
+                  />
                 </div>
+                
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"

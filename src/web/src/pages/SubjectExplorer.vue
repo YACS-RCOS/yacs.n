@@ -70,7 +70,12 @@
   </div>
 
   <div id="spinnerWrapper" v-else>
-    <CenterSpinner/>
+    <CenterSpinner
+      :height = "80"
+      :fontSize = "1.4"
+      loadingMessage = "Courses"
+      :topPadding = "30"
+    />
   </div>
 </template>
 

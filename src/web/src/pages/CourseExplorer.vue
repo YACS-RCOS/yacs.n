@@ -57,7 +57,12 @@
     </b-row>
   </b-container>
   <div id="spinnerWrapper" v-else>
-    <CenterSpinner/>
+    <CenterSpinner
+      :height = "80"
+      :fontSize = "1.3"
+      loadingMessage = "Departments"
+      :topSpacing = "30"
+    />
   </div>
 </template>
 

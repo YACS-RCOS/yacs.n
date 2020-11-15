@@ -1,21 +1,33 @@
 <template>
-  <div id="spinner">
+  <div id="spinner" :style="renderStyle">
     <b-spinner></b-spinner>
-    <strong class="m-2">Loading Course...</strong>
+    <div class="m-2">Loading {{loadingMessage}}...</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CenterSpinner'
+  name: 'CenterSpinner',
+  props: {
+    height: Number,
+    fontSize: Number,
+    loadingMessage: String,
+    topSpacing: Number,
+  },
+  computed: {
+    renderStyle() {
+      return "padding-top: " + this.topSpacing + "vh;" + 
+             "font-size: " + this.fontSize + "em;" +
+             "height: " + this.height + "vh;" +
+             "text-align: center;";
+    }
+  },
+  async created() {
+    console.log("TOP PADDING " + this.topSpacing + '\n' + 
+                "FONT SIZE " + this.fontSize + '\n' + 
+                "LOADING MESSAGE " + this.loadingMessage + "\n" +
+                "HEIGHT " + this.height + "\n"
+    );
+  }
 }
 </script>
-
-<style scope>
-#spinner {
-  text-align: center;
-  padding-top: 30vh;
-  font-size: 1.4em;
-  height: 80vh;
-}
-</style>
