@@ -1,16 +1,32 @@
 <template functional>
-  <b-badge v-if="props.seatsOpen <= 0" variant="danger">
-    {{ props.seatsOpen }} / {{ props.seatsTotal }} Full
-  </b-badge>
   <b-badge
-    v-else-if="props.seatsOpen <= props.seatsTotal * 0.2"
-    variant="warning"
+    :variant="$options.getSeatStatusVariant(props.seatsOpen, props.seatsTotal)"
   >
-    {{ props.seatsOpen }} / {{ props.seatsTotal }} Open
-  </b-badge>
-  <b-badge v-else variant="success">
-    {{ props.seatsOpen }} / {{ props.seatsTotal }} Open
+    {{ props.seatsOpen }} / {{ props.seatsTotal }}
+    {{ $options.getSeatStatusText(props.seatsOpen) }}
   </b-badge>
 </template>
+
+<script>
+export default {
+  props: {
+    seatsOpen: Number,
+    seatsFilled: Number,
+    seatsTotal: Number,
+  },
+  getSeatStatusText(seatsOpen) {
+    return seatsOpen <= 0 ? "Full" : "Open";
+  },
+  getSeatStatusVariant(seatsOpen, seatsTotal) {
+    if (seatsOpen <= 0) {
+      return "danger";
+    } else if (seatsOpen <= seatsTotal * 0.2) {
+      return "warning";
+    } else {
+      return "success";
+    }
+  },
+};
+</script>
 
 <style></style>
