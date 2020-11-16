@@ -48,7 +48,7 @@
           <DynamicScrollerItem
             :item="course"
             :active="active"
-            :size-dependencies="[course.full_title, course.title]"
+            :size-dependencies="[course.title]"
             :data-index="index"
             :emitResize="true"
           >

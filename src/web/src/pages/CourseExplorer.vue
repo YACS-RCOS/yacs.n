@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="ready" class="gridContainer w-100">
+    <div v-if="ready" class="mx-auto w-75">
       <b-row>
         <!--
           - Left side of the column
@@ -145,7 +145,6 @@ export default {
 
 <style>
 .gridContainer {
-  margin-top: 25px;
   display: inline-grid;
   grid-template-columns: auto auto;
   justify-content: center;
@@ -153,8 +152,6 @@ export default {
 }
 
 .departmentBox {
-  width: 30rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
 }
 

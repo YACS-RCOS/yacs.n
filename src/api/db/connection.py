@@ -9,9 +9,9 @@ DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
+
 class database():
     def connect(self):
-        # if we cannot connect to db, then app is useless, so better crash, don't catch error here.
         self.conn = psycopg2.connect(
             dbname=DB_NAME,
             user=DB_USER,
@@ -39,6 +39,7 @@ class database():
         except psycopg2.Error as e:
             print("DATABASE ERROR: ", end="")
             print(e)
+            self.conn.rollback()
             return (ret, e)
 
         return (ret, None)
