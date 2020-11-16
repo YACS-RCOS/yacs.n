@@ -76,9 +76,6 @@
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
-
 export default {
   name: "SubjectExplorer",
   components: {},
@@ -105,12 +102,7 @@ export default {
    * subjectCourseArr is an array of course objects
    */
   async created() {
-    const querySemester = this.$route.query.semester;
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
+    const courses = this.$store.state.courseList;
     //Obtain All Courses Such That Department Matches The Subject Name.
     const allTempData = courses.filter((c) => c.department === this.subject);
     for (let k = 0; k < allTempData.length; k++) {

@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
 
 export default {
@@ -46,13 +44,7 @@ export default {
     generateRequirementsText,
   },
   async created() {
-    const querySemester = this.$route.query.semester;
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
-    for (const c of courses) {
+    for (const c of this.$store.state.courseList) {
       if (c.name === this.courseName) {
         this.courseTitle = c.title;
         this.courseObj = c;
@@ -65,7 +57,7 @@ export default {
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
       if (precoreqtext === null) {
-        return "No information on pre/corequisites";
+        return "No information on pre/corequistites";
       }
       const regex = /([A-Z]){4}( )([0-9]){4}/g;
       while (precoreqtext.search(regex) != -1) {

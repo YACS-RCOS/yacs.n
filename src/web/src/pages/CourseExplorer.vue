@@ -63,10 +63,8 @@
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
-import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "CourseExplorer",
@@ -85,27 +83,18 @@ export default {
     };
   },
   async created() {
-    if (this.selectedSemester === "") {
-      const querySemester = this.$route.query.semester;
-      this.selectedSemester =
-        querySemester && querySemester !== "null"
-          ? querySemester
-          : await getDefaultSemester();
-    }
-    getCourses(this.selectedSemester).then((courses) => {
-      for (const c of courses) {
-        if (!this.schoolsMajorDict[c.school]) {
-          this.schoolsMajorDict[c.school] = new Set();
-        }
-        this.schoolsMajorDict[c.school].add(c.department);
-        if (this.deptClassDict[c.department]) {
-          this.deptClassDict[c.department].push(c);
-        } else {
-          this.deptClassDict[c.department] = [c];
-        }
+    for (const c of this.$store.state.courseList) {
+      if (!this.schoolsMajorDict[c.school]) {
+        this.schoolsMajorDict[c.school] = new Set();
       }
-      this.ready = true;
-    });
+      this.schoolsMajorDict[c.school].add(c.department);
+      if (this.deptClassDict[c.department]) {
+        this.deptClassDict[c.department].push(c);
+      } else {
+        this.deptClassDict[c.department] = [c];
+      }
+    }
+    this.ready = true;
   },
   methods: {
     generateRequirementsText,
