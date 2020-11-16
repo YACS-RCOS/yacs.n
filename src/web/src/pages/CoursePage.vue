@@ -1,5 +1,6 @@
 <template>
   <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="ready" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
@@ -33,11 +34,11 @@
   </b-container>
 </template>
 
-
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
+
 
 export default {
   name: "CoursePage",
@@ -50,6 +51,21 @@ export default {
       allCoursePreReqs: {},
       selectedSemester: String,
       backRoute: String,
+      breadcrumbNav: [{
+        text: 'Home',
+        href: '/'
+      },
+      {
+        text: 'Explore',
+        href: '/explore'
+      },
+      {
+        text: this.$route.params.subject,
+        href: '/explore/' + this.$route.params.subject
+      },
+      {
+        text: this.$route.params.course,
+      }]
     };
   },
   methods: {
@@ -57,6 +73,7 @@ export default {
   },
   async created() {
     const querySemester = this.$route.query.semester;
+    console.log(this.$route)
     this.selectedSemester =
       querySemester && querySemester != "null"
         ? querySemester
