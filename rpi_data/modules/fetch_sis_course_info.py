@@ -114,21 +114,28 @@ class sis_client:
                 info.append(semester_start_end_data[1])
                 info.append(self.SEMESTER_NAME)
 
-                if(info[5]):
+                if(info[5]): ##Days of the week
                     info[5] = info[5].replace(' ', '').strip()
-                if(info[6]):
+                if(info[6]): ##Start time
                     info[6] = info[6].replace(' ', '').strip()
-                if(info[7]):
+                if(info[7]): ##End time
                     info[7] = info[7].replace(' ', '').strip()
 
-                if(info[7]):
-                    if info[7][-2:] == 'AM':
+                if(info[7]): ##If the course has an end time
+                    if info[7][-2:] == 'AM': ##If course ends in the AM it will end in the AM
                         info[6] += 'AM'
-                    else:
-                        col = info[6].find(':')
-                        if (int(info[6][:col]) < 8) or (int(info[6][:col]) == 12):
-                            info[6] += "PM"
-                        else:
+                    else: ## Courses ending in the PM
+                    
+                        start_hour = int(info[6][info[6].find(':')]) ##Course starting hour
+                        end_hour = int(infp[7][info[7].find(':')]) ##Course ending hour
+
+                        if start_hour == 12:
+                            info[6] += "PM" ##Course starts in the PM
+                        elif end_hour == 12:
+                            info[6] += "AM" ##Course ends at noon, so it starts in the AM
+                        elif start_hour < end_hour:
+                            info[6] += "PM" ##Course start time is earlier than end time and neither is 12, so they are both PM
+                        else: ## If code gets here, the course must start in the AM
                             info[6] += "AM"
                 else:
                     info[6] = info[7] = None
