@@ -92,7 +92,9 @@
                 Export Data
               </template>
               <b-dropdown-item 
-                @click="exportScheduleToIcs">Export To ICS
+                @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon"/>
+                  Export To ICS
               </b-dropdown-item>
             </b-dropdown>
           </b-col>
