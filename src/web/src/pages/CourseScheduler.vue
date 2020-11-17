@@ -84,7 +84,12 @@
               <b-dropdown-item
                 @click="exportScheduleToIcs">
                 <font-awesome-icon :icon="exportIcon"/>
-                  Export To ICS
+                Export To ICS
+              </b-dropdown-item>
+              <b-dropdown-item
+                @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon"/>
+                Export To Image
               </b-dropdown-item>
             </b-dropdown>
           </b-col>

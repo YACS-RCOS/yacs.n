@@ -232,6 +232,11 @@ export const findCourseByCourseSessionCRN = (allCourseData, inputCRNValue) => {
 export const exportScheduleToIcs = (selectedCourses) => {
   let calendarBuilder = window.ics();
   let semester;
+  // Handle Special Case Where No Selected Courses On Schedule.
+  if(selectedCourses.length == 0){
+    alert("No Courses Found For Export To ICS Data.")
+    return;
+  }
   for (const course of selectedCourses) {
     for (const section of course.sections.filter((s) => s.selected)) {
       const sessionsPartitionedByStartAndEnd = partition(
