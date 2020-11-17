@@ -126,8 +126,8 @@ class sis_client:
                         info[6] += 'AM'
                     else: ## Courses ending in the PM
                     
-                        start_hour = int(info[6][info[6].find(':')]) ##Course starting hour
-                        end_hour = int(infp[7][info[7].find(':')]) ##Course ending hour
+                        start_hour = int(info[6][0:info[6].find(':')]) ##Course starting hour
+                        end_hour = int(info[7][0:info[7].find(':')]) ##Course ending hour
 
                         if start_hour == 12:
                             info[6] += "PM" ##Course starts in the PM
