@@ -164,6 +164,8 @@ import {
   getStudentCourses,
 } from "@/services/YacsService";
 
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
 import {
   withinDuration,
   generateRequirementsText,
@@ -204,10 +206,14 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     async loadStudentCourses(semester) {
+      if (!semester) {
+        return;
+      }
+
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
 
-      if (this.userID && semester) {
+      if (this.userID) {
         console.log("Loading user courses...");
         try {
           const info = { uid: this.userID };
@@ -239,6 +245,29 @@ export default {
         } catch (error) {
           console.log(error);
         }
+      } else if (!this.userId) {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+        console.log(selectedCoursesCookie.getSelectedCourses(semester));
+        selectedCoursesCookie
+          .getSelectedCourses(semester)
+          .forEach((selectedCourse) => {
+            const course = this.courses.find(
+              (course) => course.id === selectedCourse.id
+            );
+
+            course.selected = true;
+            this.$set(this.selectedCourses, course.id, course);
+            this.scheduler.addCourse(course);
+
+            selectedCourse.selectedSectionCrns.forEach((selectedSectionCrn) => {
+              const section = course.sections.find(
+                (section) => section.crn === selectedSectionCrn
+              );
+
+              section.selected = true;
+              this.scheduler.addCourseSection(course, section);
+            });
+          });
       }
     },
     updateDataOnNewSemester() {
@@ -315,6 +344,10 @@ export default {
           .catch((error) => {
             console.log(error.response);
           });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .addCourse(this.selectedSemester, course)
+          .save();
       }
     },
     _addCourseSection(course, section) {
@@ -337,6 +370,10 @@ export default {
           .catch((error) => {
             console.log(error.response);
           });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .addCourseSection(this.selectedSemester, course, section)
+          .save();
       }
     },
 
@@ -375,6 +412,8 @@ export default {
           .catch((error) => {
             console.log(error.response);
           });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies).removeCourse(course).save();
       }
     },
     removeCourseSection(section) {
@@ -396,6 +435,10 @@ export default {
           .catch((error) => {
             console.log(error.response);
           });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .removeCourseSection(this.selectedSemester, section)
+          .save();
       }
     },
 
