@@ -86,7 +86,7 @@ export default {
       schoolsMajorDict: {},
       ready: false,
       breadcrumbNav: [{
-        text: 'Home',
+        text: 'YACS',
         to: '/'
       },
       {

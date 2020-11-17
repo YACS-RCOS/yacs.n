@@ -96,7 +96,7 @@ export default {
       rightColumnCourseNum: Number,
       ready: false,
       breadcrumbNav: [{
-        text: 'Home',
+        text: 'YACS',
         to: '/'
       },
       {

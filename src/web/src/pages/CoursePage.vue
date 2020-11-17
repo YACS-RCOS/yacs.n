@@ -52,8 +52,8 @@ export default {
       selectedSemester: String,
       backRoute: String,
       breadcrumbNav: [{
-        text: 'Home',
-        href: '/'
+        text: 'YACS',
+        to: '/'
       },
       {
         text: 'Explore',
