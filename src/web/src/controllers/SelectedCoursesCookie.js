@@ -47,7 +47,6 @@ class SelectedCoursesCookie {
 
   save() {
     this.$cookies.set(COOKIE_KEY, this.selectedSemesters);
-    console.log(JSON.stringify(this.selectedSemesters, undefined, 2));
   }
 
   /**

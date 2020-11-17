@@ -247,7 +247,7 @@ export default {
         }
       } else if (!this.userId) {
         const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
-        console.log(selectedCoursesCookie.getSelectedCourses(semester));
+
         selectedCoursesCookie
           .getSelectedCourses(semester)
           .forEach((selectedCourse) => {
