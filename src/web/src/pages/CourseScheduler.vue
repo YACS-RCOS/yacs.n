@@ -79,16 +79,22 @@
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
           </b-col>
-
-          <b-col md="4">
-            <button
+          <b-col md="3">
+            <!-- <button
               id="export-ics-button"
               class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
-              @click="exportScheduleToIcs"
             >
               <font-awesome-icon :icon="exportIcon" />
               Export to ICS
-            </button>
+            </button> -->
+            <b-dropdown> 
+              <template v-slot:button-content>
+                Export Data
+              </template>
+              <b-dropdown-item 
+                @click="exportScheduleToIcs">Export To ICS
+              </b-dropdown-item>
+            </b-dropdown>
           </b-col>
         </b-row>
       </b-col>
