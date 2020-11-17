@@ -299,3 +299,16 @@ export const exportScheduleToIcs = (selectedCourses) => {
     })}_Schedule`
   );
 };
+
+/**
+ * Export All Selected Course Sections To An Image Format, Probably JPEG.
+ * Can Come Back Here + Add More File Format Options, Such As PNG, ...
+ */
+export const exportScheduleToImage = (selectedCourses) => {
+  // Handle Special Case Where No Selected Courses On Schedule.
+  if(selectedCourses.length == 0){
+    alert("No Courses Found For Export To Image Data.")
+    return;
+  }
+}
+

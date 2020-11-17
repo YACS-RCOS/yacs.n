@@ -87,7 +87,7 @@
                 Export To ICS
               </b-dropdown-item>
               <b-dropdown-item
-                @click="exportScheduleToIcs">
+                @click="exportScheduleToImage">
                 <font-awesome-icon :icon="exportIcon"/>
                 Export To Image
               </b-dropdown-item>
@@ -172,6 +172,7 @@ import {
   generateRequirementsText,
   findCourseByCourseSessionCRN,
   exportScheduleToIcs,
+  exportScheduleToImage,
 } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -205,6 +206,9 @@ export default {
     generateRequirementsText,
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.selectedCourses));
+    },
+    exportScheduleToImage() {
+      exportScheduleToImage(Object.values(this.selectedCourses));
     },
     async loadStudentCourses(semester) {
       this.selectedCourses = {};
