@@ -57,11 +57,11 @@ export default {
       },
       {
         text: 'Explore',
-        href: '/explore'
+        to: '/explore'
       },
       {
         text: this.$route.params.subject,
-        href: '/explore/' + this.$route.params.subject
+        to: '/explore/' + this.$route.params.subject
       },
       {
         text: this.$route.params.course,

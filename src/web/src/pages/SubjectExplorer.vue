@@ -97,15 +97,15 @@ export default {
       ready: false,
       breadcrumbNav: [{
         text: 'Home',
-        href: '/'
+        to: '/'
       },
       {
         text: 'Explore',
-        href: '/explore'
+        to: '/explore'
       },
       {
         text: this.$route.params.subject,
-        href: '/explore/' + this.$route.params.subject
+        to: '/explore/' + this.$route.params.subject
       }]
     };
   },

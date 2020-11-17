@@ -87,7 +87,7 @@ export default {
       ready: false,
       breadcrumbNav: [{
         text: 'Home',
-        href: '/'
+        to: '/'
       },
       {
         text: 'Explore',
