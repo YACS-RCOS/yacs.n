@@ -133,7 +133,7 @@ class sis_client:
                             info[6] += "PM" ##Course starts in the PM
                         elif end_hour == 12:
                             info[6] += "AM" ##Course ends at noon, so it starts in the AM
-                        elif start_hour < end_hour:
+                        elif start_hour <= end_hour:
                             info[6] += "PM" ##Course start time is earlier than end time and neither is 12, so they are both PM
                         else: ## If code gets here, the course must start in the AM
                             info[6] += "AM"
