@@ -1,8 +1,8 @@
 <template>
-  <div v-if="ready" class="w-90 ml-4 mb-4">
+  <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
     <b-row>
       <b-col>
-        <h1 class="mt-4">{{ courseTitle }}</h1>
+        <h1 class="mt-4">{{ courseObj.title }}</h1>
         <h4 class="mb-1">{{ courseName }}</h4>
       </b-col>
     </b-row>
@@ -17,7 +17,7 @@
         {{ courseObj.description }}
       </b-col>
     </b-row>
-    <b-button :to="backRoute">Back</b-button>
+    <b-button :to="'/explore/' + courseObj.department">Back</b-button>
   </div>
   <div v-else>
     <b-spinner></b-spinner>
@@ -32,26 +32,11 @@ export default {
   name: "CoursePage",
   data() {
     return {
-      ready: false,
       courseName: this.$route.params.course,
-      courseTitle: String,
-      courseObj: {},
-      selectedSemester: String,
-      backRoute: String,
     };
   },
   methods: {
     generateRequirementsText,
-  },
-  async created() {
-    for (const c of this.$store.state.courseList) {
-      if (c.name === this.courseName) {
-        this.courseTitle = c.title;
-        this.courseObj = c;
-      }
-    }
-    this.backRoute = "/explore/" + this.courseObj.department;
-    this.ready = true;
   },
   computed: {
     transformed() {
@@ -80,6 +65,15 @@ export default {
         precoreqtext = beforetext.concat(link, aftertext);
       }
       return precoreqtext;
+    },
+    courseObj() {
+      let course = {};
+      for (const c of this.$store.state.courseList) {
+        if (c.name === this.courseName) {
+          course = c;
+        }
+      }
+      return course;
     },
   },
 };
