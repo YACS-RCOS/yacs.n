@@ -303,8 +303,8 @@ export const exportScheduleToIcs = (selectedCourses) => {
 };
 
 /**
- * Export All Selected Course Sections To An Image Format, Probably JPEG.
- * Can Come Back Here + Add More File Format Options, Such As PNG, ...
+ * Export All Selected Course Sections To An Image Format, Probably PNG.
+ * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
  */
 export const exportScheduleToImage = (selectedCourses) => {
   // Handle Special Case Where No Selected Courses On Schedule.
@@ -312,9 +312,8 @@ export const exportScheduleToImage = (selectedCourses) => {
     alert("No Courses Found For Export To Image Data.")
     return;
   }
-
+  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG. 
   var currentScheduleNode = document.getElementById('allScheduleData');
-
   domtoimage.toPng(currentScheduleNode)
     .then(function (dataUrl) {
         var link = document.createElement('a');
