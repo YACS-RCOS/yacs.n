@@ -1,5 +1,8 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
+  <div
+    v-if="$store.state.courseList.length != 0"
+    class="gridContainer w-100 mb-4"
+  >
     <b-row>
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
       <h1 class="subjectBox">{{ subject }}</h1>
@@ -13,7 +16,7 @@
     <!-- left column of courses -->
     <b-col>
       <b-row
-        v-for="course in this.leftColumnCourses"
+        v-for="course in courseColumns[0]"
         v-bind:key="course.level + course.department"
       >
         <!-- Navigates to course page by click on the course button  -->
@@ -42,7 +45,7 @@
     <!-- right column of courses -->
     <b-col>
       <b-row
-        v-for="course in this.rightColumnCourses"
+        v-for="course in courseColumns[1]"
         :key="course.level + course.department"
       >
         <!-- Navigates to course page by click on the course button  -->
@@ -84,35 +87,25 @@ export default {
   },
   data() {
     return {
-      subjectCourseArr: [], // array of courses for the selected subject
-      leftColumnCourses: [],
-      rightColumnCourses: [],
       subject: this.$route.params.subject, // subject object from CourseExplorer
-      // split the total course number to half, left column rounds up
-      leftColumnCourseNum: Number,
-      rightColumnCourseNum: Number,
-      ready: false,
     };
   },
-
-  /**
-   * created function calls automatically once the page is access/ object is created
-   * Loop through all courses in data base
-   * Only store the courses within the same subject/major into an array
-   * subjectCourseArr is an array of course objects
-   */
-  async created() {
-    const courses = this.$store.state.courseList;
-    //Obtain All Courses Such That Department Matches The Subject Name.
-    const allTempData = courses.filter((c) => c.department === this.subject);
-    for (let k = 0; k < allTempData.length; k++) {
-      if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
-      else this.rightColumnCourses.push(allTempData[k]);
-    }
-    this.ready = true;
-  },
   methods: {},
-  computed: {},
+  computed: {
+    //courseColumns[0] corresponds to left column, [1] to right column
+    courseColumns() {
+      let leftColumn = [];
+      let rightColumn = [];
+      const courses = this.$store.state.courseList;
+      //Obtain All Courses Such That Department Matches The Subject Name.
+      const allTempData = courses.filter((c) => c.department === this.subject);
+      for (let k = 0; k < allTempData.length; k++) {
+        if (k % 2 == 0) leftColumn.push(allTempData[k]);
+        else rightColumn.push(allTempData[k]);
+      }
+      return [leftColumn, rightColumn];
+    },
+  },
 };
 </script>
 
