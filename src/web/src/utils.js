@@ -5,7 +5,7 @@
 
 import moment from "moment";
 import domtoimage from "dom-to-image";
-import VueHtml2Canvas from "vue-html2canvas";
+// import VueHtml2Canvas from "vue-html2canvas";
 
 /** Short names of days of the week starting Sunday e.g. `DAY_SHORTNAMES[0]` is `'Sun'` */
 export const DAY_SHORTNAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -312,5 +312,18 @@ export const exportScheduleToImage = (selectedCourses) => {
     alert("No Courses Found For Export To Image Data.")
     return;
   }
+
+  var currentScheduleNode = document.getElementById('allScheduleData');
+
+  domtoimage.toPng(currentScheduleNode)
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'allScheduleData.png';
+        link.href = dataUrl;
+        link.click();
+    })
+    .catch(function (error) {
+        alert(error);
+    });
 }
 
