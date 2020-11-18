@@ -6,9 +6,7 @@
         <!-- The subject title should be depending on the input parameter from subjectList.vue -->
         <h3 class="subjectBox">{{ subject }}</h3>
       </b-row>
-
       <br />
-
       <!-- left column of courses -->
       <b-col>
         <b-row
@@ -37,7 +35,6 @@
           </b-col>
         </b-row>
       </b-col>
-
       <!-- right column of courses -->
       <b-col>
         <b-row
@@ -67,7 +64,6 @@
         </b-row>
       </b-col>
     </div>
-
     <div v-else>
       <b-spinner></b-spinner>
       <strong class="m-2">Loading courses...</strong>
