@@ -214,37 +214,31 @@ export default {
       this.userID = this.$cookies.get("userID");
 
       if (this.userID) {
-        console.log("Loading user courses...");
-        try {
-          const info = { uid: this.userID };
-          var cids = await getStudentCourses(info);
-          console.log(cids);
+        const info = { uid: this.userID };
+        var cids = await getStudentCourses(info);
 
-          cids.forEach((cid) => {
-            if (cid.semester == this.selectedSemester) {
-              var c = this.courses.find(function (course) {
-                return (
-                  course.name == cid.course_name &&
-                  course.semester == cid.semester
-                );
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
               });
-
-              if (cid.crn != "-1") {
-                var sect = c.sections.find(function (section) {
-                  return section.crn == cid.crn;
-                });
-                sect.selected = true;
-                this.scheduler.addCourseSection(c, sect);
-              } else {
-                c.selected = true;
-                this.$set(this.selectedCourses, c.id, c);
-                this.scheduler.addCourse(c);
-              }
+              sect.selected = true;
+              this.scheduler.addCourseSection(c, sect);
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+              this.scheduler.addCourse(c);
             }
-          });
-        } catch (error) {
-          console.log(error);
-        }
+          }
+        });
       } else if (!this.userId) {
         const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
 
@@ -337,21 +331,12 @@ export default {
       this.scheduler.addCourse(course);
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: "-1",
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
@@ -364,21 +349,12 @@ export default {
       section.selected = true;
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved section ${section.crn}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
@@ -407,21 +383,12 @@ export default {
       this.scheduler.removeAllCourseSections(course);
 
       if (this.userID) {
-        const info = {
+        removeStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: null,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
@@ -431,23 +398,14 @@ export default {
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+
       if (this.userID) {
-        var name = section.department + "-" + section.level;
-        const info = {
-          name: name,
+        removeStudentCourse({
+          name: section.department + "-" + section.level,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved section ${section.crn}!`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
