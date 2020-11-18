@@ -323,7 +323,7 @@ export const exportScheduleToImage = (selectedCourses) => {
         link.click();
     })
     .catch(function (error) {
-        alert(error);
+        console.log('Oh No, Something Went Wrong!', error);
     });
 }
 
