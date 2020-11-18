@@ -75,9 +75,7 @@ export default {
     selectedSemester: String,
   },
   data() {
-    return {
-      ready: false,
-    };
+    return {};
   },
   methods: {
     generateRequirementsText,
