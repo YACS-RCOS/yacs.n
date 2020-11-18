@@ -81,8 +81,6 @@
             <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
 
-          
-
           <b-col md="4">
             <button
               id="export-ics-button"
