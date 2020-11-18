@@ -5,6 +5,16 @@ import { VueCookies } from "vue-cookies";
 
 const COOKIE_KEY = "selectedCourses";
 
+/**
+ * Handy module for managing selected courses cookie storage
+ *
+ * @example
+ * SelectedCoursesCookie
+ *  .load(this.$cookies)
+ *  .semester(semester)
+ *  .addCourse(course)
+ *  .save()
+ */
 class SelectedCoursesCookie {
   /**
    * @typedef SelectedCourse
@@ -30,54 +40,111 @@ class SelectedCoursesCookie {
      * @type {SelectedSemesters}
      * @private
      */
-    this.selectedSemesters = selectedSemesters;
+    this._selectedSemesters = selectedSemesters;
+    /**
+     * @type {string}
+     * @private
+     */
+    this._semester = undefined;
   }
 
   /**
-   *
+   * Load saved selected courses from cookie
    * @param {VueCookies} $cookies
-   * @returns {null|SelectedCoursesCookie}
+   * @param {string} key defaults to `COOKIE_KEY`
+   * @returns {SelectedCoursesCookie}
    */
-  static load($cookies) {
+  static load($cookies, key = COOKIE_KEY) {
     return new SelectedCoursesCookie(
       $cookies,
-      $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : {}
+      $cookies.isKey(key) ? $cookies.get(key) : {}
     );
   }
 
-  save() {
-    this.$cookies.set(COOKIE_KEY, this.selectedSemesters);
+  /**
+   * Save current state into cookie
+   * @param {string} key defaults to `COOKIE_KEY`
+   */
+  save(key = COOKIE_KEY) {
+    this.$cookies.set(key, this._selectedSemesters);
+  }
+
+  /**
+   * Set semester context for subsequent actions. Must be
+   * called before executing other actions.
+   * @example
+   * // Load `course1` into semester `Fall 2020` and `course2`
+   * //  into `Spring 2021`
+   * SelectedCoursesCookie.load(this.$cookies)
+   *  .semester("FALL 2020")
+   *    .addCourse(course1)
+   *  .semester("SPRING 2021")
+   *    .removeCourse(course2)
+   *  .save()
+   * @param {string} semester
+   * @returns {this}
+   */
+  semester(semester) {
+    this._semester = semester;
+
+    return this;
+  }
+
+  /**
+   * Reset state to empty. Useful for resetting cookie
+   *
+   * @example SelectedCoursesCookie.load(this.$cookies).clear().save()
+   */
+  clear() {
+    this._selectedSemesters = {};
+
+    return this;
   }
 
   /**
    *
-   * @param {string} semester
-   * @returns {SelectedCourse[]}
+   * @returns {SelectedCourse[]} list of selected courses
+   * of current semester
    */
-  getSelectedCourses(semester) {
-    if (this.selectedSemesters[semester] === undefined) {
-      this.selectedSemesters[semester] = [];
+  get selectedCourses() {
+    if (this._semester === undefined) {
+      return [];
     }
 
-    return this.selectedSemesters[semester];
+    if (this._selectedSemesters[this._semester] === undefined) {
+      this._selectedSemesters[this._semester] = [];
+    }
+
+    return this._selectedSemesters[this._semester];
   }
 
   /**
-   * @param {string} semester
-   * @param {string} id
+   * Shouldn't be called outside of this instance
+   * @private
+   */
+  set selectedCourses(newSelectedCourses) {
+    if (this._semester === undefined) {
+      return;
+    }
+
+    this._selectedSemesters[this._semester] = newSelectedCourses;
+  }
+
+  /**
+   * Returns selectedCourse entry corresponding to `id`.
+   * If entry does not exist, create new entry for `id`
+   * @param {string} id ID of course
    * @returns {Course}
    */
-  getSelectedCourse(semester, id) {
-    const selectedCourses = this.getSelectedCourses(semester);
-
-    const selectedCourse = selectedCourses.find(
+  getSelectedCourse(id) {
+    const selectedCourse = this.selectedCourses.find(
       (selectedCourse) => selectedCourse.id === id
     );
 
     if (selectedCourse === undefined) {
       const newSelectedCourse = { id, selectedSectionCrns: [] };
 
-      selectedCourses.push(newSelectedCourse);
+      this.selectedCourses.push(newSelectedCourse);
 
       return newSelectedCourse;
     } else {
@@ -87,33 +154,31 @@ class SelectedCoursesCookie {
 
   /**
    * Only adds an entry for the course, to add sections, call `addCourseSection`
-   * @param {string} semester
    * @param {Course} course
+   * @returns {this}
    */
-  addCourse(semester, course) {
-    this.getSelectedCourse(semester, course.id);
+  addCourse(course) {
+    this.getSelectedCourse(course.id);
 
     return this;
   }
 
   /**
-   * @param {string} semester
    * @param {Course} course
    * @param {CourseSection} section
+   * @returns {this}
    */
-  addCourseSection(semester, course, section) {
-    this.getSelectedCourse(semester, course.id).selectedSectionCrns.push(
-      section.crn
-    );
+  addCourseSection(course, section) {
+    this.getSelectedCourse(course.id).selectedSectionCrns.push(section.crn);
     return this;
   }
 
   /**
-   * @param {string} semester
    * @param {Course} course
+   * @returns {this}
    */
-  removeCourse(semester, course) {
-    this.selectedSemesters[semester] = this.getSelectedCourses(semester).filter(
+  removeCourse(course) {
+    this.selectedCourses = this.selectedCourses.filter(
       (selectedCourse) => selectedCourse.id !== course.id
     );
 
@@ -122,13 +187,11 @@ class SelectedCoursesCookie {
 
   /**
    *
-   * @param {string} semester
    * @param {CourseSection} section
+   * @returns {this}
    */
-  removeCourseSection(semester, section) {
-    const selectedCourse = this.getSelectedCourses(
-      semester
-    ).find((selectedCourse) =>
+  removeCourseSection(section) {
+    const selectedCourse = this.selectedCourses.find((selectedCourse) =>
       selectedCourse.selectedSectionCrns.some((crn) => crn === section.crn)
     );
 
