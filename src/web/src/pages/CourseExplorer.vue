@@ -1,5 +1,5 @@
 <template>
-  <b-container v-if="ready">
+  <b-container v-if="$store.state.courseList.length != 0">
     <b-row>
       <!--
         - Left side of the column
@@ -76,25 +76,8 @@ export default {
   },
   data() {
     return {
-      //an object with keys being the dept, and values a list of courses
-      deptClassDict: {},
-      schoolsMajorDict: {},
       ready: false,
     };
-  },
-  async created() {
-    for (const c of this.$store.state.courseList) {
-      if (!this.schoolsMajorDict[c.school]) {
-        this.schoolsMajorDict[c.school] = new Set();
-      }
-      this.schoolsMajorDict[c.school].add(c.department);
-      if (this.deptClassDict[c.department]) {
-        this.deptClassDict[c.department].push(c);
-      } else {
-        this.deptClassDict[c.department] = [c];
-      }
-    }
-    this.ready = true;
   },
   methods: {
     generateRequirementsText,
@@ -117,6 +100,27 @@ export default {
         }
       }
       return columnArr;
+    },
+    schoolsMajorDict() {
+      let schoolsMajorDict = {};
+      for (const c of this.$store.state.courseList) {
+        if (!schoolsMajorDict[c.school]) {
+          schoolsMajorDict[c.school] = new Set();
+        }
+        schoolsMajorDict[c.school].add(c.department);
+      }
+      return schoolsMajorDict;
+    },
+    deptClassDict() {
+      let deptClassDict = {};
+      for (const c of this.$store.state.courseList) {
+        if (deptClassDict[c.department]) {
+          deptClassDict[c.department].push(c);
+        } else {
+          deptClassDict[c.department] = [c];
+        }
+      }
+      return deptClassDict;
     },
   },
 };
