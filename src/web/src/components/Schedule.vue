@@ -4,7 +4,7 @@
     :style="{ height: totalHeight + 'px' }"
     data-cy="schedule"
     id="allScheduleData"
-    :isDarkModeOn = "$store.state.darkMode ? '(var--dark-primary)' : 'white'"
+    :isDarkModeOn="$store.state.darkMode ? 'var(--dark-primary)' : 'white'"
   >
     <div class="schedule-legend">
       <div

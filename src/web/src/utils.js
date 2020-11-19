@@ -314,7 +314,7 @@ export const exportScheduleToImage = (selectedCourses, currentSemester) => {
   }
   // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG. 
   var currentScheduleNode = document.getElementById('allScheduleData')
-  domtoimage.toPng(currentScheduleNode, {bgcolor: currentScheduleNode.getAttribute('isDarkModeOn'), quality: 1.0})
+  domtoimage.toPng(currentScheduleNode, {bgcolor: currentScheduleNode.getAttribute('isDarkModeOn')})
     .then(function (dataUrl) {
         var link = document.createElement('a'); 
         link.download = 'myYACS.N-' + currentSemester + '-Schedule.png';
