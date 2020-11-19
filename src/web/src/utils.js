@@ -317,7 +317,7 @@ export const exportScheduleToImage = (selectedCourses, currentSemester) => {
   domtoimage.toPng(currentScheduleNode, {bgcolor: currentScheduleNode.getAttribute('isDarkModeOn')})
     .then(function (dataUrl) {
         var link = document.createElement('a'); 
-        link.download = 'myYACS.N-' + currentSemester + '-Schedule.png';
+        link.download = currentSemester + '-YACS-Schedule.png';
         link.href = dataUrl;
         link.click();
     })
