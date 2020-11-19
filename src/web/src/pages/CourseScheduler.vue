@@ -208,7 +208,7 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
-      exportScheduleToImage(Object.values(this.selectedCourses));
+      exportScheduleToImage(Object.values(this.selectedCourses), this.selectedSemester);
     },
     async loadStudentCourses(semester) {
       this.selectedCourses = {};

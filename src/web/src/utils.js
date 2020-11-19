@@ -303,10 +303,10 @@ export const exportScheduleToIcs = (selectedCourses) => {
 };
 
 /**
- * Export All Selected Course Sections To An Image Format, Probably PNG.
+ * Export The Course Schedule To An Image Format, Probably PNG.
  * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
  */
-export const exportScheduleToImage = (selectedCourses) => {
+export const exportScheduleToImage = (selectedCourses, currentSemester) => {
   // Handle Special Case Where No Selected Courses On Schedule.
   if(selectedCourses.length == 0){
     alert("No Courses Found For Export To Image Data.")
@@ -317,7 +317,7 @@ export const exportScheduleToImage = (selectedCourses) => {
   domtoimage.toPng(currentScheduleNode)
     .then(function (dataUrl) {
         var link = document.createElement('a');
-        link.download = 'allScheduleData.png';
+        link.download = 'myYACS.N-' + currentSemester + '-Schedule.png';
         link.href = dataUrl;
         link.click();
     })
