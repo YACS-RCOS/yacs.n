@@ -1,28 +1,31 @@
 <template>
-  <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
-    <b-row>
-      <b-col>
-        <h1 class="mt-4">{{ courseObj.title }}</h1>
-        <h4 class="mb-1">{{ courseName }}</h4>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <p v-html="transformed" />
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col class="mb-4">
-        <br />
-        {{ courseObj.description }}
-      </b-col>
-    </b-row>
-    <b-button :to="'/explore/' + courseObj.department">Back</b-button>
-  </div>
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading Course...</strong>
-  </div>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
+      <b-row>
+        <b-col>
+          <h1 class="mt-4">{{ courseObj.title }}</h1>
+          <h4 class="mb-1">{{ courseName }}</h4>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p v-html="transformed" />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="mb-4">
+          <br />
+          {{ courseObj.description }}
+        </b-col>
+      </b-row>
+      <b-button :to="'/explore/' + courseObj.department">Back</b-button>
+    </div>
+    <div v-else>
+      <b-spinner></b-spinner>
+      <strong class="m-2">Loading Course...</strong>
+    </div>
+  </b-container>
 </template>
 
 <script>
@@ -33,6 +36,23 @@ export default {
   data() {
     return {
       courseName: this.$route.params.course,
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+        {
+          text: this.$route.params.course,
+        },
+      ],
     };
   },
   methods: {

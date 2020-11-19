@@ -1,81 +1,108 @@
 <template>
-  <div
-    v-if="$store.state.courseList.length != 0"
-    class="gridContainer w-100 mb-4"
-  >
-    <b-row>
-      <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h1 class="subjectBox">{{ subject }}</h1>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div
+      v-if="$store.state.courseList.length != 0"
+      class="gridContainer w-100 mb-4"
+    >
+      <b-row>
+        <!-- The subject title should be depending on the input parameter from subjectList.vue -->
+        <h1 class="subjectBox">{{ subject }}</h1>
+        <b-col>
+          <b-row
+            v-for="course in this.leftColumnCourses"
+            v-bind:key="course.level + course.department"
+          >
+            <!-- Navigates to course page by click on the course button  -->
+            <b-col class="m-1 ml-0">
+              <b-button
+                variant="light"
+                class="courseBox border m-2"
+                :to="{
+                  name: 'CoursePage',
+                  params: {
+                    course: course.name,
+                    subject: course.department,
+                  },
+                }"
+              >
+                {{ course.title }}
+                <br />
+                {{ course.department }}
+                {{ course.level }}
+                <br />
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+
+      <br />
+
+      <!-- left column of courses -->
       <b-col>
-        <b-button class="k-primary" to="/explore">Back</b-button>
+        <b-row
+          v-for="course in courseColumns[0]"
+          v-bind:key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-0">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              {{ course.department }}
+              {{ course.level }}
+              <br />
+            </b-button>
+          </b-col>
+        </b-row>
       </b-col>
-    </b-row>
 
-    <br />
+      <!-- right column of courses -->
+      <b-col>
+        <b-row
+          v-for="course in courseColumns[1]"
+          :key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-2">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              {{ course.department }}
+              {{ course.level }}
+              <br />
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-col>
+    </div>
 
-    <!-- left column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in courseColumns[0]"
-        v-bind:key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-0">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-
-    <!-- right column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in courseColumns[1]"
-        :key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-2">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-  </div>
-
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
-  </div>
+    <div v-else>
+      <b-spinner></b-spinner>
+      <strong class="m-2">Loading courses...</strong>
+    </div>
+  </b-container>
 </template>
 
 <script>
@@ -88,6 +115,20 @@ export default {
   data() {
     return {
       subject: this.$route.params.subject, // subject object from CourseExplorer
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+      ],
     };
   },
   methods: {},
