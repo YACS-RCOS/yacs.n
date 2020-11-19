@@ -313,10 +313,10 @@ export const exportScheduleToImage = (selectedCourses, currentSemester) => {
     return;
   }
   // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG. 
-  var currentScheduleNode = document.getElementById('allScheduleData');
-  domtoimage.toPng(currentScheduleNode)
+  var currentScheduleNode = document.getElementById('allScheduleData')
+  domtoimage.toPng(currentScheduleNode, {bgcolor: currentScheduleNode.getAttribute('isDarkModeOn'), quality: 1.0})
     .then(function (dataUrl) {
-        var link = document.createElement('a');
+        var link = document.createElement('a'); 
         link.download = 'myYACS.N-' + currentSemester + '-Schedule.png';
         link.href = dataUrl;
         link.click();

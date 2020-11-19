@@ -208,6 +208,7 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
+      console.log('$store.state.darkMode');
       exportScheduleToImage(Object.values(this.selectedCourses), this.selectedSemester);
     },
     async loadStudentCourses(semester) {
