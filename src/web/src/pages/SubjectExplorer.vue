@@ -91,18 +91,20 @@ export default {
       leftColumnCourseNum: Number,
       rightColumnCourseNum: Number,
       ready: false,
-      breadcrumbNav: [{
-        text: 'YACS',
-        to: '/'
-      },
-      {
-        text: 'Explore',
-        to: '/explore'
-      },
-      {
-        text: this.$route.params.subject,
-        to: '/explore/' + this.$route.params.subject
-      }]
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+      ],
     };
   },
 

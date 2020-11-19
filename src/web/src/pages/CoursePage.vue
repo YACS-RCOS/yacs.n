@@ -33,7 +33,6 @@ import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
 
-
 export default {
   name: "CoursePage",
   data() {
@@ -44,21 +43,23 @@ export default {
       courseObj: {},
       selectedSemester: String,
       backRoute: String,
-      breadcrumbNav: [{
-        text: 'YACS',
-        to: '/'
-      },
-      {
-        text: 'Explore',
-        to: '/explore'
-      },
-      {
-        text: this.$route.params.subject,
-        to: '/explore/' + this.$route.params.subject
-      },
-      {
-        text: this.$route.params.course,
-      }]
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+        {
+          text: this.$route.params.course,
+        },
+      ],
     };
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
   },
   async created() {
     const querySemester = this.$route.query.semester;
-    console.log(this.$route)
+    console.log(this.$route);
     this.selectedSemester =
       querySemester && querySemester != "null"
         ? querySemester

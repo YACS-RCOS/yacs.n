@@ -85,13 +85,15 @@ export default {
       deptClassDict: {},
       schoolsMajorDict: {},
       ready: false,
-      breadcrumbNav: [{
-        text: 'YACS',
-        to: '/'
-      },
-      {
-        text: 'Explore',
-      }]
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+        },
+      ],
     };
   },
   async created() {
