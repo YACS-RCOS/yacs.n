@@ -5,7 +5,11 @@
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseTitle }}</h1>
-          <h4 class="mb-1">{{ courseName }}</h4>
+          <h4 class="mb-1 d-inline">{{ courseName }}</h4>
+          &nbsp;
+          <div class="d-inline">
+            <course-sections-open-badge :course="courseObj" />
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -32,8 +36,10 @@
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
+import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
+  components: { CourseSectionsOpenBadge },
   name: "CoursePage",
   data() {
     return {
