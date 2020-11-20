@@ -40,7 +40,7 @@ export default {
 #selected-course-list {
   overflow-y: scroll !important;
   overflow-x: auto;
-  height: 0px;
+  min-height: 0px;
 }
 .no-courses {
   border-style: solid;
