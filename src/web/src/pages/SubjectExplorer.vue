@@ -72,7 +72,7 @@
     :height = "80"
     :fontSize = "1.4"
     loadingMessage = "Courses"
-    :topPadding = "30"
+    :topSpacing = "30"
   />
 
 </template>
