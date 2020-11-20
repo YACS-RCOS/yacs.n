@@ -1,65 +1,68 @@
 <template>
-  <b-container v-if="ready">
-    <b-row>
-      <!--
-        - Left side of the column
-      -->
-      <b-col>
-        <b-row
-          v-for="deptObj in schoolDepartmentObjects[0]"
-          :key="deptObj.school"
-          class="departmentBox border m-2 mb-4"
-        >
-          <b-col>
-            <!-- Department Title  -->
-            <b-row class="school-name">
-              <h3 class="m-1 ml-2">
-                {{ deptObj.school }}
-              </h3>
-            </b-row>
-            <!-- Subject Title  -->
-            <b-row>
-              <DepartmentList
-                :majors="deptObj.departments"
-                :deptClassDict="deptClassDict"
-                :selectedSemester="selectedSemester"
-                v-on:showCourseInfo="showCourseInfo($event)"
-              ></DepartmentList>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-col>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="ready" class="mx-auto w-75">
+      <b-row>
+        <!--
+          - Left side of the column
+        -->
+        <b-col>
+          <b-row
+            v-for="deptObj in schoolDepartmentObjects[0]"
+            :key="deptObj.school"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Department Title  -->
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <!-- Subject Title  -->
+              <b-row>
+                <DepartmentList
+                  :majors="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  :selectedSemester="selectedSemester"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></DepartmentList>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
 
-      <!-- Right side of the column  -->
-      <b-col>
-        <b-row
-          v-for="deptObj in schoolDepartmentObjects[1]"
-          :key="deptObj.school"
-          class="departmentBox border m-2 mb-4"
-        >
-          <b-col>
-            <b-row class="school-name">
-              <h3 class="m-1 ml-2">
-                {{ deptObj.school }}
-              </h3>
-            </b-row>
-            <b-row>
-              <DepartmentList
-                :majors="deptObj.departments"
-                :deptClassDict="deptClassDict"
-                :selectedSemester="selectedSemester"
-                v-on:showCourseInfo="showCourseInfo($event)"
-              ></DepartmentList>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
+        <!-- Right side of the column  -->
+        <b-col>
+          <b-row
+            v-for="deptObj in schoolDepartmentObjects[1]"
+            :key="deptObj.school"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <b-row>
+                <DepartmentList
+                  :majors="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  :selectedSemester="selectedSemester"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></DepartmentList>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </div>
+    <div v-else>
+      <b-spinner></b-spinner>
+      <strong class="m-2">Loading courses...</strong>
+    </div>
   </b-container>
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
-  </div>
 </template>
 
 <script>
@@ -82,6 +85,15 @@ export default {
       deptClassDict: {},
       schoolsMajorDict: {},
       ready: false,
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+        },
+      ],
     };
   },
   async created() {
@@ -134,6 +146,13 @@ export default {
 </script>
 
 <style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+
 .departmentBox {
   text-align: center;
 }
