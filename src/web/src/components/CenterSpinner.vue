@@ -1,8 +1,6 @@
 <template>
-  <div id="spinner" :style="renderStyle">
-    <b-spinner></b-spinner>
-    <div class="m-2">Loading {{loadingMessage}}...</div>
-  </div>
+  <b-spinner></b-spinner>
+  <div class="m-2">Loading {{loadingMessage}}...</div>
 </template>
 
 <script>
@@ -21,13 +19,6 @@ export default {
              "height: " + this.height + "vh;" +
              "text-align: center;";
     }
-  },
-  async created() {
-    console.log("TOP PADDING " + this.topSpacing + '\n' + 
-                "FONT SIZE " + this.fontSize + '\n' + 
-                "LOADING MESSAGE " + this.loadingMessage + "\n" +
-                "HEIGHT " + this.height + "\n"
-    );
   }
 }
 </script>
