@@ -25,14 +25,13 @@
     </b-row>
     <b-button :to="backRoute">Back</b-button>
   </div>
-  <div id="spinnerWrapper" v-else>
-    <CenterSpinner
-      :height = "80" 
-      :fontSize = "1.4"
-      :loadingMessage = "Courses"
-      :topSpacing = "30"
-    />
-  </div>
+  <CenterSpinner 
+    v-else
+    :height = "80" 
+    :fontSize = "1.4"
+    :loadingMessage = "Courses"
+    :topSpacing = "30"
+  />
 </template>
 
 <script>

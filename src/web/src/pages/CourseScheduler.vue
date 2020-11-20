@@ -11,18 +11,15 @@
               data-cy="course-search-tab"
             >
               <b-card-text class="d-flex flex-grow-1 w-100">
-                <div
+                <CenterSpinner
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                >
-                  <CenterSpinner
-                    :height = "30"
-                    :fontSize = "1"
-                    loadingMessage = "Courses"
-                    :topSpacing = "0"
-                  />
-                </div>
-                
+                  :height="60"
+                  :fontSize="1"
+                  loadingMessage="Courses"
+                  :topSpacing="0"
+                />
+
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"

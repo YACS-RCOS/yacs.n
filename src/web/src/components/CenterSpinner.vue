@@ -1,6 +1,8 @@
 <template>
-  <b-spinner></b-spinner>
-  <div class="m-2">Loading {{loadingMessage}}...</div>
+  <div :style="renderStyle">
+    <b-spinner></b-spinner>
+    <div class="m-2">Loading {{loadingMessage}}...</div>
+  </div>
 </template>
 
 <script>
@@ -19,6 +21,6 @@ export default {
              "height: " + this.height + "vh;" +
              "text-align: center;";
     }
-  }
+  },
 }
 </script>

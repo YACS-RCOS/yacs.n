@@ -56,14 +56,13 @@
       </b-col>
     </b-row>
   </b-container>
-  <div id="spinnerWrapper" v-else>
-    <CenterSpinner
-      :height = "80"
-      :fontSize = "1.3"
-      loadingMessage = "Departments"
-      :topSpacing = "30"
-    />
-  </div>
+  <CenterSpinner 
+    v-else
+    :height = "80"
+    :fontSize = "1.3"
+    loadingMessage = "Departments"
+    :topSpacing = "30"
+  />
 </template>
 
 <script>
