@@ -2,8 +2,14 @@
   <b-badge
     :variant="$options.getSeatStatusVariant(props.seatsOpen, props.seatsTotal)"
   >
-    {{ props.seatsOpen }} / {{ props.seatsTotal }}
-    {{ $options.getSeatStatusText(props.seatsOpen) }}
+    <slot
+      :seatsOpen="props.seatsOpen"
+      :seatsFilled="props.seatsFilled"
+      :seatsTotal="props.seatsTotal"
+    >
+      {{ props.seatsOpen }} / {{ props.seatsTotal }}
+      {{ $options.getSeatStatusText(props.seatsOpen) }}
+    </slot>
   </b-badge>
 </template>
 

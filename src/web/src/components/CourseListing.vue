@@ -8,8 +8,11 @@
         <b data-cy="name">{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} -
         {{ readableDate(course.date_end) }})
+
         <br />
         {{ course.title }}
+        <br />
+        <course-sections-open-badge :course="course" />
       </div>
       <div class="d-flex">
         <slot
@@ -108,6 +111,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import CourseSectionSeatsBadge from "./CourseSectionSeatsBadge.vue";
+import CourseSectionsOpenBadge from "./CourseSectionsOpenBadge.vue";
 
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
@@ -119,6 +123,7 @@ export default {
   name: "CourseListing",
   components: {
     CourseSectionSeatsBadge,
+    CourseSectionsOpenBadge,
   },
   props: {
     course: Object,
