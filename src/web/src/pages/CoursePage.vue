@@ -29,7 +29,7 @@
     v-else
     :height = "80" 
     :fontSize = "1.4"
-    :loadingMessage = "Courses"
+    :loadingMessage = "Course"
     :topSpacing = "30"
   />
 </template>
