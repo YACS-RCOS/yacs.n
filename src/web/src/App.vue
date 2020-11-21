@@ -36,8 +36,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Main Page",
-      titleTemplate: "%s | YACS",
+      title: "YACS",
+      titleTemplate: null,
       meta: [
         { name: 'description', content:  'YACS is a RPI course scheduler to help students plan out their semester.'},
         { property: 'og:title', content: "YACS - RPI Course Scheduler"},
