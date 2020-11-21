@@ -113,7 +113,7 @@
         <br />
         <br />
       </span>
-      <span v-if= "courseInfoModalCourse.min_credits != courseInfoModalCourse.max_credits">
+      <span v-else>
         Credits: {{ courseInfoModalCourse.min_credits }} - {{ courseInfoModalCourse.max_credits }}
         <br />
         <br />
