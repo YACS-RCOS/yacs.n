@@ -60,9 +60,11 @@
             >
               {{ course.title }}
               <br />
-              {{ course.department }}
-              {{ course.level }}
-              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
             </b-button>
           </b-col>
         </b-row>
@@ -89,9 +91,11 @@
             >
               {{ course.title }}
               <br />
-              {{ course.department }}
-              {{ course.level }}
-              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
             </b-button>
           </b-col>
         </b-row>
@@ -106,9 +110,11 @@
 </template>
 
 <script>
+import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+
 export default {
   name: "SubjectExplorer",
-  components: {},
+  components: { CourseSectionsOpenBadge },
   props: {
     selectedSemester: String,
   },
