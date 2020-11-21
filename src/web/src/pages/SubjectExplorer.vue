@@ -1,91 +1,94 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
-    <b-row>
-      <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h1 class="subjectBox">{{ subject }}</h1>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="ready" class="gridContainer w-100 mb-4">
+      <b-row>
+        <!-- The subject title should be depending on the input parameter from subjectList.vue -->
+        <h3 class="subjectBox">{{ subject }}</h3>
+      </b-row>
+      <br />
+      <!-- left column of courses -->
       <b-col>
-        <b-button class="k-primary" to="/explore">Back</b-button>
+        <b-row
+          v-for="course in this.leftColumnCourses"
+          v-bind:key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-0">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
+            </b-button>
+          </b-col>
+        </b-row>
       </b-col>
-    </b-row>
 
-    <br />
-
-    <!-- left column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in this.leftColumnCourses"
-        v-bind:key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-0">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-
-    <!-- right column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in this.rightColumnCourses"
-        :key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-2">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-  </div>
-  <CenterSpinner  v-else
-    :height = "80"
-    :fontSize = "1.4"
-    loadingMessage = "Courses"
-    :topSpacing = "30"
-  />
-
+      <!-- right column of courses -->
+      <b-col>
+        <b-row
+          v-for="course in this.rightColumnCourses"
+          :key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-2">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-col>
+    </div>
+    <CenterSpinner  v-else
+      :height = "80"
+      :fontSize = "1.4"
+      loadingMessage = "Courses"
+      :topSpacing = "30"
+    />
+  </b-container>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import CenterSpinnerComponent from "../components/CenterSpinner";
+import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
   name: "SubjectExplorer",
   components: {
     CenterSpinner: CenterSpinnerComponent,
+    CourseSectionsOpenBadge,
   },
   props: {
     selectedSemester: String,
@@ -100,6 +103,20 @@ export default {
       leftColumnCourseNum: Number,
       rightColumnCourseNum: Number,
       ready: false,
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+      ],
     };
   },
 
