@@ -15,15 +15,18 @@ envsubst '\$HOST' < \
 
 
 # If SSL Certificate folder isn't present, generate one
-if [ ! -f /etc/nginx/certificate/$HOST.crt ] &&
-[ ! -f /etc/nginx/certificate/$HOST.key ];then
-  mkdir /etc/nginx/certificate
-  cd /etc/nginx/certificate
+if [ ! -f /etc/nginx/cert/$HOST.crt ] &&
+[ ! -f /etc/nginx/cert/$HOST.key ] &&
+[ ! -f /etc/nginx/cert/$HOST.pem ];then
+  echo -e "\e[31m Currently using self-signning certificates! Provide a certificate, key and dhparam files in /src/web/cert folder for production use! \e[0m"
+  mkdir /etc/nginx/cert
+  cd /etc/nginx/cert
   openssl genrsa -passout pass:x -out $HOST.pass.key 2048
   openssl rsa -passin pass:x -in $HOST.pass.key -out $HOST.key
   rm $HOST.pass.key
   openssl req -new -key $HOST.key -out $HOST.csr -subj "/C=US/ST=New York/O=RPI RCOS"
   openssl x509 -req -days 365 -in $HOST.csr -signkey $HOST.key -out $HOST.crt
+  openssl dhparam -out $HOST.pem 4096
 fi
 
 # start nginx
