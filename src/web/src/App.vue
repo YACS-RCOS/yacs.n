@@ -34,6 +34,19 @@ export default {
       }
     },
   },
+  metaInfo() {
+    return {
+      title: "Main Page",
+      titleTemplate: "%s | YACS",
+      meta: [
+        { name: 'description', content:  'YACS is a RPI course scheduler to help students plan out their semester.'},
+        { property: 'og:title', content: "YACS - RPI Course Scheduler"},
+        { property: 'og:site_name', content: 'YACS'},
+        { property: 'og:type', content: 'website'},
+        { name: 'robots', content: 'index,follow'} 
+      ]
+    }
+  },
 };
 </script>
 

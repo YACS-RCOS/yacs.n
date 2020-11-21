@@ -117,5 +117,18 @@ export default {
       return precoreqtext;
     },
   },
+  metaInfo() {
+    return {
+      title: this.courseTitle,
+      titleTemplate: "%s | YACS",
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'description', content: this.courseObj.description},
+        { property: 'og:title', content: "YACS - RPI Course Scheduler"},
+        { property: 'og:site_name', content: 'YACS'},
+        { property: 'og:type', content: 'website'}
+      ]
+    }
+  },
 };
 </script>

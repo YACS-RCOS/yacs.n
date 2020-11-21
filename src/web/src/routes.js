@@ -8,6 +8,7 @@ import CourseExplorerPage from "./pages/CourseExplorer";
 import CoursePage from "./pages/CoursePage";
 import DegreeTemplatesPage from "./pages/DegreeTemplates";
 import SubjectExplorerPage from "./pages/SubjectExplorer";
+
 var router = new VueRouter({
   routes: [
     {
