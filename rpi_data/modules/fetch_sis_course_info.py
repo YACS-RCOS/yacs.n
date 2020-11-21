@@ -73,8 +73,10 @@ class sis_client:
         current_course_enrolled = ''
         current_course_remained = ''
 
-        time_raw = genInfo[0].findChildren('h3', recursive=True)[1].findChildren('span')[0].contents[0]
-        time = self.parse_time(time_raw)
+        # NOTE: The Value 2, findChildren('h3', recursive=True)[2], 
+        # May Change Semester To Semester Depending On # Lines Above/Below Each SIS Section. 
+        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[2].findChildren('span')[0].contents[0]
+        semester_start_end_data = self.parse_time(raw_semester_start_end_data)
 
         for gens in genInfo:
             schools = gens.findChildren('h4', recursive=False)
@@ -108,25 +110,32 @@ class sis_client:
                     info[12] = prev[11]
 
                 info.append(schls[i])
-                info.append(time[0])
-                info.append(time[1])
+                info.append(semester_start_end_data[0])
+                info.append(semester_start_end_data[1])
                 info.append(self.SEMESTER_NAME)
 
-                if(info[5]):
+                if(info[5]): ##Days of the week
                     info[5] = info[5].replace(' ', '').strip()
-                if(info[6]):
+                if(info[6]): ##Start time
                     info[6] = info[6].replace(' ', '').strip()
-                if(info[7]):
+                if(info[7]): ##End time
                     info[7] = info[7].replace(' ', '').strip()
 
-                if(info[7]):
-                    if info[7][-2:] == 'AM':
+                if(info[7]): ##If the course has an end time
+                    if info[7][-2:] == 'AM': ##If course ends in the AM it will end in the AM
                         info[6] += 'AM'
-                    else:
-                        col = info[6].find(':')
-                        if (int(info[6][:col]) < 8) or (int(info[6][:col]) == 12):
-                            info[6] += "PM"
-                        else:
+                    else: ## Courses ending in the PM
+                    
+                        start_hour = int(info[6][info[6].find(':')]) ##Course starting hour
+                        end_hour = int(infp[7][info[7].find(':')]) ##Course ending hour
+
+                        if start_hour == 12:
+                            info[6] += "PM" ##Course starts in the PM
+                        elif end_hour == 12:
+                            info[6] += "AM" ##Course ends at noon, so it starts in the AM
+                        elif start_hour < end_hour:
+                            info[6] += "PM" ##Course start time is earlier than end time and neither is 12, so they are both PM
+                        else: ## If code gets here, the course must start in the AM
                             info[6] += "AM"
                 else:
                     info[6] = info[7] = None
