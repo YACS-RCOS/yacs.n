@@ -3,8 +3,6 @@
     class="schedule"
     :style="{ height: totalHeight + 'px' }"
     data-cy="schedule"
-    id="allScheduleData"
-    :isDarkModeOn="$store.state.darkMode ? currentDarkModeColor : 'white'"
   >
     <div class="schedule-legend">
       <div
@@ -67,8 +65,6 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import allExportVariables from '@/assets/dark.scss';
-
 import Schedule from "@/controllers/Schedule";
 
 import ScheduleEventComponent from "@/components/ScheduleEvent";
@@ -88,7 +84,6 @@ export default {
       startTime: 480,
       endTime: 1320,
       totalHeight: 600,
-      currentDarkModeColor: allExportVariables.bColor,
     };
   },
   methods: {

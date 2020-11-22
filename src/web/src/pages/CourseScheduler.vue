@@ -52,7 +52,10 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <b-col md="8">
+      <div class="col-md-8" 
+        id="allScheduleData" 
+        :isDarkModeOn="$store.state.darkMode ? currentDarkModeColor : 'white'"
+      >
         <b-form-select
           v-if="
             !loading &&
@@ -94,7 +97,7 @@
             </b-dropdown>
           </b-col>
         </b-row>
-      </b-col>
+      </div>
     </b-row>
 
     <b-modal
@@ -158,6 +161,7 @@ import CourseListComponent from "@/components/CourseList";
 
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+import allExportVariables from '@/assets/dark.scss';
 
 import {
   getSubSemesters,
@@ -200,6 +204,7 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
+      currentDarkModeColor: allExportVariables.bColor,
     };
   },
   methods: {
@@ -208,7 +213,6 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
-      console.log('$store.state.darkMode');
       exportScheduleToImage(Object.values(this.selectedCourses), this.selectedSemester);
     },
     async loadStudentCourses(semester) {
