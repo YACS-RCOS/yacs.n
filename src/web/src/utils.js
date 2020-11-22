@@ -5,7 +5,6 @@
 
 import moment from "moment";
 import domtoimage from "dom-to-image";
-// import VueHtml2Canvas from "vue-html2canvas";
 
 /** Short names of days of the week starting Sunday e.g. `DAY_SHORTNAMES[0]` is `'Sun'` */
 export const DAY_SHORTNAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
