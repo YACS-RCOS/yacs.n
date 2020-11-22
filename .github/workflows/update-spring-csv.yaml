@@ -1,0 +1,57 @@
+name: Check spring csv for updates
+
+on:
+  # Run this workflow at end of every day
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update_spring_csv:
+    name: Update spring csv
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - run: python -m pip install --upgrade pip
+
+      - name: Load cache for pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: |
+            ${{ runner.os }}-rpi-data-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-rpi-data-pip-
+
+      - run: pip install -r requirements.txt
+        working-directory: rpi_data/modules
+
+      - name: Pull spring 2021 csv
+        run: bash get-spring-2021.sh
+        working-directory: rpi_data
+
+      - name: Export git diffs to environment variable
+        run: |
+          echo 'GIT_DIFF_STAT<<EOF' >> $GITHUB_ENV
+          git diff --stat >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: If there are changes open a pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.LINT_PAT }}
+          branch: spring_2021_update
+          commit-message: spring 2021 csv update
+          delete-branch: true
+          title: "Update Spring 2021 csv"
+          body: ${{ env.GIT_DIFF_STAT }}
+          labels: |
+            Spring 2021

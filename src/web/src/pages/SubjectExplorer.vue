@@ -2,11 +2,10 @@
   <div v-if="ready" class="gridContainer w-100 mb-4">
     <b-row>
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h3 class="subjectBox">{{ subject }}</h3>
+      <h1 class="subjectBox">{{ subject }}</h1>
       <b-col>
         <b-button class="k-primary" to="/explore">Back</b-button>
       </b-col>
-      <h2 class="headerLine"></h2>
     </b-row>
 
     <br />
@@ -114,12 +113,10 @@ export default {
     const courses = await getCourses(this.selectedSemester);
     //Obtain All Courses Such That Department Matches The Subject Name.
     const allTempData = courses.filter((c) => c.department === this.subject);
-
-    for (let k = 0; k < allTempData.length - 1; k += 2) {
-      this.leftColumnCourses.push(allTempData[k]);
-      this.rightColumnCourses.push(allTempData[k + 1]);
+    for (let k = 0; k < allTempData.length; k++) {
+      if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
+      else this.rightColumnCourses.push(allTempData[k]);
     }
-
     this.ready = true;
   },
   methods: {},
@@ -135,28 +132,19 @@ export default {
   align-content: center;
 }
 
-.headerLine {
-  width: 100%;
-  margin: 0 auto;
-  border: 0;
-  height: 8px;
-  background: #333;
-  background-image: linear-gradient(to right, red, #333, rgb(9, 206, 91));
-}
-
 .subjectBox {
-  border: 3px solid black;
-  height: 3rem;
+  /* border: 3px solid black; */
+  margin-bottom: 20px;
+  height: 2.5rem;
   width: 15rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+  font-size: xx-large;
+  font-weight: 600;
   text-align: center;
 }
 
 .courseBox {
   height: 5rem;
   width: 30rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: left;
 }
 

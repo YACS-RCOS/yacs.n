@@ -15,17 +15,19 @@ chunk_size = 200 # max number of course ids per GET request
 acalog_api_key = "3eef8a28f26fb2bcc514e6f1938929a1f9317628"
 dev_output_files = False
 
+# May Change Semester To Semester, So Update Based On Generated XML.
+# NOTE: Make Sure That Catalog # Refers To The Correct Year.
 ACALOG_COURSE_FIELDS = {
-    "department": "acalog-field-486",
-    "level": "acalog-field-488",
-    "full_name": "acalog-field-490",
-    "description": "acalog-field-471",
-    "raw_precoreqs": "acalog-field-473",
-    "offer_frequency": "acalog-field-475",
-    "cross_listed": "acalog-field-478",
-    "graded": "acalog-field-480",
-    "credit_hours": "acalog-field-482",
-    "contact_lecture_lab_hours": "acalog-field-484",
+    "department": "acalog-field-508",
+    "level": "acalog-field-510",
+    "full_name": "acalog-field-512",
+    "description": "acalog-field-493",
+    "raw_precoreqs": "acalog-field-495",
+    "offer_frequency": "acalog-field-497",
+    "cross_listed": "acalog-field-500",
+    "graded": "acalog-field-502",
+    "credit_hours": "acalog-field-504",
+    "contact_lecture_lab_hours": "acalog-field-506",
 }
 USED_FIELDS = {
     "id": False, # custom
@@ -139,7 +141,7 @@ class acalog_client():
         return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={self.catalog_id}&options[limit]=0").content
 
     def _get_course_details(self, id_params):
-        course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=20&{id_params}").content.decode("utf8")
+        course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
         with self._lock:
             # https://stackoverflow.com/questions/39119165/xml-what-does-that-question-mark-mean
             # Can only have one prolog per XML document in order for it to be well-formed.
@@ -266,14 +268,14 @@ class acalog_client():
         if dev_output_files:
             parser = etree.XMLParser(remove_blank_text=True)
             tree = etree.parse(StringIO(courses_xml_str), parser)
-            tree.write("courses20.xml", pretty_print=True)
+            tree.write("courses21.xml", pretty_print=True)
         return self._get_all_courses(courses_xml_str)
 
 def main():
     c = acalog_client(acalog_api_key)
     courses = c.get_all_courses()
     if dev_output_files:
-        dwrite_utf8_file(json.dumps(courses, indent=4), "courses20.json")
+        dwrite_utf8_file(json.dumps(courses, indent=4), "courses21.json")
 
 if __name__ == "__main__":
     main()
