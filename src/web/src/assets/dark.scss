@@ -171,4 +171,9 @@
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
   }
+  
+  :export {
+    bColor : var(--dark-primary);
+  }
 }
+
