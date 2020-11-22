@@ -8,8 +8,11 @@
         <b data-cy="name">{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} -
         {{ readableDate(course.date_end) }})
+
         <br />
         {{ course.title }}
+        <br />
+        <course-sections-open-badge :course="course" />
       </div>
       <div class="d-flex">
         <slot
@@ -60,8 +63,18 @@
               color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
-            {{ section.crn }} - {{ section.sessions[0].section }}
-            <br />
+            <b-row class="mb-2" align-h="between">
+              <b-col cols="auto">
+                {{ section.crn }} - {{ section.sessions[0].section }}
+              </b-col>
+              <b-col v-if="section.seats_total > 0" cols="auto">
+                <course-section-seats-badge
+                  :seatsOpen="section.seats_open"
+                  :seatsFilled="section.seats_filled"
+                  :seatsTotal="section.seats_total"
+                />
+              </b-col>
+            </b-row>
 
             <span
               v-for="courseSession in section.sessions"
@@ -97,6 +110,9 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+import CourseSectionSeatsBadge from "./CourseSectionSeatsBadge.vue";
+import CourseSectionsOpenBadge from "./CourseSectionsOpenBadge.vue";
+
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
 // However, there are slots available to customize the information displayed
@@ -105,6 +121,10 @@ import {
 // 2) collapseContent { course }
 export default {
   name: "CourseListing",
+  components: {
+    CourseSectionSeatsBadge,
+    CourseSectionsOpenBadge,
+  },
   props: {
     course: Object,
 
