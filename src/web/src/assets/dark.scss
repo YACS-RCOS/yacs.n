@@ -53,6 +53,28 @@
     }
   }
 
+  .nav-link {
+    color: #3395ff !important; 
+  }
+
+  .nav-link:hover {
+    color: #2783e6 !important;
+  }
+
+  .btn-primary {
+    border-color: #3395ff !important;
+    background-color: #3395ff;
+  }
+
+  .btn-primary:hover {
+    border-color: #2783e6 !important;
+    background-color: #2783e6;
+  }
+
+  .custom-control-input:checked~.custom-control-label::before{
+    background-color: #3395ff !important;
+  }
+
   .nav-link.active {
     background-color: var(--dark-primary) !important;
     color: var(--dark-text-primary) !important;
