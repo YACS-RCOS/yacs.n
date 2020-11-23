@@ -108,12 +108,17 @@
         <br />
         <br />
       </span>
-      <span v-if= "courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits">
+      <span
+        v-if="
+          courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
+        "
+      >
         Credits: {{ courseInfoModalCourse.min_credits }}
         <br />
       </span>
       <span v-else>
-        Credits: {{ courseInfoModalCourse.min_credits }} - {{ courseInfoModalCourse.max_credits }}
+        Credits: {{ courseInfoModalCourse.min_credits }} -
+        {{ courseInfoModalCourse.max_credits }}
         <br />
       </span>
       <span>
@@ -466,10 +471,11 @@ export default {
      */
     totalCredits() {
       var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
-    
+
       // Getting sum of numbers
-      var sum = array.reduce(function(a, b){
-        return a + b;}, 0);
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
       return sum;
     },
     numSelectedCourses() {

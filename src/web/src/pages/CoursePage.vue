@@ -123,9 +123,11 @@ export default {
     },
     getCredits() {
       var credits;
-      if (this.courseObj.min_credits != this.courseObj.max_credits){
-        credits = [this.courseObj.min_credits,this.courseObj.max_credits].join("-");
-      } else{
+      if (this.courseObj.min_credits != this.courseObj.max_credits) {
+        credits = [this.courseObj.min_credits, this.courseObj.max_credits].join(
+          "-"
+        );
+      } else {
         credits = this.courseObj.min_credits;
       }
       return credits;
