@@ -16,10 +16,12 @@ export default {
   },
   computed: {
     renderStyle() {
-      return "padding-top: " + this.topSpacing + "vh;" + 
-             "font-size: " + this.fontSize + "em;" +
-             "height: " + this.height + "vh;" +
-             "text-align: center;";
+      return {
+        "padding-top": this.topSpacing + "vh", 
+        "font-size": this.fontSize + "em",
+        "height": this.height + "vh",
+        "text-align": "center"
+      }
     }
   },
 }
