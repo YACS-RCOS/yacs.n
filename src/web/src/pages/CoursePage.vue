@@ -14,6 +14,11 @@
       </b-row>
       <b-row>
         <b-col>
+          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
           <p v-html="transformed" />
         </b-col>
       </b-row>
@@ -115,6 +120,15 @@ export default {
         precoreqtext = beforetext.concat(link, aftertext);
       }
       return precoreqtext;
+    },
+    getCredits() {
+      var credits;
+      if (this.courseObj.min_credits != this.courseObj.max_credits){
+        credits = [this.courseObj.min_credits,this.courseObj.max_credits].join("-");
+      } else{
+        credits = this.courseObj.min_credits;
+      }
+      return credits;
     },
   },
 };
