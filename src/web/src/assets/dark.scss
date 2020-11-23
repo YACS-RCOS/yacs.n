@@ -42,6 +42,11 @@
     background: var(--dark-primary) !important;
   }
 
+  .badge-light {
+    color: var(--dark-text-primary) !important;
+    background: var(--dark-secondary) !important;
+  }
+
   .bg-light {
     background-color: var(--dark-secondary) !important;
   }
@@ -99,7 +104,8 @@
   }
 
   .list-group-item {
-    border-color: var(--dark-border-primary) !important;
+    border-top-color: var(--dark-border-primary) !important;
+    border-bottom-color: var(--dark-border-primary) !important;
   }
 
   .section-head {
