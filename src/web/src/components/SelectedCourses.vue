@@ -1,10 +1,5 @@
 <template>
-  <b-list-group
-    id="selected-course-list"
-    class="flex-grow-1"
-    flush
-    data-cy="selected-courses"
-  >
+  <b-list-group id="selected-course-list" flush data-cy="selected-courses">
     <div v-if="Object.keys(courses).length == 0" class="no-courses">
       Oops! It looks like you haven't selected anything!
       <br />
@@ -40,9 +35,12 @@ export default {
 #selected-course-list {
   overflow-y: scroll !important;
   overflow-x: auto;
-  min-height: 0px;
+  min-height: 200px;
+  flex-grow: 1;
+  flex-basis: 0px; // allows flex and scroll combo
 }
 .no-courses {
+  margin-right: 20px;
   border-style: solid;
   border-width: 2px;
   border-color: rgb(0, 0, 0, 0.05);
