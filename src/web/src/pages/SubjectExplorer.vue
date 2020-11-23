@@ -69,11 +69,12 @@
         </b-row>
       </b-col>
     </div>
-    <CenterSpinner  v-else
-      :height = "80"
-      :fontSize = "1.4"
-      loadingMessage = "Courses"
-      :topSpacing = "30"
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.4"
+      loadingMessage="Courses"
+      :topSpacing="30"
     />
   </b-container>
 </template>

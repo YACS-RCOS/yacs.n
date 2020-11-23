@@ -30,12 +30,12 @@
       </b-row>
       <b-button :to="backRoute">Back</b-button>
     </div>
-    <CenterSpinner 
+    <CenterSpinner
       v-else
-      :height = "80" 
-      :fontSize = "1.4"
-      loadingMessage = "Course"
-      :topSpacing = "30"
+      :height="80"
+      :fontSize="1.4"
+      loadingMessage="Course"
+      :topSpacing="30"
     />
   </b-container>
 </template>
@@ -44,14 +44,14 @@
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
-import CenterSpinnerComponent from '../components/CenterSpinner.vue';
+import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
-  components: { 
+  components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
-   },
+  },
   name: "CoursePage",
   data() {
     return {
@@ -142,4 +142,3 @@ export default {
   },
 };
 </script>
-

@@ -1,13 +1,13 @@
 <template>
   <div :style="renderStyle">
     <b-spinner></b-spinner>
-    <div class="m-2">Loading {{loadingMessage}}...</div>
+    <div class="m-2">Loading {{ loadingMessage }}...</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CenterSpinner',
+  name: "CenterSpinner",
   props: {
     height: Number,
     fontSize: Number,
@@ -17,12 +17,12 @@ export default {
   computed: {
     renderStyle() {
       return {
-        "padding-top": this.topSpacing + "vh", 
+        "padding-top": this.topSpacing + "vh",
         "font-size": this.fontSize + "em",
-        "height": this.height + "vh",
-        "text-align": "center"
-      }
-    }
+        height: this.height + "vh",
+        "text-align": "center",
+      };
+    },
   },
-}
+};
 </script>
