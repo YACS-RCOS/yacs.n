@@ -123,8 +123,9 @@ export default {
       titleTemplate: "%s | YACS",
       meta: [
         { charset: 'utf-8' },
-        { name: 'description', content: this.courseObj.description},
-        { property: 'og:title', content: "YACS - RPI Course Scheduler"},
+        { name: 'description', content: "RPI " + "YACS: " + this.courseName.substring(0, 4) + " "
+           + this.courseName.substring(5, 10) + " " + this.courseName + " " + this.courseTitle},
+        { property: 'og:title', content: "RPI - YACS Course Scheduler"},
         { property: 'og:site_name', content: 'YACS'},
         { property: 'og:type', content: 'website'}
       ]

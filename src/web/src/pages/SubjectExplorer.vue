@@ -136,6 +136,19 @@ export default {
   },
   methods: {},
   computed: {},
+  metaInfo() {
+    return {
+      title: this.subject,
+      titleTemplate: "%s | YACS",
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'description', content: "RPI " + this.subject},
+        { property: 'og:title', content: "RPI - YACS Course Scheduler"},
+        { property: 'og:site_name', content: 'YACS'},
+        { property: 'og:type', content: 'website'}
+      ]
+    }
+  },
 };
 </script>
 
