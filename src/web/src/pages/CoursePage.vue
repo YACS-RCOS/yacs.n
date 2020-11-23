@@ -14,7 +14,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <h6 class="mb-1 d-inline">{{ getCredits }} Credits </h6>
+          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
         </b-col>
       </b-row>
       <b-row>
@@ -54,7 +54,7 @@ export default {
       courseObj: {},
       selectedSemester: String,
       backRoute: String,
-      breadcrumbNav: [ 
+      breadcrumbNav: [
         {
           text: "YACS",
           to: "/",
