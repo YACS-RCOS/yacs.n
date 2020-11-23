@@ -11,14 +11,15 @@
               data-cy="course-search-tab"
             >
               <b-card-text class="d-flex flex-grow-1 w-100">
-                <div
+                <CenterSpinner
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                >
-                  <b-spinner></b-spinner>
+                  :height="60"
+                  :fontSize="1"
+                  loadingMessage="Courses"
+                  :topSpacing="0"
+                />
 
-                  <strong>Loading courses...</strong>
-                </div>
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"
@@ -166,7 +167,7 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
@@ -196,6 +197,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
