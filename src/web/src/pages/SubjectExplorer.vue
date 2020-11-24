@@ -143,6 +143,7 @@ export default {
       meta: [
         { charset: 'utf-8' },
         { name: 'description', content: "RPI " + this.subject},
+        { name: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute, " + this.subject},
         { property: 'og:title', content: "RPI - YACS Course Scheduler"},
         { property: 'og:site_name', content: 'YACS'},
         { property: 'og:type', content: 'website'}

@@ -15,13 +15,11 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueCookies);
-Vue.use(Meta);
-
-Vue.$cookies.config("7d");
-
 Vue.use(Meta, {
   keyName: 'head'
 });
+
+Vue.$cookies.config("7d");
 
 new Vue({
   render: (h) => h(App),

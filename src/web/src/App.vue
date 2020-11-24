@@ -40,6 +40,7 @@ export default {
       titleTemplate: null,
       meta: [
         { name: 'description', content:  'YACS is a RPI course scheduler to help students plan out their semester.'},
+        { name: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute"},
         { property: 'og:title', content: "RPI - YACS Course Scheduler"},
         { property: 'og:site_name', content: 'YACS'},
         { property: 'og:type', content: 'website'},
