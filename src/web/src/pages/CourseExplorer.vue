@@ -58,21 +58,26 @@
         </b-col>
       </b-row>
     </div>
-    <div v-else>
-      <b-spinner></b-spinner>
-      <strong class="m-2">Loading courses...</strong>
-    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="Departments"
+      :topSpacing="30"
+    />
   </b-container>
 </template>
 
 <script>
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "CourseExplorer",
   components: {
     DepartmentList: DepartmentListComponenet,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
