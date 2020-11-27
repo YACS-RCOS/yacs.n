@@ -148,6 +148,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
@@ -156,6 +158,10 @@ import CourseListComponent from "@/components/CourseList";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
+import { userTypes } from "../store/modules/user";
+
 import {
   getSubSemesters,
   getCourses,
@@ -163,8 +169,6 @@ import {
   removeStudentCourse,
   getStudentCourses,
 } from "@/services/YacsService";
-
-import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import {
   withinDuration,
@@ -210,12 +214,36 @@ export default {
         return;
       }
 
-      this.selectedCourses = {};
-      this.userID = this.$cookies.get("userID");
+      // Less work to create a new scheduler which is meant for a single semester
+      this.scheduler = new SubSemesterScheduler();
+      // Filter out "full" subsemester
+      this.subsemesters
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 ||
+            !arr.every((o, oi) => oi == i || withinDuration(s, o))
+        )
+        .forEach((subsemester) => {
+          this.scheduler.addSubSemester(subsemester);
+        });
 
-      if (this.userID) {
-        const info = { uid: this.userID };
-        var cids = await getStudentCourses(info);
+      if (this.scheduler.scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      }
+
+      // Need to reset `selected` property on courses and sections,
+      // two sources of truth ugh
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.selected = false;
+
+        course.sections
+          .filter((section) => section.selected)
+          .forEach((section) => (section.selected = false));
+      });
+      this.selectedCourses = {};
+
+      if (this.isLoggedIn) {
+        var cids = await getStudentCourses();
 
         cids.forEach((cid) => {
           if (cid.semester == this.selectedSemester) {
@@ -239,7 +267,7 @@ export default {
             }
           }
         });
-      } else if (!this.userId) {
+      } else {
         const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
 
         try {
@@ -272,30 +300,15 @@ export default {
         }
       }
     },
-    updateDataOnNewSemester() {
-      return Promise.all([
-        getCourses(this.selectedSemester),
-        getSubSemesters(this.selectedSemester),
-      ]).then(([courses, subsemesters]) => {
-        this.courses = courses;
-        this.subsemesters = subsemesters;
-        // Less work to create a new scheduler which is meant for a single semester
-        this.scheduler = new SubSemesterScheduler();
-        // Filter out "full" subsemester
-        subsemesters
-          .filter(
-            (s, i, arr) =>
-              arr.length == 1 ||
-              !arr.every((o, oi) => oi == i || withinDuration(s, o))
-          )
-          .forEach((subsemester) => {
-            this.scheduler.addSubSemester(subsemester);
-          });
-
-        if (this.scheduler.scheduleSubsemesters.length > 0) {
-          this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
-        }
-      });
+    updateDataOnNewSemester(semester) {
+      return Promise.all([getCourses(semester), getSubSemesters(semester)])
+        .then(([courses, subsemesters]) => {
+          this.courses = courses;
+          this.subsemesters = subsemesters;
+        })
+        .then(() => {
+          this.loadStudentCourses(semester);
+        });
     },
     addCourse(course) {
       let i = 0;
@@ -330,11 +343,10 @@ export default {
       this.$set(this.selectedCourses, course.id, course);
       this.scheduler.addCourse(course);
 
-      if (this.userID) {
+      if (this.isLoggedIn) {
         addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
-          uid: this.userID,
           cid: "-1",
         });
       } else {
@@ -348,11 +360,10 @@ export default {
       this.scheduler.addCourseSection(course, section);
       section.selected = true;
 
-      if (this.userID) {
+      if (this.isLoggedIn) {
         addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
-          uid: this.userID,
           cid: section.crn,
         });
       } else {
@@ -382,11 +393,10 @@ export default {
       course.selected = false;
       this.scheduler.removeAllCourseSections(course);
 
-      if (this.userID) {
+      if (this.isLoggedIn) {
         removeStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
-          uid: this.userID,
           cid: null,
         });
       } else {
@@ -399,11 +409,10 @@ export default {
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
 
-      if (this.userID) {
+      if (this.isLoggedIn) {
         removeStudentCourse({
           name: section.department + "-" + section.level,
           semester: this.selectedSemester,
-          uid: this.userID,
           cid: section.crn,
         });
       } else {
@@ -435,6 +444,8 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
         (s) => s.display_string === this.selectedScheduleSubsemester
@@ -459,13 +470,23 @@ export default {
   watch: {
     selectedSemester: {
       immediate: true,
-      handler(newSemester) {
+      handler(semester) {
         this.loading = true;
-        history.pushState(null, "", encodeURI(`/?semester=${newSemester}`));
+        this.$router.push({ name: "CourseScheduler", query: { semester } });
 
-        this.updateDataOnNewSemester()
-          .then(() => this.loadStudentCourses(newSemester))
-          .then(() => (this.loading = false));
+        this.updateDataOnNewSemester(semester).then(
+          () => (this.loading = false)
+        );
+      },
+    },
+    isLoggedIn: {
+      immediate: true,
+      handler() {
+        this.loading = true;
+
+        this.loadStudentCourses(this.selectedSemester).then(
+          () => (this.loading = false)
+        );
       },
     },
   },

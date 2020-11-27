@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
+import { userModule, USER_NAMESPACE } from "./modules/user";
+
 Vue.use(Vuex);
 
 export const TOGGLE_DARK_MODE = "TOGGLE_DARK_MODE";
@@ -21,6 +24,9 @@ const store = new Vuex.Store({
         "Strict"
       );
     },
+  },
+  modules: {
+    [USER_NAMESPACE]: userModule,
   },
 });
 
