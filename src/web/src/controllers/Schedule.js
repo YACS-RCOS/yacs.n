@@ -1,10 +1,11 @@
 import "@/typedef";
+import Scheduler from "./Scheduler";
 
 /**
  * Holds the `CourseSession`s for a weekly schedule
  * Can add/remove course sessions and determine if there is a schedule conflict
  */
-class Schedule {
+class Schedule extends Scheduler {
   static SCHEDULE_DAYS = ["Mo", "Tu", "We", "Th", "Fr"];
   // hours indicate start (inclusive) of one hour block with exclusive end e.g. [8, 9) in ascending order
   static SCHEDULE_HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -41,6 +42,8 @@ class Schedule {
    * Initializes `dailySessions,' 'selectedSections,' and 'selectedCourses'
    */
   constructor() {
+    super();
+
     this.dailySessions = [];
     this.selectedSections = [];
     this.selectedCourses = [];
@@ -63,6 +66,15 @@ class Schedule {
     }
 
     return true;
+  }
+
+  /**
+   *
+   * @param {CourseSection} courseSection
+   * @returns {boolean}
+   */
+  checkConflict(courseSection) {
+    return this.hasConflict(courseSection);
   }
 
   /**

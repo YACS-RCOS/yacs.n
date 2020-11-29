@@ -1,18 +1,19 @@
 import "@/typedef";
 
 import Schedule from "@/controllers/Schedule";
+import Scheduler from "./Scheduler";
 
 /**
  * Manages schedules for subsemesters
  * Allows adding and removing Course sections
  */
-class SubSemesterScheduler {
-  /**
-   * List of schedules, each with a corresponding subsemester
-   * in `scheduleSubsemesters`
-   * @type {Schedule[]}
-   */
-  schedules;
+class SubSemesterScheduler extends Scheduler {
+  // /**
+  //  * List of schedules, each with a corresponding subsemester
+  //  * in `scheduleSubsemesters`
+  //  * @type {Schedule[]}
+  //  */
+  // schedules;
   /** @type {Subsemester[]} */
   scheduleSubsemesters;
 
@@ -20,16 +21,17 @@ class SubSemesterScheduler {
    * Initializes `schedules` and `scheduleSubsemesters`
    */
   constructor() {
-    this.schedules = [];
+    super();
     this.scheduleSubsemesters = [];
   }
 
   /**
    * Adds a new `Schedule` for `subsemester`
    * @param {Subsemester} subsemester
+   * @param {Scheduler} [schedule]
    */
-  addSubSemester(subsemester) {
-    this.schedules.push(new Schedule());
+  addSubSemester(subsemester, schedule = new Schedule()) {
+    this.schedules.push(schedule);
     this.scheduleSubsemesters.push(subsemester);
   }
 
@@ -46,13 +48,13 @@ class SubSemesterScheduler {
     );
   }
 
-  /**
-   * Adds record of selected class to all schedules
-   * @param {Course} course
-   */
-  addCourse(course) {
-    this.schedules.forEach((s) => s.addCourse(course));
-  }
+  // /**
+  //  * Adds record of selected class to all schedules
+  //  * @param {Course} course
+  //  */
+  // addCourse(course) {
+  //   this.schedules.forEach((s) => s.addCourse(course));
+  // }
 
   /**
    * Adds `section` to the appropriate schedule(s) based on the duration of `course`
@@ -102,21 +104,21 @@ class SubSemesterScheduler {
     return true;
   }
 
-  /**
-   * Remove all sessions of `section` from all schedules
-   * @param {CourseSection} section
-   */
-  removeCourseSection(section) {
-    this.schedules.forEach((s) => s.removeCourseSection(section));
-  }
+  // /**
+  //  * Remove all sessions of `section` from all schedules
+  //  * @param {CourseSection} section
+  //  */
+  // removeCourseSection(section) {
+  //   this.schedules.forEach((s) => s.removeCourseSection(section));
+  // }
 
-  /**
-   * Remove all sessions of sections of `course` from all schedules
-   * @param {Course} course
-   */
-  removeAllCourseSections(course) {
-    this.schedules.forEach((s) => s.removeCourse(course));
-  }
+  // /**
+  //  * Remove all sessions of sections of `course` from all schedules
+  //  * @param {Course} course
+  //  */
+  // removeAllCourseSections(course) {
+  //   this.schedules.forEach((s) => s.removeCourse(course));
+  // }
 }
 
 export default SubSemesterScheduler;
