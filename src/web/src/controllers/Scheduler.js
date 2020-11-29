@@ -9,16 +9,16 @@ class Scheduler {
    * `Schedule` or `Scheduler`, but the exposed methods
    * for both
    * @type {Scheduler[]}
-   * @private
+   * @protected
    */
-  _schedules;
+  schedules;
 
   /**
    *
-   * @param {any[]} schedules
+   * @param {Scheduler[]} schedules
    */
   constructor(schedules = []) {
-    this._schedules = schedules;
+    this.schedules = schedules;
   }
 
   /**
@@ -26,14 +26,16 @@ class Scheduler {
    * @param {CourseSection} section
    * @returns {boolean}
    */
-  checkConflict(section) {}
+  checkConflict(section) {
+    return this.schedules.some((schedule) => schedule.checkConflict(section));
+  }
 
   /**
    *
    * @param {Course} course
    */
   addCourse(course) {
-    this._schedules.forEach((schedule) => schedule.addCourse(course));
+    this.schedules.forEach((schedule) => schedule.addCourse(course));
   }
 
   /**
@@ -42,7 +44,7 @@ class Scheduler {
    * @param {CourseSection} section
    */
   addCourseSection(course, section) {
-    this._schedules.forEach((schedule) =>
+    this.schedules.forEach((schedule) =>
       schedule.addCourseSection(course, section)
     );
   }
@@ -52,9 +54,7 @@ class Scheduler {
    * @param {CourseSection} section
    */
   removeCourseSection(section) {
-    this._schedules.forEach((schedule) =>
-      schedule.removeCourseSection(section)
-    );
+    this.schedules.forEach((schedule) => schedule.removeCourseSection(section));
   }
 
   /**
@@ -62,7 +62,7 @@ class Scheduler {
    * @param {Course} course
    */
   removeAllCourseSections(course) {
-    this._schedules.forEach((schedule) =>
+    this.schedules.forEach((schedule) =>
       schedule.removeAllCourseSections(course)
     );
   }
