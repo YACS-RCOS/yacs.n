@@ -2,12 +2,11 @@ name: CI
 
 on:
   push:
-    paths-ignore:
-      - "src/web/**"
+  workflow_dispatch:
 
 jobs:
-  BackendUnitTests:
-    name: Run unit unit tests on backend
+  backend-unit-tests:
+    name: Run backend unit tests
     runs-on: ubuntu-18.04
 
     services:
@@ -48,20 +47,26 @@ jobs:
       - name: Install dependencies
         run: pip install -r src/api/requirements.txt -r tests/requirements.txt
 
-      - name: Create database tables
-        run: |
-          bash build.sh
-        working-directory: ./src/data
-        env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGUSER: postgres
-          PGPASSWORD: postgres
-
-      - name: Run unit tests
-        run: pytest --ignore="src/yacs-web" -s
+      - name: Run unit tests with coverage
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_USER: postgres
           DB_PASS: postgres
           TEST_CSV: rpi_data/summer-2020.csv
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGUSER: postgres
+          PGPASSWORD: postgres
+        run: |
+          bash scripts/test.sh
+
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build production
+        run: |
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            build

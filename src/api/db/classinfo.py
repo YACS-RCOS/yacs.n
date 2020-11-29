@@ -3,21 +3,21 @@ class ClassInfo:
         self.db_conn = db_conn
         self.interface_name = 'class-info'
 
-    def get_classes(self):
-        return self.db_conn.execute("""
-            select
-                department,
-                level,
-                concat(course.department, '-', course.level) as name,
-                max(title) as title,
-                json_agg(crn) as crns,
-                semester
-            from
-                course
-            group by
-                department,
-                level
-        """, None, True)
+    # def get_classes(self):
+    #     return self.db_conn.execute("""
+    #         select
+    #             department,
+    #             level,
+    #             concat(course.department, '-', course.level) as name,
+    #             max(title) as title,
+    #             json_agg(crn) as crns,
+    #             semester
+    #         from
+    #             course
+    #         group by
+    #             department,
+    #             level
+    #     """, None, True)
 
     def get_classes_full(self, semester=None):
         if semester is not None:
@@ -28,6 +28,8 @@ class ClassInfo:
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
               c.full_title,
+              c.min_credits,
+              c.max_credits,
               c.description,
               c.frequency,
               (
@@ -56,7 +58,12 @@ class ClassInfo:
             (
               select
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
+                c1.min_credits,
+                c1.max_credits,
                 max(c1.department) as department,
                 max(c1.level) as level,
                 json_agg(
@@ -85,6 +92,8 @@ class ClassInfo:
               c.semester,
               c.full_title,
               c.description,
+              c.min_credits,
+              c.max_credits,
               c.frequency,
               c.raw_precoreqs,
               c.school
@@ -100,6 +109,8 @@ class ClassInfo:
               concat(c.department, '-', c.level) as name,
               max(c.title) as title,
               c.full_title,
+              c.min_credits,
+              c.max_credits,
               c.description,
               c.frequency,
               (
@@ -128,6 +139,11 @@ class ClassInfo:
             (
               select
                 c1.crn,
+                c1.min_credits,
+                c1.max_credits,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 max(c1.department) as department,
                 max(c1.level) as level,
@@ -153,6 +169,8 @@ class ClassInfo:
               c.date_start,
               c.date_end,
               c.semester,
+              c.min_credits,
+              c.max_credits,
               c.full_title,
               c.description,
               c.frequency,
@@ -240,8 +258,8 @@ class ClassInfo:
 
     def get_classes_by_search(self, semester=None, search=None):
       if semester is not None:
-        # parse search string to a format recognized by to_tsquery
-        ts_search = None if search is None else search.strip().replace(' ', '|')
+        # # parse search string to a format recognized by to_tsquery
+        # ts_search = None if search is None else search.strip().replace(' ', '|')
         return self.db_conn.execute("""
             WITH ts AS (
               SELECT
@@ -250,6 +268,8 @@ class ClassInfo:
                 CONCAT(c.department, '-', c.level) AS name,
                 MAX(c.title) AS title,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 MAX(c.ts_rank) AS ts_rank,
@@ -276,7 +296,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, to_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -284,6 +304,9 @@ class ClassInfo:
               (
               SELECT
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 MAX(c1.department) AS department,
                 MAX(c1.level) as level,
@@ -305,7 +328,7 @@ class ClassInfo:
                 c.crn = section.crn
               WHERE
                 c.semester = %(semester)s
-                AND c.tsv @@ to_tsquery(%(search)s)
+                AND c.tsv @@ plainto_tsquery(%(search)s)
               GROUP BY
                 c.department,
                 c.level,
@@ -313,6 +336,8 @@ class ClassInfo:
                 c.date_end,
                 c.semester,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 c.raw_precoreqs
@@ -332,6 +357,8 @@ class ClassInfo:
                 CONCAT(c.department, '-', c.level) AS name,
                 MAX(c.title) AS title,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 MAX(c.ts_rank) AS ts_rank,
@@ -358,7 +385,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, to_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -366,6 +393,9 @@ class ClassInfo:
               (
               SELECT
                 c1.crn,
+                c1.seats_open,
+                c1.seats_filled,
+                c1.seats_total,
                 c1.semester,
                 MAX(c1.department) AS department,
                 MAX(c1.level) as level,
@@ -395,6 +425,8 @@ class ClassInfo:
                 c.date_end,
                 c.semester,
                 c.full_title,
+                c.min_credits,
+                c.max_credits,
                 c.description,
                 c.frequency,
                 c.raw_precoreqs
@@ -407,7 +439,7 @@ class ClassInfo:
               SELECT * FROM ts
             )            
         """, {
-          'search': ts_search,
+          'search': search,#ts_search,
           'searchAny': '%' + search + '%',
           'semester': semester
         }, True)

@@ -1,52 +1,85 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
-    <b-row>
-      <b-col>
-        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
-          <b-col>
-            <b-row class="school-name">
-              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
-            </b-row>
-            <b-row>
-              <DepartmentList
-                :majors="coursesChunked[n - 1]"
-                :id="n"
-              ></DepartmentList>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col>
-        <b-row v-for="n in 3" :key="n" class="departmentBox border m-2 mb-4">
-          <b-col>
-            <b-row class="school-name">
-              <h2 class="m-2 ml-3">School Name (i.e. HASS)</h2>
-            </b-row>
-            <b-row>
-              <DepartmentList
-                :majors="coursesChunked[n + 2]"
-                :id="n + 3"
-              ></DepartmentList>
-            </b-row>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
-  </div>
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
-  </div>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="ready" class="mx-auto w-75">
+      <b-row>
+        <!--
+          - Left side of the column
+        -->
+        <b-col>
+          <b-row
+            v-for="deptObj in schoolDepartmentObjects[0]"
+            :key="deptObj.school"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Department Title  -->
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <!-- Subject Title  -->
+              <b-row>
+                <DepartmentList
+                  :majors="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  :selectedSemester="selectedSemester"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></DepartmentList>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+
+        <!-- Right side of the column  -->
+        <b-col>
+          <b-row
+            v-for="deptObj in schoolDepartmentObjects[1]"
+            :key="deptObj.school"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <b-row>
+                <DepartmentList
+                  :majors="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  :selectedSemester="selectedSemester"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></DepartmentList>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="Departments"
+      :topSpacing="30"
+    />
+  </b-container>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
+import { generateRequirementsText } from "@/utils";
+import { getDefaultSemester } from "@/services/AdminService";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "CourseExplorer",
   components: {
     DepartmentList: DepartmentListComponenet,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
@@ -55,12 +88,33 @@ export default {
     return {
       //an object with keys being the dept, and values a list of courses
       deptClassDict: {},
+      schoolsMajorDict: {},
       ready: false,
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+        },
+      ],
     };
   },
   async created() {
+    if (this.selectedSemester === "") {
+      const querySemester = this.$route.query.semester;
+      this.selectedSemester =
+        querySemester && querySemester !== "null"
+          ? querySemester
+          : await getDefaultSemester();
+    }
     getCourses(this.selectedSemester).then((courses) => {
       for (const c of courses) {
+        if (!this.schoolsMajorDict[c.school]) {
+          this.schoolsMajorDict[c.school] = new Set();
+        }
+        this.schoolsMajorDict[c.school].add(c.department);
         if (this.deptClassDict[c.department]) {
           this.deptClassDict[c.department].push(c);
         } else {
@@ -70,15 +124,27 @@ export default {
       this.ready = true;
     });
   },
+  methods: {
+    generateRequirementsText,
+  },
   computed: {
-    coursesChunked() {
-      const arr = Object.keys(this.deptClassDict);
-      const chunkedArr = [];
-      const noOfChunks = Math.ceil(arr.length / 6);
-      for (var i = 0; i < noOfChunks; i++) {
-        chunkedArr.push(arr.slice(i * 6, (i + 1) * 6));
+    schoolDepartmentObjects() {
+      let keyArr = Object.entries(this.schoolsMajorDict)
+        .map((schoolDepartmentMapping) => ({
+          school: schoolDepartmentMapping[0],
+          departments: schoolDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
+        } else {
+          columnArr[1].push(keyArr[i]);
+        }
       }
-      return chunkedArr;
+      return columnArr;
     },
   },
 };
@@ -93,8 +159,6 @@ export default {
 }
 
 .departmentBox {
-  width: 30rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
 }
 

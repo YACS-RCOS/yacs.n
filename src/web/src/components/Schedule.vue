@@ -1,5 +1,9 @@
 <template>
-  <div class="schedule" :style="{ height: totalHeight + 'px' }">
+  <div
+    class="schedule"
+    :style="{ height: totalHeight + 'px' }"
+    data-cy="schedule"
+  >
     <div class="schedule-legend">
       <div
         class="hour-label"
@@ -235,6 +239,7 @@ $hourFontSize: 0.5em;
   color: #777777;
   display: block;
   margin: 0 auto;
+  margin-bottom: 3px;
   text-align: center;
   font-size: 0.8em;
   font-variant: small-caps;

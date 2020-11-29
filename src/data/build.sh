@@ -2,7 +2,7 @@
 SCRIPTDIR=$(dirname "$BASH_SOURCE")
 psql -d yacs < $SCRIPTDIR/schema/01_course.sql
 psql -d yacs < $SCRIPTDIR/schema/02_course_session.sql
-psql -d yacs < $SCRIPTDIR/schema/03_admin_setting.sql
+psql -d yacs < $SCRIPTDIR/schema/03_admin_settings.sql
 psql -d yacs < $SCRIPTDIR/schema/04_semester_date_range.sql
 psql -d yacs < $SCRIPTDIR/schema/05_course_corequisite.sql
 psql -d yacs < $SCRIPTDIR/schema/06_course_prerequisite.sql

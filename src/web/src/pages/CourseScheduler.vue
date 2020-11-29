@@ -4,16 +4,22 @@
       <b-col md="4" class="d-flex flex-column">
         <b-card no-body class="h-100">
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b-tab title="Course Search" active class="flex-grow-1 w-100">
+            <b-tab
+              title="Course Search"
+              active
+              class="flex-grow-1 w-100"
+              data-cy="course-search-tab"
+            >
               <b-card-text class="d-flex flex-grow-1 w-100">
-                <div
+                <CenterSpinner
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                >
-                  <b-spinner></b-spinner>
+                  :height="60"
+                  :fontSize="1"
+                  loadingMessage="Courses"
+                  :topSpacing="0"
+                />
 
-                  <strong>Loading courses...</strong>
-                </div>
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"
@@ -26,11 +32,13 @@
                 />
               </b-card-text>
             </b-tab>
-            <b-tab class="flex-grow-1">
+            <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
               <template v-slot:title>
-                <div class="text-center">
+                <div class="text-center" data-cy="selected-courses-tab-header">
                   Selected Courses
-                  <b-badge variant="light">{{ numSelectedCourses }}</b-badge>
+                  <b-badge variant="light" data-cy="num-selected-courses">
+                    {{ numSelectedCourses }}
+                  </b-badge>
                 </div>
               </template>
               <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -71,6 +79,7 @@
         <b-row>
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
+            <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
 
           <b-col md="4">
@@ -86,16 +95,31 @@
         </b-row>
       </b-col>
     </b-row>
+
     <b-modal
       id="courseInfoModal"
       v-if="courseInfoModalCourse"
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
+      data-cy="course-info-modal"
     >
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}
         <br />
+        <br />
+      </span>
+      <span
+        v-if="
+          courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
+        "
+      >
+        Credits: {{ courseInfoModalCourse.min_credits }}
+        <br />
+      </span>
+      <span v-else>
+        Credits: {{ courseInfoModalCourse.min_credits }} -
+        {{ courseInfoModalCourse.max_credits }}
         <br />
       </span>
       <span>
@@ -129,7 +153,7 @@
       </b-button>
       <b-button
         class="ml-2"
-        variant="danger"
+        variant="secondary"
         @click="showCourseInfoModal = !showCourseInfoModal"
       >
         Close
@@ -140,11 +164,10 @@
 
 <script>
 import NotificationsMixin from "@/mixins/NotificationsMixin";
-
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
@@ -156,9 +179,12 @@ import {
   getStudentCourses,
 } from "@/services/YacsService";
 
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
 import {
   withinDuration,
   generateRequirementsText,
+  findCourseByCourseSessionCRN,
   exportScheduleToIcs,
 } from "@/utils";
 
@@ -171,6 +197,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
@@ -195,40 +222,69 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     async loadStudentCourses(semester) {
+      if (!semester) {
+        return;
+      }
+
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
 
-      if (this.userID && semester) {
-        console.log("Loading user courses...");
-        try {
-          const info = { uid: this.userID };
-          var cids = await getStudentCourses(info);
-          console.log(cids);
+      if (this.userID) {
+        const info = { uid: this.userID };
+        var cids = await getStudentCourses(info);
 
-          cids.forEach((cid) => {
-            if (cid.semester == this.selectedSemester) {
-              var c = this.courses.find(function (course) {
-                return (
-                  course.name == cid.course_name &&
-                  course.semester == cid.semester
-                );
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
               });
-
-              if (cid.crn != "-1") {
-                var sect = c.sections.find(function (section) {
-                  return section.crn == cid.crn;
-                });
-                sect.selected = true;
-                this.scheduler.addCourseSection(c, sect);
-              } else {
-                c.selected = true;
-                this.$set(this.selectedCourses, c.id, c);
-                this.scheduler.addCourse(c);
-              }
+              sect.selected = true;
+              this.scheduler.addCourseSection(c, sect);
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+              this.scheduler.addCourse(c);
             }
-          });
-        } catch (error) {
-          console.log(error);
+          }
+        });
+      } else if (!this.userId) {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+
+              course.selected = true;
+              this.$set(this.selectedCourses, course.id, course);
+              this.scheduler.addCourse(course);
+
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
+
+                  section.selected = true;
+                  this.scheduler.addCourseSection(course, section);
+                }
+              );
+            });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
         }
       }
     },
@@ -268,8 +324,12 @@ export default {
             if (i == course.sections.length - 1) {
               this.notifyScheduleConflict(
                 course,
-                err.existingSession,
-                err.subsemester
+                findCourseByCourseSessionCRN(
+                  this.courses,
+                  err.existingSession.crn
+                ),
+                err.addingSession,
+                err.existingSession
               );
               return;
             } else {
@@ -287,21 +347,17 @@ export default {
       this.scheduler.addCourse(course);
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: "-1",
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
       }
     },
     _addCourseSection(course, section) {
@@ -309,21 +365,17 @@ export default {
       section.selected = true;
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved section ${section.crn}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
       }
     },
 
@@ -334,8 +386,9 @@ export default {
         if (err.type === "Schedule Conflict") {
           this.notifyScheduleConflict(
             course,
-            err.existingSession,
-            err.subsemester
+            findCourseByCourseSessionCRN(this.courses, err.existingSession.crn),
+            err.addingSession,
+            err.existingSession
           );
         }
       }
@@ -346,42 +399,34 @@ export default {
       this.scheduler.removeAllCourseSections(course);
 
       if (this.userID) {
-        const info = {
+        removeStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: null,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
       }
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+
       if (this.userID) {
-        var name = section.department + "-" + section.level;
-        const info = {
-          name: name,
+        removeStudentCourse({
+          name: section.department + "-" + section.level,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved section ${section.crn}!`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourseSection(section)
+          .save();
       }
     },
 
@@ -422,6 +467,18 @@ export default {
      */
     selectedCrns() {
       return this.selectedSections.map((s) => s.crn).join(", ");
+    },
+    /**
+     * Returns sum of credits being taken from all selected sections
+     */
+    totalCredits() {
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+
+      // Getting sum of numbers
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;

@@ -1,11 +1,13 @@
 <template functional>
-  <div class="schedule-event" :style="data.style">
+  <div class="schedule-event" :style="data.style" data-cy="schedule-event">
     <div class="event-text">
-      {{ props.title }}
+      <span data-cy="title">{{ props.title }}</span>
       <br />
-      {{ props.name }} - {{ props.section }}
+      <span data-cy="name">{{ props.name }}</span>
+      &nbsp;-&nbsp;
+      <span data-cy="section">{{ props.section }}</span>
       <br />
-      {{ props.crn }}
+      <span data-cy="crn">{{ props.crn }}</span>
       <br />
       <!-- location placeholder -->
       <br />

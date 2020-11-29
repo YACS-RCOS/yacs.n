@@ -1,0 +1,178 @@
+/* make sure transition is instant */
+.custom-select {
+  transition: 0s;
+}
+
+.badge-light {
+  transition: 0s;
+}
+
+.btn-light {
+  transition: 0s;
+}
+
+/* use !important to make sure components are overridden */
+.dark {
+  --dark-primary: #22252e;
+  --dark-secondary: #181a21;
+  --dark-text-primary: #e6e4e4;
+  --dark-text-secondary: #777777;
+  --dark-border-primary: #868686;
+
+  background-color: var(--dark-primary) !important;
+  color: var(--dark-text-primary) !important;
+
+  .navbar {
+    background-color: var(--dark-primary) !important;
+  }
+
+  .py-3 {
+    background-color: var(--dark-primary) !important;
+  }
+
+  #main-block {
+    background: var(--dark-primary) !important;
+  }
+
+  #credits {
+    background: var(--dark-primary) !important;
+  }
+
+  #footer {
+    background: var(--dark-primary) !important;
+  }
+
+  .badge-light {
+    color: var(--dark-text-primary) !important;
+    background: var(--dark-secondary) !important;
+  }
+
+  .bg-light {
+    background-color: var(--dark-secondary) !important;
+  }
+
+  .card {
+    background: var(--dark-primary) !important;
+    .card-header {
+      background: var(--dark-primary) !important;
+    }
+  }
+
+  .nav-link.active {
+    background-color: var(--dark-primary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-border-primary) !important;
+  }
+
+  .navbar-brand {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .navbar-brand:visited {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .navbar-brand:hover {
+    color: var(--dark-text-secondary) !important;
+  }
+
+  .d-flex .btn {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .btn {
+    transition: 0s;
+  }
+
+  .btn.btn-light {
+    background-color: var(--dark-primary) !important;
+    color: var(--dark-text-primary) !important;
+    border-color: var(--dark-primary) !important;
+  }
+
+  .dropdown-menu {
+    background-color: var(--dark-secondary) !important;
+    color: var(--dark-text-primary) !important;
+  }
+
+  .dropdown-item {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .link {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .list-group-item {
+    border-top-color: var(--dark-border-primary) !important;
+    border-bottom-color: var(--dark-border-primary) !important;
+  }
+
+  .section-head {
+    color: var(--dark-text-secondary) !important;
+  }
+
+  .no-courses {
+    border-color: var(--dark-text-secondary) !important;
+    color: var(--dark-text-primary) !important;
+  }
+
+  .form-control {
+    color: var(--dark-text-primary) !important;
+    background-color: var(--dark-primary) !important;
+    border: 1px solid var(--dark-border-primary) !important;
+    transition: 0s !important;
+  }
+
+  .custom-select {
+    transition: 0s;
+    color: var(--dark-text-primary) !important;
+    background-color: var(--dark-primary) !important;
+    border: 1px solid var(--dark-border-primary) !important;
+  }
+
+  .course-listing {
+    color: var(--dark-text-primary) !important;
+    border-bottom: 1px solid var(--dark-text-secondary) !important;
+  }
+
+  hr {
+    border-top: 1px solid var(--dark-text-secondary) !important;
+  }
+
+  .course-search {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .built-by {
+    color: var(--dark-text-secondary) !important;
+  }
+
+  .nav-link.dropdown-toggle {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .gridContainer {
+    background-color: var(--dark-primary) !important;
+  }
+
+  .major-button {
+    background-color: var(--dark-secondary) !important;
+  }
+
+  .selected {
+    background-color: var(--dark-primary) !important;
+  }
+
+  .modal-header {
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+    .close {
+      color: $gray-100;
+    }
+  }
+  .modal-content {
+    background: var(--dark-primary) !important;
+    color: var(--dark-primary-text) !important;
+  }
+}

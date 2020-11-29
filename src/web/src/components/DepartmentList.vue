@@ -1,25 +1,22 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
+    <!-- LOOP Through the majors list -->
     <div v-for="(major, index) in majors" :key="major" role="tablist">
       <template>
-        <div class="p-2 mb-1 w-100">
+        <div class="mt-1 mb-1 w-100">
+          <!-- Subject button -->
           <b-button
             squared
             v-b-toggle="id + 'accordion-' + index"
             variant="light"
-            class="major-button m-0 ml-2"
+            class="major-button m-0 ml-1"
+            :to="{
+              name: 'SubjectExplorer',
+              params: { subject: major },
+            }"
           >
             {{ major }}
           </b-button>
-          <b-collapse
-            :id="id + 'accordion-' + index"
-            accordion="accordion"
-            role="tabpanel"
-          >
-            <b-card-body>
-              <b-card-text>TODO: Insert Major's Classes</b-card-text>
-            </b-card-body>
-          </b-collapse>
         </div>
       </template>
     </div>
@@ -28,19 +25,38 @@
 
 <script>
 import "@/typedef";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "DepartmentList",
+  components: {},
+  data() {
+    return {
+      faInfoCircle,
+    };
+  },
   props: {
-    majors: Array,
+    majors: Set,
+    deptClassDict: Object,
+    selectedSemester: String,
     id: Number,
+  },
+
+  /**
+   * courseInfoModalToggle
+   * Display the course object information onn console
+   */
+  methods: {
+    courseInfoModalToggle(course) {
+      console.log(course);
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .major-button {
-  display: inline;
+  display: inline-block;
   background: white;
   border-style: none;
   text-align: justify;

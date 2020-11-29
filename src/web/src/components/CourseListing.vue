@@ -1,17 +1,18 @@
 <template>
-  <div>
+  <div data-cy="course-listing">
     <div
       @click="callDefaultAction()"
       class="d-flex w-100 justify-content-between click-me"
     >
       <div>
-        <b>{{ course.name }}</b>
+        <b data-cy="name">{{ course.name }}</b>
         ({{ readableDate(course.date_start) }} -
         {{ readableDate(course.date_end) }})
+
         <br />
-        {{
-          (course.full_title && course.full_title.toUpperCase()) || course.title
-        }}
+        {{ course.title }}
+        <br />
+        <course-sections-open-badge :course="course" />
       </div>
       <div class="d-flex">
         <slot
@@ -31,7 +32,7 @@
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
-        <button class="btn" @click.stop="toggleCourse()">
+        <button v-show="showAdd" class="btn" @click.stop="toggleCourse()">
           <font-awesome-icon v-if="course.selected" :icon="faTimes" />
           <font-awesome-icon v-else :icon="faPlus" />
         </button>
@@ -45,6 +46,7 @@
       <slot name="collapseContent" :course="course">
         <b-list-group flush>
           <b-list-group-item
+            class="selected"
             button
             v-for="section in course.sections"
             :key="section.crn"
@@ -54,12 +56,25 @@
                 ? `4px solid ${getBorderColor(section)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)}`
+                ? `${getBackgroundColor(section)} !important`
+                : `${$store.state.darkMode}`
+                ? 'var(--dark-primary)'
                 : 'white',
+              color: section.selected ? 'black' : 'var(--dark-text-primary)',
             }"
           >
-            {{ section.crn }} - {{ section.sessions[0].section }}
-            <br />
+            <b-row class="mb-2" align-h="between">
+              <b-col cols="auto">
+                {{ section.crn }} - {{ section.sessions[0].section }}
+              </b-col>
+              <b-col v-if="section.seats_total > 0" cols="auto">
+                <course-section-seats-badge
+                  :seatsOpen="section.seats_open"
+                  :seatsFilled="section.seats_filled"
+                  :seatsTotal="section.seats_total"
+                />
+              </b-col>
+            </b-row>
 
             <span
               v-for="courseSession in section.sessions"
@@ -95,6 +110,9 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+import CourseSectionSeatsBadge from "./CourseSectionSeatsBadge.vue";
+import CourseSectionsOpenBadge from "./CourseSectionsOpenBadge.vue";
+
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
 // However, there are slots available to customize the information displayed
@@ -103,6 +121,10 @@ import {
 // 2) collapseContent { course }
 export default {
   name: "CourseListing",
+  components: {
+    CourseSectionSeatsBadge,
+    CourseSectionsOpenBadge,
+  },
   props: {
     course: Object,
 
@@ -129,6 +151,13 @@ export default {
       type: String,
       default: "toggleCollapse",
     },
+
+    //if this is false the add course + button wont appear
+    //this is useful for the course explorer
+    showAddButton: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -145,6 +174,8 @@ export default {
       // initially false, set to true on first collapse toggle
       // Used for lazy loading
       loaded: false,
+
+      showAdd: this.showAddButton,
     };
   },
   methods: {
@@ -196,6 +227,11 @@ export default {
       } else {
         this.$emit("addCourseSection", this.course, section);
       }
+    },
+
+    //used in the course explorer to show a courses info modal
+    showInfoModal() {
+      this.$emit("showCourseInfo", this.course);
     },
   },
 };

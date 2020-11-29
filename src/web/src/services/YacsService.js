@@ -18,9 +18,17 @@ const client = axios.create({
  * a course.
  * @param {Course} courseObj an object that is a subclass of course
  * @returns {string} the unique identifier of a course
+ * NOTE: In The Case Course Listings Have Random Spaces In The Future,
+ * This Is Likely Due To Two Course Objects Having The Same Identifier.
+ * Thus, Should Revise The Following Code, If Necessary.
  */
 const _getCourseIdentifier = (courseObj) => {
   return `
+    ${courseObj.crn}
+    ${courseObj.name}
+    ${courseObj.title}
+    ${courseObj.min_credits}
+    #{courseObj.max_credits}
     ${courseObj.department}
     ${courseObj.level}
     ${courseObj.date_start.getMonth() + 1}
@@ -36,7 +44,7 @@ const _getCourseIdentifier = (courseObj) => {
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
-export const getCourses = (semester, search = null) =>
+export const getCourses = (semester, search = null, filter = true) =>
   client
     .get("/class", {
       params: {
@@ -45,7 +53,7 @@ export const getCourses = (semester, search = null) =>
       },
     })
     .then(({ data }) => {
-      return data.map((c) => {
+      let courses = data.map((c) => {
         c.date_start = localToUTCDate(new Date(c.date_start));
         c.date_end = localToUTCDate(new Date(c.date_end));
 
@@ -63,6 +71,7 @@ export const getCourses = (semester, search = null) =>
         c.vscrl_type = c.description ? "with-info" : "without-info";
         return c;
       });
+      return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
     });
 /**
  * Returns a list of all departments

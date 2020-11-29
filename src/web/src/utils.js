@@ -163,6 +163,9 @@ export const withinDuration = (s1, s2) => {
 
 export const generateRequirementsText = (prereqs, coreqs, raw) => {
   let text = [];
+  if (!prereqs && !coreqs && !raw) {
+    return "This course has no prerequisites";
+  }
   if (prereqs || coreqs) {
     const same = JSON.stringify(prereqs) == JSON.stringify(coreqs);
 
@@ -205,6 +208,22 @@ export const addDays = (date, days) => {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
+};
+
+/**
+ * Export Course Data Given Course Session CRN Value.
+ */
+export const findCourseByCourseSessionCRN = (allCourseData, inputCRNValue) => {
+  return allCourseData.find((currentCourse) => {
+    //Search For Desired CRN In Current Course.
+    let isFound = currentCourse.sections.some((currentSection) => {
+      return currentSection.crn === inputCRNValue;
+    });
+    //Found Course w/ Appropriate CRN.
+    if (isFound) {
+      return currentCourse;
+    }
+  });
 };
 
 /**

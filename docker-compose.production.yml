@@ -7,13 +7,13 @@ services:
   yacs_web:
     ports:
       - 80:80
+      - 443:443
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       - HOST=${HOST:-localhost}
       - ADMIN_PASS=${ADMIN_PASS:-admin}
 
   yacs_api:
-    restart: always
     environment:
       - ENV=production
       - DEBUG=False
