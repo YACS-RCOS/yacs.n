@@ -11,14 +11,16 @@
   transition: 0s;
 }
 
-/* use !important to make sure components are overridden */
-.dark {
+:root {
   --dark-primary: #22252e;
   --dark-secondary: #181a21;
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
   --dark-border-primary: #868686;
+}
 
+/* use !important to make sure components are overridden */
+.dark {
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
 
@@ -70,7 +72,7 @@
   .navbar-brand:hover {
     color: var(--dark-text-secondary) !important;
   }
-  
+
   .d-flex .btn {
     color: var(--dark-text-primary) !important;
   }
@@ -159,21 +161,20 @@
   .selected {
     background-color: var(--dark-primary) !important;
   }
-  
-  .modal-header{
+
+  .modal-header {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
-    .close{
+    .close {
       color: $gray-100;
     }
   }
-  .modal-content{
+  .modal-content {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
   }
-
-  :export {
-    bColor : var(--dark-primary);
-  }
 }
 
+:export {
+  bColor: var(--dark-primary);
+}

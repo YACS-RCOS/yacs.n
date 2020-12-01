@@ -234,8 +234,8 @@ export const exportScheduleToIcs = (selectedCourses) => {
   let calendarBuilder = window.ics();
   let semester;
   // Handle Special Case Where No Selected Courses On Schedule.
-  if(selectedCourses.length == 0){
-    alert("No Courses Found For Export To ICS Data.")
+  if (selectedCourses.length == 0) {
+    alert("No Courses Found For Export To ICS Data.");
     return;
   }
   for (const course of selectedCourses) {
@@ -305,23 +305,26 @@ export const exportScheduleToIcs = (selectedCourses) => {
  * Export The Course Schedule To An Image Format, Probably PNG.
  * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
  */
-export const exportScheduleToImage = (selectedCourses, currentSemester) => {
+export const exportScheduleToImage = (
+  selectedCourses,
+  currentSemester,
+  options
+) => {
   // Handle Special Case Where No Selected Courses On Schedule.
-  if(selectedCourses.length == 0){
-    alert("No Courses Found For Export To Image Data.")
+  if (selectedCourses.length == 0) {
+    alert("No Courses Found For Export To Image Data.");
     return;
   }
-  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG. 
-  var currentScheduleNode = document.getElementById('allScheduleData')
-  domtoimage.toPng(currentScheduleNode, {bgcolor: currentScheduleNode.getAttribute('isDarkModeOn')})
+  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG.
+  domtoimage
+    .toPng(document.getElementById("allScheduleData"), options)
     .then(function (dataUrl) {
-        var link = document.createElement('a'); 
-        link.download = currentSemester + '-YACS-Schedule.png';
-        link.href = dataUrl;
-        link.click();
+      var link = document.createElement("a");
+      link.download = currentSemester + "-YACS-Schedule.png";
+      link.href = dataUrl;
+      link.click();
     })
     .catch(function (error) {
-        console.log('Oh No, Something Went Wrong!', error);
+      console.log("Oh No, Something Went Wrong!", error);
     });
-}
-
+};

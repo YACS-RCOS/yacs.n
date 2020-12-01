@@ -52,10 +52,7 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <div class="col-md-8" 
-        id="allScheduleData" 
-        :isDarkModeOn="$store.state.darkMode ? currentDarkModeColor : 'white'"
-      >
+      <div class="col-md-8" id="allScheduleData">
         <b-form-select
           v-if="
             !loading &&
@@ -83,15 +80,13 @@
             <h5>CRNs: {{ selectedCrns }}</h5>
           </b-col>
           <b-col md="3">
-            <b-dropdown text="Export Data" class="m-2"> 
-              <b-dropdown-item
-                @click="exportScheduleToIcs">
-                <font-awesome-icon :icon="exportIcon"/>
+            <b-dropdown text="Export Data" class="m-2">
+              <b-dropdown-item @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" />
                 Export To ICS
               </b-dropdown-item>
-              <b-dropdown-item
-                @click="exportScheduleToImage">
-                <font-awesome-icon :icon="exportIcon"/>
+              <b-dropdown-item @click="exportScheduleToImage">
+                <font-awesome-icon :icon="exportIcon" />
                 Export To Image
               </b-dropdown-item>
             </b-dropdown>
@@ -161,7 +156,7 @@ import CourseListComponent from "@/components/CourseList";
 
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
-import allExportVariables from '@/assets/dark.scss';
+import allExportVariables from "@/assets/dark.scss";
 
 import {
   getSubSemesters,
@@ -206,7 +201,6 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
-      currentDarkModeColor: allExportVariables.bColor,
     };
   },
   methods: {
@@ -215,7 +209,13 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
-      exportScheduleToImage(Object.values(this.selectedCourses), this.selectedSemester);
+      exportScheduleToImage(
+        Object.values(this.selectedCourses),
+        this.selectedSemester,
+        {
+          bgcolor: this.$store.state.darkMode ? "black" : "white",
+        }
+      );
     },
     async loadStudentCourses(semester) {
       if (!semester) {
