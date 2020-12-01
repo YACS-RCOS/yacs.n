@@ -175,6 +175,11 @@
   }
 }
 
+/*
+NOTE: Should Be Using var(--dark-primary),
+But For Some Reason, When Exporting bColor 
+=> Not Rendering The Background Image Color To The Correct Color.
+*/
 :export {
   bColor: #22252e;
 }
