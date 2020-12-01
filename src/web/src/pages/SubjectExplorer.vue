@@ -37,6 +37,7 @@
           </b-col>
         </b-row>
       </b-col>
+
       <!-- right column of courses -->
       <b-col>
         <b-row
@@ -68,21 +69,28 @@
         </b-row>
       </b-col>
     </div>
-    <div v-else>
-      <b-spinner></b-spinner>
-      <strong class="m-2">Loading courses...</strong>
-    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.4"
+      loadingMessage="Courses"
+      :topSpacing="30"
+    />
   </b-container>
 </template>
 
 <script>
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
   name: "SubjectExplorer",
-  components: { CourseSectionsOpenBadge },
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+    CourseSectionsOpenBadge,
+  },
   props: {
     selectedSemester: String,
   },

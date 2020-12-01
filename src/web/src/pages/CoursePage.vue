@@ -14,6 +14,11 @@
       </b-row>
       <b-row>
         <b-col>
+          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
           <p v-html="transformed" />
         </b-col>
       </b-row>
@@ -25,10 +30,13 @@
       </b-row>
       <b-button :to="backRoute">Back</b-button>
     </div>
-    <div v-else>
-      <b-spinner></b-spinner>
-      <strong class="m-2">Loading Course...</strong>
-    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.4"
+      loadingMessage="Course"
+      :topSpacing="30"
+    />
   </b-container>
 </template>
 
@@ -36,10 +44,14 @@
 import { getCourses } from "../services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
-  components: { CourseSectionsOpenBadge },
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+    CourseSectionsOpenBadge,
+  },
   name: "CoursePage",
   data() {
     return {
@@ -115,6 +127,17 @@ export default {
         precoreqtext = beforetext.concat(link, aftertext);
       }
       return precoreqtext;
+    },
+    getCredits() {
+      var credits;
+      if (this.courseObj.min_credits != this.courseObj.max_credits) {
+        credits = [this.courseObj.min_credits, this.courseObj.max_credits].join(
+          "-"
+        );
+      } else {
+        credits = this.courseObj.min_credits;
+      }
+      return credits;
     },
   },
   metaInfo() {
