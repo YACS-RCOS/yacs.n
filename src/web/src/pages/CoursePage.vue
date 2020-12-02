@@ -105,13 +105,9 @@ export default {
       return precoreqtext;
     },
     courseObj() {
-      let course = {};
-      for (const c of this.$store.state.courseList) {
-        if (c.name === this.courseName) {
-          course = c;
-        }
-      }
-      return course;
+      return this.$store.state.courseList.find(
+        (course) => course.name === this.courseName
+      );
     },
     getCredits() {
       var credits;
