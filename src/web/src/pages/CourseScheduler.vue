@@ -171,6 +171,8 @@ import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
+import { SET_COURSE_LIST } from "@/store";
+
 import {
   getSubSemesters,
   getCourses,
@@ -294,6 +296,7 @@ export default {
         getSubSemesters(this.selectedSemester),
       ]).then(([courses, subsemesters]) => {
         this.courses = courses;
+        this.$store.commit(SET_COURSE_LIST, courses);
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
         this.scheduler = new SubSemesterScheduler();
