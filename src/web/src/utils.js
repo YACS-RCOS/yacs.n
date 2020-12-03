@@ -304,6 +304,10 @@ export const exportScheduleToIcs = (selectedCourses) => {
 /**
  * Export The Course Schedule To An Image Format, Probably PNG.
  * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
+ * NOTE: In Case More Specifications Are Needed For Image, Modify Options
+ * Attribute Passed In Via Scheduler.Vue. 
+ * Additionally, To Change The Scope For Image, Also View Schedule.Vue
+ * + Look For ID = "allScheduleData" To See Scope Image.
  */
 export const exportScheduleToImage = (
   selectedCourses,
