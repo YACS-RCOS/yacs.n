@@ -8,11 +8,10 @@ class student_course_selection:
 					student_course_selection (user_id, semester, course_name, crn)
 				VALUES
 					(%s, %s, %s, %s)
+				ON CONFLICT DO NOTHING;
 				"""
 		resp, error = self.db_conn.execute(sql, [uid, sem, name, cid], False)
 		return (True, None) if not error else (False, error)
-
-		
 
 	def remove_selection(self, name, sem, uid, cid):
 		if cid is None:
@@ -37,10 +36,8 @@ class student_course_selection:
 
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, name, cid], False)
-		
+
 		return (True, None) if not error else (False, error)
-
-
 
 	def get_selection(self, uid):
 		sql = """
