@@ -18,6 +18,8 @@
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
   --dark-border-primary: #868686;
+  --dark-blue-primary: #3395ff;
+  --dark-blue-secondary: #2783e6;
 
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
@@ -54,25 +56,25 @@
   }
 
   .nav-link {
-    color: #3395ff !important;
+    color: var(--dark-blue-primary) !important;
   }
 
   .nav-link:hover {
-    color: #2783e6 !important;
+    color: var(--dark-blue-secondary) !important;
   }
 
   .btn-primary {
-    border-color: #3395ff !important;
-    background-color: #3395ff;
+    border-color: var(--dark-blue-primary) !important;
+    background-color: var(--dark-blue-primary);
   }
 
   .btn-primary:hover {
-    border-color: #2783e6 !important;
-    background-color: #3395ff;
+    border-color: var(--dark-blue-secondary) !important;
+    background-color: var(--dark-blue-primary);
   }
 
   .custom-control-input:checked~.custom-control-label::before{
-    background-color: #3395ff !important;
+    background-color: var(--dark-blue-primary) !important;
   }
 
   .nav-link.active {
