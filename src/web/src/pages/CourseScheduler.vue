@@ -75,7 +75,7 @@
           />
         </template>
         <Schedule v-else :schedule="scheduler"></Schedule>
-        
+
         <b-row>
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
@@ -231,7 +231,9 @@ export default {
         Object.values(this.selectedCourses),
         this.selectedSemester,
         {
-          bgcolor: this.$store.state.darkMode ? allExportVariables.bColor : "white",
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
         }
       );
     },
