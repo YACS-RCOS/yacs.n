@@ -324,7 +324,7 @@ export const exportScheduleToImage = (
     .toPng(document.getElementById("allScheduleData"), options)
     .then(function (dataUrl) {
       var link = document.createElement("a");
-      link.download = currentSemester + "-YACS-Schedule.png";
+      link.download = currentSemester.replace(' ', '-') + "-YACS-Schedule.png";
       link.href = dataUrl;
       link.click();
     })
