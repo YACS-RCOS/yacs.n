@@ -16,6 +16,9 @@ create table course(
   raw_precoreqs text,
   frequency     varchar(255),
   school        varchar(255),
+  seats_open    int,
+  seats_filled  int,
+  seats_total   int,
   tsv           tsvector,
   primary key (crn)
 );

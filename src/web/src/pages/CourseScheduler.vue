@@ -11,14 +11,15 @@
               data-cy="course-search-tab"
             >
               <b-card-text class="d-flex flex-grow-1 w-100">
-                <div
+                <CenterSpinner
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                >
-                  <b-spinner></b-spinner>
+                  :height="60"
+                  :fontSize="1"
+                  loadingMessage="Courses"
+                  :topSpacing="0"
+                />
 
-                  <strong>Loading courses...</strong>
-                </div>
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"
@@ -78,6 +79,7 @@
         <b-row>
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
+            <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
 
           <b-col md="4">
@@ -105,6 +107,19 @@
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}
         <br />
+        <br />
+      </span>
+      <span
+        v-if="
+          courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
+        "
+      >
+        Credits: {{ courseInfoModalCourse.min_credits }}
+        <br />
+      </span>
+      <span v-else>
+        Credits: {{ courseInfoModalCourse.min_credits }} -
+        {{ courseInfoModalCourse.max_credits }}
         <br />
       </span>
       <span>
@@ -154,13 +169,17 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+
 
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import { userTypes } from "../store/modules/user";
+
+import { SET_COURSE_LIST } from "@/store";
+
 
 import {
   getSubSemesters,
@@ -186,6 +205,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
@@ -305,6 +325,7 @@ export default {
         .then(([courses, subsemesters]) => {
           this.courses = courses;
           this.subsemesters = subsemesters;
+          this.$store.commit(SET_COURSE_LIST, courses);
         })
         .then(() => {
           this.loadStudentCourses(semester);
@@ -462,6 +483,18 @@ export default {
      */
     selectedCrns() {
       return this.selectedSections.map((s) => s.crn).join(", ");
+    },
+    /**
+     * Returns sum of credits being taken from all selected sections
+     */
+    totalCredits() {
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+
+      // Getting sum of numbers
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;

@@ -16,6 +16,9 @@
  * @property {string} semester
  * @property {CourseSession[]} sessions
  * @property {boolean} selected
+ * @property {number} seats_open
+ * @property {number} seats_filled
+ * @property {number} seats_total
  */
 /**
  * @typedef Course
