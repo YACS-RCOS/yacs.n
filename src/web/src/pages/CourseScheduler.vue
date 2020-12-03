@@ -53,7 +53,7 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <b-col md="8">
+      <div class="col-md-8" id="allScheduleData">
         <b-form-select
           v-if="
             !loading &&
@@ -81,19 +81,20 @@
             <h5>CRNs: {{ selectedCrns }}</h5>
             <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
-
-          <b-col md="4">
-            <button
-              id="export-ics-button"
-              class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
-              @click="exportScheduleToIcs"
-            >
-              <font-awesome-icon :icon="exportIcon" />
-              Export to ICS
-            </button>
+          <b-col md="3">
+            <b-dropdown text="Export Data" class="m-2">
+              <b-dropdown-item @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To ICS
+              </b-dropdown-item>
+              <b-dropdown-item @click="exportScheduleToImage">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To Image
+              </b-dropdown-item>
+            </b-dropdown>
           </b-col>
         </b-row>
-      </b-col>
+      </div>
     </b-row>
 
     <b-modal
@@ -170,6 +171,9 @@ import CourseListComponent from "@/components/CourseList";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+import allExportVariables from "@/assets/dark.scss";
+
+import { SET_COURSE_LIST } from "@/store";
 
 import {
   getSubSemesters,
@@ -186,6 +190,7 @@ import {
   generateRequirementsText,
   findCourseByCourseSessionCRN,
   exportScheduleToIcs,
+  exportScheduleToImage,
 } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -220,6 +225,17 @@ export default {
     generateRequirementsText,
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.selectedCourses));
+    },
+    exportScheduleToImage() {
+      exportScheduleToImage(
+        Object.values(this.selectedCourses),
+        this.selectedSemester,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
     },
     async loadStudentCourses(semester) {
       if (!semester) {
@@ -294,6 +310,7 @@ export default {
         getSubSemesters(this.selectedSemester),
       ]).then(([courses, subsemesters]) => {
         this.courses = courses;
+        this.$store.commit(SET_COURSE_LIST, courses);
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
         this.scheduler = new SubSemesterScheduler();
