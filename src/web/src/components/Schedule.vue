@@ -10,7 +10,7 @@
         v-for="(hour, index) of hours"
         :key="hour"
         :style="{ height: hourHeight + '%' }"
-      >
+      >    
         <div v-if="index != 0">{{ hour }}</div>
       </div>
     </div>
