@@ -162,6 +162,7 @@ export default {
     width: 100% !important;
     height: 7rem !important;
     display: block;
+    overflow: scroll;
   }
 
   .leftCol {
@@ -185,7 +186,6 @@ export default {
   height: 5rem;
   width: 60%;
   text-align: left;
-  overflow: scroll;
 }
 
 .major-courseBox:hover {
