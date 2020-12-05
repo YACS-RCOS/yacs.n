@@ -8,6 +8,8 @@ jobs:
   backend-unit-tests:
     name: Run backend unit tests
     runs-on: ubuntu-18.04
+    timeout-minutes: 5
+    container: python:3.8
 
     services:
       postgres:
@@ -21,35 +23,15 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - name: Update Ubuntu
-        run: sudo apt-get update
-
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Update pip
-        run: python -m pip install --upgrade pip
-
-      - name: Load cache for pip
-        uses: actions/cache@v1
-        with:
-          path: ~/.cache/pip
-          key: |
-            ${{ runner.os }}-backend-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-backend-pip-
 
       - name: Install dependencies
         run: pip install -r src/api/requirements.txt -r tests/requirements.txt
 
       - name: Setup database
         env:
-          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_PORT: 5432
           DB_USER: postgres
           DB_PASS: postgres
           DB_NAME: yacs
@@ -60,16 +42,12 @@ jobs:
 
       - name: Run unit tests with coverage
         env:
-          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_PORT: 5432
           DB_USER: postgres
           DB_PASS: postgres
           DB_NAME: yacs
           DB_HOST: postgres
           TEST_CSV: rpi_data/summer-2020.csv
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGUSER: postgres
-          PGPASSWORD: postgres
         run: |
           bash scripts/test.sh
 
