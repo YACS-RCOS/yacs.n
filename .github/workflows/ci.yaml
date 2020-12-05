@@ -52,6 +52,7 @@ jobs:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_USER: postgres
           DB_PASS: postgres
+          DB_NAME: yacs
           TEST_CSV: rpi_data/summer-2020.csv
           PGHOST: localhost
           PGPORT: ${{ job.services.postgres.ports[5432] }}
