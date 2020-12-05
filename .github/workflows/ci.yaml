@@ -47,6 +47,16 @@ jobs:
       - name: Install dependencies
         run: pip install -r src/api/requirements.txt -r tests/requirements.txt
 
+      - name: Setup database
+        env:
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_USER: postgres
+          DB_PASS: postgres
+          DB_NAME: yacs
+        working-directory: src/api
+        run: |
+          python database_session.py && PYTHONPATH=. alembic upgrade head
+
       - name: Run unit tests with coverage
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
