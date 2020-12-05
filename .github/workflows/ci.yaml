@@ -53,6 +53,7 @@ jobs:
           DB_USER: postgres
           DB_PASS: postgres
           DB_NAME: yacs
+          DB_HOST: postgres
         working-directory: src/api
         run: |
           python database_session.py && PYTHONPATH=. alembic upgrade head
@@ -63,6 +64,7 @@ jobs:
           DB_USER: postgres
           DB_PASS: postgres
           DB_NAME: yacs
+          DB_HOST: postgres
           TEST_CSV: rpi_data/summer-2020.csv
           PGHOST: localhost
           PGPORT: ${{ job.services.postgres.ports[5432] }}
