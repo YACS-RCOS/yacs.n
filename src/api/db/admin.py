@@ -11,8 +11,13 @@ class Admin:
 			from
 				admin_settings admin
 		""", None, True)
-		# parse row
-		default_semester = result[0]['semester'] ## Only one record in table for admin_settings
+
+		default_semester = None
+
+		if len(result) == 1:
+			# parse row
+			default_semester = result[0]['semester'] ## Only one record in table for admin_settings
+		
 		if error:
 			return (None, error)
 		else:
