@@ -60,7 +60,11 @@
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',
-              color: 'black',
+              'color': section.selected 
+                ? 'black' 
+                : $store.state.darkMode
+                ? 'var(--dark-primary-text)'
+                : 'black',
             }"
           >
             <b-row class="mb-2" align-h="between">
