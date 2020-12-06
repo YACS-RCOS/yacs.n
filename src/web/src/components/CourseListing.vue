@@ -60,8 +60,8 @@
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',
-              'color': section.selected 
-                ? 'black' 
+              color: section.selected
+                ? 'black'
                 : $store.state.darkMode
                 ? 'var(--dark-primary-text)'
                 : 'black',
