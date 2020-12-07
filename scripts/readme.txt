@@ -21,7 +21,7 @@ usage guide:
 (windows users should use the corresponding .bat script e.g. instead of dev-start.sh do dev-start.bat)
 
 If you have changed the schemas and would like to create a new database migration, run
-        dev-create-migration.sh
+        dev-create-migration.sh "message"
   This will compare the state of the database to the defined schemas and automagically generate
   a migration script based on the changes. The migration can be found in `src/api/migrations/versions`.
   
