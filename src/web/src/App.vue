@@ -5,12 +5,22 @@
 </template>
 
 <script>
-import { TOGGLE_DARK_MODE } from "@/store";
+import { TOGGLE_DARK_MODE, SET_COURSE_LIST } from "@/store";
+import { getCourses } from "@/services/YacsService";
+import { getDefaultSemester } from "@/services/AdminService";
 
 export default {
   name: "App",
   components: {},
-  created() {
+  async created() {
+    const querySemester = this.$route.query.semester;
+    this.selectedSemester =
+      querySemester && querySemester != "null"
+        ? querySemester
+        : await getDefaultSemester();
+    const courses = await getCourses(this.selectedSemester);
+    this.$store.commit(SET_COURSE_LIST, courses);
+
     if (this.$cookies.get("darkMode") == "true") {
       this.$store.commit(TOGGLE_DARK_MODE);
     }

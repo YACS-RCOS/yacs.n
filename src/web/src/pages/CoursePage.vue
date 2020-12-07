@@ -1,10 +1,10 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="ready" class="w-90 ml-4 mb-4">
+    <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
-          <h1 class="mt-4">{{ courseTitle }}</h1>
+          <h1 class="mt-4">{{ courseObj.title }}</h1>
           <h4 class="mb-1 d-inline">{{ courseName }}</h4>
           &nbsp;
           <div class="d-inline">
@@ -28,7 +28,7 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
-      <b-button :to="backRoute">Back</b-button>
+      <b-button :to="'/explore/' + courseObj.department">Back</b-button>
     </div>
     <CenterSpinner
       v-else
@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
@@ -55,12 +53,7 @@ export default {
   name: "CoursePage",
   data() {
     return {
-      ready: false,
       courseName: this.$route.params.course,
-      courseTitle: String,
-      courseObj: {},
-      selectedSemester: String,
-      backRoute: String,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -82,23 +75,6 @@ export default {
   },
   methods: {
     generateRequirementsText,
-  },
-  async created() {
-    const querySemester = this.$route.query.semester;
-    console.log(this.$route);
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
-    for (const c of courses) {
-      if (c.name === this.courseName) {
-        this.courseTitle = c.title;
-        this.courseObj = c;
-      }
-    }
-    this.backRoute = "/explore/" + this.courseObj.department;
-    this.ready = true;
   },
   computed: {
     transformed() {
@@ -127,6 +103,11 @@ export default {
         precoreqtext = beforetext.concat(link, aftertext);
       }
       return precoreqtext;
+    },
+    courseObj() {
+      return this.$store.state.courseList.find(
+        (course) => course.name === this.courseName
+      );
     },
     getCredits() {
       var credits;

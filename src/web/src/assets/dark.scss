@@ -11,14 +11,16 @@
   transition: 0s;
 }
 
-/* use !important to make sure components are overridden */
-.dark {
+:root {
   --dark-primary: #22252e;
   --dark-secondary: #181a21;
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
   --dark-border-primary: #868686;
+}
 
+/* use !important to make sure components are overridden */
+.dark {
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
 
@@ -175,4 +177,13 @@
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
   }
+}
+
+/*
+NOTE: Should Be Using var(--dark-primary),
+But For Some Reason, When Exporting bColor 
+=> Not Rendering The Background Image Color To The Correct Color.
+*/
+:export {
+  bColor: #22252e;
 }
