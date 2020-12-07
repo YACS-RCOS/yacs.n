@@ -10,4 +10,3 @@ class UserSession(Base):
     user_id = Column(INTEGER, nullable=False)
     start_time = Column(TIMESTAMP(timezone=True))
     end_time = Column(TIMESTAMP(timezone=True))
-

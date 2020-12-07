@@ -14,4 +14,3 @@ class UserEvent(Base):
     __table_args__ = (
         PrimaryKeyConstraint('event_id', 'user_id'),
     )
-

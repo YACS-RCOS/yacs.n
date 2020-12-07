@@ -16,4 +16,3 @@ class UserAccount(Base):
     enable = Column(BOOLEAN, default=True)
     admin = Column(BOOLEAN, default=False)
     super_admin = Column(BOOLEAN, default=False)
-

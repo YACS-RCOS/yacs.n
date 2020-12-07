@@ -7,4 +7,3 @@ class AdminSettings(Base):
     __tablename__ = 'admin_settings'
 
     semester = Column(VARCHAR(length=255), primary_key=True)
-

@@ -8,4 +8,3 @@ class Event(Base):
 
     event_id =  Column(INTEGER, primary_key=True)
     description = Column(VARCHAR(length=255))
-

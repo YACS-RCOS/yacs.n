@@ -25,4 +25,3 @@ class Course(Base):
     seats_filled = Column(INTEGER)
     seats_total = Column(INTEGER)
     tsv = Column(TSVECTOR)
-

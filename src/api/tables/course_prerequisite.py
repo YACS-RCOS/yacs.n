@@ -13,4 +13,3 @@ class CoursePrerequisite(Base):
     __table_args__ = (
         PrimaryKeyConstraint('department', 'level', 'prerequisite'),
     )
-

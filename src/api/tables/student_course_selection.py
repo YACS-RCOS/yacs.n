@@ -14,4 +14,3 @@ class StudentCourseSelection(Base):
     __table_args__ = (
         PrimaryKeyConstraint('user_id', 'semester', 'course_name', 'crn'),
     )
-
