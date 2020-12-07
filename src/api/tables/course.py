@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 
-from database import Base
+from .database import Base
 
 class Course(Base):
     __tablename__ = "course"

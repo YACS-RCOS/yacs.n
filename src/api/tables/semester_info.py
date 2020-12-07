@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import VARCHAR, BOOLEAN
 
-from database import Base
+from .database import Base
 
 class SemesterInfo(Base):
     __tablename__ = "semester_info"

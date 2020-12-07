@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import INTEGER, VARCHAR
 
-from database import Base
+from .database import Base
 
 class Event(Base):
     __tablename__ = "event"

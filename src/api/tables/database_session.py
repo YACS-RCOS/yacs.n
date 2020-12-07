@@ -1,9 +1,15 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from constants import Constants
+DB_NAME = os.environ.get('DB_NAME', 'yacs')
+DB_USER = os.environ.get('DB_USER', None)
+DB_HOST = os.environ.get('DB_HOST', 'localhost')
+DB_PORT = os.environ.get('DB_PORT', None)
+DB_PASS = os.environ.get('DB_PASS', None)
 
-engine = create_engine(f"postgresql://{Constants.DB_USER}:{Constants.DB_PASS}@{Constants.DB_HOST}/{Constants.DB_NAME}")
+engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 if __name__=="__main__":

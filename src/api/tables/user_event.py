@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import BIGINT, INTEGER, VARCHAR, UUID
 
-from database import Base
+from .database import Base
 
 class UserEvent(Base):
     __tablename__ = "user_event"

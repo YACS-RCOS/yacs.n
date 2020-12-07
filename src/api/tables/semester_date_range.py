@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import VARCHAR, DATE
 
-from database import Base
+from .database import Base
 
 class SemesterDateRange(Base):
     __tablename__ = 'semester_date_range'

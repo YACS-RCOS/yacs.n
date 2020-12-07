@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import INTEGER, VARCHAR, TIME
 
-from database import Base
+from .database import Base
 
 class CourseSession(Base):
     __tablename__ = "course_session"

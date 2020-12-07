@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint, ForeignKey
 from sqlalchemy.dialects.postgresql import INTEGER, VARCHAR
 
-from database import Base
+from .database import Base
 
 class StudentCourseSelection(Base):
     __tablename__ = "student_course_selection"

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import INTEGER, TIMESTAMP, UUID
 
-from database import Base
+from .database import Base
 
 class UserSession(Base):
     __tablename__ = "user_session"

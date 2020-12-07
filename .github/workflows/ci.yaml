@@ -38,7 +38,7 @@ jobs:
           DB_HOST: postgres
         working-directory: src/api
         run: |
-          python database_session.py && PYTHONPATH=. alembic upgrade head
+          python tables/database_session.py && PYTHONPATH=. alembic upgrade head
 
       - name: Run unit tests with coverage
         env:

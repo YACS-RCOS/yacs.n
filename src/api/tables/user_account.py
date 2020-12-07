@@ -1,7 +1,7 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, BOOLEAN
 
-from database import Base
+from .database import Base
 
 class UserAccount(Base):
     __tablename__ = "user_account"
