@@ -19,7 +19,7 @@
   --dark-border-primary: #868686;
   --dark-blue-primary: #3395ff;
   --dark-blue-secondary: #2783e6;
-
+}
 /* use !important to make sure components are overridden */
 .dark {
   background-color: var(--dark-primary) !important;
