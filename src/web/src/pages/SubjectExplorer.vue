@@ -159,7 +159,17 @@ export default {
       return [leftColumn, rightColumn];
     },
   },
-};
+  metaInfo() {
+    return {
+      title: this.subject,
+      titleTemplate: "%s | YACS",
+      meta: [
+        { vmid: 'description', content: "RPI " + this.subject},
+        { vmid: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute, " + this.subject},
+      ]
+    }
+  },
+}
 </script>
 
 <style scope>
