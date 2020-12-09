@@ -1,11 +1,11 @@
 const path = require("path");
 const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
-const CompressionPlugin = require('compression-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   chainWebpack(config) {
-    config.plugins.delete('prefetch');
-    config.plugin('CompressionPlugin').use(CompressionPlugin);
+    config.plugins.delete("prefetch");
+    config.plugin("CompressionPlugin").use(CompressionPlugin);
   },
   devServer: {
     disableHostCheck: true,

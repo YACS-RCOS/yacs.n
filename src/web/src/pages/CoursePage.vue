@@ -126,11 +126,21 @@ export default {
       title: this.courseTitle,
       titleTemplate: "%s | YACS",
       meta: [
-        { vmid: 'description', content: this.courseObj.description},
-        { vmid: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute, " + this.courseName.substring(0, 4)
-          + ", " + this.courseName.substring(5, 10) + ", " + this.courseName + ", " + this.courseTitle},
-      ]
-    }
+        { vmid: "description", content: this.courseObj.description },
+        {
+          vmid: "keywords",
+          content:
+            "RPI, YACS, Rensselaer Polytechnic Institute, " +
+            this.courseName.substring(0, 4) +
+            ", " +
+            this.courseName.substring(5, 10) +
+            ", " +
+            this.courseName +
+            ", " +
+            this.courseTitle,
+        },
+      ],
+    };
   },
 };
 </script>

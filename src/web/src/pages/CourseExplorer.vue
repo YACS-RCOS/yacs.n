@@ -144,14 +144,17 @@ export default {
       title: "Explore",
       titleTemplate: "%s | YACS",
       meta: [
-        { charset: 'utf-8' },
-        { vmid: 'description', content: "Explore courses in YACS"},
-        { name: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute"},
-        { property: 'og:title', content: "RPI - YACS Course Scheduler"},
-        { property: 'og:site_name', content: 'YACS'},
-        { property: 'og:type', content: 'website'}
-      ]
-    }
+        { charset: "utf-8" },
+        { vmid: "description", content: "Explore courses in YACS" },
+        {
+          name: "keywords",
+          content: "RPI, YACS, Rensselaer Polytechnic Institute",
+        },
+        { property: "og:title", content: "RPI - YACS Course Scheduler" },
+        { property: "og:site_name", content: "YACS" },
+        { property: "og:type", content: "website" },
+      ],
+    };
   },
 };
 </script>

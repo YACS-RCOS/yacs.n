@@ -9,7 +9,7 @@ import App from "./App.vue";
 import VueRouter from "vue-router";
 import router from "./routes";
 import VueCookies from "vue-cookies";
-import Meta from 'vue-meta';
+import Meta from "vue-meta";
 
 Vue.config.productionTip = false;
 
