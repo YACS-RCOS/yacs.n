@@ -4,6 +4,7 @@
  */
 
 import moment from "moment";
+import domtoimage from "dom-to-image";
 
 /** Short names of days of the week starting Sunday e.g. `DAY_SHORTNAMES[0]` is `'Sun'` */
 export const DAY_SHORTNAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -232,6 +233,11 @@ export const findCourseByCourseSessionCRN = (allCourseData, inputCRNValue) => {
 export const exportScheduleToIcs = (selectedCourses) => {
   let calendarBuilder = window.ics();
   let semester;
+  // Handle Special Case Where No Selected Courses On Schedule.
+  if (selectedCourses.length == 0) {
+    alert("No Courses Found For Export To ICS Data.");
+    return;
+  }
   for (const course of selectedCourses) {
     for (const section of course.sections.filter((s) => s.selected)) {
       const sessionsPartitionedByStartAndEnd = partition(
@@ -293,4 +299,36 @@ export const exportScheduleToIcs = (selectedCourses) => {
       return semFirstLetter.toUpperCase() + semRest.toLowerCase() + year;
     })}_Schedule`
   );
+};
+
+/**
+ * Export The Course Schedule To An Image Format, Probably PNG.
+ * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
+ * NOTE: In Case More Specifications Are Needed For Image, Modify Options
+ * Attribute Passed In Via Scheduler.Vue.
+ * Additionally, To Change The Scope For Image, Also View Schedule.Vue
+ * + Look For ID = "allScheduleData" To See Scope Image.
+ */
+export const exportScheduleToImage = (
+  selectedCourses,
+  currentSemester,
+  options
+) => {
+  // Handle Special Case Where No Selected Courses On Schedule.
+  if (selectedCourses.length == 0) {
+    alert("No Courses Found For Export To Image Data.");
+    return;
+  }
+  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG.
+  domtoimage
+    .toPng(document.getElementById("allScheduleData"), options)
+    .then(function (dataUrl) {
+      var link = document.createElement("a");
+      link.download = currentSemester.replace(" ", "-") + "-YACS-Schedule.png";
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch(function (error) {
+      console.log("Oh No, Something Went Wrong!", error);
+    });
 };

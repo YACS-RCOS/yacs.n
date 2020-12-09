@@ -11,14 +11,15 @@
               data-cy="course-search-tab"
             >
               <b-card-text class="d-flex flex-grow-1 w-100">
-                <div
+                <CenterSpinner
                   v-if="loading"
                   class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                >
-                  <b-spinner></b-spinner>
+                  :height="60"
+                  :fontSize="1"
+                  loadingMessage="Courses"
+                  :topSpacing="0"
+                />
 
-                  <strong>Loading courses...</strong>
-                </div>
                 <CourseList
                   v-if="!loading"
                   @addCourse="addCourse"
@@ -52,7 +53,7 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <b-col md="8">
+      <div class="col-md-8" id="allScheduleData">
         <b-form-select
           v-if="
             !loading &&
@@ -78,20 +79,22 @@
         <b-row>
           <b-col>
             <h5>CRNs: {{ selectedCrns }}</h5>
+            <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
-
-          <b-col md="4">
-            <button
-              id="export-ics-button"
-              class="col-auto btn-sm btn btn-primary ml-auto mb-2 mr-5 mt-1 d-block"
-              @click="exportScheduleToIcs"
-            >
-              <font-awesome-icon :icon="exportIcon" />
-              Export to ICS
-            </button>
+          <b-col md="3">
+            <b-dropdown text="Export Data" class="m-2">
+              <b-dropdown-item @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To ICS
+              </b-dropdown-item>
+              <b-dropdown-item @click="exportScheduleToImage">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To Image
+              </b-dropdown-item>
+            </b-dropdown>
           </b-col>
         </b-row>
-      </b-col>
+      </div>
     </b-row>
 
     <b-modal
@@ -105,6 +108,19 @@
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}
         <br />
+        <br />
+      </span>
+      <span
+        v-if="
+          courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
+        "
+      >
+        Credits: {{ courseInfoModalCourse.min_credits }}
+        <br />
+      </span>
+      <span v-else>
+        Credits: {{ courseInfoModalCourse.min_credits }} -
+        {{ courseInfoModalCourse.max_credits }}
         <br />
       </span>
       <span>
@@ -152,9 +168,12 @@ import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
-
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+import allExportVariables from "@/assets/dark.scss";
+
+import { SET_COURSE_LIST } from "@/store";
 
 import {
   getSubSemesters,
@@ -164,11 +183,14 @@ import {
   getStudentCourses,
 } from "@/services/YacsService";
 
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
 import {
   withinDuration,
   generateRequirementsText,
   findCourseByCourseSessionCRN,
   exportScheduleToIcs,
+  exportScheduleToImage,
 } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
@@ -180,6 +202,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
   },
   props: {
     selectedSemester: String,
@@ -203,41 +226,81 @@ export default {
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
+    exportScheduleToImage() {
+      exportScheduleToImage(
+        Object.values(this.selectedCourses),
+        this.selectedSemester,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
+    },
     async loadStudentCourses(semester) {
+      if (!semester) {
+        return;
+      }
+
       this.selectedCourses = {};
       this.userID = this.$cookies.get("userID");
 
-      if (this.userID && semester) {
-        console.log("Loading user courses...");
-        try {
-          const info = { uid: this.userID };
-          var cids = await getStudentCourses(info);
-          console.log(cids);
+      if (this.userID) {
+        const info = { uid: this.userID };
+        var cids = await getStudentCourses(info);
 
-          cids.forEach((cid) => {
-            if (cid.semester == this.selectedSemester) {
-              var c = this.courses.find(function (course) {
-                return (
-                  course.name == cid.course_name &&
-                  course.semester == cid.semester
-                );
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
               });
-
-              if (cid.crn != "-1") {
-                var sect = c.sections.find(function (section) {
-                  return section.crn == cid.crn;
-                });
-                sect.selected = true;
-                this.scheduler.addCourseSection(c, sect);
-              } else {
-                c.selected = true;
-                this.$set(this.selectedCourses, c.id, c);
-                this.scheduler.addCourse(c);
-              }
+              sect.selected = true;
+              this.scheduler.addCourseSection(c, sect);
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+              this.scheduler.addCourse(c);
             }
-          });
-        } catch (error) {
-          console.log(error);
+          }
+        });
+      } else if (!this.userId) {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+
+              course.selected = true;
+              this.$set(this.selectedCourses, course.id, course);
+              this.scheduler.addCourse(course);
+
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
+
+                  section.selected = true;
+                  this.scheduler.addCourseSection(course, section);
+                }
+              );
+            });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
         }
       }
     },
@@ -247,6 +310,7 @@ export default {
         getSubSemesters(this.selectedSemester),
       ]).then(([courses, subsemesters]) => {
         this.courses = courses;
+        this.$store.commit(SET_COURSE_LIST, courses);
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
         this.scheduler = new SubSemesterScheduler();
@@ -300,21 +364,17 @@ export default {
       this.scheduler.addCourse(course);
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: "-1",
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
       }
     },
     _addCourseSection(course, section) {
@@ -322,21 +382,17 @@ export default {
       section.selected = true;
 
       if (this.userID) {
-        const info = {
+        addStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        addStudentCourse(info)
-          .then((response) => {
-            console.log(`Saved section ${section.crn}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
       }
     },
 
@@ -360,42 +416,34 @@ export default {
       this.scheduler.removeAllCourseSections(course);
 
       if (this.userID) {
-        const info = {
+        removeStudentCourse({
           name: course.name,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: null,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved ${course.name}`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
       }
     },
     removeCourseSection(section) {
       this.scheduler.removeCourseSection(section);
+
       if (this.userID) {
-        var name = section.department + "-" + section.level;
-        const info = {
-          name: name,
+        removeStudentCourse({
+          name: section.department + "-" + section.level,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
-        };
-
-        removeStudentCourse(info)
-          .then((response) => {
-            console.log(`Unsaved section ${section.crn}!`);
-            console.log(response);
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourseSection(section)
+          .save();
       }
     },
 
@@ -436,6 +484,18 @@ export default {
      */
     selectedCrns() {
       return this.selectedSections.map((s) => s.crn).join(", ");
+    },
+    /**
+     * Returns sum of credits being taken from all selected sections
+     */
+    totalCredits() {
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+
+      // Getting sum of numbers
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;

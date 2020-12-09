@@ -11,8 +11,7 @@
   transition: 0s;
 }
 
-/* use !important to make sure components are overridden */
-.dark {
+:root {
   --dark-primary: #22252e;
   --dark-secondary: #181a21;
   --dark-text-primary: #e6e4e4;
@@ -21,6 +20,8 @@
   --dark-blue-primary: #3395ff;
   --dark-blue-secondary: #2783e6;
 
+/* use !important to make sure components are overridden */
+.dark {
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
 
@@ -42,6 +43,11 @@
 
   #footer {
     background: var(--dark-primary) !important;
+  }
+
+  .badge-light {
+    color: var(--dark-text-primary) !important;
+    background: var(--dark-secondary) !important;
   }
 
   .bg-light {
@@ -94,7 +100,7 @@
   .navbar-brand:hover {
     color: var(--dark-text-secondary) !important;
   }
-  
+
   .d-flex .btn {
     color: var(--dark-text-primary) !important;
   }
@@ -120,6 +126,11 @@
 
   .link {
     color: var(--dark-text-primary) !important;
+  }
+
+  .list-group-item {
+    border-top-color: var(--dark-border-primary) !important;
+    border-bottom-color: var(--dark-border-primary) !important;
   }
 
   .section-head {
@@ -174,25 +185,28 @@
     background-color: var(--dark-secondary) !important;
   }
 
-  .badge {
-    color: var(--dark-text-primary) !important;
-    background-color: var(--dark-secondary) !important;
-    transition: 0s !important;
-  }
-
   .selected {
     background-color: var(--dark-primary) !important;
   }
-  
-  .modal-header{
+
+  .modal-header {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
-    .close{
+    .close {
       color: $gray-100;
     }
   }
-  .modal-content{
+  .modal-content {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
   }
+}
+
+/*
+NOTE: Should Be Using var(--dark-primary),
+But For Some Reason, When Exporting bColor 
+=> Not Rendering The Background Image Color To The Correct Color.
+*/
+:export {
+  bColor: #22252e;
 }

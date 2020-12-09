@@ -1,126 +1,178 @@
 <template>
-  <div v-if="ready" class="gridContainer w-100 mb-4">
-    <b-row>
-      <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-      <h1 class="subjectBox">{{ subject }}</h1>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div
+      v-if="$store.state.courseList.length != 0"
+      class="gridContainer w-100 mb-4"
+    >
+      <b-row>
+        <!-- The subject title should be depending on the input parameter from subjectList.vue -->
+        <h1 class="subjectBox">{{ subject }}</h1>
+        <b-col>
+          <b-row
+            v-for="course in this.leftColumnCourses"
+            v-bind:key="course.level + course.department"
+          >
+            <!-- Navigates to course page by click on the course button  -->
+            <b-col class="m-1 ml-0">
+              <b-button
+                variant="light"
+                class="courseBox border m-2"
+                :to="{
+                  name: 'CoursePage',
+                  params: {
+                    course: course.name,
+                    subject: course.department,
+                  },
+                }"
+              >
+                {{ course.title }}
+                <br />
+                {{ course.department }}
+                {{ course.level }}
+                <br />
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+
+      <br />
+
+      <!-- left column of courses -->
       <b-col>
-        <b-button class="k-primary" to="/explore">Back</b-button>
+        <b-row
+          v-for="course in courseColumns[0]"
+          v-bind:key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-0">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
+            </b-button>
+          </b-col>
+        </b-row>
       </b-col>
-    </b-row>
 
-    <br />
-
-    <!-- left column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in this.leftColumnCourses"
-        v-bind:key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-0">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-
-    <!-- right column of courses -->
-    <b-col>
-      <b-row
-        v-for="course in this.rightColumnCourses"
-        :key="course.level + course.department"
-      >
-        <!-- Navigates to course page by click on the course button  -->
-        <b-col class="m-1 ml-2">
-          <b-button
-            variant="light"
-            class="courseBox border m-2"
-            :to="{
-              name: 'CoursePage',
-              params: {
-                course: course.name,
-                subject: course.department,
-              },
-            }"
-          >
-            {{ course.title }}
-            <br />
-            {{ course.department }}
-            {{ course.level }}
-            <br />
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-col>
-  </div>
-
-  <div v-else>
-    <b-spinner></b-spinner>
-    <strong class="m-2">Loading courses...</strong>
-  </div>
+      <!-- right column of courses -->
+      <b-col>
+        <b-row
+          v-for="course in courseColumns[1]"
+          :key="course.level + course.department"
+        >
+          <!-- Navigates to course page by click on the course button  -->
+          <b-col class="m-1 ml-2">
+            <b-button
+              variant="light"
+              class="courseBox border m-2"
+              :to="{
+                name: 'CoursePage',
+                params: {
+                  course: course.name,
+                  subject: course.department,
+                },
+              }"
+            >
+              {{ course.title }}
+              <br />
+              <span class="d-inline">
+                {{ course.department }}
+                {{ course.level }}
+              </span>
+              <course-sections-open-badge :course="course" />
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-col>
+    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.4"
+      loadingMessage="Courses"
+      :topSpacing="30"
+    />
+  </b-container>
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
   name: "SubjectExplorer",
-  components: {},
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+    CourseSectionsOpenBadge,
+  },
   props: {
     selectedSemester: String,
   },
   data() {
     return {
-      subjectCourseArr: [], // array of courses for the selected subject
-      leftColumnCourses: [],
-      rightColumnCourses: [],
       subject: this.$route.params.subject, // subject object from CourseExplorer
-      // split the total course number to half, left column rounds up
-      leftColumnCourseNum: Number,
-      rightColumnCourseNum: Number,
-      ready: false,
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+          to: "/explore",
+        },
+        {
+          text: this.$route.params.subject,
+          to: "/explore/" + this.$route.params.subject,
+        },
+      ],
     };
   },
-
-  /**
-   * created function calls automatically once the page is access/ object is created
-   * Loop through all courses in data base
-   * Only store the courses within the same subject/major into an array
-   * subjectCourseArr is an array of course objects
-   */
-  async created() {
-    const querySemester = this.$route.query.semester;
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
-    //Obtain All Courses Such That Department Matches The Subject Name.
-    const allTempData = courses.filter((c) => c.department === this.subject);
-    for (let k = 0; k < allTempData.length; k++) {
-      if (k % 2 == 0) this.leftColumnCourses.push(allTempData[k]);
-      else this.rightColumnCourses.push(allTempData[k]);
-    }
-    this.ready = true;
-  },
   methods: {},
-  computed: {},
+  computed: {
+    //courseColumns[0] corresponds to left column, [1] to right column
+    courseColumns() {
+      let leftColumn = [];
+      let rightColumn = [];
+      const courses = this.$store.state.courseList;
+      //Obtain All Courses Such That Department Matches The Subject Name.
+      const allTempData = courses.filter((c) => c.department === this.subject);
+      for (let k = 0; k < allTempData.length; k++) {
+        if (k % 2 == 0) leftColumn.push(allTempData[k]);
+        else rightColumn.push(allTempData[k]);
+      }
+      return [leftColumn, rightColumn];
+    },
+  },
+  metaInfo() {
+    return {
+      title: this.subject,
+      titleTemplate: "%s | YACS",
+      meta: [
+        { vmid: "description", content: "RPI " + this.subject },
+        {
+          vmid: "keywords",
+          content:
+            "RPI, YACS, Rensselaer Polytechnic Institute, " + this.subject,
+        },
+      ],
+    };
+  },
 };
 </script>
 
