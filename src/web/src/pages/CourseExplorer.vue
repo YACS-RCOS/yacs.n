@@ -145,7 +145,7 @@ export default {
       titleTemplate: "%s | YACS",
       meta: [
         { charset: 'utf-8' },
-        { name: 'description', content: "Explore courses in YACS"},
+        { vmid: 'description', content: "Explore courses in YACS"},
         { name: 'keywords', content: "RPI, YACS, Rensselaer Polytechnic Institute"},
         { property: 'og:title', content: "RPI - YACS Course Scheduler"},
         { property: 'og:site_name', content: 'YACS'},

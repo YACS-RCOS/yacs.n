@@ -15,9 +15,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueCookies);
-Vue.use(Meta, {
-  keyName: 'head'
-});
+Vue.use(Meta);
 
 Vue.$cookies.config("7d");
 
