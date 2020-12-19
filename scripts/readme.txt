@@ -4,6 +4,7 @@ NOTE: All scripts must be run from project root
 
 dev scripts:
 ------------
+dev-create-migration.sh : Creates database migration using Alembic
 dev-build.sh : Builds docker images locally and removes volumes
   NOTE! This will delete all data stored in the database
 dev-start.sh : Starts docker containers for development, ctrl-c to stop containers
@@ -19,12 +20,15 @@ usage guide:
 ------------
 (windows users should use the corresponding .bat script e.g. instead of dev-start.sh do dev-start.bat)
 
-If any of the following are true
-  - database tables changed
-  - web dependencies changed
+If you have changed the schemas and would like to create a new database migration, run
+        dev-create-migration.sh "message"
+  This will compare the state of the database to the defined schemas and automagically generate
+  a migration script based on the changes. The migration can be found in `src/api/migrations/versions`.
+  
+  Then stop and restart `yacs_api` to apply the migration and update the database tables. 
 
-  Run: 
-        dev-clear-volumes.sh 
+If the web dependencies change, run: 
+        dev-build.sh
   (NOTE! this will delete all data stored in the database)
   
     If the above command throws an error saying the volumes are in use, 

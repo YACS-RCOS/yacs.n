@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 # web (front-end) depends on api (back-end) depends on (db)
 # web -> api -> db [dependency chain]
@@ -21,6 +21,7 @@ services:
       - DB_USER=yacs
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
+      - DB_PORT=5432
       - WORKERS=${API_WORKERS:-4}
       - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 

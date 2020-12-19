@@ -28,6 +28,4 @@ services:
   yacs_db:
     restart: unless-stopped
     container_name: yacs_db
-    build:
-      context: ./src/data/
-      dockerfile: Dockerfile
+    image: postgres:12-alpine

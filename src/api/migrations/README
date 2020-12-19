@@ -1,0 +1,7 @@
+Generic single-database configuration.
+
+DB migrations are how schema changes are handled
+
+Running a migration for the yacs_api docker container:
+
+docker-compose -f docker-compose.yml -f docker-compose.development.yml run --rm yacs_api alembic revision --autogenerate -m "<message>"

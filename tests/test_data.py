@@ -11,6 +11,8 @@ from src.api.db.courses import Courses
 
 from tests.mock_cache import MockCache
 
+from src.api.tables import Base
+
 @dataclass(frozen=True, eq=True)
 class Subsemester:
     parent_semester: str
@@ -26,6 +28,8 @@ class Subsemester:
         return date(*[int(date_part) for date_part in self.date_end.split("-")])
 
 class TestData:
+    __test__ = False
+    
     def __init__(self, filename, course_sessions_by_id, semesters, departments, subsemesters):
         self.filename: str = filename
         self.course_sessions_by_id: Dict[str, dict] = course_sessions_by_id
@@ -33,17 +37,10 @@ class TestData:
         self.semesters: Set[str] = semesters
         self.subsemesters: Set[Subsemester] = subsemesters
     
-    def clear_db(self, db_conn):
-        table_names = []
-        for file_name in os.listdir("./src/data/schema"):
-            match = re.search("(?<=\d\d_)\w+(?=\.sql)", file_name)
-            if match:
-                table_names.append(match.group(0))
-        
-        conn = db_conn.get_connection()
-        with conn.cursor() as transaction:
-            transaction.execute("TRUNCATE " + ",".join(table_names) + " CASCADE;")
-        conn.commit()
+    def clear_db(self, session):
+        for table in reversed(Base.metadata.sorted_tables):
+            session.execute(clause=table.delete())
+        session.commit()
 
     def reload_data(self, db_conn):
         with open(self.filename) as csvfile:
