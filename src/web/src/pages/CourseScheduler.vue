@@ -213,7 +213,7 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
       subsemesters: [],
-      courses: [],
+
       loading: false,
       exportIcon: faPaperPlane,
 
@@ -247,21 +247,14 @@ export default {
 
       if (this.userID) {
         const info = { uid: this.userID };
-        var cids = await getStudentCourses(info);
+        const cids = await getStudentCourses(info);
 
-        cids.forEach((cid) => {
-          if (cid.semester == this.selectedSemester) {
-            var c = this.courses.find(function (course) {
-              return (
-                course.name == cid.course_name &&
-                course.semester == cid.semester
-              );
-            });
+        cids.forEach(({ semester, crn, course_id }) => {
+          if (semester == this.selectedSemester) {
+            const c = this.courses.find((course) => course.id === course_id);
 
-            if (cid.crn != "-1") {
-              var sect = c.sections.find(function (section) {
-                return section.crn == cid.crn;
-              });
+            if (crn != "-1") {
+              const sect = c.sections.find((section) => section.crn === crn);
               sect.selected = true;
               this.scheduler.addCourseSection(c, sect);
             } else {
@@ -309,7 +302,6 @@ export default {
         getCourses(this.selectedSemester),
         getSubSemesters(this.selectedSemester),
       ]).then(([courses, subsemesters]) => {
-        this.courses = courses;
         this.$store.commit(SET_COURSE_LIST, courses);
         this.subsemesters = subsemesters;
         // Less work to create a new scheduler which is meant for a single semester
@@ -365,7 +357,7 @@ export default {
 
       if (this.userID) {
         addStudentCourse({
-          name: course.name,
+          course_id: course.id,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: "-1",
@@ -383,7 +375,7 @@ export default {
 
       if (this.userID) {
         addStudentCourse({
-          name: course.name,
+          course_id: course.id,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
@@ -417,7 +409,7 @@ export default {
 
       if (this.userID) {
         removeStudentCourse({
-          name: course.name,
+          course_id: course.id,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: null,
@@ -434,7 +426,7 @@ export default {
 
       if (this.userID) {
         removeStudentCourse({
-          name: section.department + "-" + section.level,
+          course_id: course.id,
           semester: this.selectedSemester,
           uid: this.userID,
           cid: section.crn,
@@ -468,6 +460,9 @@ export default {
     },
   },
   computed: {
+    courses() {
+      return this.$store.state.courseList;
+    },
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
         (s) => s.display_string === this.selectedScheduleSubsemester
