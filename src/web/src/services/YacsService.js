@@ -23,21 +23,21 @@ const client = axios.create({
  * Thus, Should Revise The Following Code, If Necessary.
  */
 const _getCourseIdentifier = (courseObj) => {
-  return `
-    ${courseObj.crn}
-    ${courseObj.name}
-    ${courseObj.title}
-    ${courseObj.min_credits}
-    #{courseObj.max_credits}
-    ${courseObj.department}
-    ${courseObj.level}
-    ${courseObj.date_start.getMonth() + 1}
-    ${courseObj.date_start.getDay() + 1}
-    ${courseObj.date_start.getFullYear()}
-    ${courseObj.date_end.getMonth() + 1}
-    ${courseObj.date_end.getDay() + 1}
-    ${courseObj.date_end.getFullYear()}
-  `;
+  return [
+    courseObj.crn,
+    courseObj.name,
+    courseObj.title,
+    courseObj.min_credits,
+    courseObj.max_credits,
+    courseObj.department,
+    courseObj.level,
+    courseObj.date_start.getMonth() + 1,
+    courseObj.date_start.getDay() + 1,
+    courseObj.date_start.getFullYear(),
+    courseObj.date_end.getMonth() + 1,
+    courseObj.date_end.getDay() + 1,
+    courseObj.date_end.getFullYear(),
+  ].join("|");
 };
 
 /**
