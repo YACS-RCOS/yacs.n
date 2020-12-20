@@ -24,17 +24,16 @@ const client = axios.create({
  */
 const _getCourseIdentifier = (courseObj) => {
   return [
-    courseObj.crn,
     courseObj.title,
     courseObj.min_credits,
     courseObj.max_credits,
     courseObj.department,
     courseObj.level,
     courseObj.date_start.getMonth() + 1,
-    courseObj.date_start.getDay() + 1,
+    courseObj.date_start.getDate(),
     courseObj.date_start.getFullYear(),
     courseObj.date_end.getMonth() + 1,
-    courseObj.date_end.getDay() + 1,
+    courseObj.date_end.getDate(),
     courseObj.date_end.getFullYear(),
   ].join("|");
 };
@@ -68,6 +67,7 @@ export const getCourses = (semester, search = null, filter = true) =>
         c.id = _getCourseIdentifier(c);
 
         c.vscrl_type = c.description ? "with-info" : "without-info";
+
         return c;
       });
       return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
