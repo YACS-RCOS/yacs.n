@@ -28,7 +28,6 @@ def upgrade():
             SELECT 
                 scs.*,
                 concat(
-                    c.crn, '|', 
                     c.title, '|', 
                     c.min_credits, '|', 
                     c.max_credits, '|', 
