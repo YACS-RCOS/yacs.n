@@ -429,8 +429,8 @@ export default {
           .save();
       }
     },
-    removeCourseSection(section) {
-      this.scheduler.removeCourseSection(section);
+    removeCourseSection(course, section) {
+      this.scheduler.removeCourseSection(course, section);
 
       if (this.userID) {
         removeStudentCourse({
@@ -442,7 +442,7 @@ export default {
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
-          .removeCourseSection(section)
+          .removeCourseSection(course, section)
           .save();
       }
     },
