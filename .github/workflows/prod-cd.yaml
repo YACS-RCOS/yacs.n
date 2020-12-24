@@ -57,6 +57,7 @@ jobs:
           docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api
 
       - name: Update yacs_web
+        run: |
           docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_web &&
           docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_web &&
           docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_web
