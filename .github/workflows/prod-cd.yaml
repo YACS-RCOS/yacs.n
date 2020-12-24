@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - prod_cd
+      - master
 
 jobs:
   deploy:
@@ -18,25 +18,25 @@ jobs:
       API_WORKERS: 8
 
     steps:
-      # - uses: fountainhead/action-wait-for-check@v1.0.0
-      #   id: wait-for-ci
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     checkName: CI
+      - uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CI
 
-      # - name: Check if ci was successful
-      #   if: steps.wait-for-ci.outputs.conclusion != 'success'
-      #   run: exit 1
+      - name: Check if ci was successful
+        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
 
-      # - uses: fountainhead/action-wait-for-check@v1.0.0
-      #   id: wait-for-master-ci
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     checkName: Master CI
+      - uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-master-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Master CI
 
-      # - name: Check if ci was successful
-      #   if: steps.wait-for-master-ci.outputs.conclusion != 'success'
-      #   run: exit 1
+      - name: Check if ci was successful
+        if: steps.wait-for-master-ci.outputs.conclusion != 'success'
+        run: exit 1
 
       - uses: actions/checkout@v2
         with:
