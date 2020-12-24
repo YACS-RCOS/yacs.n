@@ -11,9 +11,36 @@ jobs:
     runs-on: [self-hosted, rpi, prod]
 
     steps:
+      # - uses: fountainhead/action-wait-for-check@v1.0.0
+      #   id: wait-for-ci
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     checkName: CI
+
+      # - name: Check if ci was successful
+      #   if: steps.wait-for-ci.outputs.conclusion != 'success'
+      #   run: exit 1
+
+      # - uses: fountainhead/action-wait-for-check@v1.0.0
+      #   id: wait-for-master-ci
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     checkName: Master CI
+
+      # - name: Check if ci was successful
+      #   if: steps.wait-for-master-ci.outputs.conclusion != 'success'
+      #   run: exit 1
+
       - uses: actions/checkout@v2
         with:
           ref: master
+
+      - name: Copy certificates into yacs_web
+        run: cp ~/yacs.n/src/web/cert/yacs.cs.rpi.edu* .
+        working-directory: src/web/cert
+
+      - name: Test environment variables
+        run: echo $HOST
 
       - name: Build images
         run: |
