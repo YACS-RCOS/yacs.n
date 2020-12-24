@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: [self-hosted, rpi, prod]
-    environment: yacs-prod
+    environment: yacs-rpi-prod
 
     env:
       HOST: ${{ secrets.HOST }}
