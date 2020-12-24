@@ -9,6 +9,13 @@ on:
 jobs:
   deploy:
     runs-on: [self-hosted, rpi, prod]
+    environment: yacs-prod
+
+    env:
+      HOST: ${{ secrets.HOST }}
+      ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      API_WORKERS: 8
 
     steps:
       # - uses: fountainhead/action-wait-for-check@v1.0.0
@@ -40,7 +47,7 @@ jobs:
         working-directory: src/web/cert
 
       - name: Test environment variables
-        run: echo $HOST
+        run: echo $API_WORKERS
 
       - name: Build images
         run: |
