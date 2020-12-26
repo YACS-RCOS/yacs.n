@@ -13,7 +13,6 @@ envsubst '\$HOST' < \
   /etc/nginx/nginx.template.conf > \
   /etc/nginx/nginx.conf
 
-
 # If SSL Certificate folder isn't present, generate one
 if [ ! -f /etc/nginx/cert/$HOST.crt ] &&
 [ ! -f /etc/nginx/cert/$HOST.key ] &&

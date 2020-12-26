@@ -30,7 +30,6 @@ _See dev script here: https://github.com/YACS-RCOS/yacs.n/blob/master/scripts/de
 
 If any of the following occur
 
-- database schema is changed
 - web dependencies are changed
 
 From the project root, run `./scripts/dev-clear-volumes.sh`

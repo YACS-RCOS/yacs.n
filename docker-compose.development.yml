@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 # web (front-end) depends on api (back-end) depends on (db)
 # nginx -> web -> api -> db [dependency chain]
@@ -31,7 +31,7 @@ services:
       - YACS_API_HOST=http://yacs_api:5000
 
   yacs_api:
-    command: python app.py
+    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && python app.py"
     ports:
       - 5000:5000
     volumes:
@@ -43,6 +43,7 @@ services:
       - DB_USER=yacs
       - DB_PASS=${DB_PASS:-easy_dev_pass}
       - DB_NAME=yacs
+      - DB_PORT=5432
       - FLASK_SIGN_KEY=${FLASK_SIGN_KEY:-secretKey}
 
   yacs_db:

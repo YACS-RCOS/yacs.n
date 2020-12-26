@@ -57,10 +57,14 @@
                 : 'none',
               'background-color': section.selected
                 ? `${getBackgroundColor(section)} !important`
-                : `${$store.state.darkMode}`
+                : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',
-              color: section.selected ? 'black' : 'var(--dark-text-primary)',
+              color: section.selected
+                ? 'black'
+                : $store.state.darkMode
+                ? 'var(--dark-primary-text)'
+                : 'black',
             }"
           >
             <b-row class="mb-2" align-h="between">

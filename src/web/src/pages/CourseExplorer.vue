@@ -1,11 +1,11 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="ready" class="mx-auto w-75">
+    <div v-if="$store.state.courseList.length != 0" class="mx-auto w-75">
       <b-row>
         <!--
-          - Left side of the column
-        -->
+        - Left side of the column
+      -->
         <b-col>
           <b-row
             v-for="deptObj in schoolDepartmentObjects[0]"
@@ -69,10 +69,8 @@
 </template>
 
 <script>
-import { getCourses } from "../services/YacsService";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
-import { getDefaultSemester } from "@/services/AdminService";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
@@ -86,10 +84,6 @@ export default {
   },
   data() {
     return {
-      //an object with keys being the dept, and values a list of courses
-      deptClassDict: {},
-      schoolsMajorDict: {},
-      ready: false,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -100,29 +94,6 @@ export default {
         },
       ],
     };
-  },
-  async created() {
-    if (this.selectedSemester === "") {
-      const querySemester = this.$route.query.semester;
-      this.selectedSemester =
-        querySemester && querySemester !== "null"
-          ? querySemester
-          : await getDefaultSemester();
-    }
-    getCourses(this.selectedSemester).then((courses) => {
-      for (const c of courses) {
-        if (!this.schoolsMajorDict[c.school]) {
-          this.schoolsMajorDict[c.school] = new Set();
-        }
-        this.schoolsMajorDict[c.school].add(c.department);
-        if (this.deptClassDict[c.department]) {
-          this.deptClassDict[c.department].push(c);
-        } else {
-          this.deptClassDict[c.department] = [c];
-        }
-      }
-      this.ready = true;
-    });
   },
   methods: {
     generateRequirementsText,
@@ -146,6 +117,44 @@ export default {
       }
       return columnArr;
     },
+    schoolsMajorDict() {
+      let schoolsMajorDict = {};
+      for (const c of this.$store.state.courseList) {
+        if (!schoolsMajorDict[c.school]) {
+          schoolsMajorDict[c.school] = new Set();
+        }
+        schoolsMajorDict[c.school].add(c.department);
+      }
+      return schoolsMajorDict;
+    },
+    deptClassDict() {
+      let deptClassDict = {};
+      for (const c of this.$store.state.courseList) {
+        if (deptClassDict[c.department]) {
+          deptClassDict[c.department].push(c);
+        } else {
+          deptClassDict[c.department] = [c];
+        }
+      }
+      return deptClassDict;
+    },
+  },
+  metaInfo() {
+    return {
+      title: "Explore",
+      titleTemplate: "%s | YACS",
+      meta: [
+        { charset: "utf-8" },
+        { vmid: "description", content: "Explore courses in YACS" },
+        {
+          name: "keywords",
+          content: "RPI, YACS, Rensselaer Polytechnic Institute",
+        },
+        { property: "og:title", content: "RPI - YACS Course Scheduler" },
+        { property: "og:site_name", content: "YACS" },
+        { property: "og:type", content: "website" },
+      ],
+    };
   },
 };
 </script>

@@ -1,6 +1,7 @@
 import os
 import pytest
 
+from src.api.tables import SessionLocal
 from src.api.db.connection import db
 from src.api.db.classinfo import ClassInfo
 from src.api.db.courses import Courses
@@ -21,13 +22,22 @@ TEST_CSV = os.environ.get('TEST_CSV', 'tests/test_data.csv')
 
 TEST_DATA = TestData.read(TEST_CSV)
 
+@pytest.fixture(scope="module")
+def db_session():
+    session = SessionLocal()
+
+    yield session
+
+    session.close()
+
 @pytest.fixture(scope="session")
 def db_conn():
     return db
 
 @pytest.fixture(scope="module")
-def test_data(db_conn) -> TestData:
-    TEST_DATA.clear_db(db_conn)
+def test_data(db_conn, db_session) -> TestData:
+    TEST_DATA.clear_db(db_session)
+
     TEST_DATA.reload_data(db_conn)
 
     return TEST_DATA

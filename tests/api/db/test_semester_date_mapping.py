@@ -23,9 +23,9 @@ def test_semester_date_mapping_insert(test_data: TestData, semester_date_mapping
         else:
             assert subsemester['semester_part_name'] is None
 
-def test_semester_date_mapping_insert_all(db_conn, test_data: TestData, semester_date_mapping: SemesterDateMapping, class_info: ClassInfo):
-    test_data.clear_db(db_conn)
-
+def test_semester_date_mapping_insert_all(db_session, test_data: TestData, semester_date_mapping: SemesterDateMapping, class_info: ClassInfo):
+    test_data.clear_db(db_session)
+    
     subsemesters, err = class_info.get_subsemesters()
     assert err is None
 
