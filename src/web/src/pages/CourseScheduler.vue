@@ -439,19 +439,19 @@ export default {
           .save();
       }
     },
-    removeCourseSection(section) {
-      this.scheduler.removeCourseSection(section);
+    removeCourseSection(course, section) {
+      this.scheduler.removeCourseSection(course, section);
 
       if (this.isLoggedIn) {
         removeStudentCourse({
-          name: section.department + "-" + section.level,
+          name: course.name,
           semester: this.selectedSemester,
           cid: section.crn,
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
-          .removeCourseSection(section)
+          .removeCourseSection(course, section)
           .save();
       }
     },

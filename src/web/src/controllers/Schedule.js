@@ -265,9 +265,10 @@ class Schedule extends Scheduler {
   /**
    * Remove all sessions in courseSection from schedule
    * Does not check if individual course session removal succeeds
+   * @param {Course} course
    * @param {CourseSection} courseSection
    */
-  removeCourseSection(courseSection) {
+  removeCourseSection(course, courseSection) {
     if (!courseSection) {
       console.warn(`Ignoring remove null/undefined courseSection`);
       // } else if (courseSection.sessions.length === 0) {
@@ -302,7 +303,7 @@ class Schedule extends Scheduler {
       );
     } else {
       for (const section of course.sections) {
-        this.removeCourseSection(section);
+        this.removeCourseSection(course, section);
       }
 
       var i;
