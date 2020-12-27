@@ -347,7 +347,7 @@ export const prefixNamespacedTypes = (namespace, types) => {
   namespacedTypes.namespace = namespace;
 
   return namespacedTypes;
-}
+};
 
 /*
  * Export The Course Schedule To An Image Format, Probably PNG.

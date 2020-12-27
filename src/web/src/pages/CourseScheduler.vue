@@ -175,13 +175,11 @@ import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
-
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import { userTypes } from "../store/modules/user";
 
 import { SET_COURSE_LIST } from "@/store";
-
 
 import {
   getSubSemesters,
