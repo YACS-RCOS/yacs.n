@@ -6,9 +6,13 @@ const client = axios.create({
 
 export const login = (userInfo) => client.post("/session", userInfo);
 
-export const signup = (userInfo) => {
-  return client.post("/user", userInfo);
-};
+/**
+ *
+ * @param {string} sessionID
+ */
+export const getUserInfo = (sessionID) => client.get(`/user/${sessionID}`);
+
+export const signup = (userInfo) => client.post("/user", userInfo);
 
 export const logout = (sessionId) =>
   client.delete("/session", {

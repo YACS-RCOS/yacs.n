@@ -302,6 +302,54 @@ export const exportScheduleToIcs = (selectedCourses) => {
 };
 
 /**
+ * Takes an object with the constant types for a vuex module and
+ * the associated namespace, then adds the namespace prefix
+ * to all definitions while adding a `local` property with the
+ * original definitions.
+ * ```
+ * prefixNamespacedTypes("user", {
+ *   actions: {
+ *    LOGIN: "login",
+ *    LOGOUT: "logout"
+ *  }
+ * })
+ * // which will return
+ * {
+ *   actions: {
+ *     LOGIN: "user/login",
+ *     LOGOUT: "user/logout"
+ *   },
+ *   local: {
+ *     actions: {
+ *       LOGIN: "login",
+ *       LOGOUT: "logout"
+ *     }
+ *   },
+ *   namespace: "user"
+ * }
+ *
+ * ```
+ * @template M
+ * @param {M} types
+ * @param {string} namespace
+ * @returns {M & {local: M; namespace: string}}
+ */
+export const prefixNamespacedTypes = (namespace, types) => {
+  const namespacedTypes = {};
+
+  Object.keys(types).forEach((block) => {
+    namespacedTypes[block] = {};
+    Object.keys(types[block]).forEach((key) => {
+      namespacedTypes[block][key] = namespace + "/" + types[block][key];
+    });
+  });
+  namespacedTypes.local = types;
+  namespacedTypes.namespace = namespace;
+
+  return namespacedTypes;
+};
+
+/*
  * Export The Course Schedule To An Image Format, Probably PNG.
  * Can Come Back Here + Add More File Format Options, Such As JPEG, ...
  * NOTE: In Case More Specifications Are Needed For Image, Modify Options

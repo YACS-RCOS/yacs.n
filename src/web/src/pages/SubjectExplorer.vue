@@ -1,55 +1,22 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div
-      v-if="$store.state.courseList.length != 0"
-      class="gridContainer w-100 mb-4"
-    >
-      <b-row>
-        <!-- The subject title should be depending on the input parameter from subjectList.vue -->
-        <h1 class="subjectBox">{{ subject }}</h1>
-        <b-col>
-          <b-row
-            v-for="course in this.leftColumnCourses"
-            v-bind:key="course.level + course.department"
-          >
-            <!-- Navigates to course page by click on the course button  -->
-            <b-col class="m-1 ml-0">
-              <b-button
-                variant="light"
-                class="courseBox border m-2"
-                :to="{
-                  name: 'CoursePage',
-                  params: {
-                    course: course.name,
-                    subject: course.department,
-                  },
-                }"
-              >
-                {{ course.title }}
-                <br />
-                {{ course.department }}
-                {{ course.level }}
-                <br />
-              </b-button>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-
-      <br />
-
-      <!-- left column of courses -->
-      <b-col>
+    <b-row class="justify-content-center">
+      <!-- The subject title should be depending on the input parameter from subjectList.vue -->
+      <h3 class="subjectBox">{{ subject }}</h3>
+    </b-row>
+    <!-- left column of courses -->
+    <b-row v-if="$store.state.courseList.length != 0">
+      <b-col cols="6">
         <b-row
           v-for="course in courseColumns[0]"
           v-bind:key="course.level + course.department"
         >
           <!-- Navigates to course page by click on the course button  -->
-          <b-col class="m-1 ml-0">
+          <b-col class="leftCol p-1">
             <b-button
               variant="light"
-              class="courseBox border m-2"
+              class="courseBox border mb-1"
               :to="{
                 name: 'CoursePage',
                 params: {
@@ -69,18 +36,17 @@
           </b-col>
         </b-row>
       </b-col>
-
       <!-- right column of courses -->
-      <b-col>
+      <b-col cols="6">
         <b-row
           v-for="course in courseColumns[1]"
           :key="course.level + course.department"
         >
           <!-- Navigates to course page by click on the course button  -->
-          <b-col class="m-1 ml-2">
+          <b-col class="rightCol p-1">
             <b-button
               variant="light"
-              class="courseBox border m-2"
+              class="courseBox border mb-1"
               :to="{
                 name: 'CoursePage',
                 params: {
@@ -100,7 +66,8 @@
           </b-col>
         </b-row>
       </b-col>
-    </div>
+    </b-row>
+    <!-- </div> -->
     <CenterSpinner
       v-else
       :height="80"
@@ -177,13 +144,6 @@ export default {
 </script>
 
 <style scope>
-.gridContainer {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-content: center;
-}
-
 .subjectBox {
   /* border: 3px solid black; */
   margin-bottom: 20px;
@@ -194,9 +154,34 @@ export default {
   text-align: center;
 }
 
+@media screen and (max-width: 600px) {
+  .courseBox {
+    width: 100% !important;
+    height: 7rem !important;
+    display: block;
+    overflow: scroll;
+  }
+
+  .leftCol {
+    text-align: center;
+  }
+
+  .rightCol {
+    text-align: center;
+  }
+}
+
+.leftCol {
+  text-align: right;
+}
+
+.rightCol {
+  text-align: left;
+}
+
 .courseBox {
   height: 5rem;
-  width: 30rem;
+  width: 60%;
   text-align: left;
 }
 
