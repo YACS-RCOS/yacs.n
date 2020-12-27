@@ -54,19 +54,22 @@
         </b-card>
       </b-col>
       <div class="col-md-8" id="allScheduleData">
-        <b-form-select
-          v-if="
-            !loading &&
-            scheduler.scheduleSubsemesters &&
-            scheduler.scheduleSubsemesters.length > 1
-          "
-          v-model="selectedScheduleSubsemester"
-          :options="scheduler.scheduleSubsemesters"
-          text-field="display_string"
-          value-field="display_string"
-        ></b-form-select>
-
-        <template v-if="scheduler.schedules">
+        <template v-if="scheduler.schedules.length > 0">
+          <div>
+            <b-button
+              v-if="selectedScheduleIndex > 0"
+              @click="selectedScheduleIndex -= 1"
+            >
+              prev
+            </b-button>
+            <b-button
+              v-if="selectedScheduleIndex < scheduler.schedules.length - 1"
+              @click="selectedScheduleIndex += 1"
+            >
+              next
+            </b-button>
+            {{ selectedScheduleIndex + 1 }}/{{ scheduler.schedules.length }}
+          </div>
           <Schedule
             v-for="(schedule, index) in scheduler.schedules"
             :key="index"
@@ -74,7 +77,7 @@
             v-show="selectedScheduleIndex === index"
           />
         </template>
-        <Schedule v-else :schedule="scheduler"></Schedule>
+        <Schedule v-else></Schedule>
 
         <b-row>
           <b-col>
@@ -171,8 +174,6 @@ import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
 import CenterSpinnerComponent from "../components/CenterSpinner";
-import Schedule from "@/controllers/Schedule";
-import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
@@ -190,7 +191,6 @@ import {
 } from "@/services/YacsService";
 
 import {
-  withinDuration,
   generateRequirementsText,
   findCourseByCourseSessionCRN,
   exportScheduleToIcs,
@@ -198,6 +198,7 @@ import {
 } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import CourseScheduler from "@/controllers/CourseScheduler";
 
 export default {
   name: "MainPage",
@@ -214,15 +215,14 @@ export default {
   data() {
     return {
       selectedCourses: {},
-      selectedScheduleSubsemester: null,
-      scheduler: new Schedule(),
-      subsemesters: [],
+      scheduler: null,
 
       loading: false,
       exportIcon: faPaperPlane,
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
+      selectedScheduleIndex: 0,
     };
   },
   methods: {
@@ -246,22 +246,7 @@ export default {
         return;
       }
 
-      // Less work to create a new scheduler which is meant for a single semester
-      this.scheduler = new SubSemesterScheduler();
-      // Filter out "full" subsemester
-      this.subsemesters
-        .filter(
-          (s, i, arr) =>
-            arr.length == 1 ||
-            !arr.every((o, oi) => oi == i || withinDuration(s, o))
-        )
-        .forEach((subsemester) => {
-          this.scheduler.addSubSemester(subsemester);
-        });
-
-      if (this.scheduler.scheduleSubsemesters.length > 0) {
-        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
-      }
+      this.scheduler = new CourseScheduler();
 
       // Need to reset `selected` property on courses and sections,
       // two sources of truth ugh
@@ -336,33 +321,6 @@ export default {
         });
     },
     addCourse(course) {
-      let i = 0;
-      for (; i < course.sections.length; i++) {
-        try {
-          this._addCourseSection(course, course.sections[i]);
-          break;
-        } catch (err) {
-          if (err.type == "Schedule Conflict") {
-            if (i == course.sections.length - 1) {
-              this.notifyScheduleConflict(
-                course,
-                findCourseByCourseSessionCRN(
-                  this.courses,
-                  err.existingSession.crn
-                ),
-                err.addingSession,
-                err.existingSession
-              );
-              return;
-            } else {
-              continue;
-            }
-          } else {
-            throw err;
-          }
-        }
-      }
-
       course.selected = true;
       // This must be vm.set since we're adding a property onto an object
       this.$set(this.selectedCourses, course.id, course);
@@ -473,11 +431,12 @@ export default {
     courses() {
       return this.$store.state.courseList;
     },
-    selectedScheduleIndex() {
-      return this.scheduler.scheduleSubsemesters.findIndex(
-        (s) => s.display_string === this.selectedScheduleSubsemester
-      );
-    },
+
+    // selectedScheduleIndex() {
+    //   return this.scheduler.scheduleSubsemesters.findIndex(
+    //     (s) => s.display_string === this.selectedScheduleSubsemester
+    //   );
+    // },
     selectedSections() {
       return Object.values(this.selectedCourses)
         .map((c) => c.sections.filter((s) => s.selected))
