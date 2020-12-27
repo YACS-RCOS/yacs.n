@@ -5,7 +5,7 @@ class student_course_selection:
 	def add_selection(self, name, sem, uid, cid):
 		sql = 	"""
 				INSERT INTO
-					student_course_selection (user_id, semester, course_name, crn)
+					student_course_selection (user_id, semester, course_id, crn)
 				VALUES
 					(%s, %s, %s, %s)
 				ON CONFLICT DO NOTHING;
@@ -21,7 +21,7 @@ class student_course_selection:
 					WHERE
 						user_id = %s AND
 						semester = %s AND
-						course_name = %s
+						course_id = %s
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, name], False)
 		else:
@@ -31,7 +31,7 @@ class student_course_selection:
 					WHERE
 						user_id = %s AND
 						semester = %s AND
-						course_name = %s AND
+						course_id = %s AND
 						crn = %s
 
 					"""
@@ -42,7 +42,7 @@ class student_course_selection:
 	def get_selection(self, uid):
 		sql = """
 				select
-					course_name,
+					course_id,
 					semester,
 					crn
 				from
@@ -50,7 +50,7 @@ class student_course_selection:
 				where
 					user_id = %s
 				order by
-					course_name asc,
+					course_id asc,
 					crn
 				"""
 		courses, error = self.db_conn.execute(sql, [uid], True)
