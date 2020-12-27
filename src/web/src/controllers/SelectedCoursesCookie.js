@@ -186,11 +186,11 @@ class SelectedCoursesCookie {
   }
 
   /**
-   *
+   * @param {Course} course
    * @param {CourseSection} section
    * @returns {this}
    */
-  removeCourseSection(section) {
+  removeCourseSection(course, section) {
     const selectedCourse = this.selectedCourses.find((selectedCourse) =>
       selectedCourse.selectedSectionCrns.some((crn) => crn === section.crn)
     );
