@@ -75,7 +75,10 @@ export default {
     ScheduleEvent: ScheduleEventComponent,
   },
   props: {
-    schedule: Schedule,
+    schedule: {
+      type: Schedule,
+      default: () => new Schedule(),
+    },
   },
   data() {
     return {
