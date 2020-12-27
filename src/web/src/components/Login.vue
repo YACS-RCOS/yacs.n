@@ -25,7 +25,9 @@
 </template>
 
 <script>
-import { login } from "@/services/UserService";
+import { mapGetters } from "vuex";
+
+import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Login",
@@ -39,31 +41,24 @@ export default {
     };
   },
   methods: {
-    onSubmit(evt) {
+    async onSubmit(evt) {
       evt.preventDefault();
-      let userInfo = this.form;
-      console.log(userInfo);
 
-      login(userInfo)
-        .then((response) => {
-          console.log(response);
-          this.$cookies.set("sessionID", response.data.content["sessionID"]);
-          this.$cookies.set("userName", response.data.content["userName"]);
-          this.$cookies.set("userID", response.data.content["uid"]);
-          location.reload();
-        })
-        .catch((error) => {
-          console.error(error.response);
-          this.$bvToast.toast(
-            `Login Unsuccesful. Please double check your email and password, then try again!`,
-            {
-              title: "Invalid login",
-              variant: "danger",
-              noAutoHide: true,
-            }
-          );
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGIN, this.form);
+
+        this.$bvToast.toast(`You are now logged in!`, {
+          title: `Welcome ${this.user.name}`,
+          variant: "success",
         });
-      this.$emit("submit");
+
+        this.$emit("submit");
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
+          variant: "danger",
+        });
+      }
     },
     onReset(evt) {
       evt.preventDefault();
@@ -76,6 +71,12 @@ export default {
         this.showForm = true;
       });
     },
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
   },
 };
 </script>

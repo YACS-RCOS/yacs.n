@@ -62,7 +62,8 @@
 </template>
 
 <script>
-import { login, signup } from "@/services/UserService";
+import { signup } from "@/services/UserService";
+import { userTypes } from "../store/modules/user";
 export default {
   name: "SignUp",
   data() {
@@ -84,24 +85,35 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      signup(this.form).then((response) => {
-        console.log(response);
-        if (response.data.content) {
-          login({
-            email: this.form["email"],
-            password: this.form["password"],
-          }).then((response) => {
-            console.log(response);
-            this.$cookies.set("sessionID", response.data.content["sessionID"]);
-            this.$cookies.set("userName", response.data.content["userName"]);
-            this.$cookies.set("userID", response.data.content["uid"]);
-            this.$router.go();
-          });
-        } else {
-          alert(response.data.errMsg);
-        }
-      });
+    async onSubmit() {
+      let {
+        data: { success, errMsg },
+      } = await signup(this.form);
+
+      if (!success) {
+        this.$bvToast.toast(errMsg || "Unknown error", {
+          title: "Signup failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+        this.$emit("submit");
+        return;
+      }
+
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGIN, {
+          email: this.form["email"],
+          password: this.form["password"],
+        });
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+      }
+
+      this.$emit("submit");
     },
   },
 };

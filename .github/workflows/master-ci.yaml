@@ -41,3 +41,17 @@ jobs:
           else
             echo "Files are clean"
           fi
+
+  publish-action-status:
+    needs: [prettier]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: technote-space/workflow-conclusion-action@v1
+      - name: Publish status checks
+        uses: LouisBrunner/checks-action@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Master CI
+          conclusion: ${{ env.WORKFLOW_CONCLUSION }}

@@ -197,23 +197,35 @@ def map_date_range_to_semester_part_handler():
 
 
 # - user system api
-@app.route('/api/user', methods=['GET'])
-def get_user_info():
-    return user_controller.get_user_info(request.json)
+@app.route('/api/user/<session_id>', methods=['GET'])
+def get_user_info(session_id):
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+    
+    return user_controller.get_user_info(session_id)
 
 
 @app.route('/api/user', methods=['POST'])
 def add_user():
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
     return user_controller.add_user(request.json)
 
 
 @app.route('/api/user', methods=['DELETE'])
 def delete_user():
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
     return user_controller.delete_user(request.json)
 
 
 @app.route('/api/user', methods=['PUT'])
 def update_user_info():
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
     return user_controller.update_user(request.json)
 
 
@@ -232,31 +244,47 @@ def log_in():
 
 @app.route('/api/session', methods=['DELETE'])
 def log_out():
-    session.pop('user', None)
-    return session_controller.delete_session(request.json)
+    response = session_controller.delete_session(request.json)
+
+    if response.get_json()['success']:
+        session.pop('user', None)
+    
+    return response
 
 
 @app.route('/api/event', methods=['POST'])
 def add_user_event():
     return event_controller.add_event(json.loads(request.data))
 
-@app.route('/api/course', methods=['POST'])
+@app.route('/api/user/course', methods=['POST'])
 def add_student_course():
     info = request.get_json()
-    resp, error = course_select.add_selection(info['course_id'], info['semester'], info['uid'], info['cid'])
+
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    resp, error = course_select.add_selection(info['course_id'], info['semester'], session['user']['user_id'], info['cid'])
+
     return Response(status=200) if not error else Response(error, status=500)
 
 
-@app.route('/api/course', methods=['DELETE'])
+@app.route('/api/user/course', methods=['DELETE'])
 def remove_student_course():
     info = request.json
-    resp, error = course_select.remove_selection(info['course_id'], info['semester'], info['uid'], info['cid'])
+
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    resp, error = course_select.remove_selection(info['course_id'], info['semester'], session['user']['user_id'], info['cid'])
+
     return Response(status=200) if not error else Response(error, status=500)
 
-@app.route('/api/course', methods=['GET'])
+@app.route('/api/user/course', methods=['GET'])
 def get_student_courses():
-    info = request.args
-    courses, error = course_select.get_selection(info['uid'])
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    courses, error = course_select.get_selection(session['user']['user_id'])
     return jsonify(courses) if not error else Response(error, status=500)
 
 if __name__ == '__main__':
