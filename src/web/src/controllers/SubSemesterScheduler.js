@@ -8,21 +8,15 @@ import Scheduler from "./Scheduler";
  * Allows adding and removing Course sections
  */
 class SubSemesterScheduler extends Scheduler {
-  // /**
-  //  * List of schedules, each with a corresponding subsemester
-  //  * in `scheduleSubsemesters`
-  //  * @type {Schedule[]}
-  //  */
-  // schedules;
   /** @type {Subsemester[]} */
-  scheduleSubsemesters;
+  subSemesters;
 
   /**
-   * Initializes `schedules` and `scheduleSubsemesters`
+   * Initializes `schedules` and `subSemesters`
    */
   constructor() {
     super();
-    this.scheduleSubsemesters = [];
+    this.subSemesters = [];
   }
 
   /**
@@ -32,7 +26,7 @@ class SubSemesterScheduler extends Scheduler {
    */
   addSubSemester(subsemester, schedule = new Schedule()) {
     this.schedules.push(schedule);
-    this.scheduleSubsemesters.push(subsemester);
+    this.subSemesters.push(subsemester);
   }
 
   /**
@@ -61,7 +55,7 @@ class SubSemesterScheduler extends Scheduler {
     // If course spans a schedule's subsemester, then check all
     // the sessions of the selected section for schedule conflicts
     for (const [index, schedule] of this.schedules.entries()) {
-      if (this.withinCourseDuration(course, this.scheduleSubsemesters[index])) {
+      if (this.withinCourseDuration(course, this.subSemesters[index])) {
         /**
          * Store results of schedule conflict checking to use when
          * actually adding `section` to the schedule
