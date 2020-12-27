@@ -46,9 +46,9 @@
           </b-form-checkbox>
         </b-nav-form>
 
-        <b-nav-item-dropdown right v-if="sessionID !== null">
+        <b-nav-item-dropdown right v-if="isLoggedIn">
           <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>Hi, {{ userName }}</template>
+          <template v-slot:button-content>Hi, {{ user.name }}</template>
           <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
 
@@ -83,7 +83,7 @@
           </b-modal>
 
           <b-modal id="signup-modal" hide-footer title="Sign Up">
-            <SignUpForm />
+            <SignUpForm @submit="onSignUp()" />
           </b-modal>
         </template>
       </b-navbar-nav>
@@ -92,12 +92,14 @@
 </template>
 
 <script>
-import { logout } from "@/services/UserService";
+import { mapGetters, mapState } from "vuex";
 
 import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
 
 import { TOGGLE_DARK_MODE } from "@/store";
+
+import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Header",
@@ -110,21 +112,8 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false,
-      sessionID: "",
-      userName: "",
       semesterOptions: [],
     };
-  },
-  created() {
-    this.sessionID = this.$cookies.get("sessionID");
-    this.userName = this.$cookies.get("userName");
-
-    if (this.sessionID == "") {
-      console.log("not logged in");
-    } else {
-      console.log("sessionID", this.sessionID);
-    }
   },
   methods: {
     toggle_style() {
@@ -133,14 +122,30 @@ export default {
     onLogIn() {
       this.$refs["login-modal"].hide();
     },
-    logOut() {
-      var sessionId = this.$cookies.get("sessionID");
-      logout(sessionId).then(() => {
-        this.$cookies.remove("sessionID");
-        this.$cookies.remove("userID");
-        location.reload();
-      });
+    onSignUp() {
+      this.$refs["signup-modal"].hide();
     },
+    async logOut() {
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGOUT);
+
+        this.$bvToast.toast(`You are now logged out!`, {
+          variant: "success",
+        });
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Failed to logout",
+          variant: "danger",
+        });
+      }
+    },
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
+    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
   },
 };
 </script>

@@ -44,3 +44,12 @@
  * @typedef Department
  * @property {string} department
  */
+/**
+ * @typedef User
+ * @property {string} [degree]
+ * @property {string} email
+ * @property {string} [major]
+ * @property {string} name
+ * @property {string} [phone]
+ * @property {string} uid
+ */

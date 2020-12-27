@@ -4,25 +4,29 @@ import view.message as msg
 from common import *
 
 
-def get_user_info(form):
+def get_user_info(session_id):
     users = UserModel()
     sessions = SessionModel()
 
-    if not assert_keys_in_form_exist(form, ['sessionID']):
-        return msg.error_msg("Invalid Session ID.")
+    # if not assert_keys_in_form_exist(form, ['sessionID']):
+    #     return msg.error_msg("Invalid Session ID.")
 
-    session_id = form['sessionID']
+    # session_id = form['sessionID']
     session = sessions.get_session(session_id)
-    if len(session) == 0:
+    if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
     (sessionid, uid, start_time, end_time) = session[0].values()
+
+    if end_time is not None:
+        return msg.error_msg("This session already canceled.")
+
     user = users.get_user(uid=uid)
 
     if len(user) == 0:
         return msg.error_msg("Unable to find the user")
 
-    (uid, name, email, phone, password, major, degree, enable) = user[0].values()
+    (uid, name, email, phone, password, major, degree, enable, _, _) = user[0].values()
 
     return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
 
@@ -57,6 +61,9 @@ def update_user(form):
         return msg.error_msg("Unable to find the session.")
 
     (sessionid, uid, start_time, end_time) = session[0].values()
+
+    if end_time is not None:
+        return msg.error_msg("This session already canceled.")
 
     args = {
         "Name": name,
@@ -152,8 +159,6 @@ def add_user(form):
     if findUser is None:
         return msg.error_msg("Failed to find user.")
 
-    print('findUser', findUser)
-    print(len(findUser))
     if len(findUser) != 0:
         return msg.error_msg("User already exists. (Email already in use)")
 
