@@ -1,0 +1,63 @@
+name: Production CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, rpi, prod]
+    environment: yacs-rpi-prod
+
+    env:
+      HOST: ${{ secrets.HOST }}
+      ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      API_WORKERS: 8
+
+    steps:
+      - uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CI
+
+      - name: Check if ci was successful
+        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
+
+      - uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-master-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Master CI
+
+      - name: Check if ci was successful
+        if: steps.wait-for-master-ci.outputs.conclusion != 'success'
+        run: exit 1
+
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Copy certificates into yacs_web
+        run: cp ~/yacs.n/src/web/cert/yacs.cs.rpi.edu* .
+        working-directory: src/web/cert
+
+      - name: Build images
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml build yacs_api yacs_web
+
+      - name: Update yacs_api
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_api &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_api &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api
+
+      - name: Update yacs_web
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_web &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_web &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_web
