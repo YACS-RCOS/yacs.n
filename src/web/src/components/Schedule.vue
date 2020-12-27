@@ -76,6 +76,7 @@ export default {
   },
   props: {
     schedule: {
+      type: Schedule,
       default: () => new Schedule(),
     },
   },
