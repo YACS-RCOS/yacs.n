@@ -2,6 +2,7 @@
  * A collection of handy functions
  * @module utils
  */
+import "@/typedef";
 
 import moment from "moment";
 import domtoimage from "dom-to-image";
@@ -379,4 +380,25 @@ export const exportScheduleToImage = (
     .catch(function (error) {
       console.log("Oh No, Something Went Wrong!", error);
     });
+};
+
+/**
+ * O(n^2) :(
+ * @param {CourseSection} section1
+ * @param {CourseSection} section2
+ */
+export const hasSessionConflict = (section1, section2) => {
+  for (const session1 of section1.sessions) {
+    for (const session2 of section2.sessions) {
+      if (
+        session1.day_of_week === session2.day_of_week &&
+        session1.time_start <= session2.time_end &&
+        session2.time_start <= session1.time_end
+      ) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 };
