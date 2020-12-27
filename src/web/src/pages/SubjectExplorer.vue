@@ -5,8 +5,8 @@
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
-      <!-- left column of courses -->
-      <b-row v-if="$store.state.courseList.length != 0">
+    <!-- left column of courses -->
+    <b-row v-if="$store.state.courseList.length != 0">
       <b-col cols="6">
         <b-row
           v-for="course in courseColumns[0]"
