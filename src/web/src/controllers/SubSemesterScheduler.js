@@ -48,14 +48,6 @@ class SubSemesterScheduler extends Scheduler {
     );
   }
 
-  // /**
-  //  * Adds record of selected class to all schedules
-  //  * @param {Course} course
-  //  */
-  // addCourse(course) {
-  //   this.schedules.forEach((s) => s.addCourse(course));
-  // }
-
   /**
    * Adds `section` to the appropriate schedule(s) based on the duration of `course`
    * @param {Course} course
@@ -103,22 +95,6 @@ class SubSemesterScheduler extends Scheduler {
 
     return true;
   }
-
-  // /**
-  //  * Remove all sessions of `section` from all schedules
-  //  * @param {CourseSection} section
-  //  */
-  // removeCourseSection(section) {
-  //   this.schedules.forEach((s) => s.removeCourseSection(section));
-  // }
-
-  // /**
-  //  * Remove all sessions of sections of `course` from all schedules
-  //  * @param {Course} course
-  //  */
-  // removeAllCourseSections(course) {
-  //   this.schedules.forEach((s) => s.removeCourse(course));
-  // }
 }
 
 export default SubSemesterScheduler;
