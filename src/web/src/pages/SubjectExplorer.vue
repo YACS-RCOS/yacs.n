@@ -131,7 +131,11 @@ export default {
       title: this.subject,
       titleTemplate: "%s | YACS",
       meta: [
-        { vmid: "description", content: "RPI " + this.subject },
+        {
+          vmid: "description",
+          name: "description",
+          content: "RPI " + this.subject
+        },
         {
           vmid: "keywords",
           content:
