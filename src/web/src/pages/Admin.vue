@@ -46,9 +46,6 @@ import UploadCsv from "@/pages/UploadCsv";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 
-
-
-
 export default {
   name: "AdminPage",
   components: {
