@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
+    <div class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
@@ -30,21 +30,13 @@
       </b-row>
       <b-button :to="'/explore/' + courseObj.department">Back</b-button>
     </div>
-    <CenterSpinner
-      v-else-if="isLoadingCourses"
+    <!-- <CenterSpinner
+      v-else
       :height="80"
-      :fontSize="1.4"
-      loadingMessage="Course"
-      :topSpacing="30"
-    />
-    <!-- If !courseObj -->
-    <div v-else class="w-90 ml-4 mb-4">
-      <b-row>
-        <b-col>
-          <h1 class="mt-4">Course not found</h1>
-        </b-col>
-      </b-row>
-    </div>
+      :font-size="1.4"
+      loading-message="Course"
+      :top-spacing="30"
+    /> -->
   </b-container>
 </template>
 
@@ -52,15 +44,15 @@
 import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
-import CenterSpinnerComponent from "../components/CenterSpinner.vue";
+// import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
+  name: "CoursePage",
   components: {
-    CenterSpinner: CenterSpinnerComponent,
+    // CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
   },
-  name: "CoursePage",
   data() {
     return {
       courseName: this.$route.params.course,
@@ -82,9 +74,6 @@ export default {
         },
       ],
     };
-  },
-  methods: {
-    generateRequirementsText,
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
@@ -117,7 +106,10 @@ export default {
       return precoreqtext;
     },
     courseObj() {
-      return this.courses.find((course) => course.name === this.courseName);
+      // return this.$store.getters.courseById()
+      return this.$store.getters.courses.find(
+        (course) => course.name === this.courseName
+      );
     },
     getCredits() {
       var credits;
@@ -130,6 +122,9 @@ export default {
       }
       return credits;
     },
+  },
+  methods: {
+    generateRequirementsText,
   },
   metaInfo() {
     return {

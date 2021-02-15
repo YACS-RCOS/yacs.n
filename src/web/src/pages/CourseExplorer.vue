@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
+    <div v-if="courses.length != 0" class="mx-auto w-75">
       <b-row>
         <!--
         - Left side of the column
@@ -23,8 +23,7 @@
               <b-row>
                 <DepartmentList
                   :majors="deptObj.departments"
-                  :deptClassDict="deptClassDict"
-                  v-on:showCourseInfo="showCourseInfo($event)"
+                  :dept-class-dict="deptClassDict"
                 ></DepartmentList>
               </b-row>
             </b-col>
@@ -47,8 +46,7 @@
               <b-row>
                 <DepartmentList
                   :majors="deptObj.departments"
-                  :deptClassDict="deptClassDict"
-                  v-on:showCourseInfo="showCourseInfo($event)"
+                  :dept-class-dict="deptClassDict"
                 ></DepartmentList>
               </b-row>
             </b-col>
@@ -59,9 +57,9 @@
     <CenterSpinner
       v-else
       :height="80"
-      :fontSize="1.3"
-      loadingMessage="Departments"
-      :topSpacing="30"
+      :font-size="1.3"
+      loading-message="Departments"
+      :top-spacing="30"
     />
   </b-container>
 </template>
@@ -72,6 +70,7 @@ import { COURSES } from "@/store";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner";
+import { mapGetters } from "vuex";
 
 export default {
   name: "CourseExplorer",
@@ -92,12 +91,8 @@ export default {
       ],
     };
   },
-  methods: {
-    generateRequirementsText,
-  },
   computed: {
-    ...mapState(["isLoadingCourses"]),
-    ...mapGetters([COURSES]),
+    ...mapGetters(["courses"]),
     schoolDepartmentObjects() {
       let keyArr = Object.entries(this.schoolsMajorDict)
         .map((schoolDepartmentMapping) => ({
@@ -137,6 +132,9 @@ export default {
       }
       return deptClassDict;
     },
+  },
+  methods: {
+    generateRequirementsText,
   },
   metaInfo() {
     return {

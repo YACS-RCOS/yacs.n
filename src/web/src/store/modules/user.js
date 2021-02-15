@@ -1,8 +1,8 @@
-import "@/typedef";
+/** @module store/user */
 
 import Vue from "vue";
 
-import { login, logout, getUserInfo } from "@/services/UserService";
+import { client } from "@/plugins/axios";
 
 import { prefixNamespacedTypes } from "@/utils";
 
@@ -34,18 +34,19 @@ const {
 });
 
 /**
+ * @typedef {import("../index").RootState} RootState
  * @typedef UserModuleState
  * @property {string|null} sessionId
- * @property {User|null} user
+ * @property {import("@/typedef").User|null} user
  */
 
-/** @type {() => UserModuleState} */
-const state = () => ({
+/** @type {UserModuleState} */
+const state = {
   sessionId: null,
   user: null,
-});
+};
 
-/** @type {import("vuex").GetterTree<UserModuleState, any>} */
+/** @type {import("vuex").GetterTree<UserModuleState, RootState>} */
 const getters = {
   [types.getters.IS_LOGGED_IN]: (state) => state.sessionId !== null,
   [types.getters.CURRENT_USER_INFO]: (state, getters) =>
@@ -66,7 +67,7 @@ const mutations = {
   },
 };
 
-/** @type {import("vuex").ActionTree<UserModuleState, any>} */
+/** @type {import("vuex").ActionTree<UserModuleState, RootState>} */
 const actions = {
   async [types.actions.LOAD_SESSION_COOKIE]({ commit, dispatch }) {
     if (!Vue.$cookies.isKey(USER_SESSION_ID_COOKIE_KEY)) {
@@ -84,7 +85,7 @@ const actions = {
       return;
     }
 
-    const response = await login(userInfo);
+    const response = await client.post("/session", userInfo);
 
     const {
       data: { success, errMsg, content },
@@ -107,7 +108,7 @@ const actions = {
     try {
       const {
         data: { success, errMsg, content },
-      } = await getUserInfo(sessionId);
+      } = await client.get(`/user/${sessionId}`);
 
       if (!success) {
         throw errMsg || "Unknown error";
@@ -135,7 +136,14 @@ const actions = {
     ) {
       const {
         data: { success, errMsg },
-      } = await logout(state.sessionId);
+      } = await client.delete("/session", {
+        data: {
+          sessionID: state.sessionId,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!success) {
         throw errMsg || "Unknown error";
@@ -149,7 +157,7 @@ const actions = {
   },
 };
 
-/** @type {import("vuex").Module<UserModuleState, any>} */
+/** @type {import("vuex").Module<UserModuleState, RootState>} */
 const userModule = {
   state,
   getters,

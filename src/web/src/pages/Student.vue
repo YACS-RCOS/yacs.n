@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header class="mb-3"></Header>
+    <Header class="mb-3" />
     <router-view />
     <Footer />
   </div>
@@ -11,6 +11,8 @@ import store from "@/store";
 import { SELECT_SEMESTER } from "@/store";
 import HeaderComponent from "@/components/Header";
 import FooterComponent from "@/components/Footer";
+
+import { SELECT_SEMESTER } from "@/store";
 import { userTypes } from "@/store/modules/user";
 
 export default {
@@ -19,19 +21,21 @@ export default {
     Header: HeaderComponent,
     Footer: FooterComponent,
   },
-  async beforeRouteEnter(to, from, next) {
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+    }),
+  },
+  async created() {
+    console.log(this.$route.query.semester);
+    await this.$store.dispatch(SELECT_SEMESTER, this.$route.query.semester);
+
     try {
       if (!store.getters[userTypes.getters.IS_LOGGED_IN]) {
         await store.dispatch(userTypes.actions.LOAD_SESSION_COOKIE);
       }
       // eslint-disable-next-line no-empty
     } catch {}
-
-    if (store.state.selectedSemester === null || to.query.semester) {
-      await store.dispatch(SELECT_SEMESTER, to.query.semester);
-    }
-
-    next();
   },
 };
 </script>

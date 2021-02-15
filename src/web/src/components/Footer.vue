@@ -84,7 +84,7 @@ export default {
     ...mapState(["semesters", "selectedSemester"]),
     otherSemesters() {
       return this.semesterOptions.filter(
-        (semester) => semester.value !== this.selectedSemester
+        (semester) => semester.text != this.selectedSemester
       );
     },
     semesterOptions() {

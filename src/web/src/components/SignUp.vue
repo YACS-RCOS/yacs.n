@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit.prevent="onSubmit" v-if="show">
+    <b-form v-if="show" @submit.prevent="onSubmit">
       <b-form-group id="input-group-2" label="Full Name:" label-for="input-2">
         <b-form-input
           id="input-2"
@@ -30,9 +30,9 @@
 
       <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input
-          type="password"
           id="input-4"
           v-model="form.password"
+          type="password"
           required
           placeholder="Enter your password"
         ></b-form-input>
@@ -62,8 +62,7 @@
 </template>
 
 <script>
-import { signup } from "@/services/UserService";
-import { userTypes } from "../store/modules/user";
+import { userTypes } from "@/store/modules/user";
 export default {
   name: "SignUp",
   data() {
@@ -88,7 +87,7 @@ export default {
     async onSubmit() {
       let {
         data: { success, errMsg },
-      } = await signup(this.form);
+      } = await this.$axios.post("/user", this.form);
 
       if (!success) {
         this.$bvToast.toast(errMsg || "Unknown error", {

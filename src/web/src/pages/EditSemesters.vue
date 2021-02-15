@@ -7,11 +7,11 @@
         <EditSemester
           v-for="(standardSemesterName, key) in standardSemesterNames"
           :key="key"
-          :semesterTitle="standardSemesterName"
+          :semester-title="standardSemesterName"
           :subsemesters="
             subsemesters.filter((x) => x.semester_name === standardSemesterName)
           "
-          :semesterInfo="
+          :semester-info="
             semesterInfos.find(
               (sem_info) => sem_info.semester === standardSemesterName
             )
@@ -23,33 +23,41 @@
 </template>
 
 <script>
-import { getSubSemesters } from "@/services/YacsService";
-import { getAllSemesterInfo } from "@/services/AdminService";
+// import { getSubSemesters } from "@/services/YacsService";
+// import { getAllSemesterInfo } from "@/services/AdminService";
 import EditSemesterDateNameBinding from "@/components/EditSemesterDateNameBinding";
-
+import { LOAD_SUBSEMESTERS } from "@/store";
+import { mapState } from "vuex";
 export default {
   name: "EditSemesters",
-  props: {},
   components: {
     EditSemester: EditSemesterDateNameBinding,
   },
+  props: {},
   data() {
     return {
-      subsemesters: [],
+      // subsemesters: [],
       semesterInfos: [],
-      standardSemesterNames: [],
+      // standardSemesterNames: [],
     };
   },
-  created() {
-    getSubSemesters().then((subsemesters) => {
-      this.subsemesters = subsemesters;
-      this.standardSemesterNames = new Set(
-        subsemesters.map((subsemester) => subsemester.semester_name)
+  computed: {
+    ...mapState(["subsemesters"]),
+    standardSemesterNames() {
+      return new Set(
+        this.subsemesters.map((subsemester) => subsemester.semester_name)
       );
-    });
-    getAllSemesterInfo().then((sem_infos) => {
-      this.semesterInfos = sem_infos;
-    });
+    },
+  },
+  created() {
+    this.$store.dispatch(LOAD_SUBSEMESTERS);
+
+    this.$axios
+      .get("/semesterInfo")
+      .then((res) => res.data)
+      .then((sem_infos) => {
+        this.semesterInfos = sem_infos;
+      });
   },
 };
 </script>

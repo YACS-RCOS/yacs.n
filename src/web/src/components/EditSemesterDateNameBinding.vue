@@ -1,7 +1,7 @@
 <template>
   <form
-    class="my-5 text-center"
     ref="editSemesterForm"
+    class="my-5 text-center"
     @submit.prevent="onSubmit"
   >
     <input
@@ -48,11 +48,11 @@
       </template>
       <template v-slot:cell(semesterPartName)="data">
         <input
+          v-model="inputtedSemesterPartNames[data.index]"
           type="text"
           class="form-control text-dark"
           name="semester_part_name"
           label="semester_part_name"
-          v-model="inputtedSemesterPartNames[data.index]"
         />
       </template>
     </b-table>
@@ -65,8 +65,8 @@
         'w-50': true,
         'no-cursor': isDisabled,
       }"
-      @animationend="removeFeedbackClasses($event.target)"
       :disabled="isDisabled"
+      @animationend="removeFeedbackClasses($event.target)"
     >
       Update
       <b-spinner class="d-none" />
@@ -100,6 +100,27 @@ export default {
         (item) => item.display_string
       ),
     };
+  },
+  computed: {
+    isDisabled() {
+      // Disable if the value is falsey,
+      // or if it's the same value as before
+      let anyValid = false;
+      for (let i = 0; i < this.inputtedSemesterPartNames.length; i++) {
+        let semesterName = this.inputtedSemesterPartNames[i];
+        let defaultValue = this.subsemesters[i].display_string;
+        // None of the inputs can have a falsey value
+        if (!semesterName) {
+          return true;
+        }
+        let isValid = semesterName !== defaultValue;
+        anyValid |= isValid;
+      }
+      // Disable if the visible toggle is still the same
+      // TODO would like to split out this validation logic, just focusing on getting
+      //      done for now
+      return !(anyValid || this.isPublic !== this.semesterInfo.public);
+    },
   },
   methods: {
     onSubmit(event) {
@@ -138,36 +159,14 @@ export default {
       btn.classList.remove("success");
       btn.classList.remove("fail");
     },
-    /***
-     * @param {Date} date1
-     * @param {Date} date2
-     * @returns {String} date of the form "MM/DD/YYYY - MM/DD/YYYY"
+    /**
+     * @param date1
+     * @param date2
      */
     formatDateRange(date1, date2) {
       return `${date1.toLocaleDateString()} - ${date2.toLocaleDateString()}`;
     },
     standardDate,
-  },
-  computed: {
-    isDisabled() {
-      // Disable if the value is falsey,
-      // or if it's the same value as before
-      let anyValid = false;
-      for (let i = 0; i < this.inputtedSemesterPartNames.length; i++) {
-        let semesterName = this.inputtedSemesterPartNames[i];
-        let defaultValue = this.subsemesters[i].display_string;
-        // None of the inputs can have a falsey value
-        if (!semesterName) {
-          return true;
-        }
-        let isValid = semesterName !== defaultValue;
-        anyValid |= isValid;
-      }
-      // Disable if the visible toggle is still the same
-      // TODO would like to split out this validation logic, just focusing on getting
-      //      done for now
-      return !(anyValid || this.isPublic !== this.semesterInfo.public);
-    },
   },
 };
 </script>

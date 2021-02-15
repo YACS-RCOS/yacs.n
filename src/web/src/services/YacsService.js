@@ -1,12 +1,6 @@
-import "@/typedef";
+import { client } from "@/plugins/axios";
 
-import axios from "axios";
-
-import { readableDate, localToUTCDate } from "@/utils";
-
-const client = axios.create({
-  baseURL: "/api",
-});
+import { localToUTCDate } from "@/utils";
 
 /**
  * Accesses the YACS API
@@ -60,11 +54,11 @@ export const getCourses = (semester, search = null, filter = true) =>
         // Filter out sections that are null
         c.sections = c.sections.filter((s) => !!s);
         // Initialize section.selected to false
-        c.sections.forEach((s) => {
-          if (s) s.selected = false;
-        });
-        // Initialize course.selected to false
-        c.selected = false;
+        // c.sections.forEach((s) => {
+        //   if (s) s.selected = false;
+        // });
+        // // Initialize course.selected to false
+        // c.selected = false;
         // Generate id based on course content
         c.id = _getCourseIdentifier(c);
 
@@ -73,57 +67,18 @@ export const getCourses = (semester, search = null, filter = true) =>
       });
       return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
     });
-/**
- * Returns a list of all departments
- * @returns {Promise<Department>}
- */
-export const getDepartments = () =>
-  client.get("/department").then(({ data }) => {
-    return data;
-  });
-/**
- * Returns a list of all subsemesters
- * @returns {Promise<Subsemester[]>}
- */
-export const getSubSemesters = (semester) =>
-  client
-    .get("/subsemester", {
-      params: {
-        semester: semester,
-      },
-    })
-    .then(({ data }) => {
-      return data.map((subsemester) => {
-        subsemester.date_start = localToUTCDate(
-          new Date(subsemester.date_start)
-        );
-        subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));
-        subsemester.date_start_display = readableDate(subsemester.date_start);
-        subsemester.date_end_display = readableDate(subsemester.date_end);
-        // Used to determine what semester the subsemester is part of
-        subsemester.semester_name = subsemester.parent_semester_name;
-        subsemester.display_string = subsemester.semester_part_name
-          ? subsemester.semester_part_name
-          : `${subsemester.date_start_display} - ${subsemester.date_end_display}`;
 
-        return subsemester;
-      });
-    });
+// export const addStudentCourse = (course_info) =>
+//   client.post("/user/course", course_info).then(({ data }) => {
+//     return data;
+//   });
 
-export const getSemesters = () =>
-  client.get("/semester").then((res) => res.data);
+// export const removeStudentCourse = (course_info) =>
+//   client
+//     .delete("/user/course", {
+//       data: course_info,
+//     })
+//     .then((res) => res.data);
 
-export const addStudentCourse = (course_info) =>
-  client.post("/user/course", course_info).then(({ data }) => {
-    return data;
-  });
-
-export const removeStudentCourse = (course_info) =>
-  client
-    .delete("/user/course", {
-      data: course_info,
-    })
-    .then((res) => res.data);
-
-export const getStudentCourses = () =>
-  client.get("/user/course").then((res) => res.data);
+// export const getStudentCourses = () =>
+//   client.get("/user/course").then((res) => res.data);

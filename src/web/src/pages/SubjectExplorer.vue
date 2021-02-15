@@ -6,12 +6,9 @@
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
     <!-- left column of courses -->
-    <b-row v-if="!isLoadingCourses && courses.length > 0">
+    <b-row v-if="courses.length != 0">
       <b-col cols="6">
-        <b-row
-          v-for="course in courseColumns[0]"
-          v-bind:key="course.level + course.department"
-        >
+        <b-row v-for="course in courseColumns[0]" :key="course.id">
           <!-- Navigates to course page by click on the course button  -->
           <b-col class="leftCol p-1">
             <b-button
@@ -71,9 +68,9 @@
     <CenterSpinner
       v-else
       :height="80"
-      :fontSize="1.4"
-      loadingMessage="Courses"
-      :topSpacing="30"
+      :font-size="1.4"
+      loading-message="Courses"
+      :top-spacing="30"
     />
   </b-container>
 </template>
@@ -82,6 +79,7 @@
 import { mapGetters, mapState } from "vuex";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "SubjectExplorer",
@@ -108,15 +106,13 @@ export default {
       ],
     };
   },
-  methods: {},
   computed: {
-    ...mapState(["isLoadingCourses"]),
     ...mapGetters(["courses"]),
     //courseColumns[0] corresponds to left column, [1] to right column
     courseColumns() {
       let leftColumn = [];
       let rightColumn = [];
-
+      // const courses = this.$store.state.courseList;
       //Obtain All Courses Such That Department Matches The Subject Name.
       const allTempData = this.courses.filter(
         (c) => c.department === this.subject
@@ -128,6 +124,7 @@ export default {
       return [leftColumn, rightColumn];
     },
   },
+  methods: {},
   metaInfo() {
     return {
       title: this.subject,

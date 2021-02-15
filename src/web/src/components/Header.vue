@@ -36,8 +36,8 @@
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
             :checked="$store.state.darkMode"
-            @change="toggle_style()"
             switch
+            @change="toggle_style()"
           >
             <div>
               <!-- We need the outer div to keep the icon aligned with the checkbox -->
@@ -46,7 +46,7 @@
           </b-form-checkbox>
         </b-nav-form>
 
-        <b-nav-item-dropdown right v-if="isLoggedIn">
+        <b-nav-item-dropdown v-if="isLoggedIn" right>
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>Hi, {{ user.name }}</template>
           <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
@@ -92,7 +92,14 @@ export default {
   components: {
     LoginForm: LoginComponent,
   },
-
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
+    ...mapState(["selectedSemester"]),
+    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+  },
   methods: {
     toggle_style() {
       this.$store.commit(TOGGLE_DARK_MODE);
@@ -114,14 +121,6 @@ export default {
         });
       }
     },
-  },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-      user: userTypes.getters.CURRENT_USER_INFO,
-    }),
-    ...mapState(["selectedSemester"]),
-    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
   },
 };
 </script>

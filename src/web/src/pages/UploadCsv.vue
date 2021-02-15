@@ -7,7 +7,7 @@
         <a href="#">http://help.com</a>
         (show github link for more docs later)
       </div>
-      <form @submit.prevent="onSubmit" class="form-group">
+      <form class="form-group" @submit.prevent="onSubmit">
         <div class="input-group">
           <label>
             Upload CSV file

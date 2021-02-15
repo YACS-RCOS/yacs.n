@@ -1,23 +1,14 @@
 import "@babel/polyfill";
 import "mutationobserver-shim";
-import "./plugins/bootstrap-vue";
-import "./plugins/fontawesome-vue";
-import store from "./store";
+import "@/plugins";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import Vue from "vue";
 import App from "./App.vue";
-import VueRouter from "vue-router";
 import router from "./routes";
-import VueCookies from "vue-cookies";
-import Meta from "vue-meta";
+import store from "./store";
 
 Vue.config.productionTip = false;
-
-Vue.use(VueRouter);
-Vue.use(VueCookies);
-Vue.use(Meta);
-
-Vue.$cookies.config("7d");
+Vue.config.performance = true;
 
 new Vue({
   render: (h) => h(App),

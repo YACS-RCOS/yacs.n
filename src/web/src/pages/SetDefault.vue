@@ -3,14 +3,14 @@
     <section id="import-data">
       <h2>Set Default Semester</h2>
       <div class="well well-sm"></div>
-      <form @submit="onUpdate" class="form-group" method="post">
+      <form class="form-group" method="post" @submit="onUpdate">
         <label for="semester">
           Select default Semester: &nbsp;
           <select v-model="semester">
             <option
               v-for="sem in semesterOptions"
-              v-bind:value="sem.value"
-              v-bind:key="sem.text"
+              :key="sem.text"
+              :value="sem.value"
             >
               {{ sem.text }}
             </option>
@@ -27,7 +27,6 @@
 <script>
 import { updateSemester } from "@/services/AdminService";
 import { getDefaultSemester } from "@/services/AdminService";
-import { getSemesters } from "@/services/YacsService";
 
 export default {
   name: "SetDefault",
@@ -39,6 +38,21 @@ export default {
       semester: "",
       semesterOptions: [],
     };
+  },
+  created() {
+    // assign semester to current semester
+    getDefaultSemester().then((semester) => {
+      this.semester = semester;
+    });
+    // create options for updating default
+    this.$axios
+      .get("/semester")
+      .then((res) => res.data)
+      .then((semesters) => {
+        this.semesterOptions.push(
+          ...semesters.map((s) => ({ text: s.semester, value: s.semester }))
+        );
+      });
   },
   methods: {
     onUpdate(event) {
@@ -72,18 +86,6 @@ export default {
     back() {
       window.history.back();
     },
-  },
-  created() {
-    // assign semester to current semester
-    getDefaultSemester().then((semester) => {
-      this.semester = semester;
-    });
-    // create options for updating default
-    getSemesters().then((semesters) => {
-      this.semesterOptions.push(
-        ...semesters.map((s) => ({ text: s.semester, value: s.semester }))
-      );
-    });
   },
 };
 </script>

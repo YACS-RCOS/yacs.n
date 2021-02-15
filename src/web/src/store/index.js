@@ -1,52 +1,69 @@
+/**
+ * @module store
+ */
+
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import VueCookies from "vue-cookies";
 
-import { getDefaultSemester } from "@/services/AdminService";
-import { getCourses } from "@/services/YacsService";
+import {
+  getCourses,
+  // getDepartments,
+  // getSemesters,
+  // getSubSemesters,
+} from "@/services/YacsService";
 import { readableDate, localToUTCDate } from "@/utils";
+import { getDefaultSemester } from "@/services/AdminService";
+import { client } from "@/plugins/axios";
+// import { deepFreeze } from "@/utils";
 
 import { userModule, USER_NAMESPACE } from "./modules/user";
+import {
+  scheduleModule,
+  SCHEDULE_NAMESPACE,
+  scheduleTypes,
+} from "./modules/schedule";
+import { COLOR_NAMESPACE, colorModule } from "./modules/color";
 
-const client = axios.create({
-  baseURL: "/api",
-});
+export const TOGGLE_DARK_MODE = "TOGGLE_DARK_MODE";
+export const SET_COURSES = "SET_COURSES";
+export const SET_SELECTED_SEMESTER = "SET_SELECTED_SEMESTER";
+export const SET_SEMESTERS = "SET_SEMESTERS";
+export const SET_SUBSEMESTERS = "SET_SUBSEMESTERS";
+export const SET_DEPARTMENTS = "SET_DEPARTMENTS";
 
-Vue.use(Vuex);
-
-// Constants are UPPER_SNAKE_CASE but we set the values to
-//  camelCase so when using mapMutations, mapActions, etc.
-//  they will map to camelCase names
-export const COURSES = "courses";
-export const GET_COURSE_BY_ID = "getCourseById";
-
-export const TOGGLE_DARK_MODE = "toggleDarkMode";
-export const SET_COURSES = "setCourses";
-const SET_IS_LOADING_COURSES = "SET_IS_LOADING_COURSES";
-export const SET_SELECTED_SEMESTER = "setSelectedSemester";
-export const SET_SEMESTERS = "setSemesters";
-export const SET_SUBSEMESTERS = "setSubsemesters";
-export const SET_DEPARTMENTS = "setDepartments";
-
-export const LOAD_COURSES = "loadCourses";
+export const LOAD_COURSES = "LOAD_COURSES";
 export const SELECT_SEMESTER = "selectSemester";
-export const LOAD_SEMESTERS = "loadSemesters";
-export const LOAD_SUBSEMESTERS = "loadSubsemesters";
-export const LOAD_DEPARTMENTS = "loadDepartments";
+export const LOAD_SEMESTERS = "LOAD_SEMESTERS";
+export const LOAD_SUBSEMESTERS = "LOAD_SUBSEMESTERS";
+export const LOAD_DEPARTMENTS = "LOAD_DEPARTMENTS";
 
-const store = new Vuex.Store({
-  state: {
-    darkMode: false,
-    coursesById: {},
-    isLoadingCourses: false,
-    selectedSemester: null,
-    semesters: [],
-    subsemesters: [],
-    departments: [],
-  },
+/**
+ * @typedef RootState
+ * @property {boolean} darkMode
+ * @property {Object.<string, number>} coursesById
+ * @property {string|null} selectedSemester
+ * @property {string[]} semesters
+ * @property {import("@/typedef").Subsemester[]} subsemesters
+ * @property {import("@/typedef").Department[]} departments
+ */
+
+/** @type {RootState} */
+const state = {
+  darkMode: VueCookies.get("darkMode") === "true",
+  coursesById: {},
+  selectedSemester: null,
+  semesters: [],
+  subsemesters: [],
+  departments: [],
+};
+
+/** @type {import("vuex").StoreOptions<RootState>} */
+const storeOptions = {
+  state,
   getters: {
-    [COURSES]: (state) => Object.values(state.coursesById),
-    [GET_COURSE_BY_ID]: (state) => (id) => state.coursesById[id],
+    courses: (state) => Object.values(state.coursesById),
+    courseById: (state) => (id) => state.coursesById[id],
   },
   mutations: {
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
@@ -74,8 +91,11 @@ const store = new Vuex.Store({
         return coursesById;
       }, {});
     },
-    [SET_IS_LOADING_COURSES](state, isLoadingCourses) {
-      state.isLoadingCourses = isLoadingCourses;
+    [SET_COURSES](state, classes) {
+      state.coursesById = classes.reduce(
+        (coursesById, course) => ({ ...coursesById, [course.id]: course }),
+        {}
+      );
     },
     [SET_SELECTED_SEMESTER](state, semester) {
       state.selectedSemester = semester;
@@ -92,35 +112,33 @@ const store = new Vuex.Store({
   },
   actions: {
     async [LOAD_COURSES]({ state, commit }) {
-      commit(SET_IS_LOADING_COURSES, true);
-
       const courses = await getCourses(state.selectedSemester);
 
+      courses.forEach((course) => {
+        course.sections.forEach((section) => {
+          section.course = course;
+          section.sessions.forEach((session) => {
+            session.course = course;
+            session.courseSection = section;
+          });
+        });
+      });
+
       commit(SET_COURSES, courses);
-      commit(SET_IS_LOADING_COURSES, false);
+      commit(scheduleTypes.mutations.SET_COURSES, courses);
     },
     async [SELECT_SEMESTER]({ state, commit, dispatch }, semester) {
-      if (state.semesters.length === 0) {
-        await dispatch(LOAD_SEMESTERS);
-      }
-
-      if (!semester || !state.semesters.find((s) => s.semester === semester)) {
+      if (state.selectedSemester === null) {
         semester = await getDefaultSemester();
       }
 
-      if (!semester || semester === state.selectedSemester) {
+      if (semester === undefined || semester === state.selectedSemester) {
         return;
       }
 
       commit(SET_SELECTED_SEMESTER, semester);
 
-      await dispatch(LOAD_SUBSEMESTERS);
-
-      // Do not wait for load courses to complete
-      // This is a slow operation and we have another
-      //  state property `isLoadingCourses` that is
-      //  meant to track the progress of this operation
-      dispatch(LOAD_COURSES);
+      await Promise.all([dispatch(LOAD_COURSES), dispatch(LOAD_SUBSEMESTERS)]);
     },
     async [LOAD_SEMESTERS]({ commit }) {
       const semesters = await client.get("/semester").then((res) => res.data);
@@ -168,7 +186,11 @@ const store = new Vuex.Store({
   },
   modules: {
     [USER_NAMESPACE]: userModule,
+    [SCHEDULE_NAMESPACE]: scheduleModule,
+    [COLOR_NAMESPACE]: colorModule,
   },
-});
+};
+
+const store = new Vuex.Store(storeOptions);
 
 export default store;

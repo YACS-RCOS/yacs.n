@@ -6,8 +6,8 @@
         <div class="mt-1 mb-1 w-100">
           <!-- Subject button -->
           <b-button
-            squared
             v-b-toggle="id + 'accordion-' + index"
+            squared
             variant="light"
             class="major-button m-0 ml-1"
             :to="{
@@ -24,21 +24,20 @@
 </template>
 
 <script>
-import "@/typedef";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "DepartmentList",
   components: {},
-  data() {
-    return {
-      faInfoCircle,
-    };
-  },
   props: {
     majors: Set,
     deptClassDict: Object,
     id: Number,
+  },
+  data() {
+    return {
+      faInfoCircle,
+    };
   },
 
   /**
