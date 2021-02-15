@@ -6,9 +6,9 @@
   >
     <div class="schedule-legend">
       <div
-        class="hour-label"
         v-for="(hour, index) of hours"
         :key="hour"
+        class="hour-label"
         :style="{ height: hourHeight + '%' }"
       >
         <div v-if="index != 0">{{ hour }}</div>
@@ -17,37 +17,33 @@
 
     <div class="schedule-grid">
       <div
-        class="grid-day"
         v-for="(day, index) of days"
         :key="day.longname"
+        class="grid-day"
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
         <ScheduleEvent
-          v-for="courseSession in courseSessionsOnDay(index)"
-          :key="
-            courseSession.crn +
-            courseSession.day_of_week +
-            courseSession.time_start
-          "
+          v-for="courseSession in courseSessionsPerDay[index]"
+          :key="courseSession.crn + courseSession.time_start"
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
-          :name="findSectionName(courseSession.crn)"
-          :title="findCourseTitle(findSectionName(courseSession.crn))"
+          :name="`${courseSession.course.department}-${courseSession.course.level}`"
+          :title="courseSession.course.title"
           :style="{
             'margin-top': eventPosition(courseSession) + 'px',
             height: eventHeight(courseSession) + 'px',
-            backgroundColor: getBackgroundColor(courseSession),
-            borderColor: getBorderColor(courseSession),
-            color: getTextColor(courseSession),
+            backgroundColor: getBackgroundColor(courseSession.course.id),
+            borderColor: getBorderColor(courseSession.course.id),
+            color: getTextColor(courseSession.course.id),
             width: dayWidth + '%',
           }"
         ></ScheduleEvent>
         <div
-          class="grid-hour"
           v-for="hour of hours"
           :key="hour"
+          class="grid-hour"
           :style="{ height: hourHeight + '%' }"
         ></div>
       </div>
@@ -55,19 +51,24 @@
   </div>
 </template>
 <script>
-import "@/typedef";
-
 import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from "@/utils";
 
-import {
-  getBackgroundColor,
-  getBorderColor,
-  getTextColor,
-} from "@/services/ColorService";
+import { COLOR_NAMESPACE } from "@/store/modules/color";
+import { mapGetters } from "vuex";
 
-import Schedule from "@/controllers/Schedule";
+// import {
+//   getBackgroundColor,
+//   getBorderColor,
+//   getTextColor,
+// } from "@/services/ColorService";
 
 import ScheduleEventComponent from "@/components/ScheduleEvent";
+
+const START_DAY = 1;
+const END_DAY = 5;
+const START_TIME = 480;
+const END_TIME = 1320;
+const TOTAL_HEIGHT = 600;
 
 export default {
   name: "Schedule",
@@ -75,114 +76,77 @@ export default {
     ScheduleEvent: ScheduleEventComponent,
   },
   props: {
-    schedule: {
-      type: Schedule,
-      default: () => new Schedule(),
+    /** @type {import("vue").PropType<import("@/typedef").CourseSection[]>} */
+    courseSections: {
+      type: Array,
+      default: () => [],
     },
   },
+
   data() {
     return {
-      startDay: 1,
-      endDay: 5,
-      startTime: 480,
-      endTime: 1320,
-      totalHeight: 600,
+      totalHeight: TOTAL_HEIGHT,
     };
   },
-  methods: {
-    getBackgroundColor,
-    getBorderColor,
-    getTextColor,
-    /**
-     * Calculate the height of the schedule block for `courseSession`
-     * Returns the px height
-     * @param {CourseSession} courseSession
-     * @returns {number}
-     */
-    eventHeight(courseSession) {
-      const eventDuration =
-        toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
-      return this.totalHeight * (eventDuration / this.numMinutes);
-    },
-    /**
-     * Calculate the position of the schedule block for `courseSession`
-     * Returns the px margin-top
-     * @param {CourseSession} courseSession
-     * @returns {number}
-     */
-    eventPosition(courseSession) {
-      const eventStart = toMinutes(courseSession.time_start);
-      return (
-        this.totalHeight * ((eventStart - this.startTime) / this.numMinutes)
-      );
-    },
-    /**
-     * Returns the `CourseSession`s in the given dayOfWeek
-     * @param {number} dayOfWeek
-     * @return {CourseSession[]}
-     */
-    courseSessionsOnDay(dayOfWeek) {
-      return this.schedule.dailySessions[dayOfWeek];
-    },
-    /**
-     * Returns the name (department level) of a selected CourseSection for
-     * display in each ScheduleEvent
-     * @param {number} crn
-     * @return {string}
-     */
-    findSectionName(crn) {
-      const sections = this.schedule.selectedSections;
-      for (let index = 0; index < sections.length; index++) {
-        if (crn == sections[index].crn) {
-          return sections[index].department + " " + sections[index].level;
-        }
-      }
-    },
-    /**
-     * Returns the title of a selected Course for
-     * display in each ScheduleEvent
-     * @param {string} name (formatted department level)
-     * @return {string}
-     */
-    findCourseTitle(name) {
-      const courses = this.schedule.selectedCourses;
-      for (let index = 0; index < courses.length; index++) {
-        const tmpName = courses[index].department + " " + courses[index].level;
-        if (tmpName == name) {
-          return courses[index].title;
-        }
-      }
-    },
-  },
   computed: {
+    ...mapGetters(COLOR_NAMESPACE, [
+      "getBackgroundColor",
+      "getTextColor",
+      "getBorderColor",
+    ]),
+    courseSessionsPerDay() {
+      const courseSessionsPerDay = Array.from({
+        length: this.numDays,
+      }).map(() => []);
+
+      this.courseSessions.forEach((courseSession) => {
+        courseSessionsPerDay[courseSession.day_of_week].push(courseSession);
+      });
+
+      courseSessionsPerDay.forEach((courseSessions) =>
+        courseSessions.sort(
+          (session1, session2) => session2.time_start - session1.time_start
+        )
+      );
+
+      return courseSessionsPerDay;
+    },
+    /**
+     * @returns {import("@/typedef").CourseSession[]}
+     */
+    courseSessions() {
+      return this.courseSections.map((section) => section.sessions).flat();
+    },
     /**
      * Returns the number of days in this schedule
      */
     numDays() {
-      return this.endDay - this.startDay + 1;
+      return END_DAY - START_DAY + 1;
     },
     /**
      * Returns the total number of minutes in one day for this schedule
      */
     numMinutes() {
-      return this.endTime - this.startTime;
+      return END_TIME - START_TIME;
     },
     /**
      * Returns a list of hour breakpoints for the schedule legend
      */
     hours() {
       const hours = [];
-      for (let time = this.startTime; time < this.endTime; time += 60) {
+      for (let time = START_TIME; time < END_TIME; time += 60) {
         hours.push(hourName(time));
       }
       return hours;
     },
     /**
      * Returns a list of names for days of the week
+     *
+     * @returns {{longname: string, shortname: string}[]}
      */
     days() {
       const days = [];
-      for (let day = this.startDay; day <= this.endDay; ++day) {
+      for (let day = START_DAY; day <= END_DAY; ++day) {
         days.push({
           longname: DAY_LONGNAMES[day],
           shortname: DAY_SHORTNAMES[day],
@@ -203,6 +167,43 @@ export default {
       return (60 * 100) / this.numMinutes;
     },
   },
+  methods: {
+    // getBackgroundColor,
+    // getBorderColor,
+    // getTextColor,
+    /**
+     * Calculate the height of the schedule block for `courseSession`
+     * Returns the px height
+     *
+     * @param {CourseSession} courseSession
+     * @returns {number}
+     */
+    eventHeight(courseSession) {
+      const eventDuration =
+        toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
+      return TOTAL_HEIGHT * (eventDuration / this.numMinutes);
+    },
+    /**
+     * Calculate the position of the schedule block for `courseSession`
+     * Returns the px margin-top
+     *
+     * @param {CourseSession} courseSession
+     * @returns {number}
+     */
+    eventPosition(courseSession) {
+      const eventStart = toMinutes(courseSession.time_start);
+      return TOTAL_HEIGHT * ((eventStart - START_TIME) / this.numMinutes);
+    },
+    // /**
+    //  * Returns the `CourseSession`s in the given dayOfWeek
+    //  *
+    //  * @param {number} dayOfWeek
+    //  * @returns {CourseSession[]}
+    //  */
+    // courseSessionsOnDay(dayOfWeek) {
+    //   return this.schedule.dailySessions[dayOfWeek];
+    // },
+  },
 };
 </script>
 
@@ -214,7 +215,8 @@ $hourFontSize: 0.5em;
   margin-top: 10px;
   margin-right: 15px;
   position: relative; /* so the overlay will position properly */
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .schedule-legend {

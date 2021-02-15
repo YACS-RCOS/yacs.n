@@ -1,12 +1,17 @@
 {
   "source": {
-    "includePattern": ".+\\.js(doc|x)?$",
+    "includePattern": ".+\\.(jsx|js|ts|tsx)$",
     "include": ["src"],
     "exclude": ["node_modules", "dist", "docs"]
   },
   "plugins": ["plugins/markdown"],
   "opts": {
-    "destination": "./docs/",
-    "recurse": true
+    "destination": "docs/",
+    "recurse": true,
+    "readme": "README.md",
+    "encoding": "utf8"
+  },
+  "tags": {
+    "allowUnknownTags": ["optional"]
   }
 }

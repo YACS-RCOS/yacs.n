@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
-    <div class="course-search">
+    <div class="px-3">
       <b-form-group label="Search" label-for="search">
         <b-form-input
           id="search"
@@ -38,11 +38,46 @@
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
       </div>
+      <!-- <b-list-group class="scroller">
+        <b-list-group-item v-for="course in filterCourses" :key="course.id">
+          <div
+            class="course-listing"
+            :class="{
+              'bg-light': $store.state.schedule.selectedCoursesById[course.id],
+            }"
+          >
+            <CourseListing
+              :course="course"
+              defaultAction="toggleCourse"
+              v-on="$listeners"
+              lazyLoadCollapse
+            >
+              <template #toggleCollapseButton="{ course }">
+                <button
+                  v-show="
+                    course.corequisites ||
+                    course.prerequisites ||
+                    course.raw_precoreqs
+                  "
+                  class="btn"
+                  @click.stop="courseInfoModalToggle(course)"
+                  data-cy="course-info-button"
+                >
+                  <font-awesome-icon :icon="faInfoCircle" />
+                </button>
+              </template>
+              <template #collapseContent>
+                {{ null }}
+              </template>
+            </CourseListing>
+          </div>
+        </b-list-group-item>
+      </b-list-group> -->
       <DynamicScroller
         class="scroller"
         :items="filterCourses"
         :min-item-size="10"
-        typeField="vscrl_type"
+        type-field="vscrl_type"
       >
         <template v-slot="{ item: course, index, active }">
           <DynamicScrollerItem
@@ -50,19 +85,24 @@
             :active="active"
             :size-dependencies="[course.title]"
             :data-index="index"
-            :emitResize="true"
+            :emit-resize="true"
           >
-            <div
+            <!-- <div
               class="course-listing"
-              :class="{ 'bg-light': course.selected }"
+              :class="{
+                'bg-light':
+                  $store.state.schedule.selectedCoursesById[course.id],
+              }"
+            > -->
+            <CourseListing
+              :course="course"
+              :active-course-sections="
+                activeCourseSectionsByCourseId[course.id] || []
+              "
+              open-initial
+              v-on="$listeners"
             >
-              <CourseListing
-                :course="course"
-                defaultAction="toggleCourse"
-                v-on="$listeners"
-                lazyLoadCollapse
-              >
-                <template #toggleCollapseButton="{ course }">
+              <!-- <template #toggleCollapseButton="{ course }">
                   <button
                     v-show="
                       course.corequisites ||
@@ -70,17 +110,17 @@
                       course.raw_precoreqs
                     "
                     class="btn"
-                    @click.stop="courseInfoModalToggle(course)"
                     data-cy="course-info-button"
+                    @click.stop="courseInfoModalToggle(course)"
                   >
                     <font-awesome-icon :icon="faInfoCircle" />
                   </button>
-                </template>
-                <template #collapseContent>
+                </template> -->
+              <!-- <template #collapseContent>
                   {{ null }}
-                </template>
-              </CourseListing>
-            </div>
+                </template> -->
+            </CourseListing>
+            <!-- </div> -->
           </DynamicScrollerItem>
         </template>
       </DynamicScroller>
@@ -89,13 +129,16 @@
 </template>
 
 <script>
-import "@/typedef";
+import { mapState } from "vuex";
 
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments, getCourses } from "@/services/YacsService";
+import {
+  // getDepartments,
+  getCourses,
+} from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -109,9 +152,13 @@ export default {
     DynamicScrollerItem,
   },
   props: {
-    courses: Array,
-    subsemesters: Array,
-    selectedSemester: null,
+    /** @type {import("vue").PropType<import("@/typedef").CourseSection[]>} */
+    activeCourseSections: {
+      type: Array,
+      default: () => [],
+    },
+    // courses: Array,
+    // subsemesters: Array,
   },
   data() {
     return {
@@ -120,36 +167,35 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      departmentOptions: [{ text: "All", value: null }],
-      courseList: this.courses,
+      // departmentOptions: [{ text: "All", value: null }],
+      // courseList: this.courses,
+      courseList: null,
       debounceTime: 300,
     };
   },
-  created() {
-    getDepartments().then((departments) => {
-      this.departmentOptions.push(...departments.map((d) => d.department));
-    });
-  },
-  methods: {
-    courseInfoModalToggle(course) {
-      this.$emit("showCourseInfo", course);
+  computed: {
+    ...mapState(["selectedSemester", "subsemesters", "departments"]),
+
+    activeCourseSectionsByCourseId() {
+      const activeCourseSectionsByCourseId = {};
+
+      this.filterCourses.forEach((course) => {
+        activeCourseSectionsByCourseId[course.id] = [];
+      });
+
+      this.activeCourseSections.forEach((courseSection) => {
+        activeCourseSectionsByCourseId[courseSection.course.id].push(
+          courseSection
+        );
+      });
+
+      return activeCourseSectionsByCourseId;
     },
-    /* wrapper for querying with search */
-    updateCourseList() {
-      getCourses(this.selectedSemester, this.textSearch, false).then(
-        (course_list) => {
-          this.courseList = course_list;
-        }
+    departmentOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.departments.map(({ department }) => department)
       );
     },
-  },
-  watch: {
-    /* This value gets debounced */
-    textSearch: function () {
-      this.updateCourseList();
-    },
-  },
-  computed: {
     subsemesterOptions() {
       let options = [{ text: "All", value: null }];
       options.push(
@@ -166,30 +212,58 @@ export default {
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
+      const courses =
+        this.courseList !== null
+          ? this.courseList
+          : this.$store.getters.courses;
+
+      if (!this.selectedDepartment) {
+        return courses;
+      }
+
       // filter by selected department
-      const filtered = this.courseList.filter(
-        (course) =>
-          !this.selectedDepartment ||
-          course.department === this.selectedDepartment
+      const filtered = courses.filter(
+        (course) => course.department === this.selectedDepartment
       );
+
+      return filtered;
 
       // returns exact match, if not found, then department filtered list
-      const find = filtered.find(
-        (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
-      );
+      // const find = filtered.find(
+      //   (course) =>
+      //     (course.full_title &&
+      //       course.full_title.toUpperCase() ===
+      //         this.textSearch.toUpperCase()) ||
+      //     course.title.toUpperCase() === this.textSearch.toUpperCase()
+      // );
 
-      if (find) return [find];
-      else return filtered;
+      // if (find) return [find];
+      // else return filtered;
     },
     // return a list of the titles of each course.
-    mapCourseNames() {
-      return this.filterCourses.map((course) => {
-        return course.full_title || course.title;
-      });
+    // mapCourseNames() {
+    //   return this.filterCourses.map((course) => {
+    //     return course.full_title || course.title;
+    //   });
+    // },
+  },
+  watch: {
+    /* This value gets debounced */
+    textSearch: function () {
+      this.updateCourseList();
+    },
+  },
+  methods: {
+    // courseInfoModalToggle(course) {
+    //   this.$emit("showCourseInfo", course);
+    // },
+    /* wrapper for querying with search */
+    updateCourseList() {
+      getCourses(this.selectedSemester, this.textSearch, false).then(
+        (course_list) => {
+          this.courseList = course_list;
+        }
+      );
     },
   },
 };

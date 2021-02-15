@@ -10,7 +10,7 @@
               :key="option.text"
               class="link"
               :disabled="option.text === selectedSemester"
-              @click="updateSelectedSemester(option.text)"
+              @click="selectSemester(option.value)"
             >
               {{ option.value }}
             </a>
@@ -75,37 +75,27 @@
 </template>
 
 <script>
-import { getSemesters } from "@/services/YacsService";
+import { SELECT_SEMESTER } from "@/store";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Footer",
-  props: {
-    selectedSemester: String,
-  },
-  data() {
-    return {
-      semesterOptions: [],
-    };
-  },
-  methods: {
-    updateSelectedSemester(newSemester) {
-      this.$emit("changeSelectedSemester", newSemester);
-    },
-  },
   computed: {
+    ...mapState(["semesters", "selectedSemester"]),
     otherSemesters() {
       return this.semesterOptions.filter(
-        (semester) => semester.text != this.semester
+        (semester) => semester.text != this.selectedSemester
       );
     },
-  },
-  created() {
-    getSemesters().then((data) => {
-      this.semesterOptions = data.map((s) => ({
-        text: s.semester,
-        value: s.semester,
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
       }));
-    });
+    },
+  },
+  methods: {
+    ...mapActions([SELECT_SEMESTER]),
   },
 };
 </script>

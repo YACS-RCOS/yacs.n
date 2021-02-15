@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const client = axios.create({
-  baseURL: "/api",
-});
+import { client } from "@/plugins/axios";
 
 export const uploadCsv = (formData) =>
   client.post("/bulkCourseUpload", formData);

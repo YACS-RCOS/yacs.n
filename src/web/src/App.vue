@@ -1,30 +1,20 @@
 <template>
   <div id="root">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import { TOGGLE_DARK_MODE, SET_COURSE_LIST } from "@/store";
-import { getCourses } from "@/services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
-
+import {
+  LOAD_DEPARTMENTS,
+  LOAD_SEMESTERS,
+  LOAD_SUBSEMESTERS,
+  SELECT_SEMESTER,
+} from "@/store";
 export default {
   name: "App",
-  components: {},
-  async created() {
-    const querySemester = this.$route.query.semester;
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
-    this.$store.commit(SET_COURSE_LIST, courses);
-
-    if (this.$cookies.get("darkMode") == "true") {
-      this.$store.commit(TOGGLE_DARK_MODE);
-    }
-  },
   computed: {
     darkMode() {
       return this.$store.state.darkMode;
@@ -43,6 +33,12 @@ export default {
         bodyClassList.remove("dark");
       }
     },
+  },
+  created() {
+    this.$store.dispatch(SELECT_SEMESTER);
+    this.$store.dispatch(LOAD_DEPARTMENTS);
+    this.$store.dispatch(LOAD_SEMESTERS);
+    this.$store.dispatch(LOAD_SUBSEMESTERS);
   },
   metaInfo() {
     return {

@@ -1,5 +1,3 @@
-import "@/typedef";
-
 // eslint-disable-next-line no-unused-vars
 import { VueCookies } from "vue-cookies";
 

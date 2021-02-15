@@ -6,6 +6,8 @@
  * @property {string} semester
  * @property {string} time_end
  * @property {string} time_start
+ * @property {Course} course
+ * @property {CourseSection} courseSection
  */
 
 /**
@@ -19,6 +21,7 @@
  * @property {number} seats_open
  * @property {number} seats_filled
  * @property {number} seats_total
+ * @property {Course} course
  */
 /**
  * @typedef Course
@@ -53,3 +56,6 @@
  * @property {string} [phone]
  * @property {string} uid
  */
+
+/** @type {null} */
+export const ARBITRARY_EXPORT_FOR_TYPE_IMPORTS_TO_WORK = null;

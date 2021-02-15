@@ -7,8 +7,7 @@
       :seatsFilled="props.seatsFilled"
       :seatsTotal="props.seatsTotal"
     >
-      {{ props.seatsOpen }} / {{ props.seatsTotal }}
-      {{ $options.getSeatStatusText(props.seatsOpen) }}
+      {{ props.seatsOpen }} / {{ props.seatsTotal }} Seats Open
     </slot>
   </b-badge>
 </template>
@@ -20,9 +19,7 @@ export default {
     seatsFilled: Number,
     seatsTotal: Number,
   },
-  getSeatStatusText(seatsOpen) {
-    return seatsOpen <= 0 ? "Full" : "Open";
-  },
+
   getSeatStatusVariant(seatsOpen, seatsTotal) {
     if (seatsOpen <= 0) {
       return "danger";

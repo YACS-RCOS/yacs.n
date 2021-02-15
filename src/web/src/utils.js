@@ -2,7 +2,6 @@
  * A collection of handy functions
  * @module utils
  */
-import "@/typedef";
 
 import moment from "moment";
 import domtoimage from "dom-to-image";
@@ -401,4 +400,39 @@ export const hasSessionConflict = (section1, section2) => {
   }
 
   return false;
+};
+
+/**
+ * Recursive implementation of `Object.freeze`
+ * @template T
+ * @param {T} any
+ * @returns {T}
+ */
+export const deepFreeze = (any) => {
+  if (typeof any !== "object" || any === null) {
+    return any;
+  }
+
+  if (Array.isArray(any)) {
+    any.forEach((obj) => deepFreeze(obj));
+  }
+
+  Object.getOwnPropertyNames(any).forEach((name) => deepFreeze(any[name]));
+
+  Object.freeze(any);
+
+  return any;
+};
+
+/**
+ * Checks whether `course` spans the entire duration of `subsemester`
+ * @param {Course} course
+ * @param {Subsemester} subsemester
+ * @returns {boolean}
+ */
+export const withinCourseDuration = (course, subsemester) => {
+  return (
+    course.date_start.getTime() <= subsemester.date_start.getTime() &&
+    course.date_end.getTime() >= subsemester.date_end.getTime()
+  );
 };

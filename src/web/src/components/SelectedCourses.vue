@@ -6,18 +6,16 @@
       Please select some courses from the "Course Search" tab!
     </div>
     <b-list-group-item
-      class="selected"
       v-for="course of courses"
       :key="course.id"
+      class="selected"
     >
-      <CourseListing :course="course" openInitial v-on="$listeners" />
+      <CourseListing :course="course" open-initial v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
 </template>
 
 <script>
-import "@/typedef";
-
 import CourseListingComponent from "@/components/CourseListing";
 
 export default {
@@ -26,7 +24,14 @@ export default {
     CourseListing: CourseListingComponent,
   },
   props: {
-    courses: Object,
+    activeCourseSections: Array,
+  },
+  computed: {
+    courses() {
+      return this.$store.state.schedule.selectedCourseIds.map((courseId) =>
+        this.$store.getters.courseById(courseId)
+      );
+    },
   },
 };
 </script>

@@ -11,6 +11,7 @@
     "start:prod": "npm-run-all --parallel backend:prod frontend:prod"
   },
   "devDependencies": {
+    "better-docs": "^2.3.2",
     "cross-env": "^7.0.2",
     "npm-run-all": "^4.1.5"
   },

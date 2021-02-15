@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit="onSubmit" @reset="onReset" v-if="showForm">
+  <b-form v-if="showForm" @submit="onSubmit" @reset="onReset">
     <b-form-group id="input-group-1" label="Email address:" label-for="input-1">
       <b-form-input
         id="input-1"
@@ -13,8 +13,8 @@
     <b-form-group id="input-group-2" label="Password:" label-for="input-2">
       <b-form-input
         id="input-2"
-        type="password"
         v-model="form.password"
+        type="password"
         required
         placeholder="Enter password"
       ></b-form-input>
@@ -39,6 +39,12 @@ export default {
       },
       showForm: true,
     };
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
   },
   methods: {
     async onSubmit(evt) {
@@ -71,12 +77,6 @@ export default {
         this.showForm = true;
       });
     },
-  },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-      user: userTypes.getters.CURRENT_USER_INFO,
-    }),
   },
 };
 </script>

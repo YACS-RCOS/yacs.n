@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
+    <div class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
@@ -30,27 +30,27 @@
       </b-row>
       <b-button :to="'/explore/' + courseObj.department">Back</b-button>
     </div>
-    <CenterSpinner
+    <!-- <CenterSpinner
       v-else
       :height="80"
-      :fontSize="1.4"
-      loadingMessage="Course"
-      :topSpacing="30"
-    />
+      :font-size="1.4"
+      loading-message="Course"
+      :top-spacing="30"
+    /> -->
   </b-container>
 </template>
 
 <script>
 import { generateRequirementsText } from "@/utils";
-import CenterSpinnerComponent from "../components/CenterSpinner.vue";
+// import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
+  name: "CoursePage",
   components: {
-    CenterSpinner: CenterSpinnerComponent,
+    // CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
   },
-  name: "CoursePage",
   data() {
     return {
       courseName: this.$route.params.course,
@@ -72,9 +72,6 @@ export default {
         },
       ],
     };
-  },
-  methods: {
-    generateRequirementsText,
   },
   computed: {
     transformed() {
@@ -105,7 +102,8 @@ export default {
       return precoreqtext;
     },
     courseObj() {
-      return this.$store.state.courseList.find(
+      // return this.$store.getters.courseById()
+      return this.$store.getters.courses.find(
         (course) => course.name === this.courseName
       );
     },
@@ -120,6 +118,9 @@ export default {
       }
       return credits;
     },
+  },
+  methods: {
+    generateRequirementsText,
   },
   metaInfo() {
     return {

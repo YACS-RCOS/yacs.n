@@ -4,8 +4,10 @@ const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
   chainWebpack(config) {
-    config.plugins.delete("prefetch");
-    config.plugin("CompressionPlugin").use(CompressionPlugin);
+    if (process.env.NODE_ENV === "production") {
+      config.plugins.delete("prefetch");
+      config.plugin("CompressionPlugin").use(CompressionPlugin);
+    }
   },
   devServer: {
     disableHostCheck: true,
@@ -19,12 +21,23 @@ module.exports = {
   },
   configureWebpack: {
     plugins: [new MomentLocalesPlugin()],
-    devtool:
-      process.env.VUE_APP_ENVIRONMENT == "development" ? "source-map" : "none",
+    devtool: "source-map",
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "src"),
       },
+    },
+    output: {
+      devtoolModuleFilenameTemplate: (info) => {
+        const isGeneratedDuplicate =
+          info.resourcePath.match(/\.vue$/) && info.allLoaders;
+        if (isGeneratedDuplicate) {
+          return `webpack-generated:///${info.resourcePath}?${info.hash}`;
+        }
+        return `webpack:///${path.normalize(info.resourcePath)}`;
+      },
+      devtoolFallbackModuleFilenameTemplate:
+        "webpack:///[resource-path]?[hash]",
     },
   },
   css: {
