@@ -105,11 +105,10 @@ class SubSemesterScheduler {
 
   /**
    * Remove all sessions of `section` from all schedules
-   * @param {Course} course
    * @param {CourseSection} section
    */
-  removeCourseSection(course, section) {
-    this.schedules.forEach((s) => s.removeCourseSection(course, section));
+  removeCourseSection(section) {
+    this.schedules.forEach((s) => s.removeCourseSection(section));
   }
 
   /**

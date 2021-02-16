@@ -217,7 +217,7 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
       subsemesters: [],
-
+      courses: [],
       loading: false,
       exportIcon: faPaperPlane,
 
@@ -277,12 +277,19 @@ export default {
       if (this.isLoggedIn) {
         var cids = await getStudentCourses();
 
-        cids.forEach(({ semester, crn, course_id }) => {
-          if (semester == this.selectedSemester) {
-            const c = this.courses.find((course) => course.id === course_id);
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
 
-            if (crn != "-1") {
-              const sect = c.sections.find((section) => section.crn === crn);
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
+              });
               sect.selected = true;
               this.scheduler.addCourseSection(c, sect);
             } else {
@@ -328,6 +335,7 @@ export default {
     updateDataOnNewSemester(semester) {
       return Promise.all([getCourses(semester), getSubSemesters(semester)])
         .then(([courses, subsemesters]) => {
+          this.courses = courses;
           this.subsemesters = subsemesters;
           this.$store.commit(SET_COURSE_LIST, courses);
         })
@@ -370,7 +378,7 @@ export default {
 
       if (this.isLoggedIn) {
         addStudentCourse({
-          course_id: course.id,
+          name: course.name,
           semester: this.selectedSemester,
           cid: "-1",
         });
@@ -387,7 +395,7 @@ export default {
 
       if (this.isLoggedIn) {
         addStudentCourse({
-          course_id: course.id,
+          name: course.name,
           semester: this.selectedSemester,
           cid: section.crn,
         });
@@ -420,7 +428,7 @@ export default {
 
       if (this.isLoggedIn) {
         removeStudentCourse({
-          course_id: course.id,
+          name: course.name,
           semester: this.selectedSemester,
           cid: null,
         });
@@ -431,19 +439,19 @@ export default {
           .save();
       }
     },
-    removeCourseSection(course, section) {
-      this.scheduler.removeCourseSection(course, section);
+    removeCourseSection(section) {
+      this.scheduler.removeCourseSection(section);
 
       if (this.isLoggedIn) {
         removeStudentCourse({
-          course_id: course.id,
+          name: section.department + "-" + section.level,
           semester: this.selectedSemester,
           cid: section.crn,
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
-          .removeCourseSection(course, section)
+          .removeCourseSection(section)
           .save();
       }
     },
@@ -470,9 +478,7 @@ export default {
   },
   computed: {
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
-    courses() {
-      return this.$store.state.courseList;
-    },
+
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
         (s) => s.display_string === this.selectedScheduleSubsemester

@@ -1,7 +1,7 @@
 """admin_settings semester add unique constraint
 
 Revision ID: a3be4710680d
-Revises: 11496f2af3f7
+Revises: 53f333149502
 Create Date: 2021-02-16 01:00:16.113602
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'a3be4710680d'
-down_revision = '11496f2af3f7'
+down_revision = '53f333149502'
 branch_labels = None
 depends_on = None
 
