@@ -5,4 +5,4 @@ docker-compose \
   -f docker-compose.development.yml \
   run --rm -e PYTHONPATH=/usr/src\
   yacs_api \
-  alembic revision --autogenerate -m "$1"
+  alembic revision --autogenerate -m $1

@@ -252,10 +252,9 @@ class Schedule {
   /**
    * Remove all sessions in courseSection from schedule
    * Does not check if individual course session removal succeeds
-   * @param {Course} course
    * @param {CourseSection} courseSection
    */
-  removeCourseSection(course, courseSection) {
+  removeCourseSection(courseSection) {
     if (!courseSection) {
       console.warn(`Ignoring remove null/undefined courseSection`);
       // } else if (courseSection.sessions.length === 0) {
@@ -290,7 +289,7 @@ class Schedule {
       );
     } else {
       for (const section of course.sections) {
-        this.removeCourseSection(course, section);
+        this.removeCourseSection(section);
       }
 
       var i;

@@ -263,8 +263,7 @@ def add_student_course():
     if 'user' not in session:
         return Response("Not authorized", status=403)
 
-    resp, error = course_select.add_selection(info['course_id'], info['semester'], session['user']['user_id'], info['cid'])
-
+    resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
 
@@ -275,8 +274,7 @@ def remove_student_course():
     if 'user' not in session:
         return Response("Not authorized", status=403)
 
-    resp, error = course_select.remove_selection(info['course_id'], info['semester'], session['user']['user_id'], info['cid'])
-
+    resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
     return Response(status=200) if not error else Response(error, status=500)
 
 @app.route('/api/user/course', methods=['GET'])
