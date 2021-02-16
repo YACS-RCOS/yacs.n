@@ -207,9 +207,6 @@ def get_user_info(session_id):
 
 @app.route('/api/user', methods=['POST'])
 def add_user():
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
     return user_controller.add_user(request.json)
 
 
