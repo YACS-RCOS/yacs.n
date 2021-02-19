@@ -148,7 +148,7 @@ export default {
         {
           vmid: "description",
           name: "description",
-          content: "Explore courses in YACS"
+          content: "Explore courses in YACS",
         },
         {
           name: "keywords",

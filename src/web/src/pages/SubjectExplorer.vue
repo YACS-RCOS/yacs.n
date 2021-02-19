@@ -134,7 +134,7 @@ export default {
         {
           vmid: "description",
           name: "description",
-          content: "RPI " + this.subject
+          content: "RPI " + this.subject,
         },
         {
           vmid: "keywords",

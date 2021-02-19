@@ -129,7 +129,7 @@ export default {
         {
           vmid: "description",
           name: "description",
-          content: this.courseObj.description
+          content: this.courseObj.description,
         },
         {
           vmid: "keywords",
