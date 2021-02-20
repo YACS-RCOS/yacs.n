@@ -35,6 +35,9 @@ export default {
       querySemester && querySemester != "null"
         ? querySemester
         : await getDefaultSemester();
+    
+    const courses = await getCourses(this.selectedSemester);
+    this.$store.commit(SET_COURSE_LIST, courses);
 
     try {
       if (!this.isLoggedIn) {
