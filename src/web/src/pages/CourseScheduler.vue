@@ -517,7 +517,7 @@ export default {
       immediate: true,
       handler(semester) {
         this.loading = true;
-        this.$router.push({ name: "CourseScheduler", query: { semester } });
+        //this.$router.push({ name: "CourseScheduler", query: { semester } });
 
         this.updateDataOnNewSemester(semester).then(
           () => (this.loading = false)
