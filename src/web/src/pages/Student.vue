@@ -16,6 +16,8 @@ import HeaderComponent from "@/components/Header";
 import FooterComponent from "@/components/Footer";
 import { getDefaultSemester } from "@/services/AdminService";
 import { userTypes } from "@/store/modules/user";
+import { SET_COURSE_LIST } from "@/store";
+import { getCourses } from "@/services/YacsService";
 
 export default {
   name: "StudentPage",
