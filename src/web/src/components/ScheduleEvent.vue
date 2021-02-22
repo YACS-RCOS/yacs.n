@@ -1,7 +1,7 @@
 <template functional>
   <div class="schedule-event" :style="data.style" data-cy="schedule-event">
     <div class="event-text">
-      <span data-cy="title">{{ props.title }}</span>
+      <span data-cy="title"> <a v-bind:href= "'/explore/' + props.name.split(' ')[0] + '/' + props.name.split(' ')[0] + '-' + props.name.split(' ')[1]"> {{props.title}}</a> </span>
       <br />
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;-&nbsp;
