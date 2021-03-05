@@ -51,6 +51,7 @@ export default {
       meta: [
         {
           vmid: "description",
+          name: "description",
           content:
             "YACS is a RPI course scheduler to help students plan out their semester.",
         },

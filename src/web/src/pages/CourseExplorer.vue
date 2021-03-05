@@ -140,7 +140,11 @@ export default {
       titleTemplate: "%s | YACS",
       meta: [
         { charset: "utf-8" },
-        { vmid: "description", content: "Explore courses in YACS" },
+        {
+          vmid: "description",
+          name: "description",
+          content: "Explore courses in YACS",
+        },
         {
           name: "keywords",
           content: "RPI, YACS, Rensselaer Polytechnic Institute",

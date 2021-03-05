@@ -184,7 +184,7 @@ class SelectedCoursesCookie {
   }
 
   /**
-   * @param {Course} course
+   *
    * @param {CourseSection} section
    * @returns {this}
    */

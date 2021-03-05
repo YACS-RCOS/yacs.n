@@ -127,7 +127,11 @@ export default {
       title: this.courseTitle,
       titleTemplate: "%s | YACS",
       meta: [
-        { vmid: "description", content: this.courseObj.description },
+        {
+          vmid: "description",
+          name: "description",
+          content: this.courseObj.description,
+        },
         {
           vmid: "keywords",
           content:
