@@ -58,13 +58,13 @@
 import Logic from "logic-solver";
 import { hasSessionConflict, withinCourseDuration } from "@/utils";
 import Schedule from "@/components/Schedule";
-import SubsemesterSchedule from "@/components/SubsemesterSchedule";
+import SubSemesterSchedule from "@/components/SubSemesterSchedule";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   components: {
     Schedule,
-    SubsemesterSchedule,
+    SubSemesterSchedule,
   },
   props: {
     /** @type {import("vue").PropType<import("@/typedef").Course[]>} */
@@ -187,7 +187,7 @@ export default {
         return {
           component:
             this.$store.state.subsemesters.length > 1
-              ? "SubsemesterSchedule"
+              ? "SubSemesterSchedule"
               : "Schedule",
           scheduleCourseSections: sectionCrns.map((crn) =>
             this.allCourseSections.find((section) => section.crn + "-" === crn)
