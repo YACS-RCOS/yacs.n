@@ -17,20 +17,20 @@
 <script>
 import { withinDuration, withinCourseDuration } from "@/utils";
 
-// import SubsemesterScheduler from "@/controllers/SubsemesterScheduler";
+// import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 
 import Schedule from "./Schedule";
 
 export default {
-  name: "SubsemesterSchedule",
+  name: "SubSemesterSchedule",
   components: {
     Schedule,
   },
   props: {
     // /** @type {import('vue').PropOptions<SubSemesterScheduler>} */
     // scheduler: {
-    //   type: SubsemesterScheduler,
-    //   default: () => new SubsemesterScheduler(),
+    //   type: SubSemesterScheduler,
+    //   default: () => new SubSemesterScheduler(),
     // },
     // loading: {
     //   type: Boolean,
