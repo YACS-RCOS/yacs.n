@@ -155,7 +155,15 @@ class Schedule {
       return false;
     }
   }
+  totalCredits() {
+    var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
 
+    // Getting sum of numbers
+    var sum = array.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+    return sum;
+  }
   /**
    * Adds all the `CourseSession`s in `courseSection` to this schedule
    * @param {CourseSection} courseSection
@@ -245,6 +253,10 @@ class Schedule {
 
       this.selectedSections.push(courseSection);
       console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);
+      if (this.totalCredits()+course.max_credits>21){
+        console.error("Credit Cap");
+        throw {type:"Credit Conflict"};
+      }
       return true;
     }
   }
