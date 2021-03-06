@@ -13,6 +13,11 @@ export default {
   name: "App",
   components: {},
   async created() {
+    if (this.$cookies.get("darkMode") == null && window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.getElementsByTagName("body")[0].classList.add("dark");
+    }
+
     const querySemester = this.$route.query.semester;
     this.selectedSemester =
       querySemester && querySemester != "null"
