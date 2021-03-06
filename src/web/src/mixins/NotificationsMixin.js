@@ -48,5 +48,17 @@ export default {
         noAutoHide: false,
       });
     },
+    notifyCreditConflict(){
+      //Format All Message Data For Conflict Message:
+      const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
+        'WARNING: Exceeding Credits Limit'
+        ]);
+      //Format All Header-Data For Conflict Message:
+      this.$bvToast.toast(vNodesMsg, {
+        title: `CREDIT CAP`,
+        variant: "danger",
+        noAutoHide: false,
+      });
+    },
   },
 };
