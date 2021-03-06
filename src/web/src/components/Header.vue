@@ -36,14 +36,11 @@
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
             :checked="$store.state.darkMode"
+            :indeterminate.sync="defaultColor"
             @change="toggle_style()"
-            switch
           >
-            <div>
-              <!-- We need the outer div to keep the icon aligned with the checkbox -->
-              <font-awesome-icon icon="moon" />
-            </div>
           </b-form-checkbox>
+          <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
         </b-nav-form>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -113,11 +110,36 @@ export default {
   data() {
     return {
       semesterOptions: [],
+      defaultColor: (this.$cookies.get('darkMode') === null),
     };
   },
   methods: {
     toggle_style() {
+      if (this.$cookies.get("darkMode") == null) {
+        this.$bvToast.toast(
+          `Double click the moon icon to follow device's color scheme.`, {
+            title: 'Color Scheme Changed',
+            autoHideDelay: 2000,
+            variant: "info"
+        });
+      }
       this.$store.commit(TOGGLE_DARK_MODE);
+    },
+    toggle_default(){
+      this.defaultColor = true;
+      this.$cookies.remove("darkMode");
+      this.$bvToast.toast(
+        `Toggled to follow device color.`, {
+          title: 'Color Scheme Changed',
+          autoHideDelay: 1000,
+          variant: "info"
+      });
+      if (window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.getElementsByTagName("body")[0].classList.add("dark");
+      } else {
+        document.getElementsByTagName("body")[0].classList.remove("dark");
+      }
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
