@@ -18,6 +18,10 @@ export default {
       document.getElementsByTagName("body")[0].classList.add("dark");
     }
 
+    if (this.$cookies.get("darkMode") == "true") {
+      this.$store.commit(TOGGLE_DARK_MODE);
+    }
+
     const querySemester = this.$route.query.semester;
     this.selectedSemester =
       querySemester && querySemester != "null"
@@ -25,10 +29,6 @@ export default {
         : await getDefaultSemester();
     const courses = await getCourses(this.selectedSemester);
     this.$store.commit(SET_COURSE_LIST, courses);
-
-    if (this.$cookies.get("darkMode") == "true") {
-      this.$store.commit(TOGGLE_DARK_MODE);
-    }
   },
   computed: {
     darkMode() {
