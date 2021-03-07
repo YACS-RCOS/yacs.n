@@ -36,7 +36,7 @@
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
             :checked="$store.state.darkMode"
-            :indeterminate.sync="defaultColor"
+            :indeterminate="followDevice"
             @change="toggle_style()"
           >
           </b-form-checkbox>
@@ -94,7 +94,7 @@ import { mapGetters, mapState } from "vuex";
 import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
 
-import { TOGGLE_DARK_MODE } from "@/store";
+import { TOGGLE_DARK_MODE, SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";
 
 import { userTypes } from "../store/modules/user";
 
@@ -110,36 +110,38 @@ export default {
   data() {
     return {
       semesterOptions: [],
-      defaultColor: (this.$cookies.get('darkMode') === null),
+      followDevice: (this.$cookies.get('darkMode') === null),
     };
   },
   methods: {
     toggle_style() {
-      if (this.$cookies.get("darkMode") == null) {
+      if (this.$cookies.get("darkMode") === null) {
         this.$bvToast.toast(
-          `Double click the moon icon to follow device's color scheme.`, {
+          `Double click moon icon to follow device's color scheme.`, {
             title: 'Color Scheme Changed',
             autoHideDelay: 2000,
-            variant: "info"
+            noHoverPause: true,
+            variant: "info",
+            toaster: "b-toaster-top-left",
         });
       }
       this.$store.commit(TOGGLE_DARK_MODE);
+      this.$store.commit(SAVE_DARK_MODE);
+      this.followDevice = false;
     },
-    toggle_default(){
-      this.defaultColor = true;
-      this.$cookies.remove("darkMode");
-      this.$bvToast.toast(
-        `Toggled to follow device color.`, {
-          title: 'Color Scheme Changed',
-          autoHideDelay: 1000,
-          variant: "info"
-      });
-      if (window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.getElementsByTagName("body")[0].classList.add("dark");
-      } else {
-        document.getElementsByTagName("body")[0].classList.remove("dark");
+    toggle_default() {
+      if (this.$cookies.get("darkMode") !== null) {
+        this.$bvToast.toast(
+          `Toggled to follow device color.`, {
+            title: 'Color Scheme Changed',
+            autoHideDelay: 1000,
+            noHoverPause: true,
+            variant: "success",
+            toaster: "b-toaster-top-left",
+        });
       }
+      this.$store.commit(RESET_DARK_MODE);
+      this.followDevice = true;
     },
     onLogIn() {
       this.$refs["login-modal"].hide();

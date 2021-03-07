@@ -13,12 +13,9 @@ export default {
   name: "App",
   components: {},
   async created() {
-    if (this.$cookies.get("darkMode") == null && window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      document.getElementsByTagName("body")[0].classList.add("dark");
-    }
-
-    if (this.$cookies.get("darkMode") == "true") {
+    if (this.$cookies.get("darkMode")  === "true" ||
+        (this.$cookies.get("darkMode") ===  null  &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)) {
       this.$store.commit(TOGGLE_DARK_MODE);
     }
 
