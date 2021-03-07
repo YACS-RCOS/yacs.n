@@ -22,6 +22,7 @@
 }
 /* use !important to make sure components are overridden */
 .dark {
+  //background below the content (scroll upwards past page)
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
 
@@ -66,7 +67,8 @@
   }
 
   .nav-link:hover {
-    color: var(--dark-blue-secondary) !important;
+    //schedule/explore buttons
+    color: var(--dark-blue-primary) !important;
   }
 
   .btn-primary {
@@ -76,7 +78,7 @@
 
   .btn-primary:hover {
     border-color: var(--dark-blue-secondary) !important;
-    background-color: var(--dark-blue-primary);
+    background-color: var(--dark-purple-third);
   }
 
   .custom-control-input:checked~.custom-control-label::before{
@@ -110,9 +112,10 @@
   }
 
   .btn.btn-light {
-    background-color: var(--dark-primary) !important;
+    //buttons for course names, change to dark secondary
+    background-color: var(--dark-secondary) !important;
     color: var(--dark-text-primary) !important;
-    border-color: var(--dark-primary) !important;
+    border-color: var(--dark-border-primary) !important;
   }
 
   .dropdown-menu {
@@ -157,6 +160,7 @@
   }
 
   .course-listing {
+    
     color: var(--dark-text-primary) !important;
     border-bottom: 1px solid var(--dark-text-secondary) !important;
   }
@@ -178,7 +182,7 @@
   }
 
   .gridContainer {
-    background-color: var(--dark-primary) !important;
+    background-color: var(--dark-blue-primary) !important;
   }
 
   .major-button {
