@@ -56,7 +56,8 @@
                 ? `4px solid ${getBorderColor(section)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)} !important`
+                //remove important to get defined colors
+                ? `${getBackgroundColor(section)}`
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',
@@ -227,7 +228,7 @@ export default {
      */
     toggleCourseSection(section) {
       if (section.selected) {
-        this.$emit("removeCourseSection", section);
+        this.$emit("removeCourseSection", this.course, section);
       } else {
         this.$emit("addCourseSection", this.course, section);
       }
