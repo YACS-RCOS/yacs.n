@@ -65,6 +65,7 @@ export default {
         { property: "og:site_name", content: "YACS" },
         { property: "og:type", content: "website" },
         { name: "robots", content: "index" },
+        { name: "color-scheme", content: "light dark" },
       ],
     };
   },
