@@ -64,15 +64,6 @@
             Log In
           </b-button>
 
-          <b-button
-            id="signup-button"
-            v-b-modal.signup-modal
-            size="sm"
-            variant="primary"
-          >
-            Sign Up
-          </b-button>
-
           <b-modal
             id="login-modal"
             ref="login-modal"
@@ -80,10 +71,6 @@
             title="Log In"
           >
             <LoginForm @submit="onLogIn()" />
-          </b-modal>
-
-          <b-modal id="signup-modal" hide-footer title="Sign Up">
-            <SignUpForm @submit="onSignUp()" />
           </b-modal>
         </template>
       </b-navbar-nav>
@@ -94,7 +81,6 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 
-import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
 
 import { TOGGLE_DARK_MODE } from "@/store";
@@ -104,7 +90,6 @@ import { userTypes } from "../store/modules/user";
 export default {
   name: "Header",
   components: {
-    SignUpForm: SignUpComponent,
     LoginForm: LoginComponent,
   },
 
@@ -114,9 +99,6 @@ export default {
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
-    },
-    onSignUp() {
-      this.$refs["signup-modal"].hide();
     },
     async logOut() {
       try {
@@ -147,7 +129,6 @@ export default {
 <style lang="scss" scoped>
 @include media-breakpoint-down(sm) {
   #login-button,
-  #signup-button,
   #darkmode-toggle-form {
     // equivalent to mb-1
     margin-bottom: $spacer * 0.25;
