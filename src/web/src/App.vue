@@ -13,10 +13,21 @@ export default {
   name: "App",
   components: {},
   async created() {
+    const darkModeQueryBody = "(prefers-color-scheme: dark)";
     if (this.$cookies.get("darkMode")  === "true" ||
         (this.$cookies.get("darkMode") ===  null  &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          window.matchMedia(darkModeQueryBody).matches)) {
       this.$store.commit(TOGGLE_DARK_MODE);
+    }
+
+    if (window.matchMedia &&
+        window.matchMedia(darkModeQueryBody).media !== 'not all') {
+      const queryColorScheme = window.matchMedia(darkModeQueryBody);
+      queryColorScheme.addEventListener('change', () => {
+        if (this.$cookies.get("darkMode") === null) {
+          this.$store.commit(TOGGLE_DARK_MODE);
+        }
+      });
     }
 
     const querySemester = this.$route.query.semester;
