@@ -122,7 +122,6 @@ export default {
             autoHideDelay: 2000,
             noHoverPause: true,
             variant: "info",
-            toaster: "b-toaster-top-left",
         });
       }
       this.$store.commit(TOGGLE_DARK_MODE);
@@ -137,7 +136,6 @@ export default {
             autoHideDelay: 1000,
             noHoverPause: true,
             variant: "success",
-            toaster: "b-toaster-top-left",
         });
       }
       this.$store.commit(RESET_DARK_MODE);
