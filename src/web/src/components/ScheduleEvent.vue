@@ -1,7 +1,11 @@
 <template functional>
   <div class="schedule-event" :style="data.style" data-cy="schedule-event">
     <div class="event-text">
-      <span data-cy="title"> <a v-bind:href= $options.getExploreCourseLink(props.name)> {{props.title}}</a> </span>
+      <span data-cy="title">
+        <a v-bind:href="$options.getExploreCourseLink(props.name)">
+          {{ props.title }}
+        </a>
+      </span>
       <br />
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;-&nbsp;
@@ -18,8 +22,8 @@
 <script>
 export default {
   getExploreCourseLink(courseName) {
-    var subject = courseName.split(' ')[0];
-    var courseNumber = courseName.split(' ')[1];
+    var subject = courseName.split(" ")[0];
+    var courseNumber = courseName.split(" ")[1];
     return `/explore/${subject}/${subject}-${courseNumber}`;
   },
 };
@@ -50,4 +54,3 @@ export default {
   }
 }
 </style>
-
