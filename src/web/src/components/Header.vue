@@ -110,19 +110,13 @@ export default {
   data() {
     return {
       semesterOptions: [],
-      followDevice: (this.$cookies.get('darkMode') === null),
+      followDevice: (this.$cookies.get("darkMode") === null),
     };
   },
   methods: {
     toggle_style() {
       if (this.$cookies.get("darkMode") === null) {
-        this.$bvToast.toast(
-          `Double click moon icon to follow device's color scheme.`, {
-            title: 'Color Scheme Changed',
-            autoHideDelay: 2000,
-            noHoverPause: true,
-            variant: "info",
-        });
+        this.notifyOnToggle();
       }
       this.$store.commit(TOGGLE_DARK_MODE);
       this.$store.commit(SAVE_DARK_MODE);
@@ -130,13 +124,7 @@ export default {
     },
     toggle_default() {
       if (this.$cookies.get("darkMode") !== null) {
-        this.$bvToast.toast(
-          `Toggled to follow device color.`, {
-            title: 'Color Scheme Changed',
-            autoHideDelay: 1000,
-            noHoverPause: true,
-            variant: "success",
-        });
+        this.notifyOnDefault();
       }
       this.$store.commit(RESET_DARK_MODE);
       this.followDevice = true;
@@ -160,6 +148,24 @@ export default {
           variant: "danger",
         });
       }
+    },
+    notifyOnToggle() {
+      this.$bvToast.toast(
+        `Double click moon icon to follow device's color scheme.`, {
+          title: 'Color Scheme Changed',
+          autoHideDelay: 2000,
+          noHoverPause: true,
+          variant: "info",
+      });
+    },
+    notifyOnDefault() {
+      this.$bvToast.toast(
+        `Toggled to follow device color.`, {
+          title: 'Color Scheme Changed',
+          autoHideDelay: 1000,
+          noHoverPause: true,
+          variant: "success",
+      });
     },
   },
   computed: {

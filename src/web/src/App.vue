@@ -13,22 +13,7 @@ export default {
   name: "App",
   components: {},
   async created() {
-    const darkModeQueryBody = "(prefers-color-scheme: dark)";
-    if (this.$cookies.get("darkMode")  === "true" ||
-        (this.$cookies.get("darkMode") ===  null  &&
-          window.matchMedia(darkModeQueryBody).matches)) {
-      this.$store.commit(TOGGLE_DARK_MODE);
-    }
-
-    if (window.matchMedia &&
-        window.matchMedia(darkModeQueryBody).media !== 'not all') {
-      const queryColorScheme = window.matchMedia(darkModeQueryBody);
-      queryColorScheme.addEventListener('change', () => {
-        if (this.$cookies.get("darkMode") === null) {
-          this.$store.commit(TOGGLE_DARK_MODE);
-        }
-      });
-    }
+    this.darkModeInit();
 
     const querySemester = this.$route.query.semester;
     this.selectedSemester =
@@ -37,6 +22,27 @@ export default {
         : await getDefaultSemester();
     const courses = await getCourses(this.selectedSemester);
     this.$store.commit(SET_COURSE_LIST, courses);
+  },
+  methods: {
+    darkModeInit() {
+      this.syncColorScheme();
+      this.registerColorSchemeListener();
+    },
+    syncColorScheme() {
+      if (this.$cookies.get("darkMode")  === "true" ||
+          (this.$cookies.get("darkMode") ===  null  &&
+           window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        this.$store.commit(TOGGLE_DARK_MODE);
+      }
+    },
+    registerColorSchemeListener() {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
+        "change", () => {
+          if (this.$cookies.get("darkMode") === null) {
+            this.$store.commit(TOGGLE_DARK_MODE);
+        }
+      });
+    }
   },
   computed: {
     darkMode() {
