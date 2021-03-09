@@ -169,8 +169,11 @@ export default {
       // filter by selected department
       const filtered = this.courseList.filter(
         (course) =>
-          !this.selectedDepartment ||
-          course.department === this.selectedDepartment
+          (!this.selectedDepartment ||
+          course.department === this.selectedDepartment) && 
+          (!this.selectedSubsemester ||
+          (this.selectedSubsemester.date_start.getTime() === course.date_start.getTime() && 
+            this.selectedSubsemester.date_end.getTime() === course.date_end.getTime()))
       );
 
       // returns exact match, if not found, then department filtered list
