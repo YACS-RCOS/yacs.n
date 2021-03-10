@@ -6,14 +6,22 @@ import "@/typedef";
  * @module ColorService
  */
 
+//text and background should be very similar
+//color should be a light shade of the color of text
+
 const COLORS = [
-  "#ffd4df",
-  "#ceeffc",
-  "#fff4d0",
-  "#dcf7da",
-  "#f7e2f7",
-  "#ede6df",
-  "#ffe9cf",
+  "#ffd4df", //red
+  "#ceeffc", //blue
+  "#fff4d0", //yellow
+  "#dcf7da", //green
+  "#f7e2f7", //purple
+  "#ede6df", //brown
+  "#ffe9cf", //orange
+  "#ffd1fc", //pink
+  "#d9fdfc", //aquamarine
+  "#d5aeae", //maroon
+  "#A3CFE1", //dark blue
+  "#ACDBA9", //dark green
 ];
 const TEXT_COLORS = [
   "#d1265d",
@@ -23,6 +31,15 @@ const TEXT_COLORS = [
   "#853d80",
   "#9d5733",
   "#d9652b",
+  "#ff00ef",
+  "#06c6b9",
+  "#ab1111",
+  "#014779",
+  "#116940",
+  // make all black to help with visibility???
+  // apparently out site fails this test https://wave.webaim.org/
+  // which helps site stay accessible to people with disabilities
+  // add a switch to make the text black
 ];
 const BORDER_COLORS = [
   "#ff2066",
@@ -32,8 +49,14 @@ const BORDER_COLORS = [
   "#d373da",
   "#a48363",
   "#ff9332",
+  "#ff00ef",
+  "#00fff9",
+  "#ab0000",
+  "#015FA2",
+  "#298E33",
 ];
-const NUM_COLORS = 7;
+
+const NUM_COLORS = 12;
 
 // TODO: use something persistent
 var assignmentIncr = 0;
