@@ -11,6 +11,8 @@ services:
     build:
       context: ./src/web
       dockerfile: Dockerfile
+      args:
+        ENABLED_MODULES: brotli
     depends_on:
       - yacs_api
 
