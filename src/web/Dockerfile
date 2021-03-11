@@ -21,8 +21,8 @@ RUN set -ex \
 COPY ./ /modules/
 
 RUN set -ex \
-  && apt update \
-  && apt install -y --no-install-suggests --no-install-recommends \
+  && apt-get update \
+  && apt-get install -y --no-install-suggests --no-install-recommends \
   patch make wget mercurial devscripts debhelper dpkg-dev \
   quilt lsb-release build-essential libxml2-utils xsltproc \
   equivs git g++ \
@@ -41,7 +41,7 @@ RUN set -ex \
       # some modules require build dependencies
       if [ -f /modules/$module/build-deps ]; then \
         echo "Installing $module build dependencies"; \
-        apt update && apt install -y --no-install-suggests --no-install-recommends $(cat /modules/$module/build-deps | xargs); \
+        apt-get update && apt-get install -y --no-install-suggests --no-install-recommends $(cat /modules/$module/build-deps | xargs); \
       fi; \
       # if a module has a build dependency that is not in a distro, provide a
       # shell script to fetch/build/install those
@@ -56,7 +56,7 @@ RUN set -ex \
       echo "Building $module from pkg-oss sources"; \
       cd /pkg-oss/debian; \
       make rules-module-$module BASE_VERSION=$NGINX_VERSION NGINX_VERSION=$NGINX_VERSION; \
-      mk-build-deps --install --tool="apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes" debuild-module-$module/nginx-$NGINX_VERSION/debian/control; \
+      mk-build-deps --install --tool="apt-get-get -o Debug::pkgProblemResolver=yes --no-install-recommends --yes" debuild-module-$module/nginx-$NGINX_VERSION/debian/control; \
       make module-$module BASE_VERSION=$NGINX_VERSION NGINX_VERSION=$NGINX_VERSION; \
       find ../../ -maxdepth 1 -mindepth 1 -type f -name "*.deb" -exec mv -v {} /tmp/packages/ \;; \
     else \
@@ -78,11 +78,11 @@ COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY cert/ /etc/nginx/cert
 
 RUN \
-  apt update --no-install-recommends && \
-  apt install openssl --no-install-recommends -y && \
-  apt install --no-install-suggests --no-install-recommends -y \
+  apt-get update --no-install-recommends && \
+  apt-get install openssl --no-install-recommends -y && \
+  apt-get install --no-install-suggests --no-install-recommends -y \
   /tmp/packages/nginx-module-brotli_${NGINX_VERSION}*.deb && \
   rm -rf /tmp/packages && \
-  rm -rf /var/lib/apt/lists/
+  rm -rf /var/lib/apt-get/lists/
 
 CMD ["/usr/local/bin/entrypoint.sh"]
