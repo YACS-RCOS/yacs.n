@@ -5,9 +5,11 @@
 </template>
 
 <script>
-import { TOGGLE_DARK_MODE, SET_COURSE_LIST } from "@/store";
+import { TOGGLE_DARK_MODE, SET_COURSE_LIST, COOKIE_DARK_MODE } from "@/store";
 import { getCourses } from "@/services/YacsService";
 import { getDefaultSemester } from "@/services/AdminService";
+
+export const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
 export default {
   name: "App",
@@ -29,19 +31,25 @@ export default {
       this.registerColorSchemeListener();
     },
     syncColorScheme() {
-      if (this.$cookies.get("darkMode")  === "true" ||
-          (this.$cookies.get("darkMode") ===  null  &&
-           window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      if (this.isCookieOrDeviceInDarkMode()) {
         this.$store.commit(TOGGLE_DARK_MODE);
       }
     },
     registerColorSchemeListener() {
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
+      window.matchMedia(DARK_MODE_MEDIA_QUERY).addEventListener(
         "change", () => {
-          if (this.$cookies.get("darkMode") === null) {
+          if (this.isFollowingDeviceColor()) {
             this.$store.commit(TOGGLE_DARK_MODE);
         }
       });
+    },
+    isFollowingDeviceColor() {
+      return this.$cookies.get(COOKIE_DARK_MODE) === null;
+    },
+    isCookieOrDeviceInDarkMode() {
+      return this.$cookies.get(COOKIE_DARK_MODE) === "true" ||
+              (this.isFollowingDeviceColor() &&
+               window.matchMedia(DARK_MODE_MEDIA_QUERY).matches);
     }
   },
   computed: {
