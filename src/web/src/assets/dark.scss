@@ -112,8 +112,7 @@
   }
 
   .btn.btn-light {
-    //buttons for course names, change to dark secondary
-    background-color: var(--dark-secondary) !important;
+    background-color: var(--dark-primary) !important;
     color: var(--dark-text-primary) !important;
     border-color: var(--dark-border-primary) !important;
   }
@@ -186,6 +185,11 @@
   }
 
   .major-button {
+    background-color: var(--dark-secondary) !important;
+  }
+
+  .courseBox {
+    //for hovering over course
     background-color: var(--dark-secondary) !important;
   }
 
