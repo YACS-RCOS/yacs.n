@@ -5,9 +5,10 @@ import { userModule, USER_NAMESPACE } from "./modules/user";
 
 Vue.use(Vuex);
 
+export const COOKIE_DARK_MODE = "darkMode";
 export const TOGGLE_DARK_MODE = "TOGGLE_DARK_MODE";
-export const SAVE_DARK_MODE   = "SAVE_DARK_MODE";
 export const RESET_DARK_MODE  = "RESET_DARK_MODE";
+export const SAVE_DARK_MODE   = "SAVE_DARK_MODE";
 export const SET_COURSE_LIST  = "SET_COURSE_LIST";
 
 const store = new Vuex.Store({

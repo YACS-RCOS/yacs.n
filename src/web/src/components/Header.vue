@@ -94,7 +94,8 @@ import { mapGetters, mapState } from "vuex";
 import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
 
-import { TOGGLE_DARK_MODE, SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";
+import { COOKIE_DARK_MODE, TOGGLE_DARK_MODE,
+         SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";
 
 import { userTypes } from "../store/modules/user";
 
@@ -110,12 +111,12 @@ export default {
   data() {
     return {
       semesterOptions: [],
-      followDevice: (this.$cookies.get("darkMode") === null),
+      followDevice: (this.$cookies.get(COOKIE_DARK_MODE) === null),
     };
   },
   methods: {
     toggle_style() {
-      if (this.$cookies.get("darkMode") === null) {
+      if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
       }
       this.$store.commit(TOGGLE_DARK_MODE);
@@ -123,7 +124,7 @@ export default {
       this.followDevice = false;
     },
     toggle_default() {
-      if (this.$cookies.get("darkMode") !== null) {
+      if (this.$cookies.get(COOKIE_DARK_MODE) !== null) {
         this.notifyOnDefault();
       }
       this.$store.commit(RESET_DARK_MODE);
