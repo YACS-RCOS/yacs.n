@@ -186,6 +186,6 @@ export default {
 }
 
 .courseBox:hover {
-  background: rgba(100, 90, 90, 0.15) !important;
+  background: rgba(108, 90, 90, 0.15) !important;
 }
 </style>
