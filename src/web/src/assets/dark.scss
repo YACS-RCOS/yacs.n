@@ -22,7 +22,6 @@
 }
 /* use !important to make sure components are overridden */
 .dark {
-  //background below the content (scroll upwards past page)
   background-color: var(--dark-primary) !important;
   color: var(--dark-text-primary) !important;
 
@@ -67,7 +66,6 @@
   }
 
   .nav-link:hover {
-    //schedule/explore buttons
     color: var(--dark-blue-primary) !important;
   }
 
