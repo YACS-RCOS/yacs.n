@@ -38,7 +38,6 @@ export default {
   props: {
     majors: Set,
     deptClassDict: Object,
-    selectedSemester: String,
     id: Number,
   },
 

@@ -103,18 +103,11 @@ import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Header",
-  props: {
-    selectedSemester: String,
-  },
   components: {
     SignUpForm: SignUpComponent,
     LoginForm: LoginComponent,
   },
-  data() {
-    return {
-      semesterOptions: [],
-    };
-  },
+
   methods: {
     toggle_style() {
       this.$store.commit(TOGGLE_DARK_MODE);
@@ -145,6 +138,7 @@ export default {
       isLoggedIn: userTypes.getters.IS_LOGGED_IN,
       user: userTypes.getters.CURRENT_USER_INFO,
     }),
+    ...mapState(["selectedSemester"]),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
   },
 };
