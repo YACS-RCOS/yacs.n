@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
+    <div v-if="courses.length != 0" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
@@ -77,6 +79,7 @@ export default {
     generateRequirementsText,
   },
   computed: {
+    ...mapGetters([COURSES]),
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
       if (precoreqtext === null) {
@@ -105,9 +108,7 @@ export default {
       return precoreqtext;
     },
     courseObj() {
-      return this.$store.state.courseList.find(
-        (course) => course.name === this.courseName
-      );
+      return this.courses.find((course) => course.name === this.courseName);
     },
     getCredits() {
       var credits;

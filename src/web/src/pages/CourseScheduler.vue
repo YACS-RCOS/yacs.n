@@ -25,10 +25,7 @@
                   @addCourse="addCourse"
                   @removeCourse="removeCourse"
                   @showCourseInfo="showCourseInfo"
-                  :courses="courses"
-                  :subsemesters="subsemesters"
                   class="w-100"
-                  :selectedSemester="selectedSemester"
                 />
               </b-card-text>
             </b-tab>
@@ -164,7 +161,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
@@ -179,11 +176,11 @@ import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import { userTypes } from "../store/modules/user";
 
-import { SET_COURSE_LIST } from "@/store";
+import { COURSES } from "@/store";
 
 import {
-  getSubSemesters,
-  getCourses,
+  // getSubSemesters,
+  // getCourses,
   addStudentCourse,
   removeStudentCourse,
   getStudentCourses,
@@ -208,16 +205,11 @@ export default {
     CourseList: CourseListComponent,
     CenterSpinner: CenterSpinnerComponent,
   },
-  props: {
-    selectedSemester: String,
-  },
   data() {
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
-      subsemesters: [],
-      courses: [],
       loading: false,
       exportIcon: faPaperPlane,
 
@@ -331,17 +323,6 @@ export default {
           selectedCoursesCookie.clear().save();
         }
       }
-    },
-    updateDataOnNewSemester(semester) {
-      return Promise.all([getCourses(semester), getSubSemesters(semester)])
-        .then(([courses, subsemesters]) => {
-          this.courses = courses;
-          this.subsemesters = subsemesters;
-          this.$store.commit(SET_COURSE_LIST, courses);
-        })
-        .then(() => {
-          this.loadStudentCourses(semester);
-        });
     },
     addCourse(course) {
       let i = 0;
@@ -477,6 +458,8 @@ export default {
     },
   },
   computed: {
+    ...mapState(["subsemesters", "selectedSemester"]),
+    ...mapGetters([COURSES]),
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
 
     selectedScheduleIndex() {
@@ -513,17 +496,6 @@ export default {
     },
   },
   watch: {
-    selectedSemester: {
-      immediate: true,
-      handler(semester) {
-        this.loading = true;
-        //this.$router.push({ name: "CourseScheduler", query: { semester } });
-
-        this.updateDataOnNewSemester(semester).then(
-          () => (this.loading = false)
-        );
-      },
-    },
     isLoggedIn: {
       immediate: true,
       handler() {
