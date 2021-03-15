@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="!isLoadingCourses && courses.length > 0" class="w-90 ml-4 mb-4">
+    <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
@@ -31,12 +31,20 @@
       <b-button :to="'/explore/' + courseObj.department">Back</b-button>
     </div>
     <CenterSpinner
-      v-else
+      v-else-if="isLoadingCourses"
       :height="80"
       :fontSize="1.4"
       loadingMessage="Course"
       :topSpacing="30"
     />
+    <!-- If !courseObj -->
+    <div v-else class="w-90 ml-4 mb-4">
+      <b-row>
+        <b-col>
+          <h1 class="mt-4">Course not found</h1>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
