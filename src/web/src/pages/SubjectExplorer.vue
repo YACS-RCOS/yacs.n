@@ -6,7 +6,7 @@
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
     <!-- left column of courses -->
-    <b-row v-if="courses.length != 0">
+    <b-row v-if="!isLoadingCourses && courses.length > 0">
       <b-col cols="6">
         <b-row
           v-for="course in courseColumns[0]"
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
@@ -110,6 +110,7 @@ export default {
   },
   methods: {},
   computed: {
+    ...mapState(["isLoadingCourses"]),
     ...mapGetters(["courses"]),
     //courseColumns[0] corresponds to left column, [1] to right column
     courseColumns() {

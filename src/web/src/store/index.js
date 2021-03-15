@@ -22,6 +22,7 @@ export const GET_COURSE_BY_ID = "getCourseById";
 
 export const TOGGLE_DARK_MODE = "toggleDarkMode";
 export const SET_COURSES = "setCourses";
+const SET_IS_LOADING_COURSES = "SET_IS_LOADING_COURSES";
 export const SET_SELECTED_SEMESTER = "setSelectedSemester";
 export const SET_SEMESTERS = "setSemesters";
 export const SET_SUBSEMESTERS = "setSubsemesters";
@@ -37,6 +38,7 @@ const store = new Vuex.Store({
   state: {
     darkMode: false,
     coursesById: {},
+    isLoadingCourses: false,
     selectedSemester: null,
     semesters: [],
     subsemesters: [],
@@ -72,6 +74,9 @@ const store = new Vuex.Store({
         return coursesById;
       }, {});
     },
+    [SET_IS_LOADING_COURSES](state, isLoadingCourses) {
+      state.isLoadingCourses = isLoadingCourses;
+    },
     [SET_SELECTED_SEMESTER](state, semester) {
       state.selectedSemester = semester;
     },
@@ -87,9 +92,12 @@ const store = new Vuex.Store({
   },
   actions: {
     async [LOAD_COURSES]({ state, commit }) {
+      commit(SET_IS_LOADING_COURSES, true);
+
       const courses = await getCourses(state.selectedSemester);
 
       commit(SET_COURSES, courses);
+      commit(SET_IS_LOADING_COURSES, false);
     },
     async [SELECT_SEMESTER]({ state, commit, dispatch }, semester) {
       if (state.semesters.length === 0) {
@@ -103,9 +111,16 @@ const store = new Vuex.Store({
       if (!semester || semester === state.selectedSemester) {
         return;
       }
+
       commit(SET_SELECTED_SEMESTER, semester);
 
-      await Promise.all([dispatch(LOAD_COURSES), dispatch(LOAD_SUBSEMESTERS)]);
+      await dispatch(LOAD_SUBSEMESTERS);
+
+      // Do not wait for load courses to complete
+      // This is a slow operation and we have another
+      //  state property `isLoadingCourses` that is
+      //  meant to track the progress of this operation
+      dispatch(LOAD_COURSES);
     },
     async [LOAD_SEMESTERS]({ commit }) {
       const semesters = await client.get("/semester").then((res) => res.data);
