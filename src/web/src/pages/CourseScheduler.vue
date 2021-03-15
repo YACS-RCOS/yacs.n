@@ -63,7 +63,8 @@
           value-field="display_string"
         ></b-form-select>
 
-        <template v-if="scheduler.schedules">
+        <Schedule v-if="loading" />
+        <template v-else-if="scheduler.schedules">
           <Schedule
             v-for="(schedule, index) in scheduler.schedules"
             :key="index"
@@ -179,8 +180,6 @@ import { userTypes } from "../store/modules/user";
 import { COURSES } from "@/store";
 
 import {
-  // getSubSemesters,
-  // getCourses,
   addStudentCourse,
   removeStudentCourse,
   getStudentCourses,
@@ -210,7 +209,6 @@ export default {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
-      loading: false,
       exportIcon: faPaperPlane,
 
       courseInfoModalCourse: null,
@@ -233,8 +231,8 @@ export default {
         }
       );
     },
-    async loadStudentCourses(semester) {
-      if (!semester) {
+    async loadStudentCourses() {
+      if (!this.courses.length) {
         return;
       }
 
@@ -462,6 +460,10 @@ export default {
     ...mapGetters([COURSES]),
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
 
+    loading() {
+      return this.$store.state.isLoadingCourses;
+    },
+
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
         (s) => s.display_string === this.selectedScheduleSubsemester
@@ -496,14 +498,16 @@ export default {
     },
   },
   watch: {
+    courses: {
+      immediate: true,
+      handler() {
+        this.loadStudentCourses();
+      },
+    },
     isLoggedIn: {
       immediate: true,
       handler() {
-        this.loading = true;
-
-        this.loadStudentCourses(this.selectedSemester).then(
-          () => (this.loading = false)
-        );
+        this.loadStudentCourses();
       },
     },
   },
