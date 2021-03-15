@@ -56,8 +56,7 @@
                 ? `4px solid ${getBorderColor(section)}`
                 : 'none',
               'background-color': section.selected
-                //remove important to get defined colors
-                ? `${getBackgroundColor(section)}`
+                ? `${getBackgroundColor(section)} !important`
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',
