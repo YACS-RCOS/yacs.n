@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import store from "@/store";
 import { SELECT_SEMESTER } from "@/store";
 import HeaderComponent from "@/components/Header";
 import FooterComponent from "@/components/Footer";
@@ -19,20 +19,19 @@ export default {
     Header: HeaderComponent,
     Footer: FooterComponent,
   },
-  async created() {
+  async beforeRouteEnter(to, from, next) {
     try {
-      if (!this.isLoggedIn) {
-        await this.$store.dispatch(userTypes.actions.LOAD_SESSION_COOKIE);
+      if (!store.getters[userTypes.getters.IS_LOGGED_IN]) {
+        await store.dispatch(userTypes.actions.LOAD_SESSION_COOKIE);
       }
       // eslint-disable-next-line no-empty
     } catch {}
 
-    await this.$store.dispatch(SELECT_SEMESTER, this.$route.query.semester);
-  },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-    }),
+    if (store.state.selectedSemester === null || to.query.semester) {
+      await store.dispatch(SELECT_SEMESTER, to.query.semester);
+    }
+
+    next();
   },
 };
 </script>
