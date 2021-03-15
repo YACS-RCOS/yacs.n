@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="courses.length != 0" class="mx-auto w-75">
+    <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
         <!--
         - Left side of the column
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
@@ -96,6 +96,7 @@ export default {
     generateRequirementsText,
   },
   computed: {
+    ...mapState(["isLoadingCourses"]),
     ...mapGetters([COURSES]),
     schoolDepartmentObjects() {
       let keyArr = Object.entries(this.schoolsMajorDict)
