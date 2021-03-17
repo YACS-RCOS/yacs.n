@@ -135,7 +135,7 @@ export default {
     return {
       title: this.courseTitle,
       titleTemplate: "%s | YACS",
-      meta: [
+      meta: !this.courseObj ? undefined : [
         {
           vmid: "description",
           name: "description",
