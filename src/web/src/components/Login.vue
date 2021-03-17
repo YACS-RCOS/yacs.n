@@ -22,11 +22,17 @@
     <b-button type="submit" variant="primary">Submit</b-button>
     <div>
       <b-button-group size="md">
-        <b-button disabled variant="link">New to YACS?</b-button>
+        <button 
+          style="padding-left:0;padding-right:0;padding-top:12px" 
+          type="button" 
+          disabled="disabled" 
+          class="btn btn-link disabled">New to YACS?
+        </button>
         <b-button
           id="signup-button"
           v-b-modal.signup-modal
           variant="link"
+          style="padding-top:12px" 
         >
             Sign up now.
             </b-button>
