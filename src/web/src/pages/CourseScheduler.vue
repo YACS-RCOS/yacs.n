@@ -366,10 +366,6 @@ export default {
               continue;
             }
           } 
-          else if (err.type=="Credit Conflict"){
-            this.notifyCreditConflict();
-            break;
-          }
           else {
             throw err;
           }
