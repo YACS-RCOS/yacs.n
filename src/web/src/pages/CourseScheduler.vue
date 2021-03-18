@@ -365,7 +365,12 @@ export default {
             } else {
               continue;
             }
-          } else {
+          } 
+          else if (err.type=="Credit Conflict"){
+            this.notifyCreditConflict();
+            break;
+          }
+          else {
             throw err;
           }
         }
