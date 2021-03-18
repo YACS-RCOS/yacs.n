@@ -156,13 +156,11 @@ class Schedule {
     }
   }
   totalCredits() {
-    var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
-
-    // Getting sum of numbers
-    var sum = array.reduce(function (a, b) {
+    return Object.values(this.selectedCourses)
+    .map((course) => course.max_credits)
+    .reduce(function (a, b) {
       return a + b;
     }, 0);
-    return sum;
   }
   /**
    * Adds all the `CourseSession`s in `courseSection` to this schedule
