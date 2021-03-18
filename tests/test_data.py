@@ -39,7 +39,7 @@ class TestData:
     
     def clear_db(self, session):
         for table in reversed(Base.metadata.sorted_tables):
-            session.execute(clause=table.delete())
+            session.execute(statement=table.delete())
         session.commit()
 
     def reload_data(self, db_conn):
