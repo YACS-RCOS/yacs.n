@@ -366,6 +366,11 @@ export default {
               continue;
             }
           } 
+          else if (err.type=="Credit Conflict"){
+            this.notifyCreditConflict();
+            course.sections[i].selected=true;
+            break;
+          }
           else {
             throw err;
           }
