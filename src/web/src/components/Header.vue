@@ -61,15 +61,6 @@
             Log In
           </b-button>
 
-          <b-button
-            id="signup-button"
-            v-b-modal.signup-modal
-            size="sm"
-            variant="primary"
-          >
-            Sign Up
-          </b-button>
-
           <b-modal
             id="login-modal"
             ref="login-modal"
@@ -77,10 +68,6 @@
             title="Log In"
           >
             <LoginForm @submit="onLogIn()" />
-          </b-modal>
-
-          <b-modal id="signup-modal" hide-footer title="Sign Up">
-            <SignUpForm @submit="onSignUp()" />
           </b-modal>
         </template>
       </b-navbar-nav>
@@ -90,28 +77,18 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-
-import SignUpComponent from "@/components/SignUp";
 import LoginComponent from "@/components/Login";
-
 import { COOKIE_DARK_MODE, TOGGLE_DARK_MODE,
          SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";
-
 import { userTypes } from "../store/modules/user";
-
 export default {
   name: "Header",
-  props: {
-    selectedSemester: String,
-  },
   components: {
-    SignUpForm: SignUpComponent,
     LoginForm: LoginComponent,
   },
   data() {
     return {
-      semesterOptions: [],
-      followDevice: (this.$cookies.get(COOKIE_DARK_MODE) === null),
+      followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
   methods: {
@@ -133,13 +110,9 @@ export default {
     onLogIn() {
       this.$refs["login-modal"].hide();
     },
-    onSignUp() {
-      this.$refs["signup-modal"].hide();
-    },
     async logOut() {
       try {
         await this.$store.dispatch(userTypes.actions.LOGOUT);
-
         this.$bvToast.toast(`You are now logged out!`, {
           variant: "success",
         });
@@ -174,6 +147,7 @@ export default {
       isLoggedIn: userTypes.getters.IS_LOGGED_IN,
       user: userTypes.getters.CURRENT_USER_INFO,
     }),
+    ...mapState(["selectedSemester"]),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
   },
 };
@@ -182,14 +156,12 @@ export default {
 <style lang="scss" scoped>
 @include media-breakpoint-down(sm) {
   #login-button,
-  #signup-button,
   #darkmode-toggle-form {
     // equivalent to mb-1
     margin-bottom: $spacer * 0.25;
     margin-top: $spacer * 0.25;
   }
 }
-
 #header {
   .nav-item {
     text-align: center;
@@ -200,7 +172,6 @@ export default {
     justify-content: center;
   }
 }
-
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
