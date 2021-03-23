@@ -19,18 +19,41 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
-
     <b-button type="submit" variant="primary">Submit</b-button>
+    <div>
+      <b-button-group size="md">
+        <button 
+          style="padding-left:0;padding-right:0;padding-top:12px" 
+          type="button" 
+          disabled="disabled" 
+          class="btn btn-link disabled">New to YACS?
+        </button>
+        <b-button
+          id="signup-button"
+          v-b-modal.signup-modal
+          variant="link"
+          style="padding-top:12px" 
+        >
+            Sign up now.
+            </b-button>
+        <b-modal id="signup-modal" hide-footer title="Sign Up">
+          <SignUpForm @submit="onSignUp()" />
+        </b-modal>
+      </b-button-group>
+    </div>
   </b-form>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-
+import SignUpComponent from "@/components/SignUp";
 import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Login",
+  components: {
+    SignUpForm: SignUpComponent,
+  },
   data() {
     return {
       form: {
@@ -59,6 +82,9 @@ export default {
           variant: "danger",
         });
       }
+    },
+    onSignUp() {
+      this.$refs["signup-modal"].hide();
     },
     onReset(evt) {
       evt.preventDefault();
