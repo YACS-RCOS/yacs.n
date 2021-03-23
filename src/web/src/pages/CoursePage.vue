@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="$store.state.courseList.length != 0" class="w-90 ml-4 mb-4">
+    <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
@@ -31,16 +31,26 @@
       <b-button :to="'/explore/' + courseObj.department">Back</b-button>
     </div>
     <CenterSpinner
-      v-else
+      v-else-if="isLoadingCourses"
       :height="80"
       :fontSize="1.4"
       loadingMessage="Course"
       :topSpacing="30"
     />
+    <!-- If !courseObj -->
+    <div v-else class="w-90 ml-4 mb-4">
+      <b-row>
+        <b-col>
+          <h1 class="mt-4">Course not found</h1>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
@@ -77,6 +87,8 @@ export default {
     generateRequirementsText,
   },
   computed: {
+    ...mapState(["isLoadingCourses"]),
+    ...mapGetters([COURSES]),
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
       if (precoreqtext === null) {
@@ -105,9 +117,7 @@ export default {
       return precoreqtext;
     },
     courseObj() {
-      return this.$store.state.courseList.find(
-        (course) => course.name === this.courseName
-      );
+      return this.courses.find((course) => course.name === this.courseName);
     },
     getCredits() {
       var credits;
@@ -125,7 +135,7 @@ export default {
     return {
       title: this.courseTitle,
       titleTemplate: "%s | YACS",
-      meta: [
+      meta: !this.courseObj ? undefined : [
         {
           vmid: "description",
           name: "description",
