@@ -133,11 +133,7 @@ export default {
       title: this.subject,
       titleTemplate: "%s | YACS",
       meta: [
-        {
-          vmid: "description",
-          name: "description",
-          content: "RPI " + this.subject,
-        },
+        { vmid: "description", content: "RPI " + this.subject },
         {
           vmid: "keywords",
           content:
@@ -149,7 +145,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped lang="scss">
 .subjectBox {
   /* border: 3px solid black; */
   margin-bottom: 20px;
@@ -191,7 +187,7 @@ export default {
   text-align: left;
 }
 
-.major-courseBox:hover {
-  background: rgba(108, 90, 90, 0.15);
+.courseBox:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
 }
 </style>
