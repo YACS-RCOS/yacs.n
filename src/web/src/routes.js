@@ -8,6 +8,7 @@ import CourseExplorerPage from "./pages/CourseExplorer";
 import CoursePage from "./pages/CoursePage";
 import DegreeTemplatesPage from "./pages/DegreeTemplates";
 import SubjectExplorerPage from "./pages/SubjectExplorer";
+import NotFoundPage from "./pages/NotFound";
 
 var router = new VueRouter({
   routes: [
@@ -61,6 +62,11 @@ var router = new VueRouter({
       path: "/admin/editsemesters",
       component: EditSemestersPage,
       name: "EditSemesters",
+    },
+    {
+      path: '*',
+      component: NotFoundPage,
+      name: "NotFound"
     },
   ],
   mode: "history",
