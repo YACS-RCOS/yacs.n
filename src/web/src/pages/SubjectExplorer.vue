@@ -6,7 +6,7 @@
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
     <!-- left column of courses -->
-    <b-row v-if="$store.state.courseList.length != 0">
+    <b-row v-if="!isLoadingCourses && courses.length > 0">
       <b-col cols="6">
         <b-row
           v-for="course in courseColumns[0]"
@@ -79,6 +79,7 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
@@ -87,9 +88,6 @@ export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
-  },
-  props: {
-    selectedSemester: String,
   },
   data() {
     return {
@@ -112,13 +110,17 @@ export default {
   },
   methods: {},
   computed: {
+    ...mapState(["isLoadingCourses"]),
+    ...mapGetters(["courses"]),
     //courseColumns[0] corresponds to left column, [1] to right column
     courseColumns() {
       let leftColumn = [];
       let rightColumn = [];
-      const courses = this.$store.state.courseList;
+
       //Obtain All Courses Such That Department Matches The Subject Name.
-      const allTempData = courses.filter((c) => c.department === this.subject);
+      const allTempData = this.courses.filter(
+        (c) => c.department === this.subject
+      );
       for (let k = 0; k < allTempData.length; k++) {
         if (k % 2 == 0) leftColumn.push(allTempData[k]);
         else rightColumn.push(allTempData[k]);
@@ -131,11 +133,7 @@ export default {
       title: this.subject,
       titleTemplate: "%s | YACS",
       meta: [
-        {
-          vmid: "description",
-          name: "description",
-          content: "RPI " + this.subject,
-        },
+        { vmid: "description", content: "RPI " + this.subject },
         {
           vmid: "keywords",
           content:
@@ -147,7 +145,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped lang="scss">
 .subjectBox {
   /* border: 3px solid black; */
   margin-bottom: 20px;
@@ -189,7 +187,7 @@ export default {
   text-align: left;
 }
 
-.major-courseBox:hover {
-  background: rgba(108, 90, 90, 0.15);
+.courseBox:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
 }
 </style>

@@ -77,6 +77,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+
 import LoginComponent from "@/components/Login";
 import { COOKIE_DARK_MODE, TOGGLE_DARK_MODE,
          SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";

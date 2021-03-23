@@ -1,20 +1,16 @@
 <template>
   <div>
-    <Header class="mb-3" :selectedSemester="selectedSemester"></Header>
-    <router-view :selected-semester="selectedSemester" />
-    <Footer
-      :selectedSemester="selectedSemester"
-      @changeSelectedSemester="updateSelectedSemester"
-    />
+    <Header class="mb-3"></Header>
+    <router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
+import store from "@/store";
+import { SELECT_SEMESTER } from "@/store";
 import HeaderComponent from "@/components/Header";
 import FooterComponent from "@/components/Footer";
-import { getDefaultSemester } from "@/services/AdminService";
 import { userTypes } from "@/store/modules/user";
 
 export default {
@@ -23,35 +19,19 @@ export default {
     Header: HeaderComponent,
     Footer: FooterComponent,
   },
-  data() {
-    return {
-      selectedSemester: "",
-    };
-  },
-  async created() {
-    const querySemester = this.$route.query.semester;
-
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-
+  async beforeRouteEnter(to, from, next) {
     try {
-      if (!this.isLoggedIn) {
-        await this.$store.dispatch(userTypes.actions.LOAD_SESSION_COOKIE);
+      if (!store.getters[userTypes.getters.IS_LOGGED_IN]) {
+        await store.dispatch(userTypes.actions.LOAD_SESSION_COOKIE);
       }
       // eslint-disable-next-line no-empty
     } catch {}
-  },
-  methods: {
-    updateSelectedSemester(newSemester) {
-      this.selectedSemester = newSemester;
-    },
-  },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-    }),
+
+    if (store.state.selectedSemester === null || to.query.semester) {
+      await store.dispatch(SELECT_SEMESTER, to.query.semester);
+    }
+
+    next();
   },
 };
 </script>
