@@ -1,11 +1,14 @@
 <template>
-    <div id="notfound">
+  <div id="notfound">
 		<div class="notfound">
 			<div class="notfound-404">
 				<h1>Oops!</h1>
-				<h2>404 - The Page can't be found</h2>
+				<h2>
+          <img src="../assets/images/sismanhigh.svg"/>
+          404 - The Page can't be found
+        </h2>
 			</div>
-			<a href="/">Go To Homepage!</a>
+			<a href="/">Go Back to YACS!</a>
 		</div>
 	</div>
 </template>
@@ -29,6 +32,20 @@ export default {
 body {
   padding: 0;
   margin: 0;
+}
+
+h2 img{
+  position: absolute !important;
+  opacity: 0;
+  width: 750px;
+  height: 600px;
+  top: -500px;
+  left: -100px;
+  transition: opacity .5s;
+}
+
+h2:hover img {
+  opacity: 0.1;
 }
 
 #notfound {
