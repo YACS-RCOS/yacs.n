@@ -115,8 +115,6 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      // departmentOptions: [{ text: "All", value: null }],
-      // courseList: this.courses,
       courseList: null,
       debounceTime: 300,
     };

@@ -60,11 +60,10 @@ body {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-size: 236px;
   font-weight: 200;
   margin: 0px;
-  color: #211b19;
   text-transform: uppercase;
   position: absolute;
   left: 50%;
@@ -75,12 +74,12 @@ body {
 }
 
 .notfound .notfound-404 h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Arial', sans-serif;
   font-size: 28px;
   font-weight: 400;
   text-transform: uppercase;
   color: #211b19;
-  background: rgb(172, 172, 172);
+  background: #E6E4E4;
   padding: 10px 5px;
   margin: auto;
   display: inline-block;
@@ -91,7 +90,7 @@ body {
 }
 
 .notfound a {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Arial', sans-serif;
   display: inline-block;
   font-weight: 700;
   text-decoration: none;
