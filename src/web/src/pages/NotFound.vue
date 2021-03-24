@@ -3,10 +3,8 @@
 		<div class="notfound">
 			<div class="notfound-404">
 				<h1>Oops!</h1>
-				<h2>
-          <img src="../assets/images/sismanhigh.svg"/>
-          404 - The Page can't be found
-        </h2>
+        <img src="../assets/images/sismanhigh.svg"/>
+				<h2> 404 - The Page can't be found </h2>
 			</div>
 			<a href="/">Go Back to YACS!</a>
 		</div>
@@ -34,18 +32,17 @@ body {
   margin: 0;
 }
 
-h2 img{
-  position: absolute !important;
+img {
+  position: relative;
   opacity: 0;
-  width: 750px;
-  height: 600px;
-  top: -500px;
-  left: -100px;
+  margin: auto;
+  top: -150%;
+  width: 100%;
   transition: opacity .5s;
 }
 
-h2:hover img {
-  opacity: 0.1;
+img:hover {
+  opacity: 0.35;
 }
 
 #notfound {
@@ -102,6 +99,7 @@ h2:hover img {
   display: inline-block;
   position: absolute;
   bottom: 0px;
+  max-width: 90%;
   left: 0;
   right: 0;
 }
