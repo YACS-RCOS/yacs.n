@@ -5,7 +5,7 @@ lxml==4.6.3
 requests==2.22.0
 pandas==1.0.1
 beautifulsoup4==4.9.0
-pyyaml==5.3.1
+pyyaml==5.4
 pytest-cov==2.10.0
 coveralls==2.1.1
 sqlalchemy==1.4.1
