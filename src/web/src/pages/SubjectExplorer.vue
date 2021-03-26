@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 import { mapGetters } from "vuex";

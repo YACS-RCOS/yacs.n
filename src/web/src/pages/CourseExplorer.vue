@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-import { COURSES } from "@/store";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner";

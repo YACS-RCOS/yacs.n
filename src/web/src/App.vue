@@ -26,17 +26,13 @@ export default {
         return;
       }
 
-    this.$store.dispatch(LOAD_DEPARTMENTS);
-  },
-  created() {
-    const bodyClassList = document.getElementsByTagName("body")[0].classList;
-    if (this.$cookies.get("darkMode") == "true") {
-      bodyClassList.add("dark");
-    }
-    this.$store.dispatch(SELECT_SEMESTER);
-    this.$store.dispatch(LOAD_DEPARTMENTS);
-    this.$store.dispatch(LOAD_SEMESTERS);
-    this.$store.dispatch(LOAD_SUBSEMESTERS);
+      const bodyClassList = document.getElementsByTagName("body")[0].classList;
+      if (newState) {
+        bodyClassList.add("dark");
+      } else {
+        bodyClassList.remove("dark");
+      }
+    },
   },
   created() {
     const bodyClassList = document.getElementsByTagName("body")[0].classList;

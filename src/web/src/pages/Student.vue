@@ -8,10 +8,9 @@
 
 <script>
 import store from "@/store";
-import { SELECT_SEMESTER } from "@/store";
 import HeaderComponent from "@/components/Header";
 import FooterComponent from "@/components/Footer";
-
+//import { mapGetters } from "vuex";
 import { SELECT_SEMESTER } from "@/store";
 import { userTypes } from "@/store/modules/user";
 
@@ -22,9 +21,9 @@ export default {
     Footer: FooterComponent,
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-    }),
+    // ...mapGetters({
+    //   isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+    // }),
   },
   async created() {
     console.log(this.$route.query.semester);
