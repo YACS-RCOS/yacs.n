@@ -17,9 +17,9 @@ const COLORS = [
   "#f7e2f7", //purple
   "#ede6df", //brown
   "#ffe9cf", //orange
-  "#fed7fc", //pink done
-  "#a4f9f7", //aquamarine
-  "#ad6666", //maroon
+  "#ffd1fc", //pink
+  "#d9fdfc", //aquamarine
+  "#e2caca", //maroon
   "#A3CFE1", //dark blue
   "#ACDBA9", //dark green
 ];
@@ -32,7 +32,7 @@ const TEXT_COLORS = [
   "#9d5733",
   "#d9652b",
   "#ff00ef",
-  "#04776f",
+  "#00a499",
   "#ab1111",
   "#014779",
   "#116940",
