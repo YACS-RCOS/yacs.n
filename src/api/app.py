@@ -195,6 +195,16 @@ def map_date_range_to_semester_part_handler():
                 return Response(error, status=500)
     return Response("Did not receive proper form data", status=500)
 
+@app.route('/api/creditCap', methods=['POST'])
+def upload_credit_cap_info():
+    info = request.get_json()
+    success, error = admin_info.set_credit_cap(int(info['cc']), info['wm'])
+    if success:
+        return Response(status=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status=500)
+
 
 # - user system api
 @app.route('/api/user/<session_id>', methods=['GET'])
