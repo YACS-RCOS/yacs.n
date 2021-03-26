@@ -86,12 +86,6 @@ const storeOptions = {
       }
     },
     [SET_COURSES](state, classes) {
-      state.coursesById = classes.reduce((coursesById, course) => {
-        coursesById[course.id] = course;
-        return coursesById;
-      }, {});
-    },
-    [SET_COURSES](state, classes) {
       state.coursesById = classes.reduce(
         (coursesById, course) => ({ ...coursesById, [course.id]: course }),
         {}
