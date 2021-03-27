@@ -16,6 +16,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.set_credit_cap as SetCreditCap
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -44,6 +45,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
+credit_cap = SetCreditCap.SetCreditCap(db_conn)
 
 def is_admin_user():
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -198,7 +200,7 @@ def map_date_range_to_semester_part_handler():
 @app.route('/api/creditCap', methods=['POST'])
 def upload_credit_cap_info():
     info = request.get_json()
-    success, error = admin_info.set_credit_cap(int(info['cc']), info['wm'])
+    success, error = credit_cap.set_credit_cap(int(info['cc']), info['wm'])
     if success:
         return Response(status=200)
     else:
