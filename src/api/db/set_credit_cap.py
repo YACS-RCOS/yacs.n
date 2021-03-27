@@ -24,3 +24,8 @@ class SetCreditCap:
         if response != None:
             return (True, None)
         return (False, error)
+
+    # def get_credit_cap(self):
+    #     cmd = """
+    #         SELECT 
+    #     """
