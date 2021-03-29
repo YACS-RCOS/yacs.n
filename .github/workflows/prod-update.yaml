@@ -1,0 +1,47 @@
+name: Prod Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: [self-hosted, rpi, prod]
+    environment: yacs-rpi-prod
+
+    strategy:
+      matrix:
+        semester: [fall-2021]
+
+    env:
+      HOST: ${{ secrets.HOST }}
+      ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-parser-${{ hashFiles('rpi_data/modules/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-parser
+
+      - name: Install parser dependencies
+        run: pip install -r requirements.txt
+        working-directory: rpi_data/modules
+
+      - name: Get course data
+        run: bash $SCRIPT_NAME
+        working-directory: rpi_data
+        env:
+          SCRIPT_NAME: get-${{ matrix.semester }}.sh
+
+      - name: Update prod
+        run: |
+          curl -X POST -H "Content-Type: multipart/form-data" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+        env:
+          FILE_NAME: ${{ matrix.semester }}.csv
+          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
+          API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
