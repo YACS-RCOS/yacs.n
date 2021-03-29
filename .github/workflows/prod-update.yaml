@@ -2,6 +2,9 @@ name: Prod Update
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - "#121"
 
 jobs:
   update:
