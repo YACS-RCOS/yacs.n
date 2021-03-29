@@ -1,10 +1,9 @@
 name: Prod Update
 
 on:
+  schedule:
+    - cron: "0 * * * *"
   workflow_dispatch:
-  push:
-    branches:
-      - "#121"
 
 jobs:
   update:
@@ -13,11 +12,6 @@ jobs:
     strategy:
       matrix:
         semester: [fall-2021]
-
-    env:
-      HOST: ${{ secrets.HOST }}
-      ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
-      DB_PASS: ${{ secrets.DB_PASS }}
 
     steps:
       - name: Checkout repository
