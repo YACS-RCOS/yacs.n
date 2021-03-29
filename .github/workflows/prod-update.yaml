@@ -8,8 +8,7 @@ on:
 
 jobs:
   update:
-    runs-on: [self-hosted, rpi, prod]
-    environment: yacs-rpi-prod
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
