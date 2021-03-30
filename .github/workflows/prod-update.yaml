@@ -38,7 +38,7 @@ jobs:
 
       - name: Update prod
         run: |
-          curl -X POST -H "Content-Type: multipart/form-data" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+          curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
         env:
           FILE_NAME: ${{ matrix.semester }}.csv
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
