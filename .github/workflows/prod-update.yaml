@@ -1,4 +1,4 @@
-name: Prod Update
+name: Semester Data Update
 
 on:
   schedule:
