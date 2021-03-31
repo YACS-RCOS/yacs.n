@@ -62,11 +62,11 @@ def apiroot():
 # - data routes
 
 @app.route('/api/class', methods=['GET'])
-@cache.cached(timeout=Constants.DAY_IN_SECONDS, query_string=True)
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_classes():
     """
     GET /api/class?semester={}&search={}
-    Cached: 24 Hours
+    Cached: 1 Hour
     """
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
