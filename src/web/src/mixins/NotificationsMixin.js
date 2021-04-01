@@ -48,10 +48,10 @@ export default {
         noAutoHide: false,
       });
     },
-    notifyCreditConflict(){
+    notifyCreditConflict(warningMessage){
       //Format All Message Data For Conflict Message:
       const vNodesMsg = this.$createElement("p", { class: ["mb-0"] }, [
-        'WARNING: Exceeding Credits Limit'
+        `${warningMessage}`
         ]);
       //Format All Header-Data For Conflict Message:
       this.$bvToast.toast(vNodesMsg, {

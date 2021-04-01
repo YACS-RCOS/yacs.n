@@ -207,6 +207,11 @@ def upload_credit_cap_info():
         print(error)
         return Response(error.__str__(), status=500)
 
+@app.route('/api/creditCap', methods=['GET'])
+def get_credit_cap_value():
+    creditCap, error = credit_cap.get_credit_cap()
+    return jsonify(creditCap) if not error else Response(error, status=500)
+
 
 # - user system api
 @app.route('/api/user/<session_id>', methods=['GET'])

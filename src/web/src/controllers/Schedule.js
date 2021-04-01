@@ -36,6 +36,8 @@ class Schedule {
    */
   selectedCourses;
 
+  credit_cap;
+
   /**
    * Create a new `Schedule`
    * Initializes `dailySessions,' 'selectedSections,' and 'selectedCourses'
@@ -44,12 +46,12 @@ class Schedule {
     this.dailySessions = [];
     this.selectedSections = [];
     this.selectedCourses = [];
-
+    this.credit_cap=21;
+    
     for (let d = 0; d < Schedule.SCHEDULE_DAYS.length; d++) {
       this.dailySessions.push([]);
     }
   }
-
   /**
    * Returns the index that newCourseSession should be inserted at or `null` if there
    * is a schedule conflict
@@ -251,14 +253,18 @@ class Schedule {
 
       this.selectedSections.push(courseSection);
       console.log(`Added new courseSection ${JSON.stringify(courseSection)}`);
-      if (this.totalCredits()+course.max_credits>21){
+      if (this.totalCredits()+course.max_credits>this.credit_cap){
         console.error("Credit Cap");
         throw {type:"Credit Conflict"};
       }
       return true;
     }
   }
-
+  setCreditCap(creditcap){
+    console.log(creditcap);
+    this.credit_cap=creditcap;
+    return null;
+  }
   /**
    * Remove all sessions in courseSection from schedule
    * Does not check if individual course session removal succeeds

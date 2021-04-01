@@ -187,6 +187,7 @@ import {
   addStudentCourse,
   removeStudentCourse,
   getStudentCourses,
+  getCreditCap,
 } from "@/services/YacsService";
 
 import {
@@ -220,7 +221,6 @@ export default {
       courses: [],
       loading: false,
       exportIcon: faPaperPlane,
-
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
     };
@@ -345,6 +345,7 @@ export default {
     },
     addCourse(course) {
       let i = 0;
+      getCreditCap().then((c)=> {this.scheduler.setCreditCap(c.cap)});
       for (; i < course.sections.length; i++) {
         try {
           this._addCourseSection(course, course.sections[i]);
@@ -367,7 +368,7 @@ export default {
             }
           } 
           else if (err.type=="Credit Conflict"){
-            this.notifyCreditConflict();
+            getCreditCap().then((c)=> {this.notifyCreditConflict(c.credit_cap_warning);});
             course.sections[i].selected=true;
             break;
           }

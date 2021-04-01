@@ -113,6 +113,8 @@ export const getSubSemesters = (semester) =>
 export const getSemesters = () =>
   client.get("/semester").then((res) => res.data);
 
+export const getCreditCap = () =>
+  client.get("/creditCap").then((res) => res.data);
 export const addStudentCourse = (course_info) =>
   client.post("/user/course", course_info).then(({ data }) => {
     return data;

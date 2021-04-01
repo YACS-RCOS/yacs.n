@@ -54,6 +54,10 @@ class SubSemesterScheduler {
     this.schedules.forEach((s) => s.addCourse(course));
   }
 
+  setCreditCap(creditcap){
+    this.schedules.forEach((s) => s.setCreditCap(creditcap));
+  }
+
   /**
    * Adds `section` to the appropriate schedule(s) based on the duration of `course`
    * @param {Course} course
