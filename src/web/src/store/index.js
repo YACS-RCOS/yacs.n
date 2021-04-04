@@ -21,6 +21,7 @@ export const COURSES = "courses";
 export const GET_COURSE_BY_ID = "getCourseById";
 
 export const TOGGLE_DARK_MODE = "toggleDarkMode";
+export const TOGGLE_COLOR_BLIND_ASSIST = "toggleColorBlindAssist";
 export const SET_COURSES = "setCourses";
 const SET_IS_LOADING_COURSES = "SET_IS_LOADING_COURSES";
 export const SET_SELECTED_SEMESTER = "setSelectedSemester";
@@ -37,6 +38,7 @@ export const LOAD_DEPARTMENTS = "loadDepartments";
 const store = new Vuex.Store({
   state: {
     darkMode: false,
+    colorBlindAssist: false,
     coursesById: {},
     isLoadingCourses: false,
     selectedSemester: null,
@@ -47,6 +49,9 @@ const store = new Vuex.Store({
   getters: {
     [COURSES]: (state) => Object.values(state.coursesById),
     [GET_COURSE_BY_ID]: (state) => (id) => state.coursesById[id],
+    colorBlindAssistState: (state) => { 
+      return state.colorBlindAssist;
+    }
   },
   mutations: {
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
@@ -67,6 +72,19 @@ const store = new Vuex.Store({
       } else {
         bodyClassList.remove("dark");
       }
+    },
+    [TOGGLE_COLOR_BLIND_ASSIST](state, isCBAssist = null) {
+      state.colorBlindAssist = isCBAssist === null ? !state.colorBlindAssist : isCBAssist;
+
+      Vue.$cookies.set(
+        "colorBlindAssist",
+        state.colorBlindAssist,
+        null,
+        null,
+        null,
+        null,
+        "Strict"
+      );
     },
     [SET_COURSES](state, classes) {
       state.coursesById = classes.reduce((coursesById, course) => {
