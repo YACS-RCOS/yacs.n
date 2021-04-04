@@ -6,6 +6,7 @@
 
 <script>
 import { LOAD_DEPARTMENTS, TOGGLE_DARK_MODE } from "@/store";
+import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
 export default {
   name: "App",
@@ -13,6 +14,9 @@ export default {
   async created() {
     if (this.$cookies.get("darkMode") == "true") {
       this.$store.commit(TOGGLE_DARK_MODE, true);
+    }
+    if (this.$cookies.get("colorBlindAssist") == "true") {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST, true);
     }
 
     this.$store.dispatch(LOAD_DEPARTMENTS);
