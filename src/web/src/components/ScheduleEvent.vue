@@ -51,6 +51,11 @@ export default {
     box-sizing: border-box;
     height: 100%;
     overflow-y: auto;
+
+    //Changes the link color to black
+    a{
+     color: #000000
+    }
   }
 }
 </style>
