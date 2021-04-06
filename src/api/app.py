@@ -203,9 +203,8 @@ def upload_credit_cap_info():
     success, error = credit_cap.set_credit_cap(int(info['cc']), info['wm'])
     if success:
         return Response(status=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status=500)
+    print(error)
+    return Response(error.__str__(), status=500)
 
 @app.route('/api/creditCap', methods=['GET'])
 def get_credit_cap_value():

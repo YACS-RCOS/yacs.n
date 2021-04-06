@@ -9,7 +9,7 @@ class SetCreditCap:
             response, error = self.db_conn.execute(delete, None, isSELECT=False)
         except Exception as e:
             return (False, e)
-        if response == None:
+        if response is None:
             return (False, error)
 
         try:
@@ -21,7 +21,7 @@ class SetCreditCap:
         except Exception as e:
             return (False, e)
 		
-        if response != None:
+        if response is not None:
             return (True, None)
         return (False, error)
 
