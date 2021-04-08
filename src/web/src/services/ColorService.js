@@ -9,18 +9,18 @@ import store from "@/store";
 
 //Default Colors
 const COLORS = [
-  "#ffd4df",
-  "#ceeffc",
-  "#fff4d0",
-  "#dcf7da",
-  "#f7e2f7",
-  "#ede6df",
-  "#ffe9cf",
-  "#ffd1fc",
-  "#d9fdfc",
-  "#e2caca",
-  "#A3CFE1",
-  "#ACDBA9",
+  "#ffd4df", //red
+  "#ceeffc", //blue
+  "#fff4d0", //yellow
+  "#dcf7da", //green
+  "#f7e2f7", //purple
+  "#ede6df", //brown
+  "#ffe9cf", //orange
+  "#ffd1fc", //pink
+  "#d9fdfc", //aquamarine
+  "#e2caca", //maroon
+  "#A3CFE1", //dark blue
+  "#ACDBA9", //dark green
 ];
 const TEXT_COLORS = [
   "#d1265d",
@@ -50,6 +50,7 @@ const BORDER_COLORS = [
   "#015FA2",
   "#298E33",
 ];
+
 /** 
  * Color Blind Friendly Colors
  * 
@@ -103,6 +104,7 @@ const COLOR_BLIND_BORDER_COLORS = [
   "#015FA2",
   "#298E33",
 ];
+
 const NUM_COLORS = 12;
 
 // TODO: use something persistent
