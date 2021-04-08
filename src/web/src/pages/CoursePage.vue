@@ -153,8 +153,8 @@ export default {
                 this.courseObj.school,
                 "RPI",
                 "YACS",
-                "Rensselaer Polytechnic Institute"
-              ].join(', '),
+                "Rensselaer Polytechnic Institute",
+              ].join(", "),
             },
           ],
     };
