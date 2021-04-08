@@ -51,15 +51,15 @@ const BORDER_COLORS = [
   "#298E33",
 ];
 
-/** 
+/**
  * Color Blind Friendly Colors
- * 
+ *
  * Adapted from Paul Tot's discrete rainbow scheme
  * https://personal.sron.nl/~pault/#fig:scheme_rainbow_discrete
- * 
+ *
  * Colors adjusted using https://davidmathlogic.com/colorblind/
- * 
- * Color palette tested using 
+ *
+ * Color palette tested using
  * https://www.color-blindness.com/coblis-color-blindness-simulator/
  */
 const COLOR_BLIND_COLORS = [

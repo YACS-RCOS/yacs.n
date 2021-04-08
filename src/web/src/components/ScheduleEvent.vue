@@ -53,8 +53,8 @@ export default {
     overflow-y: auto;
 
     //Changes the link color to black
-    a{
-     color: #000000
+    a {
+      color: #000000;
     }
   }
 }

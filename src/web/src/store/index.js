@@ -49,9 +49,9 @@ const store = new Vuex.Store({
   getters: {
     [COURSES]: (state) => Object.values(state.coursesById),
     [GET_COURSE_BY_ID]: (state) => (id) => state.coursesById[id],
-    colorBlindAssistState: (state) => { 
+    colorBlindAssistState: (state) => {
       return state.colorBlindAssist;
-    }
+    },
   },
   mutations: {
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
@@ -74,7 +74,8 @@ const store = new Vuex.Store({
       }
     },
     [TOGGLE_COLOR_BLIND_ASSIST](state, isCBAssist = null) {
-      state.colorBlindAssist = isCBAssist === null ? !state.colorBlindAssist : isCBAssist;
+      state.colorBlindAssist =
+        isCBAssist === null ? !state.colorBlindAssist : isCBAssist;
 
       Vue.$cookies.set(
         "colorBlindAssist",

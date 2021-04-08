@@ -79,7 +79,7 @@
             <h5>CRNs: {{ selectedCrns }}</h5>
             <h5>Credits: {{ totalCredits }}</h5>
           </b-col>
-          
+
           <b-col md="3" justify="end">
             <b-row>
               <b-form-checkbox
