@@ -1,4 +1,5 @@
 import "@/typedef";
+import store from "@/store";
 
 /**
  * Ported over from old YACS
@@ -6,9 +7,7 @@ import "@/typedef";
  * @module ColorService
  */
 
-//text and background should be very similar
-//color should be a light shade of the color of text
-
+//Default Colors
 const COLORS = [
   "#ffd4df", //red
   "#ceeffc", //blue
@@ -36,10 +35,6 @@ const TEXT_COLORS = [
   "#ab1111",
   "#014779",
   "#116940",
-  // make all black to help with visibility???
-  // apparently out site fails this test https://wave.webaim.org/
-  // which helps site stay accessible to people with disabilities
-  // add a switch to make the text black
 ];
 const BORDER_COLORS = [
   "#ff2066",
@@ -56,6 +51,60 @@ const BORDER_COLORS = [
   "#298E33",
 ];
 
+/** 
+ * Color Blind Friendly Colors
+ * 
+ * Adapted from Paul Tot's discrete rainbow scheme
+ * https://personal.sron.nl/~pault/#fig:scheme_rainbow_discrete
+ * 
+ * Colors adjusted using https://davidmathlogic.com/colorblind/
+ * 
+ * Color palette tested using 
+ * https://www.color-blindness.com/coblis-color-blindness-simulator/
+ */
+const COLOR_BLIND_COLORS = [
+  "#FB373E", //red
+  "#8CBBE3", //blue
+  "#F7F056", //yellow
+  "#CAE0AB", //green
+  "#DCCCE1", //purple
+  "#ede6df", //brown
+  "#F6C141", //orange
+  "#FFEBFE", //pink
+  "#6596CD", //aquamarine
+  "#e2caca", //maroon
+  "#2286AA", //dark blue
+  "#90C987", //dark green
+];
+const COLOR_BLIND_TEXT_COLORS = [
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+  "#000000",
+];
+const COLOR_BLIND_BORDER_COLORS = [
+  "#A30034",
+  "#00aff2",
+  "#ffcb45",
+  "#97C25B",
+  "#d373da",
+  "#a48363",
+  "#ff9332",
+  "#FFADFA",
+  "#32639A",
+  "#ab0000",
+  "#015FA2",
+  "#298E33",
+];
+
 const NUM_COLORS = 12;
 
 // TODO: use something persistent
@@ -64,11 +113,19 @@ var colorAssignments = new Map();
 
 const _getColor = (id) => {
   const assignment = _assign(id);
-  return {
-    primary: COLORS[assignment],
-    text: TEXT_COLORS[assignment],
-    border: BORDER_COLORS[assignment],
-  };
+  if (store.getters.colorBlindAssistState) {
+    return {
+      primary: COLOR_BLIND_COLORS[assignment],
+      text: COLOR_BLIND_TEXT_COLORS[assignment],
+      border: COLOR_BLIND_BORDER_COLORS[assignment],
+    };
+  } else {
+    return {
+      primary: COLORS[assignment],
+      text: TEXT_COLORS[assignment],
+      border: BORDER_COLORS[assignment],
+    };
+  }
 };
 
 const _assign = (id) => {
