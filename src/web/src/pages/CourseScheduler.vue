@@ -61,6 +61,8 @@
           :options="scheduler.scheduleSubsemesters"
           text-field="display_string"
           value-field="display_string"
+          this.selectedSemester = "selectedScheduleSubsemester"
+          
         ></b-form-select>
 
         <Schedule v-if="loading" />
@@ -221,9 +223,6 @@ export default {
       exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
-      if(this.scheduler.scheduleSubsemesters.length > 1){
-        this.selectedSemester = this.scheduler.scheduleSubsemesters[0].display_string;
-      }
       exportScheduleToImage(
         Object.values(this.selectedCourses),
         this.selectedSemester,
