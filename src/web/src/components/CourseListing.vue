@@ -227,7 +227,7 @@ export default {
      */
     toggleCourseSection(section) {
       if (section.selected) {
-        this.$emit("removeCourseSection", this.course, section);
+        this.$emit("removeCourseSection", section);
       } else {
         this.$emit("addCourseSection", this.course, section);
       }

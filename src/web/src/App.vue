@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { LOAD_DEPARTMENTS,
+import { LOAD_DEPARTMENTS, TOGGLE_COLOR_BLIND_ASSIST,
          TOGGLE_DARK_MODE, COOKIE_DARK_MODE } from "@/store";
 
 export const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
@@ -15,6 +15,11 @@ export default {
   components: {},
   async created() {
     this.darkModeInit();
+
+    if (this.$cookies.get("colorBlindAssist") == "true") {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST, true);
+    }
+
     this.$store.dispatch(LOAD_DEPARTMENTS);
   },
   methods: {

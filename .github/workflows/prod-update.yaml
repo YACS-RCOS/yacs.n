@@ -1,0 +1,46 @@
+name: Semester Data Update
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        semester: [fall-2021]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-parser-${{ hashFiles('rpi_data/modules/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-parser
+
+      - name: Install parser dependencies
+        run: pip install -r requirements.txt
+        working-directory: rpi_data/modules
+
+      - name: Get course data
+        run: bash $SCRIPT_NAME
+        working-directory: rpi_data
+        env:
+          SCRIPT_NAME: get-${{ matrix.semester }}.sh
+
+      - name: Update prod
+        run: |
+          curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+        env:
+          FILE_NAME: ${{ matrix.semester }}.csv
+          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
+          API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
+        working-directory: rpi_data
