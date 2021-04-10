@@ -107,6 +107,7 @@ export default {
       }
       this.$store.commit(RESET_DARK_MODE);
       this.followDevice = true;
+      this.$store.commit(TOGGLE_DARK_MODE);
     },
     onLogIn() {
       this.$refs["login-modal"].hide();

@@ -72,22 +72,10 @@ const store = new Vuex.Store({
         null,
         "Strict"
       );
-      const bodyClassList = document.getElementsByTagName("body")[0].classList;
-      if (state.darkMode) {
-        bodyClassList.add("dark");
-      } else {
-        bodyClassList.remove("dark");
-      }
-    },
-    [SET_COURSES](state, classes) {
-      state.coursesById = classes.reduce((coursesById, course) => {
-        coursesById[course.id] = course;
-        return coursesById;
-      }, {});
     },
     [RESET_DARK_MODE](state) {
-      Vue.$cookies.remove("darkMode");
-      state.darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      Vue.$cookies.remove(COOKIE_DARK_MODE);
+      state.darkMode = !window.matchMedia("(prefers-color-scheme: dark)").matches;
     },
     [SET_COURSES](state, classes) {
       state.coursesById = classes.reduce((coursesById, course) => {
