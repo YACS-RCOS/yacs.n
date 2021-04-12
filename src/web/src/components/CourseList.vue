@@ -210,6 +210,9 @@ export default {
   overflow-x: hidden;
 }
 
+.form-group{
+    font-size: 17px;
+}
 .course-listing {
   padding: 10px;
   border-bottom: 1px solid #e9ecef;
@@ -219,7 +222,7 @@ export default {
   border-style: solid;
   border-width: 2px;
   border-color: rgb(0, 0, 0, 0.05);
-  font-size: 16px;
+  font-size: 17px;
   padding: 20px;
 }
 </style>

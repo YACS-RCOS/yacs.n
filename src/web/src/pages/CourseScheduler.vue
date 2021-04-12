@@ -78,8 +78,7 @@
 
         <b-row>
           <b-col>
-            <h5>CRNs: {{ selectedCrns }}</h5>
-            <h5>Credits: {{ totalCredits }}</h5>
+            <h8>CRNs: {{ selectedCrns }}</h8>
           </b-col>
           <b-col md="3">
             <b-dropdown text="Export Data" class="m-2">
@@ -93,6 +92,11 @@
               </b-dropdown-item>
             </b-dropdown>
           </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <h8>Credits: {{ totalCredits }}</h8>
+            </b-col>
         </b-row>
       </div>
     </b-row>
@@ -548,6 +552,7 @@ export default {
 .tab-content {
   display: flex;
   flex-grow: 1;
+  font-size: 15px;
 }
 // This makes it so active tabs are display:flex
 // The default is display:block
