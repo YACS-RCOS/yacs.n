@@ -42,3 +42,7 @@ You should be able to access @ `localhost`
 In `localhost/admin` submit your school's courses by CSV and you're ready to schedule!
 
 For schema see /rpi_data/summer-2020.csv as an example
+
+
+## Icons
+Icons from fontawesome under Creative Commons Attribution 4.0 International license: [https://fontawesome.com/license](https://fontawesome.com/license)
