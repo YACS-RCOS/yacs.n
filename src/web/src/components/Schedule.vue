@@ -207,7 +207,7 @@ export default {
 
 <style scoped lang="scss">
 $labelOffset: 0.35em;
-$hourFontSize: 0.5em;
+$hourFontSize: 0.7em;
 
 .schedule {
   margin-top: 10px;
@@ -224,7 +224,7 @@ $hourFontSize: 0.5em;
 }
 
 .hour-label {
-  color: #777777;
+  color: #545454;
   font-size: $hourFontSize;
   text-align: right;
   font-variant: small-caps;
@@ -238,12 +238,12 @@ $hourFontSize: 0.5em;
 }
 
 .day-label {
-  color: #777777;
+  color: #545454;
   display: block;
   margin: 0 auto;
   margin-bottom: 3px;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-variant: small-caps;
 }
 
