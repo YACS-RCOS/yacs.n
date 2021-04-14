@@ -255,4 +255,8 @@ export default {
   width: 1em;
   height: 1em;
 }
+.badge-success{
+  background-color: #186329;
+}
+
 </style>

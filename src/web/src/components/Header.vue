@@ -146,6 +146,11 @@ export default {
     justify-content: center;
   }
 }
+.nav-link {
+  color: #0056B3;
+}
+
+
 
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {

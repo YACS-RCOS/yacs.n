@@ -559,6 +559,9 @@ export default {
     background: white !important;
   }
 }
+.text-center{
+  color: #0056B3
+}
 
 footer {
   margin: 0px !important;
