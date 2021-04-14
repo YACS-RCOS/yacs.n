@@ -25,16 +25,22 @@
             v-if="course.sections.length"
             @click.stop="toggleCollapse()"
           >
-            <font-awesome-icon
+            <img
               v-if="!this.showCollapse"
-              :icon="faChevronDown"
+              src="../assets/chevron-down-solid.svg" 
+              class= "toggle-icon" 
+              alt="expand course"
             />
-            <font-awesome-icon v-else :icon="faChevronUp" />
+            <img v-else src="../assets/chevron-up-solid.svg" 
+              class= "toggle-icon" 
+              alt="collapse course"/>
           </button>
         </slot>
         <button v-show="showAdd" class="btn" @click.stop="toggleCourse()">
-          <font-awesome-icon v-if="course.selected" :icon="faTimes" />
-          <font-awesome-icon v-else :icon="faPlus" />
+          <img v-if="course.selected" src="../assets/times-solid.svg" class= "toggle-icon" alt="toggle course off"/>
+          <!-- <font-awesome-icon v-if="course.selected" :icon="faTimes" value= "toggle course off" alt="toggle course off"/> -->
+          <img v-else src="../assets/plus-solid.svg" class= "toggle-icon" value= "toggle course on" alt="toggle course on"/>
+          <!-- <font-awesome-icon v-else :icon="faPlus" value= "toggle course on" alt="toggle course on"/> -->
         </button>
       </div>
     </div>
@@ -244,5 +250,9 @@ export default {
 <style>
 .click-me {
   cursor: pointer;
+}
+.toggle-icon{
+  width: 1em;
+  height: 1em;
 }
 </style>

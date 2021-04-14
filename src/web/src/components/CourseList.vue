@@ -73,7 +73,8 @@
                     @click.stop="courseInfoModalToggle(course)"
                     data-cy="course-info-button"
                   >
-                    <font-awesome-icon :icon="faInfoCircle" />
+                    <img src="../assets/info-circle-solid.svg" class= "info-icon" value= "course info" alt="course info"/>
+                    <!-- <font-awesome-icon :icon="faInfoCircle" /> -->
                   </button>
                 </template>
                 <template #collapseContent>
@@ -229,5 +230,10 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 16px;
   padding: 20px;
+}
+
+.info-icon{
+  width: 1em;
+  height: 1em;
 }
 </style>
