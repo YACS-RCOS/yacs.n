@@ -5,13 +5,13 @@ module.exports = {
             settings: {
                 chromeFlags: ['--ignore-certificate-errors'],
                 // comment the formFactor and screenEmulation to test for mobile
-                formFactor: 'desktop',      
-                screenEmulation: {
-                    mobile: false,
-                    width: 1920,
-                    height: 1080,
-                    deviceScaleFactor: 1,
-                    disabled: false,
+                // formFactor: 'desktop',      
+                // screenEmulation: {
+                //     mobile: false,
+                //     width: 1920,
+                //     height: 1080,
+                //     deviceScaleFactor: 1,
+                //     disabled: false,
                 }
             }
         },
