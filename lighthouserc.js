@@ -3,7 +3,8 @@ module.exports = {
         collect: {
             url: ['https://localhost'],
             settings: {
-                chromeFlags: ['--ignore-certificate-errors']
+                chromeFlags: ['--ignore-certificate-errors'],
+
             }
         },
         assert:{
@@ -11,7 +12,7 @@ module.exports = {
                 'categories:performance': ['error', { 'minScore': 0.8 }],
                 'categories:accessibility': ['error', { 'minScore': 0.8 }],
                 'categories:best-practices': ['error', { 'minScore': 1.0 }],
-                'categories:seo': ['error', { 'minScore': 1.0 }]
+                'categories:seo': ['warn', { 'minScore': 1.0 }]
             }
         },
         upload: {
