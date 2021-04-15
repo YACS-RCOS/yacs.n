@@ -77,6 +77,7 @@ jobs:
         run: |
           function load_semester() {
               curl \
+                  --insecure \
                   --location \
                   --request POST \
                   'https://localhost/api/bulkCourseUpload' \
