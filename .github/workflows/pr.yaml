@@ -73,23 +73,17 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             up -d &&
-          sleep 10
+          sleep 5
 
       - name: Seed test data
         working-directory: rpi_data
         run: |
-          function load_semester() {
-            curl \
-              --insecure \
-              -X POST \
-              -H "Content-Type: multipart/form-data" \
-              -F "isPubliclyVisible=on" \
-              -F "file=@$1" \
-              -v \
-              https://localhost/api/bulkCourseUpload
-          }
-          load_semester "summer-2021.csv"
-          load_semester "fall-2021.csv"
+          curl --insecure -X POST -H "Content-Type: multipart/form-data" \
+          -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+        env:
+          FILE_NAME: fall-2021.csv
+          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
+          API_ENDPOINT: https://localhost/api/bulkCourseUpload
 
       - name: run Lighthouse CI
         run: |
