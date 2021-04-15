@@ -5,8 +5,12 @@
 </template>
 
 <script>
-import { LOAD_DEPARTMENTS, TOGGLE_COLOR_BLIND_ASSIST,
-         TOGGLE_DARK_MODE, COOKIE_DARK_MODE } from "@/store";
+import {
+  LOAD_DEPARTMENTS,
+  TOGGLE_COLOR_BLIND_ASSIST,
+  TOGGLE_DARK_MODE,
+  COOKIE_DARK_MODE,
+} from "@/store";
 
 export const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
@@ -33,20 +37,23 @@ export default {
       }
     },
     registerColorSchemeListener() {
-      window.matchMedia(DARK_MODE_MEDIA_QUERY).addEventListener(
-        "change", () => {
+      window
+        .matchMedia(DARK_MODE_MEDIA_QUERY)
+        .addEventListener("change", () => {
           if (this.isFollowingDeviceColor()) {
             this.$store.commit(TOGGLE_DARK_MODE);
-        }
-      });
+          }
+        });
     },
     isFollowingDeviceColor() {
       return this.$cookies.get(COOKIE_DARK_MODE) === null;
     },
     isCookieOrDeviceInDarkMode() {
-      return this.$cookies.get(COOKIE_DARK_MODE) === "true" ||
-              (this.isFollowingDeviceColor() &&
-               window.matchMedia(DARK_MODE_MEDIA_QUERY).matches);
+      return (
+        this.$cookies.get(COOKIE_DARK_MODE) === "true" ||
+        (this.isFollowingDeviceColor() &&
+          window.matchMedia(DARK_MODE_MEDIA_QUERY).matches)
+      );
     },
   },
   metaInfo() {

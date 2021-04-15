@@ -38,8 +38,7 @@
             :checked="$store.state.darkMode"
             :indeterminate="followDevice"
             @change="toggle_style()"
-          >
-          </b-form-checkbox>
+          ></b-form-checkbox>
           <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
         </b-nav-form>
 
@@ -79,8 +78,12 @@
 import { mapGetters, mapState } from "vuex";
 
 import LoginComponent from "@/components/Login";
-import { COOKIE_DARK_MODE, TOGGLE_DARK_MODE,
-         SAVE_DARK_MODE, RESET_DARK_MODE } from "@/store";
+import {
+  COOKIE_DARK_MODE,
+  TOGGLE_DARK_MODE,
+  SAVE_DARK_MODE,
+  RESET_DARK_MODE,
+} from "@/store";
 import { userTypes } from "../store/modules/user";
 export default {
   name: "Header",
@@ -127,20 +130,21 @@ export default {
     },
     notifyOnToggle() {
       this.$bvToast.toast(
-        `Double click moon icon to follow device's color scheme.`, {
-          title: 'Color Scheme Changed',
+        `Double click moon icon to follow device's color scheme.`,
+        {
+          title: "Color Scheme Changed",
           autoHideDelay: 2000,
           noHoverPause: true,
           variant: "info",
-      });
+        }
+      );
     },
     notifyOnDefault() {
-      this.$bvToast.toast(
-        `Toggled to follow device color.`, {
-          title: 'Color Scheme Changed',
-          autoHideDelay: 1000,
-          noHoverPause: true,
-          variant: "success",
+      this.$bvToast.toast(`Toggled to follow device color.`, {
+        title: "Color Scheme Changed",
+        autoHideDelay: 1000,
+        noHoverPause: true,
+        variant: "success",
       });
     },
   },

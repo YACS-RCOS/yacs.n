@@ -80,7 +80,8 @@ const store = new Vuex.Store({
     },
     [RESET_DARK_MODE](state) {
       Vue.$cookies.remove(COOKIE_DARK_MODE);
-      state.darkMode = !window.matchMedia("(prefers-color-scheme: dark)").matches;
+      state.darkMode = !window.matchMedia("(prefers-color-scheme: dark)")
+        .matches;
     },
     [TOGGLE_COLOR_BLIND_ASSIST](state, isCBAssist = null) {
       state.colorBlindAssist =
