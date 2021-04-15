@@ -72,7 +72,8 @@ jobs:
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            up
+            up -d && 
+          sleep 10
 
       - name: Seed test data
         working-directory: rpi_data
@@ -84,6 +85,7 @@ jobs:
               -H "Content-Type: multipart/form-data" \
               -F "isPubliclyVisible=on" \
               -F "file=@$1" \
+              -v \
               https://localhost/api/bulkCourseUpload
           }
           load_semester "summer-2021.csv"
