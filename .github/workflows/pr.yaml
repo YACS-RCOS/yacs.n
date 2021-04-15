@@ -72,7 +72,7 @@ jobs:
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            up -d
+            up
 
       - name: Seed test data
         working-directory: rpi_data
