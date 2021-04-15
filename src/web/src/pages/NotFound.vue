@@ -1,30 +1,30 @@
 <template>
   <div id="notfound">
-		<div class="notfound">
-			<div class="notfound-404">
-				<h1>Oops!</h1>
-        <img src="../assets/images/sismanhigh.svg"/>
-				<h2> 404 - The Page can't be found </h2>
-			</div>
-			<a href="/">Go Back to YACS' home page!</a>
-		</div>
-	</div>
+    <div class="notfound">
+      <div class="notfound-404">
+        <h1>Oops!</h1>
+        <img src="../assets/images/sismanhigh.svg" />
+        <h2>404 - The Page can't be found</h2>
+      </div>
+      <a href="/">Go Back to YACS' home page!</a>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "NotFoundPage",
-    components: {},
-    props: {},
-    data() {},
-    methods: {},
-}
+  name: "NotFoundPage",
+  components: {},
+  props: {},
+  data() {},
+  methods: {},
+};
 </script>
 
 <style>
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -38,7 +38,7 @@ img {
   margin: auto;
   top: -150%;
   width: 100%;
-  transition: opacity .5s;
+  transition: opacity 0.5s;
 }
 
 img:hover {
@@ -56,8 +56,8 @@ img:hover {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound {
@@ -75,7 +75,7 @@ img:hover {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   font-size: 236px;
   font-weight: 200;
   margin: 0px;
@@ -84,17 +84,17 @@ img:hover {
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound .notfound-404 h2 {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   font-size: 28px;
   font-weight: 400;
   text-transform: uppercase;
   color: #211b19;
-  background: #E6E4E4;
+  background: #e6e4e4;
   padding: 10px 5px;
   margin: auto;
   display: inline-block;
@@ -106,14 +106,14 @@ img:hover {
 }
 
 .notfound a {
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   display: inline-block;
   font-weight: 700;
   text-decoration: none;
   color: #fff;
   text-transform: uppercase;
   padding: 13px 23px;
-  background: #2783E6;
+  background: #2783e6;
   font-size: 18px;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
@@ -146,5 +146,4 @@ img:hover {
     font-size: 14px;
   }
 }
-
 </style>

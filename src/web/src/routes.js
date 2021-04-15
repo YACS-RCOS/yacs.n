@@ -64,9 +64,9 @@ var router = new VueRouter({
       name: "EditSemesters",
     },
     {
-      path: '*',
+      path: "*",
       component: NotFoundPage,
-      name: "NotFound"
+      name: "NotFound",
     },
   ],
   mode: "history",
