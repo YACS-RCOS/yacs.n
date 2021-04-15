@@ -47,6 +47,7 @@ img:hover {
 
 #notfound {
   position: relative;
+  overflow: hidden;
   height: 100vh;
 }
 
