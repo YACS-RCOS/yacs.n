@@ -4,15 +4,15 @@ module.exports = {
             url: ['https://localhost'],
             settings: {
                 chromeFlags: ['--ignore-certificate-errors'],
-                // comment the formFactor and screenEmulation to test for mobile
-                // formFactor: 'desktop',      
-                // screenEmulation: {
-                //     mobile: false,
-                //     width: 1920,
-                //     height: 1080,
-                //     deviceScaleFactor: 1,
-                //     disabled: false,
-                //}
+                // --- comment the formFactor and screenEmulation to test for mobile ---
+                formFactor: 'desktop',      
+                screenEmulation: {
+                    mobile: false,
+                    width: 1920,
+                    height: 1080,
+                    deviceScaleFactor: 1,
+                    disabled: false,
+                }
             }
         },
         assert:{
