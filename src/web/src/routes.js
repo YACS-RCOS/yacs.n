@@ -8,6 +8,7 @@ const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
 const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
+const NotFoundPage = () => import("./pages/NotFound");
 
 var router = new VueRouter({
   routes: [
