@@ -60,6 +60,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+
       - name: Build and Run Production
         run: |
           docker-compose \
@@ -70,6 +71,22 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             up -d
+
+      - name: Seed test data
+        working-directory: rpi_data
+        run: |
+          function load_semester() {
+              curl \
+                  --location \
+                  --request POST \
+                  'https://localhost/api/bulkCourseUpload' \
+                  --form "file=@$1" \
+                  --form 'isPubliclyVisible=true' \
+                  --max-time 60 \
+                  -v
+          }
+          load_semester "summer-2021.csv"
+          load_semester "fall-2021.csv"
 
       - name: run Lighthouse CI
         run: |
@@ -93,7 +110,7 @@ jobs:
           conclusion: ${{ env.WORKFLOW_CONCLUSION }}
 
   temp_deploy:
-    needs: [publish-action-status]
+    needs: [backend-unit-tests, lhci]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
