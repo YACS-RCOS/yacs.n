@@ -20,7 +20,10 @@ Vue.use(Vuex);
 export const COURSES = "courses";
 export const GET_COURSE_BY_ID = "getCourseById";
 
+export const COOKIE_DARK_MODE = "darkMode";
 export const TOGGLE_DARK_MODE = "toggleDarkMode";
+export const SAVE_DARK_MODE = "saveDarkMode";
+export const RESET_DARK_MODE = "resetDarkMode";
 export const TOGGLE_COLOR_BLIND_ASSIST = "toggleColorBlindAssist";
 export const SET_COURSES = "setCourses";
 const SET_IS_LOADING_COURSES = "SET_IS_LOADING_COURSES";
@@ -57,8 +60,16 @@ const store = new Vuex.Store({
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
       state.darkMode = isDarkMode === null ? !state.darkMode : isDarkMode;
 
+      const bodyClassList = document.getElementsByTagName("body")[0].classList;
+      if (state.darkMode) {
+        bodyClassList.add("dark");
+      } else {
+        bodyClassList.remove("dark");
+      }
+    },
+    [SAVE_DARK_MODE](state) {
       Vue.$cookies.set(
-        "darkMode",
+        COOKIE_DARK_MODE,
         state.darkMode,
         null,
         null,
@@ -66,12 +77,10 @@ const store = new Vuex.Store({
         null,
         "Strict"
       );
-      const bodyClassList = document.getElementsByTagName("body")[0].classList;
-      if (state.darkMode) {
-        bodyClassList.add("dark");
-      } else {
-        bodyClassList.remove("dark");
-      }
+    },
+    [RESET_DARK_MODE](state) {
+      Vue.$cookies.remove(COOKIE_DARK_MODE);
+      state.darkMode = !window.matchMedia("(prefers-color-scheme: dark)").matches;
     },
     [TOGGLE_COLOR_BLIND_ASSIST](state, isCBAssist = null) {
       state.colorBlindAssist =
