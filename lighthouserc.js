@@ -4,7 +4,7 @@ module.exports = {
             url: ['https://localhost'],
             settings: {
                 chromeFlags: ['--ignore-certificate-errors'],
-
+                emulatedFormFactor: 'desktop'
             }
         },
         assert:{
