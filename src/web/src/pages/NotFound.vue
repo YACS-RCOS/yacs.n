@@ -6,7 +6,7 @@
         <img src="../assets/images/sismanhigh.svg"/>
 				<h2> 404 - The Page can't be found </h2>
 			</div>
-			<a href="/">Go Back to YACS!</a>
+			<a href="/">Go Back to YACS' home page!</a>
 		</div>
 	</div>
 </template>
