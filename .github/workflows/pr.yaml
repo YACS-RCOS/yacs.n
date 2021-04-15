@@ -1,4 +1,4 @@
-name: PR CI/CD
+name: PR CI
 
 on:
   push:
@@ -80,7 +80,7 @@ jobs:
                   --insecure \
                   -X POST \
                   -H "Content-Type: multipart/form-data" \
-                  -F "isPubliclyVisible=on" \ 
+                  -F "isPubliclyVisible=on" \
                   -F "file=@$1" \
                   "https://localhost/api/bulkCourseUpload"
           }
