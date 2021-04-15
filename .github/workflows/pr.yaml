@@ -72,7 +72,7 @@ jobs:
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            up -d && 
+            up -d &&
           sleep 10
 
       - name: Seed test data
