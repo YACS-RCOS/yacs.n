@@ -1,7 +1,10 @@
 module.exports = {
     ci: {
         collect: {
-            url: ['https://localhost']
+            url: ['https://localhost'],
+            settings: {
+                chromeFlags: ['--ignore-certificate-errors']
+            }
         },
         assert:{
             assertions: {
