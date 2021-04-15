@@ -17,6 +17,6 @@ COPY cert/ /etc/nginx/cert
 RUN \
   apt-get update --no-install-recommends && \
   apt-get install openssl --no-install-recommends -y && \
-  rm /var/lib/apt/lists/* || true
+  rm -rf /var/lib/apt/lists/* || true
 
 CMD ["/usr/local/bin/entrypoint.sh"]
