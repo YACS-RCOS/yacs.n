@@ -12,7 +12,7 @@ module.exports = {
                 //     height: 1080,
                 //     deviceScaleFactor: 1,
                 //     disabled: false,
-                }
+                //}
             }
         },
         assert:{
