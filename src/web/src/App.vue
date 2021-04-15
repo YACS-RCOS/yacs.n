@@ -5,21 +5,56 @@
 </template>
 
 <script>
-import { LOAD_DEPARTMENTS, TOGGLE_DARK_MODE } from "@/store";
-import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+import {
+  LOAD_DEPARTMENTS,
+  TOGGLE_COLOR_BLIND_ASSIST,
+  TOGGLE_DARK_MODE,
+  COOKIE_DARK_MODE,
+} from "@/store";
+
+export const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
 export default {
   name: "App",
   components: {},
   async created() {
-    if (this.$cookies.get("darkMode") == "true") {
-      this.$store.commit(TOGGLE_DARK_MODE, true);
-    }
+    this.darkModeInit();
+
     if (this.$cookies.get("colorBlindAssist") == "true") {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST, true);
     }
 
     this.$store.dispatch(LOAD_DEPARTMENTS);
+  },
+  methods: {
+    darkModeInit() {
+      this.syncColorScheme();
+      this.registerColorSchemeListener();
+    },
+    syncColorScheme() {
+      if (this.isCookieOrDeviceInDarkMode()) {
+        this.$store.commit(TOGGLE_DARK_MODE);
+      }
+    },
+    registerColorSchemeListener() {
+      window
+        .matchMedia(DARK_MODE_MEDIA_QUERY)
+        .addEventListener("change", () => {
+          if (this.isFollowingDeviceColor()) {
+            this.$store.commit(TOGGLE_DARK_MODE);
+          }
+        });
+    },
+    isFollowingDeviceColor() {
+      return this.$cookies.get(COOKIE_DARK_MODE) === null;
+    },
+    isCookieOrDeviceInDarkMode() {
+      return (
+        this.$cookies.get(COOKIE_DARK_MODE) === "true" ||
+        (this.isFollowingDeviceColor() &&
+          window.matchMedia(DARK_MODE_MEDIA_QUERY).matches)
+      );
+    },
   },
   metaInfo() {
     return {
