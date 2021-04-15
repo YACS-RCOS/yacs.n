@@ -10,10 +10,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: npm install, build
+      - name: Build and Run Production
         run: |
-          npm install
-          npm run build
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            build
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.7.x
