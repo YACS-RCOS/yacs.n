@@ -15,7 +15,12 @@ jobs:
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            build
+            build && 
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            up -d
+
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.7.x
