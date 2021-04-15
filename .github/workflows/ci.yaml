@@ -51,19 +51,35 @@ jobs:
         run: |
           bash scripts/test.sh
 
-  test-build:
+  lhci:
+    name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build production
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Build and Run Production
         run: |
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            build
+            build &&
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            up -d
+
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.7.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
 
   publish-action-status:
-    needs: [backend-unit-tests, test-build]
+    needs: [backend-unit-tests, lhci]
     if: always()
     runs-on: ubuntu-latest
 
