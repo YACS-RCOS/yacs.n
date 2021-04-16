@@ -19,10 +19,10 @@ module.exports = {
   },
   pwa: {
     name: "YACS",
-    themeColor: "#2808dc",
-    msTileColor: "#2808dc",
+    themeColor: "#1B1D25",
+    msTileColor: "#1B1D25",
     manifestOptions: {
-      background_color: "#2808dc",
+      background_color: "#1B1D25",
       icons: [
         {
           src: "./img/icons/android-chrome-192x192.png",
