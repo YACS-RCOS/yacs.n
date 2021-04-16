@@ -50,51 +50,53 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <div class="col-md-8" id="allScheduleData">
-        <b-form-select
-          v-if="
-            !loading &&
-            scheduler.scheduleSubsemesters &&
-            scheduler.scheduleSubsemesters.length > 1
-          "
-          v-model="selectedScheduleSubsemester"
-          :options="scheduler.scheduleSubsemesters"
-          text-field="display_string"
-          value-field="display_string"
-          this.selectedSemester = "selectedScheduleSubsemester"
-          
-        ></b-form-select>
+      
+      <div class="col-md-8">
+          <b-form-select
+            v-if="
+              !loading &&
+              scheduler.scheduleSubsemesters &&
+              scheduler.scheduleSubsemesters.length > 1
+            "
+            v-model="selectedScheduleSubsemester"
+            :options="scheduler.scheduleSubsemesters"
+            text-field="display_string"
+            value-field="display_string"
+            this.selectedSemester = "selectedScheduleSubsemester"
+            
+          ></b-form-select>
+        <div id="allScheduleData">
+          <Schedule v-if="loading" />
+          <template v-else-if="scheduler.schedules">
+            <Schedule
+              v-for="(schedule, index) in scheduler.schedules"
+              :key="index"
+              :schedule="schedule"
+              v-show="selectedScheduleIndex === index"
+            />
+          </template>
+          <Schedule v-else :schedule="scheduler"></Schedule>
 
-        <Schedule v-if="loading" />
-        <template v-else-if="scheduler.schedules">
-          <Schedule
-            v-for="(schedule, index) in scheduler.schedules"
-            :key="index"
-            :schedule="schedule"
-            v-show="selectedScheduleIndex === index"
-          />
-        </template>
-        <Schedule v-else :schedule="scheduler"></Schedule>
-
-        <b-row>
-          <b-col>
-            <h5>CRNs: {{ selectedCrns }}</h5>
-            <h5>Credits: {{ totalCredits }}</h5>
-          </b-col>
-          <b-col md="3">
-            <b-dropdown text="Export Data" class="m-2">
-              <b-dropdown-item @click="exportScheduleToIcs">
-                <font-awesome-icon :icon="exportIcon" />
-                Export To ICS
-              </b-dropdown-item>
-              <b-dropdown-item @click="exportScheduleToImage">
-                <font-awesome-icon :icon="exportIcon" />
-                Export To Image
-              </b-dropdown-item>
-            </b-dropdown>
-          </b-col>
-        </b-row>
-      </div>
+          <b-row>
+            <b-col>
+              <h5>CRNs: {{ selectedCrns }}</h5>
+              <h5>Credits: {{ totalCredits }}</h5>
+            </b-col>
+            <b-col md="3">
+              <b-dropdown text="Export Data" class="m-2">
+                <b-dropdown-item @click="exportScheduleToIcs">
+                  <font-awesome-icon :icon="exportIcon" />
+                  Export To ICS
+                </b-dropdown-item>
+                <b-dropdown-item @click="exportScheduleToImage">
+                  <font-awesome-icon :icon="exportIcon" />
+                  Export To Image
+                </b-dropdown-item>
+              </b-dropdown>
+            </b-col>
+          </b-row>
+        </div>
+      </div>  
     </b-row>
 
     <b-modal
