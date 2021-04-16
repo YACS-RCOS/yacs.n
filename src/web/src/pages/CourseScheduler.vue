@@ -63,7 +63,6 @@
             text-field="display_string"
             value-field="display_string"
             this.selectedSemester = "selectedScheduleSubsemester"
-            
           ></b-form-select>
         <div id="allScheduleData">
           <Schedule v-if="loading" />
