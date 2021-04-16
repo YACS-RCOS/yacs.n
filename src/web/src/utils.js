@@ -367,9 +367,7 @@ export const exportScheduleToImage = (
     alert("No Courses Found For Export To Image Data.");
     return;
   }
-  
   // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG.
-  
   domtoimage
     .toPng(document.getElementById("allScheduleData"), options)
     .then(function (dataUrl) {
