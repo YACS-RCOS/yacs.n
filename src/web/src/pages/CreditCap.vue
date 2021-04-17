@@ -2,10 +2,14 @@
   <b-container class="mt-3">
     <h2>Enter the Credit Cap and Warning Message </h2>
     <form @submit="onUpdate" class="form-group" method="post">
-      <p>Enter the credit cap</p>
+      <p>Enter the undergraduate credit cap</p>
       <input v-model="credit_cap" placeholder="Credit Cap">
-      <p>Enter the warning message</p>
+      <p>Enter the undergraduate warning message</p>
       <input v-model="warning_message" placeholder="Warning Message">
+      <p>Enter the graduate credit cap</p>
+      <input v-model="credit_cap2" placeholder="Credit Cap">
+      <p>Enter the graduate warning message</p>
+      <input v-model="warning_message2" placeholder="Warning Message">
       <br />
       <br />
       <input type="Submit" class="btn btn-success btn-sm" value="Submit" />
@@ -27,16 +31,18 @@ export default {
       loading: false,
       credit_cap: 0,
       warning_message: "",
+      credit_cap2: 0,
+      warning_message2: "",
     };
   },
   methods:{
     onUpdate(event){
       event.preventDefault();
       this.loading = true;
-      uploadCreditCap(this.credit_cap, this.warning_message)
+      uploadCreditCap(this.credit_cap, this.warning_message,this.credit_cap2,this.warning_message2)
       .then((response) => {
         console.log(response);
-        this.$bvToast.toast(`successfully set credit cap to ${this.credit_cap}`, {
+        this.$bvToast.toast(`successfully set credit cap to ${this.credit_cap} and ${this.credit_cap2}`, {
           title: "Upload Result",
           variant: "info",
           noAutoHide: false,

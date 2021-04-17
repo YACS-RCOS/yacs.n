@@ -19,5 +19,6 @@ export const getAllSemesterInfo = () =>
 export const getDefaultSemester = () =>
   client.get("/defaultsemester").then((res) => res.data);
 
-export const uploadCreditCap = (creditCap, message) =>
-  client.post("/creditCap", { cc: creditCap, wm: message });
+export const uploadCreditCap = (creditCap, message, creditCap2, message2) =>
+  client.post("/creditCap", { cc: creditCap, wm: message , 
+  	cc2: creditCap2, wm2: message2});

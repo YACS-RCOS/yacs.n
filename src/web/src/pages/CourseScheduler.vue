@@ -345,7 +345,13 @@ export default {
     },
     addCourse(course) {
       let i = 0;
-      getCreditCap().then((c)=> {this.scheduler.setCreditCap(c.cap)});
+      var type = 0;
+      if (this.userInfo){
+        if (this.userInfo['degree']=="Graduate"){
+          type = 1;
+        }
+      }
+      getCreditCap().then((c)=> {this.scheduler.setCreditCap(c[type].cap)});
       for (; i < course.sections.length; i++) {
         try {
           this._addCourseSection(course, course.sections[i]);
@@ -368,7 +374,7 @@ export default {
             }
           } 
           else if (err.type=="Credit Conflict"){
-            getCreditCap().then((c)=> {this.notifyCreditConflict(c.credit_cap_warning);});
+            getCreditCap().then((c)=> {this.notifyCreditConflict(c[type].credit_cap_warning);});
             course.sections[i].selected=true;
             break;
           }
@@ -485,6 +491,7 @@ export default {
   },
   computed: {
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+    ...mapGetters({ userInfo: userTypes.getters.CURRENT_USER_INFO }),
 
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(

@@ -200,7 +200,7 @@ def map_date_range_to_semester_part_handler():
 @app.route('/api/creditCap', methods=['POST'])
 def upload_credit_cap_info():
     info = request.get_json()
-    success, error = credit_cap.set_credit_cap(int(info['cc']), info['wm'])
+    success, error = credit_cap.set_credit_cap(int(info['cc']), info['wm'],int(info['cc2']),info['wm2'])
     if success:
         return Response(status=200)
     print(error)

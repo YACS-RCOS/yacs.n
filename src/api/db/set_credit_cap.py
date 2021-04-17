@@ -3,7 +3,7 @@ class SetCreditCap:
         self.db_conn = db_conn
         self.interface_name = 'credit_cap'
         
-    def set_credit_cap(self, credit_cap, warning_message):
+    def set_credit_cap(self, cap1, message1, cap2, message2):
         try:
             delete = "DELETE FROM credit_cap;"
             response, error = self.db_conn.execute(delete, None, isSELECT=False)
@@ -15,9 +15,10 @@ class SetCreditCap:
         try:
             cmd = """
 				INSERT INTO credit_cap(cap, credit_cap_warning)
-				VALUES(%s, %s)
+				VALUES(%s, %s),(%s, %s)
 			"""
-            response, error = self.db_conn.execute(cmd, [credit_cap, warning_message], False)
+            response, error = self.db_conn.execute(cmd, 
+                [cap1, message1, cap2, message2], False)
         except Exception as e:
             return (False, e)
 		
@@ -28,9 +29,9 @@ class SetCreditCap:
     def get_credit_cap(self):
         cmd = """
             SELECT cap,credit_cap_warning FROM credit_cap
-            LIMIT 1;
+            LIMIT 2;
         """
         result, error = self.db_conn.execute(cmd,None,True)
         if error:
             return (None,error)
-        return (result[0],error)
+        return (result,error)
