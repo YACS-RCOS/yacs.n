@@ -43,7 +43,7 @@
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
             width: dayWidth + '%',
-            overflow: hidden,
+            overflow: 'hidden',
           }"
         ></ScheduleEvent>
         <div
@@ -97,7 +97,7 @@ export default {
     getTextColor,
     /**
      * Calculate the height of the schedule block for `courseSession`
-     * Returns the px height
+     * Returns the vh height
      * @param {CourseSession} courseSession
      * @returns {number}
      */
@@ -119,7 +119,7 @@ export default {
     },
     /**
      * Calculate the position of the schedule block for `courseSession`
-     * Returns the px margin-top
+     * Returns the vh margin-top
      * @param {CourseSession} courseSession
      * @returns {number}
      */
