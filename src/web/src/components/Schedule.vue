@@ -36,14 +36,14 @@
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
-            'margin-top': 'max(' + eventPosition(courseSession) + 'vh,' + eventMinPosition(courseSession) + 'px)',
+            'margin-top': 'max(' + eventPosition(courseSession) + 'vh,' +
+                                   eventPosition(courseSession, minHeight) + 'px)',
             height: eventHeight(courseSession) + 'vh',
-            'min-height': eventMinHeight(courseSession) + 'px',
+            'min-height': eventHeight(courseSession, minHeight) + 'px',
             backgroundColor: getBackgroundColor(courseSession),
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
             width: dayWidth + '%',
-            overflow: 'hidden',
           }"
         ></ScheduleEvent>
         <div
@@ -97,48 +97,27 @@ export default {
     getTextColor,
     /**
      * Calculate the height of the schedule block for `courseSession`
-     * Returns the vh height
+     * Returns normalized height, i.e. height * duration_percentage
      * @param {CourseSession} courseSession
+     * @param {number} totalHeight totalVHeight as default
      * @returns {number}
      */
-    eventHeight(courseSession) {
+    eventHeight(courseSession, totalHeight = this.totalVHeight) {
       const eventDuration =
         toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
-      return this.totalVHeight * (eventDuration / this.numMinutes);
-    },
-    /**
-     * Calculate the height of the schedule block for `courseSession`
-     * Returns the px height
-     * @param {CourseSession} courseSession
-     * @returns {number}
-     */
-    eventMinHeight(courseSession) {
-      const eventDuration =
-        toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
-      return this.minHeight * (eventDuration / this.numMinutes);
+      return totalHeight * (eventDuration / this.numMinutes);
     },
     /**
      * Calculate the position of the schedule block for `courseSession`
-     * Returns the vh margin-top
+     * Returns normalized position, i.e. height * before_percentage
      * @param {CourseSession} courseSession
+     * @param {number} totalHeight totalVHeight as default
      * @returns {number}
      */
-    eventPosition(courseSession) {
+    eventPosition(courseSession, totalHeight = this.totalVHeight) {
       const eventStart = toMinutes(courseSession.time_start);
       return (
-        this.totalVHeight * ((eventStart - this.startTime) / this.numMinutes)
-      );
-    },
-    /**
-     * Calculate the position of the schedule block for `courseSession`
-     * Returns the px margin-top
-     * @param {CourseSession} courseSession
-     * @returns {number}
-     */
-    eventMinPosition(courseSession) {
-      const eventStart = toMinutes(courseSession.time_start);
-      return (
-        this.minHeight * ((eventStart - this.startTime) / this.numMinutes)
+        totalHeight * ((eventStart - this.startTime) / this.numMinutes)
       );
     },
     /**
