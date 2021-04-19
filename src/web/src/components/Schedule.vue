@@ -1,7 +1,7 @@
 <template>
   <div
     class="schedule"
-    :style="{ height: totalHeight + 'px' }"
+    :style="{ height: totalVHeight + 'vh', 'min-height': minHeight + 'px' }"
     data-cy="schedule"
   >
     <div class="schedule-legend">
@@ -36,12 +36,14 @@
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
-            'margin-top': eventPosition(courseSession) + 'px',
-            height: eventHeight(courseSession) + 'px',
+            'margin-top': 'max(' + eventPosition(courseSession) + 'vh,' + eventMinPosition(courseSession) + 'px)',
+            height: eventHeight(courseSession) + 'vh',
+            'min-height': eventMinHeight(courseSession) + 'px',
             backgroundColor: getBackgroundColor(courseSession),
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
             width: dayWidth + '%',
+            overflow: hidden,
           }"
         ></ScheduleEvent>
         <div
@@ -85,7 +87,8 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalHeight: 600,
+      totalVHeight: 70,
+      minHeight: 600,
     };
   },
   methods: {
@@ -101,7 +104,18 @@ export default {
     eventHeight(courseSession) {
       const eventDuration =
         toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
-      return this.totalHeight * (eventDuration / this.numMinutes);
+      return this.totalVHeight * (eventDuration / this.numMinutes);
+    },
+    /**
+     * Calculate the height of the schedule block for `courseSession`
+     * Returns the px height
+     * @param {CourseSession} courseSession
+     * @returns {number}
+     */
+    eventMinHeight(courseSession) {
+      const eventDuration =
+        toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
+      return this.minHeight * (eventDuration / this.numMinutes);
     },
     /**
      * Calculate the position of the schedule block for `courseSession`
@@ -112,7 +126,19 @@ export default {
     eventPosition(courseSession) {
       const eventStart = toMinutes(courseSession.time_start);
       return (
-        this.totalHeight * ((eventStart - this.startTime) / this.numMinutes)
+        this.totalVHeight * ((eventStart - this.startTime) / this.numMinutes)
+      );
+    },
+    /**
+     * Calculate the position of the schedule block for `courseSession`
+     * Returns the px margin-top
+     * @param {CourseSession} courseSession
+     * @returns {number}
+     */
+    eventMinPosition(courseSession) {
+      const eventStart = toMinutes(courseSession.time_start);
+      return (
+        this.minHeight * ((eventStart - this.startTime) / this.numMinutes)
       );
     },
     /**
