@@ -211,7 +211,7 @@ export default {
 }
 
 .form-group{
-    font-size: 17px;
+    font-size: 16px;
 }
 .course-listing {
   padding: 10px;

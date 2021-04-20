@@ -559,6 +559,7 @@ export default {
 
 .card {
   border: none !important;
+  font-size: 17px;
 
   a:visited {
     color: black;
