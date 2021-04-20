@@ -215,7 +215,7 @@ export default {
 }
 .course-listing {
   padding: 10px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #dbdbdc;
 }
 
 .no-courses {

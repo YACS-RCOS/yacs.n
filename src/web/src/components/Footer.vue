@@ -114,11 +114,13 @@ export default {
 #footer {
   width: 100%;
   border-top: 1px solid lightgrey;
+  font-size: 15px;
 
   .link-group {
     @include media-breakpoint-up(sm) {
       flex-grow: 0;
       flex-basis: 0;
+      color: #6c757d;
     }
 
     white-space: nowrap;

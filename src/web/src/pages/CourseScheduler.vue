@@ -78,7 +78,9 @@
 
         <b-row>
           <b-col>
-            <h8>CRNs: {{ selectedCrns }}</h8>
+            <font size="3px">CRNs: {{ selectedCrns }}</font>
+            <br/>
+            <font size="3px">Credits: {{ totalCredits }}</font>
           </b-col>
           <b-col md="3">
             <b-dropdown text="Export Data" class="m-2">
@@ -92,11 +94,6 @@
               </b-dropdown-item>
             </b-dropdown>
           </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <h8>Credits: {{ totalCredits }}</h8>
-            </b-col>
         </b-row>
       </div>
     </b-row>
