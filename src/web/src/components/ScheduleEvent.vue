@@ -51,11 +51,24 @@ export default {
     box-sizing: border-box;
     height: 100%;
     overflow-y: auto;
+    // CSS Standard Scrollbar Control
+    scrollbar-width: thin;
 
     //Changes the link color to black
     a {
       color: #000000;
     }
+  }
+
+  // WebKit Based Scrollbar Control
+  .event-text::-webkit-scrollbar {
+    width: .73em;
+  }
+  .event-text::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  .event-text::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
   }
 }
 </style>
