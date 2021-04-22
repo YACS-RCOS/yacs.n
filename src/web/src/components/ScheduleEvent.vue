@@ -62,15 +62,15 @@ export default {
 
   // WebKit Based Scrollbar Control
   .event-text::-webkit-scrollbar {
-    width: .73em;
-    height: .73em;
+    width: .6em;
+    height: .6em;
   }
   .event-text::-webkit-scrollbar-track {
     background-color: transparent;
   }
   .event-text::-webkit-scrollbar-thumb {
-    background-color: rgba(128, 128, 128, 0.5);
-    border-radius: 1.33em;
+    background-color: rgba(128, 128, 128, 0.7);
+    border-radius: 1.8em;
     border: transparent;
   }
   .event-text::-webkit-scrollbar-corner {
