@@ -88,7 +88,7 @@ jobs:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
 
   publish-action-status:
-    needs: [backend-unit-tests, lighthouse]
+    needs: [backend-unit-tests, lhci]
     if: always()
     runs-on: ubuntu-latest
 
