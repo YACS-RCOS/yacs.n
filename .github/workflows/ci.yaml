@@ -81,11 +81,10 @@ jobs:
           API_ENDPOINT: https://localhost/api/bulkCourseUpload
 
       - name: run Lighthouse CI
-        run: |
-          npm install -g @lhci/cli@0.7.x &&
-          lhci autorun
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
+        uses: treosh/lighthouse-ci-action@v7
+        with:
+          urls: 'https://localhost/'
+          configPath: './lighthouserc.json'
 
   publish-action-status:
     needs: [backend-unit-tests, lighthouse]
