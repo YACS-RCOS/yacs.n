@@ -1,7 +1,6 @@
 module.exports = {
     ci: {
         collect: {
-            url: ['https://localhost'],
             settings: {
                 chromeFlags: ['--ignore-certificate-errors'],
                 // --- comment the formFactor and screenEmulation to test for mobile ---
