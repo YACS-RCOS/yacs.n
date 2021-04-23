@@ -85,6 +85,7 @@ jobs:
         with:
           urls: 'https://localhost/'
           configPath: './lighthouserc.json'
+          
 
   publish-action-status:
     needs: [backend-unit-tests, lighthouse]
