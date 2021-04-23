@@ -1,0 +1,77 @@
+name: PR Temp Deploys
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  wait-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # action doesn't support multiple checks yet so
+      #  use a step for each check
+      - name: Wait for ci to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-ci
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CI
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check if ci was successful
+        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        run: exit 1
+
+      - name: Wait for codefactor to complete
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        id: wait-for-codefactor
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: CodeFactor
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check if codefactor was successful
+        if: steps.wait-for-codefactor.outputs.conclusion != 'success'
+        run: exit 1
+
+  temp_deploy:
+    runs-on: ubuntu-latest
+    needs: wait-checks
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 13.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13.x
+
+      - name: echo env (for info)
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo $GITHUB_HEAD_REF)"
+          echo "##[set-output name=datetime_ready;]$(TZ='America/New_York' date --date '10 minutes')"
+        id: info
+
+      - name: Provision Infrastructure
+        run: |
+          cd ops/
+          npm install
+          node provision.js | tee out.txt
+          echo "##[set-output name=link;]$(cat out.txt | grep http)"
+        env:
+          LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+          SERVER_ROOT_PASS: ${{ secrets.SERVER_ROOT_PASS }}
+          SSH_PUB_KEYS: ${{ secrets.SSH_PUB_KEYS }}
+          ACTIVE_SERVER_COUNT: ${{ secrets.ACTIVE_SERVER_COUNT }} # amount of vms to keep in the active queue
+          BRANCH: ${{ steps.info.outputs.branch }}
+        id: provision
+
+      - name: Share Link on PR
+        uses: thollander/actions-comment-pull-request@master
+        with:
+          message: |
+            Deploy Link: ${{ steps.provision.outputs.link }}/
+            Branch and Build Info: ${{ steps.provision.outputs.link }}:3000/info.txt
+            Expected Time Ready: ${{ steps.info.outputs.datetime_ready }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
