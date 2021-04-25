@@ -50,7 +50,6 @@
           </b-tabs>
         </b-card>
       </b-col>
-      
       <div class="col-md-8">
           <b-form-select
             v-if="
@@ -63,7 +62,8 @@
             text-field="display_string"
             value-field="display_string"
           ></b-form-select>
-        <div id="allScheduleData">
+        <div id="allScheduleData">  
+
           <Schedule v-if="loading" />
           <template v-else-if="scheduler.schedules">
             <Schedule
@@ -80,21 +80,34 @@
               <h5>CRNs: {{ selectedCrns }}</h5>
               <h5>Credits: {{ totalCredits }}</h5>
             </b-col>
-            <b-col md="3">
-              <b-dropdown text="Export Data" class="m-2">
-                <b-dropdown-item @click="exportScheduleToIcs">
-                  <font-awesome-icon :icon="exportIcon" />
-                  Export To ICS
-                </b-dropdown-item>
-                <b-dropdown-item @click="exportScheduleToImage">
-                  <font-awesome-icon :icon="exportIcon" />
-                  Export To Image
-                </b-dropdown-item>
-              </b-dropdown>
+
+            <b-col md="3" justify="end">
+              <b-row>
+                <b-form-checkbox
+                  size="sm"
+                  :checked="$store.state.colorBlindAssist"
+                  @change="toggleColors()"
+                  switch
+                >
+                  Color Blind Assistance
+                </b-form-checkbox>
+              </b-row>
+              <b-row>
+                <b-dropdown text="Export Data" class="m-2">
+                  <b-dropdown-item @click="exportScheduleToIcs">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To ICS
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="exportScheduleToImage">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To Image
+                  </b-dropdown-item>
+                </b-dropdown>
+              </b-row>
             </b-col>
           </b-row>
-        </div>
-      </div>  
+         </div> 
+      </div>
     </b-row>
 
     <b-modal
@@ -180,6 +193,7 @@ import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 import { userTypes } from "../store/modules/user";
 
 import { COURSES } from "@/store";
+import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
 import {
   addStudentCourse,
@@ -218,6 +232,9 @@ export default {
     };
   },
   methods: {
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
+    },
     generateRequirementsText,
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.selectedCourses));
