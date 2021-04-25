@@ -1,13 +1,14 @@
 import VueRouter from "vue-router";
-import AdminPage from "./pages/Admin";
-import StudentPage from "./pages/Student";
-import CourseSchedulerPage from "./pages/CourseScheduler";
-import UploadCsvPage from "./pages/UploadCsv";
-import EditSemestersPage from "./pages/EditSemesters";
-import CourseExplorerPage from "./pages/CourseExplorer";
-import CoursePage from "./pages/CoursePage";
-import DegreeTemplatesPage from "./pages/DegreeTemplates";
-import SubjectExplorerPage from "./pages/SubjectExplorer";
+const AdminPage = () => import("./pages/Admin");
+const StudentPage = () => import("./pages/Student");
+const CourseSchedulerPage = () => import("./pages/CourseScheduler");
+const UploadCsvPage = () => import("./pages/UploadCsv");
+const EditSemestersPage = () => import("./pages/EditSemesters");
+const CourseExplorerPage = () => import("./pages/CourseExplorer");
+const CoursePage = () => import("./pages/CoursePage");
+const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
+const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
+const NotFoundPage = () => import("./pages/NotFound");
 
 var router = new VueRouter({
   routes: [
@@ -61,6 +62,11 @@ var router = new VueRouter({
       path: "/admin/editsemesters",
       component: EditSemestersPage,
       name: "EditSemesters",
+    },
+    {
+      path: "*",
+      component: NotFoundPage,
+      name: "NotFound",
     },
   ],
   mode: "history",
