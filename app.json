@@ -1,0 +1,5 @@
+{
+    "name": "YACS Heroku Temp Deployment",
+    "repository": "https://github.com/YACS-RCOS/yacs.n",
+    "stack": "container"
+}

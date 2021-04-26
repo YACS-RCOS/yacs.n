@@ -1,0 +1,7 @@
+build:
+  docker:
+    yacs_web: ./src/web/Dockerfile
+    yacs_api: ./src/api/Dockerfile
+    yacs_db: postgress:12-alpha
+  config:
+    HOST=${HEROKU_APP_NAME}
