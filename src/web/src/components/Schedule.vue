@@ -1,7 +1,7 @@
 <template>
   <div
     class="schedule"
-    :style="{ height: totalHeight + 'px' }"
+    :style="{ height: totalVHeight + 'vh', 'min-height': minHeight + 'px' }"
     data-cy="schedule"
   >
     <div class="schedule-legend">
@@ -36,8 +36,10 @@
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
-            'margin-top': eventPosition(courseSession) + 'px',
-            height: eventHeight(courseSession) + 'px',
+            'margin-top': 'max(' + eventPosition(courseSession) + 'vh,' +
+                                   eventPosition(courseSession, minHeight) + 'px)',
+            height: eventHeight(courseSession) + 'vh',
+            'min-height': eventHeight(courseSession, minHeight) + 'px',
             backgroundColor: getBackgroundColor(courseSession),
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
@@ -85,7 +87,8 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalHeight: 600,
+      totalVHeight: 70,
+      minHeight: 600,
     };
   },
   methods: {
@@ -94,25 +97,27 @@ export default {
     getTextColor,
     /**
      * Calculate the height of the schedule block for `courseSession`
-     * Returns the px height
+     * Returns normalized height, i.e. height * duration_percentage
      * @param {CourseSession} courseSession
+     * @param {number} totalHeight totalVHeight as default
      * @returns {number}
      */
-    eventHeight(courseSession) {
+    eventHeight(courseSession, totalHeight = this.totalVHeight) {
       const eventDuration =
         toMinutes(courseSession.time_end) - toMinutes(courseSession.time_start);
-      return this.totalHeight * (eventDuration / this.numMinutes);
+      return totalHeight * (eventDuration / this.numMinutes);
     },
     /**
      * Calculate the position of the schedule block for `courseSession`
-     * Returns the px margin-top
+     * Returns normalized position, i.e. height * before_percentage
      * @param {CourseSession} courseSession
+     * @param {number} totalHeight totalVHeight as default
      * @returns {number}
      */
-    eventPosition(courseSession) {
+    eventPosition(courseSession, totalHeight = this.totalVHeight) {
       const eventStart = toMinutes(courseSession.time_start);
       return (
-        this.totalHeight * ((eventStart - this.startTime) / this.numMinutes)
+        totalHeight * ((eventStart - this.startTime) / this.numMinutes)
       );
     },
     /**
