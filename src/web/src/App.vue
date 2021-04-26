@@ -59,10 +59,10 @@ export default {
   computed: {
     colorSchemeMeta() {
       return this.isFollowingDeviceColor()
-              ? "light dark"
-              : this.$cookies.get(COOKIE_DARK_MODE) === "true"
-                  ? "dark"
-                  : "light";
+        ? "light dark"
+        : this.$cookies.get(COOKIE_DARK_MODE) === "true"
+        ? "dark"
+        : "light";
     },
   },
   metaInfo() {

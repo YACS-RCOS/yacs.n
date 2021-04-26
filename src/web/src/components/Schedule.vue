@@ -36,8 +36,12 @@
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
-            'margin-top': 'max(' + eventPosition(courseSession) + 'vh,' +
-                                   eventPosition(courseSession, minHeight) + 'px)',
+            'margin-top':
+              'max(' +
+              eventPosition(courseSession) +
+              'vh,' +
+              eventPosition(courseSession, minHeight) +
+              'px)',
             height: eventHeight(courseSession) + 'vh',
             'min-height': eventHeight(courseSession, minHeight) + 'px',
             backgroundColor: getBackgroundColor(courseSession),
@@ -116,9 +120,7 @@ export default {
      */
     eventPosition(courseSession, totalHeight = this.totalVHeight) {
       const eventStart = toMinutes(courseSession.time_start);
-      return (
-        totalHeight * ((eventStart - this.startTime) / this.numMinutes)
-      );
+      return totalHeight * ((eventStart - this.startTime) / this.numMinutes);
     },
     /**
      * Returns the `CourseSession`s in the given dayOfWeek
