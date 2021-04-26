@@ -1,7 +1,14 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: yacs_db
+  config:
+    POSTGRES_DB: yacs
+    POSTGRES_USER: yacs
+    POSTGRES_PASSWORD: easy_dev_pass
 build:
   docker:
     yacs_web: ./src/web/Dockerfile
     yacs_api: ./src/api/Dockerfile
-    yacs_db: postgress:12-alpha
   config:
     HOST: ${HEROKU_APP_NAME}
