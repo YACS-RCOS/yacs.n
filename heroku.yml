@@ -12,3 +12,13 @@ build:
     yacs_api: ./src/api/Dockerfile
   config:
     HOST: ${HEROKU_APP_NAME}
+    ADMIN_PASS: admin
+    ENV: production
+    DEBUG: False
+    DB_HOST: yacs_db
+    DB_USER: yacs
+    DB_PASS: easy_dev_pass
+    DB_NAME: yacs
+    DB_PORT: 5432
+    WORKERS: 4
+    FLASK_SIGN_KEY: secretKey
