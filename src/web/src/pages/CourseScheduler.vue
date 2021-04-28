@@ -51,19 +51,18 @@
         </b-card>
       </b-col>
       <div class="col-md-8">
-          <b-form-select
-            v-if="
-              !loading &&
-              scheduler.scheduleSubsemesters &&
-              scheduler.scheduleSubsemesters.length > 1
-            "
-            v-model="selectedScheduleSubsemester"
-            :options="scheduler.scheduleSubsemesters"
-            text-field="display_string"
-            value-field="display_string"
-          ></b-form-select>
-        <div id="allScheduleData">  
-
+        <b-form-select
+          v-if="
+            !loading &&
+            scheduler.scheduleSubsemesters &&
+            scheduler.scheduleSubsemesters.length > 1
+          "
+          v-model="selectedScheduleSubsemester"
+          :options="scheduler.scheduleSubsemesters"
+          text-field="display_string"
+          value-field="display_string"
+        ></b-form-select>
+        <div id="allScheduleData">
           <Schedule v-if="loading" />
           <template v-else-if="scheduler.schedules">
             <Schedule
@@ -106,7 +105,7 @@
               </b-row>
             </b-col>
           </b-row>
-         </div> 
+        </div>
       </div>
     </b-row>
 
