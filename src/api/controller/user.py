@@ -8,10 +8,6 @@ def get_user_info(session_id):
     users = UserModel()
     sessions = SessionModel()
 
-    # if not assert_keys_in_form_exist(form, ['sessionID']):
-    #     return msg.error_msg("Invalid Session ID.")
-
-    # session_id = form['sessionID']
     session = sessions.get_session(session_id)
     if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
