@@ -22,3 +22,6 @@ build:
     DB_PORT: ${DATABASE_URL}
     WORKERS: 4
     FLASK_SIGN_KEY: secretKey
+release:
+  yacs_web: nginx -g "daemon off;"
+  yacs_api: python tables/database_session.py && PYTHONPATH=. alembic upgrade head && gunicorn --bind 0.0.0.0:5000 -w $WORKERS wsgi:app
