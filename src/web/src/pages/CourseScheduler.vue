@@ -62,6 +62,7 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
+
         <div id="allScheduleData">
           <Schedule v-if="loading" />
           <template v-else-if="scheduler.schedules">
@@ -75,7 +76,7 @@
           <Schedule v-else :schedule="scheduler"></Schedule>
 
           <b-row>
-            <b-col>
+            <b-col class="m-2">
               <h5>CRNs: {{ selectedCrns }}</h5>
               <h5>Credits: {{ totalCredits }}</h5>
             </b-col>
@@ -83,6 +84,7 @@
             <b-col md="3" justify="end">
               <b-row>
                 <b-form-checkbox
+                  class="mt-2"
                   size="sm"
                   :checked="$store.state.colorBlindAssist"
                   @change="toggleColors()"
@@ -92,7 +94,7 @@
                 </b-form-checkbox>
               </b-row>
               <b-row>
-                <b-dropdown text="Export Data" class="m-2">
+                <b-dropdown text="Export Data" class="mt-2">
                   <b-dropdown-item @click="exportScheduleToIcs">
                     <font-awesome-icon :icon="exportIcon" />
                     Export To ICS
