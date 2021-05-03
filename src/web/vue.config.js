@@ -21,6 +21,7 @@ module.exports = {
     name: "YACS",
     themeColor: "#1B1D25",
     msTileColor: "#1B1D25",
+    appleMobileWebAppCapable: "yes",
     manifestOptions: {
       background_color: "#1B1D25",
       icons: [
@@ -98,8 +99,9 @@ module.exports = {
         },
       ],
     },
-    workboxOption: {
-      skipWaiting: true,
+    workboxPluginMode: "InjectManifest",
+    workboxOptions: {
+      swSrc: "src/service-worker.js",
     },
   },
   configureWebpack: {
