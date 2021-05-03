@@ -1,3 +1,5 @@
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.5/workbox-sw.js');
+
 const dynamicCache = 'dynamic';
 self.__precacheManifest = [].concat(self.__precahceManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
