@@ -4,6 +4,7 @@ on:
   push:
   workflow_dispatch:
 
+
 jobs:
   backend-unit-tests:
     name: Run backend unit tests
@@ -51,19 +52,43 @@ jobs:
         run: |
           bash scripts/test.sh
 
-  test-build:
+  lighthouse:
+    name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build production
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+
+      - name: Build and Run Production
         run: |
           docker-compose \
             -f docker-compose.yml \
             -f docker-compose.production.yml \
-            build
+            up -d &&
+          sleep 5
+
+      - name: Seed test data
+        working-directory: rpi_data
+        run: |
+          curl --insecure -X POST -H "Content-Type: multipart/form-data" \
+          -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+        env:
+          FILE_NAME: fall-2021.csv
+          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
+          API_ENDPOINT: https://localhost/api/bulkCourseUpload
+
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.7.x &&
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
 
   publish-action-status:
-    needs: [backend-unit-tests, test-build]
+    needs: [backend-unit-tests, lighthouse]
     if: always()
     runs-on: ubuntu-latest
 

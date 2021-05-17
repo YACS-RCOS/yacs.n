@@ -1,6 +1,7 @@
 from db.model import *
 
 class UserEvent(Model):
+
     def __init__(self):
         super().__init__()
         

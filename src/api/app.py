@@ -62,11 +62,11 @@ def apiroot():
 # - data routes
 
 @app.route('/api/class', methods=['GET'])
-@cache.cached(timeout=Constants.DAY_IN_SECONDS, query_string=True)
+@cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_classes():
     """
     GET /api/class?semester={}&search={}
-    Cached: 24 Hours
+    Cached: 1 Hour
     """
     semester = request.args.get("semester", default=None)
     search  = request.args.get("search", default=None)
@@ -82,29 +82,28 @@ def get_classes():
             classes, error = class_info.get_classes_full(semester)
         return jsonify(classes) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
-
-"""
-GET /api/department
-Cached: 1 Hour
-
-List of departments i.e. COGS, CIVL, CSCI, BIOL
-"""
 @app.route('/api/department', methods=['GET'])
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_departments():
+    """
+    GET /api/department
+    Cached: 1 Hour
+
+    List of departments i.e. COGS, CIVL, CSCI, BIOL
+    """
     departments, error = class_info.get_departments()
     return jsonify(departments) if not error else Response(error, status=500)
 
-"""
-GET /api/subsemester?semester={}
-Cached: 1 Hour
-
-Get list of departments i.e. COGS, CIVL, CSCI, BIOL
-(Used in dropdown in "Course Search"
-"""
 @app.route('/api/subsemester', methods=['GET'])
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
 def get_subsemesters():
+    """
+    GET /api/subsemester?semester={}
+    Cached: 1 Hour
+
+    Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+    (Used in dropdown in "Course Search"
+    """
     semester = request.args.get("semester", default=None)
     if semester:
         subsemesters, error = class_info.get_subsemesters(semester)

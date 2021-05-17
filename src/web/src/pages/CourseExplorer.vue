@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="$store.state.courseList.length != 0" class="mx-auto w-75">
+    <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
         <!--
         - Left side of the column
@@ -24,7 +24,6 @@
                 <DepartmentList
                   :majors="deptObj.departments"
                   :deptClassDict="deptClassDict"
-                  :selectedSemester="selectedSemester"
                   v-on:showCourseInfo="showCourseInfo($event)"
                 ></DepartmentList>
               </b-row>
@@ -49,7 +48,6 @@
                 <DepartmentList
                   :majors="deptObj.departments"
                   :deptClassDict="deptClassDict"
-                  :selectedSemester="selectedSemester"
                   v-on:showCourseInfo="showCourseInfo($event)"
                 ></DepartmentList>
               </b-row>
@@ -69,6 +67,8 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner";
@@ -78,9 +78,6 @@ export default {
   components: {
     DepartmentList: DepartmentListComponenet,
     CenterSpinner: CenterSpinnerComponent,
-  },
-  props: {
-    selectedSemester: String,
   },
   data() {
     return {
@@ -99,6 +96,8 @@ export default {
     generateRequirementsText,
   },
   computed: {
+    ...mapState(["isLoadingCourses"]),
+    ...mapGetters([COURSES]),
     schoolDepartmentObjects() {
       let keyArr = Object.entries(this.schoolsMajorDict)
         .map((schoolDepartmentMapping) => ({
@@ -119,7 +118,7 @@ export default {
     },
     schoolsMajorDict() {
       let schoolsMajorDict = {};
-      for (const c of this.$store.state.courseList) {
+      for (const c of this.courses) {
         if (!schoolsMajorDict[c.school]) {
           schoolsMajorDict[c.school] = new Set();
         }
@@ -129,7 +128,7 @@ export default {
     },
     deptClassDict() {
       let deptClassDict = {};
-      for (const c of this.$store.state.courseList) {
+      for (const c of this.courses) {
         if (deptClassDict[c.department]) {
           deptClassDict[c.department].push(c);
         } else {

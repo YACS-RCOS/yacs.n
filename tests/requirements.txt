@@ -1,10 +1,11 @@
 pytest==5.3.5
 pytest_check==0.3.8
 regex==2020.4.4
-lxml==4.6.2
+lxml==4.6.3
 requests==2.22.0
 pandas==1.0.1
 beautifulsoup4==4.9.0
-pyyaml==5.3.1
+pyyaml==5.4
 pytest-cov==2.10.0
 coveralls==2.1.1
+sqlalchemy==1.4.1

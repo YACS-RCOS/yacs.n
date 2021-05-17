@@ -90,7 +90,7 @@
 
 <script>
 import "@/typedef";
-
+import { mapState } from "vuex";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
@@ -108,11 +108,6 @@ export default {
     DynamicScroller,
     DynamicScrollerItem,
   },
-  props: {
-    courses: Array,
-    subsemesters: Array,
-    selectedSemester: null,
-  },
   data() {
     return {
       faInfoCircle,
@@ -120,8 +115,7 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      departmentOptions: [{ text: "All", value: null }],
-      courseList: this.courses,
+      courseList: null,
       debounceTime: 300,
     };
   },
@@ -150,6 +144,14 @@ export default {
     },
   },
   computed: {
+    ...mapState(["selectedSemester", "subsemesters", "departments"]),
+
+    departmentOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.departments.map(({ department }) => department)
+      );
+    },
+
     subsemesterOptions() {
       let options = [{ text: "All", value: null }];
       options.push(
@@ -166,11 +168,21 @@ export default {
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
+      const courses =
+        this.courseList !== null
+          ? this.courseList
+          : this.$store.getters.courses;
+
       // filter by selected department
-      const filtered = this.courseList.filter(
+      const filtered = courses.filter(
         (course) =>
-          !this.selectedDepartment ||
-          course.department === this.selectedDepartment
+          (!this.selectedDepartment ||
+            course.department === this.selectedDepartment) &&
+          (!this.selectedSubsemester ||
+            (this.selectedSubsemester.date_start.getTime() ===
+              course.date_start.getTime() &&
+              this.selectedSubsemester.date_end.getTime() ===
+                course.date_end.getTime()))
       );
 
       // returns exact match, if not found, then department filtered list
@@ -184,12 +196,6 @@ export default {
 
       if (find) return [find];
       else return filtered;
-    },
-    // return a list of the titles of each course.
-    mapCourseNames() {
-      return this.filterCourses.map((course) => {
-        return course.full_title || course.title;
-      });
     },
   },
 };

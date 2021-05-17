@@ -5,43 +5,64 @@
 </template>
 
 <script>
-import { TOGGLE_DARK_MODE, SET_COURSE_LIST } from "@/store";
-import { getCourses } from "@/services/YacsService";
-import { getDefaultSemester } from "@/services/AdminService";
+import {
+  LOAD_DEPARTMENTS,
+  TOGGLE_COLOR_BLIND_ASSIST,
+  TOGGLE_DARK_MODE,
+  COOKIE_DARK_MODE,
+} from "@/store";
+
+export const DARK_MODE_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 
 export default {
   name: "App",
   components: {},
   async created() {
-    const querySemester = this.$route.query.semester;
-    this.selectedSemester =
-      querySemester && querySemester != "null"
-        ? querySemester
-        : await getDefaultSemester();
-    const courses = await getCourses(this.selectedSemester);
-    this.$store.commit(SET_COURSE_LIST, courses);
+    this.darkModeInit();
 
-    if (this.$cookies.get("darkMode") == "true") {
-      this.$store.commit(TOGGLE_DARK_MODE);
+    if (this.$cookies.get("colorBlindAssist") == "true") {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST, true);
     }
+
+    this.$store.dispatch(LOAD_DEPARTMENTS);
   },
-  computed: {
-    darkMode() {
-      return this.$store.state.darkMode;
+  methods: {
+    darkModeInit() {
+      this.syncColorScheme();
+      this.registerColorSchemeListener();
+    },
+    syncColorScheme() {
+      if (this.isCookieOrDeviceInDarkMode()) {
+        this.$store.commit(TOGGLE_DARK_MODE);
+      }
+    },
+    registerColorSchemeListener() {
+      window
+        .matchMedia(DARK_MODE_MEDIA_QUERY)
+        .addEventListener("change", () => {
+          if (this.isFollowingDeviceColor()) {
+            this.$store.commit(TOGGLE_DARK_MODE);
+          }
+        });
+    },
+    isFollowingDeviceColor() {
+      return this.$cookies.get(COOKIE_DARK_MODE) === null;
+    },
+    isCookieOrDeviceInDarkMode() {
+      return (
+        this.$cookies.get(COOKIE_DARK_MODE) === "true" ||
+        (this.isFollowingDeviceColor() &&
+          window.matchMedia(DARK_MODE_MEDIA_QUERY).matches)
+      );
     },
   },
-  watch: {
-    darkMode(newState, oldState) {
-      if (newState === oldState) {
-        return;
-      }
-
-      const bodyClassList = document.getElementsByTagName("body")[0].classList;
-      if (newState) {
-        bodyClassList.add("dark");
-      } else {
-        bodyClassList.remove("dark");
-      }
+  computed: {
+    colorSchemeMeta() {
+      return this.isFollowingDeviceColor()
+        ? "light dark"
+        : this.$cookies.get(COOKIE_DARK_MODE) === "true"
+        ? "dark"
+        : "light";
     },
   },
   metaInfo() {
@@ -63,6 +84,7 @@ export default {
         { property: "og:site_name", content: "YACS" },
         { property: "og:type", content: "website" },
         { name: "robots", content: "index" },
+        { name: "color-scheme", content: this.colorSchemeMeta },
       ],
     };
   },

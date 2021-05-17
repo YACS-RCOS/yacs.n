@@ -1,4 +1,5 @@
 class Admin:
+
 	def __init__(self, db_conn):
 		self.db_conn = db_conn
 		self.interface_name = 'admin_info'

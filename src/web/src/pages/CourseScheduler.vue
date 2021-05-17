@@ -25,10 +25,7 @@
                   @addCourse="addCourse"
                   @removeCourse="removeCourse"
                   @showCourseInfo="showCourseInfo"
-                  :courses="courses"
-                  :subsemesters="subsemesters"
                   class="w-100"
-                  :selectedSemester="selectedSemester"
                 />
               </b-card-text>
             </b-tab>
@@ -53,7 +50,7 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <div class="col-md-8" id="allScheduleData">
+      <div class="col-md-8">
         <b-form-select
           v-if="
             !loading &&
@@ -65,36 +62,51 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
+        <div id="allScheduleData">
+          <Schedule v-if="loading" />
+          <template v-else-if="scheduler.schedules">
+            <Schedule
+              v-for="(schedule, index) in scheduler.schedules"
+              :key="index"
+              :schedule="schedule"
+              v-show="selectedScheduleIndex === index"
+            />
+          </template>
+          <Schedule v-else :schedule="scheduler"></Schedule>
 
-        <template v-if="scheduler.schedules">
-          <Schedule
-            v-for="(schedule, index) in scheduler.schedules"
-            :key="index"
-            :schedule="schedule"
-            v-show="selectedScheduleIndex === index"
-          />
-        </template>
-        <Schedule v-else :schedule="scheduler"></Schedule>
+          <b-row>
+            <b-col class="m-2">
+              <h5>CRNs: {{ selectedCrns }}</h5>
+              <h5>Credits: {{ totalCredits }}</h5>
+            </b-col>
 
-        <b-row>
-          <b-col>
-            <font size="3px">CRNs: {{ selectedCrns }}</font>
-            <br/>
-            <font size="3px">Credits: {{ totalCredits }}</font>
-          </b-col>
-          <b-col md="3">
-            <b-dropdown text="Export Data" class="m-2">
-              <b-dropdown-item @click="exportScheduleToIcs">
-                <font-awesome-icon :icon="exportIcon" />
-                Export To ICS
-              </b-dropdown-item>
-              <b-dropdown-item @click="exportScheduleToImage">
-                <font-awesome-icon :icon="exportIcon" />
-                Export To Image
-              </b-dropdown-item>
-            </b-dropdown>
-          </b-col>
-        </b-row>
+            <b-col md="3" justify="end">
+              <b-row>
+                <b-form-checkbox
+                  class="mt-2"
+                  size="sm"
+                  :checked="$store.state.colorBlindAssist"
+                  @change="toggleColors()"
+                  switch
+                >
+                  Color Blind Assistance
+                </b-form-checkbox>
+              </b-row>
+              <b-row>
+                <b-dropdown text="Export Data" class="mt-2">
+                  <b-dropdown-item @click="exportScheduleToIcs">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To ICS
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="exportScheduleToImage">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To Image
+                  </b-dropdown-item>
+                </b-dropdown>
+              </b-row>
+            </b-col>
+          </b-row>
+        </div>
       </div>
     </b-row>
 
@@ -165,7 +177,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
@@ -180,11 +192,10 @@ import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import { userTypes } from "../store/modules/user";
 
-import { SET_COURSE_LIST } from "@/store";
+import { COURSES } from "@/store";
+import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
 import {
-  getSubSemesters,
-  getCourses,
   addStudentCourse,
   removeStudentCourse,
   getStudentCourses,
@@ -209,17 +220,11 @@ export default {
     CourseList: CourseListComponent,
     CenterSpinner: CenterSpinnerComponent,
   },
-  props: {
-    selectedSemester: String,
-  },
   data() {
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: new Schedule(),
-      subsemesters: [],
-      courses: [],
-      loading: false,
       exportIcon: faPaperPlane,
 
       courseInfoModalCourse: null,
@@ -227,6 +232,9 @@ export default {
     };
   },
   methods: {
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
+    },
     generateRequirementsText,
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.selectedCourses));
@@ -242,8 +250,8 @@ export default {
         }
       );
     },
-    async loadStudentCourses(semester) {
-      if (!semester) {
+    async loadStudentCourses() {
+      if (!this.courses.length) {
         return;
       }
 
@@ -332,17 +340,6 @@ export default {
           selectedCoursesCookie.clear().save();
         }
       }
-    },
-    updateDataOnNewSemester(semester) {
-      return Promise.all([getCourses(semester), getSubSemesters(semester)])
-        .then(([courses, subsemesters]) => {
-          this.courses = courses;
-          this.subsemesters = subsemesters;
-          this.$store.commit(SET_COURSE_LIST, courses);
-        })
-        .then(() => {
-          this.loadStudentCourses(semester);
-        });
     },
     addCourse(course) {
       let i = 0;
@@ -478,7 +475,13 @@ export default {
     },
   },
   computed: {
+    ...mapState(["subsemesters", "selectedSemester"]),
+    ...mapGetters([COURSES]),
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+
+    loading() {
+      return this.$store.state.isLoadingCourses;
+    },
 
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
@@ -514,25 +517,16 @@ export default {
     },
   },
   watch: {
-    selectedSemester: {
+    courses: {
       immediate: true,
-      handler(semester) {
-        this.loading = true;
-        //this.$router.push({ name: "CourseScheduler", query: { semester } });
-
-        this.updateDataOnNewSemester(semester).then(
-          () => (this.loading = false)
-        );
+      handler() {
+        this.loadStudentCourses();
       },
     },
     isLoggedIn: {
       immediate: true,
       handler() {
-        this.loading = true;
-
-        this.loadStudentCourses(this.selectedSemester).then(
-          () => (this.loading = false)
-        );
+        this.loadStudentCourses();
       },
     },
   },

@@ -36,14 +36,10 @@
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
             :checked="$store.state.darkMode"
+            :indeterminate="followDevice"
             @change="toggle_style()"
-            switch
-          >
-            <div>
-              <!-- We need the outer div to keep the icon aligned with the checkbox -->
-              <font-awesome-icon icon="moon" />
-            </div>
-          </b-form-checkbox>
+          ></b-form-checkbox>
+          <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
         </b-nav-form>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -82,26 +78,38 @@
 import { mapGetters, mapState } from "vuex";
 
 import LoginComponent from "@/components/Login";
-
-import { TOGGLE_DARK_MODE } from "@/store";
-
+import {
+  COOKIE_DARK_MODE,
+  TOGGLE_DARK_MODE,
+  SAVE_DARK_MODE,
+  RESET_DARK_MODE,
+} from "@/store";
 import { userTypes } from "../store/modules/user";
-
 export default {
   name: "Header",
-  props: {
-    selectedSemester: String,
-  },
   components: {
     LoginForm: LoginComponent,
   },
   data() {
     return {
-      semesterOptions: [],
+      followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
   methods: {
     toggle_style() {
+      if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
+        this.notifyOnToggle();
+      }
+      this.$store.commit(TOGGLE_DARK_MODE);
+      this.$store.commit(SAVE_DARK_MODE);
+      this.followDevice = false;
+    },
+    toggle_default() {
+      if (this.$cookies.get(COOKIE_DARK_MODE) !== null) {
+        this.notifyOnDefault();
+      }
+      this.$store.commit(RESET_DARK_MODE);
+      this.followDevice = true;
       this.$store.commit(TOGGLE_DARK_MODE);
     },
     onLogIn() {
@@ -110,7 +118,6 @@ export default {
     async logOut() {
       try {
         await this.$store.dispatch(userTypes.actions.LOGOUT);
-
         this.$bvToast.toast(`You are now logged out!`, {
           variant: "success",
         });
@@ -121,12 +128,32 @@ export default {
         });
       }
     },
+    notifyOnToggle() {
+      this.$bvToast.toast(
+        `Double click moon icon to follow device's color scheme.`,
+        {
+          title: "Color Scheme Changed",
+          autoHideDelay: 2000,
+          noHoverPause: true,
+          variant: "info",
+        }
+      );
+    },
+    notifyOnDefault() {
+      this.$bvToast.toast(`Toggled to follow device color.`, {
+        title: "Color Scheme Changed",
+        autoHideDelay: 1000,
+        noHoverPause: true,
+        variant: "success",
+      });
+    },
   },
   computed: {
     ...mapGetters({
       isLoggedIn: userTypes.getters.IS_LOGGED_IN,
       user: userTypes.getters.CURRENT_USER_INFO,
     }),
+    ...mapState(["selectedSemester"]),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
   },
 };
@@ -159,7 +186,6 @@ export default {
     justify-content: center;
   }
 }
-
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;

@@ -1,7 +1,11 @@
 <template functional>
   <div class="schedule-event" :style="data.style" data-cy="schedule-event">
     <div class="event-text">
-      <span data-cy="title">{{ props.title }}</span>
+      <span data-cy="title">
+        <a v-bind:href="$options.getExploreCourseLink(props.name)">
+          {{ props.title }}
+        </a>
+      </span>
       <br />
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;-&nbsp;
@@ -15,6 +19,15 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  getExploreCourseLink(courseName) {
+    var subject = courseName.split(" ")[0];
+    var courseNumber = courseName.split(" ")[1];
+    return `/explore/${subject}/${subject}-${courseNumber}`;
+  },
+};
+</script>
 <style lang="scss">
 .schedule-event {
   display: block;
@@ -38,6 +51,30 @@
     box-sizing: border-box;
     height: 100%;
     overflow-y: auto;
+    // CSS Standard Scrollbar Control
+    scrollbar-width: thin;
+
+    //Changes the link color to black
+    a {
+      color: #000000;
+    }
+  }
+
+  // WebKit Based Scrollbar Control
+  .event-text::-webkit-scrollbar {
+    width: 0.6em;
+    height: 0.6em;
+  }
+  .event-text::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .event-text::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.7);
+    border-radius: 1.8em;
+    border: transparent;
+  }
+  .event-text::-webkit-scrollbar-corner {
+    background-color: transparent;
   }
 }
 </style>
