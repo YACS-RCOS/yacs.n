@@ -216,8 +216,8 @@ export default {
   overflow-x: hidden;
 }
 
-.form-group{
-    font-size: 16px;
+.form-group {
+  font-size: 16px;
 }
 .course-listing {
   padding: 10px;

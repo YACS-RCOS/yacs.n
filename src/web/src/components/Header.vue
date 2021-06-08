@@ -169,14 +169,14 @@ export default {
   }
 }
 #header {
-  .navbar-brand{
+  .navbar-brand {
     font-size: 25px;
     font-weight: bold;
   }
   .nav-item {
     text-align: center;
   }
-  .navbar-nav{
+  .navbar-nav {
     font-size: 17px;
     font-weight: normal;
   }
