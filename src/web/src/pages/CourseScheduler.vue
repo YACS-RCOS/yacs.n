@@ -62,7 +62,6 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
-
         <div id="allScheduleData">
           <Schedule v-if="loading" />
           <template v-else-if="scheduler.schedules">
@@ -544,6 +543,7 @@ export default {
 .tab-content {
   display: flex;
   flex-grow: 1;
+  font-size: 15px;
 }
 // This makes it so active tabs are display:flex
 // The default is display:block
@@ -553,6 +553,7 @@ export default {
 
 .card {
   border: none !important;
+  font-size: 17px;
 
   a:visited {
     color: black;

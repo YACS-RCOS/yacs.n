@@ -216,16 +216,19 @@ export default {
   overflow-x: hidden;
 }
 
+.form-group{
+    font-size: 16px;
+}
 .course-listing {
   padding: 10px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #dbdbdc;
 }
 
 .no-courses {
   border-style: solid;
   border-width: 2px;
   border-color: rgb(0, 0, 0, 0.05);
-  font-size: 16px;
+  font-size: 17px;
   padding: 20px;
 }
 </style>

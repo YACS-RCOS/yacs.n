@@ -38,6 +38,7 @@ export default {
   min-height: 200px;
   flex-grow: 1;
   flex-basis: 0px; // allows flex and scroll combo
+  border-bottom: 1px solid #dbdbdc;
 }
 .no-courses {
   margin-right: 20px;
