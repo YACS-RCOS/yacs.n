@@ -122,7 +122,7 @@ export default {
         if (!schoolsMajorDict[c.school]) {
           schoolsMajorDict[c.school] = new Set();
         }
-        schoolsMajorDict[c.school].add( [c.department, 'pop'] ); 
+        schoolsMajorDict[c.school].add(c.department); 
       }
       return schoolsMajorDict;
     },

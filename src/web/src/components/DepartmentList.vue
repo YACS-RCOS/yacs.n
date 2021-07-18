@@ -15,7 +15,7 @@
               params: { subject: major },
             }"
           >
-            <b>{{ major[0] }}</b> - {{ major[1] }}
+            <b>{{ major }}</b> - {{ getLongName(major) }}
           </b-button>
         </div>
       </template>
@@ -26,6 +26,7 @@
 <script>
 import "@/typedef";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { getLongName } from "@/utils";
 
 export default {
   name: "DepartmentList",
@@ -46,6 +47,7 @@ export default {
    * Display the course object information onn console
    */
   methods: {
+    getLongName,
     courseInfoModalToggle(course) {
       console.log(course);
     },
