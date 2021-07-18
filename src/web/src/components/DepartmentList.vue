@@ -15,7 +15,7 @@
               params: { subject: major },
             }"
           >
-            {{ major }}
+            <b>{{ major[0] }}</b> - {{ major[1] }}
           </b-button>
         </div>
       </template>
