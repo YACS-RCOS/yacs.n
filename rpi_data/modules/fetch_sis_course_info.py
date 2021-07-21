@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from bs4 import NavigableString, Tag
 
 import datetime
@@ -33,6 +33,7 @@ class sis_client:
         res.pop()
         return res
 
+    #Gets the time info from the string
     def parse_time(self, time_string):
         time = time_string.split('-')
         time[0] = time[0].strip()
@@ -47,6 +48,8 @@ class sis_client:
         time[1] = str(time[1].date())
         return time
 
+
+    #Actually runs the program
     def run(self):
         if not self.SEMESTER_NAME or not self.source_url:
             raise Error("Sis client requires semester name and source url")
