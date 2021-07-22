@@ -124,7 +124,9 @@ class Courses:
                                     seats_open,
                                     seats_filled,
                                     seats_total,
-                                    tsv
+                                    tsv,
+                                    course_instructor,
+                                    email
                                 )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
@@ -150,7 +152,9 @@ class Courses:
                                     setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') ||
                                     setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
                                     setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
-                                    setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
+                                    setweight(to_tsvector(coalesce(%(Description)s, '')), 'D'),
+                                %(CourseInstructor)s,
+                                %(Email)s
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -172,7 +176,9 @@ class Courses:
                                 "School": row['school'],
                                 "SeatsOpen": row['course_remained'],
                                 "SeatsFilled": row['course_enrolled'],
-                                "SeatsTotal": row['course_max_enroll']  
+                                "SeatsTotal": row['course_max_enroll'],
+                                "CourseInstructor": row['course_instructor'],
+                                "Email": row['email']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
