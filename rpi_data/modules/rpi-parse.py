@@ -7,6 +7,7 @@ import os
 from fetch_catalog_course_info import acalog_client as AcalogClient
 from fetch_sis_course_info import sis_client as SisClient
 from add_school_column import add_school_column
+from add_prof_emails import add_prof_emails
 
 semester_name = os.environ['SEMESTER']
 source_url = os.environ.get('SOURCE_URL')
@@ -24,6 +25,7 @@ sis_course_info_df = sis_course_info_df.assign(short_name=lambda row: row['cours
 combined_course_info_df = sis_course_info_df.join(other=acalog_course_info_df.set_index("short_name"), how="left", on=["short_name"])
 combined_course_info_df = combined_course_info_df.drop(columns=['department', 'level'])
 combined_course_info_df = add_school_column(combined_course_info_df)
+combined_course_info_df = add_prof_emails(combined_course_info_df)
 
 headers = os.environ.get('HEADERS', 'True')
 headers = (headers == 'True')
