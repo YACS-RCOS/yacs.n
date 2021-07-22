@@ -31,7 +31,7 @@
             </b-tab>
             <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
               <template v-slot:title>
-                <div class="text-center" data-cy="selected-courses-tab-header">
+                <div class="text-center" id="selected-courses-header" data-cy="selected-courses-tab-header">
                   Selected Courses
                   <b-badge variant="light" data-cy="num-selected-courses">
                     {{ numSelectedCourses }}

@@ -25,22 +25,59 @@
             v-if="course.sections.length"
             @click.stop="toggleCollapse()"
           >
-            <img
-              v-if="!this.showCollapse"
-              src="../assets/chevron-down-solid.svg" 
-              class= "toggle-icon" 
-              alt="expand course"
-            />
-            <img v-else src="../assets/chevron-up-solid.svg" 
-              class= "toggle-icon" 
-              alt="collapse course"/>
+            <svg v-if="!this.showCollapse"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false" 
+              data-prefix="fas" 
+              data-icon="chevron-down" 
+              class="svg-inline--fa fa-chevron-down fa-w-14 toggle-icon" 
+              role="img"  
+              viewBox="0 0 448 512">
+              <title> "Expand course"</title>
+              <path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path>
+            </svg>
+
+            <svg v-else
+              xmlns="http://www.w3.org/2000/svg" 
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas" 
+              data-icon="chevron-up" 
+              class="svg-inline--fa fa-chevron-up fa-w-14 toggle-icon" 
+              role="img" viewBox="0 0 448 512">
+              <title> "collapse course" </title>
+              <path fill="currentColor" d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"></path>
+            </svg>
           </button>
         </slot>
         <button v-show="showAdd" class="btn" @click.stop="toggleCourse()">
-          <img v-if="course.selected" src="../assets/times-solid.svg" class= "toggle-icon" alt="toggle course off"/>
-          <!-- <font-awesome-icon v-if="course.selected" :icon="faTimes" value= "toggle course off" alt="toggle course off"/> -->
-          <img v-else src="../assets/plus-solid.svg" class= "toggle-icon" value= "toggle course on" alt="toggle course on"/>
-          <!-- <font-awesome-icon v-else :icon="faPlus" value= "toggle course on" alt="toggle course on"/> -->
+         <!--  <img v-if="course.selected" src="../assets/times-solid.svg" class= "toggle-icon" alt="toggle course off"/> -->
+          <svg v-if="course.selected"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false" 
+            data-prefix="fas" 
+            data-icon="times" 
+            class="svg-inline--fa fa-times fa-w-11 toggle-icon" 
+            role="img"  
+            viewBox="0 0 352 512">
+            <title>"Toggle course off"</title>
+            <path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path>
+          </svg>
+
+          <svg v-else
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="plus"
+            class="svg-inline--fa fa-plus fa-w-14 toggle-icon"
+            role="img" 
+            viewBox="0 0 448 512">
+            <title>"Toggle course on"</title>
+            <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+          </svg>
         </button>
       </div>
     </div>

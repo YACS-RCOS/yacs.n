@@ -22,7 +22,7 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }">
+        <b-nav-item :to="{ name: 'CourseScheduler' }"> <!-- Redundent link accesibility alert -->
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>

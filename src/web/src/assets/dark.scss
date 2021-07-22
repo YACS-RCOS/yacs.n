@@ -16,6 +16,7 @@
   --dark-secondary: #181a21;
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
+  --dark-text-tertiary: #a2a6ae;
   --dark-border-primary: #868686;
   --dark-blue-primary: #3395ff;
   --dark-blue-secondary: #2783e6;
@@ -39,6 +40,7 @@
 
   #credits {
     background: var(--dark-primary) !important;
+    color: var(--dark-text-tertiary) !important;
   }
 
   #footer {
@@ -61,7 +63,7 @@
     }
   }
 
-  .nav-link {
+  .nav-link, #selected-courses-header {
     color: var(--dark-blue-primary) !important;
   }
 
@@ -101,6 +103,10 @@
     color: var(--dark-text-secondary) !important;
   }
 
+  .navbar-text {
+    color: var(--dark-text-tertiary) !important;
+  }
+
   .d-flex .btn {
     color: var(--dark-text-primary) !important;
   }
@@ -134,7 +140,7 @@
   }
 
   .section-head {
-    color: var(--dark-text-secondary) !important;
+    color: var(--dark-text-tertiary) !important;
   }
 
   .no-courses {
