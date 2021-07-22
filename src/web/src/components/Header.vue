@@ -169,8 +169,16 @@ export default {
   }
 }
 #header {
+  .navbar-brand {
+    font-size: 25px;
+    font-weight: bold;
+  }
   .nav-item {
     text-align: center;
+  }
+  .navbar-nav {
+    font-size: 17px;
+    font-weight: normal;
   }
   // centering of the dark mode toggle
   .inline-form,

@@ -56,6 +56,15 @@ export default {
       );
     },
   },
+  computed: {
+    colorSchemeMeta() {
+      return this.isFollowingDeviceColor()
+        ? "light dark"
+        : this.$cookies.get(COOKIE_DARK_MODE) === "true"
+        ? "dark"
+        : "light";
+    },
+  },
   metaInfo() {
     return {
       title: "YACS",
@@ -75,6 +84,7 @@ export default {
         { property: "og:site_name", content: "YACS" },
         { property: "og:type", content: "website" },
         { name: "robots", content: "index" },
+        { name: "color-scheme", content: this.colorSchemeMeta },
       ],
     };
   },
