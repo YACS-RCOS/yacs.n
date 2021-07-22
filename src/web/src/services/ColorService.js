@@ -23,18 +23,18 @@ const COLORS = [
   "#ACDBA9", //dark green
 ];
 const TEXT_COLORS = [
-  "#d1265d",
-  "#1577aa",
-  "#bf8a2e",
-  "#008a2e",
-  "#853d80",
-  "#9d5733",
-  "#d9652b",
-  "#ff00ef",
-  "#00a499",
-  "#ab1111",
-  "#014779",
-  "#116940",
+  "#86193B", //red
+  "#0C4C6E", //blue
+  "#6B4D1A", //yellow
+  "#005C1F", //green
+  "#70336C", //purple
+  "#703D23", //brown
+  "#7E3815", //orange
+  "#800077", //pink
+  "#005C56", //aquamarine
+  "#7D0C0C", //maroon
+  "#014779", //dark blue
+  "#084429", //dark green
 ];
 const BORDER_COLORS = [
   "#ff2066",
