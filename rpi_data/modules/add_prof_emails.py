@@ -13,6 +13,9 @@ class ProfEmailMapping:
     def __init__(self, mapping: Dict[str, str]):
         self.mapping = mapping
     
+    def get(self, key: str, default = ''):
+        return self.mapping.get(key, default)
+
     @classmethod
     def get_emails(cls, path: str):
 
@@ -23,15 +26,21 @@ class ProfEmailMapping:
         for prof in r['nodes']:
             site = RPI_FACULTY_PATH + prof['node']['Path']
             soup = BeautifulSoup(requests.get(site).text, 'lxml')
+            
+            lastname = prof['node']['title'].rstrip().split(" ")[-1]
 
             #better way to do this?
             try:
-                mapping[prof] = soup.find_all(href=re.compile('mailto'))[0].get_text()
+                mapping[lastname] = soup.find_all(href=re.compile('mailto'))[0].get_text()
             except:
-                mapping[prof] = ""
+                mapping[lastname] = ""
 
         return cls(mapping)
 
 
 def add_prof_emails(df: pd.DataFrame, path = PROF_EMAIL_MAPPING_PATH):
     prof_email_mapping = ProfEmailMapping.get_emails(path)
+
+    df['email'] = df['course_instructor'].apply(prof_email_mapping.get)
+
+    return df
