@@ -3,6 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
+        <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
         <b-col
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
