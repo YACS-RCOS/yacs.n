@@ -36,9 +36,7 @@ class ClassInfo:
                 row_to_json(section.*)
               ) sections,
               c.semester,
-              c.school,
-              c.course_instructor,
-              c.email
+              c.school
             from
               course c
             left join
@@ -120,8 +118,6 @@ class ClassInfo:
               ) sections,
               c.semester,
               c.school
-              c.course_instructor,
-              c.email
             from
               course c
             left join
