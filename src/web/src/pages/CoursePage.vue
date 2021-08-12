@@ -14,6 +14,11 @@
       </b-row>
       <b-row>
         <b-col>
+          <h5 class="mb-1 d-inline">{{ courseObj.title }}</h5>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
           <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
         </b-col>
       </b-row>
@@ -129,7 +134,10 @@ export default {
         credits = this.courseObj.min_credits;
       }
       return credits;
-    },
+    }/*,
+    getProfessor() {
+      return "Professor";
+    },*/
   },
   metaInfo() {
     return {

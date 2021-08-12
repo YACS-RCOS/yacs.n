@@ -82,6 +82,7 @@ def get_classes():
             classes, error = class_info.get_classes_full(semester)
         return jsonify(classes) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
+
 @app.route('/api/department', methods=['GET'])
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_departments():

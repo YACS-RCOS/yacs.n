@@ -29,10 +29,10 @@ class ProfEmailMapping:
             
             lastname = prof['node']['title'].rstrip().split(" ")[-1]
 
-            #better way to do this?
+            #is there a better way to do this?
             try:
                 mapping[lastname] = soup.find_all(href=re.compile('mailto'))[0].get_text()
-            except:
+            except IndexError:
                 mapping[lastname] = ""
 
         return cls(mapping)
