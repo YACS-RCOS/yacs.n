@@ -154,7 +154,7 @@ class Courses:
                                     setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
                                     setweight(to_tsvector(coalesce(%(Description)s, '')), 'D'),
                                 %(CourseInstructor)s,
-                                %(Email)s
+                                NULLIF(%(Email)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -243,6 +243,6 @@ class Courses:
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
+    csv_text = open('../../../rpi_data/fall-2021.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
