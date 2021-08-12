@@ -25,5 +25,5 @@ class Course(Base):
     seats_filled = Column(INTEGER)
     seats_total = Column(INTEGER)
     tsv = Column(TSVECTOR)
-    course_instructor = Column(TEXT)
-    email = Column(TEXT)
+    course_instructor = Column(VARCHAR(length=255))
+    email = Column(VARCHAR(length=255))

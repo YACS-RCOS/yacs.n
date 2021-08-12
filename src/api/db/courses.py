@@ -153,8 +153,8 @@ class Courses:
                                     setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
                                     setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
                                     setweight(to_tsvector(coalesce(%(Description)s, '')), 'D'),
-                                %(CourseInstructor)s,
-                                %(Email)s
+                                NULLIF(%(CourseInstructor)s, ''),
+                                NULLIF(%(Email)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -240,9 +240,9 @@ class Courses:
         self.cache.clear()
         return (True, None)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
-    courses = Courses(connection.db)
-    courses.populate_from_csv(csv_text)
+    # csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
+    # courses = Courses(connection.db)
+    # courses.populate_from_csv(csv_text)
