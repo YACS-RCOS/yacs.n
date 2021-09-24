@@ -540,8 +540,11 @@ export default {
 // apply the css attributes globally to .tab-content
 // This means that all v-tabs in this app will have flexbox content
 // Hopefully this doesn't screw up someone's debugging later lol
-.main-body {
-  min-height: 100vh;
+
+@media (min-width:1025px) {
+ .main-body {
+    min-height: 100vh;
+  } 
 }
 
 .tab-content {
