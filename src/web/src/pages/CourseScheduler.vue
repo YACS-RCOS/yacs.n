@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="py-3 h-100">
+  <b-container fluid class="py-3 h-100 main-body" >
     <b-row class="h-100">
       <b-col md="4" class="d-flex flex-column">
         <b-card no-body class="h-100">
@@ -540,6 +540,10 @@ export default {
 // apply the css attributes globally to .tab-content
 // This means that all v-tabs in this app will have flexbox content
 // Hopefully this doesn't screw up someone's debugging later lol
+.main-body {
+  min-height: 100vh;
+}
+
 .tab-content {
   display: flex;
   flex-grow: 1;
