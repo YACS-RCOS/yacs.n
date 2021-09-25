@@ -86,17 +86,3 @@ jobs:
           lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
-
-  publish-action-status:
-    needs: [backend-unit-tests, lighthouse]
-    if: always()
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: technote-space/workflow-conclusion-action@v1
-      - name: Publish status checks
-        uses: LouisBrunner/checks-action@v0.1.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: CI
-          conclusion: ${{ env.WORKFLOW_CONCLUSION }}
