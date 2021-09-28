@@ -14,7 +14,6 @@
 :root {
   --dark-primary: #22252e;
   --dark-secondary: #181a21;
-  --dark-tertiary:rgba(108, 90, 90, 0.15);
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
   --dark-border-primary: #868686;
@@ -208,7 +207,7 @@
   }
 
   .breadcrumb {
-    background-color: var(--dark-tertiary) !important;
+    background-color: var(--dark-secondary) !important;
   }
 }
 
