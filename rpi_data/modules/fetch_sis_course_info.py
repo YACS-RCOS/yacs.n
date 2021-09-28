@@ -73,9 +73,9 @@ class sis_client:
         current_course_enrolled = ''
         current_course_remained = ''
 
-        # NOTE: The Value 2, findChildren('h3', recursive=True)[2], 
+        # NOTE: The Value 1, findChildren('h3', recursive=True)[1], 
         # May Change Semester To Semester Depending On # Lines Above/Below Each SIS Section. 
-        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[2].findChildren('span')[0].contents[0]
+        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[1].findChildren('span')[0].contents[0]
         semester_start_end_data = self.parse_time(raw_semester_start_end_data)
 
         for gens in genInfo:
