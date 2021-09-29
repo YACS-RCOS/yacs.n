@@ -36,7 +36,7 @@
           :session_type="mapSessionType(courseSession.session_type)"
           :instructor="courseSession.instructor == null
                         ? 'Instructor TBA'
-                        : courseSession.instructor.split('/').join(', ')
+                        : courseSession.instructor.split('/').join(' and ')
                       "
           :location="courseSession.location == null
                       ? 'Location TBA'
@@ -108,6 +108,7 @@ export default {
         "LAB" : "Lab",
         "TES" : "Test",
         "STU" : "Studio",
+        null  : "No Type",
       },
     };
   },
