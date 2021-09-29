@@ -33,6 +33,15 @@
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
+          :session_type="mapSessionType(courseSession.session_type)"
+          :instructor="courseSession.instructor == null
+                        ? 'Instructor TBA'
+                        : courseSession.instructor.split('/').join(', ')
+                      "
+          :location="courseSession.location == null
+                      ? 'Location TBA'
+                      : courseSession.location
+                    "
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
@@ -90,9 +99,16 @@ export default {
       startDay: 1,
       endDay: 5,
       startTime: 480,
-      endTime: 1320,
+      endTime: 1380,
       totalVHeight: 70,
       minHeight: 600,
+      sessionTypes: {
+        "LEC" : "Lecture",
+        "REC" : "Recitation",
+        "LAB" : "Lab",
+        "TES" : "Test",
+        "STU" : "Studio",
+      },
     };
   },
   methods: {
@@ -158,6 +174,11 @@ export default {
           return courses[index].title;
         }
       }
+    },
+    mapSessionType(type) {
+      return this.sessionTypes[type] == null
+              ? type
+              : this.sessionTypes[type];
     },
   },
   computed: {

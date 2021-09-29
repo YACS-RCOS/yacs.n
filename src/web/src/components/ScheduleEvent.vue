@@ -11,11 +11,14 @@
       &nbsp;-&nbsp;
       <span data-cy="section">{{ props.section }}</span>
       <br />
+      <span data-cy="session_type">{{ props.session_type }}</span>
+      <br />
+      <span data-cy="instructor">{{ props.instructor }}</span>
+      <br />
+      <span data-cy="location">{{ props.location }}</span>
+      <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
-      <!-- location placeholder -->
-      <br />
-      <!-- professor placeholder -->
     </div>
   </div>
 </template>
