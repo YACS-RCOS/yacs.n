@@ -88,7 +88,6 @@ export default {
         },
         {
           text: "Explore",
-          
         },
       ],
     };
@@ -141,7 +140,6 @@ export default {
   },
   metaInfo() {
     return {
-     
       title: "Explore",
       titleTemplate: "%s | YACS",
       meta: [
