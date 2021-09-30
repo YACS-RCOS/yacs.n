@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="py-3 h-100 main-body" >
+  <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100">
       <b-col md="4" class="d-flex flex-column">
         <b-card no-body class="h-100">
@@ -541,10 +541,10 @@ export default {
 // This means that all v-tabs in this app will have flexbox content
 // Hopefully this doesn't screw up someone's debugging later lol
 
-@media (min-width:1025px) {
- .main-body {
+@media (min-width: 1025px) {
+  .main-body {
     min-height: 100vh;
-  } 
+  }
 }
 
 .tab-content {
