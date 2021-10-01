@@ -49,4 +49,4 @@ jobs:
           FILE_NAME: ${{ matrix.semester }}.csv
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
           API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
-        working-directory: rpi_data    
+        working-directory: rpi_data
