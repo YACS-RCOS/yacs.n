@@ -273,7 +273,6 @@ class acalog_client():
 
 def main():
     c = acalog_client(acalog_api_key)
-    print(acalog_api_key)
     courses = c.get_all_courses()
     if dev_output_files:
         dwrite_utf8_file(json.dumps(courses, indent=4), "courses21.json")
