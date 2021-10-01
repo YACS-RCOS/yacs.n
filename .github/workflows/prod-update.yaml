@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          persist-credientials: false
+          ref: ${{ github.head_ref }}
 
       - uses: actions/setup-python@v2
 
@@ -36,11 +39,14 @@ jobs:
         env:
           SCRIPT_NAME: get-${{ matrix.semester }}.sh
 
-      - name: Update prod
+      - name: Update prod and repo
         run: |
           curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+          git config --global user.name "YACS"
+          git commit -m "$(date -u)"
+          git push
         env:
           FILE_NAME: ${{ matrix.semester }}.csv
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
           API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
-        working-directory: rpi_data
+        working-directory: rpi_data    
