@@ -1,8 +1,8 @@
-name: Semester Data Prod Update
+name: Semester Data Repo Update
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 0 1 * *"
   workflow_dispatch:
 
 jobs:
@@ -39,14 +39,9 @@ jobs:
         env:
           SCRIPT_NAME: get-${{ matrix.semester }}.sh
 
-      - name: Update prod and repo
+      - name: Update repo
         run: |
-          curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
           git config --global user.name "YACS"
           git commit -m "$(date -u)"
           git push
-        env:
-          FILE_NAME: ${{ matrix.semester }}.csv
-          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
-          API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
         working-directory: rpi_data
