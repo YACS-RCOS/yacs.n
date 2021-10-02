@@ -30,18 +30,25 @@
             courseSession.day_of_week +
             courseSession.time_start
           "
+          :popKey="
+            courseSession.crn +
+            courseSession.day_of_week +
+            courseSession.time_start
+          "
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"
-          :session_type="mapSessionType(courseSession.session_type)"
-          :instructor="courseSession.instructor == null
-                        ? 'Instructor TBA'
-                        : courseSession.instructor.split('/').join(' and ')
-                      "
-          :location="courseSession.location == null
-                      ? 'Location TBA'
-                      : courseSession.location
-                    "
+          :sessionType="mapSessionType(courseSession.session_type)"
+          :instructor="
+            courseSession.instructor == null
+             ? 'Instructor TBA'
+             : courseSession.instructor.split('/').join(' and ')
+          "
+          :location="
+            courseSession.location == null
+             ? 'Location TBA'
+             : courseSession.location
+          "
           :name="findSectionName(courseSession.crn)"
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{

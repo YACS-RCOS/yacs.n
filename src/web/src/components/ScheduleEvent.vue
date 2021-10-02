@@ -1,25 +1,44 @@
 <template functional>
-  <div class="schedule-event" :style="data.style" data-cy="schedule-event">
+  <div
+    class="schedule-event"
+    :style="data.style"
+    data-cy="schedule-event"
+    :id="props.popKey"
+  >
     <div class="event-text">
-      <span data-cy="title">
-        <a v-bind:href="$options.getExploreCourseLink(props.name)">
-          {{ props.title }}
-        </a>
-      </span>
-      <br />
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;-&nbsp;
       <span data-cy="section">{{ props.section }}</span>
       <br />
-      <span data-cy="session_type">{{ props.session_type }}</span>
-      <br />
-      <span data-cy="instructor">{{ props.instructor }}</span>
+      <span data-cy="sessionType">{{ props.sessionType }}</span>
       <br />
       <span data-cy="location">{{ props.location }}</span>
       <br />
+    </div>
+    <b-popover
+      :title="props.name + ' - ' + props.section"
+      :target="props.popKey"
+      triggers="click blur"
+      placement="top"
+    >
+      <h6 data-cy="title">
+        <a v-bind:href="$options.getExploreCourseLink(props.name)">
+          {{ props.title }}
+        </a>
+      </h6>
+      <b>Session Type</b><br />
+      <span data-cy="sessionType">{{ props.sessionType }}</span>
+      <br />
+      <b>Instructor</b><br/>
+      <span data-cy="instructor">{{ props.instructor }}</span>
+      <br />
+      <b>Location</b><br />
+      <span data-cy="location">{{ props.location }}</span>
+      <br />
+      <b>CRN</b><br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
-    </div>
+    </b-popover>
   </div>
 </template>
 <script>
@@ -53,31 +72,31 @@ export default {
     font-size: 60%;
     box-sizing: border-box;
     height: 100%;
-    overflow-y: auto;
-    // CSS Standard Scrollbar Control
-    scrollbar-width: thin;
+    overflow: hidden;
+    // // CSS Standard Scrollbar Control
+    // scrollbar-width: thin;
 
-    //Changes the link color to black
-    a {
-      color: #000000;
-    }
+    // //Changes the link color to black
+    // a {
+    //   color: #000000;
+    // }
   }
 
-  // WebKit Based Scrollbar Control
-  .event-text::-webkit-scrollbar {
-    width: 0.6em;
-    height: 0.6em;
-  }
-  .event-text::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  .event-text::-webkit-scrollbar-thumb {
-    background-color: rgba(128, 128, 128, 0.7);
-    border-radius: 1.8em;
-    border: transparent;
-  }
-  .event-text::-webkit-scrollbar-corner {
-    background-color: transparent;
-  }
+  // // WebKit Based Scrollbar Control
+  // .event-text::-webkit-scrollbar {
+  //   width: 0.6em;
+  //   height: 0.6em;
+  // }
+  // .event-text::-webkit-scrollbar-track {
+  //   background-color: transparent;
+  // }
+  // .event-text::-webkit-scrollbar-thumb {
+  //   background-color: rgba(128, 128, 128, 0.7);
+  //   border-radius: 1.8em;
+  //   border: transparent;
+  // }
+  // .event-text::-webkit-scrollbar-corner {
+  //   background-color: transparent;
+  // }
 }
 </style>
