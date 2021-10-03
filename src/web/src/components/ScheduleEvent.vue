@@ -1,8 +1,9 @@
 <template functional>
   <div
     class="schedule-event"
-    :style="data.style"
     data-cy="schedule-event"
+    tabindex="-1"
+    :style="data.style"
     :id="props.popKey"
   >
     <div class="event-text">
@@ -69,7 +70,7 @@ export default {
   .event-text {
     padding: 4px;
     font-weight: bold;
-    font-size: 60%;
+    font-size: 65%;
     box-sizing: border-box;
     height: 100%;
     overflow: hidden;
