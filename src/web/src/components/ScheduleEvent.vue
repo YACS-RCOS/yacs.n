@@ -8,7 +8,7 @@
   >
     <div class="event-text">
       <span data-cy="name">{{ props.name }}</span>
-      &nbsp;-&nbsp;
+      &nbsp;–&nbsp;
       <span data-cy="section">{{ props.section }}</span>
       <br />
       <span data-cy="sessionType">{{ props.sessionType }}</span>
@@ -17,7 +17,7 @@
       <br />
     </div>
     <b-popover
-      :title="props.name + ' - ' + props.section"
+      :title="props.name + ' – ' + props.section"
       :target="props.crn + props.day + props.startTime"
       triggers="click blur"
       placement="top"
@@ -37,7 +37,7 @@
       <span data-cy="location">{{ props.location }}</span>
       <br />
       <b>Session Time</b><br />
-      <span data-cy="time">{{ props.startTime }} - {{ props.endTime }}</span>
+      <span data-cy="time">{{ props.startTime }}–{{ props.endTime }}</span>
       <br />
       <b>CRN</b><br />
       <span data-cy="crn">{{ props.crn }}</span>
