@@ -30,11 +30,9 @@
             courseSession.day_of_week +
             courseSession.time_start
           "
-          :popKey="
-            courseSession.crn +
-            courseSession.day_of_week +
-            courseSession.time_start
-          "
+          :day="courseSession.day_of_week"
+          :startTime="courseSession.time_start.split(':').slice(0,2).join(':')"
+          :endTime="courseSession.time_end.split(':').slice(0,2).join(':')"
           :crn="courseSession.crn"
           :section="courseSession.section"
           :semester="courseSession.semester"

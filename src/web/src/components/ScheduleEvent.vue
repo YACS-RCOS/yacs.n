@@ -4,7 +4,7 @@
     data-cy="schedule-event"
     tabindex="-1"
     :style="data.style"
-    :id="props.popKey"
+    :id="props.crn + props.day + props.startTime"
   >
     <div class="event-text">
       <span data-cy="name">{{ props.name }}</span>
@@ -18,7 +18,7 @@
     </div>
     <b-popover
       :title="props.name + ' - ' + props.section"
-      :target="props.popKey"
+      :target="props.crn + props.day + props.startTime"
       triggers="click blur"
       placement="top"
     >
@@ -35,6 +35,9 @@
       <br />
       <b>Location</b><br />
       <span data-cy="location">{{ props.location }}</span>
+      <br />
+      <b>Session Time</b><br />
+      <span data-cy="time">{{ props.startTime }} - {{ props.endTime }}</span>
       <br />
       <b>CRN</b><br />
       <span data-cy="crn">{{ props.crn }}</span>
