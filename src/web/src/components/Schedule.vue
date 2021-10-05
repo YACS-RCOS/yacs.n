@@ -104,7 +104,7 @@ export default {
       startDay: 1,
       endDay: 5,
       startTime: 480,
-      endTime: 1380,
+      endTime: 1320,
       totalVHeight: 70,
       minHeight: 600,
       sessionTypes: {
