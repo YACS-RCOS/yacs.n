@@ -11,9 +11,17 @@
       class="align-middle text-dark"
       :to="{ name: 'CourseScheduler' }"
     >
+
       YACS
     </b-navbar-brand>
-    <b-nav-text class="text-secondary">{{ selectedSemester }}</b-nav-text>
+    <div id = "app">
+      <select class="form control" v-model = "selectedSemester">
+        <option disabled value="">Selected Semester</option>
+        <option v-for="option in otherSemesters" v-bind:key="option.text">
+          {{ option.text }}
+        </option>
+      </select>
+    </div>
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
       target="header-navbar-collapse"
@@ -73,6 +81,32 @@
     </b-collapse>
   </b-navbar>
 </template>
+
+<script>
+import { SELECT_SEMESTER } from "@/store";
+import { mapState, mapActions } from "vuex";
+
+export default {
+  name: "Header",
+  computed: {
+    ...mapState(["semesters", "selectedSemester"]),
+    otherSemesters() {
+      return this.semesterOptions.filter(
+        (semester) => semester.value !== this.selectedSemester
+      );
+    },
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
+      }));
+    },
+  },
+  methods: {
+    ...mapActions([SELECT_SEMESTER]),
+  },
+};
+</script>
 
 <script>
 import { mapGetters, mapState } from "vuex";
