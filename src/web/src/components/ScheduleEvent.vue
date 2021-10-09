@@ -69,6 +69,7 @@ export default {
   //   border-opacity: 1;
   overflow: hidden;
   height: 100%;
+  cursor: pointer;
 
   .event-text {
     padding: 4px;
