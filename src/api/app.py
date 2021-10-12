@@ -50,6 +50,25 @@ def is_admin_user():
         return True
     return False
 
+
+def remove_null(data):
+    #logic to remove null
+    # type of data: list
+    print("type of data is", type(data)) 
+    print("data is", data)
+    print("type of data[0]", type(data[0]))
+    print("data[0] is", data[0])
+    for key,value in list(data.items()):
+        if value is None:
+            print("my value is none")
+            #print("value is::", value) #returns an empty list
+            print("key is::", key) #returns an empty list
+
+    return data
+    # return json.dumps(data, default=str).replace("null", "")
+ 
+
+
 @app.route('/')
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def root():
@@ -57,7 +76,7 @@ def root():
 
 @app.route('/api/')
 def apiroot():
-    return "wow"
+    return "wow this route shows my api and it is running! "
 
 # - data routes
 
@@ -80,7 +99,9 @@ def get_classes():
             classes, error = class_info.get_classes_by_search(semester, search)
         else:
             classes, error = class_info.get_classes_full(semester)
-        return jsonify(classes) if not error else Response(error, status=500)
+            # return remove_null(class) if not error else Response(error, status=500)
+        
+        return jsonify(remove_null(classes)) if not error else Response(error, status=500)
     return Response("missing semester option", status=400)
 @app.route('/api/department', methods=['GET'])
 @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
