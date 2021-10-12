@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-from flask import Flask
-from flask import send_from_directory
+from flask import Flask                 #https://flask.palletsprojects.com/
+from flask import send_from_directory       #Documentation for the flask library
 from flask import jsonify
 from flask import Response
 from flask import request
@@ -143,6 +143,7 @@ def set_defaultSemester():
         print(error)
         return Response(error.__str__(), status=500)
 
+#Parses the data from the .csv data files
 @app.route('/api/bulkCourseUpload', methods=['POST'])
 def uploadHandler():
     # check for user files
