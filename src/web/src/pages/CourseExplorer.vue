@@ -8,7 +8,7 @@
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
           md="6"
-        >  
+        >
           <b-row
             v-for="deptObj in deptCol"
             :key="deptObj.school"
