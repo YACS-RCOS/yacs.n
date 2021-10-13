@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend-unit-tests:
-    name: Run backend unit tests
+    name: pytest
     runs-on: ubuntu-18.04
     timeout-minutes: 5
     container: python:3.8

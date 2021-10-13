@@ -15,25 +15,17 @@ jobs:
       API_WORKERS: 8
 
     steps:
-      - uses: fountainhead/action-wait-for-check@v1.0.0
+      - uses: lewagon/wait-on-check-action@v1.0.0
         id: wait-for-unit-test
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: backend-unit-tests
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: pytest
 
-      - name: Check if ci was successful
-        if: steps.wait-for-unit-test.outputs.conclusion != 'success'
-        run: exit 1
-
-      - uses: fountainhead/action-wait-for-check@v1.0.0
+      - uses: lewagon/wait-on-check-action@v1.0.0
         id: wait-for-master-ci
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: prettier
-
-      - name: Check if ci was successful
-        if: steps.wait-for-master-ci.outputs.conclusion != 'success'
-        run: exit 1
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: 'Lighthouse CI'
 
       - uses: actions/checkout@v2
         with:
