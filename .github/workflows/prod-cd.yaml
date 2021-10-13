@@ -16,20 +16,20 @@ jobs:
 
     steps:
       - uses: fountainhead/action-wait-for-check@v1.0.0
-        id: wait-for-ci
+        id: wait-for-unit-test
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: CI
+          checkName: backend-unit-tests
 
       - name: Check if ci was successful
-        if: steps.wait-for-ci.outputs.conclusion != 'success'
+        if: steps.wait-for-unit-test.outputs.conclusion != 'success'
         run: exit 1
 
       - uses: fountainhead/action-wait-for-check@v1.0.0
         id: wait-for-master-ci
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Master CI
+          checkName: prettier
 
       - name: Check if ci was successful
         if: steps.wait-for-master-ci.outputs.conclusion != 'success'
