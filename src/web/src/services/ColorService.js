@@ -51,6 +51,50 @@ const BORDER_COLORS = [
   "#298E33",
 ];
 
+//Dark Mode Colors
+const DARK_MODE_COLORS = [
+  "#D29BA9", //red
+  "#A1C3D0", //blue
+  "#EBDEB4", //yellow
+  "#B7DAB4", //green
+  "#DFC0DF", //purple
+  "#D8C9B9", //brown
+  "#DFC7AC", //orange
+  "#E4B7E1", //pink
+  "#ABD9D8", //aquamarine
+  "#CAA5A5", //maroon
+  "#A3CFE1", //dark blue
+  "#9ED59A", //dark green
+];
+const DARK_MODE_TEXT_COLORS = [
+  "#9B465B",
+  "#1577aa",
+  "#bf8a2e",
+  "#008a2e",
+  "#853d80",
+  "#9d5733",
+  "#C17F33",
+  "#BC4EB4",
+  "#00a499",
+  "#ab1111",
+  "#014779",
+  "#116940",
+];
+const DARK_MODE_BORDER_COLORS = [
+  "#A94C63",
+  "#528CA3",
+  "#D4B95E",
+  "#6EB569",
+  "#d373da",
+  "#a48363",
+  "#C69D6C",
+  "#D897D5",
+  "#56B3B2",
+  "#ab0000",
+  "#015FA2",
+  "#298E33",
+];
+
 /**
  * Color Blind Friendly Colors
  *
@@ -118,6 +162,12 @@ const _getColor = (id) => {
       primary: COLOR_BLIND_COLORS[assignment],
       text: COLOR_BLIND_TEXT_COLORS[assignment],
       border: COLOR_BLIND_BORDER_COLORS[assignment],
+    };
+  } else if (store.getters.darkModeState) {
+    return {
+      primary: DARK_MODE_COLORS[assignment],
+      text: DARK_MODE_TEXT_COLORS[assignment],
+      border: DARK_MODE_BORDER_COLORS[assignment],
     };
   } else {
     return {
