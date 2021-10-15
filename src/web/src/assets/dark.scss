@@ -16,7 +16,7 @@
   --dark-secondary: #181a21;
   --dark-text-primary: #e6e4e4;
   --dark-text-secondary: #777777;
-  --dark-border-primary: #868686;
+  --dark-border-primary: #5c5c5c;
   --dark-blue-primary: #3395ff;
   --dark-blue-secondary: #2783e6;
 }
@@ -192,6 +192,11 @@
 
   .selected {
     background-color: var(--dark-primary) !important;
+  }
+
+  .grid-hour {
+    border-top: 1px solid var(--dark-border-primary);
+    border-right: 1px solid var(--dark-border-primary);
   }
 
   .modal-header {

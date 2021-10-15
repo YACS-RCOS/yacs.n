@@ -7,19 +7,21 @@
     :id="props.crn + props.day + props.startTime"
   >
     <div class="event-text">
+      <span data-cy="title">{{ props.title }}</span>
+      <br />
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;–&nbsp;
       <span data-cy="section">{{ props.section }}</span>
-      <br />
-      <span data-cy="sessionType">{{ props.sessionType }}</span>
+      (<span data-cy="crn">{{ props.crn }}</span>)
       <br />
       <span data-cy="location">{{ props.location }}</span>
       <br />
+      <span data-cy="instructor">{{ props.instructor }}</span>
     </div>
     <b-popover
       :title="props.name + ' – ' + props.section"
       :target="props.crn + props.day + props.startTime"
-      triggers="click blur"
+      triggers="hover"
       placement="top"
     >
       <h6 data-cy="title">
