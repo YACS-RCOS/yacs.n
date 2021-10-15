@@ -83,10 +83,10 @@ export default {
     // // CSS Standard Scrollbar Control
     // scrollbar-width: thin;
 
-    // //Changes the link color to black
-    // a {
-    //   color: #000000;
-    // }
+    // Changes the title color to black
+    span[data-cy="title"] {
+      color: #000000;
+    }
   }
 
   // // WebKit Based Scrollbar Control

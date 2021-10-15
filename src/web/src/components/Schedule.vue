@@ -105,7 +105,7 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalVHeight: 70,
+      totalVHeight: 80,
       minHeight: 600,
       sessionTypes: {
         "LEC" : "Lecture",
