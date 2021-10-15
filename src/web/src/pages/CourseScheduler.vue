@@ -116,7 +116,6 @@
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
-      data-cy="course-info-modal"
     >
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}

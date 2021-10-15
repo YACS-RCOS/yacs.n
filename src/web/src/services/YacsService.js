@@ -22,7 +22,7 @@ const client = axios.create({
  * This Is Likely Due To Two Course Objects Having The Same Identifier.
  * Thus, Should Revise The Following Code, If Necessary.
  */
-const _getCourseIdentifier = (courseObj) => {
+export const _getCourseIdentifier = (courseObj) => {
   return `
     ${courseObj.crn}
     ${courseObj.name}
@@ -39,6 +39,8 @@ const _getCourseIdentifier = (courseObj) => {
     ${courseObj.date_end.getFullYear()}
   `;
 };
+
+export const newGetCourses = (semester, search = null) => client.get('/class', { params: { semester, search } })
 
 /**
  * Returns a list of all courses
