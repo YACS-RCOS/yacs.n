@@ -60,8 +60,6 @@ export default {
 .schedule-event {
   display: block;
   box-sizing: border-box;
-  border-top: 1px solid #e7e7e7 !important; //temp fix for the borders not showing
-  border-right: 1px solid #e7e7e7 !important;
   position: absolute;
   //height: 20%;
   //   width: 20%;
@@ -85,7 +83,8 @@ export default {
 
     // Changes the title color to black
     span[data-cy="title"] {
-      color: #000000;
+      color: #000;
+      font-size: 105%;
     }
   }
 

@@ -51,17 +51,17 @@
           :title="findCourseTitle(findSectionName(courseSession.crn))"
           :style="{
             'margin-top':
-              'max(' +
+              'max(calc(' +
               eventPosition(courseSession) +
-              'vh,' +
-              eventPosition(courseSession, minHeight) +
+              'vh + 1px),' +
+              eventPosition(courseSession, minHeight) + 1 +
               'px)',
-            height: eventHeight(courseSession) + 'vh',
-            'min-height': eventHeight(courseSession, minHeight) + 'px',
+            height: 'calc(' + eventHeight(courseSession) + 'vh - 1px)',
+            'min-height': eventHeight(courseSession, minHeight) - 1 + 'px',
             backgroundColor: getBackgroundColor(courseSession),
             borderColor: getBorderColor(courseSession),
             color: getTextColor(courseSession),
-            width: dayWidth + '%',
+            width: 'calc(' + dayWidth + '% - 1px)',
           }"
         ></ScheduleEvent>
         <div
