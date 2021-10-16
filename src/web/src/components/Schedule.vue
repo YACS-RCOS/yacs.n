@@ -50,9 +50,10 @@
             width: dayWidth + '%',
           }"
         ></ScheduleEvent>-->
-        <div v-for="(p, j) in temp" :key="j">
-          <div v-for="(section, k) in p.sections" :key="k">
-            {{ section.times[index] }}
+        <div v-for="(section, k) in temp.sections" :key="k" class="my-overlay">
+          <div style="z-index: 100; width: 100%" v-for="(session, j) in getSessionsOfDay(section, index)" :style="parseStyle(session)" :key="j" class="session">
+            {{ section.name }}
+            {{ session.crn + '-' + session.section }}
           </div>
         </div>
         <div
@@ -89,7 +90,7 @@ export default {
     console.log('hello')
   },
   props: {
-    possibilities: {
+    possibility: {
       default: () => []
     },
     schedule: {
@@ -104,7 +105,7 @@ export default {
       endTime: 1320,
       totalVHeight: 70,
       minHeight: 600,
-      temp: this.possibilities
+      temp: this.possibility
     };
   },
   methods: {
@@ -171,6 +172,20 @@ export default {
         }
       }
     },
+    getSessionsOfDay(section, day) {
+      return section.sessions.filter(session => session.day_of_week === day)
+    },
+    parseStyle(session) {
+      let top = this.eventPosition(session) + 'vh'
+      let height = this.eventHeight(session) + 'vh'
+      return {
+        marginTop: top,
+        height,
+        backgroundColor: getBackgroundColor(session),
+        borderColor: getBorderColor(session),
+        color: getTextColor(session)
+      }
+    },
   },
   computed: {
     /**
@@ -222,9 +237,8 @@ export default {
     },
   },
   watch: {
-    possibilities(oldVal, val) {
-      console.log(val, oldVal)
-      this.temp = oldVal
+    possibility(val) {
+      this.temp = val
     }
   }
 };
@@ -262,13 +276,6 @@ $hourFontSize: 0.5em;
   left: 2.5em;
 }
 
-.schedule-content {
-  position: absolute;
-  width: calc(100% - #{$hourFontSize + $labelOffset + 1.75em});
-  height: 100%;
-  left: 2.5em;
-}
-
 .day-label {
   color: #777777;
   display: block;
@@ -293,5 +300,14 @@ $hourFontSize: 0.5em;
 
 .grid-day:last-of-type .grid-hour {
   border-right: none;
+}
+
+.my-overlay {
+  position: absolute;
+  width: 20%;
+  height: 100%;
+}
+.session {
+
 }
 </style>

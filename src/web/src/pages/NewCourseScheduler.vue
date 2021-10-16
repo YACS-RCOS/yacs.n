@@ -63,6 +63,8 @@
           value-field="display_string"
         ></b-form-select>
         <div id="allScheduleData">
+          <div class="prev-schedule h-100" @click="changeSchedule(-1)">&lt;</div>
+          <div class="next-schedule h-100" @click="changeSchedule(1)">&gt;</div>
           <Schedule v-if="loading" />
 <!--          <template v-else-if="scheduler.schedules">
             <Schedule
@@ -72,7 +74,7 @@
               v-show="selectedScheduleIndex === index"
             />
           </template>-->
-          <Schedule v-else :possibilities="getSchedules()"></Schedule>
+          <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
           <b-row>
             <b-col class="m-2">
@@ -244,7 +246,7 @@ export default {
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
       possibilities: [],
-      index: -1
+      index: 0
     };
   },
   methods: {
@@ -367,6 +369,7 @@ export default {
           cid: "-1",
         });
       }
+      course.sections.forEach(section => this.addCourseSection(course, section))
       /*let i = 0;
       for (; i < course.sections.length; i++) {
         try {
@@ -509,7 +512,7 @@ export default {
       }
     },
     getSchedules() {
-      return this.generateSchedule(Object.values(this.selectedCourses))
+      this.possibilities = this.generateSchedule(Object.values(this.selectedCourses))
     },
     generateSchedule(c) {
       let courses = JSON.parse(JSON.stringify(c))
@@ -527,7 +530,21 @@ export default {
           return undefined
         }).filter(x => !!x)
       }).flat()
-    }
+    },
+    changeSchedule(step) {
+      const l = this.possibilities.length
+      if (l === 0) return
+      const c = this.index + step
+      if (c < 0) {
+        this.index = l - 1
+        return
+      }
+      if (c >= l) {
+        this.index = 0
+        return;
+      }
+      this.index = c
+    },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -551,10 +568,10 @@ export default {
     },
     /**
      * Returns list of CRNs for all selected sections
-     * @returns {string[]}
+     * @returns {string}
      */
     selectedCrns() {
-      return this.selectedSections.map((s) => s.crn).join(", ");
+      return this.possibilities[this.index].sections.map((s) => s.crn).join(", ");
     },
     /**
      * Returns sum of credits being taken from all selected sections
@@ -638,5 +655,24 @@ footer {
 
 #export-ics-button {
   background: #3d4959 !important;
+}
+#allScheduleData {
+  position: relative;
+  .prev-schedule, .next-schedule {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    z-index: 1000;
+    line-height: 75%;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .prev-schedule {
+    left: 0
+  }
+  .next-schedule {
+    right: 0
+  }
 }
 </style>
