@@ -23,7 +23,7 @@
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
-        <ScheduleEvent
+<!--        <ScheduleEvent
           v-for="courseSession in courseSessionsOnDay(index)"
           :key="
             courseSession.crn +
@@ -49,7 +49,12 @@
             color: getTextColor(courseSession),
             width: dayWidth + '%',
           }"
-        ></ScheduleEvent>
+        ></ScheduleEvent>-->
+        <div v-for="(p, j) in temp" :key="j">
+          <div v-for="(section, k) in p.sections" :key="k">
+            {{ section.times[index] }}
+          </div>
+        </div>
         <div
           class="grid-hour"
           v-for="hour of hours"
@@ -73,14 +78,20 @@ import {
 
 import Schedule from "@/controllers/Schedule";
 
-import ScheduleEventComponent from "@/components/ScheduleEvent";
+// import ScheduleEventComponent from "@/components/ScheduleEvent";
 
 export default {
   name: "Schedule",
   components: {
-    ScheduleEvent: ScheduleEventComponent,
+    // ScheduleEvent: ScheduleEventComponent,
+  },
+  created() {
+    console.log('hello')
   },
   props: {
+    possibilities: {
+      default: () => []
+    },
     schedule: {
       default: () => new Schedule(),
     },
@@ -93,6 +104,7 @@ export default {
       endTime: 1320,
       totalVHeight: 70,
       minHeight: 600,
+      temp: this.possibilities
     };
   },
   methods: {
@@ -209,6 +221,12 @@ export default {
       return (60 * 100) / this.numMinutes;
     },
   },
+  watch: {
+    possibilities(oldVal, val) {
+      console.log(val, oldVal)
+      this.temp = oldVal
+    }
+  }
 };
 </script>
 
@@ -238,6 +256,13 @@ $hourFontSize: 0.5em;
 }
 
 .schedule-grid {
+  position: absolute;
+  width: calc(100% - #{$hourFontSize + $labelOffset + 1.75em});
+  height: 100%;
+  left: 2.5em;
+}
+
+.schedule-content {
   position: absolute;
   width: calc(100% - #{$hourFontSize + $labelOffset + 1.75em});
   height: 100%;

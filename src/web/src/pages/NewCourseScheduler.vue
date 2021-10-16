@@ -64,15 +64,15 @@
         ></b-form-select>
         <div id="allScheduleData">
           <Schedule v-if="loading" />
-          <template v-else-if="scheduler.schedules">
+<!--          <template v-else-if="scheduler.schedules">
             <Schedule
               v-for="(schedule, index) in scheduler.schedules"
               :key="index"
               :schedule="schedule"
               v-show="selectedScheduleIndex === index"
             />
-          </template>
-          <Schedule v-else :schedule="scheduler"></Schedule>
+          </template>-->
+          <Schedule v-else :possibilities="getSchedules()"></Schedule>
 
           <b-row>
             <b-col class="m-2">
@@ -116,10 +116,9 @@
       v-model="showCourseInfoModal"
       :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
       hide-footer
-      data-cy="course-info-modal"
     >
       <span v-if="courseInfoModalCourse.frequency">
-<!--        Offered: {{ courseInfoModalCourse.frequency }}-->
+        Offered: {{ courseInfoModalCourse.frequency }}
         <br />
         <br />
       </span>
@@ -128,7 +127,7 @@
           courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
         "
       >
-<!--        Credits: {{ courseInfoModalCourse.min_credits }}-->
+        Credits: {{ courseInfoModalCourse.min_credits }}
         <br />
       </span>
       <span v-else>
@@ -137,13 +136,13 @@
         <br />
       </span>
       <span>
-<!--        {{
+        {{
           generateRequirementsText(
             courseInfoModalCourse.prerequisites,
             courseInfoModalCourse.corequisites,
             courseInfoModalCourse.raw_precoreqs
           )
-        }}-->
+        }}
       </span>
       <span v-if="courseInfoModalCourse.description">
         <br />
@@ -177,72 +176,422 @@
 </template>
 
 <script>
-import CenterSpinnerComponent from "../components/CenterSpinner";
-import CourseListComponent from "@/components/CourseList";
-import SelectedCoursesComponent from "@/components/SelectedCourses";
+import { mapGetters, mapState } from "vuex";
+
+import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
+import SelectedCoursesComponent from "@/components/SelectedCourses";
+import CourseListComponent from "@/components/CourseList";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+import Schedule from "@/controllers/Schedule";
+import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+import allExportVariables from "@/assets/dark.scss";
+
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
+import { userTypes } from "../store/modules/user";
+
+import { COURSES } from "@/store";
+import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+
+import {
+  addStudentCourse,
+  removeStudentCourse,
+  getStudentCourses,
+} from "@/services/YacsService";
+
+import {
+  withinDuration,
+  generateRequirementsText,
+  // findCourseByCourseSessionCRN,
+  exportScheduleToIcs,
+  exportScheduleToImage,
+} from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-export default {
-  name: 'MainPage',
-  components: {
-    CenterSpinner: CenterSpinnerComponent,
-    CourseList: CourseListComponent,
-    SelectedCourses: SelectedCoursesComponent,
-    Schedule: ScheduleComponent,
-  },
-  created() {
-  },
-  data: () => ({
-    possibilities: [{
-      sections: [],
-      time: [0, 0, 0, 0, 0]
-    }],
-    currentIndex: -1,
-    courses: [{ sections: [{ isSelected: false, sessions: [0, 0, 0, 0, 0] }] }],
-    selections: new Map(),
-    ///////////////////////////
-    selectedCourses: {},
-    selectedCrns: "",
-    totalCredits: 0,
-    exportIcon: faPaperPlane,
-    courseInfoModalCourse: null,
-    showCourseInfoModal: false,
-    scheduler: {
-      scheduleSubsemesters: null
-    }
-  }),
-  methods: {
-    addCourse() {
-    },
-    addCourseSection(/*course, section*/) {
-    },
-    removeCourse(/*course*/) {
-    },
-    removeCourseSection(/*section*/) {
-    },
-    exportScheduleToIcs() {
 
+const noConflict = (p, section) => {
+  for (let i = 0; i < 5; i++) {
+    if ((p.time[i] & section.times[i]) > 0) return false
+  }
+  return true
+}
+const addSection = (p, section) => {
+  let ret = [0, 0, 0, 0, 0]
+  for (let i = 0; i < 5; i++)
+    ret[i] = p.time[i] | section.times[i]
+  return {
+    sections: p.sections.concat(section),
+    time: ret
+  }
+}
+export default {
+  name: "MainPage",
+  mixins: [NotificationsMixin],
+  components: {
+    Schedule: ScheduleComponent,
+    SelectedCourses: SelectedCoursesComponent,
+    CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      selectedCourses: {},
+      selectedScheduleSubsemester: null,
+      scheduler: new Schedule(),
+      exportIcon: faPaperPlane,
+
+      courseInfoModalCourse: null,
+      showCourseInfoModal: false,
+      possibilities: [],
+      index: -1
+    };
+  },
+  methods: {
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
+    },
+    generateRequirementsText,
+    exportScheduleToIcs() {
+      exportScheduleToIcs(Object.values(this.selectedCourses));
     },
     exportScheduleToImage() {
-
+      exportScheduleToImage(
+        Object.values(this.selectedCourses),
+        this.selectedSemester,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
     },
-    showCourseInfo() {
+    async loadStudentCourses() {
+      if (!this.courses.length) {
+        return;
+      }
 
+      // Less work to create a new scheduler which is meant for a single semester
+      this.scheduler = new SubSemesterScheduler();
+      // Filter out "full" subsemester
+      this.subsemesters
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 ||
+            !arr.every((o, oi) => oi == i || withinDuration(s, o))
+        )
+        .forEach((subsemester) => {
+          this.scheduler.addSubSemester(subsemester);
+        });
+
+      if (this.scheduler.scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      }
+
+      // Need to reset `selected` property on courses and sections,
+      // two sources of truth ugh
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.selected = false;
+
+        course.sections
+          .filter((section) => section.selected)
+          .forEach((section) => (section.selected = false));
+      });
+      this.selectedCourses = {};
+
+      if (this.isLoggedIn) {
+        var cids = await getStudentCourses();
+
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
+              });
+              sect.selected = true;
+              this.scheduler.addCourseSection(c, sect);
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+              this.scheduler.addCourse(c);
+            }
+          }
+        });
+      } else {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+            const course = this.courses.find(
+              (course) => course.id === selectedCourse.id
+            );
+
+            course.selected = true;
+            this.$set(this.selectedCourses, course.id, course);
+            this.scheduler.addCourse(course);
+
+            selectedCourse.selectedSectionCrns.forEach(
+              (selectedSectionCrn) => {
+                const section = course.sections.find(
+                  (section) => section.crn === selectedSectionCrn
+                );
+
+                section.selected = true;
+                this.scheduler.addCourseSection(course, section);
+              }
+            );
+          });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
+        }
+      }
     },
-  },
-  watch: {
+    addCourse(course) {
+      this.$set(this.selectedCourses, course.id, course);
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: "-1",
+        });
+      }
+      /*let i = 0;
+      for (; i < course.sections.length; i++) {
+        try {
+          this._addCourseSection(course, course.sections[i]);
+          break;
+        } catch (err) {
+          if (err.type == "Schedule Conflict") {
+            if (i == course.sections.length - 1) {
+              this.notifyScheduleConflict(
+                course,
+                findCourseByCourseSessionCRN(
+                  this.courses,
+                  err.existingSession.crn
+                ),
+                err.addingSession,
+                err.existingSession
+              );
+              return;
+            } else {
+              continue;
+            }
+          } else {
+            throw err;
+          }
+        }
+      }
 
+      course.selected = true;
+      // This must be vm.set since we're adding a property onto an object
+      this.$set(this.selectedCourses, course.id, course);
+      this.scheduler.addCourse(course);
+
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
+      }*/
+    },
+    _addCourseSection(/*course, section*/) {
+      /*this.scheduler.addCourseSection(course, section);
+      section.selected = true;
+
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
+      }*/
+    },
+
+    addCourseSection(course, section) {
+      section.selected = true
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: section.crn,
+        });
+      }
+      /*try {
+        this._addCourseSection(course, section);
+      } catch (err) {
+        if (err.type === "Schedule Conflict") {
+          this.notifyScheduleConflict(
+            course,
+            findCourseByCourseSessionCRN(this.courses, err.existingSession.crn),
+            err.addingSession,
+            err.existingSession
+          );
+        }
+      }*/
+    },
+    removeCourse(course) {
+      this.$delete(this.selectedCourses, course.id);
+      course.selected = false;
+      // this.scheduler.removeAllCourseSections(course);
+
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: null,
+        });
+      } /*else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
+      }*/
+    },
+    removeCourseSection(section) {
+      // this.scheduler.removeCourseSection(section);
+
+      section.selected = false
+
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: section.department + "-" + section.level,
+          semester: this.selectedSemester,
+          cid: section.crn,
+        });
+      } /*else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourseSection(section)
+          .save();
+      }*/
+    },
+
+    /**
+     * @param {Course} course
+     */
+    showCourseInfo(course) {
+      this.courseInfoModalCourse = course;
+      this.showCourseInfoModal = true;
+    },
+
+    /**
+     * Toggle course selected state
+     * Emits removeCourse and addCourse events
+     */
+    toggleCourse(course) {
+      if (course.selected) {
+        this.removeCourse(course);
+      } else {
+        this.addCourse(course);
+      }
+    },
+    getSchedules() {
+      return this.generateSchedule(Object.values(this.selectedCourses))
+    },
+    generateSchedule(c) {
+      let courses = JSON.parse(JSON.stringify(c))
+      if (courses.length === 0) return [{
+        sections: [],
+        time: [0, 0, 0, 0, 0]
+      }]
+      const popped = courses.pop()
+      let ret = this.generateSchedule(courses)
+      return ret.map(schedule => {
+        return popped.sections.filter(s => s.selected).map(section => {
+          if (noConflict(schedule, section)) {
+            return addSection(schedule, section)
+          }
+          return undefined
+        }).filter(x => !!x)
+      }).flat()
+    }
   },
   computed: {
+    ...mapState(["subsemesters", "selectedSemester"]),
+    ...mapGetters([COURSES]),
+    ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+
     loading() {
       return this.$store.state.isLoadingCourses;
     },
+
+    selectedScheduleIndex() {
+      return this.scheduler.scheduleSubsemesters.findIndex(
+        (s) => s.display_string === this.selectedScheduleSubsemester
+      );
+    },
+    selectedSections() {
+      this.getSchedules()
+      return Object.values(this.selectedCourses)
+        .map((c) => c.sections.filter((s) => s.selected))
+        .flat();
+    },
+    /**
+     * Returns list of CRNs for all selected sections
+     * @returns {string[]}
+     */
+    selectedCrns() {
+      return this.selectedSections.map((s) => s.crn).join(", ");
+    },
+    /**
+     * Returns sum of credits being taken from all selected sections
+     */
+    totalCredits() {
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+
+      // Getting sum of numbers
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      return sum;
+    },
     numSelectedCourses() {
-      return 0
+      return Object.values(this.selectedCourses).length;
+    },
+  },
+  watch: {
+    courses: {
+      immediate: true,
+      handler() {
+        this.loadStudentCourses();
+      },
+    },
+    isLoggedIn: {
+      immediate: true,
+      handler() {
+        this.loadStudentCourses();
+      },
+    },
+    selectedSections: {
+      handler() {
+        this.getSchedules()
+      }
     }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">
