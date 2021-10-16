@@ -13,7 +13,7 @@ services:
       - HOST=${HOST:-localhost}
       - ADMIN_PASS=${ADMIN_PASS:-admin}
     volumes:
-      - ./src/web/certs:/etc/nginx/cert/
+      - ./src/web/cert:/etc/nginx/cert/
 
   yacs_api:
     environment:
