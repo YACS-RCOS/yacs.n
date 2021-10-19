@@ -15,9 +15,11 @@
       YACS
     </b-navbar-brand>
     <div id = "app">
+      
       <select v-model="selected">
-        <option disabled value="">Selected Semester</option>
-        <option v-for="option in options" v-bind:key="option.value">
+    
+        <option> {{ selectedSemester }} </option>
+        <option v-for="option in otherSemesters" v-bind:key="option.value">
           {{option.text}}
         </option>
       </select>
@@ -82,31 +84,44 @@
   </b-navbar>
 </template>
 
-
-
 <script>
-import { SELECT_SEMESTER } from "@/store";
+import { SELECT_SEMESTER, COOKIE_DARK_MODE, TOGGLE_DARK_MODE, SAVE_DARK_MODE,
+  RESET_DARK_MODE,} from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
-import {
-  COOKIE_DARK_MODE,
-  TOGGLE_DARK_MODE,
-  SAVE_DARK_MODE,
-  RESET_DARK_MODE,
-} from "@/store";
 import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Header",
-
-
   components: {
     LoginForm: LoginComponent,
   },
   data() {
+  
     return {
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
+  },
+  computed: {
+    
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
+    ...mapState(["selectedSemester"]),
+    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+    ...mapState(["semesters", "selectedSemester"]),
+    otherSemesters() {
+      return this.semesterOptions.filter(
+        (semester) => semester.value !== this.selectedSemester
+      );
+    },
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
+      }));
+    },
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
@@ -161,28 +176,7 @@ export default {
         variant: "success",
       });
     },
-  },
-  computed: {
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-      user: userTypes.getters.CURRENT_USER_INFO,
-    }),
-    ...mapState(["selectedSemester"]),
-    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
-    ...mapState(["semesters", "selectedSemester"]),
-    otherSemesters() {
-      
-      return this.semesterOptions.filter(
-        (semester) => semester.value !== this.selectedSemester
-      );
-    },
-    semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
-    },
-  },
+  },  
 };
 </script>
 
