@@ -15,10 +15,10 @@
       YACS
     </b-navbar-brand>
     <div id = "app">
-      <select class="form control" v-model = "selectedSemester">
+      <select v-model="selected">
         <option disabled value="">Selected Semester</option>
-        <option v-for="option in otherSemesters" v-bind:key="option.text">
-          {{ option.text }}
+        <option v-for="option in options" v-bind:key="option.value">
+          {{option.text}}
         </option>
       </select>
     </div>
@@ -82,35 +82,11 @@
   </b-navbar>
 </template>
 
+
+
 <script>
 import { SELECT_SEMESTER } from "@/store";
-import { mapState, mapActions } from "vuex";
-
-export default {
-  name: "Header",
-  computed: {
-    ...mapState(["semesters", "selectedSemester"]),
-    otherSemesters() {
-      return this.semesterOptions.filter(
-        (semester) => semester.value !== this.selectedSemester
-      );
-    },
-    semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
-    },
-  },
-  methods: {
-    ...mapActions([SELECT_SEMESTER]),
-  },
-};
-</script>
-
-<script>
-import { mapGetters, mapState } from "vuex";
-
+import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import {
   COOKIE_DARK_MODE,
@@ -119,8 +95,11 @@ import {
   RESET_DARK_MODE,
 } from "@/store";
 import { userTypes } from "../store/modules/user";
+
 export default {
   name: "Header",
+
+
   components: {
     LoginForm: LoginComponent,
   },
@@ -130,6 +109,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions([SELECT_SEMESTER]),
     toggle_style() {
       if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
@@ -189,6 +169,19 @@ export default {
     }),
     ...mapState(["selectedSemester"]),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+    ...mapState(["semesters", "selectedSemester"]),
+    otherSemesters() {
+      
+      return this.semesterOptions.filter(
+        (semester) => semester.value !== this.selectedSemester
+      );
+    },
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
+      }));
+    },
   },
 };
 </script>
