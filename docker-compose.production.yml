@@ -20,13 +20,11 @@ services:
       - ALLOWED_METHODS=GET|POST|DELETE
       - DISABLE_DEFAULT_SERVER=yes
       - DNS_RESOLVERS=8.8.8.8 8.8.4.4 208.67.222.222 208.67.220.220
-      - ROOT_FOLDER=/app
-      - ROOT_SITE_SUBFOLDER=admin
       # ===== nginx config: http_auth =====
       - USE_AUTH_BASIC=yes
       - AUTH_BASIC_LOCATION=/admin
       - AUTH_BASIC_USER=${ADMIN_USERNAME:-admin}
-      - AUTH_BASIC_PASSWORD=${ADMIN_PASS}
+      - AUTH_BASIC_PASSWORD=${ADMIN_PASS:-admin}
       - AUTH_BASIC_TEXT=Admin Panel
       # ===== nginx config: reverse proxy =====
       - USE_REVERSE_PROXY=yes
@@ -39,14 +37,14 @@ services:
       # ===== nginx config: cache =====
       - USE_PROXY_CACHE=yes
       - PROXY_CACHE_VALID=200=1s
-      - PROXY_CACHE_PATH_PARAMS=/tmp/micro_cache levels=1:2 keys_zone=micro_cache:100m max_size=100m inactive=3600s
+      # - PROXY_CACHE_PATH_PARAMS=/tmp/micro_cache levels=1:2 keys_zone=micro_cache:100m max_size=100m inactive=3600s
       # ===== HTTPS config =====
       - AUTO_LETS_ENCRYPT=yes
       - REDIRECT_HTTP_TO_HTTPS=yes
       # ===== ModSecurity =====
       - USE_MODSECURITY=no
       - USE_MODSECURITY_CRS=no
-      - MODSECURITY_SEC_AUDIT_ENGINE=off
+      - MODSECURITY_SEC_AUDIT_ENGINE=Off
       # ===== Security Headers =====
       - X_FRAME_OPTIONS=SAMEORIGIN
       - STRICT_TRANSPORT_SECURITY=max-age=31536000; includeSubDomains; preload

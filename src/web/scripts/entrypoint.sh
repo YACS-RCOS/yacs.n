@@ -30,5 +30,5 @@
 # fi
 
 # start nginx
-echo "starting nginx:"
-nginx -g "daemon off;"
+# echo "starting nginx:"
+# nginx -g "daemon off;"
