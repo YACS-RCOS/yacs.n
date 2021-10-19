@@ -7,12 +7,12 @@ COPY ./ .
 FROM develop-stage as build-stage
 RUN npm run build
 
-FROM nginx as production-stage
+FROM bunkerity/bunkerized-nginx as production-stage
 RUN mkdir /app
 COPY --from=build-stage /app/dist /app
-COPY nginx.conf /etc/nginx/nginx.template.conf
+# COPY nginx.conf /etc/nginx/nginx.template.conf
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY cert/ /etc/nginx/cert
+# COPY cert/ /etc/nginx/cert
 
 RUN \
   apt-get update --no-install-recommends && \

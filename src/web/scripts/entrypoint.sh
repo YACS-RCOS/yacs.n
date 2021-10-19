@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # for use in docker image to start
 # store pass with crypt(3) with openssl
-mkdir -p /conf
-CRYPT3_PASS=$(openssl passwd $ADMIN_PASS)
+# mkdir -p /conf
+# CRYPT3_PASS=$(openssl passwd $ADMIN_PASS)
 
 # add user:pass credentials for use in secured routes
-echo "admin:$CRYPT3_PASS" >> /conf/htpasswd
+# echo "admin:$CRYPT3_PASS" >> /conf/htpasswd
 
 # substitute env vars ex ${HOST} with HOST env var
 # NOTE: must list all env vars explicilty here: https://github.com/docker-library/docs/issues/496
-envsubst '\$HOST' < \
-  /etc/nginx/nginx.template.conf > \
-  /etc/nginx/nginx.conf
+# envsubst '\$HOST' < \
+#   /etc/nginx/nginx.template.conf > \
+#   /etc/nginx/nginx.conf
 
 # If SSL Certificate folder isn't present, generate one
 # This will take a long time, commenting out because of this reason
