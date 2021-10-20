@@ -22,6 +22,15 @@
         </div>
       </b-col>
     </b-row>
+
+    <b-row id = "Note">
+        <b-col>
+            <li>You can explore different pathway by clicking the pathway boxes. </li>
+            <li>You can also check out the courses by clicking the listed courses. </li>
+            <li>You will be directed to the department page if the course is not specified.</li>
+            <li>However, the course may show up as "Course not found" if the course is not being offer this semester. </li>
+        </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -39,6 +48,9 @@ export default {
     goPage(course){
         var subject = "" + course[0] + course[1] + course[2] + course[3];
         var courseID = "" + course[5] + course[6] + course[7] + course[8];
+        if(course[4] != ' '){
+            return;
+        }
         if(course[8] == "X")
         {
             this.$router.push("/explore/" + subject);
@@ -61,14 +73,6 @@ export default {
 <style>
 body {
   text-align: center;
-}
-.draggable-placeholder-inner {
-  border: 1px dashed #0088f8;
-  box-sizing: border-box;
-  text-align: center;
-  padding: 10px;
-  display: flex;
-  align-items: center;
 }
 
 #items{
