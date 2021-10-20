@@ -30,6 +30,10 @@
           <font-awesome-icon icon="list" />
           Explore
         </b-nav-item>
+         <b-nav-item :to="{ name: 'Pathway' }">
+          <font-awesome-icon icon="list" />
+          Pathways
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
