@@ -1,14 +1,14 @@
 import requests as req
-import threading
+import threading #https://docs.python.org/3/library/threading.html
 import unicodedata
 import re
-import regex
-import json
+import regex #https://www.dataquest.io/blog/regex-cheatsheet/
+import json 
 from datetime import date
 from time import time
 from threading import Lock
 from io import StringIO
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup, SoupStrainer #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from lxml import etree
 
 chunk_size = 200 # max number of course ids per GET request
