@@ -11,7 +11,7 @@ FROM bunkerity/bunkerized-nginx as production-stage
 # RUN mkdir /app
 COPY --from=build-stage /app/dist /www
 # COPY nginx.conf /etc/nginx/nginx.template.conf
-COPY nginx.redirect.conf /server-confs/nginx.redirect.conf
+COPY nginx.redirects.conf /server-confs/nginx.redirects.conf
 # COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 # COPY cert/ /etc/nginx/cert
 
