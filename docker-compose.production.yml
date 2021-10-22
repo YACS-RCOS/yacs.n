@@ -38,8 +38,8 @@ services:
       # - PROXY_CACHE_PATH_PARAMS=/tmp/micro_cache levels=1:2 keys_zone=micro_cache:100m max_size=100m inactive=3600s
       # ===== HTTPS config =====
       - AUTO_LETS_ENCRYPT=${AUTO_LE:-yes}
-      - GENERATE_SELF_SIGNED_SSL=yes
-      - REDIRECT_HTTP_TO_HTTPS=no
+      - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-no}
+      - REDIRECT_HTTP_TO_HTTPS=yes
       # ===== ModSecurity =====
       - USE_MODSECURITY=no
       - USE_MODSECURITY_CRS=no
