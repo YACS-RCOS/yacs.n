@@ -63,8 +63,26 @@
           value-field="display_string"
         ></b-form-select>
         <div id="allScheduleData">
-          <div class="prev-schedule h-100" @click="changeSchedule(-1)">&lt;</div>
-          <div class="next-schedule h-100" @click="changeSchedule(1)">&gt;</div>
+          <b-row>
+            <b-col class="m-2">
+              <b-button
+                id="prev-schedule"
+                @click="changeSchedule(-1)"
+                size="sm"
+              >
+                Prev
+              </b-button>
+            </b-col>
+            <b-col class="m-2 text-right">
+              <b-button
+                id="next-schedule"
+                @click="changeSchedule(1)"
+                size="sm"
+              >
+                Next
+              </b-button>
+            </b-col>
+          </b-row>
           <Schedule v-if="loading" />
 <!--          <template v-else-if="scheduler.schedules">
             <Schedule
