@@ -74,7 +74,7 @@
               </b-button>
             </b-col>
             <b-col cols="8" class="m-2 text-center">
-              <span v-if="numSelectedCourses == 0">
+              <span v-if="noSectionsSelected">
                 Add some sections to generate schedules!
               </span>
               <span v-else>
@@ -271,7 +271,10 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
-      possibilities: [],
+      possibilities: [{
+        sections: [],
+        times: [0, 0, 0, 0, 0]
+      }],
       index: 0
     };
   },
@@ -613,6 +616,13 @@ export default {
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
+    },
+
+    noSectionsSelected() {
+      if (this.possibilities.length === 1) {
+        return !this.possibilities[0].sections.length;
+      }
+      return false;
     },
   },
   watch: {
