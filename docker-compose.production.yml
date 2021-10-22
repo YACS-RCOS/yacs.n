@@ -18,7 +18,6 @@ services:
       # ===== nginx config: misc =====
       - SERVER_NAME=${HOST:-localhost}
       - ALLOWED_METHODS=GET|POST|DELETE
-      - DISABLE_DEFAULT_SERVER=yes
       # ===== nginx config: http_auth =====
       - USE_AUTH_BASIC=yes
       - AUTH_BASIC_LOCATION=/admin
@@ -38,9 +37,9 @@ services:
       - PROXY_CACHE_VALID=200=1s
       # - PROXY_CACHE_PATH_PARAMS=/tmp/micro_cache levels=1:2 keys_zone=micro_cache:100m max_size=100m inactive=3600s
       # ===== HTTPS config =====
-      - AUTO_LETS_ENCRYPT=${AUTO_LE=-yes}
-      - REDIRECT_HTTP_TO_HTTPS=yes
-      - GENERATE_SELF_SIGNED_SSL=${SELF_CERT=-no}
+      - AUTO_LETS_ENCRYPT=${AUTO_LE:-yes}
+      - GENERATE_SELF_SIGNED_SSL=yes
+      - REDIRECT_HTTP_TO_HTTPS=no
       # ===== ModSecurity =====
       - USE_MODSECURITY=no
       - USE_MODSECURITY_CRS=no

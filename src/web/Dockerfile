@@ -15,9 +15,9 @@ COPY nginx.redirects.conf /server-confs/nginx.redirects.conf
 # COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
 # COPY cert/ /etc/nginx/cert
 
-RUN \
-  apt-get update --no-install-recommends && \
-  apt-get install openssl --no-install-recommends -y && \
-  rm -rf /var/lib/apt/lists/* || true
+# RUN \
+#   apt-get update --no-install-recommends && \
+#   apt-get install openssl --no-install-recommends -y && \
+#   rm -rf /var/lib/apt/lists/* || true
 
 # CMD ["/usr/local/bin/entrypoint.sh"]
