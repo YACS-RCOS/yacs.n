@@ -71,6 +71,7 @@ jobs:
           sleep 5
         env:
           AUTO_LE: no
+          SELF_CERT: yes
 
       - name: Seed test data
         working-directory: rpi_data
