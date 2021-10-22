@@ -68,7 +68,7 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             up -d &&
-          sleep 60
+          sleep 15
         env:
           AUTO_LE: no
           SELF_CERT: yes
