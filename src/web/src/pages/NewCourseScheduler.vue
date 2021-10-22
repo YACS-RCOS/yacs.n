@@ -73,6 +73,14 @@
                 Prev
               </b-button>
             </b-col>
+            <b-col cols="8" class="m-2 text-center">
+              <span v-if="numSelectedCourses == 0">
+                Add some sections to generate schedules!
+              </span>
+              <span v-else>
+                Displaying schedule {{ this.index + 1 }} out of {{ this.possibilities.length }}
+              </span>
+            </b-col>
             <b-col class="m-2 text-right">
               <b-button
                 id="next-schedule"
