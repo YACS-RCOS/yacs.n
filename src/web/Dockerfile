@@ -7,7 +7,7 @@ COPY ./ .
 FROM develop-stage as build-stage
 RUN npm run build
 
-FROM bunkerity/bunkerized-nginx as production-stage
+FROM bunkerity/bunkerized-nginx:latest as production-stage
 # RUN mkdir /app
 COPY --from=build-stage /app/dist /www
 # COPY nginx.conf /etc/nginx/nginx.template.conf

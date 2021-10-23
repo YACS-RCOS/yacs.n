@@ -68,17 +68,17 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             up -d &&
-          sleep 15
+          sleep 7
         env:
           AUTO_LE: no
           SELF_CERT: yes
+          ENABLE_BLOCK: no
 
       - name: Seed test data
         working-directory: rpi_data
         run: |
           curl --insecure -X POST -H "Content-Type: multipart/form-data" \
           -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" \
-          -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" \
           $AUTH_ARGS $API_ENDPOINT
         env:
           FILE_NAME: fall-2021.csv

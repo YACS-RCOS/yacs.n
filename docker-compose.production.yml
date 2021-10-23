@@ -35,7 +35,6 @@ services:
       # ===== nginx config: cache =====
       - USE_PROXY_CACHE=yes
       - PROXY_CACHE_VALID=200=1s
-      # - PROXY_CACHE_PATH_PARAMS=/tmp/micro_cache levels=1:2 keys_zone=micro_cache:100m max_size=100m inactive=3600s
       # ===== HTTPS config =====
       - AUTO_LETS_ENCRYPT=${AUTO_LE:-yes}
       - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-no}
@@ -49,11 +48,11 @@ services:
       - STRICT_TRANSPORT_SECURITY=max-age=31536000; includeSubDomains; preload
       - USE_LIMIT_REQ=no
       # ===== Whitelists =====
-      - BLOCK_USER_AGENT=no
-      - BLOCK_TOR_EXIT_NODE=no
-      - BLOCK_PROXIES=no
-      - BLOCK_ABUSERS=no
-      - BLOCK_REFERRER=no
+      - BLOCK_USER_AGENT=${ENABLE_BLOCK:-yes}
+      - BLOCK_TOR_EXIT_NODE=${ENABLE_BLOCK:-yes}
+      - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
+      - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
+      - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       # === above bunkerized-nginx config ===
 
 
