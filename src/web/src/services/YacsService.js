@@ -80,6 +80,7 @@ export const getCourses = (semester, search = null, filter = true) =>
         // Initialize section.selected to false
         c.sections.forEach((s) => {
           if (s) s.selected = false;
+          s.title = c.title
           s.times = parseSession(s.sessions);
         });
         // Initialize course.selected to false

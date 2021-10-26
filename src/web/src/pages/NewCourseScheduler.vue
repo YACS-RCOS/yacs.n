@@ -219,22 +219,11 @@ import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import { userTypes } from "../store/modules/user";
 
-import { COURSES } from "@/store";
-import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
-import {
-  addStudentCourse,
-  removeStudentCourse,
-  getStudentCourses,
-} from "@/services/YacsService";
+import { addStudentCourse, getStudentCourses, removeStudentCourse } from "@/services/YacsService";
 
-import {
-  withinDuration,
-  generateRequirementsText,
-  // findCourseByCourseSessionCRN,
-  exportScheduleToIcs,
-  exportScheduleToImage,
-} from "@/utils";
+import { exportScheduleToIcs, exportScheduleToImage, generateRequirementsText, withinDuration } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -495,7 +484,10 @@ export default {
           semester: this.selectedSemester,
           cid: null,
         });
-      } /*else {
+      }
+
+      course.sections.forEach(section => this.removeCourseSection(course, section))
+      /*else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
           .removeCourse(course)
@@ -541,7 +533,15 @@ export default {
       }
     },
     getSchedules() {
-      this.possibilities = this.generateSchedule(Object.values(this.selectedCourses))
+      try {
+        this.possibilities = this.generateSchedule(Object.values(this.selectedCourses))
+      } catch (e) {
+        this.possibilities = [{
+          sections: [],
+          time: [0, 0, 0, 0, 0]
+        }]
+        console.log(e)
+      }
     },
     generateSchedule(c) {
       let courses = JSON.parse(JSON.stringify(c))
@@ -551,6 +551,8 @@ export default {
       }]
       const popped = courses.pop()
       let ret = this.generateSchedule(courses)
+
+      if(!ret.length) throw new Error()
       return ret.map(schedule => {
         return popped.sections.filter(s => s.selected).map(section => {
           if (noConflict(schedule, section)) {
@@ -600,7 +602,7 @@ export default {
      * @returns {string}
      */
     selectedCrns() {
-      return this.possibilities[this.index].sections.map((s) => s.crn).join(", ");
+      return this.possibilities[this.index] && this.possibilities[this.index].sections.map((s) => s.crn).join(", ");
     },
     /**
      * Returns sum of credits being taken from all selected sections
