@@ -55,7 +55,6 @@ services:
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       # === above bunkerized-nginx config ===
 
-
   yacs_api:
     environment:
       - ENV=production
