@@ -2,6 +2,7 @@
 <template id = "body">
   <div fluid class="py-3 h-100">
     <h1>Intergrated Pathways</h1>
+    <br>
 
     <b-modal ref="my-modal" >
       <div class="block text-left" v-if="showPath != null" md="10">
@@ -16,9 +17,9 @@
     </b-modal>
 
     <b-row id = "items">
-      <b-col class = "pathBox" md="2" sm="4" v-for="pathway in pathways" :key="pathway['Name']" v-on:click="ShowPath(pathway)">
-        <div calss = "roundBox">
-            <p class = "pathwayName text-center border-left border-light" > {{ pathway["Name"][0] }}</p>
+      <b-col class = "pathBox" md="3" sm="4" v-for="pathway in pathways" :key="pathway['Name'][0]" v-on:click="ShowPath(pathway)">
+        <div calss = "roundBox ">
+            <p class = "pathwayName text-center" > {{ pathway["Name"][0] }}</p>
         </div>
       </b-col>
     </b-row>
@@ -76,17 +77,28 @@ body {
 }
 
 #items{
-    font-size: 12px;
+    font-size: 20px;
+}
+
+.pathBox{
+    cursor: pointer;
+    border-radius: 2%;
+    margin: 0;
 }
 
 .roundBox{
     cursor: pointer;
+    border-radius: 2%;
+    margin: 0;
 }
 .pathwayName{
-    border-left: 1px dashed black;
     background-color: rgba(39, 130, 230, 0.5);
-    height: 45px;
+    height: 100px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2%;
 }
 
 .pathwayName:hover {
@@ -99,6 +111,11 @@ body {
 
 .courseInPath:hover {
     background-color: rgba(39, 130, 230, 0.5);
+}
+
+.marked{
+  border-color: black;
+  border: 1ch;
 }
 
 </style>

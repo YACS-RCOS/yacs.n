@@ -141,7 +141,7 @@
 "ECON 1200 - Introductory Economics",
 "IHSS 1200 - Principles of Economics"],
 "Choose other one of the following":[
-"2000-level ECON Elective",
+"ECON 2XXX",
 "ECON 2010 - Intermediate Microeconomic Theory",
 "ECON 2020 - Intermediate Macroeconomic Theory"],
 "Choose remaining credits from":[
@@ -253,30 +253,6 @@
 "ARTS 4860 - Advanced Digital Imaging"],
 "Compatible minor(s)":[
 "Electronic Arts Minor"]
-},
-{
-"Name":[
-"Environmental Future"],
-"Choose one of the following":[
-"IHSS 1960 – Music and Protest IHSS 1960 – Designing Climate Justice  IHSS 1110 - Nature/Society",
-"IHSS 1200 - Principles of Economics",
-"IHSS 1240 - Sustainability Debates",
-"IHSS 1320 - A Century of Environmental Thought",
-"IHSS 1350 - Law, Values, and Public Policy Perspectives on Science and Technology",
-"IHSS 1720 - Music and Nature",
-"IHSS 1040 - Documentary in the 21st Century Identity Production"],
-"Choose remaining credits from the following":[
-"ARTS 4250 - Art, Community, and Technology",
-"ARTS 4240 - Eco Chic Living Art",
-"ECON 4230 - Environmental Economics",
-"PHIL 4300 - Environmental Philosophy",
-"PHIL 4500 - Bioethics",
-"STSO 4250 - Bioethics",
-"STSO 4720 - Consumer Culture",
-"STSO 4280 - Sustainability Education",
-"ARTS 4120 - Biopunk",
-"Arts Lab Practice",
-"ARTS 4140 - Queer Ecologies"]
 },
 {
 "Name":[
@@ -724,7 +700,7 @@
 "Strategic Communication"],
 "Choose 12 credits of the following, with at least 4 credits at the 4000 level":[
 "COMM 1XXX",
-"XOMM 2XXX",
+"COMM 2XXX",
 "IHSS 19XX – Writing and Society",
 "WRIT 4XXX",
 "COMM 2520 - Communication Theory and Practice",
