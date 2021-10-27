@@ -51,12 +51,18 @@
         </b-card>
       </b-col>
       <div class="col-md-8">
+        <label v-if="
+            !loading &&
+            scheduler.scheduleSubsemesters &&
+            scheduler.scheduleSubsemesters.length > 1
+          " hidden for="selectSubsemster" >Select Subsemester</label>
         <b-form-select
           v-if="
             !loading &&
             scheduler.scheduleSubsemesters &&
             scheduler.scheduleSubsemesters.length > 1
           "
+          id= "selectSubsemster"
           v-model="selectedScheduleSubsemester"
           :options="scheduler.scheduleSubsemesters"
           text-field="display_string"
@@ -570,7 +576,7 @@ export default {
     background: white !important;
   }
 }
-.text-center{
+.text-center, .nav-link{
   color: #0056B3
 }
 

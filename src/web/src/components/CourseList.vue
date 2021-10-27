@@ -15,16 +15,18 @@
       <b-row>
         <!-- >2 b/c default ALL option always present -->
         <b-col v-if="subsemesterOptions.length > 2">
-          <b-form-group label="Filter Sub-Semester" for="sub-semester">
+          <b-form-group label="Filter Sub-Semester" for="sub-semester" label-for="selectSubsemester">
             <b-form-select
+              id="selectSubsemester"
               v-model="selectedSubsemester"
               :options="subsemesterOptions"
             ></b-form-select>
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="Filter Department" for="department">
+          <b-form-group label="Filter Department" for="department" label-for="selectDepartment">
             <b-form-select
+              id="selectDepartment"
               v-model="selectedDepartment"
               :options="departmentOptions"
             ></b-form-select>
