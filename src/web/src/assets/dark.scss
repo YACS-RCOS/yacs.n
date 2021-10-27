@@ -223,6 +223,13 @@
     background-color: var(--dark-secondary) !important;
 
   }
+
+  .breadcrumb-item > .router-link-active {
+    color: var(--dark-blue-primary) !important;
+  }
+  .breadcrumb-item.active {
+      color: var(--dark-text-tertiary) !important;
+  }
 }
 
 /*
