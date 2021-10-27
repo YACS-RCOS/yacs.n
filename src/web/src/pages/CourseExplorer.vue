@@ -156,4 +156,10 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
+.breadcrumb-item > .router-link-active {
+  color: #004C9E;
+}
+.breadcrumb-item.active {
+  color: #474E52;
+}
 </style>
