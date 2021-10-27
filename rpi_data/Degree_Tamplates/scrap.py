@@ -1,5 +1,6 @@
+import logging
+from urllib.parse import urljoin
 import requests
-import re
 from bs4 import BeautifulSoup
 
 
@@ -69,5 +70,5 @@ def clean2():
 
 
 fin = open("pathwayURLlist.txt", "r")
-for line in fin:
-    scrapFromURL(line)
+
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=8&poid=1756&returnto=185")
