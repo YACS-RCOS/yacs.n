@@ -78,9 +78,6 @@ export default {
   components: {
     ScheduleEvent: ScheduleEventComponent,
   },
-  created() {
-    console.log('hello')
-  },
   props: {
     possibility: {
       default: () => []
@@ -132,51 +129,9 @@ export default {
      * @param {number} dayOfWeek
      * @return {CourseSession[]}
      */
-    courseSessionsOnDay(dayOfWeek) {
-      return this.schedule.dailySessions[dayOfWeek];
-    },
-    /**
-     * Returns the name (department level) of a selected CourseSection for
-     * display in each ScheduleEvent
-     * @param {number} crn
-     * @return {string}
-     */
-    findSectionName(crn) {
-      const sections = this.schedule.selectedSections;
-      for (let index = 0; index < sections.length; index++) {
-        if (crn == sections[index].crn) {
-          return sections[index].department + " " + sections[index].level;
-        }
-      }
-    },
-    /**
-     * Returns the title of a selected Course for
-     * display in each ScheduleEvent
-     * @param {string} name (formatted department level)
-     * @return {string}
-     */
-    findCourseTitle(name) {
-      const courses = this.schedule.selectedCourses;
-      for (let index = 0; index < courses.length; index++) {
-        const tmpName = courses[index].department + " " + courses[index].level;
-        if (tmpName == name) {
-          return courses[index].title;
-        }
-      }
-    },
+    
     getSessionsOfDay(section, day) {
       return section.sessions.filter(session => session.day_of_week === day)
-    },
-    parseStyle(session) {
-      let top = this.eventPosition(session) + 'vh'
-      let height = this.eventHeight(session) + 'vh'
-      return {
-        marginTop: top,
-        height,
-        backgroundColor: getBackgroundColor(session),
-        borderColor: getBorderColor(session),
-        color: getTextColor(session)
-      }
     },
   },
   computed: {

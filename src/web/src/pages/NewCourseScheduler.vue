@@ -62,11 +62,10 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
-        <div id="allScheduleData">
+        <div>
           <b-row>
             <b-col class="m-2">
               <b-button
-                id="prev-schedule"
                 @click="changeSchedule(-1)"
                 size="sm"
               >
@@ -83,7 +82,6 @@
             </b-col>
             <b-col class="m-2 text-right">
               <b-button
-                id="next-schedule"
                 @click="changeSchedule(1)"
                 size="sm"
               >
@@ -92,14 +90,6 @@
             </b-col>
           </b-row>
           <Schedule v-if="loading" />
-<!--          <template v-else-if="scheduler.schedules">
-            <Schedule
-              v-for="(schedule, index) in scheduler.schedules"
-              :key="index"
-              :schedule="schedule"
-              v-show="selectedScheduleIndex === index"
-            />
-          </template>-->
           <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
           <b-row>
@@ -693,24 +683,5 @@ footer {
 
 #export-ics-button {
   background: #3d4959 !important;
-}
-#allScheduleData {
-  position: relative;
-  .prev-schedule, .next-schedule {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    z-index: 1000;
-    line-height: 75%;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  .prev-schedule {
-    left: 0
-  }
-  .next-schedule {
-    right: 0
-  }
 }
 </style>
