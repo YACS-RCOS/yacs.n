@@ -52,6 +52,9 @@ const store = new Vuex.Store({
   getters: {
     [COURSES]: (state) => Object.values(state.coursesById),
     [GET_COURSE_BY_ID]: (state) => (id) => state.coursesById[id],
+    darkModeState: (state) => {
+      return state.darkMode;
+    },
     colorBlindAssistState: (state) => {
       return state.colorBlindAssist;
     },

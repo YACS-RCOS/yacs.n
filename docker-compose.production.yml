@@ -12,6 +12,8 @@ services:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       - HOST=${HOST:-localhost}
       - ADMIN_PASS=${ADMIN_PASS:-admin}
+    volumes:
+      - ./src/web/cert:/etc/nginx/cert/
 
   yacs_api:
     environment:
