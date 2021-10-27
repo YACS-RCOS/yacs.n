@@ -80,7 +80,7 @@
               </b-col>
             </b-row>
 
-<!--            <span
+            <span
               v-for="courseSession in section.sessions"
               :key="
                 courseSession.crn +
@@ -92,7 +92,7 @@
               {{ readableTime(courseSession.time_start) }} -
               {{ readableTime(courseSession.time_end) }}
               <br />
-            </span>-->
+            </span>
           </b-list-group-item>
         </b-list-group>
       </slot>

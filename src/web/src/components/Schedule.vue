@@ -23,38 +23,30 @@
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
-<!--        <ScheduleEvent
-          v-for="courseSession in courseSessionsOnDay(index)"
-          :key="
-            courseSession.crn +
-            courseSession.day_of_week +
-            courseSession.time_start
-          "
-          :crn="courseSession.crn"
-          :section="courseSession.section"
-          :semester="courseSession.semester"
-          :name="findSectionName(courseSession.crn)"
-          :title="findCourseTitle(findSectionName(courseSession.crn))"
-          :style="{
-            'margin-top':
-              'max(' +
-              eventPosition(courseSession) +
-              'vh,' +
-              eventPosition(courseSession, minHeight) +
-              'px)',
-            height: eventHeight(courseSession) + 'vh',
-            'min-height': eventHeight(courseSession, minHeight) + 'px',
-            backgroundColor: getBackgroundColor(courseSession),
-            borderColor: getBorderColor(courseSession),
-            color: getTextColor(courseSession),
-            width: dayWidth + '%',
-          }"
-        ></ScheduleEvent>-->
-        <div v-for="(section, k) in temp.sections" :key="k" class="my-overlay">
-          <div style="z-index: 100; width: 100%" v-for="(session, j) in getSessionsOfDay(section, index)" :style="parseStyle(session)" :key="j" class="session">
-            {{ section.name }}
-            {{ session.crn + '-' + session.section }}
-          </div>
+        <div v-for="(section, k) in temp.sections" :key="k" class="section-overlay">
+          <ScheduleEvent
+            v-for="(session, j) in getSessionsOfDay(section, index)" :key="j"
+
+            :crn="session.crn"
+            :section="session.section"
+            :semester="session.semester"
+            :name="section.department + ' ' + section.level"
+            :title="section.title"
+            :style="{
+              'margin-top':
+                'max(' +
+                eventPosition(session) +
+                'vh,' +
+                eventPosition(session, minHeight) +
+                'px)',
+              height: eventHeight(session) + 'vh',
+              'min-height': eventHeight(session, minHeight) + 'px',
+              backgroundColor: getBackgroundColor(session),
+              borderColor: getBorderColor(session),
+              color: getTextColor(session),
+              width: '100%'
+            }"
+          ></ScheduleEvent>
         </div>
         <div
           class="grid-hour"
@@ -79,12 +71,12 @@ import {
 
 import Schedule from "@/controllers/Schedule";
 
-// import ScheduleEventComponent from "@/components/ScheduleEvent";
+import ScheduleEventComponent from "@/components/ScheduleEvent";
 
 export default {
   name: "Schedule",
   components: {
-    // ScheduleEvent: ScheduleEventComponent,
+    ScheduleEvent: ScheduleEventComponent,
   },
   created() {
     console.log('hello')
@@ -302,12 +294,9 @@ $hourFontSize: 0.5em;
   border-right: none;
 }
 
-.my-overlay {
+.section-overlay {
   position: absolute;
   width: 20%;
   height: 100%;
-}
-.session {
-
 }
 </style>
