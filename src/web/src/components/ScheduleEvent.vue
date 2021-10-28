@@ -52,7 +52,7 @@ export default {
   getExploreCourseLink(courseName) {
     var subject = courseName.split(" ")[0];
     var courseNumber = courseName.split(" ")[1];
-    return `/explore/${subject}/${subject}-${courseNumber}`;
+    return `/explore/${subject}/${subject}-${courseNumber}?semester=${semester}`;
   },
 };
 </script>
