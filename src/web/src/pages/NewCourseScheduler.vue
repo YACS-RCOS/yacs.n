@@ -73,8 +73,11 @@
               </b-button>
             </b-col>
             <b-col cols="8" class="m-2 text-center">
-              <span v-if="noSectionsSelected">
+              <span v-if="noSectionsSelected === 2">
                 Add some sections to generate schedules!
+              </span>
+              <span v-else-if="noSectionsSelected === 3">
+                Conflicting
               </span>
               <span v-else>
                 Displaying schedule {{ this.index + 1 }} out of {{ this.possibilities.length }}
@@ -524,13 +527,24 @@ export default {
     },
     getSchedules() {
       try {
-        this.possibilities = this.generateSchedule(Object.values(this.selectedCourses))
+        if (Object.values(this.selectedCourses).length === 0) {
+          this.possibilities = [{
+            sections: [],
+            time: [0, 0, 0, 0, 0]
+          }];
+        }
+        const result = this.generateSchedule(Object.values(this.selectedCourses))
+        if (!result.length) {
+          throw new Error('conflict!')
+        }
+        this.possibilities = result
       } catch (e) {
+        console.log(e.message)
         this.possibilities = [{
           sections: [],
-          time: [0, 0, 0, 0, 0]
+          time: [0, 0, 0, 0, 0],
+          conflict: e.message === 'conflict!'
         }]
-        console.log(e)
       }
     },
     generateSchedule(c) {
@@ -542,9 +556,11 @@ export default {
       const popped = courses.pop()
       let ret = this.generateSchedule(courses)
 
-      if(!ret.length) throw new Error()
+      if(ret.length === 0) throw new Error('conflict!')
       return ret.map(schedule => {
-        return popped.sections.filter(s => s.selected).map(section => {
+        const x = popped.sections.filter(s => s.selected)
+        if (!x.length) throw new Error('no selection!')
+        return x.map(section => {
           if (noConflict(schedule, section)) {
             return addSection(schedule, section)
           }
@@ -612,9 +628,10 @@ export default {
 
     noSectionsSelected() {
       if (this.possibilities.length === 1) {
-        return !this.possibilities[0].sections.length;
+        return this.possibilities[0].sections.length===0 ?
+            (this.possibilities[0].conflict ? 3 : 2) : 1
       }
-      return false;
+      return 1;
     },
   },
   watch: {
