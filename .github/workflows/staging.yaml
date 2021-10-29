@@ -2,6 +2,7 @@ name: Staging CD
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   deploy:
