@@ -15,14 +15,21 @@
       YACS
     </b-navbar-brand>
     <div id = "app">
-      
-      <select v-model="selected">
-    
-        <option> {{ selectedSemester }} </option>
+      <option> {{ selectedSemester }} </option>
+      <select v-model="selected" @change="selectNewSemester">
+        
+        <option value="selectedSemester" selected disabled>{{selectedSemester}} </option>
         <option v-for="option in otherSemesters" v-bind:key="option.value">
-          {{option.text}}
+          
+          {{option.value}}
+          
         </option>
+        
       </select>
+   
+     
+      
+     
     </div>
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
@@ -85,6 +92,9 @@
 </template>
 
 <script>
+
+  
+
 import { SELECT_SEMESTER, COOKIE_DARK_MODE, TOGGLE_DARK_MODE, SAVE_DARK_MODE,
   RESET_DARK_MODE,} from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
@@ -97,8 +107,10 @@ export default {
     LoginForm: LoginComponent,
   },
   data() {
-  
+   
+    
     return {
+  
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
@@ -125,6 +137,10 @@ export default {
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
+    selectNewSemester(e){
+      console.log("e", e.target.value);
+      this.selectedSemester = e.target.value;
+    },
     toggle_style() {
       if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
