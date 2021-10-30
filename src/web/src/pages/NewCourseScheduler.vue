@@ -73,11 +73,11 @@
               </b-button>
             </b-col>
             <b-col cols="8" class="m-2 text-center">
-              <span v-if="noSectionsSelected === 2">
+              <span v-if="scheduleDisplayMessage === 2">
                 Add some sections to generate schedules!
               </span>
-              <span v-else-if="noSectionsSelected === 3">
-                Conflicting
+              <span v-else-if="scheduleDisplayMessage === 3">
+                Can't display because of course conflict!
               </span>
               <span v-else>
                 Displaying schedule {{ this.index + 1 }} out of {{ this.possibilities.length }}
@@ -384,69 +384,7 @@ export default {
           .save();
       }
       course.sections.forEach(section => this.addCourseSection(course, section))
-      /*let i = 0;
-      for (; i < course.sections.length; i++) {
-        try {
-          this._addCourseSection(course, course.sections[i]);
-          break;
-        } catch (err) {
-          if (err.type == "Schedule Conflict") {
-            if (i == course.sections.length - 1) {
-              this.notifyScheduleConflict(
-                course,
-                findCourseByCourseSessionCRN(
-                  this.courses,
-                  err.existingSession.crn
-                ),
-                err.addingSession,
-                err.existingSession
-              );
-              return;
-            } else {
-              continue;
-            }
-          } else {
-            throw err;
-          }
-        }
-      }
-
-      course.selected = true;
-      // This must be vm.set since we're adding a property onto an object
-      this.$set(this.selectedCourses, course.id, course);
-      this.scheduler.addCourse(course);
-
-      if (this.isLoggedIn) {
-        addStudentCourse({
-          name: course.name,
-          semester: this.selectedSemester,
-          cid: "-1",
-        });
-      } else {
-        SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .addCourse(course)
-          .save();
-      }*/
     },
-    _addCourseSection(/*course, section*/) {
-      /*this.scheduler.addCourseSection(course, section);
-      section.selected = true;
-
-      if (this.isLoggedIn) {
-        addStudentCourse({
-          name: course.name,
-          semester: this.selectedSemester,
-          cid: section.crn,
-        });
-      } else {
-        SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .addCourseSection(course, section)
-          .save();
-      }*/
-    },
-
     addCourseSection(course, section) {
       section.selected = true
       if (this.isLoggedIn) {
@@ -461,23 +399,10 @@ export default {
           .addCourseSection(course, section)
           .save();
       }
-      /*try {
-        this._addCourseSection(course, section);
-      } catch (err) {
-        if (err.type === "Schedule Conflict") {
-          this.notifyScheduleConflict(
-            course,
-            findCourseByCourseSessionCRN(this.courses, err.existingSession.crn),
-            err.addingSession,
-            err.existingSession
-          );
-        }
-      }*/
     },
     removeCourse(course) {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
-      // this.scheduler.removeAllCourseSections(course);
       
       course.sections.forEach(section => this.removeCourseSection(section))
 
@@ -493,15 +418,8 @@ export default {
           .removeCourse(course)
           .save();
       }
-      /*else {
-        SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .removeCourse(course)
-          .save();
-      }*/
     },
     removeCourseSection(section) {
-      // this.scheduler.removeCourseSection(section);
       if (section.selected) {
         section.selected = false
 
@@ -518,12 +436,6 @@ export default {
             .save();
         }
       }
-      /*else {
-        SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .removeCourseSection(section)
-          .save();
-      }*/
     },
 
     /**
@@ -566,6 +478,7 @@ export default {
           conflict: e.message === 'conflict!'
         }]
       }
+      this.index = 0;
     },
     generateSchedule(c) {
       let courses = JSON.parse(JSON.stringify(c))
@@ -646,7 +559,7 @@ export default {
       return Object.values(this.selectedCourses).length;
     },
 
-    noSectionsSelected() {
+    scheduleDisplayMessage() {
       if (this.possibilities.length === 1) {
         return this.possibilities[0].sections.length===0 ?
             (this.possibilities[0].conflict ? 3 : 2) : 1

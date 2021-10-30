@@ -69,8 +69,6 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import Schedule from "@/controllers/Schedule";
-
 import ScheduleEventComponent from "@/components/ScheduleEvent";
 
 export default {
@@ -81,9 +79,6 @@ export default {
   props: {
     possibility: {
       default: () => []
-    },
-    schedule: {
-      default: () => new Schedule(),
     },
   },
   data() {
