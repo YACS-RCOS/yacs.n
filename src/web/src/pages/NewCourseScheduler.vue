@@ -348,9 +348,8 @@ export default {
               (course) => course.id === selectedCourse.id
             );
 
-            course.selected = true;
             this.$set(this.selectedCourses, course.id, course);
-            this.scheduler.addCourse(course);
+            course.selected = true;
 
             selectedCourse.selectedSectionCrns.forEach(
               (selectedSectionCrn) => {
@@ -359,7 +358,6 @@ export default {
                 );
 
                 section.selected = true;
-                this.scheduler.addCourseSection(course, section);
               }
             );
           });
@@ -379,6 +377,11 @@ export default {
           semester: this.selectedSemester,
           cid: "-1",
         });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
       }
       course.sections.forEach(section => this.addCourseSection(course, section))
       /*let i = 0;
@@ -452,6 +455,11 @@ export default {
           semester: this.selectedSemester,
           cid: section.crn,
         });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
       }
       /*try {
         this._addCourseSection(course, section);
@@ -470,6 +478,8 @@ export default {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
       // this.scheduler.removeAllCourseSections(course);
+      
+      course.sections.forEach(section => this.removeCourseSection(section))
 
       if (this.isLoggedIn) {
         removeStudentCourse({
@@ -477,9 +487,12 @@ export default {
           semester: this.selectedSemester,
           cid: null,
         });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
       }
-
-      course.sections.forEach(section => this.removeCourseSection(course, section))
       /*else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
@@ -489,16 +502,23 @@ export default {
     },
     removeCourseSection(section) {
       // this.scheduler.removeCourseSection(section);
+      if (section.selected) {
+        section.selected = false
 
-      section.selected = false
-
-      if (this.isLoggedIn) {
-        removeStudentCourse({
-          name: section.department + "-" + section.level,
-          semester: this.selectedSemester,
-          cid: section.crn,
-        });
-      } /*else {
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.selectedSemester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.selectedSemester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+      /*else {
         SelectedCoursesCookie.load(this.$cookies)
           .semester(this.selectedSemester)
           .removeCourseSection(section)
