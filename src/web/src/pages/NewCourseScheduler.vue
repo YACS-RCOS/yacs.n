@@ -204,7 +204,6 @@ import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
 import CourseListComponent from "@/components/CourseList";
 import CenterSpinnerComponent from "../components/CenterSpinner";
-import Schedule from "@/controllers/Schedule";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
@@ -248,7 +247,7 @@ export default {
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
-      scheduler: new Schedule(),
+      scheduler: new SubSemesterScheduler(),
       exportIcon: faPaperPlane,
 
       courseInfoModalCourse: null,
@@ -284,8 +283,6 @@ export default {
         return;
       }
 
-      // Less work to create a new scheduler which is meant for a single semester
-      this.scheduler = new SubSemesterScheduler();
       // Filter out "full" subsemester
       this.subsemesters
         .filter(
@@ -329,11 +326,9 @@ export default {
                 return section.crn == cid.crn;
               });
               sect.selected = true;
-              this.scheduler.addCourseSection(c, sect);
             } else {
               c.selected = true;
               this.$set(this.selectedCourses, c.id, c);
-              this.scheduler.addCourse(c);
             }
           }
         });
