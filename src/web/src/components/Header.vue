@@ -11,25 +11,15 @@
       class="align-middle text-dark"
       :to="{ name: 'CourseScheduler' }"
     >
-
       YACS
     </b-navbar-brand>
-    <div id = "app">
-      <option> {{ selectedSemester }} </option>
-      <select v-model="selected" @change="selectNewSemester">
-        
-        <option value="selectedSemester" selected disabled>{{selectedSemester}} </option>
-        <option v-for="option in otherSemesters" v-bind:key="option.value">
-          
+    <div>
+      <select v-model="selected" v-on:change="selectSemester(selected)">
+        <option value=""> Select Semester </option>
+        <option v-for="option in semesterOptions" v-bind:key="option.text">
           {{option.value}}
-          
         </option>
-        
       </select>
-   
-     
-      
-     
     </div>
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
@@ -92,55 +82,25 @@
 </template>
 
 <script>
-
-  
-
 import { SELECT_SEMESTER, COOKIE_DARK_MODE, TOGGLE_DARK_MODE, SAVE_DARK_MODE,
-  RESET_DARK_MODE,} from "@/store";
+  RESET_DARK_MODE } from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
-
 export default {
   name: "Header",
   components: {
     LoginForm: LoginComponent,
   },
   data() {
-   
-    
     return {
-  
+      
+      selected: '',
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
-  computed: {
-    
-    ...mapGetters({
-      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
-      user: userTypes.getters.CURRENT_USER_INFO,
-    }),
-    ...mapState(["selectedSemester"]),
-    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
-    ...mapState(["semesters", "selectedSemester"]),
-    otherSemesters() {
-      return this.semesterOptions.filter(
-        (semester) => semester.value !== this.selectedSemester
-      );
-    },
-    semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
-    },
-  },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
-    selectNewSemester(e){
-      console.log("e", e.target.value);
-      this.selectedSemester = e.target.value;
-    },
     toggle_style() {
       if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
@@ -192,7 +152,22 @@ export default {
         variant: "success",
       });
     },
-  },  
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: userTypes.getters.IS_LOGGED_IN,
+      user: userTypes.getters.CURRENT_USER_INFO,
+    }),
+    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+    ...mapState(["semesters", "selectedSemester"]),
+    
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
+      }));
+    },
+  }
 };
 </script>
 
