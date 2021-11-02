@@ -247,7 +247,7 @@ export default {
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
-      scheduler: new SubSemesterScheduler(),
+      scheduler: null,
       exportIcon: faPaperPlane,
 
       courseInfoModalCourse: null,
@@ -283,6 +283,7 @@ export default {
         return;
       }
 
+      this.scheduler = new SubSemesterScheduler();
       // Filter out "full" subsemester
       this.subsemesters
         .filter(
