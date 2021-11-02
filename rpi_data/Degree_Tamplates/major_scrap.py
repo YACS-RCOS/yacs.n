@@ -21,29 +21,6 @@ def scrapFromURL(webLink, major_db):
     major = title_element.text
     outFile.write(":\n")
 
-    pathWayName = soup.find_all(id="acalog-content")
-
-    info = soup.find_all(class_="acalog-core")
-    '''
-    for course in info:
-        #print(course.prettify())
-        #outFile.write(course.prettify())
-        outFile.write(course.text)
-        
-        
-    for ultag in soup.find_all("ul"):
-        for litag in ultag.find_all('li'):
-            outFile.write(litag.text)
-            outFile.write("\n")
-        outFile.write("--------------------\n")
-    
-    for h3tag in soup.find_all("h3"):
-        for ultag in h3tag.find_all("ul"):
-            for litag in ultag.find_all('li'):
-                outFile.write(litag.text)
-                outFile.write("\n")
-        outFile.write("--------------------\n")
-        '''
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
     for items in clp20:
@@ -82,51 +59,6 @@ def scrapFromURL(webLink, major_db):
     outFile.close()
     #cleaning1()
     return major_db
-
-def cleaning1():
-    fin = open("pathwayData.txt", "r").read().replace(
-        "\n", " ").replace("\xa0", " ")
-    fout = open("pathDataClean11.txt", "a")
-    fout.truncate(0)
-
-    importArray = re.split('< |> | Credit Hours: 4|:', fin)
-    for info in importArray:
-        fout.write(info + "\n")
-    fout.write("\n\n\n\n")
-    fout.close()
-    clean2()
-
-
-def clean2():
-    f = open("pathDataClean11.txt", "r")
-    fout = open("ideal.json", "a")
-    fout.write('{\n')
-    lines = f.readlines()
-    i = 0
-    required_finished = False
-    selective_not_finished = False
-    compatible_minor_not_finished = False
-    output_string = ""
-    for line in lines:
-        line = line.strip()
-        '''
-        if(i == 0):
-            output_string += "\"name\":\n\"" + line
-        elif("Required" in line):
-            output_string += "\",\n\"Required\":[\n"
-        elif("Choose" in line):
-            output_string = output_string[:-2]
-            output_string += "],\n\""+line+"\":[\n"
-        elif("Compatible minor" in line):
-            output_string = output_string[:-2]
-            output_string += "],\n\""+line+"\":\n"
-        else:'''
-        output_string += "\"" + line + "\",\n"
-        i += 1
-    output_string = output_string[:-2]
-    output_string += "\n}"
-    fout.write(output_string)
-
 
 major_db = {}
 scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5444&returnto=542", major_db)
