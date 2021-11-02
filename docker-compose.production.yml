@@ -32,3 +32,8 @@ services:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs
       - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
+
+  yacs_update:
+    build:
+      context: ./rpi_data
+      dockerfile: Dockerfile

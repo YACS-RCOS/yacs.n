@@ -29,3 +29,9 @@ services:
     restart: unless-stopped
     container_name: yacs_db
     image: postgres:12-alpine
+
+  yacs_update:
+    restart: unless-stopped
+    container_name: yacs_update
+    depends_on:
+      - yacs_db

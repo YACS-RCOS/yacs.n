@@ -1,0 +1,2 @@
+0 0 * * * root ./get-spring-2022.sh
+#This is a cron job
