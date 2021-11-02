@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend-unit-tests:
-    name: Run backend unit tests
+    name: pytest
     runs-on: ubuntu-18.04
     timeout-minutes: 5
     container: python:3.8
@@ -68,13 +68,18 @@ jobs:
             -f docker-compose.yml \
             -f docker-compose.production.yml \
             up -d &&
-          sleep 5
+          sleep 10
+        env:
+          AUTO_LE: no
+          SELF_CERT: yes
+          ENABLE_BLOCK: no
 
       - name: Seed test data
         working-directory: rpi_data
         run: |
           curl --insecure -X POST -H "Content-Type: multipart/form-data" \
-          -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" $AUTH_ARGS $API_ENDPOINT
+          -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" \
+          $AUTH_ARGS $API_ENDPOINT
         env:
           FILE_NAME: fall-2021.csv
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}

@@ -6,12 +6,55 @@ version: "3.4"
 services:
   yacs_web:
     ports:
-      - 80:80
-      - 443:443
+      - 80:8080
+      - 443:8443
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
-      - HOST=${HOST:-localhost}
-      - ADMIN_PASS=${ADMIN_PASS:-admin}
+      # - HOST=${HOST:-localhost}
+      # - ADMIN_PASS=${ADMIN_PASS:-admin}
+
+      # === below bunkerized-nginx config ===
+      # https://bunkerized-nginx.readthedocs.io/en/latest/environment_variables.html
+      # ===== nginx config: misc =====
+      - SERVER_NAME=${HOST:-localhost}
+      - ALLOWED_METHODS=GET|POST|DELETE
+      # ===== nginx config: http_auth =====
+      - USE_AUTH_BASIC=yes
+      - AUTH_BASIC_LOCATION=/admin
+      - AUTH_BASIC_USER=${ADMIN_USERNAME:-admin}
+      - AUTH_BASIC_PASSWORD=${ADMIN_PASS:-admin}
+      - AUTH_BASIC_TEXT=Admin Panel
+      # ===== nginx config: reverse proxy =====
+      - USE_REVERSE_PROXY=yes
+      - REVERSE_PROXY_URL_1=/api
+      - REVERSE_PROXY_HOST_1=http://yacs_api:5000
+      # ===== nginx config: compression =====
+      - USE_GZIP=yes
+      - GZIP_COMP_LEVEL=6
+      - GZIP_MIN_LENGTH=600
+      # ===== nginx config: cache =====
+      - USE_PROXY_CACHE=yes
+      - PROXY_CACHE_VALID=200=1s
+      # ===== HTTPS config =====
+      - AUTO_LETS_ENCRYPT=${AUTO_LE:-yes}
+      - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-no}
+      - REDIRECT_HTTP_TO_HTTPS=yes
+      # ===== ModSecurity =====
+      - USE_MODSECURITY=no
+      - USE_MODSECURITY_CRS=no
+      - MODSECURITY_SEC_AUDIT_ENGINE=Off
+      # ===== Security Headers =====
+      - X_FRAME_OPTIONS=SAMEORIGIN
+      - STRICT_TRANSPORT_SECURITY=max-age=31536000; includeSubDomains; preload
+      - USE_LIMIT_REQ=no
+      # ===== Whitelists =====
+      - USE_REMOTE_API=${ENABLE_BLOCK:-yes}
+      - BLOCK_USER_AGENT=${ENABLE_BLOCK:-yes}
+      - BLOCK_TOR_EXIT_NODE=${ENABLE_BLOCK:-yes}
+      - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
+      - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
+      - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
+      # === above bunkerized-nginx config ===
 
   yacs_api:
     environment:
