@@ -129,6 +129,7 @@ const _getColor = (id) => {
 };
 
 const _assign = (id) => {
+  console.log(id)
   if (colorAssignments.has(id)) return colorAssignments.get(id);
   else return colorAssignments.set(id, _nextAssignment()).get(id);
 };
@@ -142,7 +143,7 @@ const _nextAssignment = () => {
  * @returns {string} Hex color code
  */
 export const getBackgroundColor = (courseSession) => {
-  return _getColor(courseSession.crn).primary;
+  return _getColor(courseSession).primary;
 };
 /**
  * Returns the border color associated with `courseSession`
@@ -150,7 +151,7 @@ export const getBackgroundColor = (courseSession) => {
  * @returns {string} hex color code
  */
 export const getBorderColor = (courseSession) => {
-  return _getColor(courseSession.crn).border;
+  return _getColor(courseSession).border;
 };
 /**
  * Returns the text color associated with `courseSession`
@@ -158,5 +159,5 @@ export const getBorderColor = (courseSession) => {
  * @returns {string} hex color code
  */
 export const getTextColor = (courseSession) => {
-  return _getColor(courseSession.crn).text;
+  return _getColor(courseSession).text;
 };

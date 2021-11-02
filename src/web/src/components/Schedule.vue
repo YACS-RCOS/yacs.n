@@ -41,9 +41,9 @@
                 'px)',
               height: eventHeight(session) + 'vh',
               'min-height': eventHeight(session, minHeight) + 'px',
-              backgroundColor: getBackgroundColor(session),
-              borderColor: getBorderColor(session),
-              color: getTextColor(session),
+              backgroundColor: getBackgroundColor(section.department + '-' + section.level),
+              borderColor: getBorderColor(section.department + '-' + section.level),
+              color: getTextColor(section.department + '-' + section.level),
               width: '100%'
             }"
           ></ScheduleEvent>
