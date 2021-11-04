@@ -3,21 +3,19 @@
 import { register } from "register-service-worker";
 
 if (process.env.NODE_ENV === "production") {
-  if ('serviceWorker' in navigator) {
-
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-
-    for(let registration of registrations) {
-
-            registration.unregister()
-
-    }}).catch(function(err) {
-
-        console.log('Service Worker registration failed: ', err);
-  
-    });
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .getRegistrations()
+      .then(function (registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      })
+      .catch(function (err) {
+        console.log("Service Worker registration failed: ", err);
+      });
   }
-  
+
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(
