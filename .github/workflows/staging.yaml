@@ -1,0 +1,34 @@
+name: Staging CD
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, staging]
+
+    env:
+      HOST: yacs.duckdns.org
+      API_WORKERS: 8
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Build images
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml build yacs_api yacs_web
+
+      - name: Update yacs_api
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_api &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_api &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api
+
+      - name: Update yacs_web
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_web &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_web &&
+          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_web
