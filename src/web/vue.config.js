@@ -98,7 +98,7 @@ module.exports = {
         },
       ],
     },
-    workboxPluginMode: 'InjectManifest',
+    workboxPluginMode: "InjectManifest",
     workboxOption: {
       skipWaiting: true,
     },
