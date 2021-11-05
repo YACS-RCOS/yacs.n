@@ -3,19 +3,6 @@
 import { register } from "register-service-worker";
 
 if (process.env.NODE_ENV === "production") {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .getRegistrations()
-      .then(function (registrations) {
-        for (let registration of registrations) {
-          registration.unregister();
-        }
-      })
-      .catch(function (err) {
-        console.log("Service Worker registration failed: ", err);
-      });
-  }
-
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(
@@ -33,8 +20,8 @@ if (process.env.NODE_ENV === "production") {
       console.log("New content is downloading.");
     },
     updated() {
-      window.location.reload();
       console.log("New content is available; please refresh.");
+      window.location.reload();
     },
     offline() {
       console.log(
