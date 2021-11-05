@@ -129,6 +129,7 @@ const _getColor = (id) => {
 };
 
 const _assign = (id) => {
+  console.log(id)
   if (colorAssignments.has(id)) return colorAssignments.get(id);
   else return colorAssignments.set(id, _nextAssignment()).get(id);
 };
