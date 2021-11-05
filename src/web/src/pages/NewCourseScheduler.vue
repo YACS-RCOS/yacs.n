@@ -66,7 +66,7 @@
           <b-row>
             <b-col class="m-2">
               <b-button
-                @click="changeSchedule(-1)"
+                @click="changeSchedule(-1); updateIndexCookie();"
                 size="sm"
               >
                 Prev
@@ -85,7 +85,7 @@
             </b-col>
             <b-col class="m-2 text-right">
               <b-button
-                @click="changeSchedule(1)"
+                @click="changeSchedule(1); updateIndexCookie();"
                 size="sm"
               >
                 Next
@@ -208,6 +208,7 @@ import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
 
 import { userTypes } from "../store/modules/user";
 
@@ -244,6 +245,7 @@ export default {
     CenterSpinner: CenterSpinnerComponent,
   },
   data() {
+    debugger
     return {
       selectedCourses: {},
       selectedScheduleSubsemester: null,
@@ -256,7 +258,7 @@ export default {
         sections: [],
         times: [0, 0, 0, 0, 0]
       }],
-      index: 0
+      index: SelectedCoursesCookie.load(this.$cookies).semester(this.selectedSemester).selectedIndex
     };
   },
   methods: {
@@ -362,6 +364,19 @@ export default {
           //  thus we need to reload the cookie
           selectedCoursesCookie.clear().save();
         }
+      }
+
+      const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
+
+      try {
+        console.log("get cookie")
+        this.index = selectedIndexCookie.semester(this.selectedSemester).selectedIndex;
+        console.log(selectedIndexCookie.semester(this.selectedSemester).selectedIndex)
+        console.log(this.index)
+      } catch (err) {
+        // If there is an error here, it might mean the data was changed,
+        //  thus we need to reload the cookie
+        selectedIndexCookie.clear().save();
       }
     },
     addCourse(course) {
@@ -474,7 +489,6 @@ export default {
           conflict: e.message === 'conflict!'
         }]
       }
-      this.index = 0;
     },
     generateSchedule(c) {
       let courses = JSON.parse(JSON.stringify(c))
@@ -511,6 +525,13 @@ export default {
       }
       this.index = c
     },
+    updateIndexCookie() {
+      SelectedIndexCookie.load(this.$cookies)
+        .semester(this.selectedSemester)
+        .updateIndex(this.index)
+        .save();
+      console.log(SelectedIndexCookie.load(this.$cookies).semester(this.selectedSemester).selectedIndex)
+    }
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
