@@ -98,7 +98,7 @@ module.exports = {
         },
       ],
     },
-    workboxPluginMode: "InjectManifest",
+    workboxPluginMode: "GenerateSW",
     workboxOption: {
       skipWaiting: true,
     },
