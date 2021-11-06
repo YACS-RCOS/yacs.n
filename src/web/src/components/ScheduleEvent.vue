@@ -25,7 +25,7 @@
       placement="top"
     >
       <h6 data-cy="title">
-        <a v-bind:href="$options.getExploreCourseLink(props.name, props.semester)">
+        <a v-bind:href="$options.getExploreCourseLink(props.name)">
           {{ props.title }}
         </a>
       </h6>
@@ -49,10 +49,10 @@
 </template>
 <script>
 export default {
-  getExploreCourseLink(courseName, semester) {
+  getExploreCourseLink(courseName) {
     var subject = courseName.split(" ")[0];
     var courseNumber = courseName.split(" ")[1];
-    return `/explore/${subject}/${subject}-${courseNumber}?semester=${semester}`;
+    return `/explore/${subject}/${subject}-${courseNumber}`;
   },
 };
 </script>
