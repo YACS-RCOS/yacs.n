@@ -66,7 +66,7 @@
           <b-row>
             <b-col class="m-2">
               <b-button
-                @click="changeSchedule(-1)"
+                @click="changeSchedule(-1); updateIndexCookie();"
                 size="sm"
               >
                 Prev
@@ -85,7 +85,7 @@
             </b-col>
             <b-col class="m-2 text-right">
               <b-button
-                @click="changeSchedule(1)"
+                @click="changeSchedule(1); updateIndexCookie();"
                 size="sm"
               >
                 Next
@@ -208,6 +208,7 @@ import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
 
 import { userTypes } from "../store/modules/user";
 
@@ -256,7 +257,8 @@ export default {
         sections: [],
         times: [0, 0, 0, 0, 0]
       }],
-      index: 0
+      index: 0,
+      loadedIndexCookie: 0
     };
   },
   methods: {
@@ -363,6 +365,17 @@ export default {
           selectedCoursesCookie.clear().save();
         }
       }
+
+      const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
+
+      try {
+        this.index = selectedIndexCookie.semester(this.selectedSemester).selectedIndex;
+      } catch (err) {
+        // If there is an error here, it might mean the data was changed,
+        //  thus we need to reload the cookie
+        selectedIndexCookie.clear().save();
+      }
+      this.loadedIndexCookie = 1;
     },
     addCourse(course) {
       this.$set(this.selectedCourses, course.id, course);
@@ -454,6 +467,7 @@ export default {
       }
     },
     getSchedules() {
+      const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
           this.possibilities = [{
@@ -466,6 +480,16 @@ export default {
           throw new Error('conflict!')
         }
         this.possibilities = result
+        
+        //Don't set this.index to 0 if just loaded cookie
+        if (this.loadedIndexCookie == 2) {
+          if (oldLength != this.possibilities.length) {
+            this.index = 0;
+            this.updateIndexCookie();
+          }
+        } else if (this.loadedIndexCookie == 1) {
+          this.loadedIndexCookie = 2;
+        }
       } catch (e) {
         console.log(e.message)
         this.possibilities = [{
@@ -474,7 +498,6 @@ export default {
           conflict: e.message === 'conflict!'
         }]
       }
-      this.index = 0;
     },
     generateSchedule(c) {
       let courses = JSON.parse(JSON.stringify(c))
@@ -511,6 +534,12 @@ export default {
       }
       this.index = c
     },
+    updateIndexCookie() {
+      SelectedIndexCookie.load(this.$cookies)
+            .semester(this.selectedSemester)
+            .updateIndex(this.index)
+            .save();
+    },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -527,7 +556,6 @@ export default {
       );
     },
     selectedSections() {
-      this.getSchedules()
       return Object.values(this.selectedCourses)
         .map((c) => c.sections.filter((s) => s.selected))
         .flat();
