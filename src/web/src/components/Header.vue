@@ -94,7 +94,6 @@ export default {
   },
   data() {
     return {
-      
       selected: '',
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
