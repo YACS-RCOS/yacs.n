@@ -1,9 +1,3 @@
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5522&returnto=542
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5307&returnto=542
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5311&returnto=542
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5321&returnto=542
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5594&returnto=542
-http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542
 http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5337&returnto=542
 http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5600&returnto=542
 http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5342&returnto=542
