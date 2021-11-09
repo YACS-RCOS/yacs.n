@@ -6,9 +6,6 @@ Created on Tue Nov  2 17:40:34 2021
 @author: ziweipeng
 """
 
-import logging
-from urllib.parse import urljoin
-import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -29,10 +26,6 @@ def scrapFromURL(webLink, major_db):
     outFile.write(title_element.text)
     major = title_element.text
     outFile.write(":\n")
-
-    pathWayName = soup.find_all(id="acalog-content")
-
-    info = soup.find_all(class_="acalog-core")
 
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
@@ -95,12 +88,7 @@ i = 0
 for link in f:
     print(link)
     scrapFromURL(link, major_db)
-'''
-for item in major_db.keys():
-    fout.write("{}: {}".format(item, major_db[item]))
-    fout.write()
-    #print("{}: {}".format(item, major_db[item]))
-'''
+
  
 for item in major_db.keys():
     print("{}: {}".format(item, major_db[item]))
