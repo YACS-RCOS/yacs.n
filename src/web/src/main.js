@@ -2,7 +2,6 @@ import "@babel/polyfill";
 import "mutationobserver-shim";
 import "./plugins/bootstrap-vue";
 import "./plugins/fontawesome-vue";
-import "./registerServiceWorker";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import store from "./store";
 import Vue from "vue";
