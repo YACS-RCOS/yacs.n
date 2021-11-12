@@ -25,6 +25,11 @@ export default {
     }
 
     this.$store.dispatch(LOAD_DEPARTMENTS);
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
+
   },
   methods: {
     darkModeInit() {
