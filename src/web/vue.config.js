@@ -99,9 +99,6 @@ module.exports = {
       ],
     },
     workboxPluginMode: "GenerateSW",
-    workboxOption: {
-      skipWaiting: true,
-    },
   },
   configureWebpack: {
     plugins: [new MomentLocalesPlugin()],
