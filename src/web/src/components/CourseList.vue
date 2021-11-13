@@ -129,6 +129,7 @@ export default {
       this.$emit("showCourseInfo", course);
     },
     /* wrapper for querying with search */
+    // todo: get courses should be changed
     updateCourseList() {
       getCourses(this.selectedSemester, this.textSearch, false).then(
         (course_list) => {

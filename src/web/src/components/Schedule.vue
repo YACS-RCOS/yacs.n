@@ -23,33 +23,31 @@
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
-        <ScheduleEvent
-          v-for="courseSession in courseSessionsOnDay(index)"
-          :key="
-            courseSession.crn +
-            courseSession.day_of_week +
-            courseSession.time_start
-          "
-          :crn="courseSession.crn"
-          :section="courseSession.section"
-          :semester="courseSession.semester"
-          :name="findSectionName(courseSession.crn)"
-          :title="findCourseTitle(findSectionName(courseSession.crn))"
-          :style="{
-            'margin-top':
-              'max(' +
-              eventPosition(courseSession) +
-              'vh,' +
-              eventPosition(courseSession, minHeight) +
-              'px)',
-            height: eventHeight(courseSession) + 'vh',
-            'min-height': eventHeight(courseSession, minHeight) + 'px',
-            backgroundColor: getBackgroundColor(courseSession),
-            borderColor: getBorderColor(courseSession),
-            color: getTextColor(courseSession),
-            width: dayWidth + '%',
-          }"
-        ></ScheduleEvent>
+        <div v-for="(section, k) in temp.sections" :key="k" class="section-overlay">
+          <ScheduleEvent
+            v-for="(session, j) in getSessionsOfDay(section, index)" :key="j"
+
+            :crn="session.crn"
+            :section="session.section"
+            :semester="session.semester"
+            :name="section.department + ' ' + section.level"
+            :title="section.title"
+            :style="{
+              'margin-top':
+                'max(' +
+                eventPosition(session) +
+                'vh,' +
+                eventPosition(session, minHeight) +
+                'px)',
+              height: eventHeight(session) + 'vh',
+              'min-height': eventHeight(session, minHeight) + 'px',
+              backgroundColor: getBackgroundColor(section.department + '-' + section.level),
+              borderColor: getBorderColor(section.department + '-' + section.level),
+              color: getTextColor(section.department + '-' + section.level),
+              width: '100%'
+            }"
+          ></ScheduleEvent>
+        </div>
         <div
           class="grid-hour"
           v-for="hour of hours"
@@ -71,8 +69,6 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import Schedule from "@/controllers/Schedule";
-
 import ScheduleEventComponent from "@/components/ScheduleEvent";
 
 export default {
@@ -81,8 +77,8 @@ export default {
     ScheduleEvent: ScheduleEventComponent,
   },
   props: {
-    schedule: {
-      default: () => new Schedule(),
+    possibility: {
+      default: () => []
     },
   },
   data() {
@@ -93,6 +89,7 @@ export default {
       endTime: 1320,
       totalVHeight: 70,
       minHeight: 600,
+      temp: this.possibility
     };
   },
   methods: {
@@ -127,37 +124,9 @@ export default {
      * @param {number} dayOfWeek
      * @return {CourseSession[]}
      */
-    courseSessionsOnDay(dayOfWeek) {
-      return this.schedule.dailySessions[dayOfWeek];
-    },
-    /**
-     * Returns the name (department level) of a selected CourseSection for
-     * display in each ScheduleEvent
-     * @param {number} crn
-     * @return {string}
-     */
-    findSectionName(crn) {
-      const sections = this.schedule.selectedSections;
-      for (let index = 0; index < sections.length; index++) {
-        if (crn == sections[index].crn) {
-          return sections[index].department + " " + sections[index].level;
-        }
-      }
-    },
-    /**
-     * Returns the title of a selected Course for
-     * display in each ScheduleEvent
-     * @param {string} name (formatted department level)
-     * @return {string}
-     */
-    findCourseTitle(name) {
-      const courses = this.schedule.selectedCourses;
-      for (let index = 0; index < courses.length; index++) {
-        const tmpName = courses[index].department + " " + courses[index].level;
-        if (tmpName == name) {
-          return courses[index].title;
-        }
-      }
+    
+    getSessionsOfDay(section, day) {
+      return section.sessions.filter(session => session.day_of_week === day)
     },
   },
   computed: {
@@ -209,6 +178,11 @@ export default {
       return (60 * 100) / this.numMinutes;
     },
   },
+  watch: {
+    possibility(val) {
+      this.temp = val
+    }
+  }
 };
 </script>
 
@@ -268,5 +242,11 @@ $hourFontSize: 0.5em;
 
 .grid-day:last-of-type .grid-hour {
   border-right: none;
+}
+
+.section-overlay {
+  position: absolute;
+  width: 20%;
+  height: 100%;
 }
 </style>
