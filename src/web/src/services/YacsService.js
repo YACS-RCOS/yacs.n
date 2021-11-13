@@ -5,7 +5,7 @@ import axios from "axios";
 import { localToUTCDate, readableDate } from "@/utils";
 
 const client = axios.create({
-  baseURL: "/api"
+  baseURL: "/api",
 });
 
 /**
@@ -40,26 +40,27 @@ export const _getCourseIdentifier = (courseObj) => {
   `;
 };
 
-export const newGetCourses = (semester, search = null) => client.get("/class", { params: { semester, search } });
-
+export const newGetCourses = (semester, search = null) =>
+  client.get("/class", { params: { semester, search } });
 
 const parseSession = (sessions) => {
   let ret = [0, 0, 0, 0, 0];
   try {
-    sessions.forEach(session => {
-      let a = session["time_start"].split(":").map(a => Number.parseInt(a));
-      let b = session["time_end"].split(":").map(a => Number.parseInt(a));
-      const duration = Math.abs((b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0));
+    sessions.forEach((session) => {
+      let a = session["time_start"].split(":").map((a) => Number.parseInt(a));
+      let b = session["time_end"].split(":").map((a) => Number.parseInt(a));
+      const duration = Math.abs(
+        (b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0)
+      );
       const end = (20 - b[0]) * 2 + (b[1] < 30 ? 1 : 0);
       // generate 1 in bits for duration
       let ss = (1 << duration) - 1;
       // placeholder for day of week
       ss <<= end;
       ret[session["day_of_week"]] |= ss;
-
     });
   } catch (e) {
-    return [0, 0, 0, 0, 0]
+    return [0, 0, 0, 0, 0];
   }
   return ret;
 };
@@ -68,33 +69,31 @@ const parseSession = (sessions) => {
  * @returns {Promise<Course[]>}
  */
 export const getCourses = (semester, search = null, filter = true) =>
-  client
-    .get("/class", { params: { semester, search } })
-    .then(({ data }) => {
-      let courses = data.map((c) => {
-        c.date_start = localToUTCDate(new Date(c.date_start));
-        c.date_end = localToUTCDate(new Date(c.date_end));
+  client.get("/class", { params: { semester, search } }).then(({ data }) => {
+    let courses = data.map((c) => {
+      c.date_start = localToUTCDate(new Date(c.date_start));
+      c.date_end = localToUTCDate(new Date(c.date_end));
 
-        // Filter out sections that are null
-        c.sections = c.sections.filter((s) => !!s);
-        // Initialize section.selected to false
-        c.sections.forEach((s) => {
-          if (s) s.selected = false;
-          s.title = c.title;
-          s.date_start = c.date_start;
-          s.date_end = c.date_end;
-          s.times = parseSession(s.sessions);
-        });
-        // Initialize course.selected to false
-        c.selected = false;
-        // Generate id based on course content
-        c.id = _getCourseIdentifier(c);
-
-        c.vscrl_type = c.description ? "with-info" : "without-info";
-        return c;
+      // Filter out sections that are null
+      c.sections = c.sections.filter((s) => !!s);
+      // Initialize section.selected to false
+      c.sections.forEach((s) => {
+        if (s) s.selected = false;
+        s.title = c.title;
+        s.date_start = c.date_start;
+        s.date_end = c.date_end;
+        s.times = parseSession(s.sessions);
       });
-      return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
+      // Initialize course.selected to false
+      c.selected = false;
+      // Generate id based on course content
+      c.id = _getCourseIdentifier(c);
+
+      c.vscrl_type = c.description ? "with-info" : "without-info";
+      return c;
     });
+    return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
+  });
 /**
  * Returns a list of all departments
  * @returns {Promise<Department>}
@@ -111,8 +110,8 @@ export const getSubSemesters = (semester) =>
   client
     .get("/subsemester", {
       params: {
-        semester: semester
-      }
+        semester: semester,
+      },
     })
     .then(({ data }) => {
       return data.map((subsemester) => {
@@ -143,7 +142,7 @@ export const addStudentCourse = (course_info) =>
 export const removeStudentCourse = (course_info) =>
   client
     .delete("/user/course", {
-      data: course_info
+      data: course_info,
     })
     .then((res) => res.data);
 

@@ -247,8 +247,8 @@ export const exportScheduleToIcs = (selectedSections) => {
       const days = sessionGroupOfSameMeetTime.map(
         (sess) => ICS_DAY_SHORTNAMES[sess.day_of_week]
       );
-      const date_start = localToUTCDate(new Date(section.date_start))
-      const date_end = localToUTCDate(new Date(section.date_end))
+      const date_start = localToUTCDate(new Date(section.date_start));
+      const date_end = localToUTCDate(new Date(section.date_end));
       // Gets closest day to the course start date
       const firstDay = getClosestDay(
         date_start.getDay(),

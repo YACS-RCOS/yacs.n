@@ -108,7 +108,7 @@ class SelectedIndexCookie {
   //Updates index of current semester
   updateIndex(newIndex) {
     if (this._semester === undefined) {
-        return this;
+      return this;
     }
 
     this._selectedSemestersIndex[this._semester] = newIndex;

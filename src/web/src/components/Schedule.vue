@@ -23,10 +23,14 @@
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
-        <div v-for="(section, k) in temp.sections" :key="k" class="section-overlay">
+        <div
+          v-for="(section, k) in temp.sections"
+          :key="k"
+          class="section-overlay"
+        >
           <ScheduleEvent
-            v-for="(session, j) in getSessionsOfDay(section, index)" :key="j"
-
+            v-for="(session, j) in getSessionsOfDay(section, index)"
+            :key="j"
             :crn="session.crn"
             :section="session.section"
             :semester="session.semester"
@@ -41,10 +45,14 @@
                 'px)',
               height: eventHeight(session) + 'vh',
               'min-height': eventHeight(session, minHeight) + 'px',
-              backgroundColor: getBackgroundColor(section.department + '-' + section.level),
-              borderColor: getBorderColor(section.department + '-' + section.level),
+              backgroundColor: getBackgroundColor(
+                section.department + '-' + section.level
+              ),
+              borderColor: getBorderColor(
+                section.department + '-' + section.level
+              ),
               color: getTextColor(section.department + '-' + section.level),
-              width: '100%'
+              width: '100%',
             }"
           ></ScheduleEvent>
         </div>
@@ -78,7 +86,7 @@ export default {
   },
   props: {
     possibility: {
-      default: () => []
+      default: () => [],
     },
   },
   data() {
@@ -89,7 +97,7 @@ export default {
       endTime: 1320,
       totalVHeight: 70,
       minHeight: 600,
-      temp: this.possibility
+      temp: this.possibility,
     };
   },
   methods: {
@@ -124,9 +132,9 @@ export default {
      * @param {number} dayOfWeek
      * @return {CourseSession[]}
      */
-    
+
     getSessionsOfDay(section, day) {
-      return section.sessions.filter(session => session.day_of_week === day)
+      return section.sessions.filter((session) => session.day_of_week === day);
     },
   },
   computed: {
@@ -180,9 +188,9 @@ export default {
   },
   watch: {
     possibility(val) {
-      this.temp = val
-    }
-  }
+      this.temp = val;
+    },
+  },
 };
 </script>
 

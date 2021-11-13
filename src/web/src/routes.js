@@ -1,7 +1,7 @@
 import VueRouter from "vue-router";
 const AdminPage = () => import("./pages/Admin");
 const StudentPage = () => import("./pages/Student");
-const CourseSchedulerPage = () => import("./pages/NewCourseScheduler");/**/
+const CourseSchedulerPage = () => import("./pages/NewCourseScheduler"); /**/
 const UploadCsvPage = () => import("./pages/UploadCsv");
 const EditSemestersPage = () => import("./pages/EditSemesters");
 const CourseExplorerPage = () => import("./pages/CourseExplorer");

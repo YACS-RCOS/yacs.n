@@ -25,10 +25,7 @@
             v-if="course.sections.length"
             @click.stop="toggleCollapse()"
           >
-            <font-awesome-icon
-              v-if="!showCollapse"
-              :icon="faChevronDown"
-            />
+            <font-awesome-icon v-if="!showCollapse" :icon="faChevronDown" />
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>

@@ -67,7 +67,10 @@
             <b-row>
               <b-col class="m-2">
                 <b-button
-                  @click="changeSchedule(-1); updateIndexCookie();"
+                  @click="
+                    changeSchedule(-1);
+                    updateIndexCookie();
+                  "
                   size="sm"
                 >
                   Prev
@@ -81,12 +84,16 @@
                   Can't display because of course conflict!
                 </span>
                 <span v-else>
-                  Displaying schedule {{ this.index + 1 }} out of {{ this.possibilities.length }}
+                  Displaying schedule {{ this.index + 1 }} out of
+                  {{ this.possibilities.length }}
                 </span>
               </b-col>
               <b-col class="m-2 text-right">
                 <b-button
-                  @click="changeSchedule(1); updateIndexCookie();"
+                  @click="
+                    changeSchedule(1);
+                    updateIndexCookie();
+                  "
                   size="sm"
                 >
                   Next
@@ -216,27 +223,35 @@ import { userTypes } from "../store/modules/user";
 
 import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
-import { addStudentCourse, getStudentCourses, removeStudentCourse } from "@/services/YacsService";
+import {
+  addStudentCourse,
+  getStudentCourses,
+  removeStudentCourse,
+} from "@/services/YacsService";
 
-import { exportScheduleToIcs, exportScheduleToImage, generateRequirementsText, withinDuration } from "@/utils";
+import {
+  exportScheduleToIcs,
+  exportScheduleToImage,
+  generateRequirementsText,
+  withinDuration,
+} from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
-    if ((p.time[i] & section.times[i]) > 0) return false
+    if ((p.time[i] & section.times[i]) > 0) return false;
   }
-  return true
-}
+  return true;
+};
 const addSection = (p, section) => {
-  let ret = [0, 0, 0, 0, 0]
-  for (let i = 0; i < 5; i++)
-    ret[i] = p.time[i] | section.times[i]
+  let ret = [0, 0, 0, 0, 0];
+  for (let i = 0; i < 5; i++) ret[i] = p.time[i] | section.times[i];
   return {
     sections: p.sections.concat(section),
-    time: ret
-  }
-}
+    time: ret,
+  };
+};
 export default {
   name: "MainPage",
   mixins: [NotificationsMixin],
@@ -255,12 +270,14 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
-      possibilities: [{
-        sections: [],
-        times: [0, 0, 0, 0, 0]
-      }],
+      possibilities: [
+        {
+          sections: [],
+          times: [0, 0, 0, 0, 0],
+        },
+      ],
       index: 0,
-      loadedIndexCookie: 0
+      loadedIndexCookie: 0,
     };
   },
   methods: {
@@ -344,23 +361,23 @@ export default {
           selectedCoursesCookie
             .semester(this.selectedSemester)
             .selectedCourses.forEach((selectedCourse) => {
-            const course = this.courses.find(
-              (course) => course.id === selectedCourse.id
-            );
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
 
-            this.$set(this.selectedCourses, course.id, course);
-            course.selected = true;
+              this.$set(this.selectedCourses, course.id, course);
+              course.selected = true;
 
-            selectedCourse.selectedSectionCrns.forEach(
-              (selectedSectionCrn) => {
-                const section = course.sections.find(
-                  (section) => section.crn === selectedSectionCrn
-                );
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
 
-                section.selected = true;
-              }
-            );
-          });
+                  section.selected = true;
+                }
+              );
+            });
         } catch (err) {
           // If there is an error here, it might mean the data was changed,
           //  thus we need to reload the cookie
@@ -371,7 +388,9 @@ export default {
       const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
 
       try {
-        this.index = selectedIndexCookie.semester(this.selectedSemester).selectedIndex;
+        this.index = selectedIndexCookie.semester(
+          this.selectedSemester
+        ).selectedIndex;
       } catch (err) {
         // If there is an error here, it might mean the data was changed,
         //  thus we need to reload the cookie
@@ -394,10 +413,12 @@ export default {
           .addCourse(course)
           .save();
       }
-      course.sections.forEach(section => this.addCourseSection(course, section))
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
     },
     addCourseSection(course, section) {
-      section.selected = true
+      section.selected = true;
       if (this.isLoggedIn) {
         addStudentCourse({
           name: course.name,
@@ -414,8 +435,8 @@ export default {
     removeCourse(course) {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
-      
-      course.sections.forEach(section => this.removeCourseSection(section))
+
+      course.sections.forEach((section) => this.removeCourseSection(section));
 
       if (this.isLoggedIn) {
         removeStudentCourse({
@@ -432,7 +453,7 @@ export default {
     },
     removeCourseSection(section) {
       if (section.selected) {
-        section.selected = false
+        section.selected = false;
 
         if (this.isLoggedIn) {
           removeStudentCourse({
@@ -472,17 +493,21 @@ export default {
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
-          this.possibilities = [{
-            sections: [],
-            time: [0, 0, 0, 0, 0]
-          }];
+          this.possibilities = [
+            {
+              sections: [],
+              time: [0, 0, 0, 0, 0],
+            },
+          ];
         }
-        const result = this.generateSchedule(Object.values(this.selectedCourses))
+        const result = this.generateSchedule(
+          Object.values(this.selectedCourses)
+        );
         if (!result.length) {
-          throw new Error('conflict!')
+          throw new Error("conflict!");
         }
-        this.possibilities = result
-        
+        this.possibilities = result;
+
         //Don't set this.index to 0 if just loaded cookie
         if (this.loadedIndexCookie == 2) {
           if (oldLength != this.possibilities.length) {
@@ -493,54 +518,63 @@ export default {
           this.loadedIndexCookie = 2;
         }
       } catch (e) {
-        console.log(e.message)
-        this.possibilities = [{
-          sections: [],
-          time: [0, 0, 0, 0, 0],
-          conflict: e.message === 'conflict!'
-        }]
+        console.log(e.message);
+        this.possibilities = [
+          {
+            sections: [],
+            time: [0, 0, 0, 0, 0],
+            conflict: e.message === "conflict!",
+          },
+        ];
       }
     },
     generateSchedule(c) {
-      let courses = JSON.parse(JSON.stringify(c))
-      if (courses.length === 0) return [{
-        sections: [],
-        time: [0, 0, 0, 0, 0]
-      }]
-      const popped = courses.pop()
-      let ret = this.generateSchedule(courses)
+      let courses = JSON.parse(JSON.stringify(c));
+      if (courses.length === 0)
+        return [
+          {
+            sections: [],
+            time: [0, 0, 0, 0, 0],
+          },
+        ];
+      const popped = courses.pop();
+      let ret = this.generateSchedule(courses);
 
-      if(ret.length === 0) throw new Error('conflict!')
-      return ret.map(schedule => {
-        const x = popped.sections.filter(s => s.selected)
-        if (!x.length) throw new Error('no selection!')
-        return x.map(section => {
-          if (noConflict(schedule, section)) {
-            return addSection(schedule, section)
-          }
-          return undefined
-        }).filter(x => !!x)
-      }).flat()
+      if (ret.length === 0) throw new Error("conflict!");
+      return ret
+        .map((schedule) => {
+          const x = popped.sections.filter((s) => s.selected);
+          if (!x.length) throw new Error("no selection!");
+          return x
+            .map((section) => {
+              if (noConflict(schedule, section)) {
+                return addSection(schedule, section);
+              }
+              return undefined;
+            })
+            .filter((x) => !!x);
+        })
+        .flat();
     },
     changeSchedule(step) {
-      const l = this.possibilities.length
-      if (l === 0) return
-      const c = this.index + step
+      const l = this.possibilities.length;
+      if (l === 0) return;
+      const c = this.index + step;
       if (c < 0) {
-        this.index = l - 1
-        return
-      }
-      if (c >= l) {
-        this.index = 0
+        this.index = l - 1;
         return;
       }
-      this.index = c
+      if (c >= l) {
+        this.index = 0;
+        return;
+      }
+      this.index = c;
     },
     updateIndexCookie() {
       SelectedIndexCookie.load(this.$cookies)
-            .semester(this.selectedSemester)
-            .updateIndex(this.index)
-            .save();
+        .semester(this.selectedSemester)
+        .updateIndex(this.index)
+        .save();
     },
   },
   computed: {
@@ -567,7 +601,10 @@ export default {
      * @returns {string}
      */
     selectedCrns() {
-      return this.possibilities[this.index] && this.possibilities[this.index].sections.map((s) => s.crn).join(", ");
+      return (
+        this.possibilities[this.index] &&
+        this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
+      );
     },
     /**
      * Returns sum of credits being taken from all selected sections
@@ -587,8 +624,11 @@ export default {
 
     scheduleDisplayMessage() {
       if (this.possibilities.length === 1) {
-        return this.possibilities[0].sections.length===0 ?
-            (this.possibilities[0].conflict ? 3 : 2) : 1
+        return this.possibilities[0].sections.length === 0
+          ? this.possibilities[0].conflict
+            ? 3
+            : 2
+          : 1;
       }
       return 1;
     },
@@ -608,9 +648,9 @@ export default {
     },
     selectedSections: {
       handler() {
-        this.getSchedules()
-      }
-    }
+        this.getSchedules();
+      },
+    },
   },
 };
 </script>
