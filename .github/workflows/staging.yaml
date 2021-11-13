@@ -12,6 +12,8 @@ jobs:
 
     env:
       HOST: yacs.duckdns.org
+      AUTO_LE: no
+      SELF_CERT: yes
       API_WORKERS: 8
 
     steps:

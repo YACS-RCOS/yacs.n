@@ -8,8 +8,6 @@ services:
     ports:
       - 80:8080
       - 443:8443
-    volumes:
-      - ./src/web/cert:/etc/letsencrypt
     environment:
       # https://docs.docker.com/compose/compose-file/#variable-substitution
       # - HOST=${HOST:-localhost}
@@ -38,7 +36,7 @@ services:
       - USE_PROXY_CACHE=yes
       - PROXY_CACHE_VALID=200=1s
       # ===== HTTPS config =====
-      - AUTO_LETS_ENCRYPT=${AUTO_LE:-yes}
+      - AUTO_LETS_ENCRYPT=${AUTO_LE:-no}
       - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-no}
       - REDIRECT_HTTP_TO_HTTPS=yes
       # ===== ModSecurity =====

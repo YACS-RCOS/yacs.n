@@ -12,6 +12,7 @@ jobs:
       HOST: ${{ secrets.HOST }}
       ADMIN_PASS: ${{ secrets.ADMIN_PASS }}
       DB_PASS: ${{ secrets.DB_PASS }}
+      AUTO_LE: yes
       API_WORKERS: 8
 
     steps:
