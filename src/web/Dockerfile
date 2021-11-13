@@ -3,7 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY ./ .
-RUN chown -R 101:101 ./src/web/cert
 
 FROM develop-stage as build-stage
 RUN npm run build
