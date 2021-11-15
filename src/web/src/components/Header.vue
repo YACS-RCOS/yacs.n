@@ -15,11 +15,9 @@
     </b-navbar-brand>
     <div>
       <b-dropdown variant="outline-primary" 
-                        v-model="selectedSemester" 
                         size = "sm" 
                         text="Select Semester" 
-                        class= "m-md-2" 
-                        v-on:change="selectSemester">
+                        class= "m-md-2">
         <b-dropdown-item v-for="option in semesterOptions" 
                         :key="option.value" 
                         :value="option.value" 
