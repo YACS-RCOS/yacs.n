@@ -31,20 +31,34 @@
           <ScheduleEvent
             v-for="(session, j) in getSessionsOfDay(section, index)"
             :key="j"
+            :day="session.day_of_week"
+            :startTime="session.time_start.split(':').slice(0,2).join(':')"
+            :endTime="session.time_end.split(':').slice(0,2).join(':')"
             :crn="session.crn"
             :section="session.section"
             :semester="session.semester"
             :name="section.department + ' ' + section.level"
+            :sessionType="mapSessionType(session.session_type)"
+            :instructor="
+              session.instructor == null
+               ? 'Instructor TBA'
+               : session.instructor.split('/').join(' and ')
+            "
+            :location="
+              session.location == null
+               ? 'Location TBA'
+               : session.location
+            "
             :title="section.title"
             :style="{
               'margin-top':
-                'max(' +
+                'max(calc(' +
                 eventPosition(session) +
-                'vh,' +
-                eventPosition(session, minHeight) +
+                'vh + 1px),' +
+                eventPosition(session, minHeight) + 1 +
                 'px)',
-              height: eventHeight(session) + 'vh',
-              'min-height': eventHeight(session, minHeight) + 'px',
+              height: 'calc(' + eventHeight(session) + 'vh - 1px)',
+              'min-height': eventHeight(session, minHeight) - 1 + 'px',
               backgroundColor: getBackgroundColor(
                 section.department + '-' + section.level
               ),
@@ -52,7 +66,7 @@
                 section.department + '-' + section.level
               ),
               color: getTextColor(section.department + '-' + section.level),
-              width: '100%',
+              width: 'calc(100% - 1px)',
             }"
           ></ScheduleEvent>
         </div>
@@ -95,8 +109,16 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalVHeight: 70,
+      totalVHeight: 80,
       minHeight: 600,
+      sessionTypes: {
+        "LEC" : "Lecture",
+        "REC" : "Recitation",
+        "LAB" : "Lab",
+        "TES" : "Test",
+        "STU" : "Studio",
+        null  : "No Type",
+      },
       temp: this.possibility,
     };
   },
@@ -135,6 +157,11 @@ export default {
 
     getSessionsOfDay(section, day) {
       return section.sessions.filter((session) => session.day_of_week === day);
+    },
+    mapSessionType(type) {
+      return this.sessionTypes[type] == null
+              ? type
+              : this.sessionTypes[type];
     },
   },
   computed: {
@@ -189,6 +216,7 @@ export default {
   watch: {
     possibility(val) {
       this.temp = val;
+      console.log(this.temp);
     },
   },
 };
@@ -256,5 +284,6 @@ $hourFontSize: 0.5em;
   position: absolute;
   width: 20%;
   height: 100%;
+  pointer-events: none;
 }
 </style>

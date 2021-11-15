@@ -7,92 +7,49 @@ import store from "@/store";
  * @module ColorService
  */
 
-//Default Colors
+// Default Colors
 const COLORS = [
-  "#ffd4df", //red
-  "#ceeffc", //blue
-  "#fff4d0", //yellow
-  "#dcf7da", //green
-  "#f7e2f7", //purple
-  "#ede6df", //brown
-  "#ffe9cf", //orange
-  "#ffd1fc", //pink
-  "#d9fdfc", //aquamarine
-  "#e2caca", //maroon
-  "#A3CFE1", //dark blue
-  "#ACDBA9", //dark green
+  // H    S    L
+  [345, 1  , .92], // "#ffd4df", red
+  [197, .88, .90], // "#ceeffc", blue
+  [ 46, 1  , .91], // "#fff4d0", yellow
+  [116, .64, .91], // "#dcf7da", green
+  [300, .57, .93], // "#f7e2f7", purple
+  [ 30, .28, .90], // "#ede6df", brown
+  [ 33, 1  , .91], // "#ffe9cf", orange
+  [304, 1  , .91], // "#ffd1fc", pink
+  [178, .90, .92], // "#d9fdfc", aquamarine
+  [  0, .29, .90], // "#e2caca", maroon, changed
+  [197, .51, .85], // "#a3cfe1", dark blue, changed
+  [116, .41, .85], // "#acdba9", dark green, changed
 ];
 const TEXT_COLORS = [
-  "#d1265d",
-  "#1577aa",
-  "#bf8a2e",
-  "#008a2e",
-  "#853d80",
-  "#9d5733",
-  "#d9652b",
-  "#ff00ef",
-  "#00a499",
-  "#ab1111",
-  "#014779",
-  "#116940",
+  [341, .69, .48], // "#d1265d", red
+  [201, .78, .37], // "#1577aa", blue
+  [ 38, .61, .46], // "#bf8a2e", yellow
+  [140, 1  , .27], // "#008a2e", green
+  [304, .37, .38], // "#853d80", purple
+  [ 20, .51, .41], // "#9d5733", brown
+  [ 20, .70, .51], // "#d9652b", orange
+  [304, 1  , .50], // "#ff00ef", pink
+  [176, 1  , .32], // "#00a499", aquamarine
+  [  0, .82, .37], // "#ab1111", maroon
+  [205, .98, .24], // "#014779", dark blue
+  [152, .72, .24], // "#116940", dark green
 ];
 const BORDER_COLORS = [
-  "#ff2066",
-  "#00aff2",
-  "#ffcb45",
-  "#48da58",
-  "#d373da",
-  "#a48363",
-  "#ff9332",
-  "#ff00ef",
-  "#00fff9",
-  "#ab0000",
-  "#015FA2",
-  "#298E33",
-];
-
-//Dark Mode Colors
-const DARK_MODE_COLORS = [
-  "#D29BA9", //red
-  "#A1C3D0", //blue
-  "#EBDEB4", //yellow
-  "#B7DAB4", //green
-  "#DFC0DF", //purple
-  "#D8C9B9", //brown
-  "#DFC7AC", //orange
-  "#E4B7E1", //pink
-  "#ABD9D8", //aquamarine
-  "#CAA5A5", //maroon
-  "#A3CFE1", //dark blue
-  "#9ED59A", //dark green
-];
-const DARK_MODE_TEXT_COLORS = [
-  "#9B465B",
-  "#1577aa",
-  "#bf8a2e",
-  "#008a2e",
-  "#853d80",
-  "#9d5733",
-  "#C17F33",
-  "#BC4EB4",
-  "#00a499",
-  "#ab1111",
-  "#014779",
-  "#116940",
-];
-const DARK_MODE_BORDER_COLORS = [
-  "#A94C63",
-  "#528CA3",
-  "#D4B95E",
-  "#6EB569",
-  "#d373da",
-  "#a48363",
-  "#C69D6C",
-  "#D897D5",
-  "#56B3B2",
-  "#ab0000",
-  "#015FA2",
-  "#298E33",
+  [341, 1  , .56], // "#ff2066", red
+  [197, 1  , .47], // "#00aff2", blue
+  [ 43, 1  , .64], // "#ffcb45", yellow
+  [127, .66, .57], // "#48da58", green
+  [296, .58, .65], // "#d373da", purple
+  [ 30, .26, .52], // "#a48363", brown
+  [ 28, 1  , .60], // "#ff9332", orange
+  [304, 1  , .50], // "#ff00ef", pink
+  [179, 1  , .50], // "#00fff9", aquamarine
+  [  0, 1  , .37], // "#ab0000", maroon, changed
+  [205, .99, .36], // "#015fa2", dark blue, changed
+  [126, .55, .38], // "#298e33", dark green, changed
 ];
 
 /**
@@ -107,46 +64,32 @@ const DARK_MODE_BORDER_COLORS = [
  * https://www.color-blindness.com/coblis-color-blindness-simulator/
  */
 const COLOR_BLIND_COLORS = [
-  "#FB373E", //red
-  "#8CBBE3", //blue
-  "#F7F056", //yellow
-  "#CAE0AB", //green
-  "#DCCCE1", //purple
-  "#ede6df", //brown
-  "#F6C141", //orange
-  "#FFEBFE", //pink
-  "#6596CD", //aquamarine
-  "#e2caca", //maroon
-  "#2286AA", //dark blue
-  "#90C987", //dark green
-];
-const COLOR_BLIND_TEXT_COLORS = [
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
-  "#000000",
+  [358, .96, .60], // "#fb373e", red
+  [208, .61, .72], // "#8cbbe3", blue
+  [ 57, .91, .65], // "#f7f056", yellow
+  [ 85, .46, .77], // "#cae0ab", green
+  [286, .26, .84], // "#dccce1", purple
+  [ 30, .28, .90], // "#ede6df", brown
+  [ 42, .91, .61], // "#f6c141", orange
+  [303, 1  , .96], // "#ffebfe", pink
+  [212, .51, .60], // "#6596cd", aquamarine
+  [  0, .29, .84], // "#e2caca", maroon
+  [196, .67, .55], // "#2286aa", dark blue, changed
+  [112, .38, .66], // "#90c987", dark green
 ];
 const COLOR_BLIND_BORDER_COLORS = [
-  "#A30034",
-  "#00aff2",
-  "#ffcb45",
-  "#97C25B",
-  "#d373da",
-  "#a48363",
-  "#ff9332",
-  "#FFADFA",
-  "#32639A",
-  "#ab0000",
-  "#015FA2",
-  "#298E33",
+  [341, 1  , .32], //"#a30034", red
+  [197, 1  , .47], //"#00aff2", blue
+  [ 43, 1  , .64], //"#ffcb45", yellow
+  [ 85, .46, .56], //"#97c25b", green
+  [296, .58, .65], //"#d373da", purple
+  [ 30, .26, .52], //"#a48363", brown
+  [ 28, 1  , .60], //"#ff9332", orange
+  [304, 1  , .84], //"#ffadfa", pink
+  [212, .51, .40], //"#32639a", aquamarine
+  [  0, 1  , .34], //"#ab0000", maroon
+  [205, .99, .32], //"#015fa2", dark blue
+  [126, .55, .36], //"#298e33", dark green
 ];
 
 const NUM_COLORS = 12;
@@ -155,25 +98,38 @@ const NUM_COLORS = 12;
 var assignmentIncr = 0;
 var colorAssignments = new Map();
 
+const _toHslStr = (lst, sOffset = 0, lOffset = 0) => {
+  return 'hsl(' + lst[0].toString() + ',' +
+                ((lst[1] + sOffset) * 100).toString() + '%,' +
+                ((lst[2] + lOffset) * 100).toString() + '%)';
+};
+
 const _getColor = (id) => {
   const assignment = _assign(id);
-  if (store.getters.colorBlindAssistState) {
+  if (store.getters.colorBlindAssistState
+      && store.getters.darkModeState) {
     return {
-      primary: COLOR_BLIND_COLORS[assignment],
-      text: COLOR_BLIND_TEXT_COLORS[assignment],
-      border: COLOR_BLIND_BORDER_COLORS[assignment],
+      primary: _toHslStr(COLOR_BLIND_COLORS[assignment], 0, -.37),
+      text: "#fff",
+      border: _toHslStr(COLOR_BLIND_BORDER_COLORS[assignment], -.05, 0),
+    };
+  } else if (store.getters.colorBlindAssistState) {
+    return {
+      primary: _toHslStr(COLOR_BLIND_COLORS[assignment]),
+      text: "#000",
+      border: _toHslStr(COLOR_BLIND_BORDER_COLORS[assignment]),
     };
   } else if (store.getters.darkModeState) {
     return {
-      primary: DARK_MODE_COLORS[assignment],
-      text: DARK_MODE_TEXT_COLORS[assignment],
-      border: DARK_MODE_BORDER_COLORS[assignment],
+      primary: _toHslStr(COLORS[assignment], -.07, -.67),
+      text: _toHslStr(TEXT_COLORS[assignment], -.17, .27),
+      border: _toHslStr(BORDER_COLORS[assignment], -.13, -.11),
     };
   } else {
     return {
-      primary: COLORS[assignment],
-      text: TEXT_COLORS[assignment],
-      border: BORDER_COLORS[assignment],
+      primary: _toHslStr(COLORS[assignment]),
+      text: _toHslStr(TEXT_COLORS[assignment]),
+      border: _toHslStr(BORDER_COLORS[assignment]),
     };
   }
 };

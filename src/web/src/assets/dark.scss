@@ -12,13 +12,13 @@
 }
 
 :root {
-  --dark-primary: #22252e;
-  --dark-secondary: #181a21;
-  --dark-text-primary: #e6e4e4;
-  --dark-text-secondary: #777777;
-  --dark-border-primary: #868686;
-  --dark-blue-primary: #3395ff;
-  --dark-blue-secondary: #2783e6;
+  --dark-primary: hsl(225, 15%, 16%);
+  --dark-secondary: hsl(227, 16%, 11%);
+  --dark-text-primary: hsl(0, 4%, 90%);
+  --dark-text-secondary: hsl(0, 0%, 47%);
+  --dark-border-primary: hsl(0, 0%, 38%);
+  --dark-blue-primary: hsl(211, 100%, 60%);
+  --dark-blue-secondary: hsl(211, 79%, 53%);
 }
 /* use !important to make sure components are overridden */
 .dark {
@@ -194,6 +194,15 @@
     background-color: var(--dark-primary) !important;
   }
 
+  .grid-hour {
+    border-top: 1px solid var(--dark-border-primary) !important;
+    border-right: 1px solid var(--dark-border-primary) !important;
+  }
+
+  .event-text span[data-cy="title"] {
+    color: hsl(0, 0%, 100%);
+  }
+
   .modal-header {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
@@ -204,6 +213,39 @@
   .modal-content {
     background: var(--dark-primary) !important;
     color: var(--dark-primary-text) !important;
+  }
+
+  .popover {
+    border: 1px solid var(--dark-border-primary) !important;
+
+    .popover-header {
+      background: var(--dark-primary) !important;
+      color: var(--dark-primary-text) !important;
+      border-bottom: 1px solid var(--dark-border-primary) !important;
+    }
+    .popover-body {
+      background: var(--dark-secondary) !important;
+      color: var(--dark-primary-text) !important;
+    }
+  }
+  .bs-popover-top {
+    .arrow::after {
+      border-top-color: var(--dark-secondary) !important;
+    }
+    .arrow::before {
+      border-top-color: var(--dark-border-primary) !important;
+    }
+  }
+  .bs-popover-bottom {
+    .arrow::after {
+      border-bottom-color: var(--dark-primary) !important;
+    }
+    .arrow::before {
+      border-bottom-color: var(--dark-border-primary) !important;
+    }
+    .popover-header::before {
+      border-bottom: none !important;
+    }
   }
 
   .breadcrumb {
