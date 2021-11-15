@@ -230,63 +230,63 @@ export const findCourseByCourseSessionCRN = (allCourseData, inputCRNValue) => {
 /**
  * Export all selected course sections to ICS
  */
-export const exportScheduleToIcs = (selectedCourses) => {
+export const exportScheduleToIcs = (selectedSections) => {
   let calendarBuilder = window.ics();
   let semester;
   // Handle Special Case Where No Selected Courses On Schedule.
-  if (selectedCourses.length == 0) {
+  if (selectedSections[0].length == 0) {
     alert("No Courses Found For Export To ICS Data.");
     return;
   }
-  for (const course of selectedCourses) {
-    for (const section of course.sections.filter((s) => s.selected)) {
-      const sessionsPartitionedByStartAndEnd = partition(
-        section.sessions,
-        compareSessionsByDate
+  for (const section of selectedSections[0]) {
+    const sessionsPartitionedByStartAndEnd = partition(
+      section.sessions,
+      compareSessionsByDate
+    );
+    for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
+      const days = sessionGroupOfSameMeetTime.map(
+        (sess) => ICS_DAY_SHORTNAMES[sess.day_of_week]
       );
-      for (const sessionGroupOfSameMeetTime of sessionsPartitionedByStartAndEnd) {
-        const days = sessionGroupOfSameMeetTime.map(
-          (sess) => ICS_DAY_SHORTNAMES[sess.day_of_week]
-        );
-        // Gets closest day to the course start date
-        const firstDay = getClosestDay(
-          course.date_start.getDay(),
-          sessionGroupOfSameMeetTime
-        );
-        const session = sessionGroupOfSameMeetTime[0];
-        // The dates from the DB have no timezone, so when they are
-        // cast to a JS date they're by default at time midnight 00:00:00.
-        // This will exclude all classes if they're on that final day, so bump
-        // the end date by 1 day.
-        let exclusive_date_end = new Date(course.date_end);
-        exclusive_date_end.setDate(course.date_end.getDate() + 1);
-        // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
-        // firstDay is numbered     0 MON - 4 FRI, so need to add 1 to match moment's spec
-        let dtStart = moment(course.date_start)
-          .day(firstDay + 1)
+      const date_start = localToUTCDate(new Date(section.date_start));
+      const date_end = localToUTCDate(new Date(section.date_end));
+      // Gets closest day to the course start date
+      const firstDay = getClosestDay(
+        date_start.getDay(),
+        sessionGroupOfSameMeetTime
+      );
+      const session = sessionGroupOfSameMeetTime[0];
+      // The dates from the DB have no timezone, so when they are
+      // cast to a JS date they're by default at time midnight 00:00:00.
+      // This will exclude all classes if they're on that final day, so bump
+      // the end date by 1 day.
+      let exclusive_date_end = new Date(date_end);
+      exclusive_date_end.setDate(date_end.getDate() + 1);
+      // Moment numbers days from 0 SUN - 6 MON - 7 NEXT SUNDAY
+      // firstDay is numbered     0 MON - 4 FRI, so need to add 1 to match moment's spec
+      let dtStart = moment(date_start)
+        .day(firstDay + 1)
+        .toDate();
+      if (dtStart < date_start) {
+        // Go to NEXT week, uses the current week by default
+        dtStart = moment(date_start)
+          .day(firstDay + 1 + 7)
           .toDate();
-        if (dtStart < course.date_start) {
-          // Go to NEXT week, uses the current week by default
-          dtStart = moment(course.date_start)
-            .day(firstDay + 1 + 7)
-            .toDate();
-        }
-        semester = section.semester;
-        // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
-        calendarBuilder.addEvent(
-          `${course.full_title || course.title}`,
-          `${course.department}-${course.level} ${session.section}, CRN: ${session.crn}  [from YACS]`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
-          "", // session.location,
-          new Date(`${dtStart.toDateString()} ${session.time_start}`),
-          new Date(`${dtStart.toDateString()} ${session.time_end}`),
-          {
-            freq: "WEEKLY",
-            interval: 1,
-            until: exclusive_date_end,
-            byday: days,
-          }
-        );
       }
+      semester = section.semester;
+      // https://github.com/nwcell/ics.js/blob/master/ics.js#L50
+      calendarBuilder.addEvent(
+        `${section.title}`,
+        `${section.department}-${section.level} ${session.section}, CRN: ${session.crn}  [from YACS]`, // Add professor and type of class (LEC || LAB) to this description arg when data is available
+        "", // session.location,
+        new Date(`${dtStart.toDateString()} ${session.time_start}`),
+        new Date(`${dtStart.toDateString()} ${session.time_end}`),
+        {
+          freq: "WEEKLY",
+          interval: 1,
+          until: exclusive_date_end,
+          byday: days,
+        }
+      );
     }
   }
   calendarBuilder.download(
