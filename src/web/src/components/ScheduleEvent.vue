@@ -70,6 +70,7 @@ export default {
   overflow: hidden;
   height: 100%;
   cursor: pointer;
+  pointer-events: auto;
 
   .event-text {
     padding: 4px;
