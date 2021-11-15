@@ -136,6 +136,10 @@ const store = new Vuex.Store({
         await dispatch(LOAD_SEMESTERS);
       }
 
+      if (!semester && Vue.$cookies.get("selectedSemester")) {
+        semester = Vue.$cookies.get("selectedSemester");
+      }
+
       if (!semester || !state.semesters.find((s) => s.semester === semester)) {
         semester = await getDefaultSemester();
       }
@@ -145,6 +149,15 @@ const store = new Vuex.Store({
       }
 
       commit(SET_SELECTED_SEMESTER, semester);
+      Vue.$cookies.set(
+        "selectedSemester",
+        semester,
+        null,
+        null,
+        null,
+        null,
+        "Strict"
+      );
 
       await dispatch(LOAD_SUBSEMESTERS);
 

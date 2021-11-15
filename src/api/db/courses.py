@@ -78,7 +78,9 @@ class Courses:
                                     time_start,
                                     time_end,
                                     day_of_week,
-                                    location
+                                    location,
+                                    session_type,
+                                    instructor
                                 )
                             VALUES (
                                 NULLIF(%(CRN)s, ''),
@@ -87,7 +89,9 @@ class Courses:
                                 %(StartTime)s,
                                 %(EndTime)s,
                                 %(WeekDay)s,
-                                NULLIF(%(Location)s, '')
+                                NULLIF(%(Location)s, ''),
+                                NULLIF(%(SessionType)s, ''),
+                                NULLIF(%(Instructor)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -98,7 +102,9 @@ class Courses:
                                 "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
                                 "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
                                 "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
-                                "Location": row['course_location']
+                                "Location": row['course_location'],
+                                "SessionType": row['course_type'],
+                                "Instructor": row['course_instructor']
                             }
                         )
                     # courses
@@ -172,7 +178,7 @@ class Courses:
                                 "School": row['school'],
                                 "SeatsOpen": row['course_remained'],
                                 "SeatsFilled": row['course_enrolled'],
-                                "SeatsTotal": row['course_max_enroll']  
+                                "SeatsTotal": row['course_max_enroll']
                             }
                         )
                     # populate prereqs table, must come after course population b/c ref integrity
