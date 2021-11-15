@@ -12,7 +12,9 @@
       <span data-cy="name">{{ props.name }}</span>
       &nbsp;–&nbsp;
       <span data-cy="section">{{ props.section }}</span>
-      (<span data-cy="crn">{{ props.crn }}</span>)
+      (
+      <span data-cy="crn">{{ props.crn }}</span>
+      )
       <br />
       <span data-cy="location">{{ props.location }}</span>
       <br />
@@ -29,19 +31,24 @@
           {{ props.title }}
         </a>
       </h6>
-      <b>Session Type</b><br />
+      <b>Session Type</b>
+      <br />
       <span data-cy="sessionType">{{ props.sessionType }}</span>
       <br />
-      <b>Instructor</b><br/>
+      <b>Instructor</b>
+      <br />
       <span data-cy="instructor">{{ props.instructor }}</span>
       <br />
-      <b>Location</b><br />
+      <b>Location</b>
+      <br />
       <span data-cy="location">{{ props.location }}</span>
       <br />
-      <b>Session Time</b><br />
+      <b>Session Time</b>
+      <br />
       <span data-cy="time">{{ props.startTime }}–{{ props.endTime }}</span>
       <br />
-      <b>CRN</b><br />
+      <b>CRN</b>
+      <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
     </b-popover>

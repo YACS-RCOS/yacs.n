@@ -32,8 +32,8 @@
             v-for="(session, j) in getSessionsOfDay(section, index)"
             :key="j"
             :day="session.day_of_week"
-            :startTime="session.time_start.split(':').slice(0,2).join(':')"
-            :endTime="session.time_end.split(':').slice(0,2).join(':')"
+            :startTime="session.time_start.split(':').slice(0, 2).join(':')"
+            :endTime="session.time_end.split(':').slice(0, 2).join(':')"
             :crn="session.crn"
             :section="session.section"
             :semester="session.semester"
@@ -41,13 +41,11 @@
             :sessionType="mapSessionType(session.session_type)"
             :instructor="
               session.instructor == null
-               ? 'Instructor TBA'
-               : session.instructor.split('/').join(' and ')
+                ? 'Instructor TBA'
+                : session.instructor.split('/').join(' and ')
             "
             :location="
-              session.location == null
-               ? 'Location TBA'
-               : session.location
+              session.location == null ? 'Location TBA' : session.location
             "
             :title="section.title"
             :style="{
@@ -55,7 +53,8 @@
                 'max(calc(' +
                 eventPosition(session) +
                 'vh + 1px),' +
-                eventPosition(session, minHeight) + 1 +
+                eventPosition(session, minHeight) +
+                1 +
                 'px)',
               height: 'calc(' + eventHeight(session) + 'vh - 1px)',
               'min-height': eventHeight(session, minHeight) - 1 + 'px',
@@ -112,12 +111,12 @@ export default {
       totalVHeight: 80,
       minHeight: 600,
       sessionTypes: {
-        "LEC" : "Lecture",
-        "REC" : "Recitation",
-        "LAB" : "Lab",
-        "TES" : "Test",
-        "STU" : "Studio",
-        null  : "No Type",
+        LEC: "Lecture",
+        REC: "Recitation",
+        LAB: "Lab",
+        TES: "Test",
+        STU: "Studio",
+        null: "No Type",
       },
       temp: this.possibility,
     };
@@ -159,9 +158,7 @@ export default {
       return section.sessions.filter((session) => session.day_of_week === day);
     },
     mapSessionType(type) {
-      return this.sessionTypes[type] == null
-              ? type
-              : this.sessionTypes[type];
+      return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
   },
   computed: {
