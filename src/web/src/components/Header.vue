@@ -14,12 +14,19 @@
       YACS
     </b-navbar-brand>
     <div>
-      <select v-model="selected" v-on:change="selectSemester(selected)">
-        <option value=""> Select Semester </option>
-        <option v-for="option in semesterOptions" v-bind:key="option.text">
+      <b-dropdown variant="outline-primary" 
+                        v-model="selectedSemester" 
+                        size = "sm" 
+                        text="Select Semester" 
+                        class= "m-md-2" 
+                        v-on:change="selectSemester">
+        <b-dropdown-item v-for="option in semesterOptions" 
+                        :key="option.value" 
+                        :value="option.value" 
+                        @click="selectSemester(option.value)">
           {{option.value}}
-        </option>
-      </select>
+        </b-dropdown-item>
+      </b-dropdown>
     </div>
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
@@ -94,12 +101,12 @@ export default {
   },
   data() {
     return {
-      selected: '',
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
+
     toggle_style() {
       if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
