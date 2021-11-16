@@ -31,22 +31,23 @@ def scrapFromURL(webLink, major_db):
     cur_entry = ("","")
     startScrap = False
     for items in clp20:
-        count = 0
-        for div in items.find_all("div"):
+        state = 'newMajor'
+        for div in items.find_all("div", recursive = False):
             if (div.text == "First Year" ):
                 startScrap = True
             if(startScrap):
-                if count > 13:
-                    
-                    return major_db
-                elif count%4 == 0:
+
+                if state == 'newMajor' or state =="newYear":
                     outFile.write(" Year: ")
                     yearText = div.text.split()[0] + " Year"
                     cur_entry = (major, yearText)
                     major_db[cur_entry] = {}
                     outFile.write(yearText)
+                    state = 'regularYear'
+                    if yearText == "Fourth Year":
+                        state = 'lastYear'
                 else:
-                    for sem in div.find_all("div"):
+                    for sem in div.find_all("div", recursive = False):
                         if sem.get("class")[0] != "custom_leftpad_20":
                             semName = sem.find("h3")
                             if semName == None:
@@ -70,10 +71,13 @@ def scrapFromURL(webLink, major_db):
                                         major_db[cur_entry][semName.text].append(litag.text)
                                         outFile.write(litag.text)
                                         outFile.write("\n")
+                        #else:                            
+                    if state == "lastYear":
+                        return major_db
+                    state= "newYear"
                 
                 #outFile.write("count is :{}\n".format(count))
                 outFile.write("\n")
-                count += 1
     #cleaning1()
     return major_db
 
@@ -83,13 +87,39 @@ f = open("majorURLlist.txt", "r")
 i = 0
 #scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542", major_db)
 
-
-
 for link in f:
     print(link)
     scrapFromURL(link, major_db)
+outFile.close()
+outFile2 = open("DBCommands.txt", "a")
+outFile2.truncate(0)
+commandlines = ["","",""]
+cmd_sem1 = ""
+cmd_sem2 = ""
+cmds = []
+for major_year in major_db.keys():
+    #cmd_sem1 += "(\'{}\', \'{}\',".format(major_year[0], major_year[1])
+    #cmd_sem2 = cmd_sem1
+    cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+    cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+    #outFile2.write("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+    i = 0
+    for sem in major_db[major_year].keys():
+        cmds[i] += "\'{}\',\'{{".format(sem)
+        for course in major_db[major_year][sem]:
+            cmds[i] += "\"{}\",".format(course)
+        cmds[i] = cmds[i][:-1]
+        cmds[i] += "}\'),\n"
+        i +=1
+    for command in cmds:
+        outFile2.write(command)
+    cmds.clear()
+        
+outFile2.close()   
+        
+    
+
 
  
 for item in major_db.keys():
     print("{}: {}".format(item, major_db[item]))
-outFile.close()
