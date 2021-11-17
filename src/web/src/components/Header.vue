@@ -16,12 +16,12 @@
     <div>
       <b-dropdown variant="outline-primary" 
                         size = "sm" 
-                        :text= "selected"
+                        :text= selectedSemester
                         class= "m-md-2">
         <b-dropdown-item v-for="option in semesterOptions" 
                         :key="option.value" 
                         :value="option.value" 
-                        @click="selectSemester(option.value); selected = option.text">
+                        @click="selectSemester(option.value)">
                     
           {{option.value}}
         </b-dropdown-item>
@@ -100,7 +100,6 @@ export default {
   },
   data() {
     return {
-      selected: 'Select Semester',
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
     };
   },
