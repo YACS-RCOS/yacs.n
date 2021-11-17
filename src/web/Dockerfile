@@ -1,8 +1,9 @@
-FROM node:13-alpine as develop-stage
+FROM node:16.13-alpine as develop-stage
+USER node
 WORKDIR /app
-COPY package*.json ./
+COPY --chown=node:node package*.json ./
 RUN npm install
-COPY ./ .
+COPY --chown=node:node ./ .
 
 FROM develop-stage as build-stage
 RUN npm run build
