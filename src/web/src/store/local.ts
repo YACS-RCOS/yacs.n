@@ -4,7 +4,6 @@ interface X {
   currentSemester: string
   courseSelection: Record<string, string[]>
   possibilityIndex: number
-  colors: string[]
 }
 
 const LocalStorage = (key: string, defaultValue: any): any => {
@@ -24,7 +23,6 @@ export default (function (): X {
   return LocalStorage('yacs', {
     currentSemester: '',
     courseSelection: {},
-    possibilityIndex: 0,
-    colors: []
+    possibilityIndex: 0
   })
 })()
