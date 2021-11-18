@@ -14,16 +14,19 @@
       YACS
     </b-navbar-brand>
     <div>
-      <b-dropdown variant="outline-primary" 
-                        size = "sm" 
-                        :text= selectedSemester
-                        class= "m-md-2">
-        <b-dropdown-item v-for="option in semesterOptions" 
-                        :key="option.value" 
-                        :value="option.value" 
-                        @click="selectSemester(option.value)">
-                    
-          {{option.value}}
+      <b-dropdown
+        variant="outline-primary"
+        size="sm"
+        :text="selectedSemester"
+        class="m-md-2"
+      >
+        <b-dropdown-item
+          v-for="option in semesterOptions"
+          :key="option.value"
+          :value="option.value"
+          @click="selectSemester(option.value)"
+        >
+          {{ option.value }}
         </b-dropdown-item>
       </b-dropdown>
     </div>
@@ -88,8 +91,13 @@
 </template>
 
 <script>
-import { SELECT_SEMESTER, COOKIE_DARK_MODE, TOGGLE_DARK_MODE, SAVE_DARK_MODE,
-  RESET_DARK_MODE } from "@/store";
+import {
+  SELECT_SEMESTER,
+  COOKIE_DARK_MODE,
+  TOGGLE_DARK_MODE,
+  SAVE_DARK_MODE,
+  RESET_DARK_MODE,
+} from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
@@ -165,14 +173,14 @@ export default {
     }),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
     ...mapState(["semesters", "selectedSemester"]),
-    
+
     semesterOptions() {
       return this.semesters.map(({ semester }) => ({
         text: semester,
         value: semester,
       }));
     },
-  }
+  },
 };
 </script>
 
