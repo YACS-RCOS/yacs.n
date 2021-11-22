@@ -11,7 +11,7 @@ for crn in crnList:
     tableFull = soup.find("table", class_="datadisplaytable")               #SIS has a table containing the data for all of the page
     tableOpenings = tableFull.find("table", class_="datadisplaytable")      #And then a table containing the data for seats remaining
     #extract seat values (still need to use .text on vars since this comes with tags)
-    capacity = tableOpenings.find_next(class_="dddefault").text
+    capacity = tableOpenings.find_next(class_="dddefault")
     actual = capacity.find_next(class_="dddefault")
     remaining = actual.find_next(class_="dddefault")
     print(capacity.text)
