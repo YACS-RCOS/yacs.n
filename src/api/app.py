@@ -24,6 +24,8 @@ import json
 import os
 import pandas as pd
 from constants import Constants
+import requests #used for requesting a webpage
+from bs4 import BeautifulSoup #used for parsing webpage content
 """
 NOTE: on caching
 on add of semester of change of data from GET
@@ -280,6 +282,31 @@ def get_student_courses():
 
     courses, error = course_select.get_selection(session['user']['user_id'])
     return jsonify(courses) if not error else Response(error, status=500)
+
+"""     JSON contents:
+{year: String, starting_semester: String, crnList: [String]}
+year is full year e.g. "2021"
+starting_semester is a two digit code, "01" == spring, "05" == summer, "09" == fall
+crnList is an array of CRNs as strings
+"""
+@app.route('api/getClassSeats', methods=['GET'])
+def get_class_seats():
+    body = request.json
+    year = body["year"]
+    starting_semester = body["starting_semester"]
+    crnList = body["crnList"]
+    for crn in crnList:
+        url = "https://sis.rpi.edu/rss/bwckschd.p_disp_detail_sched?term_in="+year+starting_semester+"&crn_in="+crn
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        tableFull = soup.find("table", class_="datadisplaytable")               #SIS has a table containing the data for all of the page
+        tableOpenings = tableFull.find("table", class_="datadisplaytable")      #And then a table containing the data for seats remaining
+        #extract seat values (still need to use .text on vars since this comes with tags)
+        capacity = tableOpenings.find_next(class_="dddefault")
+        actual = capacity.find_next(class_="dddefault")
+        remaining = actual.find_next(class_="dddefault")
+        return jsonify({"capacity": capacity, "actual": actual, "remaining": remaining})
+
 
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
