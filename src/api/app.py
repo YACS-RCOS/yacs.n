@@ -289,7 +289,7 @@ year is full year e.g. "2021"
 starting_semester is a two digit code, "01" == spring, "05" == summer, "09" == fall
 crnList is an array of CRNs as strings
 """
-@app.route('api/getClassSeats', methods=['GET'])
+@app.route('/api/getClassSeats', methods=['GET'])
 def get_class_seats():
     body = request.json
     year = body["year"]
