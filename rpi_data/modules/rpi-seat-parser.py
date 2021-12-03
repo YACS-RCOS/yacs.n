@@ -13,4 +13,3 @@ def getSeats(starting_semester, year, crnList):
         actual = capacity.find_next(class_="dddefault")
         remaining = actual.find_next(class_="dddefault")
         return (capacity, actual, remaining)
-

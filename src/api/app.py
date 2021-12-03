@@ -283,12 +283,11 @@ def get_student_courses():
     courses, error = course_select.get_selection(session['user']['user_id'])
     return jsonify(courses) if not error else Response(error, status=500)
 
-"""     JSON contents:
-{year: String, starting_semester: String, crnList: [String]}
-year is full year e.g. "2021"
-starting_semester is a two digit code, "01" == spring, "05" == summer, "09" == fall
-crnList is an array of CRNs as strings
-"""
+#     JSON contents:
+#{year: String, starting_semester: String, crnList: [String]}
+#year is full year e.g. "2021"
+#starting_semester is a two digit code, "01" == spring, "05" == summer, "09" == fall
+#crnList is an array of CRNs as strings
 @app.route('/api/getClassSeats', methods=['GET'])
 def get_class_seats():
     body = request.json
