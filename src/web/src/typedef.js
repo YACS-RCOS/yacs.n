@@ -6,6 +6,8 @@
  * @property {string} semester
  * @property {string} time_end
  * @property {string} time_start
+ * @property {string} session_type
+ * @property {string} instructor
  */
 
 /**

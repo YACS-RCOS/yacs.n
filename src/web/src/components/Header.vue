@@ -13,7 +13,23 @@
     >
       YACS
     </b-navbar-brand>
-    <b-nav-text class="text-secondary">{{ selectedSemester }}</b-nav-text>
+    <div>
+      <b-dropdown
+        variant="outline-primary"
+        size="sm"
+        :text="selectedSemester"
+        class="m-md-2"
+      >
+        <b-dropdown-item
+          v-for="option in semesterOptions"
+          :key="option.value"
+          :value="option.value"
+          @click="selectSemester(option.value)"
+        >
+          {{ option.value }}
+        </b-dropdown-item>
+      </b-dropdown>
+    </div>
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
       target="header-navbar-collapse"
@@ -75,15 +91,15 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-
-import LoginComponent from "@/components/Login";
 import {
+  SELECT_SEMESTER,
   COOKIE_DARK_MODE,
   TOGGLE_DARK_MODE,
   SAVE_DARK_MODE,
   RESET_DARK_MODE,
 } from "@/store";
+import { mapState, mapActions, mapGetters } from "vuex";
+import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
 export default {
   name: "Header",
@@ -96,6 +112,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions([SELECT_SEMESTER]),
+
     toggle_style() {
       if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
         this.notifyOnToggle();
@@ -153,8 +171,15 @@ export default {
       isLoggedIn: userTypes.getters.IS_LOGGED_IN,
       user: userTypes.getters.CURRENT_USER_INFO,
     }),
-    ...mapState(["selectedSemester"]),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+    ...mapState(["semesters", "selectedSemester"]),
+
+    semesterOptions() {
+      return this.semesters.map(({ semester }) => ({
+        text: semester,
+        value: semester,
+      }));
+    },
   },
 };
 </script>

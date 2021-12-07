@@ -52,7 +52,6 @@
           </button>
         </slot>
         <button v-show="showAdd" class="btn" @click.stop="toggleCourse()">
-         <!--  <img v-if="course.selected" src="../assets/times-solid.svg" class= "toggle-icon" alt="toggle course off"/> -->
           <svg v-if="course.selected"
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
@@ -96,10 +95,10 @@
             @click.stop="toggleCourseSection(section)"
             :style="{
               'border-left': section.selected
-                ? `4px solid ${getBorderColor(section)}`
+                ? `4px solid ${getBorderColor(course.name)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)} !important`
+                ? `${getBackgroundColor(course.name)} !important`
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',

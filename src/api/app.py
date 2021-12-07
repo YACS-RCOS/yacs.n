@@ -128,7 +128,6 @@ def get_all_semester_info():
     return jsonify(all_semester_info) if not error else Response(error, status=500)
 
 @app.route('/api/defaultsemester', methods=['GET'])
-@cache.cached(timeout=Constants.HOUR_IN_SECONDS)
 def get_defaultSemester():
     semester, error = admin_info.get_semester_default()
     return jsonify(semester) if not error else Response(error, status=500)
@@ -201,7 +200,7 @@ def map_date_range_to_semester_part_handler():
 def get_user_info(session_id):
     if 'user' not in session:
         return Response("Not authorized", status=403)
-    
+
     return user_controller.get_user_info(session_id)
 
 
@@ -245,7 +244,7 @@ def log_out():
 
     if response.get_json()['success']:
         session.pop('user', None)
-    
+
     return response
 
 
