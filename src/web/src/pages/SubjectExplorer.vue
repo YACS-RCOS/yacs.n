@@ -186,6 +186,15 @@ export default {
   width: 60%;
   text-align: left;
 }
+.badge-success{
+  background-color: #186329;
+}
+.breadcrumb-item > .router-link-active {
+  color: #004C9E;
+}
+.breadcrumb-item.active {
+  color: #474E52;
+}
 
 .courseBox:hover {
   background: rgba(108, 90, 90, 0.15) !important;

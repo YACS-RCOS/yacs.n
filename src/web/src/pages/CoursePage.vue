@@ -162,3 +162,14 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+  .badge-success{
+    background-color: #186329;
+  }
+  .breadcrumb-item > .router-link-active {
+    color: #004C9E;
+  }
+  .breadcrumb-item.active {
+    color: #474E52;
+  }
+</style>
