@@ -698,7 +698,7 @@ export default {
     background: white !important;
   }
 }
-.text-center, .nav-link{
+.nav-link{
   color: #0056B3
 }
 

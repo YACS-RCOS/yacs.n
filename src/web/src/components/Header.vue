@@ -18,7 +18,7 @@
         variant="outline-primary"
         size="sm"
         :text="selectedSemester"
-        class="m-md-2"
+        class="m-md-2 semester-select"
       >
         <b-dropdown-item
           v-for="option in semesterOptions"
@@ -47,7 +47,7 @@
           Explore
         </b-nav-item>
       </b-navbar-nav>
-      <!-- If user has logged in -->
+      
       <b-navbar-nav class="ml-auto">
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
@@ -57,7 +57,7 @@
           ></b-form-checkbox>
           <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
         </b-nav-form>
-
+        <!-- If user has logged in -->
         <b-nav-item-dropdown right v-if="isLoggedIn">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>Hi, {{ user.name }}</template>
@@ -211,7 +211,7 @@ export default {
     justify-content: center;
   }
 }
-.nav-link {
+.nav-link{ 
   color: #0056B3;
 }
 // no idea why but need to manually set this for it to show up
@@ -219,3 +219,20 @@ export default {
   color: var(--dark-text-primary) !important;
 }
 </style>
+<style lang="scss">
+  .btn-outline-primary.dropdown-toggle{
+    color: #0056B3;
+    border-color: #0056B3;
+  }
+  .btn-outline-primary.dropdown-toggle:hover{
+    color: white;
+    background-color: #0056B3;
+    border-color: #0056B3;
+  }
+  .show > .btn-outline-primary.dropdown-toggle{
+    background-color: #0056B3;
+    border-color: #0056B3;
+  }
+
+</style>
+
