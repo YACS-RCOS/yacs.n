@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import YacsNav from "../components/YacsNav.vue";
-import { courseList, selectionInfo } from "../store";
-
-console.log(selectionInfo);
+import { courses } from "../store";
 </script>
 
 <template>
   <div>
     <yacs-nav></yacs-nav>
   </div>
-  <div>{{ courseList }}</div>
-  <div>hi</div>
-  <div>there</div>
+  <div v-for="course in courses.courseList">
+    {{ course.full_title }}
+    <div v-for="(value, key) in course">
+      {{ key }}
+    </div>
+  </div>
 </template>
 
 

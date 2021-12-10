@@ -1,13 +1,16 @@
-export type Title = string
+export type Title = string;
 
-export type CRN = string
+export type CRN = string;
 
-export type Semester = Map<Title, Course>
+export type Semester = Map<Title, Course>;
 
 export interface Course {
-  sections: Map<CRN, Section> | any
+  title: string;
+  full_title: string;
+  sections: Map<CRN, Section> | (Record<string, any> | null)[];
 }
 
 export interface Section {
-  sessions: number[] | any
+  crn: string;
+  sessions: number[] | any;
 }
