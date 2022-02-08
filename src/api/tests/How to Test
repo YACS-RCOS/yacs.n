@@ -1,3 +1,14 @@
+BEFORE STARTING TO CONTRIBUTE:
+1. Create a branch for your contributions off of the FastAPI branch
+    * git checkout FastAPI
+    * git pull origin FastAPI
+    * git branch FastAPI/<name>
+    * git checkout FastAPI/<name>
+2. Now that you have your own branch, start contributing
+3. Commit frequently with git commit -m "<commit message>"
+4. When you are ready to push your contributions, run git push origin <name of your branch>
+    * Name of your branch is the full FastAPI/<name> you set above in step 1
+
 How to test:
 1. All tests will be initially written to src/api/tests directory
 2. Name your test file as test_<descriptive test name>.py
