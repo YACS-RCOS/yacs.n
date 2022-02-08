@@ -1,4 +1,4 @@
-pytest==5.3.5
+pytest==6.2.5
 pytest_check==0.3.8
 regex==2020.4.4
 lxml==4.6.3
