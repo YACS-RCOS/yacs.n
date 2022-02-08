@@ -1,0 +1,51 @@
+TODO: API Endpoints:
+Calvin
+* '/api/class': [GET]
+* '/api/department': [GET]
+
+Phoenix
+* '/api/subsemester': [GET]
+* '/api/semester': [GET]                    -- implicitly tested
+
+Navya
+* '/api/semesterInfo': [GET]
+* '/api/defaultsemester': [GET]
+
+Khanak
+* '/api/defaultsemesterset': [POST]
+* '/api/mapDateRangeToSemesterPart': [POST]
+
+Changdi
+* '/api/user/<session_id>': [GET]
+* '/api/user': [PUT]
+
+Sijin
+* '/api/user': [POST, DELETE]
+
+Yueting
+* '/api/user/course': [POST]
+* '/api/event': [POST]
+
+Liam Haining
+* '/api/session': [POST, DELETE]
+
+Sihan
+* '/api/user/course': [DELETE, GET]
+
+Completed Endpoints:
+* '/'
+* '/api/'
+* '/api/bulkCourseUpload': [POST]
+
+ToDo:
+* Get familiar with the YACS API, read the documentation on Flask/FastAPI
+* Regression testing: Create Pytests for Flask API
+    - Need tests to pass for old API and new API
+* Update endpoints to use FastAPI and Uvicorn
+* Update cache to FastAPI Cache
+* Update caller files
+* Secret Key?
+
+git fetch
+git checkout FastAPI
+git pull origin FastAPI
