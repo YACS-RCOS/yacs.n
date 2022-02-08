@@ -2,35 +2,43 @@ TODO: API Endpoints:
 Calvin
 * '/api/class': [GET]
 * '/api/department': [GET]
+FastAPI-class-department
 
 Phoenix
 * '/api/subsemester': [GET]
 * '/api/semester': [GET]                    -- implicitly tested
+FastAPI-semester
 
 Navya
 * '/api/semesterInfo': [GET]
 * '/api/defaultsemester': [GET]
+FastAPI-semesterInfo
 
 Khanak
 * '/api/defaultsemesterset': [POST]
 * '/api/mapDateRangeToSemesterPart': [POST]
+FastAPI-semesterset-daterange
 
 Changdi
 * '/api/user/<session_id>': [GET]
 * '/api/user': [PUT]
+FastAPI-user-get-and-put
 
 Sijin
 * '/api/user': [POST, DELETE]
+FastAPI-user-post-and-delete
 
 Yueting
 * '/api/user/course': [POST]
 * '/api/event': [POST]
+FastAPI-course-and-event
 
 Liam Haining
 * '/api/session': [POST, DELETE]
 
 Sihan
 * '/api/user/course': [DELETE, GET]
+FastAPI-course
 
 Completed Endpoints:
 * '/'
@@ -49,3 +57,6 @@ ToDo:
 git fetch
 git checkout FastAPI
 git pull origin FastAPI
+
+git branch <branch name>
+git checkout <branch name>
