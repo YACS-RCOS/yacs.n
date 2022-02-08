@@ -1,0 +1,8 @@
+How to test:
+1. All tests will be initially written to src/api/tests directory
+2. Name your test file as test_<descriptive test name>.py
+3. import all fixtures from fixtures.py
+4. Fixture dependencies are passed into tests as parameters, use client and upload (upload only if your test depends on test data)
+5. Once test cases are written, run scripts/dev-start.sh
+6. Navigate to docker desktop and open a client shell for the api container
+7. Run pytest -s

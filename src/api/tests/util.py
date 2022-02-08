@@ -4,14 +4,14 @@ class Client():
     def __init__(self):
         self.URL = "http://0.0.0.0:5000"
 
-    def get(self, endpoint, json=None):
-        return requests.get(self.URL + endpoint, json=json)
+    def get(self, endpoint, params=None, json=None, data=None):
+        return requests.get(self.URL + endpoint, params=params, json=json, data=data)
 
-    def post(self, endpoint, json=None):
-        return requests.post(self.URL + endpoint, json=json)
+    def post(self, endpoint, params=None, json=None, data=None, files=None):
+        return requests.post(self.URL + endpoint, params=params, json=json, files=files, data=data)
 
-    def put(self, endpoint, json=None):
-        return requests.put(self.URL + endpoint, json=json)
+    def put(self, endpoint, params=None, json=None, data=None):
+        return requests.put(self.URL + endpoint, params=params, json=json, data=data)
 
-    def delete(self, endpoint, json=None):
-        return requests.delete(self.URL + endpoint, json=json)
+    def delete(self, endpoint, params=None, json=None, data=None):
+        return requests.delete(self.URL + endpoint, params=params, json=json, data=data)
