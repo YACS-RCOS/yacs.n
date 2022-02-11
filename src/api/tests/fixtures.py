@@ -13,3 +13,14 @@ def upload(client):
     )
     return client.post("/api/bulkCourseUpload",
                        files=multipart_form_data)
+
+TEST_USER_SIGNUP = { 'email': 'test@email.com',
+                     'name': 'TestName',
+                     'phone': '',
+                     'password': '123456',
+                     'degree': 'Undergraduate',
+                     'major': 'CSCI' }
+
+@pytest.fixture(scope="session")
+def post_user(client):
+    return client.post('/api/user', json=TEST_USER_SIGNUP)
