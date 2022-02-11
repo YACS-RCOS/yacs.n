@@ -3,7 +3,11 @@ from .fixtures import *
 
 TEST_USER = { 'email': TEST_USER_SIGNUP['email'],
               'password': TEST_USER_SIGNUP['password'] }
-
+TEST_USER_COURSE = {
+    "name": "ADMN-1824",
+    "semester": "SUMMER 2020",
+    "cid": "-1"
+}
 # TEST_USER_SIGNUP = { 'email': 'test@email.com',
 #                      'name': 'TestName',
 #                      'phone': '',
@@ -14,33 +18,40 @@ def test_user_course_post_success(post_user, client: Client):
     '''
     Test user course post by comparing it to user course get
     '''
-
     s = client.post("/api/session", json=TEST_USER)
     assert s.status_code == 200
-
-    r = client.post("/api/user/course", json={
-            "name": "ADMN-1824",
-            "semester": "SUMMER 2020",
-            "cid": "-1"
-            })
+    r = client.post("/api/user/course", json=TEST_USER_COURSE)
     assert r.status_code == 200
     data = r.json()
-    g = client.get("/api/user/course", json=TEST_USER)
+    g = client.get("/api/user/course", json=TEST_USER_COURSE)
     get_data = g.json()
     print(get_data)
     assert data['content'] is not None
-    assert data['content']['course_name'] is not None
-    assert data['content']['crn'] is not None
+    assert data['content']['name'] is not None
     assert data['content']['semester'] is not None
+    assert data['content']['cid'] is not None
 
-    assert data['content']['course_name'] == get_data['content']['course_name']
+    assert data['content']['name'] == get_data['content']['name']
+    assert data['content']['semester'] == get_data['content']['semester']
+    assert data['content']['cid'] == get_data['content']['cid']
 
 def test_user_course_post_failure(client: Client):
     '''
-    Test user course post with invalid credentials
+    Test user course post with invalid parameter
     '''
-    # r = client.post("/api/user/course", json={'name':'NotAUser', 'password':'000000'})
-    # assert r.status_code == 200
+    MISMATCH_TEST_USER_COURSE = {
+    "name": "AAAAAA",
+    "semester": "BBBB",
+    "cid": "9999"
+    }
+    s = client.post("/api/session", json=TEST_USER)
+    assert s.status_code == 200
+    r = client.post("api/user/course", json=TEST_USER_COURSE)
+    assert r.status_code == 200
+    data = r.json()
+    g = client.get("/api/user/course", json=MISMATCH_TEST_USER_COURSE)
+    get_data = g.json()
 
-    # data = r.json()
-    # assert data['content'] is None
+    assert data['content']['name'] != get_data['content']['name']
+    assert data['content']['semester'] != get_data['content']['semester']
+    assert data['content']['cid'] != get_data['content']['cid']
