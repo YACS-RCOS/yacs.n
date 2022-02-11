@@ -1,24 +1,19 @@
 {
-  "name": "yacs",
+  "name": "yacs_frontend",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^0.24.0",
-    "element-plus": "^1.2.0-beta.3",
-    "unplugin-vue-components": "^0.17.2",
-    "vue": "^3.2.16",
-    "vue-router": "^4.0.12"
+    "element-plus": "^1.3.0-beta.5",
+    "vue": "^3.2.25",
+    "vue-router": "4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.3",
-    "prettier": "2.4.1",
-    "sass": "^1.43.4",
-    "typescript": "^4.4.3",
-    "vite": "^2.6.4",
-    "vue-tsc": "^0.3.0"
+    "@vitejs/plugin-vue": "^2.0.0",
+    "axios": "^0.25.0",
+    "vite": "^2.7.2"
   }
 }
