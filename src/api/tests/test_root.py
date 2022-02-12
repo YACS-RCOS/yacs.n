@@ -1,5 +1,4 @@
 from .util import Client
-from .fixtures import *
 
 def test_root(client: Client):
     r = client.get("/")
