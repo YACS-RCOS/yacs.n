@@ -22,6 +22,7 @@ import YacsSideBar from './components/YacsSideBar.vue'
 <style>
 body {
   margin: 0;
+  font-family: 'Roboto';
 }
 
 * {
