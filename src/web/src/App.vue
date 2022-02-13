@@ -9,7 +9,7 @@ import YacsSideBar from './components/YacsSideBar.vue'
       <yacs-header v-if="true"></yacs-header>
     </el-header>
     <el-container>
-      <el-aside v-if="this.$route.meta.sideBar">
+      <el-aside v-if="this.$route.meta.sideBar" width="30%">
         <yacs-side-bar></yacs-side-bar>
       </el-aside>
       <el-main>
@@ -29,7 +29,7 @@ body {
 }
 
 .el-aside {
-  padding: 30px 0;
+  padding: 30px;
 }
 
 .el-header {

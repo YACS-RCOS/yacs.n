@@ -1,5 +1,6 @@
-import local, {localRef} from './local'
-import { reactive, ref } from 'vue'
+// import local, {localRef} from './local'
+import {filterCourses} from "../utils/common";
+import {computed, reactive, ref} from 'vue'
 import {getCourses, getDefaultSemester, getSemesters} from "../plugins/axios/apis";
 
 // export const semesters = local('semesters', {})
@@ -31,21 +32,21 @@ const parseSession = (sessions) => {
         return [0, 0, 0, 0, 0];
     }
     return ret;
-};
+}
 
 getSemesters().then((res) => {
     res.forEach((obj) => {
-        getCourses(obj.semester, null).then(res => {
+        getCourses(obj.semester, null).then(courses => {
             const classes = {}
-            res.forEach((course) => {
+            filterCourses(courses).forEach((course) => {
                 const sections = {}
-                course.sections.filter(s => !!s).forEach(section => {
+                course.sections.forEach(section => {
                     section.times = parseSession(section.sessions)
+                    section.isSelected = false
                     sections[section.crn] = section
                 })
                 course.sections = sections
-                if (Object.keys(sections).length === 0 )
-                    return
+                course.isSelected = false
                 classes[course.name] = course
             })
             semesters[obj.semester] = classes
@@ -53,4 +54,6 @@ getSemesters().then((res) => {
     })
 })
 
+export const semester = computed(() => semesters[currentSemester.value])
 
+export const selections = reactive({})
