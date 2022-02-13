@@ -31,7 +31,7 @@ services:
       - YACS_API_HOST=http://yacs_api:5000
 
   yacs_api:
-    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && python app.py"
+    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && uvicorn app:app --reload --host 0.0.0.0 --port 5000"
     ports:
       - 5000:5000
     volumes:
