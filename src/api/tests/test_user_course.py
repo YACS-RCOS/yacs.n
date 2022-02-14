@@ -3,10 +3,9 @@ from .fixtures import *
 
 TEST_USER = { 'email': TEST_USER_SIGNUP['email'],
               'password': TEST_USER_SIGNUP['password'] }
-TEST_USER_COURSE = {
-    "name": "ADMN-1824",
-    "semester": "SUMMER 2020",
-    "cid": "-1"
+TEST_USER_COURSE = {'name': 'ADMN-1824',
+                    'semester': 'SUMMER 2020',
+                    'cid': '-1'
 }
 # TEST_USER_SIGNUP = { 'email': 'test@email.com',
 #                      'name': 'TestName',
@@ -18,19 +17,21 @@ def test_user_course_post_success(post_user, client: Client):
     '''
     Test user course post by comparing it to user course get
     '''
+    # Test if user can login
     s = client.post("/api/session", json=TEST_USER)
     assert s.status_code == 200
+    # Test if the user can post course
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
     assert r.status_code == 200
     data = r.json()
-    g = client.get("/api/user/course", json=TEST_USER_COURSE)
-    get_data = g.json()
-    print(get_data)
     assert data['content'] is not None
     assert data['content']['name'] is not None
     assert data['content']['semester'] is not None
     assert data['content']['cid'] is not None
-
+    # Test if the user can get from posted course data
+    g = client.get("/api/user/course", json=TEST_USER_COURSE)
+    get_data = g.json()
+    #print(get_data)
     assert data['content']['name'] == get_data['content']['name']
     assert data['content']['semester'] == get_data['content']['semester']
     assert data['content']['cid'] == get_data['content']['cid']
