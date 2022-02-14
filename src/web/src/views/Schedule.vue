@@ -54,7 +54,7 @@ const hours = ['8am', '9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '5pm',
   border-bottom: none;
 }
 
-.yacs-schedule-column:last-child {
+.yacs-schedule-column:nth-last-child(2) {
   border: none;
 }
 

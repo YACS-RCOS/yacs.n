@@ -57,3 +57,11 @@ getSemesters().then((res) => {
 export const semester = computed(() => semesters[currentSemester.value])
 
 export const selections = reactive({})
+
+export const currentSelections = computed(() => {
+    const ret = {}
+    Object.keys(selections).forEach(name => {
+        ret[name] = semester.value[name]
+    })
+    return ret
+})

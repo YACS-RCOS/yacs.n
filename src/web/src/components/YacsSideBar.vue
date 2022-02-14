@@ -4,6 +4,8 @@ import {getCourses} from "../plugins/axios/apis";
 import {currentSemester, semester, selections} from "../store";
 import {filterCourses} from "../utils/common";
 
+import YacsSelectionPanel from '../components/YacsSelectionPanel.vue'
+
 const defaultTab = ref({label: 'Course Search', name: '#default', isActive: true})
 const activeName = ref('#default')
 
@@ -18,7 +20,7 @@ watchEffect(() => {
   if (!currentSemester.value || !semester.value) return
   getCourses(currentSemester.value, searchParam.department).then(res => {
     searchResult.value = filterCourses(res).map((course) => semester.value[course.name])
-    count.value = searchResult.value.length
+    count.value = Math.min(searchResult.value.length, 20)
   })
 })
 
@@ -55,17 +57,20 @@ const toggleSelection = (obj, value) => {
           </el-form-item>
         </el-form>
         <div v-if="searchResult.length">
-          <ul v-infinite-scroll="load" class="yacs-infinite-list" style="overflow: auto">
-            <li v-for="i in count" class="yacs-infinite-list-item">
-              <el-checkbox v-model="searchResult[i-1].isSelected" @change="toggleSelection(searchResult[i-1], $event)"></el-checkbox>
-              {{ searchResult[i-1].name }}
-              {{ searchResult[i-1].title }}
-            </li>
-          </ul>
+          <el-scrollbar height="700px">
+            <ul v-infinite-scroll="load" class="yacs-infinite-list">
+              <li v-for="i in count" class="yacs-infinite-list-item">
+                <el-checkbox v-model="searchResult[i-1].isSelected"
+                             @change="toggleSelection(searchResult[i-1], $event)"></el-checkbox>
+                {{ searchResult[i - 1].name }}
+                {{ searchResult[i - 1].title }}
+              </li>
+            </ul>
+          </el-scrollbar>
         </div>
       </el-tab-pane>
       <el-tab-pane label="Schedule">
-
+        <yacs-selection-panel></yacs-selection-panel>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -94,7 +99,6 @@ const toggleSelection = (obj, value) => {
 }
 
 .yacs-infinite-list {
-  height: 700px;
   padding: 0;
   margin: 0;
   list-style: none;
