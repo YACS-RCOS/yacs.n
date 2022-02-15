@@ -1,0 +1,5 @@
+1. Find courses given major and year
+2. Find courses should already taken given current taken courses, major and year
+3. List the courses that need to taken in the future given current taken courses, major and year
+4. Seperating core and elevtive courses requirement and given some suggestions on possible elective choices.
+5. Linking the courses decription on Yacs so students can find out what kind of courses they are picking after realize what they have left.
