@@ -1,8 +1,7 @@
 from .util import Client
-from .fixtures import *
 
-TEST_USER = { 'email': TEST_USER_SIGNUP['email'],
-              'password': TEST_USER_SIGNUP['password'] }
+TEST_USER = { 'email': 'test@email.com',
+              'password': '123456' }
 TEST_USER_COURSE = {'name': 'ADMN-1824',
                     'semester': 'SUMMER 2020',
                     'cid': '-1'
@@ -23,6 +22,7 @@ def test_user_course_post_success(post_user, client: Client):
     # Test if the user can post course
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
     assert r.status_code == 200
+    print(r.text)
     data = r.json()
     assert data['content'] is not None
     assert data['content']['name'] is not None
