@@ -19,7 +19,7 @@ def test_session_post_failure(client: Client):
     '''
     Test session post with invalid credentials
     '''
-    r = client.post("/api/session", json={'name':'NotAUser', 'password':'000000'})
+    r = client.post("/api/session", json={'email':'NotAUser', 'password':'000000'})
     assert r.status_code == 200
 
     data = r.json()

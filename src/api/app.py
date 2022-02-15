@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Response, UploadFile, Form
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File
+from starlette.middleware.sessions import SessionMiddleware
 from pydantic import BaseModel
 
 import db.connection as connection
@@ -26,6 +27,8 @@ do a cache.clear() to ensure data integrity
 # cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 app = FastAPI()
+app.add_middleware(SessionMiddleware,
+                   secret_key=os.environ.get("FLASK_SIGN_KEY", "localTestingKey"))
 # app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
 # cache.init_app(app)
 
@@ -109,17 +112,17 @@ def apiroot():
 #     # Some cases, we do want all subsemesters across all semesters like in Admin Panel
 #     subsemesters, error = class_info.get_subsemesters()
 #     return jsonify(subsemesters) if not error else Response(error, status=500)
-#
-# @app.route('/api/semester', methods=['GET'])
+
+@app.get('/api/semester')
 # @cache.cached(timeout=Constants.DAY_IN_SECONDS)
-# def get_semesters():
-#     """
-#     GET /api/semester
-#     Cached: 24 Hours
-#     """
-#     semesters, error = class_info.get_semesters()
-#     return jsonify(semesters) if not error else Response(error, status=500)
-#
+def get_semesters():
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
+    semesters, error = class_info.get_semesters()
+    return Response(content=json.dumps([dict(row) for row in semesters])) if not error else Response(error, status_code=500)
+
 # @app.route('/api/semesterInfo', methods=['GET'])
 # def get_all_semester_info():
 #     all_semester_info, error = class_info.get_all_semester_info()
@@ -140,27 +143,25 @@ def apiroot():
 #         print(error)
 #         return Response(error.__str__(), status=500)
 
-class BulkCourseUpload(BaseModel):
-    file: UploadFile
-    is_publicly_visible: str = Form(...)
-
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
-async def uploadHandler(data: BulkCourseUpload):
+async def uploadHandler(
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...) ):
     # check for user files
-    print("received file " + str(data.file.filename))
+    print("received file " + str(file.filename))
     if not file:
         return Response("No file received", 400)
-    if data.file.filename.rsplit('.', 1)[1].lower() != 'csv':
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
         return Response("File must have csv extension", 400)
     # get file
-    contents = await data.file.read()
-    csv_file = StringIO(contents)
+    contents = await file.read()
+    csv_file = StringIO(contents.decode())
     # update semester infos based on isPubliclyVisible, hiding semester if needed
     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
     for semester in semesters:
-        semester_info.upsert(semester, data.is_publicly_visible)
+        semester_info.upsert(semester, isPubliclyVisible)
     # Like C, the cursor will be at EOF after full read, so reset to beginning
     csv_file.seek(0)
     # Clear out course data of the same semester before population due to
@@ -170,10 +171,10 @@ async def uploadHandler(data: BulkCourseUpload):
     # Populate DB from CSV
     isSuccess, error = courses.populate_from_csv(csv_file)
     if (isSuccess):
-        return Response(status=200)
+        return Response(status_code=200)
     else:
         print(error)
-        return Response(error.__str__(), status=500)
+        return Response(error.__str__(), status_code=500)
 
 # @app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
 # def map_date_range_to_semester_part_handler():
@@ -207,11 +208,19 @@ async def uploadHandler(data: BulkCourseUpload):
 #
 #     return user_controller.get_user_info(session_id)
 #
-#
-# @app.route('/api/user', methods=['POST'])
-# def add_user():
-#     return user_controller.add_user(request.json)
-#
+
+class UserPydantic(BaseModel):
+    email: str
+    name: str
+    phone: str
+    password: str
+    degree: str
+    major: str
+
+@app.post('/api/user')
+def add_user(user: UserPydantic):
+    return user_controller.add_user(user.dict())
+
 #
 # @app.route('/api/user', methods=['DELETE'])
 # def delete_user():
@@ -228,30 +237,36 @@ async def uploadHandler(data: BulkCourseUpload):
 #
 #     return user_controller.update_user(request.json)
 #
-#
-# @app.route('/api/session', methods=['POST'])
-# def log_in():
-#     session_res = session_controller.add_session(request.json).json
-#     if (session_res['success']):
-#         session_data = session_res['content']
-#         # [0] b/c conn.exec uses fetchall() which wraps result in list
-#         user = users.get_user(uid=session_data['uid'])[0]
-#         session['user'] = user
-#         # https://flask.palletsprojects.com/en/1.1.x/api/?highlight=session#flask.session.permanent
-#         session.permanent = False
-#     return session_res
-#
-#
-# @app.route('/api/session', methods=['DELETE'])
-# def log_out():
-#     response = session_controller.delete_session(request.json)
-#
-#     if response.get_json()['success']:
-#         session.pop('user', None)
-#
-#     return response
-#
-#
+
+class SessionPydantic(BaseModel):
+    email: str
+    password: str
+
+@app.post('/api/session')
+def log_in(request: Request, credentials: SessionPydantic):
+    session_res = session_controller.add_session(credentials.dict())
+    if (session_res['success']):
+        session_data = session_res['content']
+        # [0] b/c conn.exec uses fetchall() which wraps result in list
+        user = users.get_user(uid=session_data['uid'])[0]
+        request.session['user'] = user
+        # Session will last as long as the browser session.
+        # request.session.max_age = None
+    return session_res
+
+class SessionDeletePydantic(BaseModel):
+    sessionID: str
+
+@app.delete('/api/session')
+def log_out(request: Request, session: SessionDeletePydantic):
+    response = session_controller.delete_session(session.dict())
+
+    if response['success']:
+        request.session.pop('user', None)
+
+    return response
+
+
 # @app.route('/api/event', methods=['POST'])
 # def add_user_event():
 #     return event_controller.add_event(json.loads(request.data))

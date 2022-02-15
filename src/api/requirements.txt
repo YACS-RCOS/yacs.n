@@ -8,4 +8,4 @@ alembic==1.4.3
 pytest==6.2.5
 requests==2.26.0
 uvicorn==0.14.0
-pydantic==
+python-multipart==0.0.5
