@@ -25,10 +25,7 @@
             v-if="course.sections.length"
             @click.stop="toggleCollapse()"
           >
-            <font-awesome-icon
-              v-if="!this.showCollapse"
-              :icon="faChevronDown"
-            />
+            <font-awesome-icon v-if="!showCollapse" :icon="faChevronDown" />
             <font-awesome-icon v-else :icon="faChevronUp" />
           </button>
         </slot>
@@ -53,10 +50,10 @@
             @click.stop="toggleCourseSection(section)"
             :style="{
               'border-left': section.selected
-                ? `4px solid ${getBorderColor(section)}`
+                ? `4px solid ${getBorderColor(course.name)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(section)} !important`
+                ? `${getBackgroundColor(course.name)} !important`
                 : $store.state.darkMode
                 ? 'var(--dark-primary)'
                 : 'white',

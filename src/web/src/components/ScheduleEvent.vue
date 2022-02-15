@@ -1,22 +1,57 @@
 <template functional>
-  <div class="schedule-event" :style="data.style" data-cy="schedule-event">
+  <div
+    class="schedule-event"
+    data-cy="schedule-event"
+    tabindex="-1"
+    :style="data.style"
+    :id="props.crn + props.day + props.startTime"
+  >
     <div class="event-text">
-      <span data-cy="title">
+      <span data-cy="title">{{ props.title }}</span>
+      <br />
+      <span data-cy="name">{{ props.name }}</span>
+      &nbsp;–&nbsp;
+      <span data-cy="section">{{ props.section }}</span>
+      (
+      <span data-cy="crn">{{ props.crn }}</span>
+      )
+      <br />
+      <span data-cy="location">{{ props.location }}</span>
+      <br />
+      <span data-cy="instructor">{{ props.instructor }}</span>
+    </div>
+    <b-popover
+      :title="props.name + ' – ' + props.section"
+      :target="props.crn + props.day + props.startTime"
+      triggers="hover"
+      placement="top"
+    >
+      <h6 data-cy="title">
         <a v-bind:href="$options.getExploreCourseLink(props.name)">
           {{ props.title }}
         </a>
-      </span>
+      </h6>
+      <b>Session Type</b>
       <br />
-      <span data-cy="name">{{ props.name }}</span>
-      &nbsp;-&nbsp;
-      <span data-cy="section">{{ props.section }}</span>
+      <span data-cy="sessionType">{{ props.sessionType }}</span>
+      <br />
+      <b>Instructor</b>
+      <br />
+      <span data-cy="instructor">{{ props.instructor }}</span>
+      <br />
+      <b>Location</b>
+      <br />
+      <span data-cy="location">{{ props.location }}</span>
+      <br />
+      <b>Session Time</b>
+      <br />
+      <span data-cy="time">{{ props.startTime }}–{{ props.endTime }}</span>
+      <br />
+      <b>CRN</b>
       <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
-      <!-- location placeholder -->
-      <br />
-      <!-- professor placeholder -->
-    </div>
+    </b-popover>
   </div>
 </template>
 <script>
@@ -32,8 +67,6 @@ export default {
 .schedule-event {
   display: block;
   box-sizing: border-box;
-  border-top: 1px solid #e7e7e7 !important; //temp fix for the borders not showing
-  border-right: 1px solid #e7e7e7 !important;
   position: absolute;
   //height: 20%;
   //   width: 20%;
@@ -43,38 +76,41 @@ export default {
   //   border-opacity: 1;
   overflow: hidden;
   height: 100%;
+  cursor: pointer;
+  pointer-events: auto;
 
   .event-text {
     padding: 4px;
     font-weight: bold;
-    font-size: 60%;
+    font-size: 65%;
     box-sizing: border-box;
     height: 100%;
-    overflow-y: auto;
-    // CSS Standard Scrollbar Control
-    scrollbar-width: thin;
+    overflow: hidden;
+    // // CSS Standard Scrollbar Control
+    // scrollbar-width: thin;
 
-    //Changes the link color to black
-    a {
-      color: #000000;
+    // Changes the title color to black
+    span[data-cy="title"] {
+      color: #000;
+      font-size: 105%;
     }
   }
 
-  // WebKit Based Scrollbar Control
-  .event-text::-webkit-scrollbar {
-    width: 0.6em;
-    height: 0.6em;
-  }
-  .event-text::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  .event-text::-webkit-scrollbar-thumb {
-    background-color: rgba(128, 128, 128, 0.7);
-    border-radius: 1.8em;
-    border: transparent;
-  }
-  .event-text::-webkit-scrollbar-corner {
-    background-color: transparent;
-  }
+  // // WebKit Based Scrollbar Control
+  // .event-text::-webkit-scrollbar {
+  //   width: 0.6em;
+  //   height: 0.6em;
+  // }
+  // .event-text::-webkit-scrollbar-track {
+  //   background-color: transparent;
+  // }
+  // .event-text::-webkit-scrollbar-thumb {
+  //   background-color: rgba(128, 128, 128, 0.7);
+  //   border-radius: 1.8em;
+  //   border: transparent;
+  // }
+  // .event-text::-webkit-scrollbar-corner {
+  //   background-color: transparent;
+  // }
 }
 </style>

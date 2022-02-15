@@ -2,7 +2,7 @@ import "@/typedef";
 
 import axios from "axios";
 
-import { readableDate, localToUTCDate } from "@/utils";
+import { localToUTCDate, readableDate } from "@/utils";
 
 const client = axios.create({
   baseURL: "/api",
@@ -22,7 +22,7 @@ const client = axios.create({
  * This Is Likely Due To Two Course Objects Having The Same Identifier.
  * Thus, Should Revise The Following Code, If Necessary.
  */
-const _getCourseIdentifier = (courseObj) => {
+export const _getCourseIdentifier = (courseObj) => {
   return `
     ${courseObj.crn}
     ${courseObj.name}
@@ -40,39 +40,60 @@ const _getCourseIdentifier = (courseObj) => {
   `;
 };
 
+export const newGetCourses = (semester, search = null) =>
+  client.get("/class", { params: { semester, search } });
+
+const parseSession = (sessions) => {
+  let ret = [0, 0, 0, 0, 0];
+  try {
+    sessions.forEach((session) => {
+      let a = session["time_start"].split(":").map((a) => Number.parseInt(a));
+      let b = session["time_end"].split(":").map((a) => Number.parseInt(a));
+      const duration = Math.abs(
+        (b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0)
+      );
+      const end = (20 - b[0]) * 2 + (b[1] < 30 ? 1 : 0);
+      // generate 1 in bits for duration
+      let ss = (1 << duration) - 1;
+      // placeholder for day of week
+      ss <<= end;
+      ret[session["day_of_week"]] |= ss;
+    });
+  } catch (e) {
+    return [0, 0, 0, 0, 0];
+  }
+  return ret;
+};
 /**
  * Returns a list of all courses
  * @returns {Promise<Course[]>}
  */
 export const getCourses = (semester, search = null, filter = true) =>
-  client
-    .get("/class", {
-      params: {
-        semester: semester,
-        search: search,
-      },
-    })
-    .then(({ data }) => {
-      let courses = data.map((c) => {
-        c.date_start = localToUTCDate(new Date(c.date_start));
-        c.date_end = localToUTCDate(new Date(c.date_end));
+  client.get("/class", { params: { semester, search } }).then(({ data }) => {
+    let courses = data.map((c) => {
+      c.date_start = localToUTCDate(new Date(c.date_start));
+      c.date_end = localToUTCDate(new Date(c.date_end));
 
-        // Filter out sections that are null
-        c.sections = c.sections.filter((s) => !!s);
-        // Initialize section.selected to false
-        c.sections.forEach((s) => {
-          if (s) s.selected = false;
-        });
-        // Initialize course.selected to false
-        c.selected = false;
-        // Generate id based on course content
-        c.id = _getCourseIdentifier(c);
-
-        c.vscrl_type = c.description ? "with-info" : "without-info";
-        return c;
+      // Filter out sections that are null
+      c.sections = c.sections.filter((s) => !!s);
+      // Initialize section.selected to false
+      c.sections.forEach((s) => {
+        if (s) s.selected = false;
+        s.title = c.title;
+        s.date_start = c.date_start;
+        s.date_end = c.date_end;
+        s.times = parseSession(s.sessions);
       });
-      return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
+      // Initialize course.selected to false
+      c.selected = false;
+      // Generate id based on course content
+      c.id = _getCourseIdentifier(c);
+
+      c.vscrl_type = c.description ? "with-info" : "without-info";
+      return c;
     });
+    return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
+  });
 /**
  * Returns a list of all departments
  * @returns {Promise<Department>}

@@ -13,6 +13,8 @@ class CourseSession(Base):
     time_end = Column(TIME)
     day_of_week = Column(INTEGER)
     location = Column(VARCHAR(length=255))
+    session_type = Column(VARCHAR(length=255))
+    instructor = Column(VARCHAR(length=255))
 
     __table_args__ = (
         PrimaryKeyConstraint('crn', 'section', 'semester', 'day_of_week'),
