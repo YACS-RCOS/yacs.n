@@ -1,9 +1,13 @@
 from .util import Client
 
+#NOTE: Currently unable to test for non-public semesters access if
+#User is admin
+
 def test_success(upload, client: Client):
     #Make sure the upload works
     assert upload.status_code == 200
-    r = client.get("/api/class?semester=SPRING%202020&search=NUMERICAL%20COMPUTING")
+    params = {'semester' : 'SPRING 2020', 'search' : 'NUMERICAL COMPUTING'}
+    r = client.get("/api/class", params = params)
     assert r.status_code == 200
     data = r.json()
     assert len(data) == 13
@@ -11,7 +15,8 @@ def test_success(upload, client: Client):
 
 def test_wrong_semester(upload, client: Client):
     assert upload.status_code == 200
-    r = client.get("/api/class?semester=RANDOM")
+    params = {'semester' : 'RANDOM'}
+    r = client.get("/api/class", params = params)
     assert r.status_code == 401
     assert (r.text == "Semester isn't available")
 
