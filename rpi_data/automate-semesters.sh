@@ -34,7 +34,7 @@ fall() {
 	source_url=https://sis.rpi.edu/reg/zfs${year}09.htm
 	if !(! curl -s --head  --request GET ${source_url} | grep "404 Not Found" > /dev/null)
     then
-			export SEMESTER="SPRING ${year}"
+			export SEMESTER="FALL ${year}"
 			DEST=p0.csv HEADERS=True python3 modules/rpi-parse.py
 			cat p* > fall-${year}.csv
 			rm -rf p*.csv
