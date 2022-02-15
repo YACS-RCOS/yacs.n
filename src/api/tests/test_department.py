@@ -9,7 +9,7 @@ def test_department_success(upload, client: Client):
     assert r.status_code == 200
     data = r.json()
     #Make sure the right number of departments exist
-    assert len(data) == 44
+    assert len(data) == 43
     departments = [d['department'] for d in data]
     for d in expected:
         assert d in departments

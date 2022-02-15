@@ -3,15 +3,10 @@ from .util import Client
 def test_success(upload, client: Client):
     #Make sure the upload works
     assert upload.status_code == 200
-
-    #The below code caused errors for some reason
-    #Check to make sure that the Fall 2020 semester is correctly received
-    #params = {'semester':'FALL%202020', 'search':'EFF%20COMM%20FOR%20CLASS%20PEDAGOGY'}
-    #r = client.get("/api/class", params=params)
-    r = client.get("/api/class?semester=FALL%202020&search=EFF%20COMM%20FOR%20CLASS%20PEDAGOGY")
+    r = client.get("/api/class?semester=SPRING%202020&search=NUMERICAL%20COMPUTING")
     assert r.status_code == 200
     data = r.json()
-    assert len(data) == 2
+    assert len(data) == 13
 
 
 def test_wrong_semester(upload, client: Client):
