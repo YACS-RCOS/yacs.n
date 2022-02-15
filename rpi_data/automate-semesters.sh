@@ -17,9 +17,9 @@ summer() {
 	source_url_a=https://sis.rpi.edu/reg/zfs${year}05.htm
 	source_url_b=https://sis.rpi.edu/reg/zfs${year}0502.htm
 	source_url_c=https://sis.rpi.edu/reg/zfs${year}0503.htm
-	if !((! curl -s --head  --request GET ${source_url_a} | grep "404 Not Found" > /dev/null)
-				&& (! curl -s --head  --request GET ${source_url_b} | grep "404 Not Found" > /dev/null)
-				&& (! curl -s --head  --request GET ${source_url_c} | grep "404 Not Found" > /dev/null)
+	if !([[ ! curl -s --head  --request GET ${source_url_a} | grep "404 Not Found" > /dev/null ]]
+				&& [[ ! curl -s --head  --request GET ${source_url_b} | grep "404 Not Found" > /dev/null ]]
+				&& [[ ! curl -s --head  --request GET ${source_url_c} | grep "404 Not Found" > /dev/null ]]
 			)
   then
 			export SEMESTER="SUMMER ${year}"
@@ -46,19 +46,19 @@ fall() {
 
 MONTH=$(date +%m)
 YEAR=$(date +%y)
-if [[${MONTH} -ge 01 ]] && [[${MONTH} -le 05]]
+if [[ ${MONTH} -ge 01 ]] && [[ ${MONTH} -le 05 ]]
 then
   spring(${YEAR})
 	summer(${YEAR})
 fi
 
-if [[${MONTH} -ge 05 ]] && [[${MONTH} -le 09]]
+if [[ ${MONTH} -ge 05 ]] && [[ ${MONTH} -le 09 ]]
 then
 	summer(${YEAR})
 	fall(${YEAR})
 fi
 
-if [[${MONTH} -ge 09 ]] || [[${MONTH} -eq 01]]
+if [[ ${MONTH} -ge 09 ]] || [[ ${MONTH} -eq 01 ]]
 then
 	fall(${YEAR})
 	spring(${YEAR})
