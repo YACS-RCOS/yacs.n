@@ -17,9 +17,9 @@ summer() {
 	source_url_a=https://sis.rpi.edu/reg/zfs${year}05.htm
 	source_url_b=https://sis.rpi.edu/reg/zfs${year}0502.htm
 	source_url_c=https://sis.rpi.edu/reg/zfs${year}0503.htm
-	if !( grep -q [[ ! curl -s --head  --request GET ${source_url_a} |  "404 Not Found" > /dev/null ]]
-				&& [[ ! curl -s --head  --request GET ${source_url_b} |  "404 Not Found" > /dev/null ]]
-				&& [[ ! curl -s --head  --request GET ${source_url_c} |  "404 Not Found" > /dev/null ]]
+	if !([[ ! curl -s --head  --request GET ${source_url_a} | grep "404 Not Found" > /dev/null ]]
+				&& [[ ! curl -s --head  --request GET ${source_url_b} | grep "404 Not Found" > /dev/null ]]
+				&& [[ ! curl -s --head  --request GET ${source_url_c} | grep "404 Not Found" > /dev/null ]]
 			)
   then
 			export SEMESTER="SUMMER ${year}"
