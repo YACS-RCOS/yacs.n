@@ -1,8 +1,7 @@
 from .util import Client
-from .fixtures import *
 
-TEST_USER = { 'email': TEST_USER_SIGNUP['email'],
-              'password': TEST_USER_SIGNUP['password'] }
+TEST_USER = { 'email': 'test@email.com',
+              'password': '123456' }
 
 def test_session_post_success(post_user, client: Client):
     '''
@@ -14,7 +13,7 @@ def test_session_post_success(post_user, client: Client):
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
-    assert data['content']['userName'] == TEST_USER_SIGNUP['name']
+    assert data['content']['userName'] == "TestName"
 
 def test_session_post_failure(client: Client):
     '''
