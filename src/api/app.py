@@ -28,13 +28,10 @@ NOTE: on caching
 on add of semester of change of data from GET
 do a cache.clear() to ensure data integrity
 """
-# cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("FLASK_SIGN_KEY", "localTestingKey"))
-# app.secret_key = os.environ.get("FLASK_SIGN_KEY", "localTestingKey")
-# cache.init_app(app)
 
 @app.on_event("startup")
 async def startup():
