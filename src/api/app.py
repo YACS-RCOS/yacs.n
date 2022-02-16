@@ -281,6 +281,3 @@ def log_out(request: Request, session: SessionDeletePydantic):
 #
 #     courses, error = course_select.get_selection(session['user']['user_id'])
 #     return jsonify(courses) if not error else Response(error, status=500)
-#
-# if __name__ == '__main__':
-#     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
