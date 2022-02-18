@@ -7,7 +7,6 @@ def test_semester(upload, client):
     in the case of our test data, we should be getting get 2 semesters: "SUMMER 2020" and "SPRING 2020"
     """
     r = client.get("/api/semester")
-    print(r.text)
     data = r.json()
     assert len(data) == 2
     assert data[0]["semester"] == "SUMMER 2020"
