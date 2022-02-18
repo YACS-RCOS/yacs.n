@@ -1,9 +1,11 @@
 
 from .util import Client
 
-    #semester should get all of the semesters in the upload
-    #in the case of our test data, we should be getting Summer and Spring semester of 2020
 def test_semester(upload, client):
+    """
+    semester endpoint should get all of the semesters in the upload
+    in the case of our test data, we should be getting get 2 semesters: "SUMMER 2020" and "SPRING 2020"
+    """
     r = client.get("/api/semester")
     print(r.text)
     data = r.json()
