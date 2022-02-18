@@ -41,16 +41,16 @@ jobs:
         run: |
           python tables/database_session.py && PYTHONPATH=. alembic upgrade head
 
-      - name: Run unit tests with coverage
-        env:
-          DB_PORT: 5432
-          DB_USER: postgres
-          DB_PASS: postgres
-          DB_NAME: yacs
-          DB_HOST: postgres
-          TEST_CSV: rpi_data/summer-2020.csv
-        run: |
-          bash scripts/test.sh
+#      - name: Run unit tests with coverage
+#        env:
+#          DB_PORT: 5432
+#          DB_USER: postgres
+#          DB_PASS: postgres
+#          DB_NAME: yacs
+#          DB_HOST: postgres
+#          TEST_CSV: rpi_data/summer-2020.csv
+#        run: |
+#          bash scripts/test.sh
 
       - name: Run API unit tests
         run: |
