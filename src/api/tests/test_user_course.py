@@ -27,6 +27,7 @@ def test_user_course_post_success(post_user, client: Client):
     assert get_data['crn'] == TEST_USER_COURSE['cid']
     d = client.delete("/api/session", json={"sessionID": sess.json()['content']['sessionID']})
     assert d.status_code == 200
+
 def test_user_course_post_failure(client: Client):
     '''
     Test user course post with invalid parameter
@@ -38,3 +39,10 @@ def test_user_course_post_failure(client: Client):
     assert r.status_code == 500
     d = client.delete('/api/session', json={'sessionID': sessID})
     assert d.status_code == 200
+
+def test_course_post_not_authorized(client: Client):
+    '''
+    Test user course post without user session/login
+    '''
+    r = client.post("/api/user/course", json=TEST_USER_COURSE)
+    assert r.status_code == 403
