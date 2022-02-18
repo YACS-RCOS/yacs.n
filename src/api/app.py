@@ -33,9 +33,7 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("FLASK_SIGN_KEY", "localTestingKey"))
 
-@app.on_event("startup")
-async def startup():
-    FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
+FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
 # - init interfaces to db
 db_conn = connection.db
