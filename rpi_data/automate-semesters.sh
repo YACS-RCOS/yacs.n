@@ -4,8 +4,8 @@ spring() {
 	local year=${1}
 	source_url=https://sis.rpi.edu/reg/zfs20${year}01.htm
 
-	python3 ./website_checker.py ${source_url}
-	if [ $? == 0 ]
+	exitCode=$(python3 ./website_checker.py ${source_url})
+	if [ ${exitCode}==0 ]
 	then
 			echo "Spring"
 			export SEMESTER="SPRING ${year}"
@@ -23,8 +23,8 @@ summer() {
 	source_url_b=https://sis.rpi.edu/reg/zfs20${year}0502.htm
 	source_url_c=https://sis.rpi.edu/reg/zfs20${year}0503.htm
 
-	python3 ./website_checker.py ${source_url_a} ${source_url_b} ${source_url}
-	if [ $? == 0 ]
+	exitCode=$(python3 ./website_checker.py ${source_url_a} ${source_url_b} ${source_url})
+	if [ ${exitCode}==0 ]
   then
   		echo "Summer"
 			export SEMESTER="SUMMER ${year}"
@@ -41,9 +41,8 @@ summer() {
 fall() {
 	local year=${1}
 	source_url=https://sis.rpi.edu/reg/zfs20${year}09.htm
-	# if !(! curl -s --head  --request GET ${source_url} | grep "404 Not Found" > /dev/null)
-	python3 ./website_checker.py ${source_url}
-	if [ $? == 0 ]
+	exitCode=$(python3 ./website_checker.py ${source_url})
+	if [ ${exitCode}==0 ]
 	then
 			echo "Fall"
 			export SEMESTER="FALL ${year}"
