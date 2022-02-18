@@ -1,5 +1,4 @@
 from .util import Client
-from .fixtures import *
 
 def test_bulk_upload_success(upload, client: Client):
     '''
