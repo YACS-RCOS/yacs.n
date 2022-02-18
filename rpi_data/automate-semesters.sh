@@ -58,8 +58,6 @@ fall() {
 
 MONTH=$(date +%m)
 YEAR=$(date +%y)
-echo $MONTH
-echo $YEAR
 if [[ ${MONTH} -ge 1 && ${MONTH} -le 5 ]]
 then
   spring ${YEAR}
