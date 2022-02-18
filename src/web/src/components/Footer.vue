@@ -4,20 +4,15 @@
       <b-container>
         <b-row cols="2" cols-md="3" align-h="center">
           <b-col class="link-group">
-            <strong class="section-head">Other Semesters</strong>
-            <a
-              v-for="option of otherSemesters"
-              :key="option.text"
-              class="link"
-              :disabled="option.text === selectedSemester"
-              @click="selectSemester(option.value)"
-            >
-              {{ option.value }}
-            </a>
-          </b-col>
-
-          <b-col class="link-group">
             <strong class="section-head">Contact Us</strong>
+            <a
+              class="link"
+              href="https://discord.gg/hTSPMr53vP"
+              target="_blank"
+              rel="noopener"
+            >
+              YACS Official Discord Server
+            </a>
             <a
               class="link"
               href="https://github.com/YACS-RCOS/yacs.n"

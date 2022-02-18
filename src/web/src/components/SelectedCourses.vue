@@ -10,7 +10,7 @@
       v-for="course of courses"
       :key="course.id"
     >
-      <CourseListing :course="course" openInitial v-on="$listeners" />
+      <CourseListing :course="course" v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
 </template>
