@@ -10,14 +10,14 @@ sys.path.insert(0, appdir)
 from app import app
 from db.connection import db
 from tables.database_session import SessionLocal, DB_PASS
+from tables import Base
 
 ### Create the database session and clear tables needed for testing
 session = SessionLocal()
-cur = db.get_connection().cursor()
-cur.execute(" DELETE FROM public.user_account ")    # Remove users
-cur.execute(" DELETE FROM course_session ")         # Remove course data
-cur.execute(" DELETE FROM public.user_session ")    # Removes outstanding sessions
-cur.close()
+
+for table in reversed(Base.metadata.sorted_tables):
+    session.execute(table.delete())
+session.commit()
 
 @pytest.fixture(scope="session")
 def client():

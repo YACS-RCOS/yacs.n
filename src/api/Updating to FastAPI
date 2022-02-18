@@ -24,12 +24,6 @@ UPDATING YOUR ENDPOINTS
             and replace 'client: Client' with 'client: TestClient'
         * Mark your pytests as updated- import pytest and add the decorator (@pytest.mark.testclient)
             in front of each test case
-        * Check if your endpoint creates new entries in the database. Look for database calls in your
-            endpoint and look for INSERT INTO <tablename> in your database method.
-            * If this is the case, add the line 'cur.execute(" DELETE FROM <tablename> ")' alongside
-                the rest of these database calls in the conftest.py file if your table is not already
-                being deleted from here.
-            * This will make sure we have a fresh database for running the pytests
     * Running your new pytests:
         * run pip install -r src/api/requirements.txt to get necessary libraries
         * run src/api/tests/test.sh to run your tests locally.
