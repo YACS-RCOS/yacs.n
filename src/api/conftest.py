@@ -11,11 +11,6 @@ from app import app
 from db.connection import db
 from tables.database_session import SessionLocal, DB_PASS
 
-def pytest_configure(config):
-    config.addinivalue_line(
-        "markers", "testclient: mark tests that are updated to use FastAPI's TestClient"
-    )
-
 ### Create the database session and clear tables needed for testing
 session = SessionLocal()
 cur = db.get_connection().cursor()
