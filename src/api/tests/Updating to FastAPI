@@ -1,0 +1,35 @@
+UPDATING YOUR ENDPOINTS
+1. Uncomment your test and change app.route to app.<method> where method
+        is either get, post, put, or delete.
+    * You no longer need to specify the method inside of this decorator
+2. If your endpoint has a cache decorator (@cache.cached(...)), replace this with @cache(...)
+    * timeout becomes expire
+    * Add coder=PickleCoder, this preserves the exact format of your responses when caching
+    * Set namespace="API_CACHE", this keeps all caching in the same namespace for clearing
+            when necessary.
+    * Cached calls are asynchronous, make your api endpoint async as well by changing 'def' to 'async def'
+3. If your endpoint takes in parameters, you should specify these with a pydantic model.
+        You can see examples of this and set your own models in api_models.py.
+        See this link for more examples: https://fastapi.tiangolo.com/tutorial/extra-models/
+        There are a lot of great examples at that link for everything we need to do here in the left sidebar.
+4. When returning, we have a new Response object with FastAPI.
+        * Response(status=___) will now become Response(status_code=___)
+        * Jsonify is a flask function which we no longer need/have, you can return lists and dicts directly
+        * However, database calls will typically return RealDictRow objects, these should be converted first
+            using list comprehension. For example: db_list = [dict(r) for r in db_response] but this may vary
+            depending on your database call's response types
+5. Updating pytests:
+    * AFTER running your pytests as before to make sure your endpoint's functionality has not changed:
+        * Client becomes TestClient. Replace from util import Client with from fastapi import TestClient
+            and replace 'client: Client' with 'client: TestClient'
+        * Mark your pytests as updated- import pytest and add the decorator (@pytest.mark.testclient)
+            in front of each test case
+        * Check if your endpoint creates new entries in the database. Look for database calls in your
+            endpoint and look for INSERT INTO <tablename> in your database method.
+            * If this is the case, add the line 'cur.execute(" DELETE FROM <tablename> ")' alongside
+                the rest of these database calls in the conftest.py file if your table is not already
+                being deleted from here.
+            * This will make sure we have a fresh database for running the pytests
+    * Running your new pytests:
+        * run pip install -r src/api/requirements.txt to get necessary libraries
+        * run src/api/tests/test.sh to run your tests locally.

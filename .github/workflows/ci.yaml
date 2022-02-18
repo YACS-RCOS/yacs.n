@@ -52,6 +52,10 @@ jobs:
         run: |
           bash scripts/test.sh
 
+      - name: Run API unit tests
+        run: |
+          bash src/api/tests/test.sh
+
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest
