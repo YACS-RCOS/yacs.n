@@ -34,7 +34,7 @@ def test_get_user_success(client: Client):
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
     headersa = r.headers
-    print (headersa['set-cookie'])
+    #print (headersa['set-cookie'])
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None

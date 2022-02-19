@@ -21,6 +21,7 @@ def test_user_course_post_success(post_user, client: Client):
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
     assert r.status_code == 200
     g = client.get("/api/user/course", json=TEST_USER_COURSE)
+    print (g.text)
     get_data = g.json()[0]
     assert get_data['course_name'] == TEST_USER_COURSE['name']
     assert get_data['semester'] == TEST_USER_COURSE['semester']
