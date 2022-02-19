@@ -7,8 +7,7 @@ class Client():
 
 
     def get(self, endpoint, params=None, json=None, data=None, headers=None):
-        return requests.get(self.URL + endpoint, params=params, json=json, data=data, headers = headers)
-
+        return self.session.get(self.URL + endpoint, params=params, json=json, data=data, headers = headers)
 
     def post(self, endpoint, params=None, json=None, data=None, files=None):
         return self.session.post(self.URL + endpoint, params=params, json=json, files=files, data=data)
