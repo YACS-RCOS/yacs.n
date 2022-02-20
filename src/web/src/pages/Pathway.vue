@@ -1,45 +1,83 @@
 
-<template id = "body">
-  <div fluid class="py-3 h-100">
-    <h1>Intergrated Pathways</h1>
-    <br>
-
-    <b-modal ref="my-modal" >
-      <div class="block text-left" v-if="showPath != null" md="10">
-        <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
-        <br>
-        <div v-for="(item, category) in showPath" :key="category"> 
-            <h4 style="color:#3395ff">{{ category + ": " }}</h4>
-            <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">{{ course }}</li>
-            <br>
-        </div>
-      </div>
-    </b-modal>
-
-    <b-row id = "items">
-      <b-col class = "pathBox" md="3" sm="4" v-for="pathway in pathways" :key="pathway['Name'][0]" v-on:click="ShowPath(pathway)">
-        <div calss = "roundBox ">
-            <p class = "pathwayName text-center" > {{ pathway["Name"][0] }}</p>
-        </div>
-      </b-col>
-    </b-row>
-
-    <b-row id = "Note">
-        <b-col>
-            <li>You can explore different pathway by clicking the pathway boxes. </li>
-            <li>You can also check out the courses by clicking the listed courses. </li>
-            <li>You will be directed to the department page if the course is not specified.</li>
-            <li>However, the course may show up as "Course not found" if the course is not being offer this semester. </li>
+<template>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="pathways.length > 0" class="mx-auto w-75">
+      <b-row>
+        <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
+        <b-col
+          v-for="(deptCol, index) in schoolDepartmentObjects"
+          :key="`deptCol-${index}`"
+          md="6"
+        >
+          <b-row
+            v-for="deptObj in deptCol"
+            :key="deptObj.school"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <!-- Pathway Title  -->
+              <b-row>
+                <PathwayCategoriesList
+                  :categories="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></PathwayCategoriesList>
+              </b-row>
+            </b-col>
+          </b-row>
         </b-col>
-    </b-row>
-  </div>
+      </b-row>
+    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="Departments"
+      :topSpacing="30"
+    />
+  </b-container>
 </template>
+
+
 
 <script>
 import json from './pathway.json'
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
+import PathwayCategoriesListComponenet from "@/components/PathwayCategoriesList";
+import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+
 export default {
   name: "Pathway",
-  showPath: null,
+  components: {
+    PathwayCategoriesList: PathwayCategoriesListComponenet,
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Pathways"
+        }
+      ],
+      // hardcoding all categories, please replace with data imported from json files when it is available
+      categories: ["Arts/Designs", "Cognitive Science", "Communication/Writing", "Ecology", "Economics", 
+                   "Information Technology", "Language", "Media/Music", "Philosophy", "Social Science", "Transfer Student"],
+      showPath: null
+    };
+  },
   methods: {
     ShowPath(pathway){
         //console.log(pathway);
@@ -61,17 +99,26 @@ export default {
         }
     }
   },
-
-    data(){
-        return{
-            pathways: json,
-            showPath: null
-        }
-    },
 };
 </script>
 
 <style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+
+.departmentBox {
+  text-align: center;
+}
+
+.school-name {
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+
 body {
   text-align: center;
 }
