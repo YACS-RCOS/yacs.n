@@ -1,8 +1,9 @@
 <script setup>
 import {ref, reactive, watchEffect} from 'vue'
 import {getCourses} from "../plugins/axios/apis";
-import {currentSemester, semester, selections} from "../store";
+import {currentSemester, semester} from "../store";
 import {filterCourses} from "../utils/common";
+import {selections, addCourse} from "../utils/scheduler";
 
 import YacsSelectionPanel from '../components/YacsSelectionPanel.vue'
 
@@ -17,6 +18,8 @@ const searchParam = reactive({
 const searchResult = ref([])
 
 watchEffect(() => {
+  // prevent the default run when things are not initialized
+  // consider using the watch api
   if (!currentSemester.value || !semester.value) return
   getCourses(currentSemester.value, searchParam.department).then(res => {
     searchResult.value = filterCourses(res).map((course) => semester.value[course.name])
@@ -30,14 +33,7 @@ const load = () => {
 }
 
 const toggleSelection = (obj, value) => {
-  if (value) {
-    selections[obj.name] = Object.keys(semester.value[obj.name].sections)
-  } else {
-    delete selections[obj.name]
-  }
-  for (let section in obj.sections) {
-    obj.sections[section].isSelected = value
-  }
+  addCourse(obj, value)
 }
 
 </script>
