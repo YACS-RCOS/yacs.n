@@ -1,6 +1,6 @@
 <script setup>
-import {semesters} from "../store";
-import {currentSchedule, currentSchedules, scheduleIndex} from "../utils/scheduler";
+// import {semesters} from "../utils/core/semester";
+import {currentSchedule, scheduleIndex, currentSchedules} from "../utils/core/scheduler";
 import {computed} from "vue";
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
@@ -55,11 +55,11 @@ const title = computed(() => {
         </div>
       </div>
       <div v-if="currentSchedule" style="position: absolute; inset: 0; z-index: 1000;">
-        <div v-for="info in currentSchedule.info">
-          <div v-for="session in info.section.sessions" :style="getStyleBySession(session, info.course.color)">
-            {{ info.course.name }}
-            {{ info.course.title }}
-            {{ info.section.crn }} - {{ info.section.index }}
+        <div v-for="({course, section}, courseName) in currentSchedule.info">
+          <div v-for="session in section.sessions" :style="getStyleBySession(session, course.color)">
+            {{ course.name }}
+            {{ course.title }}
+            {{ section.crn }} - {{ section.index }}
           </div>
         </div>
       </div>

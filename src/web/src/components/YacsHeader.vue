@@ -1,8 +1,10 @@
 <script setup>
-import {getDefaultSemester} from "../plugins/axios/apis";
-import {currentSemester, semester, semesters} from "../store";
+import {currentSemesterName, currentSemester, semesters, subSemester} from "../utils/core/semester";
 import {computed, ref, watchEffect} from 'vue'
-import {subActivated} from "../utils/scheduler";
+
+const getLabel = ([s, e]) => {
+  return (s.getMonth() + 1) + '.' + s.getDate() + ' - ' + (e.getMonth() + 1) + '.' + e.getDate()
+}
 
 const options = ref([])
 watchEffect(() => {
@@ -10,10 +12,15 @@ watchEffect(() => {
     return {
       label: value,
       value,
-      children: semesters[value].sub && semesters[value].sub.slice(1).map(([start, end], index) => ({
-        label: (start.getMonth() + 1) + '.' + start.getDate() + '-' + (end.getMonth() + 1) + '.' + end.getDate(),
-        value: index + 1
-      }))
+      children: semesters[value].sub && [
+        {
+          label: getLabel(semesters[value].sub.first),
+          value: 'first'
+        }, {
+          label: getLabel(semesters[value].sub.second),
+          value: 'second'
+        }
+      ]
     }
   })
 })
@@ -21,14 +28,15 @@ watchEffect(() => {
 const testing = ref([])
 
 watchEffect(() => {
-  if (testing.value.length === 0 && currentSemester.value) {
-    testing.value[0] = currentSemester.value
+  // try init
+  if (testing.value.length === 0 && currentSemesterName.value) {
+    testing.value[0] = currentSemesterName.value
   }
 })
 
 watchEffect(() => {
-  currentSemester.value = testing.value[0]
-  subActivated.value = testing.value[1] || 0
+  currentSemesterName.value = testing.value[0]
+  subSemester.value = testing.value[1] || 'full'
 })
 </script>
 

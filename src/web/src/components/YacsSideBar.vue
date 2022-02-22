@@ -1,11 +1,10 @@
 <script setup>
-import {ref, reactive, watchEffect} from 'vue'
-import {getCourses} from "../plugins/axios/apis";
-import {currentSemester, semester} from "../store";
-import {filterCourses} from "../utils/common";
-import {selections, addCourse} from "../utils/scheduler";
-
 import YacsSelectionPanel from '../components/YacsSelectionPanel.vue'
+import {ref, reactive, watchEffect, nextTick} from 'vue'
+import {getCourses} from "../plugins/axios/apis";
+import {filterCourses} from "../utils/common";
+import {currentSemester, currentSemesterName} from '../utils/core/semester'
+import { displayedSelections, toggleCourse } from "../utils/core/selection";
 
 const defaultTab = ref({label: 'Course Search', name: '#default', isActive: true})
 const activeName = ref('#default')
@@ -20,9 +19,9 @@ const searchResult = ref([])
 watchEffect(() => {
   // prevent the default run when things are not initialized
   // consider using the watch api
-  if (!currentSemester.value || !semester.value) return
-  getCourses(currentSemester.value, searchParam.department).then(res => {
-    searchResult.value = filterCourses(res).map((course) => semester.value[course.name])
+  if (!currentSemesterName.value) return
+  getCourses(currentSemesterName.value, searchParam.department).then(({data: res}) => {
+    searchResult.value = filterCourses(res).map((course) => currentSemester.value.courses[course.name])
     count.value = Math.min(searchResult.value.length, 20)
   })
 })
@@ -32,8 +31,8 @@ const load = () => {
   count.value += 10
 }
 
-const toggleSelection = (obj, value) => {
-  addCourse(obj, value)
+const getChecked = (name) => {
+    return Object.keys(displayedSelections.value).includes(name)
 }
 
 </script>
@@ -56,8 +55,7 @@ const toggleSelection = (obj, value) => {
           <el-scrollbar height="700px">
             <ul v-infinite-scroll="load" class="yacs-infinite-list">
               <li v-for="i in count" class="yacs-infinite-list-item">
-                <el-checkbox v-model="searchResult[i-1].isSelected"
-                             @change="toggleSelection(searchResult[i-1], $event)"></el-checkbox>
+                <el-checkbox :model-value="getChecked(searchResult[i-1].name)" @change="toggleCourse(searchResult[i-1], $event)"></el-checkbox>
                 {{ searchResult[i - 1].name }}
                 {{ searchResult[i - 1].title }}
               </li>

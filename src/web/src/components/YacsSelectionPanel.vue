@@ -1,21 +1,18 @@
 <script setup>
-import { /*currentSelections as */displayedSelections, selections } from "../utils/scheduler";
-
-const test = () => {
-  // console.log('hi')
-}
+import {currentSemester} from "../utils/core/semester";
+import { displayedSelections, selections, toggleSection } from "../utils/core/selection";
 </script>
 
 <template>
   <div>
     <el-collapse>
-      <el-collapse-item v-for="(course, name, index) in displayedSelections" :name="index">
+      <el-collapse-item v-for="(crns, courseName, index) in displayedSelections" :name="index">
         <template #title>
-          {{ name }}
+          {{ courseName }}
           <div style="width: 15px; height: 15px; position:absolute; right: 30px; line-height: normal" @click.prevent="test">x</div>
         </template>
-        <div v-for="(section, crn) in course.sections">
-          <el-checkbox v-model="section.isSelected"></el-checkbox>
+        <div v-for="(section, crn) in currentSemester.courses[courseName].sections">
+          <el-checkbox :model-value="crns.includes(crn)" @change="toggleSection(currentSemester.courses[courseName], crn, $event)"></el-checkbox>
           {{ crn }}
         </div>
       </el-collapse-item>
