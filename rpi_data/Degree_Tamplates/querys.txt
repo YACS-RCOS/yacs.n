@@ -1,0 +1,15 @@
+
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'First Year' as theYear;
+
+SELECT * 
+FROM public."cleanedMajorTemplates" 
+WHERE
+"Major" = (select majorName from givenMajor)
+and "Year" = (select theYear from givenYear)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;

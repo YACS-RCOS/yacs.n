@@ -1,0 +1,21 @@
+DROP TABLE IF EXISTS public."cleanedMajorTemplates";
+CREATE TABLE public."cleanedMajorTemplates" AS TABLE public."majorTemplates";
+
+UPDATE "cleanedMajorTemplates"
+SET "Semester" = 'Summer' 
+WHERE "Semester" LIKE 'The Arch%' or "Semester" LIKE 'Summer%';
+
+UPDATE "cleanedMajorTemplates"
+SET "Semester" = 'Spring' 
+WHERE "Semester" LIKE 'Spring%';
+
+UPDATE "cleanedMajorTemplates"
+SET "Semester" = 'Fall' 
+WHERE "Semester" LIKE 'Fall%';
+
+SELECT * 
+FROM public."cleanedMajorTemplates" 
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
