@@ -3,28 +3,20 @@ import {getCourses, getDefaultSemester, getSemesters, getSubsemesters} from "../
 import {filterCourses} from "../common";
 
 const parseSession = (sessions) => {
-    let ret = [0, 0, 0, 0, 0];
+    let ret = [[], [], [], [], []];
     try {
         sessions.forEach((session) => {
-            let a = session["time_start"].split(":").map((a) => Number.parseInt(a));
-            let b = session["time_end"].split(":").map((a) => Number.parseInt(a));
-            const duration = Math.abs(
-                (b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0)
-            );
-            const end = (21 - b[0]) * 2 + (b[1] < 30 ? 1 : 0);
-            const start = (a[0] - 8) * 2 + (a[1] === 30 ? 1 : 0)
-            if (start + duration + end !== 28) {
-                throw new Error()
-            }
-            // generate 1 in bits for duration
-            let ss = (1 << duration) - 1;
-            // placeholder for day of week
-            ss <<= end;
-            session.time = {start, duration, end}
-            ret[session["day_of_week"]] |= ss;
+            const [s_h, s_m, s_s] = session["time_start"].split(":").map((a) => Number.parseInt(a));
+            const [e_h, e_m, e_s] = session["time_end"].split(":").map((a) => Number.parseInt(a));
+            const start = new Date()
+            const end = new Date()
+            start.setTime(((s_h * 60 + s_m) * 60 + s_s) * 1000)
+            end.setTime(((e_h * 60 + e_m) * 60 + e_s) * 1000)
+            session.time = [start, end]
+            ret[session["day_of_week"]].push([start, end])
         });
     } catch (e) {
-        return [0, 0, 0, 0, 0];
+        return [[], [], [], [], []];
     }
     return ret;
 }
@@ -57,7 +49,6 @@ getSemesters().then(({data}) => {
                 semester.courses[course.name] = course
             })
             semesters[obj.semester] = semester
-            console.log(semesters)
             if (obj.semester.toLowerCase().startsWith('summer')) {
                 getSubsemesters(obj.semester).then(({data: subs}) => {
                     const newSubs = subs.map(sub => [new Date(sub.date_start), new Date(sub.date_end)]).sort((a,b) => {

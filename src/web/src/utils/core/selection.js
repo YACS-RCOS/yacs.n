@@ -2,6 +2,19 @@ import {computed, reactive, ref, watch} from "vue";
 import {currentSemester, currentSemesterName, getSubByTime, subSemester} from "./semester";
 import {occupyColor, unOccupyColor} from "../color";
 
+const getCurrent = (selections) => {
+    const ret = {}
+    Object.keys(selections).forEach((courseName) => {
+        const courseInfo = Object.assign({}, currentSemester.value.courses[courseName])
+        const temp = {}
+        selections[courseName].forEach(crn => {
+            temp[crn] = courseInfo.sections[crn]
+        })
+        courseInfo.sections = selections[courseName].length ? temp : undefined
+        ret[courseName] = courseInfo
+    })
+    return ret
+}
 
 watch(() => currentSemesterName.value, () => {
     _selections.first = {}
@@ -16,25 +29,37 @@ const _selections = reactive({
     full: {}
 })
 
+export const dedicatedSelections = computed(() => {
+    return _selections[subSemester.value]
+})
+export const currentDedicatedSelections = computed(() => {
+    return getCurrent(dedicatedSelections.value)
+})
+export const generalSelections = computed(() => {
+    return _selections.full
+})
+export const currentGeneralSelections = computed(() => {
+    return getCurrent(generalSelections.value)
+})
+export const shadowSelections = computed(() => {
+    if (subSemester.value === 'first') {
+        return _selections.second
+    } else if (subSemester.value === 'second') {
+        return _selections.first
+    }
+    return {}
+})
+export const currentShadowSelections = computed(() => {
+    return getCurrent(shadowSelections.value)
+})
+
 export const selections = computed(() => {
     if (subSemester.value !== 'full')
         return Object.assign({}, _selections[subSemester.value], _selections.full)
     return _selections.full
 })
 export const currentSelections = computed(() => {
-    const ret = {}
-    Object.keys(selections.value).forEach((courseName) => {
-        const courseInfo = Object.assign({}, currentSemester.value.courses[courseName])
-        const temp = {}
-        selections.value[courseName].forEach(crn => {
-            temp[crn] = courseInfo.sections[crn]
-        })
-        courseInfo.sections = selections.value[courseName].length
-            ? temp
-            : undefined
-        ret[courseName] = courseInfo
-    })
-    return ret
+    return getCurrent(selections.value)
 })
 
 export const displayedSelections = computed(() =>
@@ -42,6 +67,7 @@ export const displayedSelections = computed(() =>
 )
 
 export const toggleCourse = (courseInfo, value) => {
+    // debugger
     if (value) {
         courseInfo.color = occupyColor()
     } else {

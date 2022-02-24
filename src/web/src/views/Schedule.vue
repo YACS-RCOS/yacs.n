@@ -7,14 +7,15 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 const hours = ['8am', '9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm']
 
 const getStyleBySession = (session, color) => {
-  console.log(color)
+  const [start, end] = session.time
+  const duration = end.getTime() - start.getTime()
   return {
     boxSizing: 'border-box',
     overflow: 'hidden',
-    height: ((session.time.duration - 1 / 6) * 100 / 28) + '%',
+    height: (duration * 100 / (14*3600*1000)) + '%',
     width: '20%',
     display: 'inline-block',
-    top: (session.time.start * 100 / 28) + '%',
+    top: ((start - 8 * 3600 * 1000) * 100 / (14*3600*1000)) + '%',
     left: (session['day_of_week'] * 20) + '%',
     position: 'absolute',
     background: `hsl(${color.color[0]}, ${color.color[1]}%, ${color.color[2]}%)`,
