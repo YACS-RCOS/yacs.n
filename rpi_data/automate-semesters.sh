@@ -61,19 +61,19 @@ fall() {
 
 MONTH=$(date +%m)
 YEAR=$(date +%y)
-if [[ ${MONTH} -ge 1 && ${MONTH} -le 5 ]]
+if [[ ${MONTH} -ge 1 && ${MONTH} -lt 5 ]]
 then
   spring ${YEAR}
 	summer ${YEAR}
 fi
 
-if [[ ${MONTH} -ge 5 && ${MONTH} -le 9 ]]
+if [[ ${MONTH} -ge 5 && ${MONTH} -lt 9 ]]
 then
 	summer ${YEAR}
 	fall ${YEAR}
 fi
 
-if [[ ${MONTH} -ge 9 || ${MONTH} -eq 1 ]]
+if [[ ${MONTH} -ge 9 && ${MONTH} -le 12 ]]
 then
 	fall ${YEAR}
 	spring ${YEAR}
