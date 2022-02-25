@@ -9,11 +9,8 @@ Created on Tue Nov  2 17:40:34 2021
 import requests
 from bs4 import BeautifulSoup
 
-outFile = open("pathwayData.txt", "a") #append mode
-outFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
-
-def scrapFromURL(webLink, major_db):
-    
+#function that parses html page and stores major information in major_db
+def scrapFromURL(webLink, major_db):    
     URL = webLink
     page = requests.get(URL) 
 
@@ -23,11 +20,11 @@ def scrapFromURL(webLink, major_db):
     
     #find the first h1 which is the major name
     title_element = soup.find("h1", id="acalog-content")
-    outFile.write(title_element.text)
+    majorOutFile.write(title_element.text)
     major = title_element.text
-    outFile.write(":\n")
+    majorOutFile.write(":\n")
 
-    #the entire class template has a custom leftpad of 20 consistently, so gather that data
+    #the entire class template has a custom leftpad of 20 (semi-consistently), so gather that data
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
     startScrap = False #set to true if we have reached the first year information
@@ -41,7 +38,7 @@ def scrapFromURL(webLink, major_db):
             if(startScrap):
                 #if we arent at the last year's data 
                 if state == 'newMajor' or state =="newYear":
-                    outFile.write(" Year: ")
+                    majorOutFile.write(" Year: ")
 
                     #parse year data
                     yearText = div.text.split()[0] + " Year"
@@ -49,7 +46,7 @@ def scrapFromURL(webLink, major_db):
 
                     #initialize a database entry that is a pair of major and year
                     major_db[cur_entry] = {}
-                    outFile.write(yearText)
+                    majorOutFile.write(yearText)
 
                     state = 'regularYear'
                     if yearText == "Fourth Year":
@@ -67,54 +64,62 @@ def scrapFromURL(webLink, major_db):
                             for item in major_db.keys():
                                 print("{}: {}".format(item, major_db[item]))
                             '''
-                            outFile.write("  Sem: ")
-                            outFile.write(semName.text)
-                            outFile.write("\n")
+                            majorOutFile.write("  Sem: ")
+                            majorOutFile.write(semName.text)
+                            majorOutFile.write("\n")
                             #major_db[cur_entry]["semester"] = semName.text
 
                             #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
-                                    if not (len(litag.text) < 4 or litag.text[:4] == "(See"):
+                                    #handles case for (See or [See 
+                                    if not (len(litag.text) < 4 or litag.text[1:4] == "See"):
                                     # have < 4 so that 'and' and 'or' statement are not recorded
-                                        outFile.write("   Course: ")
+                                        majorOutFile.write("   Course: ")
                                         major_db[cur_entry][semName.text].append(litag.text)
-                                        outFile.write(litag.text)
-                                        outFile.write("\n")
-                        #else:                     
+                                        majorOutFile.write(litag.text)
+                                        majorOutFile.write("\n")
+                            #is there another edge case where some are not in ul or li
+                        #else:
+                        # edge case where it is leftpad20                     
                     if state == "lastYear":
                         #done reading data so end the scrape   
                         return major_db
                     state= "newYear"
                 
                 #outFile.write("count is :{}\n".format(count))
-                outFile.write("\n")
-    #cleaning1()
+                majorOutFile.write("\n")
     return major_db
 
+#initialize database dictionary and grab the url file
 major_db = {}
 f = open("majorURLlist.txt", "r")
-#fout = open("majorData.txt", "w")
-i = 0
-#scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542", major_db)
+
+#initialize outfile and scrape from each url all the major data
+majorOutFile = open("pathwayData.txt", "a") #append mode--------------this shouldnt be named pathway data
+majorOutFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 for link in f:
-    print(link)
+    print(link, end="")
     scrapFromURL(link, major_db)
-outFile.close()
-outFile2 = open("DBCommands.txt", "a")
-outFile2.truncate(0)
+
+#all major info is obtained so close the outfile
+majorOutFile.close()
+
+#create outfile that stores sql commands made from the major info
+sqlOutFile = open("DBCommands.txt", "a")
+sqlOutFile.truncate(0)
+
 commandlines = ["","",""]
 cmd_sem1 = ""
 cmd_sem2 = ""
 cmds = []
+
 for major_year in major_db.keys():
-    #cmd_sem1 += "(\'{}\', \'{}\',".format(major_year[0], major_year[1])
-    #cmd_sem2 = cmd_sem1
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
-    #outFile2.write("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+
     i = 0
     for sem in major_db[major_year].keys():
         cmds[i] += "\'{}\',\'{{".format(sem)
@@ -122,13 +127,12 @@ for major_year in major_db.keys():
             cmds[i] += "\"{}\",".format(course)
         cmds[i] = cmds[i][:-1]
         cmds[i] += "}\'),\n"
-        i +=1
+        i += 1
     for command in cmds:
-        outFile2.write(command)
+        sqlOutFile.write(command)
     cmds.clear()
         
-outFile2.close()   
-        
-    
+sqlOutFile.close()   
+
 for item in major_db.keys():
-    print("{}: {}".format(item, major_db[item]))
+    print("\n{}: {}\n".format(item, major_db[item]))
