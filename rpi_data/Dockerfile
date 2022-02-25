@@ -1,6 +1,5 @@
 FROM debian:stretch
 
-
 ADD cronjob /etc/cron.d/cronjob
 
 RUN chmod +x /etc/cron.d/cronjob
