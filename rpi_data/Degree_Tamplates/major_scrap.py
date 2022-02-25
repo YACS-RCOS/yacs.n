@@ -34,6 +34,7 @@ def scrapFromURL(webLink, major_db):
         for div in items.find_all("div", recursive = False):
             if (div.text == "First Year" ):
                 startScrap = True
+            
             #we've navigated through the divs until the First Year which will be followed by all classes
             if(startScrap):
                 #if we arent at the last year's data 
@@ -58,38 +59,47 @@ def scrapFromURL(webLink, major_db):
                             semName = sem.find("h3")
                             if semName == None:
                                 semName = sem.find("h4")
-                            #print(sem.get("class")[0])
-                            #print(semName)
-                            '''
-                            for item in major_db.keys():
-                                print("{}: {}".format(item, major_db[item]))
-                            '''
+
                             majorOutFile.write("  Sem: ")
                             majorOutFile.write(semName.text)
                             majorOutFile.write("\n")
-                            #major_db[cur_entry]["semester"] = semName.text
 
                             #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
-                                    #handles case for (See or [See 
-                                    if not (len(litag.text) < 4 or litag.text[1:4] == "See"):
-                                    # have < 4 so that 'and' and 'or' statement are not recorded
-                                        majorOutFile.write("   Course: ")
-                                        major_db[cur_entry][semName.text].append(litag.text)
-                                        majorOutFile.write(litag.text)
-                                        majorOutFile.write("\n")
-                            #is there another edge case where some are not in ul or li
+                                    #lowercase to avoid "See" vs "see" conflicts
+                                    lowercase_text = (litag.text).lower()
+                                    text_to_add = litag.text
+
+                                    #if the text has the word footnote in it
+                                    if (lowercase_text.find("footnote") != -1):
+                                        #skips case that contains "and"/"or" or starts with "see"
+                                        if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
+                                            #print("Skipping over the case of: " + text_to_add)
+                                            continue
+
+                                        #footnote is at the end of the course name, so parse from "(see" and on out
+                                        delete_position = lowercase_text.find("see")-3#-3for the \n\t(
+                                        text_to_add = text_to_add[0:delete_position]
+                                        print("New text_to_add is", text_to_add)
+
+                                    #the text has been confirmed to be a class and it has been parsed as well so add
+                                    majorOutFile.write("   Course: ")
+                                    major_db[cur_entry][semName.text].append(text_to_add)
+                                    majorOutFile.write(text_to_add)
+                                    majorOutFile.write("\n")
+                            #is there another edge case where some are not in ul or li                                        
                         #else:
                         # edge case where it is leftpad20                     
                     if state == "lastYear":
-                        #done reading data so end the scrape   
+                        #done reading data so end the scrape  
+                        majorOutFile.write("\n")
                         return major_db
                     state= "newYear"
                 
-                #outFile.write("count is :{}\n".format(count))
                 majorOutFile.write("\n")
+    #if the for loop never runs
     return major_db
 
 #initialize database dictionary and grab the url file
@@ -103,6 +113,7 @@ majorOutFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptyi
 for link in f:
     print(link, end="")
     scrapFromURL(link, major_db)
+    #break
 
 #all major info is obtained so close the outfile
 majorOutFile.close()
