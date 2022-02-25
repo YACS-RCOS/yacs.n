@@ -1,19 +1,13 @@
-FROM ubuntu:20.04.1 LTS
+FROM debian:stretch
 
-MAINTAINER 
 
 ADD cronjob /etc/cron.d/cronjob
 
 RUN chmod +x /etc/cron.d/cronjob
 
-COPY ./chronjob 
+RUN touch /var/log/cron.log
 
-COPY ./automate-semesters.sh
+RUN apt update
+RUN apt install cron -y
 
-RUN chmod +x /automate-semesters.sh
-
-CMD cron && tail -f /var/log/cron.log 
-
-
-
-
+CMD cron && tail -f /var/log/cron.log
