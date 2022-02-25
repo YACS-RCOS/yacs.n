@@ -29,20 +29,23 @@ TEST_USER_SIGNUP2 = { 'email': 'test2@email.com',
                      'degree': 'Graduate',
                      'major': 'ECON' }
 
-def test_get_user_success(client: Client):
 
+'''
+Test this api endpoint/file only with the following command line:
+pytest -s tests/test_user_course.py
+'''
+
+def test_get_user_success(client: Client):
+    '''
+    Test user get by using /api/session and TEST_USER_SIGNUP.
+    '''
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
-    headersa = r.headers
-    #print (headersa['set-cookie'])
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
-    '''
-    {degree: "Undergraduate", email: "test@email.com", major: "CSCI", name: "TestName", phone: "", uid: 1}
-    '''
-    r = client.get("/api/user/"+data['content']['sessionID'],headers = {'Cookie': headersa['set-cookie']})
+    r = client.get("/api/user/"+data['content']['sessionID'])
     assert r.status_code == 200
     data = r.json()
     assert data['content']['degree'] == TEST_USER_SIGNUP['degree']
@@ -53,12 +56,14 @@ def test_get_user_success(client: Client):
     assert data['content']['uid'] is not None
     #assert(r.text == "YACS API is Up!")
 
-def test_get_user_no_cookie(client: Client):
 
+def test_get_user_failed(client: Client):
+    '''
+    Test user get with invalid sessionID
+    '''
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
-    headersa = r.headers
-    print (headersa['set-cookie'])
+
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
@@ -66,35 +71,19 @@ def test_get_user_no_cookie(client: Client):
     '''
     {degree: "Undergraduate", email: "test@email.com", major: "CSCI", name: "TestName", phone: "", uid: 1}
     '''
-    r = client.get("/api/user/"+data['content']['sessionID'])
-    assert r.status_code == 403
-
-
-def test_get_user_success(client: Client):
-
-    r = client.post("/api/session", json=TEST_USER)
-    assert r.status_code == 200
-    headersa = r.headers
-    print (headersa['set-cookie'])
-    data = r.json()
-    assert data['content'] is not None
-    assert data['content']['sessionID'] is not None
-    assert data['content']['userName'] == TEST_USER_SIGNUP['name']
-    '''
-    {degree: "Undergraduate", email: "test@email.com", major: "CSCI", name: "TestName", phone: "", uid: 1}
-    '''
-    r = client.get("/api/user/"+"00000000",headers = {'Cookie': headersa['set-cookie']})
+    r = client.get("/api/user/"+"00000000")
     assert r.status_code == 200
     data = r.json()
     assert data['errMsg'] == "Unable to find the session."
 
 
 def test_put_user_success(client:Client):
+    '''
+    Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
+    compare the user information with TEST_USER_SIGNUP2
+    '''
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
-    headersa = r.headers
-    #print (headersa['set-cookie'])
-    print ("first time:",r.headers)
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
@@ -102,23 +91,20 @@ def test_put_user_success(client:Client):
 
     TEST_USER_SIGNUP2['sessionID'] = data['content']['sessionID']
     print ("test2:",TEST_USER_SIGNUP2)
-    r = client.put("/api/user",json = TEST_USER_SIGNUP2,headers = {'Cookie': headersa['set-cookie']})
+    r = client.put("/api/user",json = TEST_USER_SIGNUP2)
     assert r.status_code == 200
     print (r.content)
 
 
     r = client.post("/api/session", json=TEST_USER2)
     assert r.status_code == 200
-    headersa = r.headers
-    print ("second time:",r.headers, r.json())
-    # print (headersa['set-cookie'])
     data = r.json()
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP2['name']
 
 
-    r = client.get("/api/user/"+data['content']['sessionID'],headers = {'Cookie': headersa['set-cookie']})
+    r = client.get("/api/user/"+data['content']['sessionID'])
     assert r.status_code == 200
     data = r.json()
     assert data['content']['degree'] == TEST_USER_SIGNUP2['degree']
