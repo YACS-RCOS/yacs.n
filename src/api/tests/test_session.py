@@ -1,9 +1,12 @@
-from .util import Client
+from fastapi.testclient import TestClient
+import pytest
 
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
-def test_session_post_success(post_user, client: Client):
+@pytest.mark.testclient
+@pytest.mark.incompletedependency
+def test_session_post_success(post_user, client: TestClient):
     '''
     Test session post with valid credentials
     '''
@@ -15,17 +18,20 @@ def test_session_post_success(post_user, client: Client):
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == "TestName"
 
-def test_session_post_failure(client: Client):
+@pytest.mark.testclient
+def test_session_post_failure(client: TestClient):
     '''
     Test session post with invalid credentials
     '''
-    r = client.post("/api/session", json={'name':'NotAUser', 'password':'000000'})
+    r = client.post("/api/session", json={'email':'NotAUser', 'password':'000000'})
     assert r.status_code == 200
 
     data = r.json()
     assert data['content'] is None
 
-def test_session_delete_success(post_user, client: Client):
+@pytest.mark.testclient
+@pytest.mark.incompletedependency
+def test_session_delete_success(post_user, client: TestClient):
     '''
     Test session delete with valid input
     '''
@@ -35,7 +41,8 @@ def test_session_delete_success(post_user, client: Client):
     assert r.status_code == 200
     assert r.json()['success'] == True
 
-def test_session_delete_failure(client: Client):
+@pytest.mark.testclient
+def test_session_delete_failure(client: TestClient):
     '''
     Test session delete with invalid session id
     '''
