@@ -4,16 +4,8 @@
     <div v-for="pathway in pathways" :key="pathway['Name'][0]" role="tablist">
       <template>
 
+        <!-- pop-up window -->
         <div class="mt-1 mb-1 w-100">
-          <!-- pathway button -->
-          <b-button
-            squared
-            variant="light"
-            class="pathway-button m-0 ml-1"
-          >
-            {{ pathway["Name"][0] }}
-          </b-button>
-
           <b-modal ref="my-modal" >
             <div class="block text-left" v-if="showPath != null" md="10">
                 <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
@@ -25,6 +17,16 @@
                 </div>
               </div>
           </b-modal>
+
+          <!-- pathway button -->
+          <b-button
+            @click="ShowPath(pathway)"
+            squared
+            variant="light"
+            class="pathway-button m-0 ml-1"
+          >
+            {{ pathway["Name"][0] }}
+          </b-button>
           
         </div>
       </template>
@@ -51,7 +53,8 @@ export default {
   methods: {
     // Display a pop-up window when a pathway is clicked
     ShowPath(pathway){
-        //console.log(pathway);
+        console.log(this.$refs["my-modal"]);
+        console.log(pathway);
         this.showPath = pathway;
         this.$refs["my-modal"].show();
     },
