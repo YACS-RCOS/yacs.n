@@ -1,8 +1,5 @@
 from urllib import response
-import pytest
-import requests
 from .util import Client
-# from .fixtures import *
 
 
 TEST_USER = { 'email': "test@email.com",
@@ -54,7 +51,6 @@ def test_get_user_success(client: Client):
     assert data['content']['name'] == TEST_USER_SIGNUP['name']
     assert data['content']['phone'] == TEST_USER_SIGNUP['phone']
     assert data['content']['uid'] is not None
-    #assert(r.text == "YACS API is Up!")
 
 
 def test_get_user_failed(client: Client):
