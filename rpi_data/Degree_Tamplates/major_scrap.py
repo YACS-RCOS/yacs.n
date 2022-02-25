@@ -9,46 +9,55 @@ Created on Tue Nov  2 17:40:34 2021
 import requests
 from bs4 import BeautifulSoup
 
-outFile = open("pathwayData.txt", "a")
-outFile.truncate(0)
+outFile = open("pathwayData.txt", "a") #append mode
+outFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 def scrapFromURL(webLink, major_db):
     
     URL = webLink
-    page = requests.get(URL)
+    page = requests.get(URL) 
 
-    soup = BeautifulSoup(page.content, "html.parser")
-    ##print(soup)
+    #gather the html tree as the soup object
+    soup = BeautifulSoup(page.content, "html.parser") 
+    #print(soup)
     
-
+    #find the first h1 which is the major name
     title_element = soup.find("h1", id="acalog-content")
-
     outFile.write(title_element.text)
     major = title_element.text
     outFile.write(":\n")
 
+    #the entire class template has a custom leftpad of 20 consistently, so gather that data
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
-    startScrap = False
+    startScrap = False #set to true if we have reached the first year information
+
     for items in clp20:
         state = 'newMajor'
         for div in items.find_all("div", recursive = False):
             if (div.text == "First Year" ):
                 startScrap = True
+            #we've navigated through the divs until the First Year which will be followed by all classes
             if(startScrap):
-
+                #if we arent at the last year's data 
                 if state == 'newMajor' or state =="newYear":
                     outFile.write(" Year: ")
+
+                    #parse year data
                     yearText = div.text.split()[0] + " Year"
                     cur_entry = (major, yearText)
+
+                    #initialize a database entry that is a pair of major and year
                     major_db[cur_entry] = {}
                     outFile.write(yearText)
+
                     state = 'regularYear'
                     if yearText == "Fourth Year":
                         state = 'lastYear'
                 else:
                     for sem in div.find_all("div", recursive = False):
                         if sem.get("class")[0] != "custom_leftpad_20":
+                            #individual semester data (some pages are h3 some are h4)
                             semName = sem.find("h3")
                             if semName == None:
                                 semName = sem.find("h4")
@@ -62,6 +71,8 @@ def scrapFromURL(webLink, major_db):
                             outFile.write(semName.text)
                             outFile.write("\n")
                             #major_db[cur_entry]["semester"] = semName.text
+
+                            #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
@@ -71,8 +82,9 @@ def scrapFromURL(webLink, major_db):
                                         major_db[cur_entry][semName.text].append(litag.text)
                                         outFile.write(litag.text)
                                         outFile.write("\n")
-                        #else:                            
+                        #else:                     
                     if state == "lastYear":
+                        #done reading data so end the scrape   
                         return major_db
                     state= "newYear"
                 
@@ -118,8 +130,5 @@ for major_year in major_db.keys():
 outFile2.close()   
         
     
-
-
- 
 for item in major_db.keys():
     print("{}: {}".format(item, major_db[item]))
