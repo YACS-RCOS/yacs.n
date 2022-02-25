@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
     <!-- LOOP Through the Pathway Categories list -->
-    <div v-for="pathway in categories" :key="pathway" role="tablist">
+    <div v-for="pathway in pathways" :key="pathway['Name'][0]" role="tablist">
       <template>
 
         <div class="mt-1 mb-1 w-100">
@@ -11,15 +11,15 @@
             variant="light"
             class="pathway-button m-0 ml-1"
           >
-            {{ pathway }}
+            {{ pathway["Name"][0] }}
           </b-button>
 
           <b-modal ref="my-modal" >
             <div class="block text-left" v-if="showPath != null" md="10">
                 <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
                 <br>
-                <div v-for="(item, category) in showPath" :key="category"> 
-                    <h4 style="color:#3395ff">{{ category + ": " }}</h4>
+                <div v-for="(item, itemName) in showPath" :key="itemName">
+                    <h4 style="color:#3395ff">{{ itemName + ": " }}</h4>
                     <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">{{ course }}</li>
                     <br>
                 </div>
@@ -46,9 +46,7 @@ export default {
     };
   },
   props: {
-    categories: Set,
-    deptClassDict: Object,
-    id: Number,
+    pathways: Array,
   },
   methods: {
     // Display a pop-up window when a pathway is clicked
