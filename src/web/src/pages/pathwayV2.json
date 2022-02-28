@@ -653,10 +653,12 @@
             },
             {
                 "Name": [
-                    "Language"
+                    "Foreign Language"
                 ],
                 "Choose 12 credits from the following, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level": [
-                    "LANG XXXX"
+                    "LANG 1XXX",
+                    "LANG 2XXX",
+                    "LANG 4XXX"
                 ]
             }
         ]
@@ -1030,6 +1032,44 @@
                 ],
                 "Compatible minor(s)": [
                     "History Minor"
+                ]
+            },
+            {
+                "Name": [
+                    "Law and Policy"
+                ],
+                "Required": [
+                    "STSS 2700 - Law and Society"
+                ],
+                "Choose one of the following": [
+                    "IHSS 19XX – Revolutions in Comparative Perspective",
+                    "IHSS 19XX – Sociology of Inequality",
+                    "IHSS 1350 - Law, Values, and Public Policy: Perspectives on Science and Technology",
+                    "IHSS 1500 - Human Rights in History",
+                    "IHSS 1510 - War and Society",
+                    "STSH 1110 - Science, Technology, and Society",
+                    "STSS 1110 - Science, Technology, and Society"
+
+                ],
+                "Choose remaining credits from the following": [
+                    "STSH 4210 - Engineering Ethics",
+                    "STSH 4310 - Energy Politics",
+                    "STSH 4430 - Drugs in History",
+                    "STSH 4520 - Social Demography: Society by the Numbers", 
+                    "STSH 4700 - Environmental Law",
+                    "STSH 4800 - Public Service and Social Justice",
+                    "STSS 4310 - Energy Politics", 
+                    "STSS 4320 - Resilience Planning", 
+                    "STSS 4430 - Drugs in History", 
+                    "STSS 4520 - Social Demography: Society by the Numbers", 
+                    "STSS 4540 - China and the United States", 
+                    "STSS 4560 - Gender, Science, and Technology", 
+                    "STSS 4570 - Contemporary Political Thought", 
+                    "STSS 4590 - American Politics in Crisis", 
+                    "STSS 4800 - Public Service and Social Justice"
+                ],
+                "Compatible minor(s)": [
+                    "Law and Policy Minor"
                 ]
             },
             {
