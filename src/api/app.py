@@ -247,19 +247,19 @@ def log_out(request: Request, session: SessionDeletePydantic):
     return response
 
 
-# @app.route('/api/event', methods=['POST'])
-# def add_user_event():
-#     return event_controller.add_event(json.loads(request.data))
-#
-# @app.route('/api/user/course', methods=['POST'])
-# def add_student_course():
-#     info = request.get_json()
-#
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-#     return Response(status=200) if not error else Response(error, status=500)
+@app.post('/api/event')
+def add_user_event(request: Request, credentials: SessionPydantic):
+    return event_controller.add_event(json.loads(request.data))
+
+@app.post('/api/user/course')
+async def add_student_course(request: Request, credentials: SessionPydantic):
+    info = request.get_json()
+
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
+    return Response(status=200) if not error else Response(error, status=500)
 #
 #
 # @app.route('/api/user/course', methods=['DELETE'])
