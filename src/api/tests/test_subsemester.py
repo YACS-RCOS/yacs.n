@@ -32,7 +32,6 @@ def test_subsemester_invalid_semester(client):
     The status should still be success, and size of the data should be 0.
     """
     r = client.get("/api/subsemester", params={"semester":"moon 2050"})
-    print(r.text)
     assert r.status_code == 200
     data = r.json()
     assert len(data) == 0
