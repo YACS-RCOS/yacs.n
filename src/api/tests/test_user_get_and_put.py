@@ -42,6 +42,7 @@ def test_get_user_success(client: Client, post_user):
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
+    sessionid = data['content']['sessionID']
     r = client.get("/api/user/"+data['content']['sessionID'])
     assert r.status_code == 200
     data = r.json()
@@ -51,7 +52,7 @@ def test_get_user_success(client: Client, post_user):
     assert data['content']['name'] == TEST_USER_SIGNUP['name']
     assert data['content']['phone'] == TEST_USER_SIGNUP['phone']
     assert data['content']['uid'] is not None
-
+    client.delete("/api/session", {'sessionID': sessionid})
 
 def test_get_user_failed(client: Client,post_user):
     '''
@@ -73,7 +74,69 @@ def test_get_user_failed(client: Client,post_user):
     assert data['errMsg'] == "Unable to find the session."
 
 
+def test_get_user_after_session_closed(client: Client,post_user):
+    '''
+    Test user get by using /api/session and TEST_USER_SIGNUP.
+    '''
+    r = client.post("/api/session", json=TEST_USER)
+    assert r.status_code == 200
+    data = r.json()
+    assert data['content'] is not None
+    assert data['content']['sessionID'] is not None
+    assert data['content']['userName'] == TEST_USER_SIGNUP['name']
+    sessionid = data['content']['sessionID']
+    r=client.delete("/api/session", {'sessionID': sessionid})
+    assert r.status_code==200
+    r = client.get("/api/user/"+sessionid)
+    assert r.status_code == 200
+    data = r.json()
+    assert data['content']['degree'] == TEST_USER_SIGNUP['degree']
+    assert data['content']['email'] == TEST_USER_SIGNUP['email']
+    assert data['content']['major'] == TEST_USER_SIGNUP['major']
+    assert data['content']['name'] == TEST_USER_SIGNUP['name']
+    assert data['content']['phone'] == TEST_USER_SIGNUP['phone']
+    assert data['content']['uid'] is not None
+
+
+
 def test_put_user_success(client:Client,post_user):
+    '''
+    Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
+    compare the user information with TEST_USER_SIGNUP2
+    '''
+    r = client.post("/api/session", json=TEST_USER)
+    assert r.status_code == 200
+    data = r.json()
+    assert data['content'] is not None
+    assert data['content']['sessionID'] is not None
+    assert data['content']['userName'] == TEST_USER_SIGNUP['name']
+    sessionid = data['content']['sessionID']
+    TEST_USER_SIGNUP2['sessionID'] = data['content']['sessionID']
+    r = client.put("/api/user",json = TEST_USER_SIGNUP2)
+    assert r.status_code == 200
+
+
+    r = client.post("/api/session", json=TEST_USER2)
+    assert r.status_code == 200
+    data = r.json()
+    assert data['content'] is not None
+    assert data['content']['sessionID'] is not None
+    assert data['content']['userName'] == TEST_USER_SIGNUP2['name']
+
+
+    r = client.get("/api/user/"+data['content']['sessionID'])
+    assert r.status_code == 200
+    data = r.json()
+    assert data['content']['degree'] == TEST_USER_SIGNUP2['degree']
+    assert data['content']['email'] == TEST_USER_SIGNUP2['email']
+    assert data['content']['major'] == TEST_USER_SIGNUP2['major']
+    assert data['content']['name'] == TEST_USER_SIGNUP2['name']
+    assert data['content']['phone'] == TEST_USER_SIGNUP2['phone']
+    assert data['content']['uid'] is not None
+    r=client.delete("/api/session", {'sessionID': sessionid})
+
+
+def test_put_user_after_session_closed(client:Client,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
     compare the user information with TEST_USER_SIGNUP2
@@ -86,10 +149,8 @@ def test_put_user_success(client:Client,post_user):
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
 
     TEST_USER_SIGNUP2['sessionID'] = data['content']['sessionID']
-    print ("test2:",TEST_USER_SIGNUP2)
     r = client.put("/api/user",json = TEST_USER_SIGNUP2)
     assert r.status_code == 200
-    print (r.content)
 
 
     r = client.post("/api/session", json=TEST_USER2)
