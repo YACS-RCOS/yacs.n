@@ -203,9 +203,17 @@ async def uploadHandler(
 # def get_user_info(session_id):
 #     if 'user' not in session:
 #         return Response("Not authorized", status=403)
-#
+
 #     return user_controller.get_user_info(session_id)
-#
+
+@app.get('/api/user/{session_id}')
+def get_user_info(session_id):
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    return user_controller.get_user_info(session_id)
+
+
 #
 # @app.route('/api/user', methods=['POST'])
 # def add_user():
@@ -225,7 +233,24 @@ async def uploadHandler(
 #         return Response("Not authorized", status=403)
 #
 #     return user_controller.update_user(request.json)
-#
+
+class updateUser:
+    name:str
+    sessionID:str
+    email:str
+    phone:str
+    newPassword:str
+    major:str
+    degree:str
+
+
+@app.put('/api/user')
+def update_user_info(user:updateUser):
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    return user_controller.update_user(user)
+
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
