@@ -22,7 +22,7 @@ def test_user_course_get_success(post_user, client: Client):
     course = client.post("/api/user/course", json=TEST_COURSE)
     assert course.status_code == 200
     d = client.get("/api/user/course", json=TEST_COURSE)
-    data = d.json()[2]
+    data = d.json()[1]
     print(d.json())
     assert data['course_name'] == TEST_COURSE['name']
     assert data['crn'] == TEST_COURSE['cid']
