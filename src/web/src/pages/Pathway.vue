@@ -1,6 +1,8 @@
 
 <template>
   <b-container fluid>
+    <b-button @click="listAlphabet()">List by Alphabet</b-button>
+    <b-button @click="listCate()">List by Category</b-button>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       
@@ -23,7 +25,52 @@
           v-for="(catCol, index) in categoryCols"
           :key="`catCol-${index}`"
           md="6"
+          v-show="cateShow"
         >
+          <b-row
+            v-for="categoryObj in catCol"
+            :key="categoryObj['Category Name'][0]"
+            class="categoryBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="category-title">
+                <h3 class="m-1 ml-2">
+                  {{ categoryObj["Category Name"][0] }}
+                </h3>
+              </b-row>
+              <!-- Pathway Names  -->
+              <b-row>
+
+                <div class="d-flex flex-column flex-grow-1">
+                  <!-- LOOP Through the Pathway Categories list -->
+                  <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button
+                          @click="ShowPath(pathway)"
+                          squared
+                          variant="light"
+                          class="pathway-button m-0 ml-1"
+                        >
+                          {{ pathway["Name"][0] }}
+                        </b-button>
+                      </div>
+                  </div>
+                </div>
+
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+
+        <b-col
+          v-for="(catCol, index) in categoryCols"
+          :key="`catCol-${index}`"
+          md="6"
+          v-show="alphShow"
+        >
+        <p>Alphabet </p>
           <b-row
             v-for="categoryObj in catCol"
             :key="categoryObj['Category Name'][0]"
@@ -89,6 +136,7 @@ import json from './pathwayV2.json'
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
+  
   name: "Pathway",
   components: {
     CenterSpinner: CenterSpinnerComponent,
@@ -105,8 +153,11 @@ export default {
         }
       ],
       categories: json,
-      showPath: null
+      showPath: null,
+      cateShow: true,
+      alphShow : false
     };
+    
   },
   computed:{
     // splited categories into 2 arrays, one array = one column
@@ -127,6 +178,15 @@ export default {
     }
   },
   methods: {
+
+    listAlphabet(){
+      this.cateShow = false;
+      this.alphShow = true;
+    },
+    listCate(){
+      this.cateShow = true;
+      this.alphShow = false;
+    },
     // Display a pop-up window when a pathway is clicked
     ShowPath(pathway){
         console.log(this.$refs["my-modal"]);
