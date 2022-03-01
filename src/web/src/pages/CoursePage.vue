@@ -43,8 +43,8 @@
       <b-row>
         <b-col>
           <h1 class="mt-4">Course not found</h1>
-          <p> "This course is not existed or offered in this semester" </p>
-            <b-button @click="$router.go(-1)">Back</b-button>
+          <p>This course may not exist, not offered this semester, or offered under a different name.</p>
+          <b-button @click="$router.go(-1)">Back</b-button>
         </b-col>
       </b-row>
     </div>
