@@ -32,7 +32,7 @@ Test this api endpoint/file only with the following command line:
 pytest -s tests/test_user_course.py
 '''
 
-def test_get_user_success(client: Client):
+def test_get_user_success(client: Client, post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
     '''
@@ -53,7 +53,7 @@ def test_get_user_success(client: Client):
     assert data['content']['uid'] is not None
 
 
-def test_get_user_failed(client: Client):
+def test_get_user_failed(client: Client,post_user):
     '''
     Test user get with invalid sessionID
     '''
@@ -73,7 +73,7 @@ def test_get_user_failed(client: Client):
     assert data['errMsg'] == "Unable to find the session."
 
 
-def test_put_user_success(client:Client):
+def test_put_user_success(client:Client,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
     compare the user information with TEST_USER_SIGNUP2
