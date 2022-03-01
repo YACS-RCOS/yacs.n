@@ -7,13 +7,11 @@ class SessionPydantic(BaseModel):
 class SessionDeletePydantic(BaseModel):
     sessionID: str
 
-class EventPostPydantic(BaseModel):
-    pass
-
 class UserCoursePydantic(BaseModel):
     email: str
     password: str
     name: str
+    semester: str
     user_id: int
     cid: int
 
