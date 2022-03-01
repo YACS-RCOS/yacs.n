@@ -1,4 +1,4 @@
-
+1. Find courses given major and year
 drop view if exists givenMajor;
 drop view if exists givenYear;
 create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
@@ -9,6 +9,34 @@ FROM public."cleanedMajorTemplates"
 WHERE
 "Major" = (select majorName from givenMajor)
 and "Year" = (select theYear from givenYear)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
+2. Find courses should already taken given current taken courses, major and year
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT "Courses" 
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") < array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
+3. List the courses that need to taken in the future given current taken courses, major and year
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT "Courses" 
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") >= array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
 ORDER BY 
 "Major" ASC,
 array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
