@@ -1,51 +1,140 @@
 
-<template id = "body">
-  <div fluid class="py-3 h-100">
-    <h1>Intergrated Pathways</h1>
-    <br>
-
-    <b-modal ref="my-modal" >
-      <div class="block text-left" v-if="showPath != null" md="10">
-        <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
-        <br>
-        <div v-for="(item, category) in showPath" :key="category"> 
-            <h4 style="color:#3395ff">{{ category + ": " }}</h4>
-            <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">{{ course }}</li>
+<template>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div v-if="categories.length > 0" class="mx-auto w-75">
+      
+      <!-- pop-up window -->
+      <b-modal ref="my-modal" >
+        <div class="block text-left" v-if="showPath != null" md="10">
+            <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
             <br>
-        </div>
-      </div>
-    </b-modal>
+            <div v-for="(item, itemName) in showPath" :key="itemName">
+                <h4 style="color:#3395ff">{{ itemName + ": " }}</h4>
+                <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">{{ course }}</li>
+                <br>
+            </div>
+          </div>
+      </b-modal>
 
-    <b-row id = "items">
-      <b-col class = "pathBox" md="3" sm="4" v-for="pathway in pathways" :key="pathway['Name'][0]" v-on:click="ShowPath(pathway)">
-        <div calss = "roundBox ">
-            <p class = "pathwayName text-center" > {{ pathway["Name"][0] }}</p>
-        </div>
+      <b-row>
+        <!-- splited categories into 2 arrays, so we can have 2 columns -->
+        <b-col
+          v-for="(catCol, index) in categoryCols"
+          :key="`catCol-${index}`"
+          md="6"
+        >
+          <b-row
+            v-for="categoryObj in catCol"
+            :key="categoryObj['Category Name'][0]"
+            class="categoryBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="category-title">
+                <h3 class="m-1 ml-2">
+                  {{ categoryObj["Category Name"][0] }}
+                </h3>
+              </b-row>
+              <!-- Pathway Names  -->
+              <b-row>
+
+                <div class="d-flex flex-column flex-grow-1">
+                  <!-- LOOP Through the Pathway Categories list -->
+                  <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button
+                          @click="ShowPath(pathway)"
+                          squared
+                          variant="light"
+                          class="pathway-button m-0 ml-1"
+                        >
+                          {{ pathway["Name"][0] }}
+                        </b-button>
+                      </div>
+                  </div>
+                </div>
+
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </div>
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="Pathways"
+      :topSpacing="30"
+    />
+
+    <b-row id = "Note" class="categoryBox">
+      <b-col>
+        <li>You can explore different pathway by clicking the pathway boxes. </li>
+        <li>You can also check out the courses by clicking the listed courses. </li>
+        <li>You will be directed to the department page if the course is not specified.</li>
+        <li>However, the course may show up as "Course not found" if the course is not being offer this semester. </li>
       </b-col>
     </b-row>
 
-    <b-row id = "Note">
-        <b-col>
-            <li>You can explore different pathway by clicking the pathway boxes. </li>
-            <li>You can also check out the courses by clicking the listed courses. </li>
-            <li>You will be directed to the department page if the course is not specified.</li>
-            <li>However, the course may show up as "Course not found" if the course is not being offer this semester. </li>
-        </b-col>
-    </b-row>
-  </div>
+  </b-container>
 </template>
 
+
+
 <script>
-import json from './pathway.json'
+import json from './pathwayV2.json'
+import CenterSpinnerComponent from "../components/CenterSpinner";
+
 export default {
   name: "Pathway",
-  showPath: null,
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Pathways"
+        }
+      ],
+      categories: json,
+      showPath: null
+    };
+  },
+  computed:{
+    // splited categories into 2 arrays, one array = one column
+    categoryCols() {
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      for (var i = 0; i < this.categories.length; i++) {
+        if (i%2 == 0) {
+          col1.push(this.categories[i]);
+        } else {
+          col2.push(this.categories[i])
+        }
+      }
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
+    }
+  },
   methods: {
+    // Display a pop-up window when a pathway is clicked
     ShowPath(pathway){
-        //console.log(pathway);
+        console.log(this.$refs["my-modal"]);
+        console.log(pathway);
         this.showPath = pathway;
         this.$refs["my-modal"].show();
     },
+    // Go to the course page when a course inside the pop-up window is clicked
     goPage(course){
         var subject = "" + course[0] + course[1] + course[2] + course[3];
         var courseID = "" + course[5] + course[6] + course[7] + course[8];
@@ -61,48 +150,36 @@ export default {
         }
     }
   },
-
-    data(){
-        return{
-            pathways: json,
-            showPath: null
-        }
-    },
 };
 </script>
 
 <style>
-body {
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+
+.categoryBox {
   text-align: center;
 }
 
-#items{
-    font-size: 20px;
+.category-title {
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
 
-.pathBox{
-    cursor: pointer;
-    border-radius: 2%;
-    margin: 0;
+.pathway-button {
+  display: inline-block;
+  background: white;
+  border-style: none;
+  text-align: justify;
+  width: 95%;
 }
 
-.roundBox{
-    cursor: pointer;
-    border-radius: 2%;
-    margin: 0;
-}
-.pathwayName{
-    background-color: rgba(39, 130, 230, 0.5);
-    height: 100px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 2%;
-}
-
-.pathwayName:hover {
-    background-color: rgba(39, 130, 230, 1);
+.pathway-button:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
 }
 
 .courseInPath{
@@ -112,10 +189,4 @@ body {
 .courseInPath:hover {
     background-color: rgba(39, 130, 230, 0.5);
 }
-
-.marked{
-  border-color: black;
-  border: 1ch;
-}
-
 </style>
