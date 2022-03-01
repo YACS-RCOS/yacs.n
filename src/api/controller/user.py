@@ -2,7 +2,7 @@ from db.user import User as UserModel
 from db.session import Session as SessionModel
 import view.message as msg
 from common import *
-from app import *
+from api_models import *
 
 
 def get_user_info(session_id):
@@ -51,7 +51,7 @@ def update_user(user:updateUser):
     degree = user.degree
 
     if(name==None or session_id==None or email==None or phone==None or new_password==None or major==None or degree==None):
-        return msg.error_msg
+        return msg.error_msg("Please check your requests.")
 
     if new_password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
