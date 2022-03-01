@@ -243,7 +243,6 @@ class updateUser:
     major:str
     degree:str
 
-
 @app.put('/api/user')
 def update_user_info(user:updateUser):
     if 'user' not in session:
