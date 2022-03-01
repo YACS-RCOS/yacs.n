@@ -206,11 +206,19 @@ async def uploadHandler(
 #
 #     return user_controller.get_user_info(session_id)
 #
-#
-# @app.route('/api/user', methods=['POST'])
-# def add_user():
-#     return user_controller.add_user(request.json)
-#
+
+class userinput(BaseModel):
+    email: str
+    phone: str
+    password: str
+    name: str
+
+
+@app.route('/api/user', methods=['POST'])
+def add_user(request: Request, user: userinput):
+    print(request.json())
+    return user_controller.add_user(request.json)
+
 # @app.route('/api/user', methods=['DELETE'])
 # def delete_user():
 #     if 'user' not in session:
