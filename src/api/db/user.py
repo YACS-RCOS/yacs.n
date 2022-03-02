@@ -44,7 +44,7 @@ class User(Model):
         return self.db.execute(sql, args, False)[0]
 
     def delete_user(self, uid):
-        sql = """UPDATE public.user_account SET enable = FALSE WHERE user_id = %s;"""
+        sql = """DELETE FROM public.user_account WHERE user_id = %s;"""
         args = (uid,)
         return self.db.execute(sql, args, False)[0]
 
