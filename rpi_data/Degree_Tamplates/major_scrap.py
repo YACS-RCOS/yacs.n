@@ -71,18 +71,27 @@ def scrapFromURL(webLink, major_db):
                                     #lowercase to avoid "See" vs "see" conflicts
                                     lowercase_text = (litag.text).lower()
                                     text_to_add = litag.text
+                                    
+                                    #parse out any whitespace from the text_to_add (&nbsp from start)
+                                    text_to_add = text_to_add.strip()
+
+                                    #remove descriptive things about courses from being courses themselves
+                                    if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
+                                        continue
 
                                     #if the text has the word footnote in it
                                     if (lowercase_text.find("footnote") != -1):
                                         #skips case that contains "and"/"or" or starts with "see"
                                         if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
-                                            #print("Skipping over the case of: " + text_to_add)
                                             continue
 
                                         #footnote is at the end of the course name, so parse from "(see" and on out
                                         delete_position = lowercase_text.find("see")-3#-3for the \n\t(
                                         text_to_add = text_to_add[0:delete_position]
-                                        print("New text_to_add is", text_to_add)
+
+                                    #remove unnecessary spaces inside the text itself
+                                    if (lowercase_text.find("  ") != -1 or lowercase_text.find("\t") != -1):
+                                        text_to_add = ' '.join(text_to_add.split())
 
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
@@ -107,7 +116,7 @@ major_db = {}
 f = open("majorURLlist.txt", "r")
 
 #initialize outfile and scrape from each url all the major data
-majorOutFile = open("pathwayData.txt", "a") #append mode--------------this shouldnt be named pathway data
+majorOutFile = open("majorTemplate.txt", "a") #append mode
 majorOutFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 for link in f:
