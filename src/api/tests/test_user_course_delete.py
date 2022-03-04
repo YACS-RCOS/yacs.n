@@ -14,8 +14,6 @@ TEST_COURSE_2 = {'name': 'ARCH-4770',
                'semester': 'SUMMER2020'}
 
 
-
-
 def test_user_course_delete_success(post_user, client: Client):
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
