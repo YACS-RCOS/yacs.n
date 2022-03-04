@@ -15,6 +15,8 @@ def test_session_post_success(post_user, client: Client):
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == "TestName"
 
+    client.delete("/api/session", {'sessionID': data['content']['sessionID']})
+
 def test_session_post_failure(client: Client):
     '''
     Test session post with invalid credentials
