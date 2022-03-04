@@ -10,8 +10,8 @@ TEST_USER_COURSE = {'name': 'ADMN-1824',
 }
 
 '''
-Test this api endpoint/file only with the following command line:
-pytest -s tests/test_user_course.py
+Test this api endpoint/file locally with the following command line:
+src/api/tests/test.sh
 '''
 @pytest.mark.testclient
 @pytest.mark.incompletedependency
@@ -32,12 +32,14 @@ def test_user_course_post_success(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
-def test_user_course_post_failure(client: TestClient):
+@pytest.mark.incompletedependency
+def test_user_course_post_failure(post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
     '''
     TEST_INVALID_USER_COURSE = {}
     sess = client.post("/api/session", json=TEST_USER).json()
+    print("sess info : \n", sess)
     sessID = sess['content']['sessionID']
     r = client.post("/api/user/course", json=TEST_INVALID_USER_COURSE)
     assert r.status_code == 500
@@ -50,4 +52,5 @@ def test_course_post_not_authorized(client: TestClient):
     Test user course post without user session/login
     '''
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
+    print(r.text)
     assert r.status_code == 403
