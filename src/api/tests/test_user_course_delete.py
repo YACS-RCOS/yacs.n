@@ -33,3 +33,8 @@ def test_user_course_delete_success(post_user, client: Client):
     d = client.get("/api/user/course", json=TEST_COURSE)
     assert len(d.json()) ==1
     print("after delete",len(d.json()))
+    client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
+
+def test_user_course_delete_failure(client: Client):
+    r = client.post("/api/user/course", json=TEST_USER)
+    assert r.status_code == 403

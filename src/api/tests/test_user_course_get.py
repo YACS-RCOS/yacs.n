@@ -27,6 +27,11 @@ def test_user_course_get_success(post_user, client: Client):
     assert data['course_name'] == TEST_COURSE['name']
     assert data['crn'] == TEST_COURSE['cid']
     assert data['semester'] == TEST_COURSE['semester']
+    client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
+
+def test_user_course_get_failure(client: Client):
+    r = client.post("/api/user/course", json = TEST_COURSE)
+    assert r.status_code == 403
 
 
 
