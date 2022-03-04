@@ -17,3 +17,9 @@ export const uploadCsv = (formData) =>
 
 export const getSubsemesters = (semester) =>
     client.get("/subsemester", { params: {semester: semester} })
+
+export const getAllSemesterInfo = () => 
+    client.get("/semesterInfo")
+
+export const updateSemester = (semester) => 
+    client.post("defaultsemesterset", { default: semester })
