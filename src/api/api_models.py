@@ -8,7 +8,7 @@ class SessionDeletePydantic(BaseModel):
     sessionID: str
 
 
-class updateUser:
+class updateUser(BaseModel):
     name:str
     sessionID:str
     email:str
