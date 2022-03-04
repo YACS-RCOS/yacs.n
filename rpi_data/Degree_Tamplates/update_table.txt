@@ -1,0 +1,18 @@
+UPDATE "majorTemplates"
+SET "Semester" = 'Summer' 
+WHERE "Semester" LIKE 'The Arch%' or "Semester" LIKE 'Summer%';
+
+UPDATE "majorTemplates"
+SET "Semester" = 'Spring' 
+WHERE "Semester" LIKE 'Spring%';
+
+UPDATE "majorTemplates"
+SET "Semester" = 'Fall' 
+WHERE "Semester" LIKE 'Fall%';
+
+SELECT * 
+FROM public."majorTemplates" 
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
