@@ -23,4 +23,9 @@ TEST_USER_SIGNUP = { 'email': 'test@email.com',
 
 @pytest.fixture(scope="session")
 def post_user(client):
-    return client.post('/api/user', json=TEST_USER_SIGNUP)
+    yield client.post('/api/user', json=TEST_USER_SIGNUP)
+    sess = client.post("/api/session", json={'email': TEST_USER_SIGNUP['email'], 'password':TEST_USER_SIGNUP['password']})
+    if sess.json()['success']:
+        r = client.delete('/api/user',
+                          json= {'sessionID' : sess.json()['content']['sessionID'],
+                                 'password' : TEST_USER_SIGNUP['password']})
