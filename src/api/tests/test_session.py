@@ -17,6 +17,7 @@ def test_session_post_success(post_user, client: TestClient):
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == "TestName"
+    client.delete("/api/session", {'sessionID': data['content']['sessionID']})
 
 @pytest.mark.testclient
 def test_session_post_failure(client: TestClient):
