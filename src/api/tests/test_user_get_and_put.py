@@ -1,4 +1,3 @@
-from urllib import response
 from .util import Client
 
 
@@ -40,7 +39,6 @@ def test_get_user_success(client: Client, post_user):
     assert r.status_code == 200
     data = r.json()
     assert data['content'] is not None
-    assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
     sessionid = data['content']['sessionID']
     r = client.get("/api/user/"+data['content']['sessionID'])
