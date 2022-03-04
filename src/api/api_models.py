@@ -12,6 +12,6 @@ class UserCoursePydantic(BaseModel):
     password: str
     name: str
     semester: str
-    user_id: int
-    cid: int
+    user_id: str
+    cid: str
 
