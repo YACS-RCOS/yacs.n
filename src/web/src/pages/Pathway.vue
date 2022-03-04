@@ -65,12 +65,12 @@
         </b-col>
 
         <b-col
-          v-for="(catCol, index) in categoryCols"
+          v-for="(catCol, index) in alphabetCols"
           :key="`catCol-${index}`"
           md="6"
           v-show="alphShow"
         >
-        <p>Alphabet </p>
+        <p>Alphabet 2 </p>
           <b-row
             v-for="categoryObj in catCol"
             :key="categoryObj['Category Name'][0]"
@@ -162,6 +162,7 @@ export default {
   computed:{
     // splited categories into 2 arrays, one array = one column
     categoryCols() {
+      console.log("cat caled");
       let ret = [];
       let col1 = [];
       let col2 = [];
@@ -174,6 +175,38 @@ export default {
       }
       ret.push(col1);
       ret.push(col2);
+      return ret;
+    },
+    // put all pathways in one array
+    alphabetCols() {
+      console.log("apa caled");
+      let ret = [];
+      let cols = [];
+      for (var i = 0; i < this.categories.length; i++) {
+        console.log("detals");
+        console.log(this.categories[i]);
+        for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
+          cols.push(this.categories[i]['Pathways'][j])
+        }
+      }
+      console.log(cols[0]);
+      cols.sort();
+      console.log("sortn");
+      console.log(cols[0]);
+
+      /*
+      let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+      for (var n = 0; n < alphabet.length; n++) {
+        var tmp = {}
+        for (var m = 0; m < cols.length; m++) {
+          
+        }
+      }
+      */
+      var half_length = Math.ceil(cols.length / 2);
+      ret.push(cols.splice(0, half_length));
+      ret.push(cols.splice(-half_length));  
+      <p>ret </p>
       return ret;
     }
   },
