@@ -8,9 +8,8 @@ spring() {
 	exitCode=$?
 	if [ ${exitCode} == 0 ]
 	then
-			echo "Spring"
 			export SEMESTER="SPRING ${year}"
-			DEST=p0.csv HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
+			SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
 			cat p* > spring-${year}.csv
 			rm -rf p*.csv
 	else
@@ -28,15 +27,14 @@ summer() {
 	exitCode=$?
 	if [ ${exitCode} == 0 ]
   then
-  		echo "Summer"
-			export SEMESTER="SUMMER ${year}"
-			SOURCE_URL=${source_url_a} HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
-			SOURCE_URL=${source_url_b} HEADERS=False DEST=p1.csv python3 ./modules/rpi-parse.py
-			SOURCE_URL=${source_url_c} HEADERS=False DEST=p2.csv python3 ./modules/rpi-parse.py
-			cat p* > summer-${year}.csv
-			rm -rf p*.csv
+		export SEMESTER="SUMMER ${year}"
+		SOURCE_URL=${source_url_a} HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
+		SOURCE_URL=${source_url_b} HEADERS=False DEST=p1.csv python3 ./modules/rpi-parse.py
+		SOURCE_URL=${source_url_c} HEADERS=False DEST=p2.csv python3 ./modules/rpi-parse.py
+		cat p* > summer-${year}.csv
+		rm -rf p*.csv
 	else
-			echo "A requested Summer SIS page returned error 404." >&2
+		echo "A requested Summer SIS page returned error 404." >&2
 	fi
 }
 
@@ -48,13 +46,13 @@ fall() {
 	exitCode=$?
 	if [ ${exitCode} == 0 ]
 	then
-			echo "Fall"
-			export SEMESTER="FALL ${year}"
-			DEST=p0.csv HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
-			cat p* > fall-${year}.csv
-			rm -rf p*.csv
+		echo "Fall"
+		export SEMESTER="FALL ${year}"
+		SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
+		cat p* > fall-${year}.csv
+		rm -rf p*.csv
 	else
-			echo "A requested Fall SIS page returned error 404." >&2
+		echo "A requested Fall SIS page returned error 404." >&2
 	fi
 }
 
@@ -63,7 +61,7 @@ MONTH=$(date +%m)
 YEAR=$(date +%Y)
 if [[ ${MONTH} -ge 1 && ${MONTH} -lt 5 ]]
 then
-  spring ${YEAR}
+	spring ${YEAR}
 	summer ${YEAR}
 fi
 

@@ -10,6 +10,7 @@ def main():
         URL = sys.argv[url]
         response = requests.get(URL)
         if response.status_code == 404:
+            print(URL)
             exit(1)
     exit(0)
 
