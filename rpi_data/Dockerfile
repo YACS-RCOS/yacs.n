@@ -14,6 +14,6 @@ RUN chmod +x /etc/cron.d/cronjob && \
   chmod +x /usr/src/automate-semesters.sh && \
   touch /var/log/cron.log
 
-RUN apt update && apt install cron -y && \
-  pip3 install --no-cache-dir -r requirements.txt
+RUN apt update && apt install cron curl -y && \
+  pip install --no-cache-dir -r requirements.txt
 CMD cron && tail -f /var/log/cron.log
