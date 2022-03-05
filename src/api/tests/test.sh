@@ -11,4 +11,4 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 export TEST_APP_DIR=$SCRIPT_DIR/../
 
 # pip install -r $TEST_APP_DIR/requirements.txt
-pytest -s -m "testclient and not incompletedependency" "${SCRIPT_DIR}
+pytest -s -m "testclient and not incompletedependency" "${SCRIPT_DIR}"
