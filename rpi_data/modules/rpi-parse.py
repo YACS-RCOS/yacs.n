@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 # %%
-import json
 import pandas as pd
 import os
 from fetch_catalog_course_info import acalog_client as AcalogClient

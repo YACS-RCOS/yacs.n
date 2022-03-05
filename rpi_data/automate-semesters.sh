@@ -2,7 +2,7 @@
 
 spring() {
 	local year=${1}
-	source_url=https://sis.rpi.edu/reg/zfs20${year}01.htm
+	source_url=https://sis.rpi.edu/reg/zfs${year}01.htm
 
 	python3 ./website_checker.py ${source_url}
 	exitCode=$?
@@ -10,7 +10,7 @@ spring() {
 	then
 			echo "Spring"
 			export SEMESTER="SPRING ${year}"
-			DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
+			DEST=p0.csv HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
 			cat p* > spring-${year}.csv
 			rm -rf p*.csv
 	else
@@ -20,9 +20,9 @@ spring() {
 
 summer() {
 	local year=${1}
-	source_url_a=https://sis.rpi.edu/reg/zfs20${year}05.htm
-	source_url_b=https://sis.rpi.edu/reg/zfs20${year}0502.htm
-	source_url_c=https://sis.rpi.edu/reg/zfs20${year}0503.htm
+	source_url_a=https://sis.rpi.edu/reg/zfs${year}05.htm
+	source_url_b=https://sis.rpi.edu/reg/zfs${year}0502.htm
+	source_url_c=https://sis.rpi.edu/reg/zfs${year}0503.htm
 
 	python3 ./website_checker.py ${source_url_a} ${source_url_b} ${source_url}
 	exitCode=$?
@@ -30,9 +30,9 @@ summer() {
   then
   		echo "Summer"
 			export SEMESTER="SUMMER ${year}"
-			SOURCE_URL=${source_url_a} HEADERS=True python3 ./modules/rpi-parse.py
-			SOURCE_URL=${source_url_b} HEADERS=False python3 ./modules/rpi-parse.py
-			SOURCE_URL=${source_url_c} HEADERS=False python3 ./modules/rpi-parse.py
+			SOURCE_URL=${source_url_a} HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
+			SOURCE_URL=${source_url_b} HEADERS=False DEST=p1.csv python3 ./modules/rpi-parse.py
+			SOURCE_URL=${source_url_c} HEADERS=False DEST=p2.csv python3 ./modules/rpi-parse.py
 			cat p* > summer-${year}.csv
 			rm -rf p*.csv
 	else
@@ -42,7 +42,7 @@ summer() {
 
 fall() {
 	local year=${1}
-	source_url=https://sis.rpi.edu/reg/zfs20${year}09.htm
+	source_url=https://sis.rpi.edu/reg/zfs${year}09.htm
 	
 	python3 ./website_checker.py ${source_url}
 	exitCode=$?
@@ -50,7 +50,7 @@ fall() {
 	then
 			echo "Fall"
 			export SEMESTER="FALL ${year}"
-			DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
+			DEST=p0.csv HEADERS=True DEST=p0.csv python3 ./modules/rpi-parse.py
 			cat p* > fall-${year}.csv
 			rm -rf p*.csv
 	else
@@ -60,7 +60,7 @@ fall() {
 
 
 MONTH=$(date +%m)
-YEAR=$(date +%y)
+YEAR=$(date +%Y)
 if [[ ${MONTH} -ge 1 && ${MONTH} -lt 5 ]]
 then
   spring ${YEAR}

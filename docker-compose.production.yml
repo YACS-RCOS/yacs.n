@@ -75,3 +75,15 @@ services:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs
       - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
+
+
+  yacs_updater:
+    restart: unless-stopped
+    container_name: yacs_updater
+    stdin_open: true
+    tty: true
+    build:
+      context: ./rpi_data
+      dockerfile: Dockerfile
+    depends_on:
+      - yacs_web
