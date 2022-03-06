@@ -163,7 +163,6 @@ export default {
   computed:{
     // splited categories into 2 arrays, one array = one column
     categoryCols() {
-      console.log("cat caled");
       let ret = [];
       let col1 = [];
       let col2 = [];
@@ -180,7 +179,6 @@ export default {
     },
     // put all pathways in one array
     alphabetCols() {
-      console.log("apa caled");
       let cols = [];
       for (var i = 0; i < this.categories.length; i++) {
         for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
