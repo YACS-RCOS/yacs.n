@@ -64,8 +64,9 @@
           </b-row>
         </b-col>
 
+        <!-- splited Pathways in alphabet order -->
         <b-col
-          v-for="(catCol, index) in alphabetCols"
+          v-for="(catCol, index) in categoryCols"
           :key="`catCol-${index}`"
           md="6"
           v-show="alphShow"
@@ -183,30 +184,34 @@ export default {
       let ret = [];
       let cols = [];
       for (var i = 0; i < this.categories.length; i++) {
-        console.log("detals");
-        console.log(this.categories[i]);
         for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
           cols.push(this.categories[i]['Pathways'][j])
         }
       }
-      console.log(cols[0]);
       cols.sort();
       console.log("sortn");
       console.log(cols[0]);
 
-      /*
-      let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+      let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
       for (var n = 0; n < alphabet.length; n++) {
-        var tmp = {}
+        var tmp = { 
+          "Category Name": alphabet[n],
+          "Pathways": []
+        }
         for (var m = 0; m < cols.length; m++) {
-          
+          if (cols[m]['Name'][0].startsWith(alphabet[n])) {
+            tmp['Pathways'].push(cols[m])
+          }
+        }
+        if (tmp['Pathways'].length > 0) {
+          ret.push(tmp)
         }
       }
-      */
-      var half_length = Math.ceil(cols.length / 2);
-      ret.push(cols.splice(0, half_length));
-      ret.push(cols.splice(-half_length));  
-      <p>ret </p>
+
+      //var half_length = Math.ceil(cols.length / 2);
+      //ret.push(cols.splice(0, half_length));
+      //ret.push(cols.splice(-half_length)); 
+      console.log(ret[0]); 
       return ret;
     }
   },
