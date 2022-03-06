@@ -66,30 +66,29 @@
 
         <!-- splited Pathways in alphabet order -->
         <b-col
-          v-for="(catCol, index) in categoryCols"
-          :key="`catCol-${index}`"
+          v-for="(alphCol, index) in alphabetCols"
+          :key="`alphCol-${index}`"
           md="6"
           v-show="alphShow"
         >
-        <p>Alphabet 2 </p>
           <b-row
-            v-for="categoryObj in catCol"
-            :key="categoryObj['Category Name'][0]"
+            v-for="alphabetObj in alphCol"
+            :key="alphabetObj['Category Name'][0]"
             class="categoryBox border m-2 mb-4"
           >
             <b-col>
-              <!-- Category Title  -->
+              <!-- Alphabet Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ categoryObj["Category Name"][0] }}
+                  {{ alphabetObj["Category Name"][0] }}
                 </h3>
               </b-row>
               <!-- Pathway Names  -->
               <b-row>
 
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
-                  <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                  <!-- LOOP Through the Pathway Alphabet list -->
+                  <div v-for="pathway in alphabetObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
                       <div class="mt-1 mb-1 w-100">
                         <!-- pathway button -->
                         <b-button
@@ -103,11 +102,12 @@
                       </div>
                   </div>
                 </div>
-
+                
               </b-row>
             </b-col>
           </b-row>
         </b-col>
+
       </b-row>
     </div>
     <CenterSpinner
@@ -181,18 +181,20 @@ export default {
     // put all pathways in one array
     alphabetCols() {
       console.log("apa caled");
-      let ret = [];
       let cols = [];
       for (var i = 0; i < this.categories.length; i++) {
         for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
           cols.push(this.categories[i]['Pathways'][j])
         }
       }
-      cols.sort();
-      console.log("sortn");
-      console.log(cols[0]);
+      //cols.sort(); implement sort function later
 
       let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      var half_length = Math.ceil(cols.length / 2);
+      var count = 0;
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = { 
           "Category Name": alphabet[n],
@@ -204,14 +206,18 @@ export default {
           }
         }
         if (tmp['Pathways'].length > 0) {
-          ret.push(tmp)
+          if (count < half_length) {
+            col1.push(tmp);
+            count += tmp['Pathways'].length + 0.2 ;
+          }
+          else {
+            col2.push(tmp);
+          }
         }
       }
 
-      //var half_length = Math.ceil(cols.length / 2);
-      //ret.push(cols.splice(0, half_length));
-      //ret.push(cols.splice(-half_length)); 
-      console.log(ret[0]); 
+      ret.push(col1);
+      ret.push(col2);
       return ret;
     }
   },
