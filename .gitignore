@@ -10,3 +10,4 @@ node_modules/
 *.ipynb*
 courses20.xml
 .coverage
+src/api/tests/test_user.py
