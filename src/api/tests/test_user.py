@@ -54,6 +54,5 @@ def test_user_delete_failure(post_user, client: Client):
     sessionid = data['content']['sessionID']
     r2 = client.delete("/api/user", json= {"sessionID": sessionid, "password": "12345"})
     assert r2.status_code == 200
-    print(r2.text)
     data2 = r2.json()
     assert data2['errMsg'] == "Wrong password."
