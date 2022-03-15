@@ -177,6 +177,7 @@ export default {
       ret.push(col2);
       return ret;
     },
+
     // put all pathways in one array
     alphabetCols() {
       let cols = [];
@@ -185,7 +186,6 @@ export default {
           cols.push(this.categories[i]['Pathways'][j])
         }
       }
-      //cols.sort(); implement sort function later
 
       let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
       let ret = [];
@@ -200,13 +200,20 @@ export default {
         }
         for (var m = 0; m < cols.length; m++) {
           if (cols[m]['Name'][0].startsWith(alphabet[n])) {
-            tmp['Pathways'].push(cols[m])
+            var index = 0;
+            while (index < tmp['Pathways'].length) {
+              if (cols[m]['Name'][0] < tmp['Pathways'][index]['Name'][0]) {
+                break;
+              }
+              index++;
+            }
+            tmp['Pathways'].splice(index, 0, cols[m]);
           }
         }
         if (tmp['Pathways'].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
-            count += tmp['Pathways'].length + 0.2 ;
+            count += tmp['Pathways'].length + 0.2;
           }
           else {
             col2.push(tmp);
