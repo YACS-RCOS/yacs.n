@@ -75,18 +75,23 @@ def scrapFromURL(webLink, major_db):
                                     #parse out any whitespace from the text_to_add (&nbsp from start)
                                     text_to_add = text_to_add.strip()
 
+                                    #skips many garbage empty edge cases
+                                    if (lowercase_text == ""  or lowercase_text == "\t" 
+                                        or lowercase_text == "\n" or lowercase_text == "or"):
+                                        continue
+
                                     #remove descriptive things about courses from being courses themselves
                                     if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
                                         continue
 
-                                    #if the text has the word footnote in it
-                                    if (lowercase_text.find("footnote") != -1):
-                                        #skips case that contains "and"/"or" or starts with "see"
+                                    #if the text has the word "see" in it
+                                    if (lowercase_text.find("see") != -1):
+                                        #skips case that contains "and"/"or" or course listing that starts with "see"
                                         if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
                                             continue
 
-                                        #footnote is at the end of the course name, so parse from "(see" and on out
-                                        delete_position = lowercase_text.find("see")-3#-3for the \n\t(
+                                        #footnote is at the end of the course name, so remove from "(see" and on
+                                        delete_position = lowercase_text.find("see")-2 #-3for the \n\t(
                                         text_to_add = text_to_add[0:delete_position]
 
                                     #remove unnecessary spaces inside the text itself
