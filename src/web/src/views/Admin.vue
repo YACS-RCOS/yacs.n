@@ -73,7 +73,7 @@
 
     <!-- Footer of Admin Panel -->
     <el-footer>
-      <el-button type="info" href="/">Go back home</el-button>
+      <el-button type="info" @click="$router.push('/')">Go back home</el-button>
     </el-footer>
 
   </el-container>
