@@ -86,7 +86,6 @@ import EditSemesters from "../views/EditSemesters.vue";
 import SetDefault from "../views/SetDefault.vue";
 
 import { ref } from 'vue'
-import { uploadCsv } from '../plugins/axios/apis'
 
 const uploadVisible = ref(false)
 const editSemesterVisible = ref(false)
