@@ -20,6 +20,7 @@ def test_user_post_success(post_user, client: Client):
     assert data['content'] is not None
     assert data['content']['msg'] == "User added successfully."
     r = client.post('/api/session', json={"email":"test12@gmail.com", "password":"test123"})
+    assert r.status_code == 200
     client.delete("/api/user", json={"sessionID":r.json()['content']['sessionID'], 'password':'test123'})
 
 def test_user_post_failure(post_user, client: Client):
@@ -29,6 +30,7 @@ def test_user_post_failure(post_user, client: Client):
     r = client.post("/api/user", json= {"name": "test1", "email":"test1","phone": "", "password":"123", "major":"", "degree":""})
     data = r.json()
     assert data['content'] is None
+    assert r.status_code == 200
     
 def test_user_delete_success(post_user, client: Client):
     '''
@@ -56,3 +58,14 @@ def test_user_delete_failure(post_user, client: Client):
     assert r2.status_code == 200
     data2 = r2.json()
     assert data2['errMsg'] == "Wrong password."
+
+def test_user_delete_failure2(post_user, client: Client):
+    '''
+    delete the session, then try to delete user
+    '''
+    sess = client.post("/api/session", json=TEST_USER).json()
+    sessID = sess['content']['sessionID']
+    r = client.delete('/api/session', json={'sessionID': sessID})
+    assert r.status_code == 200
+    r1 = client.delete("/api/user", json= {"sessionID": sessID, "password": "12345"})
+    assert r1.status_code == 403
