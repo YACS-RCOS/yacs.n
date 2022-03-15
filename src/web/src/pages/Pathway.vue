@@ -166,7 +166,7 @@ export default {
       let col1 = [];
       let col2 = [];
       for (var i = 0; i < this.categories.length; i++) {
-        if (i%2 == 0) {
+        if (i< this.categories.length/2) {
           col1.push(this.categories[i]);
         } else {
           col2.push(this.categories[i])
