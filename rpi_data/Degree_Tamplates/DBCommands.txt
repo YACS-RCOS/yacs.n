@@ -1,100 +1,3 @@
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'First Year','Fall','{"Science Core Elective Credit Hours: 4
-	(See footnote 6 below)","HASS Core Elective Credit Hours: 4
-	(See footnote 5 below)","STSO 1110 - Science, Technology, and Society Credit Hours: 4","MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'First Year','Spring','{"Science Core Elective Credit Hours: 4
-	(See footnote 6 below)","HASS Core Elective Credit Hours: 4
-	(See footnote 5 below)","Intermediate STS course Credit Hours: 4
-	(See footnote 2 below)","MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4
-	(See footnote 5 below)","Science Core Elective Credit Hours: 4
-	(See footnote 6 below)","CAS Course Credit Hours: 4
-	(See footnote 7 below)","STSO 2100 - Investigating Society Credit Hours: 4"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Second Year','Spring','{"CAS Course Credit Hours: 4","HASS Core Elective Credit Hours: 4
-	(See footnote 5 below)","Science Core Elective Credit Hours: 4
-	(See footnote 6 below)","Advanced STS Course Credit Hours: 4
-	(See footnote 3 below)"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Third Year','Fall','{"CAS Course Credit Hours: 4","Advanced STS Course Credit Hours: 4","STSO 4980 - Research Design Credit Hours: 4"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Third Year','Spring','{"HASS Core Elective Credit Hours: 4
-	(See footnote 5 below)","CAS Course Credit Hours: 4","STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Fourth Year','Fall','{"Federal Civil Procedure Credit Hours: 4","Contracts Credit Hours: 3","Property I Credit Hours: 2","Torts Credit Hours: 4","Introduction to Lawyering Credit Hours: 3"}'),
-('Accelerated Science, Technology, and Society (Law) B.S./J.D.', 'Fourth Year','Spring','{"Constitutional Law Credit Hours: 4
-	(Course applied to HASS Core Elective)","Criminal Law Credit Hours: 3","Property II Credit Hours: 4","Introduction to Lawyering Credit Hours: 3","Contracts Credit Hours: 2"}'),
-('Aeronautical Engineering Curriculum', 'First Year','Fall Semester (17 credits)','{"HASS Core Elective Credit Hours: 4
-	(See footnote 3 below)","ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","MATH 1010 - Calculus I Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4"}'),
-('Aeronautical Engineering Curriculum', 'First Year','Spring Semester (17 credits)','{"HASS Core Elective Credit Hours: 4
-	(See footnote 3 below)","CHEM 1100 - Chemistry I Credit Hours: 4","MANE 1060 - Fundamentals of Flight Credit Hours: 1","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1200 - Physics II Credit Hours: 4"}'),
-('Aeronautical Engineering Curriculum', 'Second Year','Fall Semester (16 credits)','{"SoE 2…. Engineering Design Elective
-	(See footnotes 1, 5, and 6 below)","ENGR 1300 - Engineering Processes Credit Hours: 1","ENGR 2530 - Strength of Materials Credit Hours: 4","MANE 2710 - Thermodynamics Credit Hours: 3","MATH 2400 - Introduction to Differential Equations Credit Hours: 4"}'),
-('Aeronautical Engineering Curriculum', 'Second Year','Spring Semester (17 credits)','{"HASS Core Elective  Credit Hours: 4
-	(See footnote 3 below)","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3","MANE 2720 - Fluid Mechanics Credit Hours: 3","MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4"}'),
-('Aeronautical Engineering Curriculum', 'Third Year','The Arch Summer Semester* (16 credits)','{"HASS Core Elective Credit Hours: 4
-	(See footnote 3 below)","ENGR 2090 - Engineering Dynamics Credit Hours: 4","MANE 4060 - Aerospace Structures and Materials Credit Hours: 4","MANE 4070 - Aerodynamics Credit Hours: 4"}'),
-('Aeronautical Engineering Curriculum', 'Third Year','Fall or Spring Semester (16 credits)','{"Free Elective Credit Hours: 4 
-	(See footnotes 6 and 9 below) ","STSS 4100 Professional Development II Credit Hours: 2
-	(See footnote 1, 6, and 7 below)","MANE 4500 - Modeling and Control of Dynamic Systems Credit Hours: 3","MANE 4900 - Aeroelasticity and Structural Vibrations Credit Hours: 3","MANE 4910 - Fluid Dynamics Laboratory Credit Hours: 2","MANE 4920 - Aerospace Structures Laboratory Credit Hours: 2"}'),
-('Aeronautical Engineering Curriculum', 'Fourth Year','Fall Semester (16 credits)','{"MANE 4…. Computation Elective Credit Hours: 3 
-	(See footnotes 1, 6, and 10 below)","MANE 4…. Flight Mechanics Elective Credit Hours: 4
-	(See footnotes 9 and 11 below)","Free Elective Credit Hours: 4","MANE 4080 - Propulsion Systems Credit Hours: 3","MANE 4510 - Control Systems Laboratory Credit Hours: 2"}'),
-('Aeronautical Engineering Curriculum', 'Fourth Year','Spring Semester (15 credits)','{"Free Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4
-	​(See footnote 3 below) ","MANE 4…. Capstone Design Elective Credit Hours: 3
-	(See footnotes 9 and 12 below)","MANE 4…. Aerospace Technical Elective Credit Hours: 3
-	(See footnotes 1 and 13 below)","ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1"}'),
-('Applied Physics', 'First Year','Fall','{"HASS Elective Credit Hours: 4
-	(See footnote 1 below)","CSCI 1100 - Computer Science I Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4","PHYS 1150 - Honors Physics I Credit Hours: 4"}'),
-('Applied Physics', 'First Year','Spring','{"Free Elective","BIOL 1010 - Introduction to Biology Credit Hours: 3","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1250 - Honors Physics II Credit Hours: 4"}'),
-('Applied Physics', 'Second Year','Fall','{"HASS Elective, Credit Hours: 4
-	​(See footnote 1 below.)","CHEM 1100 - Chemistry I Credit Hours: 4","MATH 2400 - Introduction to Differential Equations Credit Hours: 4","PHYS 2210 - Quantum Physics I Credit Hours: 4"}'),
-('Applied Physics', 'Second Year','Spring','{"HASS Elective Credit Hours: 4
-	(See footnote 1 below.)","MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4","PHYS 2220 - Quantum Physics II Credit Hours: 4","PHYS 4330 - Theoretical Mechanics Credit Hours: 4"}'),
-('Applied Physics', 'Third Year','The Arch Summer Semester*','{"HASS Elective Credit Hours: 4
-	(See footnotes 1 and 8 below.)","Free Elective Credit Hours: 4
-	(See footnote 8 below.)","PHYS 2962Computing for Physicists Free Elective Credit Hours: 2
-	(See footnote 6 below.)","PHYS 2963 Mathematical Physics Free Elective Credit Hours: 2
-	(See footnote 7 below.)","PHYS 2350 - Experimental Physics Credit Hours: 4"}'),
-('Applied Physics', 'Third Year','Fall OR Spring*','{"Technical Elective Credit Hours: 4
-	(See footnote 4 below.)","MATH 4600 - Advanced Calculus Credit Hours: 4","PHYS 4210 - Electromagnetic Theory Credit Hours: 4","PHYS 4420 - Thermodynamics and Statistical Mechanics Credit Hours: 4"}'),
-('Applied Physics', 'Fourth Year','Fall','{"Culminating Experience Credit Hours: 4
-	(See footnote 5 below.)","Technical Elective Credit Hours: 4
-	(See footnote 4 below.)","Technical Elective Credit Hours: 4
-	(See footnote 4 below.)","HASS Elective Credit Hours: 4
-	(See footnote 1 below.)"}'),
-('Applied Physics', 'Fourth Year','Spring','{"Technical Elective Credit Hours: 4
-	(See footnote 4 below.)","Free Elective Credit Hours: 4","HASS Elective Credit Hours: 4
-	(See footnote 1 below.)"}'),
-('Architecture', 'First Year','Fall','{"ARCH 2150 - The Ethos of Architecture Credit Hours: 3","ARCH 2160 - Architectural Media Credit Hours: 2","ARCH 2510 - Materials and Design Credit Hours: 2","ARCH 2520 - Digital Constructs 1 Credit Hours: 2","ARCH 2800 - Architectural Design Studio 1 Credit Hours: 5","MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4"}'),
-('Architecture', 'First Year','Spring','{"HASS Approved Inquiry and Communication Intensive Course Credit Hours: 4
-	(See footnote 1 below)","ARCH 2370 - Energy, Comfort, and Ecology Credit Hours: 2","ARCH 2530 - Digital Constructs 2 Credit Hours: 2","ARCH 2810 - Architectural Design Studio 2 Credit Hours: 5","ARCH 4090 - Architectural Case Studies Credit Hours: 2","ARCH 4100 - An Architectural Genealogy Credit Hours: 3"}'),
-('Architecture', 'Second Year','Fall','{"ARCH 2330 - Structures 1 Credit Hours: 3","ARCH 2350 - Construction Systems Credit Hours: 2","ARCH 2540 - Digital Constructs 3 Credit Hours: 2","ARCH 2820 - Architectural Design Studio 3 Credit Hours: 5","ARCH 4050 - Cities and Their Territories Credit Hours: 2","ARCH 4120 - Cloud Atlas: 20th Century Architecture, Culture and Civilization Credit Hours: 3"}'),
-('Architecture', 'Second Year','Spring','{"ARCH 2360 - Environmental and Ecological Systems Credit Hours: 4","ARCH 2550 - Digital Constructs 4 Credit Hours: 2","ARCH 2830 - Architectural Design Studio 4 Credit Hours: 5","ARCH 4150 - Contemporary Design Approaches Credit Hours: 3","PHYS 1050 - General Physics Credit Hours: 4"}'),
-('Architecture', 'Third Year','Fall','{"HASS Elective Credit Hours: 4","MATH Elective Credit Hours: 4","ARCH 4330 - Structures 2 Credit Hours: 3","ARCH 4560 - Materials and Enclosures Credit Hours: 2","ARCH 4820 - Integrated Design Schematic Credit Hours: 5"}'),
-('Architecture', 'Third Year','Spring','{"Science Elective Credit Hours: 4","ARCH 4540 - Professional Practice 1 Credit Hours: 2","ARCH 4590 - Entrepreneurship and Architecture Credit Hours: 2","ARCH 4740 - Building Systems and Environment Credit Hours: 4","ARCH 4830 - Integrated Design Development Credit Hours: 5"}'),
-('Architecture', 'Fourth Year','The Arch Summer Semester*','{"HASS Elective Credit Hours: 4","HASS Elective Credit Hours: 4","Science Elective Credit Hours: 4","ARCH 4770 - Architectural Design Studio 5 Credit Hours: 5"}'),
-('Architecture', 'Fourth Year','Fall OR Spring','{"Professional Elective Credit Hours: 2","Professional Elective Credit Hours: 2","Elective Credit Hours: 4","HASS Elective Credit Hours: 4","ARCH 4550 - Professional Practice 2 Credit Hours: 2","ARCH 4780 - Architectural Design Studio 6 Credit Hours: 5"}'),
-('Biological Neuroscience', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4","BIOL 1010 - Introduction to Biology Credit Hours: 3","(see footnote 1 below)","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
-('Biological Neuroscience', 'First Year','Spring','{"HASS Core Elective Credit Hours: 4","BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3","(see footnote 1 below)","BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1","CHEM 1200 - Chemistry II Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4"}'),
-('Biological Neuroscience', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4","BIOL 2500 - Genetics and Evolution Credit Hours: 4","CHEM 2250 - Organic Chemistry I Credit Hours: 3","CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1","PHYS 1100 - Physics I Credit Hours: 4"}'),
-('Biological Neuroscience', 'Second Year','Spring','{"HASS Core Elective Credit Hours: 4","BIOL 4620 - Molecular Biology Credit Hours: 4","CHEM 2260 - Organic Chemistry II Credit Hours: 3","CHEM 2240 - Organic Chemistry Laboratory II Credit Hours: 1","PHYS 1200 - Physics II Credit Hours: 4"}'),
-('Biological Neuroscience', 'Third Year','The Arch Summer Semester','{"HASS Core Neuroscience Elective Credit Hours: 4","Advanced Biology Laboratory Option Credit Hours: 6","Free Elective Credit Hours: 2","BIOL 4760 - Molecular Biochemistry I Credit Hours: 4","(see footnote 7 below)"}'),
-('Biological Neuroscience', 'Third Year','Spring','{"HASS Core Neuroscience Elective Credit Hours: 4","Free Elective Credit Hours: 4","BIOL 4100 - From Neuron to Behavior Credit Hours: 4","(see footnote 8 below)","BIOL 4200 - Biostatistics Credit Hours: 4","(see footnote 8 below)"}'),
-('Biological Neuroscience', 'Fourth Year','Fall','{"Free Elective Credit Hours: 4","Free Elective Credit Hours: 4​","BIOL 4260 - Advanced Cell Biology Credit Hours: 4","BIOL 4270 - Human Physiology Credit Hours: 4","(see footnote 8 below)"}'),
-('Biological Neuroscience', 'Fourth Year','Spring','{"Free Elective Credit Hours: 4","Free Elective Credit Hours: 4​","BIOL 4150 - Cellular Neuroscience Credit Hours: 4","(see footnote 6 below)","BIOL 4250 - Developmental Biology Credit Hours: 4","(see footnote 8 below)"}'),
-('Biology', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)","BIOL 1010 - Introduction to Biology Credit Hours: 3","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
-('Biology', 'First Year','Spring','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)","BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3","BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1","CHEM 1200 - Chemistry II Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4"}'),
-('Biology', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)","BIOL 2500 - Genetics and Evolution Credit Hours: 4","CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1","CHEM 2250 - Organic Chemistry I Credit Hours: 3","PHYS 1100 - Physics I Credit Hours: 4"}'),
-('Biology', 'Second Year','Spring','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)","BIOL 4620 - Molecular Biology Credit Hours: 4","CHEM 2240 - Organic Chemistry Laboratory II Credit Hours: 1","CHEM 2260 - Organic Chemistry II Credit Hours: 3","PHYS 1200 - Physics II Credit Hours: 4"}'),
-('Biology', 'Third Year','The Arch Summer Semester*','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)"}'),
-('Biology', 'Third Year','Fall or Spring','{"HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)"}'),
-('Biology', 'Fourth Year','Fall','{"BIOL - Biology Elective Credit Hours: 4
-	(See footnote 4 below)","Elective Credit Hours: 4","Elective Credit Hours: 4","Elective Credit Hours: 4"}'),
-('Biology', 'Fourth Year','Spring','{"BIOL - Biology Elective Credit Hours: 4
-	(See footnote 4 below)","BIOL - Biology Elective Credit Hours: 4
-	(See footnote 4 below)","Elective Credit Hours: 4","Elective Credit Hours: 4"}'),
 ('Biomedical Engineering', 'First Year','Fall','{" HASS Elective Credit Hours:4
 	(See footnote 1 below)","CHEM 1100 - Chemistry I Credit Hours: 4","ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","MATH 1010 - Calculus I Credit Hours: 4"}'),
 ('Biomedical Engineering', 'First Year','Spring','{"HASS Elective- Credit Hours: 4
@@ -305,9 +208,9 @@
 ('Engineering Core Curriculum', 'Second Year','Fall','{"Engineering Elective Credit Hours: 4","Engineering Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","MATH 2400 - Introduction to Differential Equations Credit Hours: 4","PHYS 1200 - Physics II Credit Hours: 4"}'),
 ('Engineering Core Curriculum', 'Second Year','Spring','{"Engineering Elective Credit Hours: 4","Engineering Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","ENGR 2050 - Introduction to Engineering Design Credit Hours: 4"}'),
 ('Engineering Core Curriculum', 'Footnotes Year',('Engineering Core Curriculum', 'Footnotes Year',('Engineering Core Curriculum', 'Fall Year',('Engineering Core Curriculum', 'Fall Year',('Environmental Engineering', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4","CHEM 1100 - Chemistry I Credit Hours: 4","CIVL 1200 - Engineering Graphics for Civil Engineers Credit Hours: 1","ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
-('Environmental Engineering', 'First Year','Spring','{"HASS Core Elective Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4","CHEM 1200 - Chemistry II Credit Hours: 4","CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1"}'),
+('Environmental Engineering', 'First Year','Spring','{"HASS Core Elective Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4","CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1","CHEM 1200 - Chemistry II Credit Hours: 4"}'),
 ('Environmental Engineering', 'Second Year','Fall','{"Biological Science Elective Credit Hours: 4","MATH 2400 - Introduction to Differential Equations Credit Hours: 4","PHYS 1200 - Physics II Credit Hours: 4","CIVL 2050 - Fluid Mechanics for Civil and Environmental Engineering Credit Hours: 4"}'),
-('Environmental Engineering', 'Second Year','Spring','{"HASS Core Elective Credit Hours: 4","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4","CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1","CIVL 2060 - Water Resources Engineering Credit Hours: 4"}'),
+('Environmental Engineering', 'Second Year','Spring','{"HASS Core Elective Credit Hours: 4","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4","CIVL 2060 - Water Resources Engineering Credit Hours: 4","CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1"}'),
 ('Environmental Engineering', 'Third Year','The Arch Summer Semester*','{"HASS Core Elective Credit Hours: 4","Free Elective I Credit Hours: 4","ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1","ENVE 4370 - Applied Hydrology and Design Credit Hours: 4"}'),
 ('Environmental Engineering', 'Third Year','Fall OR Spring*','{"Technical Elective Credit Hours: 3
 	 (See footnote 8 below)","Professional Development -Technical Issues and Solutions Credit Hourse: 2
@@ -320,7 +223,7 @@
 ('Environmental Science', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4
 	(See footnote 1 below)","CHEM 1100 - Chemistry I Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4","ERTH 1100 - Geology I: Earth’s Interior Credit Hours: 3","ERTH 1150 - Geology I: Earth’s Interior Lab Credit Hours: 1"}'),
 ('Environmental Science', 'First Year','Spring','{"HASS Core Elective Credit Hours: 4","CHEM 1200 - Chemistry II Credit Hours: 4","ERTH 1200 - Geology II: Earth’s Surface Credit Hours: 3","ERTH 1250 - Geology ll: Earth’s Surface Lab Credit Hours: 1","MATH 1020 - Calculus II Credit Hours: 4"}'),
-('Environmental Science', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4","CHEM 2250 - Organic Chemistry I Credit Hours: 3","ERTH 2160 - Introduction to Geobiology Credit Hours: ","ERTH 2210 - Field Methods Credit Hours: 3"}'),
+('Environmental Science', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4","CHEM 2250 - Organic Chemistry I Credit Hours: 3","ERTH 2160 - Introduction to Geobiology Credit Hours: 4","ERTH 2210 - Field Methods Credit Hours: 4"}'),
 ('Environmental Science', 'Second Year','Spring','{"Concentration Course or Free Elective Credit Hours: 4","IENV 1910 - Environmental Seminar Credit Hours: 2","PHYS 1100 - Physics I Credit Hours: 4","ERTH 2200 - Environmental Data Analysis Credit Hours: 4"}'),
 ('Environmental Science', 'Third Year','The Arch Summer Semester*','{"HASS Core Elective Credit Hours: 8","Concentration Course or Free Elective Credit Hours: 4","ERTH 4190 - Environmental Measurements Credit Hours: 4","(see footnote 4 below)"}'),
 ('Environmental Science', 'Third Year','Fall or Spring','{"Concentration Course or Free Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","BIOL 4880 - Global Environmental Change Credit Hours: 4","ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4"}'),
@@ -433,10 +336,21 @@ HASS Core Elective Credit Hours: 4
 	(See footnotes 1, 2 below)","Private Music Lesson or Ensemble Credit Hours: 1
 	(See footnote 3 below)","ARTS 4160 - Music and Technology II Credit Hours: 4","ARTS 4380 - Music and Sound II Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4","MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4"}'),
 ('Music', 'Second Year','Fall','{"Science Core Elective Credit Hours: 4","Free Elective Credit Hours: 4","Private Music Lesson or Ensemble Credit Hours: 1
-	(See footnote 3 below)","ARTS 2540 - The Multimedia Century Credit Hours: 4"}'),
+	(See footnote 3 below)","ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4"}'),
 ('Music', 'Second Year','Spring','{"Science Core Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","Free Elective Credit Hours: 4","Private Music Lesson or Performance Ensemble Credit Hours: 1
 	(See footnote 3 below)"}'),
-('Music', 'Third Year','The Arch Summer Semester*','{"Science Core Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","Free Elective Credit Hours: 4"}'),
+('Music', 'Third Year','The Arch Summer Semester*','{"Science Core Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","Free Elective Credit Hours: 4","Choose one of the following:
+	
+ARTS 2540 - The Multimedia Century Credit Hours: 4
+ARTS 2520 - World Music Credit Hours: 4
+ARTS 2500 - Histories of Western Music Credit Hours: 4
+ARTS 2550 - Popular Music and Society Credit Hours: 4
+ARTS 2610 - Designing Musical Games Credit Hours: 4
+GSAS 2610 - Designing Musical Games Credit Hours: 4
+ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4
+ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4
+
+","ARTS 2540 - The Multimedia Century Credit Hours: 4","ARTS 2520 - World Music Credit Hours: 4","ARTS 2500 - Histories of Western Music Credit Hours: 4","ARTS 2550 - Popular Music and Society Credit Hours: 4","ARTS 2610 - Designing Musical Games Credit Hours: 4","GSAS 2610 - Designing Musical Games Credit Hours: 4","ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4","ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4","ARTS 2540 - The Multimedia Century Credit Hours: 4","ARTS 2520 - World Music Credit Hours: 4","ARTS 2500 - Histories of Western Music Credit Hours: 4","ARTS 2550 - Popular Music and Society Credit Hours: 4","ARTS 2610 - Designing Musical Games Credit Hours: 4","GSAS 2610 - Designing Musical Games Credit Hours: 4","ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4","ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4"}'),
 ('Music', 'Third Year','Fall OR Spring','{"Science Core Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","ARTS 4390 - Composition Seminar Credit Hours: 4 (course can be repeated multiple times for additional credit)","ARTS 4880 - Interdisciplinary Research Seminar Credit Hours: 4"}'),
 ('Music', 'Fourth Year','Fall','{"Free Elective Credit Hours: 4","Free Elective Credit Hours: 4"}'),
 ('Music', 'Fourth Year','Spring','{"Free Elective Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4"}'),

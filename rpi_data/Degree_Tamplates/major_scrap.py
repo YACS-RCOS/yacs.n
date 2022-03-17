@@ -44,11 +44,13 @@ def scrapFromURL(webLink, major_db):
                     major_db[cur_entry] = {}
                     outFile.write(yearText)
                     state = 'regularYear'
+
                     if yearText == "Fourth Year":
                         state = 'lastYear'
                 else:
                     for sem in div.find_all("div", recursive = False):
                         if sem.get("class")[0] != "custom_leftpad_20":
+                            outFile.write(sem.get("class")[0] + "\n")
                             semName = sem.find("h3")
                             if semName == None:
                                 semName = sem.find("h4")
@@ -71,7 +73,13 @@ def scrapFromURL(webLink, major_db):
                                         major_db[cur_entry][semName.text].append(litag.text)
                                         outFile.write(litag.text)
                                         outFile.write("\n")
-                        #else:                            
+                        else: 
+                            for h3 in sem.find_all("h4"):
+                                if h3.text == "Culminating Experience":
+                                    outFile.write("   Course: Culminating Experience ")    
+                            for em in sem.find_all("em"):
+                                if em.text[:13] == "Credit Hours:":
+                                    outFile.write(em.text + "\n")             
                     if state == "lastYear":
                         return major_db
                     state= "newYear"
