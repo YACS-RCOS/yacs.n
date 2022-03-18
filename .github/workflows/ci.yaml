@@ -85,9 +85,9 @@ jobs:
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
           API_ENDPOINT: https://localhost/api/bulkCourseUpload
 
-      # - name: run Lighthouse CI
-      #   run: |
-      #     npm install -g @lhci/cli@0.7.x &&
-      #     lhci autorun
-        # env:
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.7.x &&
+          lhci autorun
+        env:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
