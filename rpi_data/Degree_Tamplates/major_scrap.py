@@ -35,9 +35,9 @@ def scrapFromURL(webLink, major_db):
     for items in clp20:
         state = 'newMajor'
         for div in items.find_all("div", recursive = False):
-            if (div.text == "First Year"):
+            if (div.text.lower() == "first year"):
                 startScrap = True
-            elif (div.text == div.text == "Academic Year I"):
+            elif (div.text == "Academic Year I"):
                 startScrap = True
                 academicYear = True
 
@@ -84,6 +84,7 @@ def scrapFromURL(webLink, major_db):
                                         outFile.write(litag.text)
                                         outFile.write("\n")
                         else: 
+                            #outFile.write(sem.text + "\n")
                             for h3 in sem.find_all("h4"):
                                 if h3.text == "Culminating Experience":
                                     outFile.write("   Course: Culminating Experience ")    
@@ -103,11 +104,12 @@ major_db = {}
 f = open("majorURLlist.txt", "r")
 #fout = open("majorData.txt", "w")
 i = 0
-#scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542", major_db)
-
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5507&returnto=542", major_db)
+"""
 for link in f:
     print(link)
     scrapFromURL(link, major_db)
+"""
 outFile.close()
 outFile2 = open("DBCommands.txt", "a")
 outFile2.truncate(0)
