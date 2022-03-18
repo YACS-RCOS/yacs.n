@@ -1,5 +1,5 @@
 import pytest
-from fastapi import TestClient
+from fastapi.testclient import TestClient
 @pytest.mark.testclient
 
 def test_semester(upload, client: TestClient):
