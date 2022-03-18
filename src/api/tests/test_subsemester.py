@@ -1,7 +1,7 @@
-from .util import Client
-
-
-def test_subsemeseter_spring2020(client, upload):
+import pytest
+from fastapi import TestClient
+@pytest.mark.testclient
+def test_subsemeseter_spring2020(client: TestClient, upload):
     """
     when subsemester endpoint is given an input such as Spring 2020 
     it should only return data for that subsemester i.e. data where the parent semester name 

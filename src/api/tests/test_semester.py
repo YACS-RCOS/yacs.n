@@ -1,7 +1,8 @@
+import pytest
+from fastapi import TestClient
+@pytest.mark.testclient
 
-from .util import Client
-
-def test_semester(upload, client):
+def test_semester(upload, client: TestClient):
     """
     semester endpoint should get all of the semesters in the upload
     in the case of our test data, we should be getting get 2 semesters: "SUMMER 2020" and "SPRING 2020"

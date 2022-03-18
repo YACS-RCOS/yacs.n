@@ -94,34 +94,36 @@ def apiroot():
 #     departments, error = class_info.get_departments()
 #     return jsonify(departments) if not error else Response(error, status=500)
 #
-# @app.route('/api/subsemester', methods=['GET'])
-# @cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
-# def get_subsemesters():
-#     """
-#     GET /api/subsemester?semester={}
-#     Cached: 1 Hour
-#
-#     Get list of departments i.e. COGS, CIVL, CSCI, BIOL
-#     (Used in dropdown in "Course Search"
-#     """
-#     semester = request.args.get("semester", default=None)
-#     if semester:
-#         subsemesters, error = class_info.get_subsemesters(semester)
-#         return jsonify(subsemesters) if not error else Response(error, status=500)
-#     # Some cases, we do want all subsemesters across all semesters like in Admin Panel
-#     subsemesters, error = class_info.get_subsemesters()
-#     return jsonify(subsemesters) if not error else Response(error, status=500)
-#
-# @app.route('/api/semester', methods=['GET'])
-# @cache.cached(timeout=Constants.DAY_IN_SECONDS)
-# def get_semesters():
-#     """
-#     GET /api/semester
-#     Cached: 24 Hours
-#     """
-#     semesters, error = class_info.get_semesters()
-#     return jsonify(semesters) if not error else Response(error, status=500)
-#
+@app.get('/api/subsemester')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_subsemesters(subsemester: SubsemesterPydantic):
+    """
+    GET /api/subsemester?semester={}
+    Cached: 1 Hour
+
+    Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+    (Used in dropdown in "Course Search"
+    """
+    if subsemester.semester:
+        subsemesters, error = class_info.get_subsemesters(subsemester.semester)
+        db_list = [dict(r) for r in subsemesters]
+        return db_list if not error else Response(error, status_code=500)
+    # Some cases, we do want all subsemesters across all semesters like in Admin Panel
+    subsemesters, error = class_info.get_subsemesters()
+    db_list = [dict(r) for r in subsemesters]
+    return db_list if not error else Response(error, status_code=500)
+
+@app.get('/api/semester')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_semesters():
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
+    semesters, error = class_info.get_semesters()
+    db_list = [dict(r) for r in semesters]
+    return db_list if not error else Response(error, status_code=500)
+
 # @app.route('/api/semesterInfo', methods=['GET'])
 # def get_all_semester_info():
 #     all_semester_info, error = class_info.get_all_semester_info()
