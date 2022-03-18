@@ -60,44 +60,8 @@ async def root(request: Request):
 def apiroot():
     return Response(content='wow')
 
-# - data routes
-#
-# @app.route('/api/class', methods=['GET'])
-# @cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
-# def get_classes():
-#     """
-#     GET /api/class?semester={}&search={}
-#     Cached: 1 Hour
-#     """
-#     semester = request.args.get("semester", default=None)
-#     search  = request.args.get("search", default=None)
-#     if semester:
-#         if not semester_info.is_public(semester):
-#             if is_admin_user():
-#                 classes, error = class_info.get_classes_full(semester)
-#                 return jsonify(classes) if not error else Response(error, status=500)
-#             return Response("Semester isn't available", status=401)
-#         if search is not None:
-#             classes, error = class_info.get_classes_by_search(semester, search)
-#         else:
-#             classes, error = class_info.get_classes_full(semester)
-#         return jsonify(classes) if not error else Response(error, status=500)
-#     return Response("missing semester option", status=400)
-# @app.route('/api/department', methods=['GET'])
-# @cache.cached(timeout=Constants.HOUR_IN_SECONDS)
-# def get_departments():
-#     """
-#     GET /api/department
-#     Cached: 1 Hour
-#
-#     List of departments i.e. COGS, CIVL, CSCI, BIOL
-#     """
-#     departments, error = class_info.get_departments()
-#     return jsonify(departments) if not error else Response(error, status=500)
-#
-
 @app.get('/api/class')
-@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")# , query_string=True)
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
     """
     GET /api/class?semester={}&search={}
@@ -115,6 +79,7 @@ async def get_classes(request: Request, semester: str or None = None, search: st
             classes, error = class_info.get_classes_full(semester)
         return classes if not error else Response(error, status_code=500)
     return Response(content="missing semester option", status_code=400)
+    
 @app.get('/api/department')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_departments():
