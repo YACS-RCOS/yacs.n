@@ -29,7 +29,13 @@ def test_user_course_delete_success(post_user, client: Client):
     x = client.delete("/api/user/course", json = TEST_COURSE)
     assert x.status_code == 200
     d = client.get("/api/user/course", json=TEST_COURSE)
-    assert len(d.json()) ==1
+    print(d.text)
+    data = d.json()
+    for x in data:
+        #x = course.json()
+        assert x['course_name'] is not TEST_COURSE['name']
+        assert x['crn'] is not TEST_COURSE['cid']
+    #assert len(d.json()) ==1
     print("after delete",len(d.json()))
     client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
 
