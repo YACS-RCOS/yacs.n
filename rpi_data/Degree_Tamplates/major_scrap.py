@@ -74,10 +74,13 @@ def scrapFromURL(webLink, major_db):
                                     
                                     #parse out any whitespace from the text_to_add (&nbsp from start)
                                     text_to_add = text_to_add.strip()
+                                    
+                                    #skips cases that have just empty whitespace in its own litag
+                                    if (text_to_add == ""):
+                                        continue
 
-                                    #skips many garbage empty edge cases
-                                    if (lowercase_text == ""  or lowercase_text == "\t" 
-                                        or lowercase_text == "\n" or lowercase_text == "or"):
+                                    #skips a lone "or" in an litag
+                                    if (lowercase_text == "or"):
                                         continue
 
                                     #remove descriptive things about courses from being courses themselves
