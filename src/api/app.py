@@ -105,6 +105,8 @@ async def get_subsemesters(subsemester: SubsemesterPydantic):
     """
     if subsemester.semester:
         subsemesters, error = class_info.get_subsemesters(subsemester.semester)
+        for i in subsemesters:
+            print(i)
         db_list = [dict(r) for r in subsemesters]
         return db_list if not error else Response(error, status_code=500)
     # Some cases, we do want all subsemesters across all semesters like in Admin Panel
