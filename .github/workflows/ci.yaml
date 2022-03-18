@@ -53,41 +53,41 @@ jobs:
           bash scripts/test.sh
 
   lighthouse:
-    # name: Lighthouse CI
-    # runs-on: ubuntu-latest
-    # steps:
-    #   - uses: actions/checkout@v2
-    #   - name: Setup Node.js
-    #     uses: actions/setup-node@v1
-    #     with:
-    #       node-version: 15.x
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
 
-    #   - name: Build and Run Production
-    #     run: |
-    #       docker-compose \
-    #         -f docker-compose.yml \
-    #         -f docker-compose.production.yml \
-    #         up -d &&
-    #       sleep 10
-    #     env:
-    #       AUTO_LE: no
-    #       SELF_CERT: yes
-    #       ENABLE_BLOCK: no
+      - name: Build and Run Production
+        run: |
+          docker-compose \
+            -f docker-compose.yml \
+            -f docker-compose.production.yml \
+            up -d &&
+          sleep 10
+        env:
+          AUTO_LE: no
+          SELF_CERT: yes
+          ENABLE_BLOCK: no
 
-    #   - name: Seed test data
-    #     working-directory: rpi_data
-    #     run: |
-    #       curl --insecure -X POST -H "Content-Type: multipart/form-data" \
-    #       -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" \
-    #       $AUTH_ARGS $API_ENDPOINT
-    #     env:
-    #       FILE_NAME: fall-2021.csv
-    #       AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
-    #       API_ENDPOINT: https://localhost/api/bulkCourseUpload
+      - name: Seed test data
+        working-directory: rpi_data
+        run: |
+          curl --insecure -X POST -H "Content-Type: multipart/form-data" \
+          -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" \
+          $AUTH_ARGS $API_ENDPOINT
+        env:
+          FILE_NAME: fall-2021.csv
+          AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
+          API_ENDPOINT: https://localhost/api/bulkCourseUpload
 
-    #   - name: run Lighthouse CI
-    #     run: |
-    #       npm install -g @lhci/cli@0.7.x &&
-    #       lhci autorun
-    #     env:
-    #       LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.7.x &&
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
