@@ -82,7 +82,7 @@
 ('Chemistry - Industrial Chemistry Track', 'Fourth Year','Fall','{"CHEM 4110 - Instrumental Methods of Analysis Credit Hours: 3","CHEM 4900 - Professional Development Seminar Credit Hours: 1","CHEM 4950 - Senior Experience Credit Hours: 2"}'),
 ('Chemistry - Industrial Chemistry Track', 'Fourth Year','Spring','{"CHEM 4120 - Experimental Chemistry IV: Physical and Instrumental Methods Credit Hours: 3","CHEM 4620 - Introduction to Polymer Chemistry Credit Hours: 3"}'),
 ('Civil Engineering', 'First Year','Fall','{"HASS Elective Credit Hours: 4 (see footnote 2 below)","CHEM 1100 - Chemistry I Credit Hours: 4","CIVL 1200 - Engineering Graphics for Civil Engineers Credit Hours: 1","ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
-('Civil Engineering', 'First Year','Spring','{"HASS Elective Credit Hours: 4 (see footnote 2 below)","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","MATH 1020 - Calculus II Credit Hours: 4","CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1","PHYS 1100 - Physics I Credit Hours: 4"}'),
+('Civil Engineering', 'First Year','Spring','{"HASS Elective Credit Hours: 4 (see footnote 2 below)","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4","CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1"}'),
 ('Civil Engineering', 'Second Year','Fall','{"ENGR 2530 - Strength of Materials Credit Hours: 4","MATH 2400 - Introduction to Differential Equations Credit Hours: 4","PHYS 1200 - Physics II Credit Hours: 4","CIVL 2050 - Fluid Mechanics for Civil and Environmental Engineering Credit Hours: 4"}'),
 ('Civil Engineering', 'Second Year','Spring','{"CIVL 2030 - Introduction to Transportation Engineering Credit Hours: 4","CIVL 2630 - Introduction to Geotechnical Engineering Credit Hours: 4","CIVL 2670 - Introduction to Structural Engineering Credit Hours: 4","CIVL 2060 - Water Resources Engineering Credit Hours: 4"}'),
 ('Civil Engineering', 'Third Year','The Arch Summer Semester* ','{"HASS Elective Credit Hours: 4 (see footnote 2 below)","ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","ENGR 4760 - Engineering Economics Credit Hours: 3","ENVE 4370 - Applied Hydrology and Design Credit Hours: 4"}'),
@@ -266,7 +266,7 @@ Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required fo
 ('Industrial and Management Engineering', 'First Year','Spring','{"HASS Core Elective II Credit Hours: 4","ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4","CSCI 1100 - Computer Science I Credit Hours: 4"}'),
 ('Industrial and Management Engineering', 'Second Year','Fall','{"HASS Core Elective III Credit Hours: 4","MATH 2400 - Introduction to Differential Equations Credit Hours: 4","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","ISYE 2530 - Information and Data Systems Credit Hours: 4"}'),
 ('Industrial and Management Engineering', 'Second Year','Spring','{"ISYE 2210 - Production and Operations Management Credit Hours: 3","MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4","ISYE 4140 - Statistical Analysis Credit Hours: 4","PHYS 1200 - Physics II Credit Hours: 4","STSO 4100 - Professional Development  2 –Technical Issues and Solutions Credit Hours: 2"}'),
-('Industrial and Management Engineering', 'Third Year','The Arch Summer Semester*','{"HASS Core Elective IV Credits Hours: 4","ENGR 4760 - Engineering Economics Credit Hours: 3","ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","ISYE 4600 - Operations Research Methods Credit Hours: 4"}'),
+('Industrial and Management Engineering', 'Third Year','The Arch Summer Semester*','{"HASS Core Elective IV Credits Hours: 4","ENGR 4760 - Engineering Economics Credit Hours: 3","ISYE 4600 - Operations Research Methods Credit Hours: 4","ENGR 2050 - Introduction to Engineering Design Credit Hours: 4"}'),
 ('Industrial and Management Engineering', 'Third Year','Fall OR Spring','{"Technical Elective I  Credit Hours: 3","Technical Elective II  Credit Hours: 3
 	(See footnote 7 below)","HASS Core Elective V Credit Hours: 4","Management Elective I Credit Hours: 4","ISYE 4290 - Discrete Event Simulation Modeling and Analysis Credit Hours: 4"}'),
 ('Industrial and Management Engineering', 'Fourth Year','Fall','{"Technical Elective III  Credit Hours: 3
@@ -389,7 +389,66 @@ ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4
 ('Philosophy', 'Fourth Year','Fall','{"Free Elective Credit Hours: 4 ","Free Elective Credit Hours: 4 ","Free Elective Credit Hours: 4 ","PHIL 4990 - Capstone Experience in Philosophy Credit Hours: 3 to 6"}'),
 ('Philosophy', 'Fourth Year','Spring','{"Philosophy Elective Credit Hours: 4
 	(See footnote 3 below)","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4"}'),
-('Physics', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4
+('Physician-Scientist', 'Academic Year I','Fall - Credits: 16','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 1010 - Introduction to Biology Credit Hours: 3","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4"}'),
+('Physician-Scientist', 'Academic Year I','Spring - Credits: 16','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3","BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1","CHEM 1200 - Chemistry II Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4"}'),
+('Physician-Scientist', 'Academic Year II','Fall - Credits: 16','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 2500 - Genetics and Evolution Credit Hours: 4","CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1","CHEM 2250 - Organic Chemistry I Credit Hours: 3","PHYS 1100 - Physics I Credit Hours: 4"}'),
+('Physician-Scientist', 'Academic Year II','Spring - Credits: 16','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 4620 - Molecular Biology Credit Hours: 4","CHEM 2240 - Organic Chemistry Laboratory II Credit Hours: 1","CHEM 2260 - Organic Chemistry II Credit Hours: 3","PHYS 1200 - Physics II Credit Hours: 4"}'),
+('Physician-Scientist', 'Academic Year III','Fall - Credits: 17','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 4110 - Investigative Medicine I Credit Hours: 1","BIOL 4200 - Biostatistics Credit Hours: 4","BIOL 4270 - Human Physiology Credit Hours: 4","BIOL 4760 - Molecular Biochemistry I Credit Hours: 4"}'),
+('Physician-Scientist', 'Academic Year III','Spring - Credits: 19','{"HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)","BIOL 4100 - From Neuron to Behavior Credit Hours: 4","BIOL 4120 - Investigative Medicine II Credit Hours: 1","BIOL 4250 - Developmental Biology Credit Hours: 4","BIOL 4980 - Biomedical Research Credit Hours: 6"}'),
+('Physician-Scientist', 'Courses transferred from Albany Medical College','Summer III','{"Research Credit Hours: 0
+	(See footnote 4 below)"}'),
+('Physician-Scientist', 'Courses transferred from Albany Medical College','Academic Year IV','}'),
+('Physician-Scientist', 'Footnotes
+Students who apply Advanced Placement credits in place of BIOL 1010 may take BIOL 2120 in its place.
+Humanities and Social Sciences (HASS) Core Electives: A total of 24 credits of HASS Core Electives should be taken. Students should take an Inquiry course during their first year. For a listing of HASS Inquiry courses go to: https://info.rpi.edu/hass-inquiry. In addition, students should take a HASS communication-intensive course during their first three semesters.
+Culminating experience and curriculum specific communication-intensive course.
+The courses for the fourth year are completed at Albany Medical College. These courses are transferred back to RPI to satisfy the requirements for the four-year degree. Additional coursework at AMC is required for the M.D. degree. Please note that during summer between year 3 and year 4, a 0-credit hour research experience is required at Albany Medical College and must be completed for the degree.
+
+',('Physician-Scientist', 'Footnotes
+Students who apply Advanced Placement credits in place of BIOL 1010 may take BIOL 2120 in its place.
+Humanities and Social Sciences (HASS) Core Electives: A total of 24 credits of HASS Core Electives should be taken. Students should take an Inquiry course during their first year. For a listing of HASS Inquiry courses go to: https://info.rpi.edu/hass-inquiry. In addition, students should take a HASS communication-intensive course during their first three semesters.
+Culminating experience and curriculum specific communication-intensive course.
+The courses for the fourth year are completed at Albany Medical College. These courses are transferred back to RPI to satisfy the requirements for the four-year degree. Additional coursework at AMC is required for the M.D. degree. Please note that during summer between year 3 and year 4, a 0-credit hour research experience is required at Albany Medical College and must be completed for the degree.
+
+',('Physician-Scientist', 'Fall - Credits: 16
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 1010 - Introduction to Biology Credit Hours: 3(See footnote 1 below)BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4MATH 1010 - Calculus I Credit Hours: 4',('Physician-Scientist', 'Fall - Credits: 16
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 1010 - Introduction to Biology Credit Hours: 3(See footnote 1 below)BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4MATH 1010 - Calculus I Credit Hours: 4',('Physician-Scientist', 'Fall - Credits: 16
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 2500 - Genetics and Evolution Credit Hours: 4CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1CHEM 2250 - Organic Chemistry I Credit Hours: 3PHYS 1100 - Physics I Credit Hours: 4',('Physician-Scientist', 'Fall - Credits: 16
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 2500 - Genetics and Evolution Credit Hours: 4CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1CHEM 2250 - Organic Chemistry I Credit Hours: 3PHYS 1100 - Physics I Credit Hours: 4',('Physician-Scientist', 'Fall - Credits: 17
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 4110 - Investigative Medicine I Credit Hours: 1BIOL 4200 - Biostatistics Credit Hours: 4BIOL 4270 - Human Physiology Credit Hours: 4BIOL 4760 - Molecular Biochemistry I Credit Hours: 4',('Physician-Scientist', 'Fall - Credits: 17
+HASS Core Elective Credit Hours: 4
+	(See footnote 2 below)
+
+BIOL 4110 - Investigative Medicine I Credit Hours: 1BIOL 4200 - Biostatistics Credit Hours: 4BIOL 4270 - Human Physiology Credit Hours: 4BIOL 4760 - Molecular Biochemistry I Credit Hours: 4',('Physician-Scientist', 'Summer III
+Research Credit Hours: 0
+	(See footnote 4 below)
+
+',('Physician-Scientist', 'Summer III
+Research Credit Hours: 0
+	(See footnote 4 below)
+
+',('Physics', 'First Year','Fall','{"HASS Core Elective Credit Hours: 4
 	(See footnote 1 below)","CSCI 1100 - Computer Science I Credit Hours: 4","MATH 1010 - Calculus I Credit Hours: 4","PHYS 1150 - Honors Physics I Credit Hours: 4"}'),
 ('Physics', 'First Year','Spring','{"Free Elective Credit Hours: 4","BIOL 1010 - Introduction to Biology Credit Hours: 3","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1250 - Honors Physics II Credit Hours: 4"}'),
 ('Physics', 'Second Year','Fall','{"HASS Core Elective Credit Hours: 4

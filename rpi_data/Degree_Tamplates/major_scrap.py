@@ -29,23 +29,33 @@ def scrapFromURL(webLink, major_db):
 
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
+
+    academicYear = False
     startScrap = False
     for items in clp20:
         state = 'newMajor'
         for div in items.find_all("div", recursive = False):
-            if (div.text == "First Year" ):
+            if (div.text == "First Year"):
                 startScrap = True
-            if(startScrap):
+            elif (div.text == div.text == "Academic Year I"):
+                startScrap = True
+                academicYear = True
 
+            if(startScrap):
                 if state == 'newMajor' or state =="newYear":
                     outFile.write(" Year: ")
-                    yearText = div.text.split()[0] + " Year"
+
+                    if not academicYear: #common case
+                        yearText = div.text.split()[0] + " Year"
+                    else:
+                        yearText = div.text
+
                     cur_entry = (major, yearText)
                     major_db[cur_entry] = {}
                     outFile.write(yearText)
                     state = 'regularYear'
 
-                    if yearText == "Fourth Year":
+                    if yearText == "Fourth Year" or yearText == "Academic Year IV":
                         state = 'lastYear'
                 else:
                     for sem in div.find_all("div", recursive = False):
@@ -61,7 +71,7 @@ def scrapFromURL(webLink, major_db):
                                 print("{}: {}".format(item, major_db[item]))
                             '''
                             outFile.write("  Sem: ")
-                            outFile.write(semName.text)
+                            outFile.write(semName.text.split()[0])
                             outFile.write("\n")
                             #major_db[cur_entry]["semester"] = semName.text
                             major_db[cur_entry][semName.text] = []
