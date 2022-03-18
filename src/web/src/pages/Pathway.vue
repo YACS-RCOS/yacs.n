@@ -2,11 +2,14 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+
+    <!-- button to switch between alphabet order and category order -->
     <div style="float: left" class="w-10">
       <b-button @click="listAlphabet()" style="margin-top: 10px; color: #007bff; border: solid #007bff; background-color: transparent;">List by Alphabet</b-button>
       <br/>
       <b-button @click="listCate()" style="margin-top: 10px; color: #007bff; border: solid #007bff; background-color: transparent;">List by Category</b-button>
     </div>
+
     <div v-if="categories.length > 0" class="mx-auto w-75">
       
       <!-- pop-up window -->
@@ -171,9 +174,10 @@ export default {
       return ret;
     },
 
-    // put all pathways in one array
+    // splited pathways to alphabet categories, then splited categories into 2 arrays, one array = one column
     alphabetCols() {
       let cols = [];
+      // put all pathways in one array
       for (var i = 0; i < this.categories.length; i++) {
         for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
           cols.push(this.categories[i]['Pathways'][j])
@@ -186,6 +190,7 @@ export default {
       let col2 = [];
       var half_length = Math.ceil(cols.length / 2);
       var count = 0;
+      // splited pathways to alphabet categories, then splited categories into 2 arrays
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = { 
           "Category Name": alphabet[n],
@@ -203,6 +208,7 @@ export default {
             tmp['Pathways'].splice(index, 0, cols[m]);
           }
         }
+        // splited categories into 2 arrays
         if (tmp['Pathways'].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
