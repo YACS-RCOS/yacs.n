@@ -14,7 +14,7 @@ SET "Semester" = 'Fall'
 WHERE "Semester" LIKE 'Fall%';
 
 SELECT * 
-FROM public."cleanedMmajorTemplates" 
+FROM public."cleanedMajorTemplates" 
 ORDER BY 
 "Major" ASC,
 array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
