@@ -32,12 +32,13 @@ def scrapFromURL(webLink, major_db):
 
     academicYear = False
     startScrap = False
+    
     for items in clp20:
         state = 'newMajor'
         for div in items.find_all("div", recursive = False):
             if (div.text.lower() == "first year"):
                 startScrap = True
-            elif (div.text == "Academic Year I"):
+            elif (div.text.lower() == "academic year i"):
                 startScrap = True
                 academicYear = True
 

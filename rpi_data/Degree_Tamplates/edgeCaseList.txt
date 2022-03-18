@@ -8,4 +8,7 @@ IN-PROGRESS:
 - Resolving web scraping process for majors that do not last 4 years (e.g Architecture, Physician-Scientist) to add/remove any extra iterations
 ------------------------------------------------
 NOT STARTED:
--
+- Certain courses have an extra line that has repetitive information about course credit (e.g for civil engineering, STSO 4100 has an extra line saying "Credits/Units: 2")
+- Cognitive Science page has a separate format for courses with many subcategories of courses to choose from
+- Computer and Systems Engineering page's 4th year category does not split the courses into semesters
+- Sometimes, students have an option to choose one of two courses but the formatting differs from major to major (e.g. CS 4th Year Prog Lang and Design, Innovation, and Society)
