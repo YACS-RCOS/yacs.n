@@ -1,15 +1,11 @@
 from .util import Client
 
-
-
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
 TEST_COURSE = {'name': 'ARCH-4770',
                'cid': '-1',
                'semester': 'SUMMER2020'}
-
-
 
 
 def test_user_course_get_success(post_user, client: Client):
@@ -19,7 +15,6 @@ def test_user_course_get_success(post_user, client: Client):
     assert course.status_code == 200
     d = client.get("/api/user/course", json=TEST_COURSE)
     data = d.json()[1]
-    print(d.json())
     assert data['course_name'] == TEST_COURSE['name']
     assert data['crn'] == TEST_COURSE['cid']
     assert data['semester'] == TEST_COURSE['semester']

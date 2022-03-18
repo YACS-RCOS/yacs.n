@@ -1,7 +1,5 @@
 from .util import Client
 
-
-
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
@@ -20,23 +18,17 @@ def test_user_course_delete_success(post_user, client: Client):
     course = client.post("/api/user/course", json=TEST_COURSE)
     assert course.status_code == 200
     d = client.get("/api/user/course", json=TEST_COURSE)
-    print ("before delete",len(d.json()))
     data = d.json()[1]
-    print(d.json())
     assert data['course_name'] == TEST_COURSE['name']
     assert data['crn'] == TEST_COURSE['cid']
     assert data['semester'] == TEST_COURSE['semester']
     x = client.delete("/api/user/course", json = TEST_COURSE)
     assert x.status_code == 200
     d = client.get("/api/user/course", json=TEST_COURSE)
-    print(d.text)
     data = d.json()
     for x in data:
-        #x = course.json()
         assert x['course_name'] is not TEST_COURSE['name']
         assert x['crn'] is not TEST_COURSE['cid']
-    #assert len(d.json()) ==1
-    print("after delete",len(d.json()))
     client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
 
 def test_user_course_delete_failure(client: Client):
