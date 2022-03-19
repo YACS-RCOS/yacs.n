@@ -1,53 +1,283 @@
 [
     {
-    "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
-      "Year": "First Year",
-      "Semester":"Fall",
-      "Courses": ["Science Core Elective Credit Hours: 4","(See footnote 6 below)","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","STSO 1110 - Science, Technology, and Society Credit Hours: 4 or MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4orMATH 1010 - Calculus I Credit Hours: 4(See footnote 6 below)"]
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "First Year",
+        "Semester": "Fall",
+        "Courses": [
+            "Science Core Elective Credit Hours: 4",
+            "(See footnote 6 below)",
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 5 below)",
+            "STSO 1110 - Science, Technology, and Society Credit Hours: 4 or MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4orMATH 1010 - Calculus I Credit Hours: 4(See footnote 6 below)"
+        ]
     },
     {
-      "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
-      "Y1": "First Year",
-      "Y1S1": [ "Fall","Science Core Elective Credit Hours: 4","(See footnote 6 below)","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","STSO 1110 - Science, Technology, and Society Credit Hours: 4 or MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4orMATH 1010 - Calculus I Credit Hours: 4(See footnote 6 below)"],
-      "Y1S2": [ "Spring","Science Core Elective Credit Hours: 4","(See footnote 6 below)","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","Intermediate STS course Credit Hours: 4","(See footnote 2 below)","MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4orMATH 1020 - Calculus II Credit Hours: 4"],
-      "Y2": "Second Year",
-      "Y2S1": [ "Fall","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","Science Core Elective Credit Hours: 4","(See footnote 6 below)","CAS Course Credit Hours: 4","(See footnote 7 below)","STSO 2100 - Investigating Society Credit Hours: 4"],
-      "Y2S2": [ "Spring","CAS Course Credit Hours: 4","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","Science Core Elective Credit Hours: 4","(See footnote 6 below)","Advanced STS Course Credit Hours: 4","(See footnote 3 below)"],
-      "Y3": "Third Year",
-      "Y3S1": [ "Fall","CAS Course Credit Hours: 4","Advanced STS Course Credit Hours: 4","STSO 4980 - Research Design Credit Hours: 4(See footnote 4 below)"],
-      "Y3S2": [ "Spring","HASS Core Elective Credit Hours: 4","(See footnote 5 below)","CAS Course Credit Hours: 4","STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"],
-      "Y4": "Fourth Year",
-      "Y4S1": [ "Fall","Federal Civil Procedure Credit Hours: 4","Contracts Credit Hours: 3","Property I Credit Hours: 2","Torts Credit Hours: 4","Introduction to Lawyering Credit Hours: 3"],
-      "Y4S2": [ "Spring","Constitutional Law Credit Hours: 4","(Course applied to HASS Core Elective)","Criminal Law Credit Hours: 3","Property II Credit Hours: 4","Introduction to Lawyering Credit Hours: 3","Contracts Credit Hours: 2"]
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "First Year",
+        "Semester": "Srping",
+        "Courses": [
+            "Science Core Elective Credit Hours: 4",
+            "(See footnote 6 below)",
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 5 below)",
+            "Intermediate STS course Credit Hours: 4",
+            "(See footnote 2 below)",
+            "MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4orMATH 1020 - Calculus II Credit Hours: 4"
+        ]
     },
     {
-      "Major": "Aeronautical Engineering Curriculum",
-      "Y1": "First Year",
-      "Y1S1": [ "Fall Semester (17 credits)","HASS Core Elective Credit Hours: 4","(See footnote 3 below)","ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4(See footnote 1 below)ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1(See footnote 1 and 2 below)MATH 1010 - Calculus I Credit Hours: 4PHYS 1100 - Physics I Credit Hours: 4"],
-      "Y1S2": [ "Spring Semester (17 credits)","HASS Core Elective Credit Hours: 4","(See footnote 3 below)","CHEM 1100 - Chemistry I Credit Hours: 4(See footnote 1 below)MANE 1060 - Fundamentals of Flight Credit Hours: 1(See footnote 4 below)MATH 1020 - Calculus II Credit Hours: 4PHYS 1200 - Physics II Credit Hours: 4"],
-      "Y2": "Second Year",
-      "Y2S1": [ "Fall Semester (16 credits)","SoE 2…. Engineering Design Elective","(See footnotes 1, 5, and 6 below)","ENGR 1300 - Engineering Processes Credit Hours: 1(See footnote 6 below)ENGR 2530 - Strength of Materials Credit Hours: 4(See footnote 1 below)MATH 2400 - Introduction to Differential Equations Credit Hours: 4(See footnote 1 below)MANE 2710 - Thermodynamics Credit Hours: 3(See footnote 1 below)"],
-      "Y2S2": [ "Spring Semester (17 credits)","HASS Core Elective  Credit Hours: 4","(See footnote 3 below)","ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3(See footnotes 1 and 6 below)MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3(See footnote 1 below)MANE 2720 - Fluid Mechanics Credit Hours: 3(See footnote 1 below)MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4(See footnote 1 below)"],
-      "Y3": "Third Year",
-      "Y3S1": [ "The Arch Summer Semester* (16 credits)*For students who have applied for and been granted an exception, the Arch Summer courses would be taken during the fall or spring semester. For instructions on the exception process go to: http://info.rpi.edu/arch/students/#ExceptionProcess.","Arch students must plan carefully for their preferred capstone design sequence. (See footnote 9 below)" ,"HASS Core Elective Credit Hours: 4","(See footnote 3 below)","ENGR 2090 - Engineering Dynamics Credit Hours: 4MANE 4060 - Aerospace Structures and Materials Credit Hours: 4MANE 4070 - Aerodynamics Credit Hours: 4"],
-      "Y3S2": [ "Fall or Spring Semester (16 credits)","Free Elective Credit Hours: 4 ","(See footnotes 6 and 9 below) ","STSS 4100 Professional Development II Credit Hours: 2","(See footnote 1, 6, and 7 below)","MANE 4500 - Modeling and Control of Dynamic Systems Credit Hours: 3(See footnote 6 below)MANE 4900 - Aeroelasticity and Structural Vibrations Credit Hours: 3MANE 4910 - Fluid Dynamics Laboratory Credit Hours: 2(See footnote 8 below)MANE 4920 - Aerospace Structures Laboratory Credit Hours: 2(See footnote 8 below)"],
-      "Y4": "Fourth Year",
-      "Y4S1": [ "Fall Semester (16 credits)","MANE 4…. Computation Elective Credit Hours: 3 ","(See footnotes 1, 6, and 10 below)","MANE 4…. Flight Mechanics Elective Credit Hours: 4","(See footnotes 9 and 11 below)","Free Elective Credit Hours: 4","MANE 4080 - Propulsion Systems Credit Hours: 3(See footnote 1 below)MANE 4510 - Control Systems Laboratory Credit Hours: 2(See footnotes 1 and 8 below)"],
-      "Y4S2": [ "Spring Semester (15 credits)","Free Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","​(See footnote 3 below) ","MANE 4…. Capstone Design Elective Credit Hours: 3","(See footnotes 9 and 12 below)","MANE 4…. Aerospace Technical Elective Credit Hours: 3","(See footnotes 1 and 13 below)","ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1"]
-     },
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Second Year",
+        "Semester": "Fall",
+        "Courses": [
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 5 below)",
+            "Science Core Elective Credit Hours: 4",
+            "(See footnote 6 below)",
+            "CAS Course Credit Hours: 4",
+            "(See footnote 7 below)",
+            "STSO 2100 - Investigating Society Credit Hours: 4"
+        ]
+    },
     {
-      "Major": "Applied Physics",
-      "Y1": "First Year",
-      "Y1S1": [ "Fall","HASS Elective Credit Hours: 4","(See footnote 1 below)","CSCI 1100 - Computer Science I Credit Hours: 4(See footnote 3 below)MATH 1010 - Calculus I Credit Hours: 4PHYS 1150 - Honors Physics I Credit Hours: 4(See footnote 2 below.)"],
-      "Y1S2": [ "Spring","Free Elective","BIOL 1010 - Introduction to Biology Credit Hours: 3BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1MATH 1020 - Calculus II Credit Hours: 4PHYS 1250 - Honors Physics II Credit Hours: 4(See footnote 2 below.)"],
-      "Y2": "Second Year",
-      "Y2S1": [ "Fall","HASS Elective, Credit Hours: 4","​(See footnote 1 below.)","CHEM 1100 - Chemistry I Credit Hours: 4MATH 2400 - Introduction to Differential Equations Credit Hours: 4PHYS 2210 - Quantum Physics I Credit Hours: 4"],
-      "Y2S2": [ "Spring","HASS Elective Credit Hours: 4","(See footnote 1 below.)","MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4PHYS 2220 - Quantum Physics II Credit Hours: 4PHYS 4330 - Theoretical Mechanics Credit Hours: 4"],
-      "Y3": "Third Year",
-      "Y3S1": [ "The Arch Summer Semester**For students who have applied for and been granted an exception, The Arch Summer courses would be taken during the fall semester. For listing of the exception process go to: http://info.rpi.edu/arch/students/#ExceptionProcess." ,"HASS Elective Credit Hours: 4","(See footnotes 1 and 8 below.)","Free Elective Credit Hours: 4","(See footnote 8 below.)","PHYS 2962Computing for Physicists Free Elective Credit Hours: 2","(See footnote 6 below.)","PHYS 2963 Mathematical Physics Free Elective Credit Hours: 2","(See footnote 7 below.)","PHYS 2350 - Experimental Physics Credit Hours: 4(See footnote 9 below)"],
-      "Y3S2": [ "Fall OR Spring**If following the B.S. in Applied Physics curriculum, students must select the spring term as their “on-campus” semester." ,"Technical Elective Credit Hours: 4","(See footnote 4 below.)","MATH 4600 - Advanced Calculus Credit Hours: 4PHYS 4210 - Electromagnetic Theory Credit Hours: 4PHYS 4420 - Thermodynamics and Statistical Mechanics Credit Hours: 4"],
-      "Y4": "Fourth Year",
-      "Y4S1": [ "Fall","Culminating Experience Credit Hours: 4","(See footnote 5 below.)","Technical Elective Credit Hours: 4","(See footnote 4 below.)","Technical Elective Credit Hours: 4","(See footnote 4 below.)","HASS Elective Credit Hours: 4","(See footnote 1 below.)"],
-      "Y4S2": [ "Spring","Technical Elective Credit Hours: 4","(See footnote 4 below.)","Free Elective Credit Hours: 4","HASS Elective Credit Hours: 4","(See footnote 1 below.)"]
-     }
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Second Year",
+        "Semester": "Spring",
+        "Courses": [
+            "CAS Course Credit Hours: 4",
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 5 below)",
+            "Science Core Elective Credit Hours: 4",
+            "(See footnote 6 below)",
+            "Advanced STS Course Credit Hours: 4",
+            "(See footnote 3 below)"
+        ]
+    },
+    {
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Third Year",
+        "Semester": "Fall",
+        "Courses": [
+            "CAS Course Credit Hours: 4",
+            "Advanced STS Course Credit Hours: 4",
+            "STSO 4980 - Research Design Credit Hours: 4(See footnote 4 below)"
+        ]
+    },
+    {
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Third Year",
+        "Semester": "Spring",
+        "Courses": [
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 5 below)",
+            "CAS Course Credit Hours: 4",
+            "STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Fourth Year",
+        "Semester": "Fall",
+        "Courses": [
+            "Federal Civil Procedure Credit Hours: 4",
+            "Contracts Credit Hours: 3",
+            "Property I Credit Hours: 2",
+            "Torts Credit Hours: 4",
+            "Introduction to Lawyering Credit Hours: 3"
+        ]
+    },
+    {
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Year": "Fourth Year",
+        "Semester": "Spring",
+        "Courses": [
+            "Constitutional Law Credit Hours: 4",
+            "(Course applied to HASS Core Elective)",
+            "Criminal Law Credit Hours: 3",
+            "Property II Credit Hours: 4",
+            "Introduction to Lawyering Credit Hours: 3",
+            "Contracts Credit Hours: 2"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "First Year",
+        "Semester": "Fall",
+        "Courses": [
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 3 below)",
+            "ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4(See footnote 1 below)ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1(See footnote 1 and 2 below)MATH 1010 - Calculus I Credit Hours: 4PHYS 1100 - Physics I Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "First Year",
+        "Semester": "Fall",
+        "Courses": [
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 3 below)",
+            "CHEM 1100 - Chemistry I Credit Hours: 4(See footnote 1 below)MANE 1060 - Fundamentals of Flight Credit Hours: 1(See footnote 4 below)MATH 1020 - Calculus II Credit Hours: 4PHYS 1200 - Physics II Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "Second Year",
+        "Semester": "Fall",
+        "Courses": [
+            "SoE 2…. Engineering Design Elective",
+            "(See footnotes 1, 5, and 6 below)",
+            "ENGR 1300 - Engineering Processes Credit Hours: 1(See footnote 6 below)ENGR 2530 - Strength of Materials Credit Hours: 4(See footnote 1 below)MATH 2400 - Introduction to Differential Equations Credit Hours: 4(See footnote 1 below)MANE 2710 - Thermodynamics Credit Hours: 3(See footnote 1 below)"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "Second Year",
+        "Semester": "Spring",
+        "Courses": [
+            "HASS Core Elective  Credit Hours: 4",
+            "(See footnote 3 below)",
+            "ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3(See footnotes 1 and 6 below)MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3(See footnote 1 below)MANE 2720 - Fluid Mechanics Credit Hours: 3(See footnote 1 below)MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4(See footnote 1 below)"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "Third Year",
+        "Semester": "Summer",
+        "Courses": [
+            "HASS Core Elective Credit Hours: 4",
+            "(See footnote 3 below)",
+            "ENGR 2090 - Engineering Dynamics Credit Hours: 4MANE 4060 - Aerospace Structures and Materials Credit Hours: 4MANE 4070 - Aerodynamics Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "Third Year",
+        "Semester": "Fall",
+        "Courses": [
+            "Free Elective Credit Hours: 4 ",
+            "(See footnotes 6 and 9 below) ",
+            "STSS 4100 Professional Development II Credit Hours: 2",
+            "(See footnote 1, 6, and 7 below)",
+            "MANE 4500 - Modeling and Control of Dynamic Systems Credit Hours: 3(See footnote 6 below)MANE 4900 - Aeroelasticity and Structural Vibrations Credit Hours: 3MANE 4910 - Fluid Dynamics Laboratory Credit Hours: 2(See footnote 8 below)MANE 4920 - Aerospace Structures Laboratory Credit Hours: 2(See footnote 8 below)"
+        ]
+    },
+    {
+        "Year": "Fourth Year",
+        "Semester": "Fall",
+        "Courses": [
+            "MANE 4…. Computation Elective Credit Hours: 3 ",
+            "(See footnotes 1, 6, and 10 below)",
+            "MANE 4…. Flight Mechanics Elective Credit Hours: 4",
+            "(See footnotes 9 and 11 below)",
+            "Free Elective Credit Hours: 4",
+            "MANE 4080 - Propulsion Systems Credit Hours: 3(See footnote 1 below)MANE 4510 - Control Systems Laboratory Credit Hours: 2(See footnotes 1 and 8 below)"
+        ]
+    },
+    {
+        "Major": "Aeronautical Engineering Curriculum",
+        "Year": "Fourth Year",
+        "Semester": "Spring",
+        "Courses": [
+            "Free Elective Credit Hours: 4",
+            "HASS Core Elective Credit Hours: 4",
+            "​(See footnote 3 below) ",
+            "MANE 4…. Capstone Design Elective Credit Hours: 3",
+            "(See footnotes 9 and 12 below)",
+            "MANE 4…. Aerospace Technical Elective Credit Hours: 3",
+            "(See footnotes 1 and 13 below)",
+            "ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "First Year",
+        "Semester": "Fall",
+        "Courses": [
+            "HASS Elective Credit Hours: 4",
+            "(See footnote 1 below)",
+            "CSCI 1100 - Computer Science I Credit Hours: 4(See footnote 3 below)MATH 1010 - Calculus I Credit Hours: 4PHYS 1150 - Honors Physics I Credit Hours: 4(See footnote 2 below.)"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "First Year",
+        "Semester": "Spring",
+        "Courses": [
+            "Free Elective",
+            "BIOL 1010 - Introduction to Biology Credit Hours: 3BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1MATH 1020 - Calculus II Credit Hours: 4PHYS 1250 - Honors Physics II Credit Hours: 4(See footnote 2 below.)"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Second Year",
+        "Semester": "Fall",
+        "Courses": [
+            "HASS Elective, Credit Hours: 4",
+            "​(See footnote 1 below.)",
+            "CHEM 1100 - Chemistry I Credit Hours: 4MATH 2400 - Introduction to Differential Equations Credit Hours: 4PHYS 2210 - Quantum Physics I Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Second Year",
+        "Semester": "Spring",
+        "Courses": [
+            "HASS Elective Credit Hours: 4",
+            "(See footnote 1 below.)",
+            "MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4PHYS 2220 - Quantum Physics II Credit Hours: 4PHYS 4330 - Theoretical Mechanics Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Third Year",
+        "Semester": "Summer",
+        "Courses": [
+            "HASS Elective Credit Hours: 4",
+            "(See footnotes 1 and 8 below.)",
+            "Free Elective Credit Hours: 4",
+            "(See footnote 8 below.)",
+            "PHYS 2962Computing for Physicists Free Elective Credit Hours: 2",
+            "(See footnote 6 below.)",
+            "PHYS 2963 Mathematical Physics Free Elective Credit Hours: 2",
+            "(See footnote 7 below.)",
+            "PHYS 2350 - Experimental Physics Credit Hours: 4(See footnote 9 below)"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Third Year",
+        "Semester": "Fall",
+        "Courses": [
+            "Technical Elective Credit Hours: 4",
+            "(See footnote 4 below.)",
+            "MATH 4600 - Advanced Calculus Credit Hours: 4PHYS 4210 - Electromagnetic Theory Credit Hours: 4PHYS 4420 - Thermodynamics and Statistical Mechanics Credit Hours: 4"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Fourth Year",
+        "Semester": "Fall",
+        "Courses": [
+            "Culminating Experience Credit Hours: 4",
+            "(See footnote 5 below.)",
+            "Technical Elective Credit Hours: 4",
+            "(See footnote 4 below.)",
+            "Technical Elective Credit Hours: 4",
+            "(See footnote 4 below.)",
+            "HASS Elective Credit Hours: 4",
+            "(See footnote 1 below.)"
+        ]
+    },
+    {
+        "Major": "Applied Physics",
+        "Year": "Fourth Year",
+        "Semester": "Spring",
+        "Courses": [
+            "Technical Elective Credit Hours: 4",
+            "(See footnote 4 below.)",
+            "Free Elective Credit Hours: 4",
+            "HASS Elective Credit Hours: 4",
+            "(See footnote 1 below.)"
+        ]
+    }
 ]
