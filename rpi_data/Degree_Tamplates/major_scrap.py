@@ -81,9 +81,15 @@ def scrapFromURL(webLink, major_db):
                                     lowercase_text = (litag.text).lower()
                                     text_to_add = litag.text
 
-                                    #skips many garbage empty edge cases
-                                    if (lowercase_text == ""  or lowercase_text == "\t" 
-                                        or lowercase_text == "\n" or lowercase_text == "or"):
+                                    #parse out any whitespace from the text_to_add (&nbsp from start)
+                                    text_to_add = text_to_add.strip()
+                                    
+                                    #skips cases that have just empty whitespace in its own litag
+                                    if (text_to_add == ""):
+                                        continue
+
+                                    #skips a lone "or" in an litag
+                                    if (lowercase_text == "or"):
                                         continue
 
                                     #remove descriptive things about courses from being courses themselves
@@ -96,12 +102,14 @@ def scrapFromURL(webLink, major_db):
                                         if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
                                             continue
 
-                                        #footnote is at the end of the course name, so parse from "(see" and on out
-                                        delete_position = lowercase_text.find("see")-3#-3for the \n\t(
+                                        #footnote is at the end of the course name, so remove from "(see" and on
+                                        delete_position = lowercase_text.find("see")-2 #-3for the \n\t(
                                         text_to_add = text_to_add[0:delete_position]
-                                        print("New text_to_add is", text_to_add)
 
-                                    # have < 4 so that 'and' and 'or' statement are not recorded
+                                    #remove unnecessary spaces inside the text itself
+                                    if (lowercase_text.find("  ") != -1 or lowercase_text.find("\t") != -1):
+                                        text_to_add = ' '.join(text_to_add.split())
+                                    
                                     outFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(litag.text)
                                     outFile.write(litag.text)

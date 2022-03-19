@@ -406,7 +406,6 @@ acalog-core
    Course: CHEM 2120 - Experimental Chemistry I: Analytical Techniques Credit Hours: 2
    Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
-   Course:  
 acalog-core
   Sem: Spring
    Course: Elective Credit Hours: 4
@@ -573,7 +572,6 @@ acalog-core
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
    Course: MATH 1020 - Calculus II Credit Hours: 4
    Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1
-   Course:  
    Course: PHYS 1100 - Physics I Credit Hours: 4
 
  Year: Second Year
@@ -925,7 +923,6 @@ acalog-core
    Course: IHSS 1610 - Design and Innovation Studio I Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
    Course: STSO 1110 - Science, Technology, and Society Credit Hours: 4
-   Course:  
 acalog-core
   Sem: Spring
    Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4
@@ -1228,7 +1225,6 @@ acalog-core
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
    Course: ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4
    Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1
-   Course:  
    Course: CIVL 2060 - Water Resources Engineering Credit Hours: 4
 
  Year: Third Year
@@ -1950,7 +1946,6 @@ acalog-core
    Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: STSO 4100 - Professional Development  2 –Technical Issues and Solutions Credit Hours: 2
-   Course:  
 acalog-core
   Sem: Spring 
    Course: Materials Science Elective Credit Hours: 4 
