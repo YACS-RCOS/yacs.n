@@ -3,3 +3,4 @@
 3. List the courses that need to taken in the future given current taken courses, major and year
 4. Seperating core and elevtive courses requirement and given some suggestions on possible elective choices.
 5. Linking the courses decription on Yacs so students can find out what kind of courses they are picking after realize what they have left.
+6. Given year, returning a list of all majors that offer that year and order them by alphabetical order without duplicated major
