@@ -65,14 +65,13 @@ def scrapFromURL(webLink, major_db):
                             semName = sem.find("h3")
                             if semName == None:
                                 semName = sem.find("h4")
-                            #print(sem.get("class")[0])
-                            #print(semName)
+                            
                             '''
                             for item in major_db.keys():
                                 print("{}: {}".format(item, major_db[item]))
                             '''
                             outFile.write("  Sem: ")
-                            outFile.write(semName.text.split()[0])
+                            outFile.write(semName.text)
                             outFile.write("\n")
                             #major_db[cur_entry]["semester"] = semName.text
                             major_db[cur_entry][semName.text] = []
@@ -91,7 +90,8 @@ def scrapFromURL(webLink, major_db):
                                     outFile.write("   Course: Culminating Experience ")    
                             for em in sem.find_all("em"):
                                 if em.text[:13] == "Credit Hours:":
-                                    outFile.write(em.text + "\n")             
+                                    outFile.write(em.text + "\n") 
+                                    break            
                     if state == "lastYear":
                         return major_db
                     state= "newYear"
@@ -105,12 +105,12 @@ major_db = {}
 f = open("majorURLlist.txt", "r")
 #fout = open("majorData.txt", "w")
 i = 0
-scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5507&returnto=542", major_db)
-"""
+#scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5507&returnto=542", major_db)
+
 for link in f:
     print(link)
     scrapFromURL(link, major_db)
-"""
+
 outFile.close()
 outFile2 = open("DBCommands.txt", "a")
 outFile2.truncate(0)
