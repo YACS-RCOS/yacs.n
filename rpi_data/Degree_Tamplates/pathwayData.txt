@@ -49,7 +49,6 @@ acalog-core
 	(See footnote 4 below)
    Course: BMED 4500 - Advanced Systems Physiology Credit Hours: 4
    Course: STSO 4100 - Professional Development  2 –Technical Issues and Solutions Credit Hours: 2
-   Course: (see footnote 2 below)
    Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
 
  Year: Fourth Year
@@ -78,7 +77,6 @@ acalog-core
    Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
    Course: IHSS 1200 - Principles of Economics Credit Hours: 4
-   Course: [See Footnote 1]
 acalog-core
   Sem: Spring
    Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3
@@ -176,9 +174,7 @@ acalog-core
    Course: Professional Elective Credit Hours: 2
    Course: Free Elective Credit Hours: 4
    Course: ARCH 4330 - Structures 2 Credit Hours: 3
-   Course: This course is required in either Fall Third year or Fall Fourth year.
    Course: ARCH 4510 - Construction Industry Seminar 1 Credit Hours: 2
-   Course: This course is required in either Fall Third year or Fall Fourth year.
 
  Year: Fourth Year
 acalog-core
@@ -187,9 +183,7 @@ acalog-core
    Course: Elective Credit Hours: 4
    Course: HASS Core Elective Credit Hours: 4
    Course: ARCH 4330 - Structures 2 Credit Hours: 3
-   Course: If If this course was not taken in Fall Third year then it must be taken in Fall Fourth year.
    Course: ARCH 4510 - Construction Industry Seminar 1 Credit Hours: 2
-   Course: If this course was not taken in Fall Third year then it must be taken in Fall Fourth year.
 acalog-core
   Sem: Spring
    Course: Elective Credit Hours: 4
@@ -332,6 +326,7 @@ acalog-core
    Course: HASS Elective Credit Hours: 4
    Course: CHME 1100 - Fundamentals of Chemical Engineering Credit Hours: 4
    Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3
+   Course: and
    Course: BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1
    Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1
    Course: ENGR 1400 - Engineering Communications Credit Hours: 1
@@ -411,6 +406,7 @@ acalog-core
    Course: CHEM 2120 - Experimental Chemistry I: Analytical Techniques Credit Hours: 2
    Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
+   Course:  
 acalog-core
   Sem: Spring
    Course: Elective Credit Hours: 4
@@ -530,7 +526,6 @@ acalog-core
    Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3
    Course: CHME 2010 - Material, Energy, and Entropy Balances Credit Hours: 3
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
-   Course: This course may be deferred until Spring and replaced by a HASS core elective.
 acalog-core
   Sem: Spring
    Course: CHEM 2030 - Inorganic Chemistry I Credit Hours: 3
@@ -538,7 +533,6 @@ acalog-core
    Course: CHEM 2290 - Experimental Chemistry II: Synthesis and Characterization Credit Hours: 3
    Course: CHEM 4200 - Industrial Chemistry Credit Hours: 3
    Course: CHME 4010 - Transport Phenomena I Credit Hours: 4
-   Course: If MATH-2400 was deferred to this semester, CHME-4010 should be deferred until the Summer Arch semester.
 
  Year: Third Year
 acalog-core
@@ -579,6 +573,7 @@ acalog-core
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
    Course: MATH 1020 - Calculus II Credit Hours: 4
    Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1
+   Course:  
    Course: PHYS 1100 - Physics I Credit Hours: 4
 
  Year: Second Year
@@ -654,7 +649,6 @@ acalog-core
    Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4
    Course: COGS 2340 - Introduction to Linguistics Credit Hours: 4
    Course: PHIL 2140 - Introduction to Logic Credit Hours: 4
-   Course: [See Footnote 1]
 acalog-core
   Sem: Spring
    Course: Free Elective Credit Hours: 4
@@ -898,7 +892,6 @@ acalog-core
    Course: Complementary Area of Study Credit Hours: 4
 	(See footnote 2 below)
    Course: STSO 4600 - Design and Innovation Studio A Credit Hours: 4
-   Course: (see footnote 5 below)
 acalog-core
   Sem: Fall OR Spring
    Course: Science Core Elective Credit Hours: 4
@@ -908,7 +901,6 @@ acalog-core
 	(See footnote 2 below)
    Course: STSO 4605 - Design and Innovation Studio B Credit Hours: 4
    Course: STSO 4610 - Design and Innovation  Studio C Credit Hours: 4
-   Course: (see footnote 5 below)
 
  Year: Fourth Year
 acalog-core
@@ -933,6 +925,7 @@ acalog-core
    Course: IHSS 1610 - Design and Innovation Studio I Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
    Course: STSO 1110 - Science, Technology, and Society Credit Hours: 4
+   Course:  
 acalog-core
   Sem: Spring
    Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4
@@ -1235,6 +1228,7 @@ acalog-core
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
    Course: ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4
    Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1
+   Course:  
    Course: CIVL 2060 - Water Resources Engineering Credit Hours: 4
 
  Year: Third Year
@@ -1309,7 +1303,6 @@ acalog-core
    Course: HASS Core Electives  Credit Hours: 8
    Course: Concentration Course or Free Elective  Credit Hours: 4
    Course: ERTH 4190 - Environmental Measurements Credit Hours: 4
-   Course: (see footnote 4 below)
 acalog-core
   Sem: Fall or Spring
    Course: Concentration Course or Free Elective  Credit Hours: 4
@@ -1957,6 +1950,7 @@ acalog-core
    Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: STSO 4100 - Professional Development  2 –Technical Issues and Solutions Credit Hours: 2
+   Course:  
 acalog-core
   Sem: Spring 
    Course: Materials Science Elective Credit Hours: 4 
@@ -2389,7 +2383,6 @@ acalog-core
    Course: Science Core Elective Credit Hours: 4
 	(See footnote 2 below)
    Course: IHSS 1240 - Sustainability Debates Credit Hours: 4
-   Course: (see footnote 3 below)
    Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
 acalog-core
@@ -2399,7 +2392,6 @@ acalog-core
 	(See footnote 2 below)
    Course: STSO 2300 - Environment and Society Credit Hours: 4
    Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4
-   Course: (see footnote 3 below)
    Course: or MATH 1020 - Calculus II Credit Hours: 4
 
  Year: Second Year

@@ -75,14 +75,37 @@ def scrapFromURL(webLink, major_db):
                             outFile.write("\n")
                             #major_db[cur_entry]["semester"] = semName.text
                             major_db[cur_entry][semName.text] = []
+
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
-                                    if not (len(litag.text) < 4 or litag.text[:4] == "(See"):
+                                    lowercase_text = (litag.text).lower()
+                                    text_to_add = litag.text
+
+                                    #skips many garbage empty edge cases
+                                    if (lowercase_text == ""  or lowercase_text == "\t" 
+                                        or lowercase_text == "\n" or lowercase_text == "or"):
+                                        continue
+
+                                    #remove descriptive things about courses from being courses themselves
+                                    if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
+                                        continue
+
+                                    #if the text has the word "see" in it
+                                    if (lowercase_text.find("see") != -1):
+                                        #skips case that contains "and"/"or" or course listing that starts with "see"
+                                        if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
+                                            continue
+
+                                        #footnote is at the end of the course name, so parse from "(see" and on out
+                                        delete_position = lowercase_text.find("see")-3#-3for the \n\t(
+                                        text_to_add = text_to_add[0:delete_position]
+                                        print("New text_to_add is", text_to_add)
+
                                     # have < 4 so that 'and' and 'or' statement are not recorded
-                                        outFile.write("   Course: ")
-                                        major_db[cur_entry][semName.text].append(litag.text)
-                                        outFile.write(litag.text)
-                                        outFile.write("\n")
+                                    outFile.write("   Course: ")
+                                    major_db[cur_entry][semName.text].append(litag.text)
+                                    outFile.write(litag.text)
+                                    outFile.write("\n")
                         else: 
                             #outFile.write(sem.text + "\n")
                             for h3 in sem.find_all("h4"):
