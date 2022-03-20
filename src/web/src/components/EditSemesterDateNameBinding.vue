@@ -1,62 +1,68 @@
 <template>
   <el-form
-    class="my-5 text-center"
+    class="form"
     ref="editSemesterForm"
     @submit.prevent="onSubmit"
   >
-    <input
+    <el-input
       type="hidden"
       name="semesterTitle"
       aria-label="Semester Title"
       :value="semesterTitle"
     />
     <h3>{{ semesterTitle }}</h3>
-    <b-form-checkbox
+    <el-checkbox
       v-model="isPublic"
       name="isPubliclyVisible"
       style="font-variant: small-caps;"
     >
       <span v-show="isPublic">
         Public
-        <font-awesome-icon :icon="eye" />
       </span>
       <span v-show="!isPublic">
         Admin Only
-        <font-awesome-icon :icon="closedEye" />
       </span>
-    </b-form-checkbox>
+    </el-checkbox>
     <hr />
-    <b-table
+    <el-table>
+
+    </el-table>
+    <el-table
       :id="`edit${semesterTitle.replace(' ', '')}Tbl`"
-      :items="subsemesters"
+      :data="subsemesters"
       :fields="displayedColumns"
+      style="width: 100%"
     >
-      <template v-slot:cell(dateRange)="data">
-        {{ formatDateRange(data.item.date_start, data.item.date_end) }}
-        <input
-          type="hidden"
-          name="date_start"
-          label="date_start"
-          :value="standardDate(data.item.date_start)"
-        />
-        <input
-          type="hidden"
-          name="date_end"
-          label="date_end"
-          :value="standardDate(data.item.date_end)"
-        />
-      </template>
-      <template v-slot:cell(semesterPartName)="data">
-        <input
-          type="text"
-          class="form-control text-dark"
-          name="semester_part_name"
-          label="semester_part_name"
-          v-model="inputtedSemesterPartNames[data.index]"
-        />
-      </template>
-    </b-table>
-    <button
+      <el-table-column label="Date Range">
+        <template v-slot:cell(dateRange)="data">
+          {{ formatDateRange(data.item.date_start, data.item.date_end) }}
+          <el-input
+            type="hidden"
+            name="date_start"
+            label="date_start"
+            :value="standardDate(data.item.date_start)"
+          />
+          <el-input
+            type="hidden"
+            name="date_end"
+            label="date_end"
+            :value="standardDate(data.item.date_end)"
+          />
+        </template>
+      </el-table-column>
+      <el-table-column label="Semester Part Name">
+        <template v-slot:cell(semesterPartName)="data">
+          <el-input
+            type="text"
+            class="form-control text-dark"
+            name="semester_part_name"
+            label="semester_part_name"
+            v-model="inputtedSemesterPartNames[data.index]"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-button
       type="submit"
       :class="{
         btn: true,
@@ -69,8 +75,7 @@
       :disabled="isDisabled"
     >
       Update
-      <b-spinner class="d-none" />
-    </button>
+    </el-button>
   </el-form>
 </template>
 
@@ -87,8 +92,8 @@ export default {
   },
   data() {
     return {
-      eye: faEye,
-      closedEye: faEyeSlash,
+      // eye: faEye,
+      // closedEye: faEyeSlash,
       displayedColumns: ["dateRange", "semesterPartName"],
       loading: false,
       isPublic: this.semesterInfo.public,
@@ -174,5 +179,14 @@ export default {
 <style scoped>
 .no-cursor {
   cursor: not-allowed;
+}
+
+.form {
+  text-align: center;
+}
+
+.table-title {
+  text-align: center;
+  color: black;
 }
 </style>
