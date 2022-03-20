@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        semester: [summer-2022]
+        semester: [fall-2022]
 
     steps:
       - name: Checkout repository
