@@ -4,6 +4,7 @@ version: "3.4"
 # web -> api -> db [dependency chain]
 
 services:
+
   yacs_web:
     ports:
       - 80:8080
@@ -37,7 +38,7 @@ services:
       - PROXY_CACHE_VALID=200=1s
       # ===== HTTPS config =====
       - AUTO_LETS_ENCRYPT=${AUTO_LE:-no}
-      - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-no}
+      - GENERATE_SELF_SIGNED_SSL=${SELF_CERT:-yes}
       - REDIRECT_HTTP_TO_HTTPS=yes
       # ===== ModSecurity =====
       - USE_MODSECURITY=no
@@ -85,5 +86,3 @@ services:
     build:
       context: ./rpi_data
       dockerfile: Dockerfile
-    depends_on:
-      - yacs_web
