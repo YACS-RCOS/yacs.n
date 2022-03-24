@@ -1,6 +1,8 @@
-from .util import Client
+from fastapi.testclient import TestClient 
+import pytest
 
-def test_department_success(upload, client: Client):
+@pytest.mark.testclient
+def test_department_success(upload, client: TestClient):
     assert upload.status_code == 200
 
     #Some sample of the departments that we make sure exist
