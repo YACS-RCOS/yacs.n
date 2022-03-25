@@ -121,15 +121,15 @@ async def get_departments():
 #     semesters, error = class_info.get_semesters()
 #     return jsonify(semesters) if not error else Response(error, status=500)
 #
-# @app.route('/api/semesterInfo', methods=['GET'])
-# def get_all_semester_info():
-#     all_semester_info, error = class_info.get_all_semester_info()
-#     return jsonify(all_semester_info) if not error else Response(error, status=500)
-#
-# @app.route('/api/defaultsemester', methods=['GET'])
-# def get_defaultSemester():
-#     semester, error = admin_info.get_semester_default()
-#     return jsonify(semester) if not error else Response(error, status=500)
+@app.get('/api/semesterInfo')
+def get_all_semester_info():
+    all_semester_info, error = class_info.get_all_semester_info()
+    return all_semester_info if not error else Response(error, status=500)
+
+@app.get('/api/defaultsemester')
+def get_defaultSemester():
+    semester, error = admin_info.get_semester_default()
+    return semester if not error else Response(error, status=500)
 #
 # @app.route('/api/defaultsemesterset', methods=['POST'])
 # def set_defaultSemester():
