@@ -1,5 +1,5 @@
 import pytest
-from fastapi import TestClient
+from fastapi.testclient import TestClient
 
 @pytest.mark.testclient
 def test_subsemeseter_spring2020(client: TestClient, upload):
