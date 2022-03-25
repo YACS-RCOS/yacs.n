@@ -7,3 +7,12 @@ class SessionPydantic(BaseModel):
 class SessionDeletePydantic(BaseModel):
     sessionID: str
 
+class UserPydantic(BaseModel):
+     name: str
+     email: str
+     phone: str
+     password: str
+     major: str
+     degree: str
+
+
