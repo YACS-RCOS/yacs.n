@@ -3,7 +3,8 @@ CREATE TABLE "public"."majorTemplates" (
     "Major" text NOT NULL,
     "Year" text NOT NULL,
     "Semester" text NOT NULL,
-    "Courses" text[]
+    "Courses" text[],
+	PRIMARY KEY ("Major", "Year", "Semester")
 ) WITH (oids = false);
 
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Biology', 'Third Year', 'Summer', '{"HASS Core Elective Credit Hours: 4
@@ -163,7 +164,6 @@ INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('C
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Communication, Media, and Design', 'Fourth Year', 'Spring', '{"HASS Core Elective Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4","Major Elective Credit Hours: 4"}');
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer and Systems Engineering', 'First Year', 'Spring', '{"ECSE 2610 - Computer Components and Operations Credit Hours: 4","CSCI 1200 - Data Structures Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4","PHYS 1100 - Physics I Credit Hours: 4"}');
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer and Systems Engineering', 'Second Year', 'Spring', '{"Science Elective Credit Hours: 4","HASS Core Elective Credit Hours: 4","ECSE 2010 - Electric Circuits Credit Hours: 4","CSCI 2300 - Introduction to Algorithms Credit Hours: 4"}');
-INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer Science', 'Fourth Year', 'Spring', '{"CS Option/Capstone Credit Hours 4","Free Elective or Computer Science Option/Capstone Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4"}');
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer Science', 'First Year', 'Spring', '{"HASS Core Elective Credit Hours: 4","BIOL 1010 - Introduction to Biology Credit Hours: 3","BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","CSCI 1200 - Data Structures Credit Hours: 4","MATH 1020 - Calculus II Credit Hours: 4"}');
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer Science', 'Second Year', 'Spring', '{"Mathematics Option II Credit Hours: 4","HASS Core Elective Credit Hours: 4","CSCI 2300 - Introduction to Algorithms Credit Hours: 4","CSCI 2600 - Principles of Software Credit Hours: 4"}');
 INSERT INTO "majorTemplates" ("Major", "Year", "Semester", "Courses") VALUES ('Computer Science', 'Fourth Year', 'Spring', '{"CS Option/Capstone Credit Hours 4","Free Elective or Computer Science Option/Capstone Credit Hours: 4","Free Elective Credit Hours: 4","Free Elective Credit Hours: 4"}');
