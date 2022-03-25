@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+from typing import Optional
+
 
 class SessionPydantic(BaseModel):
     email: str
@@ -8,4 +10,4 @@ class SessionDeletePydantic(BaseModel):
     sessionID: str
 
 class SubsemesterPydantic(BaseModel):
-    semester: str
+    semester: Optional[str] = None

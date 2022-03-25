@@ -5,6 +5,8 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
+from typing import Optional
+from fastapi import Depends, FastAPI
 
 from api_models import *
 import db.connection as connection
