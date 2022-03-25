@@ -9,12 +9,6 @@ DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
-# DB_HOST="localhost"
-# DB_USER="yacs"
-# DB_PASS="easy_dev_pass"
-# DB_NAME="yacs"
-# DB_PORT="5432"
-
 class database():
     def connect(self):
         self.conn = psycopg2.connect(
