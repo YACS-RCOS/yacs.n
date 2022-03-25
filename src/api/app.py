@@ -236,7 +236,7 @@ async def get_user_info(request: Request, session_id):
 
 @app.put('/api/user')
 async def update_user_info(user:updateUser):
-    if 'user' not in session:
+    if request.session['user']!=None:
         return Response("Not authorized", status=403)
 
     return user_controller.update_user(user)
