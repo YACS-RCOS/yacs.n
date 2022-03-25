@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -93,7 +93,6 @@ async def get_departments():
     departments, error = class_info.get_departments()
     return departments if not error else Response(content=error, status_code=500)
 
-
 @app.get('/api/subsemester')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
@@ -126,15 +125,16 @@ async def get_semesters():
     db_list = [dict(r) for r in semesters]
     return db_list if not error else Response(error, status_code=500)
 
-# @app.route('/api/semesterInfo', methods=['GET'])
-# def get_all_semester_info():
-#     all_semester_info, error = class_info.get_all_semester_info()
-#     return jsonify(all_semester_info) if not error else Response(error, status=500)
-#
-# @app.route('/api/defaultsemester', methods=['GET'])
-# def get_defaultSemester():
-#     semester, error = admin_info.get_semester_default()
-#     return jsonify(semester) if not error else Response(error, status=500)
+@app.get('/api/semesterInfo')
+def get_all_semester_info():
+    all_semester_info, error = class_info.get_all_semester_info()
+    return all_semester_info if not error else Response(error, status=500)
+
+@app.get('/api/defaultsemester')
+def get_defaultSemester():
+    semester, error = admin_info.get_semester_default()
+    return semester if not error else Response(error, status=500)
+
 #
 # @app.route('/api/defaultsemesterset', methods=['POST'])
 # def set_defaultSemester():
