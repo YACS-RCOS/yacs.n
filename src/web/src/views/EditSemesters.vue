@@ -51,7 +51,6 @@ export default {
       this.standardSemesterNames = new Set(
         subsemesters.map((subsemester) => subsemester.semester_name)
       );
-      console.log(subsemesters);
     });
     getAllSemesterInfo().then((sem_infos) => {
       this.semesterInfos = sem_infos;
