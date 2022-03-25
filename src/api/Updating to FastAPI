@@ -20,7 +20,7 @@ UPDATING YOUR ENDPOINTS
             depending on your database call's response types
 5. Updating pytests:
     * AFTER running your pytests as before to make sure your endpoint's functionality has not changed:
-        * Client becomes TestClient. Replace from util import Client with from fastapi import TestClient
+        * Client becomes TestClient. Replace from util import Client with from fastapi.testclient import TestClient
             and replace 'client: Client' with 'client: TestClient'
         * Mark your pytests as updated- import pytest and add the decorator (@pytest.mark.testclient)
             in front of each test case
