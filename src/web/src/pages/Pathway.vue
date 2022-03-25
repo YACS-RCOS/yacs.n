@@ -163,7 +163,7 @@ export default {
       let col1 = [];
       let col2 = [];
       for (var i = 0; i < this.categories.length; i++) {
-        if (i%2 == 0) {
+        if (i< this.categories.length/2) {
           col1.push(this.categories[i]);
         } else {
           col2.push(this.categories[i])
@@ -274,6 +274,7 @@ export default {
 }
 
 .category-title {
+  color:hsl(211,100%,60%);
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
