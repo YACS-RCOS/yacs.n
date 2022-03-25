@@ -1,6 +1,8 @@
 import pytest
+from typing import Optional
 from fastapi.testclient import TestClient
 @pytest.mark.testclient
+
 def test_subsemeseter_spring2020(client: TestClient, upload):
     """
     when subsemester endpoint is given an input such as Spring 2020 
@@ -14,7 +16,7 @@ def test_subsemeseter_spring2020(client: TestClient, upload):
     assert len(data) == 1
     assert data[0]["parent_semester_name"] == "SPRING 2020"
 
-def test_subsemester_nosemester(client, upload):
+def test_subsemester_nosemester(client: Optional[str] = None):
     """   
     when no subsemester is taken as input the subsemester endpoint should return all of the subsemesters
     contained in the upload data.

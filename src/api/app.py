@@ -95,7 +95,7 @@ async def get_departments():
 
 @app.get('/api/subsemester')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_subsemesters(subsemester: str):
+async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
     """
     GET /api/subsemester?semester={}
     Cached: 1 Hour
