@@ -1,9 +1,15 @@
 
 <template>
   <b-container fluid>
-    <b-button @click="listAlphabet()">List by Alphabet</b-button>
-    <b-button @click="listCate()">List by Category</b-button>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+
+    <!-- button to switch between alphabet order and category order -->
+    <div style="float: left" class="w-10">
+      <b-button @click="listAlphabet()" style="margin-top: 10px; color: #007bff; border: solid #007bff; background-color: transparent;">List by Alphabet</b-button>
+      <br/>
+      <b-button @click="listCate()" style="margin-top: 10px; color: #007bff; border: solid #007bff; background-color: transparent;">List by Category</b-button>
+    </div>
+
     <div v-if="categories.length > 0" class="mx-auto w-75">
       
       <!-- pop-up window -->
@@ -64,31 +70,31 @@
           </b-row>
         </b-col>
 
+        <!-- splited Pathways in alphabet order -->
         <b-col
-          v-for="(catCol, index) in categoryCols"
-          :key="`catCol-${index}`"
+          v-for="(alphCol, index) in alphabetCols"
+          :key="`alphCol-${index}`"
           md="6"
           v-show="alphShow"
         >
-        <p>Alphabet </p>
           <b-row
-            v-for="categoryObj in catCol"
-            :key="categoryObj['Category Name'][0]"
+            v-for="alphabetObj in alphCol"
+            :key="alphabetObj['Category Name'][0]"
             class="categoryBox border m-2 mb-4"
           >
             <b-col>
-              <!-- Category Title  -->
+              <!-- Alphabet Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ categoryObj["Category Name"][0] }}
+                  {{ alphabetObj["Category Name"][0] }}
                 </h3>
               </b-row>
               <!-- Pathway Names  -->
               <b-row>
 
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
-                  <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                  <!-- LOOP Through the Pathway Alphabet list -->
+                  <div v-for="pathway in alphabetObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
                       <div class="mt-1 mb-1 w-100">
                         <!-- pathway button -->
                         <b-button
@@ -102,11 +108,12 @@
                       </div>
                   </div>
                 </div>
-
+                
               </b-row>
             </b-col>
           </b-row>
         </b-col>
+
       </b-row>
     </div>
     <CenterSpinner
@@ -116,16 +123,6 @@
       loadingMessage="Pathways"
       :topSpacing="30"
     />
-
-    <b-row id = "Note" class="categoryBox">
-      <b-col>
-        <li>You can explore different pathway by clicking the pathway boxes. </li>
-        <li>You can also check out the courses by clicking the listed courses. </li>
-        <li>You will be directed to the department page if the course is not specified.</li>
-        <li>However, the course may show up as "Course not found" if the course is not being offer this semester. </li>
-      </b-col>
-    </b-row>
-
   </b-container>
 </template>
 
@@ -172,6 +169,57 @@ export default {
           col2.push(this.categories[i])
         }
       }
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
+    },
+
+    // splited pathways to alphabet categories, then splited categories into 2 arrays, one array = one column
+    alphabetCols() {
+      let cols = [];
+      // put all pathways in one array
+      for (var i = 0; i < this.categories.length; i++) {
+        for (var j = 0; j < this.categories[i]['Pathways'].length; j++){
+          cols.push(this.categories[i]['Pathways'][j])
+        }
+      }
+
+      let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      var half_length = Math.ceil(cols.length / 2);
+      var count = 0;
+      // splited pathways to alphabet categories, then splited categories into 2 arrays
+      for (var n = 0; n < alphabet.length; n++) {
+        var tmp = { 
+          "Category Name": alphabet[n],
+          "Pathways": []
+        }
+        for (var m = 0; m < cols.length; m++) {
+          if (cols[m]['Name'][0].startsWith(alphabet[n])) {
+            var index = 0;
+            while (index < tmp['Pathways'].length) {
+              if (cols[m]['Name'][0] < tmp['Pathways'][index]['Name'][0]) {
+                break;
+              }
+              index++;
+            }
+            tmp['Pathways'].splice(index, 0, cols[m]);
+          }
+        }
+        // splited categories into 2 arrays
+        if (tmp['Pathways'].length > 0) {
+          if (count < half_length) {
+            col1.push(tmp);
+            count += tmp['Pathways'].length + 0.2;
+          }
+          else {
+            col2.push(tmp);
+          }
+        }
+      }
+
       ret.push(col1);
       ret.push(col2);
       return ret;
