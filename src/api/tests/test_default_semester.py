@@ -1,6 +1,7 @@
-from .util import Client
+from fastapi.testclient import TestClient
 
-def test_default_semester_success(client: Client, upload):
+@pytest.mark.testclient
+def test_default_semester_success(client: TestClient, upload):
     r = client.get("/api/defaultsemester")
     data = r.json()
 
