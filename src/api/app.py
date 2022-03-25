@@ -207,7 +207,7 @@ async def uploadHandler(
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
-    if request.session['user']!=None:
+    if 'user' not in request.session:
         return Response("Not authorized", status=403)
 
     return user_controller.get_user_info(session_id)
@@ -236,7 +236,7 @@ async def get_user_info(request: Request, session_id):
 
 @app.put('/api/user')
 async def update_user_info(user:updateUser):
-    if request.session['user']!=None:
+    if 'user' not in request.session:
         return Response("Not authorized", status=403)
 
     return user_controller.update_user(user)
