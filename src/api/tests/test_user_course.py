@@ -1,4 +1,5 @@
-from .util import Client
+from fastapi.testclient import TestClient
+import pytest
 
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
@@ -9,10 +10,12 @@ TEST_USER_COURSE = {'name': 'ADMN-1824',
 }
 
 '''
-Test this api endpoint/file only with the following command line:
-pytest -s tests/test_user_course.py
+Test this api endpoint/file locally with the following command line:
+src/api/tests/test.sh
 '''
-def test_user_course_post_success(post_user, client: Client):
+@pytest.mark.testclient
+@pytest.mark.incompletedependency
+def test_user_course_post_success(post_user, client: TestClient):
     '''
     Test user course post by comparing it to user get course
     '''
@@ -28,7 +31,9 @@ def test_user_course_post_success(post_user, client: Client):
     d = client.delete("/api/session", json={"sessionID": sess.json()['content']['sessionID']})
     assert d.status_code == 200
 
-def test_user_course_post_failure(client: Client):
+@pytest.mark.testclient
+@pytest.mark.incompletedependency
+def test_user_course_post_failure(post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
     '''
@@ -40,9 +45,15 @@ def test_user_course_post_failure(client: Client):
     d = client.delete('/api/session', json={'sessionID': sessID})
     assert d.status_code == 200
 
-def test_course_post_not_authorized(client: Client):
+@pytest.mark.testclient
+#@pytest.mark.incompletedependency
+def test_course_post_not_authorized(client: TestClient):
     '''
     Test user course post without user session/login
     '''
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
-    assert r.status_code == 403
+    print(r.text)
+    assert r.status_code == 403 #422?
+    # data = r.json()
+    # assert data['content']['sessionID'] is not None
+

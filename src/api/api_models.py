@@ -9,5 +9,10 @@ class SessionPydantic(BaseModel):
 class SessionDeletePydantic(BaseModel):
     sessionID: str
 
+class UserCoursePydantic(BaseModel):
+    name: str
+    semester: str
+    cid: str
+
 class SubsemesterPydantic(BaseModel):
     semester: Optional[str] = None
