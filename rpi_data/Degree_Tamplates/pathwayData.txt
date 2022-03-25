@@ -1305,6 +1305,9 @@ acalog-core
    Course: HASS Core Elective  Credit Hours: 4
    Course: BIOL 4880 - Global Environmental Change Credit Hours: 4
    Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4
+acalog-core
+  Sem: Arch-Exempt Students
+Credit Hours:
 
  Year: Fourth Year
 acalog-core
@@ -1422,7 +1425,7 @@ acalog-core
 acalog-core
   Sem: Fall or Spring
    Course: Biology Requirement Credit Hours: 4
-	(See footnotes 2 and 4 below)
+	(See footnote 2 below)
    Course: Elective Credit Hours: 8
    Course: ERTH 4XXX selected from the ERTH Electives: (4 credits)
 
@@ -1434,9 +1437,8 @@ acalog-core
    Course: ERTH 2120 - Structural Geology Credit Hours: 4
 acalog-core
   Sem: Spring
-   Course: Culminating Experience Credit Hours: 3-4
-	(See footnote 3 below)
-   Course: Electives Credit Hours: 6-7 
+   Course: Culminating Experience  Credit Hours: 4
+   Course: Electives  Credit Hours: 6-7 
    Course: ERTH 4970 - Out-of-Classroom Experience in Earth Sciences Credit Hours: 2 to 4
    Course: ERTH 4980 - Undergraduate Research Thesis Credit Hours: 2 to 4
 Hydrogeology:
@@ -1535,8 +1537,8 @@ acalog-core
   Sem: The Arch Summer Semester*
    Course: HASS Core Elective IV Credits Hours: 4
    Course: ENGR 4760 - Engineering Economics Credit Hours: 3
-   Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
    Course: ISYE 4600 - Operations Research Methods Credit Hours: 4
+   Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
 acalog-core
   Sem: Fall OR Spring
    Course: Technical Elective I  Credit Hours: 3

@@ -150,13 +150,14 @@ cmd_sem1 = ""
 cmd_sem2 = ""
 cmds = []
 for major_year in major_db.keys():
-    #cmd_sem1 += "(\'{}\', \'{}\',".format(major_year[0], major_year[1])
-    #cmd_sem2 = cmd_sem1
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
-    #outFile2.write("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+
     i = 0
+    print(major_year)
+    print(major_db[major_year].keys())
     for sem in major_db[major_year].keys():
+        print(i)
         cmds[i] += "\'{}\',\'{{".format(sem)
         for course in major_db[major_year][sem]:
             cmds[i] += "\"{}\",".format(course)
@@ -166,7 +167,7 @@ for major_year in major_db.keys():
     for command in cmds:
         outFile2.write(command)
     cmds.clear()
-        
+    
 outFile2.close()   
         
     
