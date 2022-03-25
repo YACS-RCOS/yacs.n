@@ -1,7 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
-from typing import Optional
-from fastapi import Depends, FastAPI
+from fastapi import TestClient
 
 @pytest.mark.testclient
 def test_subsemeseter_spring2020(client: TestClient, upload):
@@ -17,6 +15,7 @@ def test_subsemeseter_spring2020(client: TestClient, upload):
     assert len(data) == 1
     assert data[0]["parent_semester_name"] == "SPRING 2020"
 
+@pytest.mark.testclient
 def test_subsemester_nosemester(client, upload):
     """   
     when no subsemester is taken as input the subsemester endpoint should return all of the subsemesters
@@ -28,6 +27,7 @@ def test_subsemester_nosemester(client, upload):
     data = r.json()
     assert len(data) == 4
 
+@pytest.mark.testclient
 def test_subsemester_invalid_semester(client):
     """
     invalid input to subsemester to subsemester endpoint such as "moon 2050" 
