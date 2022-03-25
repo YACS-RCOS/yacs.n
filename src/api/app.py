@@ -294,3 +294,4 @@ def log_out(request: Request, session: SessionDeletePydantic):
 #
 #     courses, error = course_select.get_selection(session['user']['user_id'])
 #     return jsonify(courses) if not error else Response(error, status=500)
+    
