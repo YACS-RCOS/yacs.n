@@ -1,5 +1,5 @@
 import pytest
-from fastapi import TestClient
+from fastapi.testclient import TestClient
 from typing import Optional
 from fastapi import Depends, FastAPI
 
