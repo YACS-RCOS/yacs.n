@@ -1,3 +1,4 @@
+import pytest
 from fastapi.testclient import TestClient
 
 @pytest.mark.testclient
