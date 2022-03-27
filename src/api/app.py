@@ -211,11 +211,12 @@ async def add_user(user: UserPydantic):
     return user_controller.add_user(user.dict())
 
 @app.delete('/api/user')
-async def delete_user(request: Request, session: SessionDeletePydantic):
-    if 'user' not in session:
+async def delete_user(request: Request, session: UserDeletePydantic):
+
+    if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    return user_controller.delete_user(request.dict())
+    return user_controller.delete_user(session.dict())
 
 # @app.route('/api/user', methods=['PUT'])
 # def update_user_info():

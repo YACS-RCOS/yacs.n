@@ -16,4 +16,8 @@ class UserPydantic(BaseModel):
      major: str
      degree: str
 
+class UserDeletePydantic(BaseModel):
+    sessionID: str
+    password: str
+
 
