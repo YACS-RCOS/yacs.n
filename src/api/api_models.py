@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class SessionPydantic(BaseModel):
     email: str
     password: str
@@ -20,4 +21,10 @@ class UserDeletePydantic(BaseModel):
     sessionID: str
     password: str
 
+class UserCoursePydantic(BaseModel):
+    name: str
+    semester: str
+    cid: str
 
+class SubsemesterPydantic(BaseModel):
+    semester: Optional[str] = None
