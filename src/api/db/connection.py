@@ -1,5 +1,4 @@
-import psycopg2
-import psycopg2.extras
+from tortoise import Tortoise
 import os
 
 # connection details
@@ -10,13 +9,23 @@ DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
 class database():
-    def connect(self):
-        self.conn = psycopg2.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASS,
-            host=DB_HOST,
-            port=DB_PORT,
+    async def connect(self):
+        await Tortoise.init(
+            {
+                "connections": {
+                    "default": {
+                        "engine": "tortoise.backends.asyncpg",
+                        "credentials": {
+                            "host": DB_HOST,
+                            "port": DB_PORT,
+                            "user": DB_USER,
+                            "password": DB_PASS,
+                            "database": DB_NAME,
+                        },
+                    }
+                },
+                "apps": {"models": {"models": ["models"], "default_connection": "default"}},
+            },
         )
         print("[INFO] Database Connected")
 
