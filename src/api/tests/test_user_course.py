@@ -51,7 +51,4 @@ def test_course_post_not_authorized(client: TestClient):
     '''
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
     print(r.text)
-    assert r.status_code == 403 #422?
-    # data = r.json()
-    # assert data['content']['sessionID'] is not None
-
+    assert r.status_code == 403
