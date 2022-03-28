@@ -5,7 +5,6 @@ TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_session_post_success(post_user, client: TestClient):
     '''
     Test session post with valid credentials
@@ -31,7 +30,6 @@ def test_session_post_failure(client: TestClient):
     assert data['content'] is None
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_session_delete_success(post_user, client: TestClient):
     '''
     Test session delete with valid input

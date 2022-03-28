@@ -6,7 +6,6 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_bulk_upload_success(upload, client: Client):
     '''
     Test bulk upload. This will upload data and verify the data is received and stored.

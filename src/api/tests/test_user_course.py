@@ -32,7 +32,6 @@ def test_user_course_post_success(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_user_course_post_failure(post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
@@ -46,7 +45,6 @@ def test_user_course_post_failure(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
-#@pytest.mark.incompletedependency
 def test_course_post_not_authorized(client: TestClient):
     '''
     Test user course post without user session/login
