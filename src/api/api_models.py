@@ -7,3 +7,9 @@ class SessionPydantic(BaseModel):
 class SessionDeletePydantic(BaseModel):
     sessionID: str
 
+class CourseDeletePydantic(BaseModel):
+    course_name: str
+    cid: str
+    semester: str
+
+

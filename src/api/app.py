@@ -262,19 +262,22 @@ def log_out(request: Request, session: SessionDeletePydantic):
 #
 #
 # @app.route('/api/user/course', methods=['DELETE'])
-# def remove_student_course():
-#     info = request.json
-#
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-#     return Response(status=200) if not error else Response(error, status=500)
-#
-# @app.route('/api/user/course', methods=['GET'])
-# def get_student_courses():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     courses, error = course_select.get_selection(session['user']['user_id'])
-#     return jsonify(courses) if not error else Response(error, status=500)
+@app.delete('/api/user/course')
+def remove_student_course(courseDelete:CourseDeletePydantic):
+    # info = request.json
+
+    # if 'user' not in request.session:
+    #     return Response("Not authorized", status_code=403)
+    if (request.session['user']!=None):
+        return Response("Not authorized", status_code=403)
+    resp,error = course_select.remove_selection(courseDelete,request.session['user']['user_id'])
+    # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
+    return Response(status=200) if not error else Response(error, status=500)
+
+@app.route('/api/user/course', methods=['GET'])
+def get_student_courses():
+    if 'user' not in session:
+        return Response("Not authorized", status=403)
+
+    courses, error = course_select.get_selection(session['user']['user_id'])
+    return jsonify(courses) if not error else Response(error, status=500)
