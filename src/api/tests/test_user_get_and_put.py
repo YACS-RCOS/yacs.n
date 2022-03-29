@@ -14,6 +14,12 @@ TEST_USER_SIGNUP = { 'email': 'test@email.com',
                      'degree': 'Undergraduate',
                      'major': 'CSCI' }
 
+TEST_USER_SIGNUP_REVERT = { 'email': 'test@email.com',
+                     'name': 'TestName',
+                     'phone': '',
+                     'newPassword': '123456',
+                     'degree': 'Undergraduate',
+                     'major': 'CSCI' }
 
 TEST_USER2 = { 'email': "test2@email.com",
               'password': "1234567" }
@@ -133,7 +139,9 @@ def test_put_user_success(client:TestClient,post_user):
     assert data['content']['name'] == TEST_USER_SIGNUP2['name']
     assert data['content']['phone'] == TEST_USER_SIGNUP2['phone']
     assert data['content']['uid'] is not None
-    r = client.put("/api/user",json = TEST_USER_SIGNUP)
+    TEST_USER_SIGNUP_REVERT['sessionID'] = sessionid
+    r = client.put("/api/user",json = TEST_USER_SIGNUP_REVERT)
+
     r=client.delete("/api/session", json={'sessionID': sessionid})
 
 
