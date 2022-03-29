@@ -30,25 +30,9 @@
       :fields="displayedColumns"
       style="width: 100%"
     >
-      <el-table-column 
-        label="Date Range"
-        v-for="item in subsemesters"
-        :key = "item"
-        >
-        {{ formatDateRange(item.date_start, item.date_end) }}
-        <template>
-          <el-input
-            type="hidden"
-            name="date_start"
-            label="date_start"
-            :value="standardDate(item.date_start)"
-          />
-          <el-input
-            type="hidden"
-            name="date_end"
-            label="date_end"
-            :value="standardDate(item.date_end)"
-          />
+      <el-table-column label="Date Range">
+        <template #default="scope">
+          {{ formatDateRange(scope.row.date_start, scope.row.date_end) }}
         </template>
       </el-table-column>
       <el-table-column label="Semester Part Name">
@@ -60,9 +44,9 @@
           v-model="inputtedSemesterPartNames[subsemesters.index]"
           />
       </el-table-column>
+
     </el-table>
     <el-button
-      type="submit"
       @click="onSubmit"
       :class="{
         btn: true,
@@ -108,8 +92,13 @@ export default {
   methods: {
     onSubmit(event) {
       if (!this.loading) {
-        console.log("update clicked");
         console.log(this.inputtedSemesterPartNames);
+        this.loading = true;
+        let formData = new FormData();
+        formData.append("semester_part_name", this.inputtedSemesterPartNames);
+        console.log(formData);
+        let submittedSemesterPartNames = formData.getAll("semester_part_name");
+        console.log(submittedSemesterPartNames);
         // let submitBtn = event.target.querySelector("button[type='submit']");
         // let spinner = submitBtn.querySelector("span.spinner-border");
         // // Stop any current animation if user clicks while it's happening
@@ -118,26 +107,26 @@ export default {
         // spinner.classList.remove("d-none");
         // let formData = new FormData(event.target);
         // let submittedSemesterPartNames = formData.getAll("semester_part_name");
-        // postDateMapping(formData)
-        //   .then((res) => {
-        //     // Update the set subsemester names since the response
-        //     // has come back with a 2xx status. Meaning we can't submit the form
-        //     // with the same name twice (unless there's >1 input and we change one of those)
-        //     for (var i in this.subsemesters) {
-        //       var subsemester = this.subsemesters[i];
-        //       subsemester.display_string = submittedSemesterPartNames[i];
-        //     }
-        //     submitBtn.classList.add("success");
-        //     console.log(res);
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //     submitBtn.classList.add("fail");
-        //   })
-        //   .finally(() => {
-        //     spinner.classList.add("d-none");
-        //     this.loading = false;
-        //   });
+        postDateMapping(formData)
+          .then((res) => {
+            // Update the set subsemester names since the response
+            // has come back with a 2xx status. Meaning we can't submit the form
+            // with the same name twice (unless there's >1 input and we change one of those)
+            for (var i in this.subsemesters) {
+              var subsemester = this.subsemesters[i];
+              subsemester.display_string = submittedSemesterPartNames[i];
+            }
+            // submitBtn.classList.add("success");
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+            // submitBtn.classList.add("fail");
+          })
+          .finally(() => {
+            // spinner.classList.add("d-none");
+            this.loading = false;
+          });
       }
     },
     removeFeedbackClasses(btn) {
