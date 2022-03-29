@@ -240,7 +240,7 @@ async def delete_user(request: Request, session: UserDeletePydantic):
 
 
 @app.put('/api/user')
-async def update_user_info(user:updateUser):
+async def update_user_info(request:Request, user:updateUser):
     if 'user' not in request.session:
         return Response("Not authorized", status=403)
 
