@@ -38,6 +38,7 @@ def scrapFromURL(webLink, major_db):
         for div in items.find_all("div", recursive = False):
             if (div.text.lower() == "first year"):
                 startScrap = True
+            # academic year appears for certain majors, so the splitting process differs for these majors
             elif (div.text.lower() == "academic year i"):
                 startScrap = True
                 academicYear = True
@@ -153,9 +154,15 @@ for major_year in major_db.keys():
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
 
+    print("cmds:", cmds)
+
     i = 0
-    print(major_year)
-    print(major_db[major_year].keys())
+    print("major_year:", major_year)
+    print("major_year.keys():", major_db[major_year].keys())
+
+    # temporary solution to solve edge case where years for majors don't have semesters = 2
+    if len(major_db[major_year].keys()) != 2:
+        continue
     for sem in major_db[major_year].keys():
         print(i)
         cmds[i] += "\'{}\',\'{{".format(sem)
@@ -169,8 +176,8 @@ for major_year in major_db.keys():
     cmds.clear()
     
 outFile2.close()   
-        
-    
+
+
 
 
  
