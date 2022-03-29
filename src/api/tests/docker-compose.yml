@@ -1,0 +1,37 @@
+version: "3.4"
+
+volumes:
+  postgres_data:
+
+services:
+  yacs_api_test:
+    container_name: yacs_api_test
+    stdin_open: true
+    tty: true
+    build:
+      context: ../
+      dockerfile: ./tests/Dockerfile
+    depends_on:
+      - yacs_db
+    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && tests/test.sh"
+    environment:
+      - ENV=development
+      - DEBUG=True
+      - DB_HOST=yacs_db
+      - DB_USER=yacs
+      - DB_PASS=${DB_PASS:-easy_dev_pass}
+      - DB_NAME=yacs
+      - DB_PORT=5432
+
+  yacs_db:
+    restart: unless-stopped
+    container_name: yacs_db
+    image: postgres:12-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=yacs
+      - POSTGRES_USER=yacs
+      - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
