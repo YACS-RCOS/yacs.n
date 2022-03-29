@@ -1,0 +1,104 @@
+1. Find courses given major and year
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'First Year' as theYear;
+
+SELECT * 
+FROM public."cleanedMajorTemplates" 
+WHERE
+"Major" = (select majorName from givenMajor)
+and "Year" = (select theYear from givenYear)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
+
+2. Find courses should already taken given current taken courses, major and year
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT unnest("Courses")
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") < array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
+
+3. List the courses that need to taken in the future given current taken courses, major and year
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT unnest("Courses")
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") >= array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
+ORDER BY 
+"Major" ASC,
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") ASC,
+array_position(array['Spring','Summer','Fall'], "Semester") ASC;
+
+drop view if exists givenMajor;
+drop view if exists givenYear;
+drop view if exists givenSemester;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+create view givenSemester as select 'Fall' as theSemester;
+SELECT unnest("Courses")
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") < array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
+UNION
+SELECT unnest("Courses")
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") = array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)
+and array_position(array['Spring','Summer','Fall'], "Semester") <= array_position(array['Spring','Summer','Fall'], (select theSemester from givenSemester))
+;
+
+4. Seperating core and elevtive courses requirement and given some suggestions on possible elective choices.
+--------Core---------
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT "course" FROM
+(SELECT unnest("Courses") as "course"
+FROM public."cleanedMajorTemplates" 
+WHERE
+"Major" = (select majorName from givenMajor)) AS "c"
+WHERE
+LOWER("course") not like('%elective%')
+--------Elective---------
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT "course" FROM
+(SELECT unnest("Courses") as "course"
+FROM public."cleanedMajorTemplates" 
+WHERE
+"Major" = (select majorName from givenMajor)) AS "c"
+WHERE
+LOWER("course") like('%elective%')
+--------Suggestion---------
+drop view if exists givenMajor;
+drop view if exists givenYear;
+create view givenMajor as select 'Accelerated Science, Technology, and Society (Law) B.S./J.D.' as majorName;
+create view givenYear as select 'Second Year' as theYear;
+SELECT "course" FROM
+(SELECT unnest("Courses") as "course"
+FROM public."cleanedMajorTemplates" 
+WHERE
+array_position(array['First Year','Second Year','Third Year','Fourth Year'], "Year") >= array_position(array['First Year','Second Year','Third Year','Fourth Year'], (select theYear from givenYear))
+and "Major" = (select majorName from givenMajor)) AS "c"
+WHERE
+LOWER("course") like('%elective%')
