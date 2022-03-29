@@ -1,4 +1,6 @@
-from tortoise import Tortoise
+from tortoise import Tortoise, run_async
+from tortoise.transactions import in_transaction
+from tortoise.exceptions import OperationalError
 import os
 
 # connection details
@@ -29,32 +31,29 @@ class database():
         )
         print("[INFO] Database Connected")
 
-    def close(self):
-        self.conn.close()
+    async def close(self):
+        await Tortoise.close_connections()
 
-    def execute(self, sql, args, isSELECT=True):
-        cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    async def execute(self, sql, args, isSELECT=True):
         ret = None
         try:
-            if isSELECT:
-                cur.execute(sql, args)
-                ret = cur.fetchall()
-            else:
-                cur.execute(sql, args)
-                ret = 0
-                self.conn.commit()
+            async with in_transaction() as tconn:
+                if isSELECT:
+                    ret = await tconn.execute_query_dict(sql % args)
+                else:
+                    tconn.execute_query_dict(sql % args)
+                    ret = 0
 
-        except psycopg2.Error as e:
+        except OperationalError as e:
             print("DATABASE ERROR: ", end="")
             print(e)
-            self.conn.rollback()
             return (ret, e)
 
         return (ret, None)
 
     def get_connection(self):
-        return self.conn
+        return Tortoise.get_connection()
 
 
 db = database()
-db.connect()
+run_async(db.connect())

@@ -1,4 +1,6 @@
+import asyncio
 from fastapi.testclient import TestClient
+from models import UserAccount
 import pytest
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
@@ -12,7 +14,8 @@ TEST_USER_SIGNUP = { 'email': 'test@email.com',
 
 # pytest -s tests/test_user.py
 @pytest.mark.testclient
-def test_user_post_success(post_user, client: TestClient):
+@pytest.mark.tortoise
+def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a valid new user into the session
     '''
@@ -21,11 +24,13 @@ def test_user_post_success(post_user, client: TestClient):
     assert r.status_code == 200
     assert data['content'] is not None
     assert data['content']['msg'] == "User added successfully."
-    r = client.post('/api/session', json={"email":"test12@gmail.com", "password":"test123"})
-    assert r.status_code == 200
-    client.delete("/api/user", json={"sessionID":r.json()['content']['sessionID'], 'password':'test123'})
+
+    user = event_loop.run_until_complete(UserAccount.get(email="test12@gmail.com"))
+    assert user is not None
+    assert user.name == "test2"
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_post_failure(post_user, client: TestClient):
     '''
     add a invalid new user into the session
@@ -36,6 +41,7 @@ def test_user_post_failure(post_user, client: TestClient):
     assert r.status_code == 200
     
 @pytest.mark.testclient
+# @pytest.mark.tortoise
 def test_user_delete_success(post_user, client: TestClient):
     '''
     delete a valid user in the session
@@ -48,10 +54,9 @@ def test_user_delete_success(post_user, client: TestClient):
     r=client.post('/api/user', json=TEST_USER_SIGNUP)
     assert r.status_code == 200
     data = r.json()
-    # assert data['content'] is not None
-    # assert data['content']['msg'] == "User added successfully."
 
 @pytest.mark.testclient
+# @pytest.mark.tortoise
 def test_user_delete_failure(post_user, client: TestClient):
     '''
     delete a not exist user in the session
@@ -65,6 +70,7 @@ def test_user_delete_failure(post_user, client: TestClient):
     assert data2['errMsg'] == "Wrong password."
 
 @pytest.mark.testclient
+# @pytest.mark.tortoise
 def test_user_delete_failure2(post_user, client: TestClient):
     '''
     delete the session, then try to delete user

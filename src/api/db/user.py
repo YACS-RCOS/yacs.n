@@ -1,55 +1,27 @@
 from db.model import *
+from models.user_account import UserAccount
+
 
 class User(Model):
     def __init__(self):
         super().__init__()
 
-    def get_user(self, uid='%', name='%', email='%', password='%', phone='%', major='%', degree='%', enable=True):
-        sql = """   SELECT user_id, name, email, phone,password,major,degree,enable,admin,super_admin
-                    FROM public.user_account
-                    WHERE   user_id::text   LIKE %s AND
-                            name        LIKE %s AND
-                            email       LIKE %s AND
-                            phone       LIKE %s AND
-                            password    LIKE %s AND
-                            major       LIKE %s AND
-                            degree      LIKE %s AND
-                            enable = %s"""
+    async def get_user(self, args):
+        user = await UserAccount.filter(**args).values()
+        return user
 
-        args = (str(uid), name, email, phone, password, major, degree, enable)
-        return self.db.execute(sql, args, True)[0]
+    async def add_user(self, args):
+        added_user = await UserAccount.create(**args)
+        return added_user
 
-    def add_user(self, args):
-        sql = """
-                INSERT INTO
-                    public.user_account (
-                        name,
-                        email,
-                        phone,
-                        password,
-                        major,
-                        degree,
-                        enable
-                    )
-                VALUES (
-                    %(Name)s,
-                    %(Email)s,
-                    %(Phone)s,
-                    %(Password)s,
-                    %(Major)s,
-                    %(Degree)s,
-                    %(Enable)s
-                )
-                """
-        return self.db.execute(sql, args, False)[0]
-
-    def delete_user(self, uid):
+    async def delete_user(self, uid):
         sql = """DELETE FROM student_course_selection WHERE user_id=%s;
                  DELETE FROM public.user_account WHERE user_id = %s;"""
         args = (uid,uid)
-        return self.db.execute(sql, args, False)[0]
+        deleted_user = await self.db.execute(sql, args, False)
+        return deleted_user[0]
 
-    def update_user(self, args):
+    async def update_user(self, args):
         sql = """   UPDATE
                         public.user_account
                     SET
@@ -62,4 +34,5 @@ class User(Model):
                     WHERE
                         user_id = %(UID)s;
                     """
-        return self.db.execute(sql, args, False)[0]
+        updated_user = await self.db.execute(sql, args, False)
+        return updated_user[0]

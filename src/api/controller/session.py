@@ -5,7 +5,7 @@ from datetime import datetime
 import view.message as msg
 
 
-def delete_session(form):
+async def delete_session(form):
     if not assert_keys_in_form_exist(form, ['sessionID']):
         return msg.error_msg("Please check your request body.")
 
@@ -13,7 +13,7 @@ def delete_session(form):
 
     given_session_id = form['sessionID']
 
-    session_founded = sessions.get_session(session_id=given_session_id)
+    session_founded = await sessions.get_session(session_id=given_session_id)
 
     if session_founded is None:
         return msg.error_msg("Failed to find given session")
@@ -26,14 +26,14 @@ def delete_session(form):
 
     end_time = datetime.utcnow()
 
-    res = sessions.end_session(session_id=given_session_id, end_time=end_time)
+    res = await sessions.end_session(session_id=given_session_id, end_time=end_time)
     if res is None:
         return msg.error_msg("Failed to end this session.")
 
     return msg.success_msg({"sessionID": given_session_id, "endTime": str(end_time)})
 
 
-def add_session(form):
+async def add_session(form):
     if not assert_keys_in_form_exist(form, ['email', 'password']):
         return msg.error_msg("Please check the inputs.")
 
@@ -42,7 +42,7 @@ def add_session(form):
 
     (email, password) = (form['email'], form['password'])
 
-    users_founded = users.get_user(email=email, password=encrypt(password), enable=True)
+    users_founded = await users.get_user(email=email, password=encrypt(password), enable=True)
     if users_founded == None:
         return msg.error_msg("Failed to validate user information.")
 
@@ -53,7 +53,7 @@ def add_session(form):
     new_session_id = sessions.create_session_id()
     start_time = datetime.utcnow()
 
-    res = sessions.start_session(new_session_id, uid, start_time)
+    res = await sessions.start_session(new_session_id, uid, start_time)
 
     if res == None:
         return msg.error_msg("Failed to start a new session.")

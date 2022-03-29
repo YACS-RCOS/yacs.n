@@ -4,7 +4,7 @@ import view.message as msg
 from common import *
 
 
-def get_user_info(session_id):
+async def get_user_info(session_id):
     users = UserModel()
     sessions = SessionModel()
 
@@ -12,12 +12,7 @@ def get_user_info(session_id):
     if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0].values()
-
-    if end_time is not None:
-        return msg.error_msg("This session already canceled.")
-
-    user = users.get_user(uid=uid)
+    user = await users.get_user(uid=uid)
 
     if len(user) == 0:
         return msg.error_msg("Unable to find the user")
@@ -27,7 +22,7 @@ def get_user_info(session_id):
     return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
 
 
-def update_user(form):
+async def update_user(form):
     users = UserModel()
     sessions = SessionModel()
 
@@ -78,7 +73,7 @@ def update_user(form):
     return msg.success_msg({})
 
 
-def delete_user(form):
+async def delete_user(form):
     users = UserModel()
     sessions = SessionModel()
 
@@ -89,7 +84,7 @@ def delete_user(form):
     session_id = form['sessionID']
 
     # Get User according to sessionID
-    session = sessions.get_session(session_id)
+    session = await sessions.get_session(session_id)
 
     if len(session) == 0:
         return msg.error_msg("Unable to find the session.")
@@ -122,7 +117,7 @@ def delete_user(form):
     return msg.success_msg({"uid": uid, "sessionID": session_id})
 
 
-def add_user(form):
+async def add_user(form):
     users = UserModel()
 
     if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
@@ -150,7 +145,7 @@ def add_user(form):
     if len(password) > 255:
         return msg.error_msg("Password cannot exceed 255 characters.")
 
-    findUser = users.get_user(email=email, enable=True)
+    findUser = await users.get_user({'email':email, 'enable':True})
 
     if findUser is None:
         return msg.error_msg("Failed to find user.")
@@ -159,15 +154,15 @@ def add_user(form):
         return msg.error_msg("User already exists. (Email already in use)")
 
     args = {
-        "Name": name,
-        "Email": email,
-        "Phone": phone,
-        "Password": encrypt(password),
-        "Major": major,
-        "Degree": degree,
-        "Enable": True
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "password": encrypt(password),
+        "major": major,
+        "degree": degree,
+        "enable": True
     }
-    res = users.add_user(args)
+    res = await users.add_user(args)
     if res is None:
         return msg.error_msg("Failed to add user.")
 
