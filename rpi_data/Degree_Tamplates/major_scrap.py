@@ -28,12 +28,17 @@ def scrapFromURL(webLink, major_db):
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
     startScrap = False #set to true if we have reached the first year information
+    academicYear = False
 
     for items in clp20:
         state = 'newMajor'
         for div in items.find_all("div", recursive = False):
-            if (div.text == "First Year" ):
+            if (div.text.lower() == "first year"):
                 startScrap = True
+            #edge case where first year is written as "academic year"
+            elif (div.text.lower() == "academic year i"):
+                startScrap = True
+                academicYear = True
             
             #we've navigated through the divs until the First Year which will be followed by all classes
             if(startScrap):
@@ -42,7 +47,11 @@ def scrapFromURL(webLink, major_db):
                     majorOutFile.write(" Year: ")
 
                     #parse year data
-                    yearText = div.text.split()[0] + " Year"
+                    if not academicYear: #common case
+                        yearText = div.text.split()[0] + " Year"
+                    else:
+                        yearText = div.text
+
                     cur_entry = (major, yearText)
 
                     #initialize a database entry that is a pair of major and year
@@ -50,7 +59,7 @@ def scrapFromURL(webLink, major_db):
                     majorOutFile.write(yearText)
 
                     state = 'regularYear'
-                    if yearText == "Fourth Year":
+                    if yearText == "Fourth Year" or yearText == "Academic Year IV":
                         state = 'lastYear'
                 else:
                     for sem in div.find_all("div", recursive = False):
@@ -94,7 +103,7 @@ def scrapFromURL(webLink, major_db):
                                             continue
 
                                         #footnote is at the end of the course name, so remove from "(see" and on
-                                        delete_position = lowercase_text.find("see")-2 #-3for the \n\t(
+                                        delete_position = lowercase_text.find("see")-2
                                         text_to_add = text_to_add[0:delete_position]
 
                                     #remove unnecessary spaces inside the text itself
@@ -107,8 +116,18 @@ def scrapFromURL(webLink, major_db):
                                     majorOutFile.write(text_to_add)
                                     majorOutFile.write("\n")
                             #is there another edge case where some are not in ul or li                                        
-                        #else:
-                        # edge case where it is leftpad20                     
+                        
+                        else:
+                            # edge case where it is leftpad20
+                            for h3 in sem.find_all("h4"):
+                                if h3.text == "Culminating Experience":
+                                    majorOutFile.write("   Course: Culminating Experience ")    
+                            for em in sem.find_all("em"):
+                                if em.text[:13] == "Credit Hours:":
+                                    majorOutFile.write(em.text + "\n") 
+                                    break  
+
+                                               
                     if state == "lastYear":
                         #done reading data so end the scrape  
                         majorOutFile.write("\n")
@@ -149,6 +168,9 @@ for major_year in major_db.keys():
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
 
     i = 0
+    # temporary solution to solve edge case where years for majors don't have semesters = 2
+    if len(major_db[major_year].keys()) != 2:
+        continue
     for sem in major_db[major_year].keys():
         cmds[i] += "\'{}\',\'{{".format(sem)
         for course in major_db[major_year][sem]:
