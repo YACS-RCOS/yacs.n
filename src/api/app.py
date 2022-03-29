@@ -211,18 +211,18 @@ async def uploadHandler(
 #     return user_controller.get_user_info(session_id)
 #
 #
-# @app.route('/api/user', methods=['POST'])
-# def add_user():
-#     return user_controller.add_user(request.json)
-#
-# @app.route('/api/user', methods=['DELETE'])
-# def delete_user():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     return user_controller.delete_user(request.json)
-#
-#
+@app.post('/api/user')
+async def add_user(user: UserPydantic):
+    return user_controller.add_user(user.dict())
+
+@app.delete('/api/user')
+async def delete_user(request: Request, session: UserDeletePydantic):
+
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.delete_user(session.dict())
+
 # @app.route('/api/user', methods=['PUT'])
 # def update_user_info():
 #     if 'user' not in session:

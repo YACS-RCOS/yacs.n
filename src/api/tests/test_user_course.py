@@ -32,7 +32,6 @@ def test_user_course_post_success(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_user_course_post_failure(post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
@@ -41,19 +40,17 @@ def test_user_course_post_failure(post_user, client: TestClient):
     sess = client.post("/api/session", json=TEST_USER).json()
     sessID = sess['content']['sessionID']
     r = client.post("/api/user/course", json=TEST_INVALID_USER_COURSE)
-    assert r.status_code == 500
+    assert r.status_code == 422
     d = client.delete('/api/session', json={'sessionID': sessID})
     assert d.status_code == 200
 
 @pytest.mark.testclient
-#@pytest.mark.incompletedependency
 def test_course_post_not_authorized(client: TestClient):
     '''
     Test user course post without user session/login
     '''
+    sess = client.post("/api/session", json=TEST_USER).json()
+    client.delete("/api/session", json={'sessionID': sess['content']['sessionID']})
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
     print(r.text)
-    assert r.status_code == 403 #422?
-    # data = r.json()
-    # assert data['content']['sessionID'] is not None
-
+    assert r.status_code == 403
