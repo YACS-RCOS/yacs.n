@@ -32,7 +32,7 @@ Test this api endpoint/file only with the following command line:
 pytest -s tests/test_user_course.py
 '''
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
+# @pytest.mark.incompletedependency
 def test_get_user_success(client: TestClient, post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
@@ -55,7 +55,7 @@ def test_get_user_success(client: TestClient, post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
+# @pytest.mark.incompletedependency
 def test_get_user_failed(client: TestClient,post_user):
     '''
     Test user get with invalid sessionID
@@ -79,7 +79,7 @@ def test_get_user_failed(client: TestClient,post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
+# @pytest.mark.incompletedependency
 def test_get_user_after_session_closed(client: TestClient,post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP after session is closed.
@@ -98,7 +98,7 @@ def test_get_user_after_session_closed(client: TestClient,post_user):
 
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
+# @pytest.mark.incompletedependency
 def test_put_user_success(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
@@ -137,7 +137,7 @@ def test_put_user_success(client:TestClient,post_user):
 
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
+# @pytest.mark.incompletedependency
 def test_put_user_after_session_closed(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2

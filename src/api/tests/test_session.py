@@ -5,7 +5,6 @@ TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_session_post_success(post_user, client: TestClient):
     '''
     Test session post with valid credentials
@@ -17,7 +16,7 @@ def test_session_post_success(post_user, client: TestClient):
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == "TestName"
-    client.delete("/api/session", {'sessionID': data['content']['sessionID']})
+    client.delete("/api/session", json={'sessionID': data['content']['sessionID']})
 
 @pytest.mark.testclient
 def test_session_post_failure(client: TestClient):
@@ -31,7 +30,6 @@ def test_session_post_failure(client: TestClient):
     assert data['content'] is None
 
 @pytest.mark.testclient
-@pytest.mark.incompletedependency
 def test_session_delete_success(post_user, client: TestClient):
     '''
     Test session delete with valid input

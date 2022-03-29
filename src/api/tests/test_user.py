@@ -1,4 +1,5 @@
-from .util import Client
+from fastapi.testclient import TestClient
+import pytest
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
@@ -10,7 +11,8 @@ TEST_USER_SIGNUP = { 'email': 'test@email.com',
                      'major': 'CSCI' }
 
 # pytest -s tests/test_user.py
-def test_user_post_success(post_user, client: Client):
+@pytest.mark.testclient
+def test_user_post_success(post_user, client: TestClient):
     '''
     add a valid new user into the session
     '''
@@ -23,7 +25,8 @@ def test_user_post_success(post_user, client: Client):
     assert r.status_code == 200
     client.delete("/api/user", json={"sessionID":r.json()['content']['sessionID'], 'password':'test123'})
 
-def test_user_post_failure(post_user, client: Client):
+@pytest.mark.testclient
+def test_user_post_failure(post_user, client: TestClient):
     '''
     add a invalid new user into the session
     '''
@@ -32,7 +35,8 @@ def test_user_post_failure(post_user, client: Client):
     assert data['content'] is None
     assert r.status_code == 200
     
-def test_user_delete_success(post_user, client: Client):
+@pytest.mark.testclient
+def test_user_delete_success(post_user, client: TestClient):
     '''
     delete a valid user in the session
     '''
@@ -47,7 +51,8 @@ def test_user_delete_success(post_user, client: Client):
     # assert data['content'] is not None
     # assert data['content']['msg'] == "User added successfully."
 
-def test_user_delete_failure(post_user, client: Client):
+@pytest.mark.testclient
+def test_user_delete_failure(post_user, client: TestClient):
     '''
     delete a not exist user in the session
     '''
@@ -59,7 +64,8 @@ def test_user_delete_failure(post_user, client: Client):
     data2 = r2.json()
     assert data2['errMsg'] == "Wrong password."
 
-def test_user_delete_failure2(post_user, client: Client):
+@pytest.mark.testclient
+def test_user_delete_failure2(post_user, client: TestClient):
     '''
     delete the session, then try to delete user
     '''
