@@ -10,6 +10,8 @@ from .student_course_selection import StudentCourseSelection
 from .user_account import UserAccount
 from .user_event import UserEvent
 from .user_session import UserSession
+from .majorTemplates import MajorTemplates
+
 
 from .database import Base
 from .database_session import SessionLocal
