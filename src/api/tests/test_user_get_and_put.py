@@ -133,6 +133,7 @@ def test_put_user_success(client:TestClient,post_user):
     assert data['content']['name'] == TEST_USER_SIGNUP2['name']
     assert data['content']['phone'] == TEST_USER_SIGNUP2['phone']
     assert data['content']['uid'] is not None
+    r = client.put("/api/user",json = TEST_USER_SIGNUP)
     r=client.delete("/api/session", json={'sessionID': sessionid})
 
 
@@ -146,6 +147,7 @@ def test_put_user_after_session_closed(client:TestClient,post_user):
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
     data = r.json()
+
     assert data['content'] is not None
     assert data['content']['sessionID'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
