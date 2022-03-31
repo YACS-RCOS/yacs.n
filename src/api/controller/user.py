@@ -12,6 +12,11 @@ async def get_user_info(session_id):
     if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
+    (sessionid, uid, start_time, end_time) = session[0].values()
+
+    if end_time is not None:
+        return msg.error_msg("This session already canceled.")
+
     user = await users.get_user(uid=uid)
 
     if len(user) == 0:
@@ -123,12 +128,12 @@ async def add_user(form):
     if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
         return msg.error_msg("Please check your requests.")
 
-    name = form['name']# if form['name'] != '' else "NULL"
-    email = form['email']# if form['email'] != '' else "NULL"
-    phone = form['phone']# if form['phone'] != '' else "NULL"
-    password = form['password']# if form['password'] != '' else "NULL"
-    major = form['major']# if form['major'] != '' else "NULL"
-    degree = form['degree']# if form['degree'] != '' else "NULL"
+    name = form['name']
+    email = form['email']
+    phone = form['phone']
+    password = form['password']
+    major = form['major']
+    degree = form['degree']
 
     if name.strip() == "":
         return msg.error_msg("Username cannot be empty.")
@@ -154,13 +159,13 @@ async def add_user(form):
         return msg.error_msg("User already exists. (Email already in use)")
 
     args = {
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "password": encrypt(password),
-        "major": major,
-        "degree": degree,
-        "enable": True
+        "Name": name,
+        "Email": email,
+        "Phone": phone,
+        "Password": encrypt(password),
+        "Major": major,
+        "Degree": degree,
+        "Enable": True
     }
 
     res = await users.add_user(args)

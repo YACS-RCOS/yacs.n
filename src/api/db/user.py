@@ -36,13 +36,13 @@ class User(Model):
                         enable
                     )
                 VALUES (
-                    '%(name)s',
-                    '%(email)s',
-                    '%(phone)s',
-                    '%(password)s',
-                    '%(major)s',
-                    '%(degree)s',
-                    '%(enable)s'
+                    '%(Name)s',
+                    '%(Email)s',
+                    '%(Phone)s',
+                    '%(Password)s',
+                    '%(Major)s',
+                    '%(Degree)s',
+                    '%(Enable)s'
                 )
                 """
         added_user = await self.db.execute(sql, args, False)
