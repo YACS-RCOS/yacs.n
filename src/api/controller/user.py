@@ -32,16 +32,6 @@ def update_user(user:updateUser):
     users = UserModel()
     sessions = SessionModel()
 
-    # if not assert_keys_in_form_exist(form, ['sessionID', 'name', 'email', 'phone', 'newPassword', 'major', 'degree']):
-    #     return msg.error_msg("Please check your requests.")
-
-    # name = form['name']
-    # session_id = form['sessionID']
-    # email = form['email']
-    # phone = form['phone']
-    # new_password = form['newPassword']
-    # major = form['major']
-    # degree = form['degree']
     name = user.name
     session_id = user.sessionID
     email = user.email
