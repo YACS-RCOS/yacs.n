@@ -19,11 +19,13 @@ Here are some basic instructions for what we need to do for each layer in this c
 - You can also create new entries in the database with <model>.create(...) rather than posting new entries via the API, just make sure you are doing it correctly and preferrably removing entries after your test case finishes.
 - Database calls are asynchronous so you can use the test fixture event_loop to run the calls
     - See the first test case in test_user.py for an example of this
+- Clear your model in the conftest.py file. There is a clear_tables() function with examples of how to do this.
     
 ## API
 
 - This layer is straightforward. The interface used should remain the same here. We will only need to await any database calls. Note that some cases try to manipulate the results of the query, you need to await the call, save it to a variable, and then you can manipulate it.
 - This also means labeling any endpoints as asynchronous if not already marked as such.
+- You will also need to uncomment/update any imports needed from the database layers.
 
 ## Controller
 
@@ -48,3 +50,11 @@ Here are some basic instructions for what we need to do for each layer in this c
     docker compose -f src/api/tests/docker-compose.yml up --build --abort-on-container-exit
     
 - Only pay attention to errors raised directly by yacs_db_test and yacs_api_test. The --abort-on-container-exit is shutting down the db container when the tests finish which should leave a message like "ERRO[0008] 0" at the very end.
+
+
+## Hints:
+
+- If you run into any weird database issues where it is interpreting input as columns or something weird like that, try adding single quotes around the input (typically %s in the sql query string)
+- If your sql query is selecting from or inserting into 'public.<table>' remove the 'public.'
+- If your sql query consists of multiple commands, you will need to break it into two and run them seperately.
+- If you want to see all query logs from the database, uncomment the last line in src/api/tests/docker-compose.yml and run again. This logs all queries made to the database, not just failed ones.

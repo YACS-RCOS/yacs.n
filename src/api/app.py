@@ -47,20 +47,20 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 # semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
-# def is_admin_user(session):
-#     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
-#         return True
-#     return False
-#
-# @app.get('/')
-# @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def root(request: Request):
-#     return Response(content='YACS API is Up!',)
-#
-# @app.get('/api')
-# def apiroot():
-#     return Response(content='wow')
-#
+def is_admin_user(session):
+    if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
+        return True
+    return False
+
+@app.get('/')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def root(request: Request):
+    return Response(content='YACS API is Up!',)
+
+@app.get('/api')
+def apiroot():
+    return Response(content='wow')
+
 # @app.get('/api/class')
 # @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 # async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
