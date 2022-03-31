@@ -98,7 +98,7 @@ async def delete_user(form):
     if password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
 
-    findUser = users.get_user(uid=uid, password=encrypt(password), enable=True)
+    findUser = await users.get_user(uid=uid, password=encrypt(password), enable=True)
     if findUser is None:
         return msg.error_msg("Failed to find user.")
 
@@ -106,13 +106,13 @@ async def delete_user(form):
         return msg.error_msg("Wrong password.")
 
     # Delete User
-    ret = users.delete_user(uid)
+    ret = await users.delete_user(uid)
 
     if ret is None:
         return msg.error_msg("Failed to delete user.")
 
     # Revoke all sessions
-    sessions.end_session(uid=uid)
+    await sessions.end_session(uid=uid)
 
     return msg.success_msg({"uid": uid, "sessionID": session_id})
 
@@ -123,12 +123,12 @@ async def add_user(form):
     if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
         return msg.error_msg("Please check your requests.")
 
-    name = form['name']
-    email = form['email']
-    phone = form['phone']
-    password = form['password']
-    major = form['major']
-    degree = form['degree']
+    name = form['name']# if form['name'] != '' else "NULL"
+    email = form['email']# if form['email'] != '' else "NULL"
+    phone = form['phone']# if form['phone'] != '' else "NULL"
+    password = form['password']# if form['password'] != '' else "NULL"
+    major = form['major']# if form['major'] != '' else "NULL"
+    degree = form['degree']# if form['degree'] != '' else "NULL"
 
     if name.strip() == "":
         return msg.error_msg("Username cannot be empty.")
@@ -145,7 +145,7 @@ async def add_user(form):
     if len(password) > 255:
         return msg.error_msg("Password cannot exceed 255 characters.")
 
-    findUser = await users.get_user({'email':email, 'enable':True})
+    findUser = await users.get_user(email=email, enable=True)
 
     if findUser is None:
         return msg.error_msg("Failed to find user.")
@@ -162,6 +162,7 @@ async def add_user(form):
         "degree": degree,
         "enable": True
     }
+
     res = await users.add_user(args)
     if res is None:
         return msg.error_msg("Failed to add user.")

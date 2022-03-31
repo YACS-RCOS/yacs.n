@@ -1,11 +1,9 @@
-from sqlalchemy import Column, PrimaryKeyConstraint
-from sqlalchemy.dialects.postgresql import INTEGER, TIMESTAMP, UUID
+from tortoise import fields
+from tortoise.models import Model
 
 
-class UserSession(Base):
-    __tablename__ = "user_session"
-
-    session_id = fields.IntField(pk=True)
+class UserSession(Model):
+    session_id = fields.UUIDField(pk=True)
     user_id = fields.IntField(nullable=False)
     # start_time = Column(TIMESTAMP(timezone=True))
     start_time = fields.DatetimeField()

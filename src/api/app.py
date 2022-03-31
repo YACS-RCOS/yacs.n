@@ -18,7 +18,7 @@ from api_models import *
 import db.connection
 import db.user as UserModel
 import controller.user as user_controller
-# import controller.session as session_controller
+import controller.session as session_controller
 # import controller.userevent as event_controller
 from io import StringIO
 import json
@@ -230,27 +230,27 @@ async def delete_user(request: Request, session: UserDeletePydantic):
 #         return Response("Not authorized", status=403)
 #
 #     return user_controller.update_user(request.json)
-#
-#
-# @app.post('/api/session')
-# async def log_in(request: Request, credentials: SessionPydantic):
-#     session_res = session_controller.add_session(credentials.dict())
-#     if (session_res['success']):
-#         session_data = session_res['content']
-#         # [0] b/c conn.exec uses fetchall() which wraps result in list
-#         user = users.get_user(uid=session_data['uid'])[0]
-#         request.session['user'] = user
-#     return session_res
-#
-# @app.delete('/api/session')
-# def log_out(request: Request, session: SessionDeletePydantic):
-#     response = session_controller.delete_session(session.dict())
-#
-#     if response['success']:
-#         request.session.pop('user', None)
-#
-#     return response
-#
+
+
+@app.post('/api/session')
+async def log_in(request: Request, credentials: SessionPydantic):
+    session_res = await session_controller.add_session(credentials.dict())
+    if (session_res['success']):
+        session_data = session_res['content']
+        # [0] b/c conn.exec uses fetchall() which wraps result in list
+        user = await users.get_user(uid=session_data['uid'])
+        request.session['user'] = user[0]
+    return session_res
+
+@app.delete('/api/session')
+async def log_out(request: Request, session: SessionDeletePydantic):
+    response = await session_controller.delete_session(session.dict())
+
+    if response['success']:
+        request.session.pop('user', None)
+
+    return response
+
 #
 # @app.post('/api/event')
 # def add_user_event(request: Request, credentials: SessionPydantic):

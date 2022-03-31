@@ -6,24 +6,59 @@ class User(Model):
     def __init__(self):
         super().__init__()
 
-    async def get_user(self, args):
-        user = await UserAccount.filter(**args).values()
-        return user
+    async def get_user(self, uid='%', name='%', email='%', password='%', phone='%', major='%', degree='%', enable=True):
+        sql = """   SELECT user_id, name, email, phone, password, major, degree, enable, admin, super_admin
+                    FROM public.user_account
+                    WHERE   user_id::text   LIKE '%s' AND
+                            name        LIKE '%s' AND
+                            email       LIKE '%s' AND
+                            phone       LIKE '%s' AND
+                            password    LIKE '%s' AND
+                            major       LIKE '%s' AND
+                            degree      LIKE '%s' AND
+                            enable = '%s'"""
+
+        args = (str(uid), name, email, phone, password, major, degree, enable)
+        user = await self.db.execute(sql, args, True)
+        return user[0]
 
     async def add_user(self, args):
-        added_user = await UserAccount.create(**args)
-        return added_user
+        # return await UserAccount.create(**args)
+        sql = """
+                INSERT INTO
+                    user_account (
+                        name,
+                        email,
+                        phone,
+                        password,
+                        major,
+                        degree,
+                        enable
+                    )
+                VALUES (
+                    '%(name)s',
+                    '%(email)s',
+                    '%(phone)s',
+                    '%(password)s',
+                    '%(major)s',
+                    '%(degree)s',
+                    '%(enable)s'
+                )
+                """
+        added_user = await self.db.execute(sql, args, False)
+        return added_user[0]
 
     async def delete_user(self, uid):
-        sql = """DELETE FROM student_course_selection WHERE user_id=%s;
-                 DELETE FROM public.user_account WHERE user_id = %s;"""
-        args = (uid,uid)
-        deleted_user = await self.db.execute(sql, args, False)
+        selection_sql = """DELETE FROM student_course_selection WHERE user_id='%s';"""
+        user_sql = """DELETE FROM user_account WHERE user_id = '%s';"""
+        args = (uid,)
+        await self.db.execute(selection_sql, args, False)
+        deleted_user = await self.db.execute(user_sql, args, False)
         return deleted_user[0]
 
     async def update_user(self, args):
         sql = """   UPDATE
-                        public.user_account
+                        user_account
                     SET
                         name        = %(Name)s,
                         email       = %(Email)s,

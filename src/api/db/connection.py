@@ -41,7 +41,7 @@ class database():
                 if isSELECT:
                     ret = await tconn.execute_query_dict(sql % args)
                 else:
-                    tconn.execute_query_dict(sql % args)
+                    await tconn.execute_query_dict(sql % args)
                     ret = 0
 
         except OperationalError as e:

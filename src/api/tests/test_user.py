@@ -41,7 +41,7 @@ def test_user_post_failure(post_user, client: TestClient):
     assert r.status_code == 200
     
 @pytest.mark.testclient
-# @pytest.mark.tortoise
+@pytest.mark.tortoise
 def test_user_delete_success(post_user, client: TestClient):
     '''
     delete a valid user in the session
@@ -56,7 +56,7 @@ def test_user_delete_success(post_user, client: TestClient):
     data = r.json()
 
 @pytest.mark.testclient
-# @pytest.mark.tortoise
+@pytest.mark.tortoise
 def test_user_delete_failure(post_user, client: TestClient):
     '''
     delete a not exist user in the session
