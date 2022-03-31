@@ -23,7 +23,6 @@ class User(Model):
         return user[0]
 
     async def add_user(self, args):
-        # return await UserAccount.create(**args)
         sql = """
                 INSERT INTO
                     user_account (
