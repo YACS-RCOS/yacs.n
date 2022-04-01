@@ -135,16 +135,16 @@ def get_defaultSemester():
     semester, error = admin_info.get_semester_default()
     return semester if not error else Response(error, status=500)
 
-#
- @app.post('/api/defaultsemesterset')
- def set_defaultSemester():
-     info = request.get_json()
-     success, error = admin_info.set_semester_default(info['default'])
-     if success:
-         return Response(status_code=200)
-     else:
-         print(error)
-         return Response(error.__str__(), status_code=500)
+
+@app.post('/api/defaultsemesterset')
+def set_defaultSemester():
+    info = request.get_json()
+    success, error = admin_info.set_semester_default(info['default'])
+    if success:
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -176,10 +176,9 @@ async def uploadHandler(
         return Response(status_code=200)
     else:
         print(error)
-<<<<<<< Updated upstream
         return Response(error.__str__(), status_code=500)
 
- @app.post('/api/mapDateRangeToSemesterPart')
+@app.post('/api/mapDateRangeToSemesterPart')
 def map_date_range_to_semester_part_handler():
      # This depends on date_start, date_end, and semester_part_name being
      # ordered since each field has multiple entries. They should be ordered
@@ -251,68 +250,6 @@ async def update_user_info(request:Request, user:updateUser):
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
     session_res = session_controller.add_session(credentials.dict())
-=======
-        return Response(error.__str__(), status=500)
-
-@app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
-def map_date_range_to_semester_part_handler():
-    # This depends on date_start, date_end, and semester_part_name being
-    # ordered since each field has multiple entries. They should be ordered
-    # as each dict entry has the value of list. But if it doesn't work,
-    # look into request.parameter_storage_class which will change the default
-    # ImmutableMultiDict class that request.form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
-    print(request.form)
-    if (request.form):
-        # If checkbox is false, then, by design, it is not included in the form data.
-        is_publicly_visible = request.form.get('isPubliclyVisible', default=False)
-        semester_title = request.form.get('semesterTitle')
-        semester_part_names = request.form.getlist('semester_part_name')
-        start_dates = request.form.getlist('date_start')
-        end_dates = request.form.getlist('date_end')
-        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
-            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-            semester_info.upsert(semester_title, is_publicly_visible)
-            if (not error):
-                return Response(status=200)
-            else:
-                return Response(error, status=500)
-    return Response("Did not receive proper form data", status=500)
-
-
-# - user system api
-@app.route('/api/user/<session_id>', methods=['GET'])
-def get_user_info(session_id):
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    return user_controller.get_user_info(session_id)
-
-
-@app.route('/api/user', methods=['POST'])
-def add_user():
-    return user_controller.add_user(request.json)
-
-
-@app.route('/api/user', methods=['DELETE'])
-def delete_user():
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    return user_controller.delete_user(request.json)
-
-
-@app.route('/api/user', methods=['PUT'])
-def update_user_info():
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    return user_controller.update_user(request.json)
-
-
-@app.route('/api/session', methods=['POST'])
-def log_in():
-    session_res = session_controller.add_session(request.json).json
->>>>>>> Stashed changes
     if (session_res['success']):
         session_data = session_res['content']
         # [0] b/c conn.exec uses fetchall() which wraps result in list
@@ -329,23 +266,6 @@ def log_out(request: Request, session: SessionDeletePydantic):
 
     return response
 
-
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-# @app.route('/api/event', methods=['POST'])
-# def add_user_event():
-#     return event_controller.add_event(json.loads(request.data))
-#
-# @app.route('/api/user/course', methods=['POST'])
-# def add_student_course():
-#     info = request.get_json()
-#
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-#     return Response(status=200) if not error else Response(error, status=500)
-=======
 @app.post('/api/event')
 def add_user_event(request: Request, credentials: SessionPydantic):
     return Response(status_code=501)
@@ -376,40 +296,6 @@ async def add_student_course(request: Request, credentials: UserCoursePydantic):
 #
 #     courses, error = course_select.get_selection(session['user']['user_id'])
 #     return jsonify(courses) if not error else Response(error, status=500)
-<<<<<<< HEAD
-=======
-@app.route('/api/event', methods=['POST'])
-def add_user_event():
-    return event_controller.add_event(json.loads(request.data))
-
-@app.route('/api/user/course', methods=['POST'])
-def add_student_course():
-    info = request.get_json()
-
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-    return Response(status=200) if not error else Response(error, status=500)
-
-
-@app.route('/api/user/course', methods=['DELETE'])
-def remove_student_course():
-    info = request.json
-
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-    return Response(status=200) if not error else Response(error, status=500)
-
-@app.route('/api/user/course', methods=['GET'])
-def get_student_courses():
-    if 'user' not in session:
-        return Response("Not authorized", status=403)
-
-    courses, error = course_select.get_selection(session['user']['user_id'])
-    return jsonify(courses) if not error else Response(error, status=500)
 
 if __name__ == '__main__':
     app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
