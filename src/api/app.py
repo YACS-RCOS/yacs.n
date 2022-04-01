@@ -207,11 +207,16 @@ def apiroot():
 # def get_user_info(session_id):
 #     if 'user' not in session:
 #         return Response("Not authorized", status=403)
-#
+
 #     return user_controller.get_user_info(session_id)
-#
-#
-from models.user_account import UserAccount
+
+@app.get('/api/user/{session_id}')
+async def get_user_info(request: Request, session_id):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.get_user_info(session_id)
+
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
     return await user_controller.add_user(user.dict())
@@ -223,14 +228,13 @@ async def delete_user(request: Request, session: UserDeletePydantic):
         return Response("Not authorized", status_code=403)
 
     return await user_controller.delete_user(session.dict())
-
-# @app.route('/api/user', methods=['PUT'])
-# def update_user_info():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
 #
-#     return user_controller.update_user(request.json)
-
+# @app.put('/api/user')
+# async def update_user_info(request:Request, user:updateUser):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+#
+#     return user_controller.update_user(user.dict())
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -282,3 +286,4 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 #
 #     courses, error = course_select.get_selection(session['user']['user_id'])
 #     return jsonify(courses) if not error else Response(error, status=500)
+    
