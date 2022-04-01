@@ -37,3 +37,7 @@ class UserCoursePydantic(BaseModel):
 
 class SubsemesterPydantic(BaseModel):
     semester: Optional[str] = None
+
+class DefaultSemesterSetPydantic(BaseModel):
+    default: str
+    
