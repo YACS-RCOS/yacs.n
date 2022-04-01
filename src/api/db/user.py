@@ -59,12 +59,12 @@ class User(Model):
         sql = """   UPDATE
                         user_account
                     SET
-                        name        = %(Name)s,
-                        email       = %(Email)s,
-                        phone       = %(Phone)s,
-                        password    = %(Password)s,
-                        major       = %(Major)s,
-                        degree      = %(Degree)s
+                        name        = '%(Name)s',
+                        email       = '%(Email)s',
+                        phone       = '%(Phone)s',
+                        password    = '%(Password)s',
+                        major       = '%(Major)s',
+                        degree      = '%(Degree)s'
                     WHERE
                         user_id = %(UID)s;
                     """

@@ -52,7 +52,7 @@ async def update_user(form):
         return msg.error_msg("Password cannot exceed 255 characters.")
 
     # Get User according to sessionID
-    session = sessions.get_session(session_id)
+    session = await sessions.get_session(session_id)
     if len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
@@ -70,7 +70,7 @@ async def update_user(form):
         "Degree": degree,
         "UID": uid
     }
-    ret = users.update_user(args)
+    ret = await users.update_user(args)
 
     if ret is None:
         return msg.error_msg("Failed to update user profile.")
