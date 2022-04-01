@@ -207,9 +207,17 @@ async def uploadHandler(
 # def get_user_info(session_id):
 #     if 'user' not in session:
 #         return Response("Not authorized", status=403)
-#
+
 #     return user_controller.get_user_info(session_id)
-#
+
+@app.get('/api/user/{session_id}')
+async def get_user_info(request: Request, session_id):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.get_user_info(session_id)
+
+
 #
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
@@ -229,7 +237,15 @@ async def delete_user(request: Request, session: UserDeletePydantic):
 #         return Response("Not authorized", status=403)
 #
 #     return user_controller.update_user(request.json)
-#
+
+
+@app.put('/api/user')
+async def update_user_info(request:Request, user:updateUser):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.update_user(user)
+
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -266,12 +282,12 @@ async def add_student_course(request: Request, credentials: UserCoursePydantic):
 #
 # @app.route('/api/user/course', methods=['DELETE'])
 @app.delete('/api/user/course')
-def remove_student_course(courseDelete:CourseDeletePydantic):
+def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
     # info = request.json
 
     # if 'user' not in request.session:
     #     return Response("Not authorized", status_code=403)
-    if (request.session['user']!=None):
+    if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     resp,error = course_select.remove_selection(courseDelete,request.session['user']['user_id'])
     # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
@@ -279,8 +295,8 @@ def remove_student_course(courseDelete:CourseDeletePydantic):
 
 #@app.route('/api/user/course', methods=['GET'])
 @app.get('/api/user/course')
-def get_student_courses():
-    if (request.session['user']!=None):
+def get_student_courses(request: Request):
+    if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
     courses, error = course_select.get_selection(request.session['user']['user_id'])
