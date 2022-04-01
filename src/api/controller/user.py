@@ -2,6 +2,7 @@ from db.user import User as UserModel
 from db.session import Session as SessionModel
 import view.message as msg
 from common import *
+from api_models import *
 
 
 def get_user_info(session_id):
@@ -27,20 +28,20 @@ def get_user_info(session_id):
     return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
 
 
-def update_user(form):
+def update_user(user:updateUser):
     users = UserModel()
     sessions = SessionModel()
 
-    if not assert_keys_in_form_exist(form, ['sessionID', 'name', 'email', 'phone', 'newPassword', 'major', 'degree']):
-        return msg.error_msg("Please check your requests.")
+    name = user.name
+    session_id = user.sessionID
+    email = user.email
+    phone = user.phone
+    new_password = user.newPassword
+    major = user.major
+    degree = user.degree
 
-    name = form['name']
-    session_id = form['sessionID']
-    email = form['email']
-    phone = form['phone']
-    new_password = form['newPassword']
-    major = form['major']
-    degree = form['degree']
+    if(name==None or session_id==None or email==None or phone==None or new_password==None or major==None or degree==None):
+        return msg.error_msg("Please check your requests.")
 
     if new_password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
