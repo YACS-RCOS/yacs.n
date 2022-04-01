@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 def parseText(text):
     #lowercase to avoid "See" vs "see" conflicts
     lowercase_text = text.lower()
+    if (len(lowercase_text) > 16 and lowercase_text[:16] == "credits / units:"):
+        return ""
     text_to_add = text
     
     #parse out any whitespace from the text_to_add (&nbsp from start)
