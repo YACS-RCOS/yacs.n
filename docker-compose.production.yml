@@ -54,6 +54,7 @@ services:
       - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
       - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
+      - WHITELIST_REVERSE_LIST= .yacs.cs.rpi.edu.github
       # === above bunkerized-nginx config ===
 
   yacs_api:
