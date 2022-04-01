@@ -9,6 +9,43 @@ Created on Tue Nov  2 17:40:34 2021
 import requests
 from bs4 import BeautifulSoup
 
+#function that takes in text and executes edge case parsing on it, returning the parsed version
+def parseText(text):
+    #lowercase to avoid "See" vs "see" conflicts
+    lowercase_text = text.lower()
+    text_to_add = text
+    
+    #parse out any whitespace from the text_to_add (&nbsp from start)
+    text_to_add = text_to_add.strip()
+    
+    #skips cases that have just empty whitespace in its own litag
+    if (text_to_add == ""):
+        return ""
+
+    #skips a lone "or" in an litag
+    if (lowercase_text == "or"):
+        return ""
+
+    #remove descriptive things about courses from being courses themselves
+    if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
+        return ""
+
+    #if the text has the word "see" in it
+    if (lowercase_text.find("see") != -1):
+        #skips case that contains "and"/"or" or course listing that starts with "see"
+        if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
+            return ""
+
+        #footnote is at the end of the course name, so remove from "(see" and on
+        delete_position = lowercase_text.find("see")-2
+        text_to_add = text_to_add[0:delete_position]
+
+    #remove unnecessary spaces inside the text itself
+    if (lowercase_text.find("  ") != -1 or lowercase_text.find("\t") != -1):
+        text_to_add = ' '.join(text_to_add.split())
+
+    return text_to_add
+
 #function that parses html page and stores major information in major_db
 def scrapFromURL(webLink, major_db):    
     URL = webLink
@@ -16,7 +53,6 @@ def scrapFromURL(webLink, major_db):
 
     #gather the html tree as the soup object
     soup = BeautifulSoup(page.content, "html.parser") 
-    #print(soup)
     
     #find the first h1 which is the major name
     title_element = soup.find("h1", id="acalog-content")
@@ -77,38 +113,21 @@ def scrapFromURL(webLink, major_db):
                             major_db[cur_entry][semName.text] = []
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
-                                    #lowercase to avoid "See" vs "see" conflicts
-                                    lowercase_text = (litag.text).lower()
-                                    text_to_add = litag.text
-                                    
-                                    #parse out any whitespace from the text_to_add (&nbsp from start)
-                                    text_to_add = text_to_add.strip()
-                                    
-                                    #skips cases that have just empty whitespace in its own litag
+                                    text_to_add = parseText(litag.text)
                                     if (text_to_add == ""):
                                         continue
 
-                                    #skips a lone "or" in an litag
-                                    if (lowercase_text == "or"):
-                                        continue
-
-                                    #remove descriptive things about courses from being courses themselves
-                                    if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
-                                        continue
-
-                                    #if the text has the word "see" in it
-                                    if (lowercase_text.find("see") != -1):
-                                        #skips case that contains "and"/"or" or course listing that starts with "see"
-                                        if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
-                                            continue
-
-                                        #footnote is at the end of the course name, so remove from "(see" and on
-                                        delete_position = lowercase_text.find("see")-2
-                                        text_to_add = text_to_add[0:delete_position]
-
-                                    #remove unnecessary spaces inside the text itself
-                                    if (lowercase_text.find("  ") != -1 or lowercase_text.find("\t") != -1):
-                                        text_to_add = ' '.join(text_to_add.split())
+                                    #merge multiple class options into one class to store in the db
+                                    print(text_to_add)
+                                    if text_to_add.lower().find("of the following") != -1:
+                                        for litag in ultag.find_all("li"):
+                                            print("\n\nyo im here\n")
+                                            #get the new text and parse it before adding it in
+                                            newtext = litag.text
+                                            newParsedText = parseText(newtext)
+                                            if (newParsedText == ""):
+                                                continue
+                                            text_to_add += "or {} ".format(newParsedText)
 
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
@@ -147,7 +166,7 @@ majorOutFile = open("majorTemplate.txt", "a") #append mode
 majorOutFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 for link in f:
-    print(link, end="")
+    #print(link, end="")
     scrapFromURL(link, major_db)
     #break
 
@@ -184,5 +203,5 @@ for major_year in major_db.keys():
         
 sqlOutFile.close()   
 
-for item in major_db.keys():
-    print("\n{}: {}\n".format(item, major_db[item]))
+#for item in major_db.keys():
+    #print("\n{}: {}\n".format(item, major_db[item]))
