@@ -49,12 +49,13 @@ services:
       - USE_LIMIT_REQ=no
       # ===== Whitelists =====
       - USE_REMOTE_API=${ENABLE_BLOCK:-yes}
-      - BLOCK_USER_AGENT=${ENABLE_BLOCK:-yes}
+      #- BLOCK_USER_AGENT=${ENABLE_BLOCK:-yes}
       - BLOCK_TOR_EXIT_NODE=${ENABLE_BLOCK:-yes}
       - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
       - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       - WHITELIST_REVERSE_LIST= .github.com .google.com .googlebot.com
+      #- WHITELIST_USER_AGENT = 
       # === above bunkerized-nginx config ===
 
   yacs_api:
