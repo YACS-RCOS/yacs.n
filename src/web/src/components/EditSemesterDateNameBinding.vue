@@ -36,28 +36,22 @@
         </template>
       </el-table-column>
       <el-table-column label="Semester Part Name">
-        <el-input
-          type="text"
-          class="form-control text-dark"
-          name="semester_part_name"
-          label="semester_part_name"
-          v-model="inputtedSemesterPartNames[subsemesters.index]"
-          />
+        <template #default="scope">
+          <el-input
+            type="text"
+            class="form-control text-dark"
+            name="semester_part_name"
+            label="semester_part_name"
+            v-model="inputtedSemesterPartNames[scope.$index]"
+            />
+        </template>
       </el-table-column>
 
     </el-table>
     <el-button
       @click="onSubmit"
-      :class="{
-        btn: true,
-        'btn-primary': true,
-        'my-2': true,
-        'w-50': true,
-        'no-cursor': isDisabled,
-      }"
-      @animationend="removeFeedbackClasses($event.target)"
       :disabled="isDisabled"
-    >
+      >
       Update
     </el-button>
   </el-form>
@@ -76,11 +70,10 @@ export default {
   },
   data() {
     return {
-      // eye: faEye,
-      // closedEye: faEyeSlash,
       displayedColumns: ["dateRange", "semesterPartName"],
       loading: false,
       isPublic: this.semesterInfo.public,
+      btnType: "primary",
       // My SO post. Originally, I didn't want to have to use v-model since I don't really need its full power,
       // but because of all the weirdness of the keyboard events on the semester_part input and the submit button, here I am using v-model in a v-for.
       // https://stackoverflow.com/questions/60896159/prepopulated-form-input-element-doesnt-accept-first-input-when-submit-btn-is-di/60896544#60896544
@@ -92,21 +85,20 @@ export default {
   methods: {
     onSubmit(event) {
       if (!this.loading) {
-        console.log(this.inputtedSemesterPartNames);
         this.loading = true;
         let formData = new FormData();
-        formData.append("semester_part_name", this.inputtedSemesterPartNames);
-        console.log(formData);
+        formData.set('isPubliclyVisible', this.isPublic);
+        formData.set('semesterTitle', this.semesterTitle);
+        for (var i in this.inputtedSemesterPartNames) {
+          formData.append('semester_part_name', this.inputtedSemesterPartNames[i]);
+          formData.append('date_start', standardDate(this.subsemesters[i].date_start));
+          formData.append('date_end', standardDate(this.subsemesters[i].date_end));
+        }
         let submittedSemesterPartNames = formData.getAll("semester_part_name");
-        console.log(submittedSemesterPartNames);
         // let submitBtn = event.target.querySelector("button[type='submit']");
         // let spinner = submitBtn.querySelector("span.spinner-border");
         // // Stop any current animation if user clicks while it's happening
         // this.removeFeedbackClasses(submitBtn);
-        // this.loading = true;
-        // spinner.classList.remove("d-none");
-        // let formData = new FormData(event.target);
-        // let submittedSemesterPartNames = formData.getAll("semester_part_name");
         postDateMapping(formData)
           .then((res) => {
             // Update the set subsemester names since the response
@@ -116,12 +108,12 @@ export default {
               var subsemester = this.subsemesters[i];
               subsemester.display_string = submittedSemesterPartNames[i];
             }
-            // submitBtn.classList.add("success");
+            this.btnType = "success";
             console.log(res);
           })
           .catch((error) => {
             console.log(error);
-            // submitBtn.classList.add("fail");
+            this.btnType = "fail";
           })
           .finally(() => {
             // spinner.classList.add("d-none");
@@ -129,10 +121,10 @@ export default {
           });
       }
     },
-    removeFeedbackClasses(btn) {
-      btn.classList.remove("success");
-      btn.classList.remove("fail");
-    },
+    // removeFeedbackClasses(btn) {
+    //   btn.classList.remove("success");
+    //   btn.classList.remove("fail");
+    // },
     /***
      * @param {Date} date1
      * @param {Date} date2
