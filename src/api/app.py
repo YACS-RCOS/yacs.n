@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
+from fastapi import Depends
 
 from api_models import *
 import db.connection as connection
@@ -92,44 +93,48 @@ async def get_departments():
     departments, error = class_info.get_departments()
     return departments if not error else Response(content=error, status_code=500)
 
+@app.get('/api/subsemester')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
+    """
+    GET /api/subsemester?semester={}
+    Cached: 1 Hour
 
-# @app.route('/api/subsemester', methods=['GET'])
-# @cache.cached(timeout=Constants.HOUR_IN_SECONDS, query_string=True)
-# def get_subsemesters():
-#     """
-#     GET /api/subsemester?semester={}
-#     Cached: 1 Hour
-#
-#     Get list of departments i.e. COGS, CIVL, CSCI, BIOL
-#     (Used in dropdown in "Course Search"
-#     """
-#     semester = request.args.get("semester", default=None)
-#     if semester:
-#         subsemesters, error = class_info.get_subsemesters(semester)
-#         return jsonify(subsemesters) if not error else Response(error, status=500)
-#     # Some cases, we do want all subsemesters across all semesters like in Admin Panel
-#     subsemesters, error = class_info.get_subsemesters()
-#     return jsonify(subsemesters) if not error else Response(error, status=500)
-#
-# @app.route('/api/semester', methods=['GET'])
-# @cache.cached(timeout=Constants.DAY_IN_SECONDS)
-# def get_semesters():
-#     """
-#     GET /api/semester
-#     Cached: 24 Hours
-#     """
-#     semesters, error = class_info.get_semesters()
-#     return jsonify(semesters) if not error else Response(error, status=500)
-#
-# @app.route('/api/semesterInfo', methods=['GET'])
-# def get_all_semester_info():
-#     all_semester_info, error = class_info.get_all_semester_info()
-#     return jsonify(all_semester_info) if not error else Response(error, status=500)
-#
-# @app.route('/api/defaultsemester', methods=['GET'])
-# def get_defaultSemester():
-#     semester, error = admin_info.get_semester_default()
-#     return jsonify(semester) if not error else Response(error, status=500)
+    Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+    (Used in dropdown in "Course Search"
+    """
+    if subsemester.semester:
+        subsemesters, error = class_info.get_subsemesters(subsemester.semester)
+        # for i in subsemesters:
+        #     print(i)
+        db_list = [dict(r) for r in subsemesters]
+        return db_list if not error else Response(error, status_code=500)
+    # Some cases, we do want all subsemesters across all semesters like in Admin Panel
+    subsemesters, error = class_info.get_subsemesters()
+    db_list = [dict(r) for r in subsemesters]
+    return db_list if not error else Response(error, status_code=500)
+
+@app.get('/api/semester')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_semesters():
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
+    semesters, error = class_info.get_semesters()
+    db_list = [dict(r) for r in semesters]
+    return db_list if not error else Response(error, status_code=500)
+
+@app.get('/api/semesterInfo')
+def get_all_semester_info():
+    all_semester_info, error = class_info.get_all_semester_info()
+    return all_semester_info if not error else Response(error, status=500)
+
+@app.get('/api/defaultsemester')
+def get_defaultSemester():
+    semester, error = admin_info.get_semester_default()
+    return semester if not error else Response(error, status=500)
+
 #
  @app.post('/api/defaultsemesterset')
  def set_defaultSemester():
@@ -203,29 +208,45 @@ def map_date_range_to_semester_part_handler():
 # def get_user_info(session_id):
 #     if 'user' not in session:
 #         return Response("Not authorized", status=403)
-#
+
 #     return user_controller.get_user_info(session_id)
+
+@app.get('/api/user/{session_id}')
+async def get_user_info(request: Request, session_id):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.get_user_info(session_id)
+
+
 #
-#
-# @app.route('/api/user', methods=['POST'])
-# def add_user():
-#     return user_controller.add_user(request.json)
-#
-# @app.route('/api/user', methods=['DELETE'])
-# def delete_user():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     return user_controller.delete_user(request.json)
-#
-#
+@app.post('/api/user')
+async def add_user(user: UserPydantic):
+    return user_controller.add_user(user.dict())
+
+@app.delete('/api/user')
+async def delete_user(request: Request, session: UserDeletePydantic):
+
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.delete_user(session.dict())
+
 # @app.route('/api/user', methods=['PUT'])
 # def update_user_info():
 #     if 'user' not in session:
 #         return Response("Not authorized", status=403)
 #
 #     return user_controller.update_user(request.json)
-#
+
+
+@app.put('/api/user')
+async def update_user_info(request:Request, user:updateUser):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return user_controller.update_user(user)
+
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -309,6 +330,7 @@ def log_out(request: Request, session: SessionDeletePydantic):
     return response
 
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 # @app.route('/api/event', methods=['POST'])
 # def add_user_event():
@@ -323,6 +345,18 @@ def log_out(request: Request, session: SessionDeletePydantic):
 #
 #     resp, error = course_select.add_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
 #     return Response(status=200) if not error else Response(error, status=500)
+=======
+@app.post('/api/event')
+def add_user_event(request: Request, credentials: SessionPydantic):
+    return Response(status_code=501)
+    #return event_controller.add_event(json.loads(request.data))
+
+@app.post('/api/user/course')
+async def add_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    resp, error = course_select.add_selection(credentials.name, credentials.semester, credentials.cid)
+    return Response(status_code=200) if not error else Response(error, status_code=500)
 #
 #
 # @app.route('/api/user/course', methods=['DELETE'])
@@ -342,6 +376,7 @@ def log_out(request: Request, session: SessionDeletePydantic):
 #
 #     courses, error = course_select.get_selection(session['user']['user_id'])
 #     return jsonify(courses) if not error else Response(error, status=500)
+<<<<<<< HEAD
 =======
 @app.route('/api/event', methods=['POST'])
 def add_user_event():
@@ -377,5 +412,4 @@ def get_student_courses():
     return jsonify(courses) if not error else Response(error, status=500)
 
 if __name__ == '__main__':
-    app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=6000)
->>>>>>> Stashed changes
+    app.run(debug=os.environ.get('DEBUG', 'True'), host='0.0.0.0', port=5000)
