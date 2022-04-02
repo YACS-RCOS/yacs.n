@@ -52,5 +52,4 @@ def test_course_post_not_authorized(client: TestClient):
     sess = client.post("/api/session", json=TEST_USER).json()
     client.delete("/api/session", json={'sessionID': sess['content']['sessionID']})
     r = client.post("/api/user/course", json=TEST_USER_COURSE)
-    print(r.text)
     assert r.status_code == 403
