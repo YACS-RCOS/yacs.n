@@ -133,6 +133,7 @@ def get_all_semester_info():
 @app.get('/api/defaultsemester')
 def get_defaultSemester():
     semester, error = admin_info.get_semester_default()
+    print(semester)
     return semester if not error else Response(error, status=500)
 
 
@@ -211,14 +212,6 @@ async def get_student_courses(request: Request):
     return courses if not error else Response(error, status_code=500)
 
 
-# # - user system api
-# @app.route('/api/user/<session_id>', methods=['GET'])
-# def get_user_info(session_id):
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-
-#     return user_controller.get_user_info(session_id)
-
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
     if 'user' not in request.session:
@@ -227,7 +220,6 @@ async def get_user_info(request: Request, session_id):
     return user_controller.get_user_info(session_id)
 
 
-#
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
     return user_controller.add_user(user.dict())
@@ -239,14 +231,6 @@ async def delete_user(request: Request, session: UserDeletePydantic):
         return Response("Not authorized", status_code=403)
 
     return user_controller.delete_user(session.dict())
-
-# @app.route('/api/user', methods=['PUT'])
-# def update_user_info():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     return user_controller.update_user(request.json)
-
 
 @app.put('/api/user')
 async def update_user_info(request:Request, user:updateUser):

@@ -11,7 +11,7 @@ class SessionDeletePydantic(BaseModel):
 
 class CourseDeletePydantic(BaseModel):
     name: str
-    cid: str
+    cid: Optional[str] = None
     semester: str
 
 
