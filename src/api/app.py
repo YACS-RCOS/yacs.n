@@ -135,16 +135,15 @@ def get_defaultSemester():
     semester, error = admin_info.get_semester_default()
     return semester if not error else Response(error, status=500)
 
-#
-# @app.route('/api/defaultsemesterset', methods=['POST'])
-# def set_defaultSemester():
-#     info = request.get_json()
-#     success, error = admin_info.set_semester_default(info['default'])
-#     if success:
-#         return Response(status=200)
-#     else:
-#         print(error)
-#         return Response(error.__str__(), status=500)
+
+@app.post('/api/defaultsemesterset')
+def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
+    success, error = admin_info.set_semester_default(semester_set.default)
+    if success:
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -178,30 +177,31 @@ async def uploadHandler(
         print(error)
         return Response(error.__str__(), status_code=500)
 
-# @app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
-# def map_date_range_to_semester_part_handler():
-#     # This depends on date_start, date_end, and semester_part_name being
-#     # ordered since each field has multiple entries. They should be ordered
-#     # as each dict entry has the value of list. But if it doesn't work,
-#     # look into request.parameter_storage_class which will change the default
-#     # ImmutableMultiDict class that request.form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
-#     if (request.form):
-#         # If checkbox is false, then, by design, it is not included in the form data.
-#         is_publicly_visible = request.form.get('isPubliclyVisible', default=False)
-#         semester_title = request.form.get('semesterTitle')
-#         semester_part_names = request.form.getlist('semester_part_name')
-#         start_dates = request.form.getlist('date_start')
-#         end_dates = request.form.getlist('date_end')
-#         if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
-#             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-#             semester_info.upsert(semester_title, is_publicly_visible)
-#             if (not error):
-#                 return Response(status=200)
-#             else:
-#                 return Response(error, status=500)
-#     return Response("Did not receive proper form data", status=500)
-#
-#
+@app.post('/api/mapDateRangeToSemesterPart')
+async def map_date_range_to_semester_part_handler(request: Request):
+     # This depends on date_start, date_end, and semester_part_name being
+     # ordered since each field has multiple entries. They should be ordered
+     # as each dict entry has the value of list. But if it doesn't work,
+     # look into parameter_storage_class which will change the default
+     # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
+     form = await request.form()
+     if (form):
+         # If checkbox is false, then, by design, it is not included in the form data.
+         is_publicly_visible = form.get('isPubliclyVisible', default=False)
+         semester_title = form.get('semesterTitle')
+         semester_part_names = form.getlist('semester_part_name')
+         start_dates = form.getlist('date_start')
+         end_dates = form.getlist('date_end')
+         if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
+             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+             semester_info.upsert(semester_title, is_publicly_visible)
+             if (not error):
+                 return Response(status_code=200)
+             else:
+                 return Response(error, status_code=500)
+     return Response("Did not receive proper form data", status_code=500)
+
+
 # # - user system api
 # @app.route('/api/user/<session_id>', methods=['GET'])
 # def get_user_info(session_id):
@@ -265,7 +265,6 @@ def log_out(request: Request, session: SessionDeletePydantic):
         request.session.pop('user', None)
 
     return response
-
 
 @app.post('/api/event')
 def add_user_event(request: Request, credentials: SessionPydantic):

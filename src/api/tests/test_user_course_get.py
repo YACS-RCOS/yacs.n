@@ -1,4 +1,6 @@
-from .util import Client
+#from .util import Client
+from fastapi.testclient import TestClient
+import pytest
 
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
@@ -7,8 +9,9 @@ TEST_COURSE = {'name': 'ARCH-4770',
                'cid': '-1',
                'semester': 'SUMMER2020'}
 
-
-def test_user_course_get_success(post_user, client: Client):
+@pytest.mark.testclient
+@pytest.mark.incompletedependency
+def test_user_course_get_success(post_user, client: TestClient):
     r = client.post("/api/session", json=TEST_USER)
     assert r.status_code == 200
     course = client.post("/api/user/course", json=TEST_COURSE)
@@ -20,7 +23,8 @@ def test_user_course_get_success(post_user, client: Client):
     assert data['semester'] == TEST_COURSE['semester']
     client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
 
-def test_user_course_get_failure(client: Client):
+@pytest.mark.testclient
+def test_user_course_get_failure(client: TestClient):
     r = client.post("/api/user/course", json = TEST_COURSE)
     assert r.status_code == 403
 
