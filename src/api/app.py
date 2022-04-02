@@ -33,7 +33,7 @@ do a cache.clear() to ensure data integrity
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
-                   secret_key=os.environ.get("FLASK_SIGN_KEY", "localTestingKey"))
+                   secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
