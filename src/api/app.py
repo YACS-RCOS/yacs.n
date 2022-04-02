@@ -286,18 +286,13 @@ async def add_student_course(request: Request, credentials: UserCoursePydantic):
         return Response("Not authorized", status_code=403)
     resp, error = course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
-#
-#
-# @app.route('/api/user/course', methods=['DELETE'])
+
+
 @app.delete('/api/user/course')
 async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
-    # info = request.json
-
-    # if 'user' not in request.session:
-    #     return Response("Not authorized", status_code=403)
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp,error = course_select.remove_selection(courseDelete,request.session['user']['user_id'])
+    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
     return Response(status_code=200) if not error else Response(error, status_code=500)
 

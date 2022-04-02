@@ -15,11 +15,7 @@ class student_course_selection:
 		resp, error = self.db_conn.execute(sql, [uid, sem, name, cid], False)
 		return (True, None) if not error else (False, error)
 
-	# def remove_selection(self, name, sem, uid, cid):
-	def remove_selection(self,courseDelete:CourseDeletePydantic,uid:str):
-		name = courseDelete.name
-		sem = courseDelete.semester
-		cid = courseDelete.cid
+	def remove_selection(self,name,sem,uid:str,cid):
 		if cid is None:
 			sql = 	"""
 					DELETE FROM
