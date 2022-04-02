@@ -17,7 +17,7 @@ class student_course_selection:
 
 	# def remove_selection(self, name, sem, uid, cid):
 	def remove_selection(self,courseDelete:CourseDeletePydantic,uid:str):
-		name = courseDelete.course_name
+		name = courseDelete.name
 		sem = courseDelete.semester
 		cid = courseDelete.cid
 		if cid is None:
