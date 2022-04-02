@@ -279,5 +279,3 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
     return Response(status_code=200) if not error else Response(error, status_code=500)
-
-

@@ -22,6 +22,3 @@ def test_map_date_range_failure(client: TestClient):
         ('date_end', '2020-07-10'), ('date_end', '2020-08-21')])
 
     assert r.status_code == 500
-    
-
-
