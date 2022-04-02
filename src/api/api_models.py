@@ -9,6 +9,11 @@ class SessionPydantic(BaseModel):
 class SessionDeletePydantic(BaseModel):
     sessionID: str
 
+class CourseDeletePydantic(BaseModel):
+    name: str
+    cid: str
+    semester: str
+
 
 class updateUser(BaseModel):
     name:str
@@ -18,6 +23,7 @@ class updateUser(BaseModel):
     newPassword:str
     major:str
     degree:str
+
 class UserPydantic(BaseModel):
      name: str
      email: str
