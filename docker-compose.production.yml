@@ -55,7 +55,7 @@ services:
       - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       - WHITELIST_REVERSE_LIST= .github.com .google.com .googlebot.com
-      #- WHITELIST_USER_AGENT = ^Lighthouse CI bunkerity/bunkerized-nginx 
+      - WHITELIST_USER_AGENT = ^lighthouse bunkerity/bunkerized-nginx 
       # === above bunkerized-nginx config ===
 
   yacs_api:
