@@ -54,7 +54,7 @@ services:
       - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
       - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
-      - USE_WHITELIST_REVERSE = yes
+      - USE_WHITELIST_REVERSE=yes
       - WHITELIST_REVERSE_LIST= .github.com .google.com .googlebot.com
       # === above bunkerized-nginx config ===
 
