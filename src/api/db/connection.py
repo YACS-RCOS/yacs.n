@@ -10,6 +10,7 @@ DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
+
 class database():
     async def connect(self):
         await Tortoise.init(
