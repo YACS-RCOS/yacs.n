@@ -10,6 +10,10 @@ DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
+MODELS_DIR = os.environ.get('MODELS_DIR', None)
+if MODELS_DIR:
+    sys.path.append(MODELS_DIR)
+
 class database():
     async def connect(self):
         await Tortoise.init(

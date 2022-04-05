@@ -59,6 +59,7 @@ jobs:
           DB_PASS: postgres
           DB_NAME: yacs
           DB_HOST: postgres
+          MODELS_DIR: src/api
         run: |
           bash src/api/tests/test.sh
 
