@@ -18,7 +18,22 @@
 
       <br />
 
-      <el-button class="submit" type="warning" @click="onUpdate">Submit</el-button>
+      <el-button 
+        class="submit" 
+        type="warning" 
+        @click="onUpdate"
+        :loading = isLoading
+        >
+        Submit
+      </el-button>
+
+      <template v-if="isSuccessful">
+        <el-alert title="Submitted Successfully" type="success"/>
+      </template>
+
+      <template v-if="isFailed">
+        <el-alert title="Submit Failed" type="error"/>
+      </template>
 
     </el-main>
   </el-container>
@@ -31,7 +46,9 @@ import { getSemesters, getDefaultSemester, updateSemester } from '../plugins/axi
 export default {
   data() {
     return {
-      loading: false,
+      isLoading: false,
+      isSuccessful: false,
+      isFailed: false,
       semester: "",
       semesterOptions: [],
     };
@@ -39,19 +56,23 @@ export default {
   methods: {
     onUpdate(event) {
       event.preventDefault();
-      this.loading = true;
+      this.isLoading = true;
       updateSemester(this.semester)
         .then((response) => {
           console.log(response);
           // Axios will only enter this block if the status code is 2xx,
           // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
 
-          this.loading = false;
+          this.isLoading = false;
+          this.isSuccessful = true;
         })
         .catch((error) => {
           console.log(error.response);
-          this.loading = false;
+          this.isLoading = false;
+          this.isFailed = true;
         });
+      this.isSuccessful = false;
+      this.isFailed = false;
     },
     back() {
       window.history.back();

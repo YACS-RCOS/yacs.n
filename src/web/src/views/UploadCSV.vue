@@ -1,7 +1,7 @@
 
 <template>
   <el-container>
-    <el-main v-loading="loading">
+    <el-main>
       <div class="description">
         Import Course Data
       </div>
@@ -12,10 +12,19 @@
           <el-button class="file">Select File</el-button>
         </template>
         
-        <el-button class="ml-3" type="success" @click="submitUpload">
+        <el-button 
+          class="ml-3" 
+          type="success" 
+          @click="submitUpload"
+          :loading="isLoading"
+          >
           Upload CSV file
         </el-button>
       </el-upload>
+
+      <template v-if="isSuccessful">
+        <el-alert title="Uploaded Successfully" type="success"/>
+      </template>
 
       <el-divider></el-divider>
 
@@ -36,7 +45,8 @@ import { uploadCsv } from '../plugins/axios/apis'
 
 const uploadRef = ref(null)
 let isPubliclyVisible = true
-let loading = false
+let isLoading = false
+let isSuccessful = false
 
 const handleExceed = (files) => {
   uploadRef.value.clearFiles()
@@ -44,15 +54,25 @@ const handleExceed = (files) => {
 }
 
 const submitUpload = () => {
-  if (!loading) {
-    console.log(uploadRef.value)
+  if (!isLoading) {
+    isLoading = true
     const formData = new FormData()
     formData.set('file', uploadRef.value.uploadFiles[0].raw)
     formData.set('isPubliclyVisible', isPubliclyVisible)
-    loading = true
     uploadCsv(formData)
+      .then((response) => {
+        console.log(response)
+        // Axios will only enter this block if the status code is 2xx,
+        // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
+        isLoading = false
+        isSuccessful = true
+      })
+      .catch((error) => {
+        console.log(error.response)
+        isLoading = false
+      })
   }
-  loading = false
+  isLoading = false
 
 }
 </script>

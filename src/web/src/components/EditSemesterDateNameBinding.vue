@@ -51,6 +51,7 @@
     <el-button
       @click="onSubmit"
       :disabled="isDisabled"
+      :loading="isLoading"
       >
       Update
     </el-button>
@@ -71,7 +72,7 @@ export default {
   data() {
     return {
       displayedColumns: ["dateRange", "semesterPartName"],
-      loading: false,
+      isLoading: false,
       isPublic: this.semesterInfo.public,
       btnType: "primary",
       // My SO post. Originally, I didn't want to have to use v-model since I don't really need its full power,
@@ -84,8 +85,8 @@ export default {
   },
   methods: {
     onSubmit(event) {
-      if (!this.loading) {
-        this.loading = true;
+      if (!this.isLoading) {
+        this.isLoading = true;
         let formData = new FormData();
         formData.set('isPubliclyVisible', this.isPublic);
         formData.set('semesterTitle', this.semesterTitle);
@@ -95,10 +96,6 @@ export default {
           formData.append('date_end', standardDate(this.subsemesters[i].date_end));
         }
         let submittedSemesterPartNames = formData.getAll("semester_part_name");
-        // let submitBtn = event.target.querySelector("button[type='submit']");
-        // let spinner = submitBtn.querySelector("span.spinner-border");
-        // // Stop any current animation if user clicks while it's happening
-        // this.removeFeedbackClasses(submitBtn);
         postDateMapping(formData)
           .then((res) => {
             // Update the set subsemester names since the response
@@ -116,15 +113,10 @@ export default {
             this.btnType = "fail";
           })
           .finally(() => {
-            // spinner.classList.add("d-none");
-            this.loading = false;
+            this.isLoading = false;
           });
       }
     },
-    // removeFeedbackClasses(btn) {
-    //   btn.classList.remove("success");
-    //   btn.classList.remove("fail");
-    // },
     /***
      * @param {Date} date1
      * @param {Date} date2
