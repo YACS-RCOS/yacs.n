@@ -56,7 +56,7 @@ services:
       - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       - USE_WHITELIST_REVERSE=yes
       - WHITELIST_REVERSE_LIST=.github.com .google.com .googlebot.com
-      - WHITELIST_USER_AGENT="^Morzilla"
+      - WHITELIST_USER_AGENT="^APIs-Google"
       # === above bunkerized-nginx config ===
 
   yacs_api:
