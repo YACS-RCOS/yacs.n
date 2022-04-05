@@ -149,6 +149,7 @@ export default {
 }
 
 .departmentBox {
+  color:hsl(211,100%,60%);
   text-align: center;
 }
 
