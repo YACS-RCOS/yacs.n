@@ -34,7 +34,7 @@ do a cache.clear() to ensure data integrity
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
-                   secret_key=os.environ.get("FLASK_SIGN_KEY", "localTestingKey"))
+                   secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
@@ -135,7 +135,6 @@ def apiroot():
 #     semester, error = admin_info.get_semester_default()
 #     return semester if not error else Response(error, status=500)
 
-
 @app.post('/api/defaultsemesterset')
 def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
@@ -201,14 +200,15 @@ async def map_date_range_to_semester_part_handler(request: Request):
                  return Response(error, status_code=500)
      return Response("Did not receive proper form data", status_code=500)
 
+#@app.route('/api/user/course', methods=['GET'])
+@app.get('/api/user/course')
+async def get_student_courses(request: Request):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
 
-# # - user system api
-# @app.route('/api/user/<session_id>', methods=['GET'])
-# def get_user_info(session_id):
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
+    courses, error = course_select.get_selection(request.session['user']['user_id'])
+    return courses if not error else Response(error, status_code=500)
 
-#     return user_controller.get_user_info(session_id)
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
@@ -228,13 +228,13 @@ async def delete_user(request: Request, session: UserDeletePydantic):
         return Response("Not authorized", status_code=403)
 
     return await user_controller.delete_user(session.dict())
-#
-# @app.put('/api/user')
-# async def update_user_info(request:Request, user:updateUser):
-#     if 'user' not in request.session:
-#         return Response("Not authorized", status_code=403)
-#
-#     return user_controller.update_user(user.dict())
+
+@app.put('/api/user')
+async def update_user_info(request:Request, user:updateUser):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+
+    return await user_controller.update_user(user)
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -255,7 +255,6 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 
     return response
 
-#
 # @app.post('/api/event')
 # def add_user_event(request: Request, credentials: SessionPydantic):
 #     return Response(status_code=501)
@@ -267,23 +266,11 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 #         return Response("Not authorized", status_code=403)
 #     resp, error = course_select.add_selection(credentials.name, credentials.semester, credentials.cid)
 #     return Response(status_code=200) if not error else Response(error, status_code=500)
-#
-#
-# @app.route('/api/user/course', methods=['DELETE'])
-# def remove_student_course():
-#     info = request.json
-#
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-#     return Response(status=200) if not error else Response(error, status=500)
-#
-# @app.route('/api/user/course', methods=['GET'])
-# def get_student_courses():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     courses, error = course_select.get_selection(session['user']['user_id'])
-#     return jsonify(courses) if not error else Response(error, status=500)
 
+@app.delete('/api/user/course')
+async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+    # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
+    return Response(status_code=200) if not error else Response(error, status_code=500)
