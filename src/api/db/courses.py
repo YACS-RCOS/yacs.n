@@ -35,15 +35,15 @@ class Courses:
         return set(filter(
             lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
-    def delete_by_semester(self, semester):
+    async def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
         self.clear_cache()
-        return self.db.execute("""
+        return await self.db.execute("""
             BEGIN TRANSACTION;
                 DELETE FROM course
-                WHERE semester=%(Semester)s;
+                WHERE semester='%(Semester)s';
                 DELETE FROM course_session
-                WHERE semester=%(Semester)s;
+                WHERE semester='%(Semester)s';
             COMMIT;
         """, {
             "Semester": semester
@@ -59,8 +59,8 @@ class Courses:
         self.clear_cache()
         return None
 
-    def populate_from_csv(self, csv_text):
-        conn = self.db.get_connection()
+    async def populate_from_csv(self, csv_text):
+        conn = await self.db.get_connection()
         reader = csv.DictReader(csv_text)
         # for each course entry insert sections and course sessions
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
@@ -84,15 +84,15 @@ class Courses:
                                     instructor
                                 )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
-                                NULLIF(%(Section)s, ''),
-                                NULLIF(%(Semester)s, ''),
-                                %(StartTime)s,
-                                %(EndTime)s,
-                                %(WeekDay)s,
-                                NULLIF(%(Location)s, ''),
-                                NULLIF(%(SessionType)s, ''),
-                                NULLIF(%(Instructor)s, '')
+                                NULLIF('%(CRN)s', ''),
+                                NULLIF('%(Section)s', ''),
+                                NULLIF('%(Semester)s', ''),
+                                '%(StartTime)s',
+                                '%(EndTime)s',
+                                '%(WeekDay)s',
+                                NULLIF('%(Location)s', ''),
+                                NULLIF('%(SessionType)s', ''),
+                                NULLIF('%(Instructor)s', '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -134,30 +134,30 @@ class Courses:
                                     tsv
                                 )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
-                                NULLIF(%(Section)s, ''),
-                                NULLIF(%(Semester)s, ''),
-                                %(MinCredits)s,
-                                %(MaxCredits)s,
-                                NULLIF(%(Description)s, ''),
-                                NULLIF(%(Frequency)s, ''),
-                                NULLIF(%(FullTitle)s, ''),
-                                %(StartDate)s,
-                                %(EndDate)s,
-                                NULLIF(%(Department)s, ''),
-                                %(Level)s,
-                                NULLIF(%(Title)s, ''),
-                                NULLIF(%(RawPrecoreqText)s, ''),
-                                %(School)s,
-                                %(SeatsOpen)s,
-                                %(SeatsFilled)s,
-                                %(SeatsTotal)s,
-                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
-                                    setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
+                                NULLIF('%(CRN)s', ''),
+                                NULLIF('%(Section)s', ''),
+                                NULLIF('%(Semester)s', ''),
+                                '%(MinCredits)s',
+                                '%(MaxCredits)s',
+                                NULLIF('%(Description)s', ''),
+                                NULLIF('%(Frequency)s', ''),
+                                NULLIF('%(FullTitle)s', ''),
+                                '%(StartDate)s',
+                                '%(EndDate)s',
+                                NULLIF('%(Department)s', ''),
+                                '%(Level)s',
+                                NULLIF('%(Title)s', ''),
+                                NULLIF('%(RawPrecoreqText)s', ''),
+                                '%(School)s',
+                                '%(SeatsOpen)s',
+                                '%(SeatsFilled)s',
+                                '%(SeatsTotal)s',
+                                setweight(to_tsvector(coalesce('%(FullTitle)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(Title)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(Department)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(CRN)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(Level)s', '')), 'B') ||
+                                    setweight(to_tsvector(coalesce('%(Description)s', '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -197,9 +197,9 @@ class Courses:
                                 prerequisite
                             )
                             VALUES (
-                                NULLIF(%(Department)s, ''),
-                                %(Level)s,
-                                NULLIF(%(Prerequisite)s, '')
+                                NULLIF('%(Department)s', ''),
+                                '%(Level)s',
+                                NULLIF('%(Prerequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -220,9 +220,9 @@ class Courses:
                                 corequisite
                             )
                             VALUES (
-                                NULLIF(%(Department)s, ''),
-                                %(Level)s,
-                                NULLIF(%(Corequisite)s, '')
+                                NULLIF('%(Department)s', ''),
+                                '%(Level)s',
+                                NULLIF('%(Corequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
