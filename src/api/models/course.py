@@ -1,6 +1,6 @@
 from tortoise import fields
 from tortoise.models import Model
-import tortoise
+from tortoise.contrip.postgres.fields import TSVectorField
 
 
 class Course(Model):
@@ -24,7 +24,7 @@ class Course(Model):
     seats_open = fields.IntField()
     seats_filled = fields.IntField()
     seats_total = fields.IntField()
-    tsv = tortoise.contrib.postgres.fields.TSVectorField()
+    tsv = TSVectorField()
 
     class Meta:
         table = "course"
