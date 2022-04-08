@@ -81,7 +81,7 @@ def scrapFromURL(webLink, major_db):
             #we've navigated through the divs until the First Year which will be followed by all classes
             if(startScrap):
                 #if we arent at the last year's data 
-                if state == 'newMajor' or state =="newYear":
+                if state == 'newMajor' or state == "newYear":
                     majorOutFile.write(" Year: ")
 
                     #parse year data
@@ -97,8 +97,13 @@ def scrapFromURL(webLink, major_db):
                     majorOutFile.write(yearText)
 
                     state = 'regularYear'
-                    if yearText == "Fourth Year" or yearText == "Academic Year IV":
+
+                    if (yearText == "Fourth Year" or yearText == "Academic Year IV") and major != "Architecture":
                         state = 'lastYear'
+                    
+                    #Edge case for five year architecture program
+                    if major == "Architecture" and yearText == "Fifth Year":
+                        state = "lastYear"
                 else:
                     for sem in div.find_all("div", recursive = False):
                         if sem.get("class")[0] != "custom_leftpad_20":
@@ -120,17 +125,14 @@ def scrapFromURL(webLink, major_db):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
-                                    print(text_to_add)
                                     if text_to_add.lower().find("of the following") != -1:
                                         for litag in ultag.find_all("li"):
-                                            print("\n\nyo im here\n")
                                             #get the new text and parse it before adding it in
                                             newtext = litag.text
                                             newParsedText = parseText(newtext)
                                             if (newParsedText == ""):
                                                 continue
                                             text_to_add += "or {} ".format(newParsedText)
-
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
