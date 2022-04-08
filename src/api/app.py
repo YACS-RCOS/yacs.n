@@ -14,7 +14,7 @@ from api_models import *
 # import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
 # import db.admin as AdminInfo
-# import db.student_course_selection as CourseSelect
+import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
 import controller.user as user_controller
@@ -43,7 +43,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 # courses = Courses.Courses(db_conn, FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
 # admin_info = AdminInfo.Admin(db_conn)
-# course_select = CourseSelect.student_course_selection(db_conn)
+course_select = CourseSelect.student_course_selection()
 # semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 

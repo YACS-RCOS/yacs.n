@@ -1,6 +1,10 @@
-class student_course_selection:
-	def __init__(self, db_conn):
-		self.db_conn = db_conn
+from db.model import *
+from models.student_course_selection import StudentCourseSelection
+
+
+class student_course_selection(Model):
+	def __init__(self):
+		super().__init__()
 
 	async def add_selection(self, name, sem, uid, cid):
 		sql = 	"""
