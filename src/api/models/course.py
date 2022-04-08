@@ -23,7 +23,7 @@ class Course(Model):
     seats_open = fields.IntField()
     seats_filled = fields.IntField()
     seats_total = fields.IntField()
-    tsv = fields.TSVectorField()
+    tsv = tortoise.contrib.postgres.fields.TSVectorField()
 
     class Meta:
         table = "course"
