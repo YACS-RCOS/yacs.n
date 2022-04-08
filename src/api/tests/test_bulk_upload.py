@@ -1,12 +1,12 @@
-from .util import Client
 import pytest
+from fastapi.testclient import TestClient
 import os, inspect
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
 
 @pytest.mark.testclient
-def test_bulk_upload_success(upload, client: Client):
+def test_bulk_upload_success(upload, client: TestClient):
     '''
     Test bulk upload. This will upload data and verify the data is received and stored.
     We will simply verify that the correct semesters are now available.
@@ -22,7 +22,7 @@ def test_bulk_upload_success(upload, client: Client):
         assert s in semesters
 
 @pytest.mark.testclient
-def test_bulk_upload_no_file(client: Client):
+def test_bulk_upload_no_file(client: TestClient):
     '''
     Tests bulk course upload for when no file is provided
     '''
@@ -35,7 +35,7 @@ def test_bulk_upload_no_file(client: Client):
     assert r.status_code == 400
 
 @pytest.mark.testclient
-def test_bulk_upload_wrong_file_extension(client: Client):
+def test_bulk_upload_wrong_file_extension(client: TestClient):
     '''
     Tests bulk course upload for when a non-csv file is provided
     '''
