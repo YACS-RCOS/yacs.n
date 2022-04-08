@@ -33,7 +33,7 @@ def parseText(text, keepOR):
 
     #if the text has the word "see" in it
     if (lowercase_text.find("see") != -1):
-        #skips case that contains "and"/"or" or course listing that starts with "see"
+        #skips case of course listing that starts with "see"
         if (lowercase_text[1:4] == "see" or len(lowercase_text) < 4):
             return ""
 
@@ -169,8 +169,9 @@ def scrapFromURL(webLink, major_db):
                     if not academicYear: #common case
                         yearText = div.text.split()[0] + " Year"
                     else:
-                        yearText = div.text
-
+                        if (div.text == "Courses transferred from Albany Medical College"):
+                            #done with physician-scientist so return
+                            return
                     cur_entry = (major, yearText)
 
                     #initialize a database entry that is a pair of major and year
@@ -214,7 +215,7 @@ def scrapFromURL(webLink, major_db):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
-                                    print(text_to_add)
+                                    #print(text_to_add)
                                     if text_to_add.lower().find("of the following") != -1:
                                         shouldBreak = True
                                         for litag in ultag.find_all("li"):

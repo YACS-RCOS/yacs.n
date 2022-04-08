@@ -1018,9 +1018,9 @@ Engineering Core Curriculum:
 
  Year: Footnotes Year
  Year: Fall Year
-yo im here as major Engineering Core Curriculum
+no semester divide as major Engineering Core Curriculum
  Year: Fall Year
-yo im here as major Engineering Core Curriculum
+no semester divide as major Engineering Core Curriculum
 Environmental Engineering:
  Year: First Year
   Sem: Fall
@@ -1748,43 +1748,7 @@ Physician-Scientist:
    Course: BIOL 4250 - Developmental Biology Credit Hours: 4
    Course: BIOL 4980 - Biomedical Research Credit Hours: 6
 
- Year: Courses transferred from Albany Medical College
-  Sem: Summer III
-   Course: Research Credit Hours: 0
-  Sem: Academic Year IV
-
- Year: Footnotes
-Students who apply Advanced Placement credits in place of BIOL 1010 may take BIOL 2120 in its place.
-Humanities and Social Sciences (HASS) Core Electives: A total of 24 credits of HASS Core Electives should be taken. Students should take an Inquiry course during their first year. For a listing of HASS Inquiry courses go to: https://info.rpi.edu/hass-inquiry. In addition, students should take a HASS communication-intensive course during their first three semesters.
-Culminating experience and curriculum specific communication-intensive course.
-The courses for the fourth year are completed at Albany Medical College. These courses are transferred back to RPI to satisfy the requirements for the four-year degree. Additional coursework at AMC is required for the M.D. degree. Please note that during summer between year 3 and year 4, a 0-credit hour research experience is required at Albany Medical College and must be completed for the degree.
-
-
- Year: Fall - Credits: 16
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 1010 - Introduction to Biology Credit Hours: 3(See footnote 1 below)BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4MATH 1010 - Calculus I Credit Hours: 4
-yo im here as major Physician-Scientist
- Year: Fall - Credits: 16
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 2500 - Genetics and Evolution Credit Hours: 4CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1CHEM 2250 - Organic Chemistry I Credit Hours: 3PHYS 1100 - Physics I Credit Hours: 4
-yo im here as major Physician-Scientist
- Year: Fall - Credits: 17
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 4110 - Investigative Medicine I Credit Hours: 1BIOL 4200 - Biostatistics Credit Hours: 4BIOL 4270 - Human Physiology Credit Hours: 4BIOL 4760 - Molecular Biochemistry I Credit Hours: 4
-yo im here as major Physician-Scientist
- Year: Summer III
-Research Credit Hours: 0
-	(See footnote 4 below)
-
-
-yo im here as major Physician-Scientist
-Physics:
+ Year: Physics:
  Year: First Year
   Sem: Fall
    Course: HASS Core Elective Credit Hours: 4
