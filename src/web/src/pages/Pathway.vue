@@ -26,7 +26,7 @@
       </b-modal>
 
       <b-row>
-        <!-- splited categories into 2 arrays, so we can have 2 columns -->
+        <!-- splitted categories into 2 arrays, so we can have 2 columns -->
         <b-col
           v-for="(catCol, index) in categoryCols"
           :key="`catCol-${index}`"
@@ -70,7 +70,7 @@
           </b-row>
         </b-col>
 
-        <!-- splited Pathways in alphabet order -->
+        <!-- splitted Pathways in alphabet order -->
         <b-col
           v-for="(alphCol, index) in alphabetCols"
           :key="`alphCol-${index}`"
@@ -157,7 +157,7 @@ export default {
     
   },
   computed:{
-    // splited categories into 2 arrays, one array = one column
+    // splitted categories into 2 arrays, one array = one column
     categoryCols() {
       let ret = [];
       let col1 = [];
@@ -174,7 +174,7 @@ export default {
       return ret;
     },
 
-    // splited pathways to alphabet categories, then splited categories into 2 arrays, one array = one column
+    // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
     alphabetCols() {
       let cols = [];
       // put all pathways in one array
@@ -190,7 +190,7 @@ export default {
       let col2 = [];
       var half_length = Math.ceil(cols.length / 2);
       var count = 0;
-      // splited pathways to alphabet categories, then splited categories into 2 arrays
+      // splitted pathways to alphabet categories, then splitted categories into 2 arrays
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = { 
           "Category Name": alphabet[n],
@@ -208,7 +208,7 @@ export default {
             tmp['Pathways'].splice(index, 0, cols[m]);
           }
         }
-        // splited categories into 2 arrays
+        // splitted categories into 2 arrays
         if (tmp['Pathways'].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
