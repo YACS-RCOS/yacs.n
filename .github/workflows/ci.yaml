@@ -53,6 +53,7 @@ jobs:
           bash scripts/test.sh
 
   lighthouse:
+    --chrome-flags='--ignore-certificate-errors' yacs.cs.rpi.edu
     name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
