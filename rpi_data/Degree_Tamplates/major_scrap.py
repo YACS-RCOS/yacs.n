@@ -10,7 +10,8 @@ import requests
 from bs4 import BeautifulSoup
 
 #function that takes in text and executes edge case parsing on it, returning the parsed version
-def parseText(text):
+#keepOR is true if we want to keep the word or in (for choosing between multiple classes)
+def parseText(text, keepOR):
     #lowercase to avoid "See" vs "see" conflicts
     lowercase_text = text.lower()
     text_to_add = text
@@ -23,7 +24,7 @@ def parseText(text):
         return ""
 
     #skips a lone "or" in an litag
-    if (lowercase_text == "or"):
+    if (not keepOR and lowercase_text == "or"):
         return ""
 
     #remove descriptive things about courses from being courses themselves
@@ -45,6 +46,88 @@ def parseText(text):
         text_to_add = ' '.join(text_to_add.split())
 
     return text_to_add
+
+def handleCSE(cur_entry):
+    for i in range(2):
+        majorOutFile.write("  Sem: ")
+        if (i == 0):
+            majorOutFile.write("Fall\n")
+            major_db[cur_entry]["Fall"] = []
+
+            major_db[cur_entry]["Fall"].append("ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1")
+            majorOutFile.write("   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1\n")
+
+            major_db[cur_entry]["Fall"].append("Computer Engineering Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("Restricted Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: Restricted Elective Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("Restricted Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: Restricted Elective Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("Technical Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: Technical Elective Credit Hours: 3-4\n")
+
+        else:
+            majorOutFile.write("Spring\n")
+            major_db[cur_entry]["Spring"] = []
+
+            major_db[cur_entry]["Spring"].append("ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3")
+            majorOutFile.write("   Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3\n")
+
+            major_db[cur_entry]["Spring"].append("HASS Core Elective Credit Hours: 4")
+            majorOutFile.write("   Course: HASS Core Elective Credit Hours: 4\n")
+
+            major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
+            majorOutFile.write("   Course: Free Elective\n")
+
+            major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
+            majorOutFile.write("   Course: Free Elective\n")
+
+            major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
+            majorOutFile.write("   Course: Free Elective\n")
+
+def handleEE(cur_entry):
+    for i in range(2):
+        majorOutFile.write("  Sem: ")
+        if (i == 0):
+            majorOutFile.write("Fall\n")
+            major_db[cur_entry]["Fall"] = []
+
+            major_db[cur_entry]["Fall"].append("Laboratory Elective Credit Hours: 3")
+            majorOutFile.write("   Course: Laboratory Elective Credit Hours: 3\n")
+
+            major_db[cur_entry]["Fall"].append("Restricted Electives: 3-4​")
+            majorOutFile.write("   Course: Restricted Electives Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("Restricted Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: Restricted Elective Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("Technical Elective Credit Hours: 3-4​")
+            majorOutFile.write("   Course: Technical Elective Credit Hours: 3-4\n")
+
+            major_db[cur_entry]["Fall"].append("HASS Core Electives Credit Hours: 4")
+            majorOutFile.write("   Course: HASS Core Electives Credit Hours: 4\n")
+
+        else:
+            majorOutFile.write("Spring\n")
+            major_db[cur_entry]["Spring"] = []
+
+            major_db[cur_entry]["Spring"].append("ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3")
+            majorOutFile.write("   Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3\n")
+
+            major_db[cur_entry]["Spring"].append("ECSE 2210 - Microelectronics Technology Credit Hours: 3")
+            majorOutFile.write("   Course: ECSE 2210 - Microelectronics Technology Credit Hours: 3\n")
+
+            major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
+            majorOutFile.write("   Course: Free Elective\n")
+
+            major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
+            majorOutFile.write("   Course: Free Elective\n")
+
+            major_db[cur_entry]["Spring"].append("ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1")
+            majorOutFile.write("   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1\n")
 
 #function that parses html page and stores major information in major_db
 def scrapFromURL(webLink, major_db):    
@@ -98,6 +181,18 @@ def scrapFromURL(webLink, major_db):
                     if yearText == "Fourth Year" or yearText == "Academic Year IV":
                         state = 'lastYear'
                 else:
+                    #no split of semesters like in computer systems engineering
+                    if (len(div.find_all("div")) == 0):
+                        #confirm that we are the systems engineering major, because this happens for more than one major/////////////////////
+                        if (major == "Computer and Systems Engineering"):
+                            handleCSE(cur_entry)
+                        elif (major == "Electrical Engineering"):
+                            handleEE(cur_entry)
+                        else:
+                            majorOutFile.write("no semester divide as major {}".format(major))
+                            #physician scientist 4 times, engineering core curriculum twice, electrical engineering once
+                            
+                                
                     for sem in div.find_all("div", recursive = False):
                         if sem.get("class")[0] != "custom_leftpad_20":
                             #individual semester data (some pages are h3 some are h4)
@@ -111,29 +206,32 @@ def scrapFromURL(webLink, major_db):
 
                             #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
+                            shouldBreak = False #shouldBreak is true if we did the inner loop for adding all of the following courses
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
-                                    text_to_add = parseText(litag.text)
+                                    text_to_add = parseText(litag.text, False)
                                     if (text_to_add == ""):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
                                     print(text_to_add)
                                     if text_to_add.lower().find("of the following") != -1:
+                                        shouldBreak = True
                                         for litag in ultag.find_all("li"):
-                                            print("\n\nyo im here\n")
                                             #get the new text and parse it before adding it in
                                             newtext = litag.text
-                                            newParsedText = parseText(newtext)
+                                            newParsedText = parseText(newtext, True)
                                             if (newParsedText == ""):
                                                 continue
-                                            text_to_add += "or {} ".format(newParsedText)
+                                            text_to_add += " OR {} ".format(newParsedText)
 
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
                                     majorOutFile.write(text_to_add)
                                     majorOutFile.write("\n")
+                                    if (shouldBreak):
+                                        break
                             #is there another edge case where some are not in ul or li                                        
                         
                         else:
