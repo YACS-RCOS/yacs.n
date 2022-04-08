@@ -3,7 +3,7 @@ module.exports = {
         collect: {
             url: ['https://localhost'],
             settings: {
-                chromeFlags: ['--ignore-certificate-errors', '--headless'],
+                chromeFlags: ['--ignore-certificate-errors','--window-size 800,600', '--headless'],
                 // --- comment the formFactor and screenEmulation to test for mobile ---
                 formFactor: 'desktop',      
                 screenEmulation: {
