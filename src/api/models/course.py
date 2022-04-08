@@ -1,5 +1,6 @@
 from tortoise import fields
 from tortoise.models import Model
+import tortoise
 
 
 class Course(Model):
