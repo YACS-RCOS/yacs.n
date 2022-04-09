@@ -28,11 +28,11 @@
       </el-button>
 
       <template v-if="isSuccessful">
-        <el-alert title="Submitted Successfully" type="success"/>
+        <el-alert title="Submitted Successfully" type="success" show-icon/>
       </template>
 
       <template v-if="isFailed">
-        <el-alert title="Submit Failed" type="error"/>
+        <el-alert title="Submit Failed" type="error" show-icon/>
       </template>
 
     </el-main>

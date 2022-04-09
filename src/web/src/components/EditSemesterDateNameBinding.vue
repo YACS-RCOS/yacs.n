@@ -84,7 +84,7 @@ export default {
     };
   },
   methods: {
-    onSubmit(event) {
+    onSubmit() {
       if (!this.isLoading) {
         this.isLoading = true;
         let formData = new FormData();

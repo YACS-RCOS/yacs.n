@@ -7,7 +7,13 @@
       </div>
       <el-checkbox v-model="isPubliclyVisible" style="margin-bottom:5px">Make Public</el-checkbox>
 
-      <el-upload ref="uploadRef" action="null" :limit="1" :on-exceed="handleExceed" :auto-upload="false">
+      <el-upload 
+        ref="uploadRef" 
+        action="null" 
+        :limit="1" 
+        :on-exceed="handleExceed" 
+        :auto-upload="false"
+        >
         <template #trigger>
           <el-button class="file">Select File</el-button>
         </template>
@@ -15,7 +21,7 @@
         <el-button 
           class="ml-3" 
           type="success" 
-          @click="submitUpload"
+          @click="onSubmit"
           :loading="isLoading"
           >
           Upload CSV file
@@ -23,7 +29,11 @@
       </el-upload>
 
       <template v-if="isSuccessful">
-        <el-alert title="Uploaded Successfully" type="success"/>
+        <el-alert title="Uploaded Successfully" type="success" show-icon/>
+      </template>
+
+      <template v-if="isFailed">
+        <el-alert title="Upload Failed" type="error" show-icon/>
       </template>
 
       <el-divider></el-divider>
@@ -38,42 +48,51 @@
   </el-container>
 </template>
 
-<script setup>
+<script>
 
 import { ref } from 'vue'
 import { uploadCsv } from '../plugins/axios/apis'
 
-const uploadRef = ref(null)
-let isPubliclyVisible = true
-let isLoading = false
-let isSuccessful = false
-
-const handleExceed = (files) => {
-  uploadRef.value.clearFiles()
-  uploadRef.value.handleStart(files[0])
-}
-
-const submitUpload = () => {
-  if (!isLoading) {
-    isLoading = true
-    const formData = new FormData()
-    formData.set('file', uploadRef.value.uploadFiles[0].raw)
-    formData.set('isPubliclyVisible', isPubliclyVisible)
-    uploadCsv(formData)
-      .then((response) => {
-        console.log(response)
-        // Axios will only enter this block if the status code is 2xx,
-        // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
-        isLoading = false
-        isSuccessful = true
-      })
-      .catch((error) => {
-        console.log(error.response)
-        isLoading = false
-      })
+export default {
+  name: "UploadCsv",
+  data() {
+    return {
+      uploadRef: ref(null),
+      isPubliclyVisible: true,
+      isLoading: false,
+      isSuccessful: false,
+      isFailed: false,
+    };
+  },
+  methods: {
+    onSubmit() {
+      if (!this.isLoading) {
+        const formData = new FormData();
+        formData.set('file', this.$refs.uploadRef.uploadFiles[0].raw);
+        formData.set('isPubliclyVisible', this.isPubliclyVisible);
+        this.isLoading = true;
+        uploadCsv(formData)
+          .then((response) => {
+            console.log(response);
+            // Axios will only enter this block if the status code is 2xx,
+            // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
+            this.isLoading = false;
+            this.isSuccessful = true;
+          })
+          .catch((error) => {
+            console.log(error.response);
+            this.isLoading = false;
+            this.isFailed = true;
+          });
+      }
+      this.isSuccessful = false;
+      this.isFailed = false;
+    },
+    handleExceed(files) {
+      this.$refs.uploadRef.clearFiles();
+      this.$refs.uploadRef.handleStart(files[0]);
+    }
   }
-  isLoading = false
-
 }
 </script>
 
