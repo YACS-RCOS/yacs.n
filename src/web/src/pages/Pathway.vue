@@ -9,16 +9,15 @@
       <br/>
       <b-button @click="listCate()" style="margin-top: 10px; color: #007bff; border: solid #007bff; background-color: transparent;">List by Category</b-button>
     </div>
-
     <div v-if="categories.length > 0" class="mx-auto w-75">
       
       <!-- pop-up window -->
       <b-modal ref="my-modal" >
         <div class="block text-left" v-if="showPath != null" md="10">
-            <h3 class="text-center" style="color:#007bff">{{ showPath.Name[0] }}</h3>
+            <h3 class="text-center" style="color:#007bff; margin-top: -5px; margin-bottom: 5px" >{{ showPath.Name[0] }}</h3>
             <br>
             <div v-for="(item, itemName) in showPath" :key="itemName">
-                <h4 style="color:#3395ff">{{ itemName + ": " }}</h4>
+                <h4 style="color:#3395ff; margin-top: -20px">{{ itemName + ": " }}</h4>
                 <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">{{ course }}</li>
                 <br>
             </div>
@@ -28,6 +27,7 @@
       <b-row>
         <!-- splited categories into 2 arrays, so we can have 2 columns -->
         <b-col
+           
           v-for="(catCol, index) in categoryCols"
           :key="`catCol-${index}`"
           md="6"
@@ -36,6 +36,7 @@
           <b-row
             v-for="categoryObj in catCol"
             :key="categoryObj['Category Name'][0]"
+             
             class="categoryBox border m-2 mb-4"
           >
             <b-col>
@@ -59,6 +60,7 @@
                           variant="light"
                           class="pathway-button m-0 ml-1"
                         >
+                          
                           {{ pathway["Name"][0] }}
                         </b-button>
                       </div>
@@ -99,6 +101,8 @@
                         <!-- pathway button -->
                         <b-button
                           @click="ShowPath(pathway)"
+                       
+                          
                           squared
                           variant="light"
                           class="pathway-button m-0 ml-1"
@@ -237,6 +241,7 @@ export default {
     },
     // Display a pop-up window when a pathway is clicked
     ShowPath(pathway){
+       
         console.log(this.$refs["my-modal"]);
         console.log(pathway);
         this.showPath = pathway;
@@ -285,6 +290,7 @@ export default {
   border-style: none;
   text-align: justify;
   width: 95%;
+ 
 }
 
 .pathway-button:hover {
