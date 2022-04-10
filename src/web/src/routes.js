@@ -37,7 +37,7 @@ var router = new VueRouter({
         },
         {
           path: "/pathway",
-          component:PathwayPage,
+          component: PathwayPage,
           name: "Pathway",
         },
         {

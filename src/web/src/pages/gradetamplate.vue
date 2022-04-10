@@ -1,4 +1,4 @@
-<template id = "body">
+<template id="body">
   <div fluid class="py-3 h-100">
     <h1>Graduatation Requirements</h1>
     <b-modal ref="my-modal">
@@ -11,39 +11,56 @@
             @click="changeTitle(courseName)"
             v-for="courseName in modelShowing.courses"
             :key="courseName"
-          >{{ courseName }} | {{ modelShowing.creditHours }}</b-button>
+          >
+            {{ courseName }} | {{ modelShowing.creditHours }}
+          </b-button>
         </p>
-        <p
-          v-if="modelShowing.Departments != null"
-        >Possible categories: {{ modelShowing.Departments }}</p>
-        <p
-          v-if="modelShowing['pre-requsit-of'] != null"
-        >Prerequsit of: {{ modelShowing["pre-requsit-of"] }}</p>
+        <p v-if="modelShowing.Departments != null">
+          Possible categories: {{ modelShowing.Departments }}
+        </p>
+        <p v-if="modelShowing['pre-requsit-of'] != null">
+          Prerequsit of: {{ modelShowing["pre-requsit-of"] }}
+        </p>
       </div>
     </b-modal>
     <b-row>
       <b-col sm="4">
-        <b-form-select v-model="selected" :options="optionsDegree"></b-form-select>
+        <b-form-select
+          v-model="selected"
+          :options="optionsDegree"
+        ></b-form-select>
       </b-col>
       <b-col sm="4">
-        <b-form-select v-model="selected" :options="optionsMajor"></b-form-select>
+        <b-form-select
+          v-model="selected"
+          :options="optionsMajor"
+        ></b-form-select>
       </b-col>
       <b-col sm="4">
-        <b-form-select v-model="selected" :options="optionsYear"></b-form-select>
+        <b-form-select
+          v-model="selected"
+          :options="optionsYear"
+        ></b-form-select>
       </b-col>
       <tr v-for="template in templates" :key="template.id" text-align:center>
         <td scope="row">{{ template.id }}</td>
       </tr>
     </b-row>
     <b-row>
-      <b-col md="6" v-for="semester in semesterAll" :key="semester['semester-name']">
+      <b-col
+        md="6"
+        v-for="semester in semesterAll"
+        :key="semester['semester-name']"
+      >
         <h2>{{ semester["semester-name"] }}</h2>
         <draggable class="list-group" :list="list1" group="people">
           <b-button
             @click="showModal(course)"
             v-for="course in semester.courses"
             :key="course"
-          >{{ course.name }} | {{ course.creditHours }}</b-button>
+          >
+            {{ course.name }} | {{ course.creditHours }}
+          </b-button>
         </draggable>
       </b-col>
     </b-row>
