@@ -5,6 +5,7 @@ import re
 import json
 from psycopg2.extras import RealDictCursor
 from ast import literal_eval
+import asyncio
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -36,7 +37,7 @@ class Courses:
 
     def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
-        self.cache.clear()
+        self.clear_cache()
         return self.db.execute("""
             BEGIN TRANSACTION;
                 DELETE FROM course
@@ -55,7 +56,7 @@ class Courses:
                 print(error)
                 return error
         # on success, invalidate cache
-        self.cache.clear()
+        self.clear_cache()
         return None
 
     def populate_from_csv(self, csv_text):
@@ -237,8 +238,19 @@ class Courses:
                     return (False, e)
         conn.commit()
         # invalidate cache so we can get new classes
-        self.cache.clear()
+        self.clear_cache()
         return (True, None)
+
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
 
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
