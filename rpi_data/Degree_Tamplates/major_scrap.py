@@ -27,6 +27,10 @@ def parseText(text, keepOR):
     if (not keepOR and lowercase_text == "or"):
         return ""
 
+    #case of just "and" in the chemE
+    if (lowercase_text == "and"):
+        return ""
+
     #remove descriptive things about courses from being courses themselves
     if (lowercase_text.find("this course") != -1 or lowercase_text.find("defer") != -1):
         return ""
@@ -121,10 +125,10 @@ def handleEE(cur_entry):
             majorOutFile.write("   Course: ECSE 2210 - Microelectronics Technology Credit Hours: 3\n")
 
             major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
-            majorOutFile.write("   Course: Free Elective\n")
+            majorOutFile.write("   Course: Free Elective: 3-4​\n")
 
             major_db[cur_entry]["Spring"].append("Free Elective: 3-4​")
-            majorOutFile.write("   Course: Free Elective\n")
+            majorOutFile.write("   Course: Free Elective: 3-4​\n")
 
             major_db[cur_entry]["Spring"].append("ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1")
             majorOutFile.write("   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1\n")
@@ -164,12 +168,12 @@ def scrapFromURL(webLink, major_db):
                 #if we arent at the last year's data 
                 if state == 'newMajor' or state =="newYear":
                     majorOutFile.write(" Year: ")
-
                     #parse year data
                     if not academicYear: #common case
                         yearText = div.text.split()[0] + " Year"
                     else:
-                        if (div.text == "Courses transferred from Albany Medical College"):
+                        yearText = div.text
+                        if (yearText == "Courses transferred from Albany Medical College"):
                             #done with physician-scientist so return
                             return
                     cur_entry = (major, yearText)
@@ -191,7 +195,7 @@ def scrapFromURL(webLink, major_db):
                             handleEE(cur_entry)
                         else:
                             majorOutFile.write("no semester divide as major {}".format(major))
-                            #physician scientist 4 times, engineering core curriculum twice, electrical engineering once
+                            #engineering core curriculum twice, electrical engineering once
                             
                                 
                     for sem in div.find_all("div", recursive = False):
@@ -215,7 +219,6 @@ def scrapFromURL(webLink, major_db):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
-                                    #print(text_to_add)
                                     if text_to_add.lower().find("of the following") != -1:
                                         shouldBreak = True
                                         for litag in ultag.find_all("li"):
@@ -233,6 +236,10 @@ def scrapFromURL(webLink, major_db):
                                     majorOutFile.write("\n")
                                     if (shouldBreak):
                                         break
+                            if yearText == "Second Year" and semName.text == "Spring" and major == "Engineering Core Curriculum":
+                                #stop after the 2nd year for the Engineering Core Curriculum major
+                                majorOutFile.write("\n")
+                                return
                             #is there another edge case where some are not in ul or li                                        
                         
                         else:

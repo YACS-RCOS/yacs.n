@@ -272,7 +272,6 @@ Chemical Engineering:
    Course: HASS Elective Credit Hours: 4
    Course: CHME 1100 - Fundamentals of Chemical Engineering Credit Hours: 4
    Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3
-   Course: and
    Course: BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1
    Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1
    Course: ENGR 1400 - Engineering Communications Credit Hours: 1
@@ -934,8 +933,8 @@ Credit Hours:
   Sem: Spring
    Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3
    Course: ECSE 2210 - Microelectronics Technology Credit Hours: 3
-   Course: Free Elective
-   Course: Free Elective
+   Course: Free Elective: 3-4​
+   Course: Free Elective: 3-4​
    Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
 
 Electronic Arts:
@@ -1016,11 +1015,6 @@ Engineering Core Curriculum:
    Course: HASS Core Elective Credit Hours: 4
    Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
 
- Year: Footnotes Year
- Year: Fall Year
-no semester divide as major Engineering Core Curriculum
- Year: Fall Year
-no semester divide as major Engineering Core Curriculum
 Environmental Engineering:
  Year: First Year
   Sem: Fall
