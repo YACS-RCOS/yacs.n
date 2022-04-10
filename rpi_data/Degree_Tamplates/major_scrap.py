@@ -27,6 +27,9 @@ def parseText(text, keepOR):
     if (not keepOR and lowercase_text == "or"):
         return ""
 
+    if (lowercase_text.find("units") != -1):
+        return ""
+
     #case of just "and" in the chemE
     if (lowercase_text == "and"):
         return ""

@@ -512,9 +512,7 @@ Civil Engineering:
    Course: Free Elective Credit Hours: 4
    Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4
    Course: STSO 4100 - Professional Development 2 –Technical Issues and Solutions Credit Hours: 2
-   Course: Credits / Units: 2
    Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1
-   Course: Credits / Units: 1
 
  Year: Fourth Year
   Sem: Fall
