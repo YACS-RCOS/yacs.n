@@ -62,6 +62,16 @@ jobs:
         run: |
           bash src/api/tests/test.sh
 
+      - name: Run API unit tests
+        env:
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASS: postgres
+          DB_NAME: yacs
+          DB_HOST: postgres
+        run: |
+          bash src/api/tests/test.sh
+
   lighthouse:
     name: Lighthouse CI
     runs-on: ubuntu-latest
