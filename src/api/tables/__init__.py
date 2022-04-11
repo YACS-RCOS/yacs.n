@@ -1,5 +1,4 @@
 from .admin_settings import AdminSettings
-from .course_corequisite import CourseCorequisite
 from .course_prerequisite import CoursePrerequisite
 from .course_session import CourseSession
 from .semester_date_range import SemesterDateRange
