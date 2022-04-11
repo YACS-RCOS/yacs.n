@@ -91,8 +91,8 @@ If you are working on the backend, there are a lot of Python Libraries you may b
             https://www.crummy.com/software/BeautifulSoup/bs4/doc/
         Regex: 
             https://docs.python.org/3/howto/regex.html
-        Flask: 
-            https://flask.palletsprojects.com/
+        FastAPI: 
+            https://fastapi.tiangolo.com/
         Pandas: 
             https://pandas.pydata.org/docs/
 

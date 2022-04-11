@@ -2,6 +2,7 @@ from db.user import User as UserModel
 from db.session import Session as SessionModel
 import view.message as msg
 from common import *
+from api_models import *
 
 
 async def get_user_info(session_id):
@@ -41,6 +42,9 @@ async def update_user(form):
     new_password = form['newPassword']
     major = form['major']
     degree = form['degree']
+
+    if(name==None or session_id==None or email==None or phone==None or new_password==None or major==None or degree==None):
+        return msg.error_msg("Please check your requests.")
 
     if new_password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
