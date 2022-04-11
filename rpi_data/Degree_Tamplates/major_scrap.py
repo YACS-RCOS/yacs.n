@@ -48,6 +48,19 @@ def parseText(text):
 
     return text_to_add
 
+# Solves edge case when given an <li> element that gives students a choice of several classes
+def chooseOneParse(liElement):
+    resStr = ""
+    for ultag in liElement.find_all("ul"):
+        for litag in ultag.find_all("li"):
+            #print("litag INNER:", litag.text)
+            if len(resStr) > 0:
+                resStr += "OR {} ".format(litag.text)
+            else:
+                resStr += litag.text
+    print("resStr", resStr)
+    return resStr
+
 #function that parses html page and stores major information in major_db
 def scrapFromURL(webLink, major_db):    
     URL = webLink
@@ -120,19 +133,19 @@ def scrapFromURL(webLink, major_db):
                             major_db[cur_entry][semName.text] = []
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
+                                    
+                                    # Solves edge case for Music major program page where students are given many options for courses, calls the chooseOneParse function which returns a string with all course names combined to form one 'course'
+                                    
                                     text_to_add = parseText(litag.text)
                                     if (text_to_add == ""):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
+                                    
                                     if text_to_add.lower().find("of the following") != -1:
-                                        for litag in ultag.find_all("li"):
-                                            #get the new text and parse it before adding it in
-                                            newtext = litag.text
-                                            newParsedText = parseText(newtext)
-                                            if (newParsedText == ""):
-                                                continue
-                                            text_to_add += "or {} ".format(newParsedText)
+                                        text_to_add = chooseOneParse(litag)
+                                        print("the text to add is", text_to_add)
+                                    
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
@@ -168,11 +181,14 @@ f = open("majorURLlist.txt", "r")
 #initialize outfile and scrape from each url all the major data
 majorOutFile = open("majorTemplate.txt", "a") #append mode
 majorOutFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
-
+"""
 for link in f:
     #print(link, end="")
     scrapFromURL(link, major_db)
     #break
+"""
+
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5507&returnto=542", major_db)
 
 #all major info is obtained so close the outfile
 majorOutFile.close()

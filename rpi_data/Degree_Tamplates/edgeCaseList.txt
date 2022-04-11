@@ -9,9 +9,9 @@ SOLVED:
 ------------------------------------------------
 IN-PROGRESS:
 - Computer and Systems Engineering and Electrical Engineering pages' 4th year category does not split the courses into semesters
+- Redundant information in Arch Semester section for Music Major - This is the result of the outer row with the text "Choose one of the following:" as well as the inner rows containing course names having the same HTML tag (<li>). The loop runs through adds the text of all <li> elements, so the courses show up twice
 ------------------------------------------------
 NOT STARTED:
 - Cognitive Science page has a separate format for courses with many subcategories of courses to choose from
 - Sometimes, students have an option to choose one of two courses but the formatting differs from major to major (e.g. CS 4th Year Prog Lang and Design, Innovation, and Society)
-- Redundant information in Arch Semester section for Music Major - This is the result of the outer row with the text "Choose one of the following:" as well as the inner rows containing course names having the same HTML tag (<li>). The loop runs through adds the text of all <li> elements, so the courses show up twice
 - There is an index-out-of-range error when converting the major information into a SQL command. This seems to be occurring with semesters for majors that do not separate their course into 2 semesters (e.g Environmental Science has "3" semesters for its third year and Computer Systems and Engineering does not have any semesters listed at all.)
