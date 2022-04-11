@@ -15,6 +15,3 @@ def test_department_success(upload, client: TestClient):
     departments = [d['department'] for d in data]
     for d in expected:
         assert d in departments
-
-
-    
