@@ -49,15 +49,20 @@ def parseText(text):
     return text_to_add
 
 # Solves edge case when given an <li> element that gives students a choice of several classes
-def chooseOneParse(liElement):
+def courseChoiceParse(element):
     resStr = ""
-    for ultag in liElement.find_all("ul"):
+    #print("this is here", element.text)
+
+    for ultag in element.find_all("ul"):
         for litag in ultag.find_all("li"):
-            #print("litag INNER:", litag.text)
+            # Solves edge case where extra info for a course is put in a separate <li> tag which messes with appending all course choices by adding an unecessary OR
+            if litag.text.lower().find("[intended to be taken for 4 credit hours]") != -1:
+                continue
             if len(resStr) > 0:
-                resStr += "OR {} ".format(litag.text)
+                resStr += " OR {}".format(litag.text)
             else:
                 resStr += litag.text
+
     print("resStr", resStr)
     return resStr
 
@@ -143,7 +148,7 @@ def scrapFromURL(webLink, major_db):
                                     #merge multiple class options into one class to store in the db
                                     
                                     if text_to_add.lower().find("of the following") != -1:
-                                        text_to_add = chooseOneParse(litag)
+                                        text_to_add = courseChoiceParse(litag)
                                         print("the text to add is", text_to_add)
                                     
                                     #the text has been confirmed to be a class and it has been parsed as well so add
@@ -155,9 +160,14 @@ def scrapFromURL(webLink, major_db):
                         
                         else:
                             # edge case where it is leftpad20
-                            for h3 in sem.find_all("h4"):
-                                if h3.text == "Culminating Experience":
-                                    majorOutFile.write("   Course: Culminating Experience ")    
+                            for h4 in sem.find_all("h4"):
+                                if h4.text == "Culminating Experience":
+                                    majorOutFile.write("   Course: Culminating Experience ")
+                                if h4.text.lower().find("choose one:") != -1:
+                                    for div in sem.find_all("div"):
+                                        #print("div text", div.text)
+                                        majorOutFile.write(courseChoiceParse(div))
+                                    
                             for em in sem.find_all("em"):
                                 if em.text[:13] == "Credit Hours:":
                                     majorOutFile.write(em.text + "\n") 
@@ -188,7 +198,7 @@ for link in f:
     #break
 """
 
-scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5507&returnto=542", major_db)
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5359&returnto=542", major_db)
 
 #all major info is obtained so close the outfile
 majorOutFile.close()

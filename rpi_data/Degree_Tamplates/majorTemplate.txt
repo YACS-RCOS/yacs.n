@@ -1,69 +1,46 @@
-Music:
+Cognitive Science:
  Year: First Year
   Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Private Music Lesson or Ensemble Credit Hours: 1
-   Course: ARTS 2020 - Music and Technology I Credit Hours: 4
-   Course: ARTS 2380 - Music and Sound I Credit Hours: 4
+   Course: Free Elective, Credit Hours: 4
+   Course: IHSS 1140 - Minds and Machines Credit Hours: 4
+   Course: CSCI 1100 - Computer Science I Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
-   Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4
   Sem: Spring
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Private Music Lesson or Ensemble Credit Hours: 1
-   Course: ARTS 4160 - Music and Technology II Credit Hours: 4
-   Course: ARTS 4380 - Music and Sound II Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: COGS 2120 - Introduction to Cognitive Science Credit Hours: 4
+   Course: CSCI 1200 - Data Structures Credit Hours: 4
    Course: MATH 1020 - Calculus II Credit Hours: 4
-   Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4
 
  Year: Second Year
   Sem: Fall
-   Course: Science Core Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: Private Music Lesson or Ensemble Credit Hours: 1
-   Course: ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4
+   Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4
+   Course: COGS 2340 - Introduction to Linguistics Credit Hours: 4
+   Course: PHIL 2140 - Introduction to Logic Credit Hours: 4
   Sem: Spring
-   Course: Science Core Elective Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: Private Music Lesson or Performance Ensemble Credit Hours: 1
+   Course: Free Elective Credit Hours: 4
+   Course: CSCI 2300 - Introduction to Algorithms Credit Hours: 4
+   Course: PSYC 4410 - Sensation and Perception Credit Hours: 4
 
  Year: Third Year
   Sem: The Arch Summer Semester*
-   Course: Science Core Elective Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
+   Course: Cognitive Science Elective Credit hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: ARTS 2540 - The Multimedia Century Credit Hours: 4OR ARTS 2520 - World Music Credit Hours: 4 OR ARTS 2500 - Histories of Western Music Credit Hours: 4 OR ARTS 2550 - Popular Music and Society Credit Hours: 4 OR ARTS 2610 - Designing Musical Games Credit Hours: 4 OR GSAS 2610 - Designing Musical Games Credit Hours: 4 OR ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4 OR ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4 
-   Course: ARTS 2540 - The Multimedia Century Credit Hours: 4
-   Course: ARTS 2520 - World Music Credit Hours: 4
-   Course: ARTS 2500 - Histories of Western Music Credit Hours: 4
-   Course: ARTS 2550 - Popular Music and Society Credit Hours: 4
-   Course: ARTS 2610 - Designing Musical Games Credit Hours: 4
-   Course: GSAS 2610 - Designing Musical Games Credit Hours: 4
-   Course: ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4
-   Course: ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4
-   Course: ARTS 2540 - The Multimedia Century Credit Hours: 4
-   Course: ARTS 2520 - World Music Credit Hours: 4
-   Course: ARTS 2500 - Histories of Western Music Credit Hours: 4
-   Course: ARTS 2550 - Popular Music and Society Credit Hours: 4
-   Course: ARTS 2610 - Designing Musical Games Credit Hours: 4
-   Course: GSAS 2610 - Designing Musical Games Credit Hours: 4
-   Course: ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4
-   Course: ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4
+   Course: PSYC 2310 - Research Methods and Statistics I Credit Hours: 4
   Sem: Fall OR Spring
-   Course: Science Core Elective Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: ARTS 4390 - Composition Seminar Credit Hours: 4 (course can be repeated multiple times for additional credit)
-   Course: ARTS 4880 - Interdisciplinary Research Seminar Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4Credit Hours:
 
  Year: Fourth Year
   Sem: Fall
+   Course: Cognitive Science Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: Culminating Experience Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
   Sem: Spring
+   Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
+Approved project/seminar course Credit Hours: 4 OR COGS 4990 - Undergraduate Thesis Credit Hours: 3-6Credit Hours: 4
 
