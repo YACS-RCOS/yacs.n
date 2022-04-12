@@ -2,6 +2,7 @@ import csv
 import re
 from ast import literal_eval
 import asyncio
+from tortoise.exceptions import OperationalError
 from tortoise.transactions import in_transaction
 
 from db.model import *
@@ -37,16 +38,13 @@ class Courses(Model):
     async def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
         self.clear_cache()
-        return await self.db.execute("""
-            BEGIN TRANSACTION;
-                DELETE FROM course
-                WHERE semester='%(Semester)s';
-                DELETE FROM course_session
-                WHERE semester='%(Semester)s';
-            COMMIT;
-        """, {
-            "Semester": semester
-        }, isSELECT=False)
+        try:
+            async with in_transaction() as transaction:
+                await transaction.execute_query(f"DELETE FROM course WHERE semester='{semester}'")
+                await transaction.execute_query(f"DELETE FROM course_session WHERE semester='{semester}'")
+                return 1, None
+        except OperationalError as e:
+            return 0, e
 
     async def bulk_delete(self, semesters):
         for semester in semesters:
@@ -61,13 +59,16 @@ class Courses(Model):
     async def populate_from_csv(self, csv_text):
         reader = csv.DictReader(csv_text)
         # for each course entry insert sections and course sessions
-        with in_transaction() as transaction:
+        async with in_transaction() as transaction:
             for row in reader:
+                for k in ('description', 'full_name', 'course_name', 'raw_precoreqs', 'course_instructor'):
+                    row[k] = row[k].replace("'", "''")
+
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
                     for day in days:
-                        transaction.execute_query(
+                        await transaction.execute_query(
                             """
                             INSERT INTO
                                 course_session(
@@ -85,21 +86,21 @@ class Courses(Model):
                                 NULLIF('%(CRN)s', ''),
                                 NULLIF('%(Section)s', ''),
                                 NULLIF('%(Semester)s', ''),
-                                '%(StartTime)s',
-                                '%(EndTime)s',
+                                %(StartTime)s,
+                                %(EndTime)s,
                                 '%(WeekDay)s',
                                 NULLIF('%(Location)s', ''),
                                 NULLIF('%(SessionType)s', ''),
                                 NULLIF('%(Instructor)s', '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
-                                "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
-                                "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
+                                "StartTime": "'" + str(row['course_start_time']) + "'" if row['course_start_time'] and not row['course_start_time'].isspace() else 'NULL',
+                                "EndTime": "'" + str(row['course_end_time']) + "'" if row['course_end_time'] and not row['course_end_time'].isspace() else 'NULL',
                                 "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
                                 "Location": row['course_location'],
                                 "SessionType": row['course_type'],
@@ -107,7 +108,7 @@ class Courses(Model):
                             }
                         )
                     # courses
-                    transaction.execute_query(
+                    await transaction.execute_query(
                             """
                             INSERT INTO
                                 course(
@@ -135,15 +136,15 @@ class Courses(Model):
                                 NULLIF('%(CRN)s', ''),
                                 NULLIF('%(Section)s', ''),
                                 NULLIF('%(Semester)s', ''),
-                                '%(MinCredits)s',
-                                '%(MaxCredits)s',
+                                %(MinCredits)s,
+                                %(MaxCredits)s,
                                 NULLIF('%(Description)s', ''),
                                 NULLIF('%(Frequency)s', ''),
                                 NULLIF('%(FullTitle)s', ''),
                                 '%(StartDate)s',
                                 '%(EndDate)s',
                                 NULLIF('%(Department)s', ''),
-                                '%(Level)s',
+                                %(Level)s,
                                 NULLIF('%(Title)s', ''),
                                 NULLIF('%(RawPrecoreqText)s', ''),
                                 '%(School)s',
@@ -158,7 +159,7 @@ class Courses(Model):
                                     setweight(to_tsvector(coalesce('%(Description)s', '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
@@ -187,7 +188,7 @@ class Courses(Model):
                     # ast.literal_eval will throw SyntaxError if given an empty string
                     prereqs = literal_eval(row['prerequisites']) if row['prerequisites'] else []
                     for prereq in prereqs:
-                        transaction.execute_query(
+                        await transaction.execute_query(
                             """
                             INSERT INTO course_prerequisite (
                                 department,
@@ -200,7 +201,7 @@ class Courses(Model):
                                 NULLIF('%(Prerequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
@@ -210,7 +211,7 @@ class Courses(Model):
                     # populate coereqs table, must come after course population b/c ref integrity
                     coreqs = literal_eval(row['corequisites']) if row['corequisites'] else []
                     for coreq in coreqs:
-                        transaction.execute_query(
+                        await transaction.execute_query(
                             """
                             INSERT INTO course_corequisite (
                                 department,
@@ -223,7 +224,7 @@ class Courses(Model):
                                 NULLIF('%(Corequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,

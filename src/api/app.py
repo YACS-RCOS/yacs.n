@@ -160,16 +160,16 @@ async def uploadHandler(
     # update semester infos based on isPubliclyVisible, hiding semester if needed
     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
-    for semester in semesters:
-        semester_info.upsert(semester, isPubliclyVisible)
+    # for semester in semesters:
+    #     semester_info.upsert(semester, isPubliclyVisible)
     # Like C, the cursor will be at EOF after full read, so reset to beginning
     csv_file.seek(0)
     # Clear out course data of the same semester before population due to
     # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
     # courses.
-    courses.bulk_delete(semesters=semesters)
+    await courses.bulk_delete(semesters=semesters)
     # Populate DB from CSV
-    isSuccess, error = courses.populate_from_csv(csv_file)
+    isSuccess, error = await courses.populate_from_csv(csv_file)
     if (isSuccess):
         return Response(status_code=200)
     else:

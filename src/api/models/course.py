@@ -7,7 +7,7 @@ from tortoise.models import Model
 class Course(Model):
     __tablename__ = "course"
 
-    crn = fields.CharField(max_length=255, primary_key=True)
+    crn = fields.CharField(max_length=255, pk=True)
     section = fields.CharField(max_length=255)
     semester = fields.CharField(max_length=255)
     min_credits = fields.IntField()
