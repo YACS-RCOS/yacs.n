@@ -1,11 +1,10 @@
-import glob
-import os
 import csv
 import re
-import json
-from psycopg2.extras import RealDictCursor
 from ast import literal_eval
 import asyncio
+from tortoise.transactions import in_transaction
+
+from db.model import *
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -14,9 +13,9 @@ else:
     from . import connection
 
 
-class Courses:
-    def __init__(self, db_wrapper, cache):
-        self.db = db_wrapper
+class Courses(Model):
+    def __init__(self, cache):
+        super().__init__()
         self.cache = cache
 
     def dayToNum(self, day_char):
@@ -49,9 +48,9 @@ class Courses:
             "Semester": semester
         }, isSELECT=False)
 
-    def bulk_delete(self, semesters):
+    async def bulk_delete(self, semesters):
         for semester in semesters:
-            _, error = self.delete_by_semester(semester)
+            _, error = await self.delete_by_semester(semester)
             if error:
                 print(error)
                 return error
@@ -60,16 +59,15 @@ class Courses:
         return None
 
     async def populate_from_csv(self, csv_text):
-        conn = await self.db.get_connection()
         reader = csv.DictReader(csv_text)
         # for each course entry insert sections and course sessions
-        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+        with in_transaction() as transaction:
             for row in reader:
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
                     for day in days:
-                        transaction.execute(
+                        transaction.execute_query(
                             """
                             INSERT INTO
                                 course_session(
@@ -109,7 +107,7 @@ class Courses:
                             }
                         )
                     # courses
-                    transaction.execute(
+                    transaction.execute_query(
                             """
                             INSERT INTO
                                 course(
@@ -189,7 +187,7 @@ class Courses:
                     # ast.literal_eval will throw SyntaxError if given an empty string
                     prereqs = literal_eval(row['prerequisites']) if row['prerequisites'] else []
                     for prereq in prereqs:
-                        transaction.execute(
+                        transaction.execute_query(
                             """
                             INSERT INTO course_prerequisite (
                                 department,
@@ -212,7 +210,7 @@ class Courses:
                     # populate coereqs table, must come after course population b/c ref integrity
                     coreqs = literal_eval(row['corequisites']) if row['corequisites'] else []
                     for coreq in coreqs:
-                        transaction.execute(
+                        transaction.execute_query(
                             """
                             INSERT INTO course_corequisite (
                                 department,
@@ -232,11 +230,9 @@ class Courses:
                                 "Corequisite": coreq
                             }
                         )
-                except Exception as e:
+                except OperationalError as e:
                     print(e)
-                    conn.rollback()
                     return (False, e)
-        conn.commit()
         # invalidate cache so we can get new classes
         self.clear_cache()
         return (True, None)
@@ -253,8 +249,6 @@ class Courses:
             asyncio.run(self.cache.clear("API_CACHE"))
 
 if __name__ == "__main__":
-    # os.chdir(os.path.abspath("../rpi_data"))
-    # fileNames = glob.glob("*.csv")
     csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
