@@ -4,9 +4,9 @@ class Admin:
 		self.db_conn = db_conn
 		self.interface_name = 'admin_info'
 
-	def get_semester_default(self):
+	async def get_semester_default(self):
 		# NOTE: COALESCE takes first non-null vaue from the list
-		result, error = self.db_conn.execute("""
+		result, error = await self.db_conn.execute("""
 			SELECT admin.semester FROM admin_settings admin
 			UNION ALL
 			SELECT si.semester FROM semester_info si WHERE si.public=true::boolean
@@ -24,15 +24,15 @@ class Admin:
 		else:
 			return (default_semester, error)
 
-	def set_semester_default(self, semester):
+	async def set_semester_default(self, semester):
 		try:
 			cmd = """
 				WITH _ AS (DELETE FROM admin_settings)
 				INSERT INTO admin_settings(semester)
-				VALUES(%s)
-				ON CONFLICT (semester) DO UPDATE SET semester = %s
+				VALUES('%s')
+				ON CONFLICT (semester) DO UPDATE SET semester = '%s'
 			"""
-			response, error = self.db_conn.execute(cmd, [semester, semester], False)
+			response, error = await self.db_conn.execute(cmd, [semester, semester], False)
 
 		except Exception as e:
 			# self.db_conn.rollback()
