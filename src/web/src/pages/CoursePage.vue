@@ -2,41 +2,57 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
-      <b-row>
-        <b-col>
-          <h1 class="mt-4">{{ courseObj.title }}</h1>
-          <h4 class="mb-1 d-inline">{{ courseName }}</h4>
-          &nbsp;
-          <div class="d-inline">
-            <course-sections-open-badge :course="courseObj" />
-          </div>
+
+      <b-row >
+
+        <b-col  class="mt-7">
+        <b-row>
+          <b-col>
+            <h1 class="mt-4">{{ courseObj.title }}</h1>
+            <h4 class="mb-1 d-inline">{{ courseName }}</h4>
+            &nbsp;
+            <div class="d-inline">
+              <course-sections-open-badge :course="courseObj" />
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <p v-html="transformed" />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="mb-4">
+            <br />
+            {{ courseObj.description }}
+          </b-col>
+        </b-row>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+
+        
+        <b-col  class="mt-4">
+           <CourseListing
+              :course="this.courseObj"
+              defaultAction="toggleCourse"
+              v-on="$listeners"
+              lazyLoadCollapse
+            >
+        </CourseListing>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p v-html="transformed" />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col class="mb-4">
-          <br />
-          {{ courseObj.description }}
-        </b-col>
-      </b-row>
+
+        </b-row>
+
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
-      <CourseListing
-        defaultAction="toggleCourse"
-        v-on="$listeners"
-        lazyLoadCollapse
-      >
-      </CourseListing>
+     
     </div>
+
     <CenterSpinner
       v-else-if="isLoadingCourses"
       :height="80"
@@ -44,6 +60,7 @@
       loadingMessage="Course"
       :topSpacing="30"
     />
+    
     <!-- If !courseObj -->
     <div v-else class="w-90 ml-4 mb-4">
       <b-row>
@@ -61,7 +78,7 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
-import CourseListingComponent from "@/components/CourseListing";
+import CourseListingComponent from "../components/CourseListing.vue";
 
 export default {
   components: {
