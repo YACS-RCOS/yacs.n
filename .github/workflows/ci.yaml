@@ -87,8 +87,8 @@ jobs:
 
       - name: run Lighthouse CI
         run: |
+          --chrome-flags='--ignore-certificate-errors'
           npm install -g @lhci/cli@0.7.x &&
-          curl -k https://yacs.cs.rpi.edu
           lhci autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
