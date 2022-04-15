@@ -87,7 +87,6 @@ jobs:
 
       - name: run Lighthouse CI
         run: |
-          --chrome-flags='--ignore-certificate-errors'
           npm install -g @lhci/cli@0.7.x &&
           lhci autorun
         env:
