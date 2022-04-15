@@ -61,9 +61,6 @@ class Courses(Model):
         # for each course entry insert sections and course sessions
         async with in_transaction() as transaction:
             for row in reader:
-                for k in ('description', 'full_name', 'course_name', 'raw_precoreqs', 'course_instructor'):
-                    row[k] = row[k].replace("'", "''")
-
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
@@ -91,7 +88,7 @@ class Courses(Model):
                                 '%(WeekDay)s',
                                 NULLIF('%(Location)s', ''),
                                 NULLIF('%(SessionType)s', ''),
-                                NULLIF('%(Instructor)s', '')
+                                NULLIF($inst$%(Instructor)s$inst$, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """ %
@@ -138,25 +135,25 @@ class Courses(Model):
                                 NULLIF('%(Semester)s', ''),
                                 %(MinCredits)s,
                                 %(MaxCredits)s,
-                                NULLIF('%(Description)s', ''),
+                                NULLIF($desc$%(Description)s$desc$, ''),
                                 NULLIF('%(Frequency)s', ''),
-                                NULLIF('%(FullTitle)s', ''),
+                                NULLIF($ftitle$%(FullTitle)s$ftitle$, ''),
                                 '%(StartDate)s',
                                 '%(EndDate)s',
                                 NULLIF('%(Department)s', ''),
                                 %(Level)s,
-                                NULLIF('%(Title)s', ''),
-                                NULLIF('%(RawPrecoreqText)s', ''),
+                                NULLIF($title$%(Title)s$title$, ''),
+                                NULLIF($prereq$%(RawPrecoreqText)s$prereq$, ''),
                                 '%(School)s',
                                 '%(SeatsOpen)s',
                                 '%(SeatsFilled)s',
                                 '%(SeatsTotal)s',
-                                setweight(to_tsvector(coalesce('%(FullTitle)s', '')), 'A') ||
-                                    setweight(to_tsvector(coalesce('%(Title)s', '')), 'A') ||
+                                setweight(to_tsvector(coalesce($ftitle2$%(FullTitle)s$ftitle2$, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce($title2$%(Title)s$title2$, '')), 'A') ||
                                     setweight(to_tsvector(coalesce('%(Department)s', '')), 'A') ||
                                     setweight(to_tsvector(coalesce('%(CRN)s', '')), 'A') ||
                                     setweight(to_tsvector(coalesce('%(Level)s', '')), 'B') ||
-                                    setweight(to_tsvector(coalesce('%(Description)s', '')), 'D')
+                                    setweight(to_tsvector(coalesce($desc2$%(Description)s$desc2$, '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
                             """ %

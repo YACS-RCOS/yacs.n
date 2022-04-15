@@ -3,6 +3,7 @@ import asyncio
 from fastapi.testclient import TestClient
 import os, inspect
 from models import Course
+from datetime import date
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
@@ -21,24 +22,34 @@ def test_bulk_upload_success(upload, client: TestClient, event_loop: asyncio.Abs
     assert upload.status_code == 200 # Verify Success status is returned
 
     # Check for a course from each semester in test data
-    course1 = event_loop.run_until_complete(Course.get(crn="15486"))
-    assert course1.full_title == "STUDENT SUCCESS LABS"
+    course1 = event_loop.run_until_complete(Course.get(crn="15486").only("crn", "title", "semester"))
+    assert course1.crn == "15486"
+    assert course1.title == "STUDENT SUCCESS LABS"
     assert course1.semester == "SUMMER 2020"
 
-    course2 = event_loop.run_until_complete(Course.get(crn="95659"))
-    assert course2.full_title == "RESEARCH WRITING"
-    assert course2.semester == "SPRING 2020"
+    # For course 2 we will check all fields that should be populated
+    course2 = event_loop.run_until_complete(
+        Course.get(crn="95659").only("crn", "section", "semester", "min_credits", "max_credits",
+                                     "description", "frequency", "full_title", "date_start", "date_end",
+                                     "department", "level", "title", "raw_precoreqs", "school",
+                                     "seats_open", "seats_filled", "seats_total"))
 
-    # Get semesters
-    # expected_results = ['SUMMER 2020', 'SPRING 2020']
-    # r = client.get("/api/semester")
-    # assert r.status_code == 200
-    # semesters = [s['semester'] for s in r.json()]
-    # for s in expected_results:
-    #     assert s in semesters
+    assert course2.crn == "95659" and course2.section == "01"
+    assert course2.semester == "SPRING 2020"
+    assert course2.min_credits == 4 and course2.max_credits == 4
+    assert course2.description == "In this class, students will write on topics from their major discipline and investigate the kinds of texts that professionals in their field produce. They will identify and explore research questions, use discipline-specific library databases, and write research reports. In addition, they will develop effective note-taking and research skills and learn strategies for effective prose style. This is a communication-intensive course."
+    assert course2.frequency == "Fall term annually."
+    assert course2.full_title == "Research Writing"
+    assert course2.date_start == date(2020, 1, 13) and course2.date_end == date(2020, 5, 8)
+    assert course2.department == "WRIT" and course2.level == 4410
+    assert course2.title == "RESEARCH WRITING"
+    assert course2.raw_precoreqs == None
+    assert course2.school == "Humanities, Arts and Social Sciences"
+    assert course2.seats_open == 0 and course2.seats_filled == 19 and course2.seats_total == 19
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_bulk_upload_no_file(client: TestClient):
     '''
     Tests bulk course upload for when no file is provided
@@ -52,6 +63,7 @@ def test_bulk_upload_no_file(client: TestClient):
     assert r.status_code == 400
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_bulk_upload_wrong_file_extension(client: TestClient):
     '''
     Tests bulk course upload for when a non-csv file is provided
