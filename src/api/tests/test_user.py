@@ -1,4 +1,5 @@
 import asyncio
+from common import encrypt
 from fastapi.testclient import TestClient
 from models import UserAccount
 import pytest
@@ -46,7 +47,7 @@ def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.Ab
 
     user = event_loop.run_until_complete(UserAccount.get(email="test12@gmail.com"))
     assert user is not None
-    assert user.name == "test2"
+    assert user.name == "test2" and user.email == "test12@gmail.com"
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -61,18 +62,29 @@ def test_user_post_failure(post_user, client: TestClient):
     
 @pytest.mark.testclient
 @pytest.mark.tortoise
-def test_user_delete_success(post_user, client: TestClient):
+def test_user_delete_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     delete a valid user in the session
     '''
+    # Make sure user is in the database
+    user = event_loop.run_until_complete(UserAccount.get(email=TEST_USER_SIGNUP['email']))
+    assert user is not None and user.name == TEST_USER_SIGNUP['name']
+
     r1 = client.post("/api/session", json=TEST_USER)
     data = r1.json()
     sessionid = data['content']['sessionID']
     r2 = client.delete("/api/user", json= {"sessionID": sessionid, "password": "123456"})
     assert r2.status_code == 200
-    r=client.post('/api/user', json=TEST_USER_SIGNUP)
-    assert r.status_code == 200
-    data = r.json()
+
+    # Make sure user is no longer in the database and then replace the db entry
+    user = event_loop.run_until_complete(UserAccount.filter(email=TEST_USER_SIGNUP['email']))
+    assert len(user) == 0
+    event_loop.run_until_complete(UserAccount.create(
+        name=TEST_USER_SIGNUP["name"], email=TEST_USER_SIGNUP["email"], phone=TEST_USER_SIGNUP["phone"],
+        password=encrypt(TEST_USER_SIGNUP["password"]), major=TEST_USER_SIGNUP["major"],
+        degree=TEST_USER_SIGNUP["degree"], enable=True))
+    user = event_loop.run_until_complete(UserAccount.get(email=TEST_USER_SIGNUP['email']))
+    assert user.name == TEST_USER_SIGNUP['name']
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -82,6 +94,7 @@ def test_user_delete_failure(post_user, client: TestClient):
     '''
     r1 = client.post("/api/session", json=TEST_USER)
     data = r1.json()
+    print(data)
     sessionid = data['content']['sessionID']
     r2 = client.delete("/api/user", json= {"sessionID": sessionid, "password": "12345"})
     assert r2.status_code == 200
