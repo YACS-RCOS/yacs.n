@@ -22,47 +22,6 @@ def upgrade():
     sa.Column('semester', sa.VARCHAR(length=255), nullable=False),
     sa.PrimaryKeyConstraint('semester')
     )
-    op.create_table('course',
-    sa.Column('crn', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('section', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('semester', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('min_credits', sa.INTEGER(), nullable=True),
-    sa.Column('max_credits', sa.INTEGER(), nullable=True),
-    sa.Column('date_start', sa.DATE(), nullable=True),
-    sa.Column('date_end', sa.DATE(), nullable=True),
-    sa.Column('department', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('level', sa.INTEGER(), nullable=True),
-    sa.Column('title', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('full_title', sa.TEXT(), nullable=True),
-    sa.Column('description', sa.TEXT(), nullable=True),
-    sa.Column('raw_precoreqs', sa.TEXT(), nullable=True),
-    sa.Column('frequency', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('school', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('tsv', postgresql.TSVECTOR(), nullable=True),
-    sa.PrimaryKeyConstraint('crn')
-    )
-    op.create_table('course_corequisite',
-    sa.Column('department', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('level', sa.INTEGER(), nullable=False),
-    sa.Column('corequisite', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('department', 'level', 'corequisite')
-    )
-    op.create_table('course_prerequisite',
-    sa.Column('department', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('level', sa.INTEGER(), nullable=False),
-    sa.Column('prerequisite', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('department', 'level', 'prerequisite')
-    )
-    op.create_table('course_session',
-    sa.Column('crn', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('section', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('semester', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('time_start', postgresql.TIME(), nullable=True),
-    sa.Column('time_end', postgresql.TIME(), nullable=True),
-    sa.Column('day_of_week', sa.INTEGER(), nullable=False),
-    sa.Column('location', sa.VARCHAR(length=255), nullable=True),
-    sa.PrimaryKeyConstraint('crn', 'section', 'semester', 'day_of_week')
-    )
     op.create_table('event',
     sa.Column('event_id', sa.INTEGER(), nullable=False),
     sa.Column('description', sa.VARCHAR(length=255), nullable=True),

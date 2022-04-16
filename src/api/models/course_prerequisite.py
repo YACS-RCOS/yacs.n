@@ -8,3 +8,4 @@ class CoursePrerequisite(Model):
     
     class Meta:
         table = "course_prerequisite"
+        unique_together = (("department", "level", "prerequisite"),)

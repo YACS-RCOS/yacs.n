@@ -5,27 +5,25 @@ from tortoise.models import Model
 
 
 class Course(Model):
-    __tablename__ = "course"
-
     crn = fields.CharField(max_length=255, pk=True)
-    section = fields.CharField(max_length=255)
-    semester = fields.CharField(max_length=255)
-    min_credits = fields.IntField()
-    max_credits = fields.IntField()
-    date_start = fields.DateField()
-    date_end = fields.DateField()
-    department = fields.CharField(max_length=255)
-    level = fields.IntField()
-    title = fields.CharField(max_length=255)
-    full_title = fields.TextField()
-    description = fields.TextField()
-    raw_precoreqs = fields.TextField()
-    frequency = fields.CharField(max_length=255)
-    school = fields.CharField(max_length=255)
-    seats_open = fields.IntField()
-    seats_filled = fields.IntField()
-    seats_total = fields.IntField()
-    tsv = pfields.TSVectorField()
+    section = fields.CharField(max_length=255, null=True)
+    semester = fields.CharField(max_length=255, null=True)
+    min_credits = fields.IntField(null=True)
+    max_credits = fields.IntField(null=True)
+    date_start = fields.DateField(null=True)
+    date_end = fields.DateField(null=True)
+    department = fields.CharField(max_length=255, null=True)
+    level = fields.IntField(null=True)
+    title = fields.CharField(max_length=255, null=True)
+    full_title = fields.TextField(null=True)
+    description = fields.TextField(null=True)
+    raw_precoreqs = fields.TextField(null=True)
+    frequency = fields.CharField(max_length=255, null=True)
+    school = fields.CharField(max_length=255, null=True)
+    seats_open = fields.IntField(null=True)
+    seats_filled = fields.IntField(null=True)
+    seats_total = fields.IntField(null=True)
+    tsv = pfields.TSVectorField(null=True)
 
     class Meta:
         table = "course"
