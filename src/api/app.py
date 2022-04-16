@@ -215,7 +215,7 @@ async def get_user_info(request: Request, session_id):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    return user_controller.get_user_info(session_id)
+    return await user_controller.get_user_info(session_id)
 
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
@@ -234,7 +234,7 @@ async def update_user_info(request:Request, user:updateUser):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    return await user_controller.update_user(user)
+    return await user_controller.update_user(user.dict())
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -272,5 +272,4 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
-    # resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
     return Response(status_code=200) if not error else Response(error, status_code=500)

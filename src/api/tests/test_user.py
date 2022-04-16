@@ -89,7 +89,7 @@ def test_user_delete_failure(post_user, client: TestClient):
     assert data2['errMsg'] == "Wrong password."
 
 @pytest.mark.testclient
-# @pytest.mark.tortoise
+@pytest.mark.tortoise
 def test_user_delete_failure2(post_user, client: TestClient):
     '''
     delete the session, then try to delete user
@@ -102,6 +102,7 @@ def test_user_delete_failure2(post_user, client: TestClient):
     assert r1.status_code == 403
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_success(client: TestClient, post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
@@ -112,7 +113,7 @@ def test_get_user_success(client: TestClient, post_user):
     assert data['content'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
     sessionid = data['content']['sessionID']
-    r = client.get("/api/user/"+data['content']['sessionID'])
+    r = client.get("/api/user/"+sessionid)
     assert r.status_code == 200
     data = r.json()
     assert data['content']['degree'] == TEST_USER_SIGNUP['degree']
@@ -124,6 +125,7 @@ def test_get_user_success(client: TestClient, post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_failed(client: TestClient,post_user):
     '''
     Test user get with invalid sessionID
@@ -144,6 +146,7 @@ def test_get_user_failed(client: TestClient,post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_after_session_closed(client: TestClient,post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP after session is closed.
@@ -162,6 +165,7 @@ def test_get_user_after_session_closed(client: TestClient,post_user):
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_put_user_success(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
@@ -203,6 +207,7 @@ def test_put_user_success(client:TestClient,post_user):
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_put_user_after_session_closed(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
