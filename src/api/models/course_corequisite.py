@@ -3,9 +3,9 @@ from tortoise.models import Model
 
 class CourseCorequisite(Model):
 
-    department = fields.IntField(length=255)
+    department = fields.CharField(max_length=255)
     level = fields.IntField()
-    corequisite = fields.IntField(length=255)
+    corequisite = fields.CharField(max_length=255)
 
     class Meta:
         table = "course_corequisite"
