@@ -10,12 +10,18 @@ appdir = os.environ.get("TEST_APP_DIR", parentdir)
 sys.path.insert(0, appdir)
 
 from app import app
-from models import UserAccount, UserSession
+from db.connection import database
+from models import UserAccount, UserSession, Course, CourseCorequisite, CoursePrerequisite, \
+    CourseSession
 
+db = database()
+run_async(db.connect())
 
 async def clear_tables():
     await UserAccount.all().delete()
     await UserSession.all().delete()
+    await UserAccount.all().delete()
+    await UserAccount.all().delete()
 
 run_async(clear_tables())
 

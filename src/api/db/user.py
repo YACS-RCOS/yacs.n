@@ -1,5 +1,4 @@
 from db.model import *
-from models.user_account import UserAccount
 
 
 class User(Model):

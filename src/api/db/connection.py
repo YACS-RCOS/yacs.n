@@ -30,6 +30,7 @@ class database():
             },
         )
         print("[INFO] Database Connected")
+        await Tortoise.generate_schemas(safe=True)
 
     async def close(self):
         await Tortoise.close_connections()
