@@ -94,7 +94,6 @@ def test_user_delete_failure(post_user, client: TestClient):
     '''
     r1 = client.post("/api/session", json=TEST_USER)
     data = r1.json()
-    print(data)
     sessionid = data['content']['sessionID']
     r2 = client.delete("/api/user", json= {"sessionID": sessionid, "password": "12345"})
     assert r2.status_code == 200
