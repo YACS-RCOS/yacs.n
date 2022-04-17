@@ -1,46 +1,52 @@
-Cognitive Science:
+Computer Science:
  Year: First Year
   Sem: Fall
-   Course: Free Elective, Credit Hours: 4
-   Course: IHSS 1140 - Minds and Machines Credit Hours: 4
+
+   Course: HASS Core Elective  Credit Hours: 4
    Course: CSCI 1100 - Computer Science I Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
-  Sem: Spring
-   Course: Free Elective Credit Hours: 4
-   Course: COGS 2120 - Introduction to Cognitive Science Credit Hours: 4
+   Course: PHYS 1100 - Physics I Credit Hours: 4  Sem: Spring
+
+   Course: HASS Core Elective Credit Hours: 4
+   Course: BIOL 1010 - Introduction to Biology Credit Hours: 3
+   Course: BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1
    Course: CSCI 1200 - Data Structures Credit Hours: 4
    Course: MATH 1020 - Calculus II Credit Hours: 4
-
  Year: Second Year
   Sem: Fall
-   Course: Free Elective Credit Hours: 4
-   Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4
-   Course: COGS 2340 - Introduction to Linguistics Credit Hours: 4
-   Course: PHIL 2140 - Introduction to Logic Credit Hours: 4
-  Sem: Spring
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: CSCI 2300 - Introduction to Algorithms Credit Hours: 4
-   Course: PSYC 4410 - Sensation and Perception Credit Hours: 4
 
+   Course: Mathematics Option I Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
+   Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4
+   Course: CSCI 2500 - Computer Organization Credit Hours: 4  Sem: Spring
+
+   Course: Mathematics Option II Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
+   Course: CSCI 2300 - Introduction to Algorithms Credit Hours: 4
+   Course: CSCI 2600 - Principles of Software Credit Hours: 4
  Year: Third Year
   Sem: The Arch Summer Semester*
-   Course: Cognitive Science Elective Credit hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: PSYC 2310 - Research Methods and Statistics I Credit Hours: 4
-  Sem: Fall OR Spring
-   Course: Free Elective Credit Hours: 4
-COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4 OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4 OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4 OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4 OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4 OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4Credit Hours:
+
+   Course: Computer Science Option/Capstone or Free Elective Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: CSCI 4210 - Operating Systems Credit Hours: 4  Sem: Fall OR Spring
+
+   Course: Science Option Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
 
  Year: Fourth Year
   Sem: Fall
-   Course: Cognitive Science Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-  Sem: Spring
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-Approved project/seminar course Credit Hours: 4 OR COGS 4990 - Undergraduate Thesis Credit Hours: 3-6Credit Hours: 4
 
+   Course: Computer Science Option/Capstone Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
+  Sem: Spring
+
+   Course: CS Option/Capstone Credit Hours 4
+   Course: Free Elective or Computer Science Option/Capstone Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4

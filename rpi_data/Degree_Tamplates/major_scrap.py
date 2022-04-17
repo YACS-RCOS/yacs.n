@@ -63,7 +63,7 @@ def courseChoiceParse(element):
             else:
                 resStr += litag.text
 
-    print("resStr", resStr)
+    #print("resStr", resStr)
     return resStr
 
 #function that parses html page and stores major information in major_db
@@ -151,11 +151,17 @@ def scrapFromURL(webLink, major_db):
                                         text_to_add = courseChoiceParse(litag)
                                         print("the text to add is", text_to_add)
                                     
+                                    if text_to_add.lower()[:2] == "or":
+                                        print("found or in", major, "major")
+                                        majorOutFile.write(" " + text_to_add + "\n")
+                                        continue
+                                    else:
+                                        majorOutFile.write("\n")
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
                                     majorOutFile.write(text_to_add)
-                                    majorOutFile.write("\n")
+                                    #majorOutFile.write("\n")
                             #is there another edge case where some are not in ul or li                                        
                         
                         else:
@@ -197,8 +203,7 @@ for link in f:
     scrapFromURL(link, major_db)
     #break
 """
-
-scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5359&returnto=542", major_db)
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5366&returnto=542", major_db)
 
 #all major info is obtained so close the outfile
 majorOutFile.close()

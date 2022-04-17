@@ -11,7 +11,7 @@ SOLVED:
 ------------------------------------------------
 IN-PROGRESS:
 - Computer and Systems Engineering and Electrical Engineering pages' 4th year category does not split the courses into semesters
+- Sometimes, students have an option to choose one of two courses but the formatting differs from major to major (e.g. CS 4th Year Prog Lang and Design, Innovation, and Society and GSAS)
 ------------------------------------------------
 NOT STARTED:
-- Sometimes, students have an option to choose one of two courses but the formatting differs from major to major (e.g. CS 4th Year Prog Lang and Design, Innovation, and Society)
 - There is an index-out-of-range error when converting the major information into a SQL command. This seems to be occurring with semesters for majors that do not separate their course into 2 semesters (e.g Environmental Science has "3" semesters for its third year and Computer Systems and Engineering does not have any semesters listed at all.)
