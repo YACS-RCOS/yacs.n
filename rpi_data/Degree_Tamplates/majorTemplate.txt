@@ -1,52 +1,57 @@
-Computer Science:
+Games and Simulation Arts and Sciences:
  Year: First Year
   Sem: Fall
-
-   Course: HASS Core Elective  Credit Hours: 4
+   Course: GSAS 1040 - Art for Interactive Media Credit Hours: 4
+   Course: GSAS 2510 - Introduction to Game Design Credit Hours: 4
    Course: CSCI 1100 - Computer Science I Credit Hours: 4
    Course: MATH 1010 - Calculus I Credit Hours: 4
-   Course: PHYS 1100 - Physics I Credit Hours: 4  Sem: Spring
+   Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4
+  Sem: Spring
+   Course: HASS Core Elective Credit Hours: 4
+   Course: GSAS 2540 - Introduction to Game Programming Credit Hours: 4
+   Course: CSCI 1200 - Data Structures Credit Hours: 4 or
 
-   Course: HASS Core Elective Credit Hours: 4
-   Course: BIOL 1010 - Introduction to Biology Credit Hours: 3
-   Course: BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1
-   Course: CSCI 1200 - Data Structures Credit Hours: 4
+Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)
+
+   Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)
    Course: MATH 1020 - Calculus II Credit Hours: 4
+   Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4
+   Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)
+
  Year: Second Year
   Sem: Fall
+   Course: GSAS Concentration Course Credit Hours: 4
+   Course: GSAS Concentration Course Credit Hours: 4
+   Course: GSAS 2520 - Introduction to Game Storytelling Credit Hours: 4
+   Course: GSAS 4520 - Game Development I Credit Hours: 4
+  Sem: Spring
+   Course: GSAS Concentration Course​ Credit Hours: 4
+   Course: GSAS Concentration Course​ Credit Hours: 4
+   Course: GSAS 1600 - History and Culture of Games Credit Hours: 4
+   Course: GSAS 4540 - Game Development II Credit Hours: 4
 
-   Course: Mathematics Option I Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4
-   Course: CSCI 2500 - Computer Organization Credit Hours: 4  Sem: Spring
-
-   Course: Mathematics Option II Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: CSCI 2300 - Introduction to Algorithms Credit Hours: 4
-   Course: CSCI 2600 - Principles of Software Credit Hours: 4
  Year: Third Year
   Sem: The Arch Summer Semester*
-
-   Course: Computer Science Option/Capstone or Free Elective Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: CSCI 4210 - Operating Systems Credit Hours: 4  Sem: Fall OR Spring
-
-   Course: Science Option Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
+   Course: HASS Core Elective Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: Science Core Elective Credit Hours: 4
+  Sem: Fall OR Spring
+   Course: GSAS Concentration Course​ Credit Hours: 4
+   Course: GSAS Concentration Course​ Credit Hours: 4
+   Course: GSAS 4510 - Experimental Game Design Credit Hours: 4
+   Course: PHYS 1100 - Physics I Credit Hours: 4
+   Course: PHYS 1050 - General Physics Credit Hours: 4
 
  Year: Fourth Year
   Sem: Fall
-
-   Course: Computer Science Option/Capstone Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
+   Course: HASS Core Elective Credit Hours: 4
+   Course: GSAS Concentration Course​ Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: GSAS 4990 - GSAS Capstone Credit Hours: 4
   Sem: Spring
+   Course: GSAS Concentration Course Credit Hours: 4
+   Course: GSAS Concentration Course Credit Hours: 4
+   Course: Free Elective Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4
 
-   Course: CS Option/Capstone Credit Hours 4
-   Course: Free Elective or Computer Science Option/Capstone Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4

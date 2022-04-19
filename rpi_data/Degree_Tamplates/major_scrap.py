@@ -132,7 +132,7 @@ def scrapFromURL(webLink, major_db):
 
                             majorOutFile.write("  Sem: ")
                             majorOutFile.write(semName.text)
-                            majorOutFile.write("\n")
+                            #majorOutFile.write("\n")
 
                             #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
@@ -155,14 +155,15 @@ def scrapFromURL(webLink, major_db):
                                         print("found or in", major, "major")
                                         majorOutFile.write(" " + text_to_add + "\n")
                                         continue
-                                    else:
-                                        majorOutFile.write("\n")
+                                    
+                                    majorOutFile.write("\n")
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
                                     majorOutFile.write(text_to_add)
                                     #majorOutFile.write("\n")
-                            #is there another edge case where some are not in ul or li                                        
+                            #is there another edge case where some are not in ul or li                                    
+                            majorOutFile.write("\n")
                         
                         else:
                             # edge case where it is leftpad20
@@ -203,7 +204,7 @@ for link in f:
     scrapFromURL(link, major_db)
     #break
 """
-scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5366&returnto=542", major_db)
+scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5404&returnto=542", major_db)
 
 #all major info is obtained so close the outfile
 majorOutFile.close()
