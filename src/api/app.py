@@ -256,9 +256,9 @@ async def log_out(request: Request, session: SessionDeletePydantic):
     return response
 
 @app.post('/api/event')
-async def add_user_event(request: Request, credentials: SessionPydantic):
+async def add_user_event(request: Request, userEvent: UserEvent):
     # return Response(status_code=501)
-    response =  await event_controller.add_event(json.loads(request.data))
+    response =  await event_controller.add_event(userEvent.dict())
     if response['success']:
         request.session.pop('user', None)
 
