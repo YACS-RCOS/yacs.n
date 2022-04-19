@@ -1,4 +1,5 @@
 import asyncio
+from common import encrypt
 from fastapi.testclient import TestClient
 from models import UserAccount
 import pytest
@@ -46,7 +47,7 @@ def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.Ab
 
     user = event_loop.run_until_complete(UserAccount.get(email="test12@gmail.com"))
     assert user is not None
-    assert user.name == "test2"
+    assert user.name == "test2" and user.email == "test12@gmail.com"
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -61,18 +62,29 @@ def test_user_post_failure(post_user, client: TestClient):
     
 @pytest.mark.testclient
 @pytest.mark.tortoise
-def test_user_delete_success(post_user, client: TestClient):
+def test_user_delete_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     delete a valid user in the session
     '''
+    # Make sure user is in the database
+    user = event_loop.run_until_complete(UserAccount.get(email=TEST_USER_SIGNUP['email']))
+    assert user is not None and user.name == TEST_USER_SIGNUP['name']
+
     r1 = client.post("/api/session", json=TEST_USER)
     data = r1.json()
     sessionid = data['content']['sessionID']
     r2 = client.delete("/api/user", json= {"sessionID": sessionid, "password": "123456"})
     assert r2.status_code == 200
-    r=client.post('/api/user', json=TEST_USER_SIGNUP)
-    assert r.status_code == 200
-    data = r.json()
+
+    # Make sure user is no longer in the database and then replace the db entry
+    user = event_loop.run_until_complete(UserAccount.filter(email=TEST_USER_SIGNUP['email']))
+    assert len(user) == 0
+    event_loop.run_until_complete(UserAccount.create(
+        name=TEST_USER_SIGNUP["name"], email=TEST_USER_SIGNUP["email"], phone=TEST_USER_SIGNUP["phone"],
+        password=encrypt(TEST_USER_SIGNUP["password"]), major=TEST_USER_SIGNUP["major"],
+        degree=TEST_USER_SIGNUP["degree"], enable=True))
+    user = event_loop.run_until_complete(UserAccount.get(email=TEST_USER_SIGNUP['email']))
+    assert user.name == TEST_USER_SIGNUP['name']
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -89,7 +101,7 @@ def test_user_delete_failure(post_user, client: TestClient):
     assert data2['errMsg'] == "Wrong password."
 
 @pytest.mark.testclient
-# @pytest.mark.tortoise
+@pytest.mark.tortoise
 def test_user_delete_failure2(post_user, client: TestClient):
     '''
     delete the session, then try to delete user
@@ -102,6 +114,7 @@ def test_user_delete_failure2(post_user, client: TestClient):
     assert r1.status_code == 403
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_success(client: TestClient, post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
@@ -112,7 +125,7 @@ def test_get_user_success(client: TestClient, post_user):
     assert data['content'] is not None
     assert data['content']['userName'] == TEST_USER_SIGNUP['name']
     sessionid = data['content']['sessionID']
-    r = client.get("/api/user/"+data['content']['sessionID'])
+    r = client.get("/api/user/"+sessionid)
     assert r.status_code == 200
     data = r.json()
     assert data['content']['degree'] == TEST_USER_SIGNUP['degree']
@@ -124,6 +137,7 @@ def test_get_user_success(client: TestClient, post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_failed(client: TestClient,post_user):
     '''
     Test user get with invalid sessionID
@@ -144,6 +158,7 @@ def test_get_user_failed(client: TestClient,post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_get_user_after_session_closed(client: TestClient,post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP after session is closed.
@@ -162,6 +177,7 @@ def test_get_user_after_session_closed(client: TestClient,post_user):
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_put_user_success(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
@@ -203,6 +219,7 @@ def test_put_user_success(client:TestClient,post_user):
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_put_user_after_session_closed(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
