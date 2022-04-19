@@ -1,10 +1,12 @@
-class semester_info:
+from db.model import *
 
-    def __init__(self, db_wrapper):
-        self.db = db_wrapper
+class semester_info(Model):
 
-    def upsert(self, semester, isPublic):
-        self.db.execute("""
+    def __init__(self):
+        super().__init__()
+
+    async def upsert(self, semester, isPublic):
+        await self.db.execute("""
             INSERT INTO semester_info (semester, public)
             VALUES (%(SemesterName)s, %(IsPublic)s)
             ON CONFLICT ON CONSTRAINT semester_info_pkey
@@ -17,12 +19,12 @@ class semester_info:
             "IsPublic": isPublic
         }, isSELECT=False)
 
-    def is_public(self, semester):
+    async def is_public(self, semester):
         """
         @param: semester name
         @returns: Boolean indicating if the semester is publicly viewable
         """
-        data, error = self.db.execute("""
+        data, error = await self.db.execute("""
             SELECT public FROM semester_info WHERE semester=%s LIMIT 1;
         """, [semester], isSELECT=True)
         if data is not None and len(data) > 0:

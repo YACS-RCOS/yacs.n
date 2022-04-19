@@ -2,7 +2,7 @@ import pytest
 import asyncio
 from fastapi.testclient import TestClient
 import os, inspect
-from models import Course, CourseSession, CoursePrerequisite, CourseCorequisite
+from models import Course, CourseSession, CoursePrerequisite, CourseCorequisite, SemesterInfo
 from datetime import date, time
 import pytz
 
