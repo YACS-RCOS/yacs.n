@@ -2,9 +2,7 @@ from tortoise import fields
 from tortoise import UUID
 from tortoise.models import Model
 
-from .database import Base
-
-class UserAccount(Model):
+class UserEvent(Model):
     # __tablename__ = "user_event"
 
     event_id = fields.IntField()

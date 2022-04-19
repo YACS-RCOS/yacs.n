@@ -1,6 +1,6 @@
 import asyncio
 from fastapi.testclient import TestClient
-from models import UserAccount
+from models import UserEvent
 import pytest
 
 
@@ -9,14 +9,17 @@ import pytest
 def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a valid new user into the session
+    ['uid', 'eventID', 'data', 'createdAt']
     '''
-    r = client.post("/api/user", json= {"name": "test2", "email":"test12@gmail.com","phone": "", "password":"test123", "major":"", "degree":""} )
+    r = client.post("/api/event", json= {"uid": "0001", "eventID":"0001","data":"aa","createdAt": "0000"} )
     data = r.json()
+    print(data)
     assert r.status_code == 200
     assert data['content'] is not None
     assert data['content']['msg'] == "User added successfully."
 
-    user = event_loop.run_until_complete(UserAccount.get(email="test12@gmail.com"))
-    assert user is not None
-    assert user.name == "test2"
-
+    userEvent = event_loop.run_until_complete(UserEvent.get(uid="0001",eventID ="0001" ))
+    assert userEvent is not None
+    assert userEvent.data == "a"
+    assert userEvent.data == "0000"
+    
