@@ -5,3 +5,4 @@ from .course_corequisite import CourseCorequisite
 from .course_prerequisite import CoursePrerequisite
 from .course_session import CourseSession
 from .event import Event
+from .semester_date_range import SemesterDateRange
