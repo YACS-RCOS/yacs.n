@@ -13,7 +13,7 @@ services:
       dockerfile: ./tests/Dockerfile
     depends_on:
       - yacs_db_test
-    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && tests/test.sh"
+    command: /bin/bash -c "tests/test.sh"
     environment:
       - ENV=development
       - DEBUG=True

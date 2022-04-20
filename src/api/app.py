@@ -10,7 +10,7 @@ from fastapi import Depends
 from api_models import *
 # import db.connection as connection
 # import db.classinfo as ClassInfo
-# import db.courses as Courses
+import db.courses as Courses
 # import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
 # import db.admin as AdminInfo
@@ -40,7 +40,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
 # - init interfaces to db
 # class_info = ClassInfo.ClassInfo(db_conn)
-# courses = Courses.Courses(db_conn, FastAPICache)
+courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
 # admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection()
@@ -145,36 +145,36 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
         return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
-# @app.post('/api/bulkCourseUpload')
-# async def uploadHandler(
-#         isPubliclyVisible: str = Form(...),
-#         file: UploadFile = File(...)):
-#     # check for user files
-#     if not file:
-#         return Response("No file received", 400)
-#     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
-#         return Response("File must have csv extension", 400)
-#     # get file
-#     contents = await file.read()
-#     csv_file = StringIO(contents.decode())
-#     # update semester infos based on isPubliclyVisible, hiding semester if needed
-#     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
-#     semesters = pd.read_csv(csv_file)['semester'].unique()
-#     for semester in semesters:
-#         semester_info.upsert(semester, isPubliclyVisible)
-#     # Like C, the cursor will be at EOF after full read, so reset to beginning
-#     csv_file.seek(0)
-#     # Clear out course data of the same semester before population due to
-#     # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
-#     # courses.
-#     courses.bulk_delete(semesters=semesters)
-#     # Populate DB from CSV
-#     isSuccess, error = courses.populate_from_csv(csv_file)
-#     if (isSuccess):
-#         return Response(status_code=200)
-#     else:
-#         print(error)
-#         return Response(error.__str__(), status_code=500)
+@app.post('/api/bulkCourseUpload')
+async def uploadHandler(
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):
+    # check for user files
+    if not file:
+        return Response("No file received", 400)
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
+        return Response("File must have csv extension", 400)
+    # get file
+    contents = await file.read()
+    csv_file = StringIO(contents.decode())
+    # update semester infos based on isPubliclyVisible, hiding semester if needed
+    # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
+    semesters = pd.read_csv(csv_file)['semester'].unique()
+    # for semester in semesters:
+    #     semester_info.upsert(semester, isPubliclyVisible)
+    # Like C, the cursor will be at EOF after full read, so reset to beginning
+    csv_file.seek(0)
+    # Clear out course data of the same semester before population due to
+    # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
+    # courses.
+    await courses.bulk_delete(semesters=semesters)
+    # Populate DB from CSV
+    isSuccess, error = await courses.populate_from_csv(csv_file)
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
@@ -215,7 +215,7 @@ async def get_user_info(request: Request, session_id):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    return user_controller.get_user_info(session_id)
+    return await user_controller.get_user_info(session_id)
 
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
@@ -234,7 +234,7 @@ async def update_user_info(request:Request, user:updateUser):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    return await user_controller.update_user(user)
+    return await user_controller.update_user(user.dict())
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):

@@ -1,11 +1,11 @@
-import glob
-import os
 import csv
 import re
-import json
-from psycopg2.extras import RealDictCursor
 from ast import literal_eval
 import asyncio
+from tortoise.exceptions import OperationalError
+from tortoise.transactions import in_transaction
+
+from db.model import *
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -14,9 +14,9 @@ else:
     from . import connection
 
 
-class Courses:
-    def __init__(self, db_wrapper, cache):
-        self.db = db_wrapper
+class Courses(Model):
+    def __init__(self, cache):
+        super().__init__()
         self.cache = cache
 
     def dayToNum(self, day_char):
@@ -35,23 +35,20 @@ class Courses:
         return set(filter(
             lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
 
-    def delete_by_semester(self, semester):
+    async def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
         self.clear_cache()
-        return self.db.execute("""
-            BEGIN TRANSACTION;
-                DELETE FROM course
-                WHERE semester=%(Semester)s;
-                DELETE FROM course_session
-                WHERE semester=%(Semester)s;
-            COMMIT;
-        """, {
-            "Semester": semester
-        }, isSELECT=False)
+        try:
+            async with in_transaction() as transaction:
+                await transaction.execute_query(f"DELETE FROM course WHERE semester='{semester}'")
+                await transaction.execute_query(f"DELETE FROM course_session WHERE semester='{semester}'")
+                return 1, None
+        except OperationalError as e:
+            return 0, e
 
-    def bulk_delete(self, semesters):
+    async def bulk_delete(self, semesters):
         for semester in semesters:
-            _, error = self.delete_by_semester(semester)
+            _, error = await self.delete_by_semester(semester)
             if error:
                 print(error)
                 return error
@@ -59,17 +56,16 @@ class Courses:
         self.clear_cache()
         return None
 
-    def populate_from_csv(self, csv_text):
-        conn = self.db.get_connection()
+    async def populate_from_csv(self, csv_text):
         reader = csv.DictReader(csv_text)
         # for each course entry insert sections and course sessions
-        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+        async with in_transaction() as transaction:
             for row in reader:
                 try:
                     # course sessions
                     days = self.getDays(row['course_days_of_the_week'])
                     for day in days:
-                        transaction.execute(
+                        await transaction.execute_query(
                             """
                             INSERT INTO
                                 course_session(
@@ -84,24 +80,24 @@ class Courses:
                                     instructor
                                 )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
-                                NULLIF(%(Section)s, ''),
-                                NULLIF(%(Semester)s, ''),
+                                NULLIF('%(CRN)s', ''),
+                                NULLIF('%(Section)s', ''),
+                                NULLIF('%(Semester)s', ''),
                                 %(StartTime)s,
                                 %(EndTime)s,
-                                %(WeekDay)s,
-                                NULLIF(%(Location)s, ''),
-                                NULLIF(%(SessionType)s, ''),
-                                NULLIF(%(Instructor)s, '')
+                                '%(WeekDay)s',
+                                NULLIF('%(Location)s', ''),
+                                NULLIF('%(SessionType)s', ''),
+                                NULLIF($inst$%(Instructor)s$inst$, '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
-                                "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
-                                "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
+                                "StartTime": "'" + str(row['course_start_time']) + "'" if row['course_start_time'] and not row['course_start_time'].isspace() else 'NULL',
+                                "EndTime": "'" + str(row['course_end_time']) + "'" if row['course_end_time'] and not row['course_end_time'].isspace() else 'NULL',
                                 "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
                                 "Location": row['course_location'],
                                 "SessionType": row['course_type'],
@@ -109,7 +105,7 @@ class Courses:
                             }
                         )
                     # courses
-                    transaction.execute(
+                    await transaction.execute_query(
                             """
                             INSERT INTO
                                 course(
@@ -134,33 +130,33 @@ class Courses:
                                     tsv
                                 )
                             VALUES (
-                                NULLIF(%(CRN)s, ''),
-                                NULLIF(%(Section)s, ''),
-                                NULLIF(%(Semester)s, ''),
+                                NULLIF('%(CRN)s', ''),
+                                NULLIF('%(Section)s', ''),
+                                NULLIF('%(Semester)s', ''),
                                 %(MinCredits)s,
                                 %(MaxCredits)s,
-                                NULLIF(%(Description)s, ''),
-                                NULLIF(%(Frequency)s, ''),
-                                NULLIF(%(FullTitle)s, ''),
-                                %(StartDate)s,
-                                %(EndDate)s,
-                                NULLIF(%(Department)s, ''),
+                                NULLIF($desc$%(Description)s$desc$, ''),
+                                NULLIF('%(Frequency)s', ''),
+                                NULLIF($ftitle$%(FullTitle)s$ftitle$, ''),
+                                '%(StartDate)s',
+                                '%(EndDate)s',
+                                NULLIF('%(Department)s', ''),
                                 %(Level)s,
-                                NULLIF(%(Title)s, ''),
-                                NULLIF(%(RawPrecoreqText)s, ''),
-                                %(School)s,
-                                %(SeatsOpen)s,
-                                %(SeatsFilled)s,
-                                %(SeatsTotal)s,
-                                setweight(to_tsvector(coalesce(%(FullTitle)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Title)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Department)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(CRN)s, '')), 'A') ||
-                                    setweight(to_tsvector(coalesce(%(Level)s, '')), 'B') ||
-                                    setweight(to_tsvector(coalesce(%(Description)s, '')), 'D')
+                                NULLIF($title$%(Title)s$title$, ''),
+                                NULLIF($prereq$%(RawPrecoreqText)s$prereq$, ''),
+                                '%(School)s',
+                                '%(SeatsOpen)s',
+                                '%(SeatsFilled)s',
+                                '%(SeatsTotal)s',
+                                setweight(to_tsvector(coalesce($ftitle2$%(FullTitle)s$ftitle2$, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce($title2$%(Title)s$title2$, '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(Department)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(CRN)s', '')), 'A') ||
+                                    setweight(to_tsvector(coalesce('%(Level)s', '')), 'B') ||
+                                    setweight(to_tsvector(coalesce($desc2$%(Description)s$desc2$, '')), 'D')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
@@ -189,7 +185,7 @@ class Courses:
                     # ast.literal_eval will throw SyntaxError if given an empty string
                     prereqs = literal_eval(row['prerequisites']) if row['prerequisites'] else []
                     for prereq in prereqs:
-                        transaction.execute(
+                        await transaction.execute_query(
                             """
                             INSERT INTO course_prerequisite (
                                 department,
@@ -197,12 +193,12 @@ class Courses:
                                 prerequisite
                             )
                             VALUES (
-                                NULLIF(%(Department)s, ''),
-                                %(Level)s,
-                                NULLIF(%(Prerequisite)s, '')
+                                NULLIF('%(Department)s', ''),
+                                '%(Level)s',
+                                NULLIF('%(Prerequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
@@ -212,7 +208,7 @@ class Courses:
                     # populate coereqs table, must come after course population b/c ref integrity
                     coreqs = literal_eval(row['corequisites']) if row['corequisites'] else []
                     for coreq in coreqs:
-                        transaction.execute(
+                        await transaction.execute_query(
                             """
                             INSERT INTO course_corequisite (
                                 department,
@@ -220,23 +216,21 @@ class Courses:
                                 corequisite
                             )
                             VALUES (
-                                NULLIF(%(Department)s, ''),
-                                %(Level)s,
-                                NULLIF(%(Corequisite)s, '')
+                                NULLIF('%(Department)s', ''),
+                                '%(Level)s',
+                                NULLIF('%(Corequisite)s', '')
                             )
                             ON CONFLICT DO NOTHING;
-                            """,
+                            """ %
                             {
                                 "Department": row['course_department'],
                                 "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
                                 "Corequisite": coreq
                             }
                         )
-                except Exception as e:
+                except OperationalError as e:
                     print(e)
-                    conn.rollback()
                     return (False, e)
-        conn.commit()
         # invalidate cache so we can get new classes
         self.clear_cache()
         return (True, None)
@@ -253,8 +247,6 @@ class Courses:
             asyncio.run(self.cache.clear("API_CACHE"))
 
 if __name__ == "__main__":
-    # os.chdir(os.path.abspath("../rpi_data"))
-    # fileNames = glob.glob("*.csv")
     csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
     courses = Courses(connection.db)
     courses.populate_from_csv(csv_text)
