@@ -21,3 +21,22 @@ async def add_event(form):
         return msg.error_msg("Failed to add event.")
 
     return msg.success_msg({"msg": "Event added successfully."})
+
+
+async def update_event(form):
+    userEvents = UserEvents()
+
+    if not assert_keys_in_form_exist(form, ['uid', 'eventID', 'data']):
+        return msg.error_msg("Invalid request body.")
+
+
+    uid = form['uid']
+    event_id = form['eventID']
+    event_data = form['data']
+
+    res = await userEvents.updateEvent(uid=uid,eventID=event_id,data=str(event_data))
+
+    if res == None:
+        return msg.error_msg("Failed to update event.")
+
+    return msg.success_msg({"msg": "Event updated successfully."})

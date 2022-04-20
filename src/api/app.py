@@ -257,8 +257,19 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 
 @app.post('/api/event')
 async def add_user_event(request: Request, userEvent: UserEvent):
-    # return Response(status_code=501)
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
     response =  await event_controller.add_event(userEvent.dict())
+    if response['success']:
+        request.session.pop('user', None)
+
+    return response
+
+@app.put('/api/event')
+async def update_user_event(request: Request, userEvent: UpdateUserEvent):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    response =  await event_controller.update_event(userEvent.dict())
     if response['success']:
         request.session.pop('user', None)
 
