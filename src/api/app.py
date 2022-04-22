@@ -264,25 +264,22 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 async def add_student_course(request: Request, credentials: UserCoursePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp, error = await course_select.add_selection(credentials.name, credentials.semester, credentials.cid)
+    resp, error = await course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
-#
-#
-# @app.route('/api/user/course', methods=['DELETE'])
-# def remove_student_course():
-#     info = request.json
-#
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     resp, error = course_select.remove_selection(info['name'], info['semester'], session['user']['user_id'], info['cid'])
-#     return Response(status=200) if not error else Response(error, status=500)
-#
-# @app.route('/api/user/course', methods=['GET'])
-# def get_student_courses():
-#     if 'user' not in session:
-#         return Response("Not authorized", status=403)
-#
-#     courses, error = course_select.get_selection(session['user']['user_id'])
-#     return jsonify(courses) if not error else Response(error, status=500)
+
+
+@app.delete('/api/user/course')
+async def remove_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status=403)
+    resp, error = await course_select.remove_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    return Response(status=200) if not error else Response(error, status=500)
+
+@app.get('/api/user/course')
+async def get_student_courses(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status=403)
+
+    courses, error = course_select.get_selection(request.session['user']['user_id'])
+    return courses if not error else Response(error, status=500)
     
