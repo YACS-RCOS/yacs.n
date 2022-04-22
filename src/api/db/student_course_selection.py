@@ -9,7 +9,7 @@ class student_course_selection(Model):
 				INSERT INTO
 					student_course_selection (user_id, semester, course_name, crn)
 				VALUES
-					('%s', '%s', '%s', '%s')
+					('%s', '%s', $course$%s$course$, '%s')
 				ON CONFLICT DO NOTHING;
 				"""
 		resp, error = await self.db_conn.execute(sql, [uid, sem, name, cid], False)
@@ -23,7 +23,7 @@ class student_course_selection(Model):
 					WHERE
 						user_id = '%s' AND
 						semester = '%s' AND
-						course_name = '%s'
+						course_name = $course$%s$course$
 					"""
 			resp, error = self.db_conn.execute(sql, [uid, sem, name], False)
 		else:
@@ -33,7 +33,7 @@ class student_course_selection(Model):
 					WHERE
 						user_id = '%s' AND
 						semester = '%s' AND
-						course_name = '%s' AND
+						course_name = $course$%s$course$ AND
 						crn = '%s'
 
 					"""
