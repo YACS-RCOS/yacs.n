@@ -4,6 +4,7 @@
     <el-main>
       <div class="description">
         Set Default Semester
+        <el-icon class="icon"><edit /></el-icon>
       </div>
 
       <el-select v-model="semester" class="m-2" placeholder="Select" size="large">
@@ -99,6 +100,11 @@ export default {
 .description {
   font-size: 16px;
   margin-bottom: 10px;
+  display: inline-block;
+}
+
+.icon {
+  vertical-align: bottom;
 }
 
 .submit {

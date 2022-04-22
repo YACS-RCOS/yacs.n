@@ -4,8 +4,16 @@
     <el-main>
       <div class="description">
         Import Course Data
+        <el-icon class="icon"><folder-add /></el-icon>
       </div>
-      <el-checkbox v-model="isPubliclyVisible" style="margin-bottom:5px">Make Public</el-checkbox>
+      <div>
+        <el-checkbox v-model="isPubliclyVisible" style="margin-bottom:5px">Make Public</el-checkbox>
+        <div style="font-size: 20px">
+          <!-- Since svg icons do not carry any attributes by default -->
+          <!-- You need to provide attributes directly -->
+          <view style="width: 1em; height: 1em; margin-right: 8px" />
+        </div>
+      </div>
 
       <el-upload 
         ref="uploadRef" 
@@ -105,6 +113,11 @@ export default {
 .description {
   font-size: 16px;
   margin-bottom: 10px;
+  display: inline-block;
+}
+
+.icon {
+  vertical-align: bottom;
 }
 
 </style>
