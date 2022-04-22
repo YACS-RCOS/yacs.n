@@ -5,6 +5,7 @@ class student_course_selection(Model):
 		super().__init__()
 
 	async def add_selection(self, name, sem, uid, cid):
+		print(name, sem, uid, cid)
 		sql = 	"""
 				INSERT INTO
 					student_course_selection (user_id, semester, course_name, crn)
