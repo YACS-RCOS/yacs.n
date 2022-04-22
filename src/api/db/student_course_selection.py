@@ -12,7 +12,7 @@ class student_course_selection(Model):
 					('%s', '%s', $course$%s$course$, '%s')
 				ON CONFLICT DO NOTHING;
 				"""
-		resp, error = await self.db_conn.execute(sql, [uid, sem, name, cid], False)
+		resp, error = await self.db.execute(sql, [uid, sem, name, cid], False)
 		return (True, None) if not error else (False, error)
 
 	async def remove_selection(self, name, sem, uid, cid):
@@ -25,7 +25,7 @@ class student_course_selection(Model):
 						semester = '%s' AND
 						course_name = $course$%s$course$
 					"""
-			resp, error = self.db_conn.execute(sql, [uid, sem, name], False)
+			resp, error = self.db.execute(sql, [uid, sem, name], False)
 		else:
 			sql = 	"""
 					DELETE FROM
@@ -37,7 +37,7 @@ class student_course_selection(Model):
 						crn = '%s'
 
 					"""
-			resp, error = await self.db_conn.execute(sql, [uid, sem, name, cid], False)
+			resp, error = await self.db.execute(sql, [uid, sem, name, cid], False)
 
 		return (True, None) if not error else (False, error)
 
@@ -55,5 +55,5 @@ class student_course_selection(Model):
 					course_name asc,
 					crn
 				"""
-		courses, error = await self.db_conn.execute(sql, [uid], True)
+		courses, error = await self.db.execute(sql, [uid], True)
 		return (courses, None) if not error else (False, error)
