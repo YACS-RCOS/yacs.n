@@ -13,7 +13,6 @@ class UserEvent(Model):
         return userEvent[0]
 
     async def updateEvent(self, uid, eventID, data):
-        sql = """INSERT INTO public.user_event (event_id, user_id, content,created_at) VALUES ('%s', '%s', '%s', '%s');"""
         sql = """   UPDATE
                         public.user_event
                     SET
