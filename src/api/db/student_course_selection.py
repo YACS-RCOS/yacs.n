@@ -1,6 +1,4 @@
 from db.model import *
-from models.student_course_selection import StudentCourseSelection
-
 
 class student_course_selection(Model):
 	def __init__(self):
