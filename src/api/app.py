@@ -19,7 +19,7 @@ import db.connection
 import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
-# import controller.userevent as event_controller
+import controller.userevent as event_controller
 from io import StringIO
 import json
 import os
@@ -247,10 +247,25 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 
     return response
 
-# @app.post('/api/event')
-# def add_user_event(request: Request, credentials: SessionPydantic):
-#     return Response(status_code=501)
-#     #return event_controller.add_event(json.loads(request.data))
+@app.post('/api/event')
+async def add_user_event(request: Request, userEvent: UserEvent):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    response =  await event_controller.add_event(userEvent.dict())
+    if response['success']:
+        request.session.pop('user', None)
+
+    return response
+
+@app.put('/api/event')
+async def update_user_event(request: Request, userEvent: UpdateUserEvent):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    response =  await event_controller.update_event(userEvent.dict())
+    if response['success']:
+        request.session.pop('user', None)
+
+    return response
 #
 @app.post('/api/user/course')
 async def add_student_course(request: Request, credentials: UserCoursePydantic):
