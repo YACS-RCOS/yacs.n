@@ -271,7 +271,7 @@ async def update_user_event(request: Request, userEvent: UpdateUserEvent):
 async def add_student_course(request: Request, credentials: UserCoursePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    print("DEBUG", credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    #print("DEBUG", credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
     resp, error = await course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
