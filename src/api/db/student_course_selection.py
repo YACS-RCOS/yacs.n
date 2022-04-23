@@ -26,7 +26,7 @@ class student_course_selection(Model):
 						semester = '%s' AND
 						course_name = $course$%s$course$
 					"""
-			resp, error = self.db.execute(sql, [uid, sem, name], False)
+			resp, error = await self.db.execute(sql, [uid, sem, name], False)
 		else:
 			sql = 	"""
 					DELETE FROM
