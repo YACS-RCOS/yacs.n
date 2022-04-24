@@ -18,6 +18,7 @@ TEST_COURSE_2 = {'name': 'ARCH-4770',
 
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_post_success(post_user, client: TestClient):
     '''
     Test user course post by comparing it to user get course
@@ -35,6 +36,7 @@ def test_user_course_post_success(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_post_failure(post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
@@ -48,6 +50,7 @@ def test_user_course_post_failure(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_course_post_not_authorized(client: TestClient):
     '''
     Test user course post without user session/login
@@ -58,6 +61,7 @@ def test_course_post_not_authorized(client: TestClient):
     assert r.status_code == 403
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_get_success(post_user, client: TestClient):
     '''
     Test user course get success
@@ -74,6 +78,7 @@ def test_user_course_get_success(post_user, client: TestClient):
     client.delete("/api/session", json = {"sessionID": r.json()["content"]["sessionID"]})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_get_failure(client: TestClient):
     '''
     Test user course get without user session/login
@@ -82,6 +87,7 @@ def test_user_course_get_failure(client: TestClient):
     assert r.status_code == 403
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_delete_success(post_user, client: TestClient):
     '''
     Test user/course delete success
@@ -104,6 +110,7 @@ def test_user_course_delete_success(post_user, client: TestClient):
     client.delete("/api/session", json = {"sessionID": l.json()["content"]["sessionID"]})
 
 @pytest.mark.testclient
+@pytest.mark.tortoise
 def test_user_course_delete_failure(client: TestClient):
     '''
     Test user course delete with wrong type

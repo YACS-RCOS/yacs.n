@@ -14,7 +14,7 @@ import db.courses as Courses
 # import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
 # import db.admin as AdminInfo
-# import db.student_course_selection as CourseSelect
+import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
 import controller.user as user_controller
@@ -43,7 +43,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
 # admin_info = AdminInfo.Admin(db_conn)
-# course_select = CourseSelect.student_course_selection(db_conn)
+course_select = CourseSelect.student_course_selection()
 # semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
@@ -200,15 +200,28 @@ async def map_date_range_to_semester_part_handler(request: Request):
                  return Response(error, status_code=500)
      return Response("Did not receive proper form data", status_code=500)
 
-#@app.route('/api/user/course', methods=['GET'])
 @app.get('/api/user/course')
 async def get_student_courses(request: Request):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    courses, error = course_select.get_selection(request.session['user']['user_id'])
+    courses, error = await course_select.get_selection(request.session['user']['user_id'])
     return courses if not error else Response(error, status_code=500)
 
+@app.post('/api/user/course')
+async def add_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    #print("DEBUG", credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    resp, error = await course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    return Response(status_code=200) if not error else Response(error, status_code=500)
+
+@app.delete('/api/user/course')
+async def remove_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    resp, error = await course_select.remove_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
@@ -274,17 +287,3 @@ async def update_user_event(request: Request, userEvent: UpdateUserEvent):
         request.session.pop('user', None)
 
     return response
-#
-# @app.post('/api/user/course')
-# async def add_student_course(request: Request, credentials: UserCoursePydantic):
-#     if 'user' not in request.session:
-#         return Response("Not authorized", status_code=403)
-#     resp, error = course_select.add_selection(credentials.name, credentials.semester, credentials.cid)
-#     return Response(status_code=200) if not error else Response(error, status_code=500)
-
-@app.delete('/api/user/course')
-async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
-    return Response(status_code=200) if not error else Response(error, status_code=500)
