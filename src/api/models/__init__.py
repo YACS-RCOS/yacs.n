@@ -7,3 +7,4 @@ from .course_prerequisite import CoursePrerequisite
 from .course_session import CourseSession
 from .event import Event
 from .student_course_selection import StudentCourseSelection
+
