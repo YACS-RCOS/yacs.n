@@ -3,7 +3,7 @@ from tortoise.models import Model
 
 class StudentCourseSelection(Model):
 
-    user_id = fields.ForeignKeyField('user_account.user_id')
+    user = fields.ForeignKeyField('models.UserAccount', to_field="user_id")
     semester = fields.TextField()
     course_name = fields.TextField()
     crn = fields.TextField()
