@@ -272,7 +272,6 @@ Chemical Engineering:
    Course: HASS Elective Credit Hours: 4
    Course: CHME 1100 - Fundamentals of Chemical Engineering Credit Hours: 4
    Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3
-   Course: and
    Course: BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory Credit Hours: 1
    Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1
    Course: ENGR 1400 - Engineering Communications Credit Hours: 1
@@ -513,9 +512,7 @@ Civil Engineering:
    Course: Free Elective Credit Hours: 4
    Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4
    Course: STSO 4100 - Professional Development 2 –Technical Issues and Solutions Credit Hours: 2
-   Course: Credits / Units: 2
    Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1
-   Course: Credits / Units: 1
 
  Year: Fourth Year
   Sem: Fall
@@ -563,7 +560,7 @@ Cognitive Science:
    Course: PSYC 2310 - Research Methods and Statistics I Credit Hours: 4
   Sem: Fall OR Spring
    Course: Free Elective Credit Hours: 4
-Credit Hours:
+COGS 4210 - Cognitive Modeling Credit Hours: 4OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4COGS 4210 - Cognitive Modeling Credit Hours: 4OR COGS 4410 - Programming for Cognitive Science and Artificial Intelligence Credit Hours: 4OR CSCI 4150 - Introduction to Artificial Intelligence Credit Hours: 4OR PSYC 4350 - Mathematical Methods in Psychological Science Credit Hours: 4COGS 4330 - Introduction to Cognitive Neuroscience Credit Hours: 4OR PSYC 4370 - Cognitive Psychology Credit Hours: 4PHIL 4130 - Philosophy of Science Credit Hours: 4OR PHIL 4480 - Metaphysics and Consciousness Credit Hours: 4Credit Hours:
 
  Year: Fourth Year
   Sem: Fall
@@ -575,7 +572,7 @@ Credit Hours:
    Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-Credit Hours: 4
+Approved project/seminar course Credit Hours: 4OR COGS 4990 - Undergraduate Thesis Credit Hours: 3-6Credit Hours: 4
 
 Communication, Media, and Design:
  Year: First Year
@@ -666,6 +663,18 @@ Credit Hours:
    Course: STSO 4100 - Professional Development 2 –Technical Issues and Solutions Credit Hours: 2
 
  Year: Fourth Year
+  Sem: Fall
+   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
+   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 3-4
+   Course: Restricted Elective Credit Hours: 3-4
+   Course: Restricted Elective Credit Hours: 3-4
+   Course: Technical Elective Credit Hours: 3-4
+  Sem: Spring
+   Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3
+   Course: HASS Core Elective Credit Hours: 4
+   Course: Free Elective
+   Course: Free Elective
+   Course: Free Elective
 
 Computer Science:
  Year: First Year
@@ -703,16 +712,16 @@ Computer Science:
    Course: Science Option Credit Hours: 4
    Course: HASS Core Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: CSCI 4430 - Programming Languages Credit Hours: 4
-   Course: Or CS Option/Capstone
+   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
+
 
  Year: Fourth Year
   Sem: Fall
    Course: Computer Science Option/Capstone Credit Hours: 4
    Course: Free Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: CSCI 4430 - Programming Languages Credit Hours: 4
-   Course: Or CS Option/Capstone
+   Course: CSCI 4430 - Programming Languages Credit Hours: 4 Or CS Option/Capstone
+
   Sem: Spring
    Course: CS Option/Capstone Credit Hours 4
    Course: Free Elective or Computer Science Option/Capstone Credit Hours: 4
@@ -913,6 +922,18 @@ Credit Hours:
    Course: ECSE 2900 - ECSE Enrichment Seminar Credit Hours: 1
 
  Year: Fourth Year
+  Sem: Fall
+   Course: Laboratory Elective Credit Hours: 3
+   Course: Restricted Electives Credit Hours: 3-4
+   Course: Restricted Elective Credit Hours: 3-4
+   Course: Technical Elective Credit Hours: 3-4
+   Course: HASS Core Electives Credit Hours: 4
+  Sem: Spring
+   Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3
+   Course: ECSE 2210 - Microelectronics Technology Credit Hours: 3
+   Course: Free Elective: 3-4​
+   Course: Free Elective: 3-4​
+   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
 
 Electronic Arts:
  Year: First Year
@@ -991,12 +1012,6 @@ Engineering Core Curriculum:
    Course: Engineering Elective Credit Hours: 4
    Course: HASS Core Elective Credit Hours: 4
    Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
-
- Year: Footnotes Year
- Year: Fall Year
-
- Year: Fall Year
-
 Environmental Engineering:
  Year: First Year
   Sem: Fall
@@ -1111,10 +1126,10 @@ Games and Simulation Arts and Sciences:
   Sem: Spring
    Course: HASS Core Elective Credit Hours: 4
    Course: GSAS 2540 - Introduction to Game Programming Credit Hours: 4
-   Course: CSCI 1200 - Data Structures Credit Hours: 4
-   Course: or
+   Course: CSCI 1200 - Data Structures Credit Hours: 4 or
 
 Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)
+
    Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)
    Course: MATH 1020 - Calculus II Credit Hours: 4
    Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4
@@ -1286,8 +1301,8 @@ Industrial and Management Engineering:
   Sem: The Arch Summer Semester*
    Course: HASS Core Elective IV Credits Hours: 4
    Course: ENGR 4760 - Engineering Economics Credit Hours: 3
-   Course: ISYE 4600 - Operations Research Methods Credit Hours: 4
    Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
+   Course: ISYE 4600 - Operations Research Methods Credit Hours: 4
   Sem: Fall OR Spring
    Course: Technical Elective I  Credit Hours: 3
    Course: Technical Elective II Credit Hours: 3
@@ -1556,7 +1571,7 @@ Music:
    Course: Science Core Elective Credit Hours: 4
    Course: HASS Core Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
-   Course: Choose one of the following: ARTS 2540 - The Multimedia Century Credit Hours: 4 ARTS 2520 - World Music Credit Hours: 4 ARTS 2500 - Histories of Western Music Credit Hours: 4 ARTS 2550 - Popular Music and Society Credit Hours: 4 ARTS 2610 - Designing Musical Games Credit Hours: 4 GSAS 2610 - Designing Musical Games Credit Hours: 4 ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4 ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4or Science Core Elective Credit Hours: 4 or HASS Core Elective Credit Hours: 4 or Free Elective Credit Hours: 4 or Choose one of the following: ARTS 2540 - The Multimedia Century Credit Hours: 4 ARTS 2520 - World Music Credit Hours: 4 ARTS 2500 - Histories of Western Music Credit Hours: 4 ARTS 2550 - Popular Music and Society Credit Hours: 4 ARTS 2610 - Designing Musical Games Credit Hours: 4 GSAS 2610 - Designing Musical Games Credit Hours: 4 ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4 ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4 or ARTS 2540 - The Multimedia Century Credit Hours: 4 or ARTS 2520 - World Music Credit Hours: 4 or ARTS 2500 - Histories of Western Music Credit Hours: 4 or ARTS 2550 - Popular Music and Society Credit Hours: 4 or ARTS 2610 - Designing Musical Games Credit Hours: 4 or GSAS 2610 - Designing Musical Games Credit Hours: 4 or ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4 or ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4 
+   Course: ARTS 2540 - The Multimedia Century Credit Hours: 4OR ARTS 2520 - World Music Credit Hours: 4OR ARTS 2500 - Histories of Western Music Credit Hours: 4OR ARTS 2550 - Popular Music and Society Credit Hours: 4OR ARTS 2610 - Designing Musical Games Credit Hours: 4OR GSAS 2610 - Designing Musical Games Credit Hours: 4OR ARTS 4500 - Topics in the History and Analysis of Music Credit Hours: 4OR ARTS 2510 - Histories of Jazz and Improvised Music Credit Hours: 4
    Course: ARTS 2540 - The Multimedia Century Credit Hours: 4
    Course: ARTS 2520 - World Music Credit Hours: 4
    Course: ARTS 2500 - Histories of Western Music Credit Hours: 4
@@ -1739,43 +1754,7 @@ Physician-Scientist:
    Course: BIOL 4250 - Developmental Biology Credit Hours: 4
    Course: BIOL 4980 - Biomedical Research Credit Hours: 6
 
- Year: Courses transferred from Albany Medical College
-  Sem: Summer III
-   Course: Research Credit Hours: 0
-  Sem: Academic Year IV
-
- Year: Footnotes
-Students who apply Advanced Placement credits in place of BIOL 1010 may take BIOL 2120 in its place.
-Humanities and Social Sciences (HASS) Core Electives: A total of 24 credits of HASS Core Electives should be taken. Students should take an Inquiry course during their first year. For a listing of HASS Inquiry courses go to: https://info.rpi.edu/hass-inquiry. In addition, students should take a HASS communication-intensive course during their first three semesters.
-Culminating experience and curriculum specific communication-intensive course.
-The courses for the fourth year are completed at Albany Medical College. These courses are transferred back to RPI to satisfy the requirements for the four-year degree. Additional coursework at AMC is required for the M.D. degree. Please note that during summer between year 3 and year 4, a 0-credit hour research experience is required at Albany Medical College and must be completed for the degree.
-
-
- Year: Fall - Credits: 16
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 1010 - Introduction to Biology Credit Hours: 3(See footnote 1 below)BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4MATH 1010 - Calculus I Credit Hours: 4
-
- Year: Fall - Credits: 16
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 2500 - Genetics and Evolution Credit Hours: 4CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1CHEM 2250 - Organic Chemistry I Credit Hours: 3PHYS 1100 - Physics I Credit Hours: 4
-
- Year: Fall - Credits: 17
-HASS Core Elective Credit Hours: 4
-	(See footnote 2 below)
-
-BIOL 4110 - Investigative Medicine I Credit Hours: 1BIOL 4200 - Biostatistics Credit Hours: 4BIOL 4270 - Human Physiology Credit Hours: 4BIOL 4760 - Molecular Biochemistry I Credit Hours: 4
-
- Year: Summer III
-Research Credit Hours: 0
-	(See footnote 4 below)
-
-
-
-Physics:
+ Year: Physics:
  Year: First Year
   Sem: Fall
    Course: HASS Core Elective Credit Hours: 4
@@ -1940,8 +1919,8 @@ Sustainability Studies:
    Course: HASS Core Elective Credit Hours: 4
    Course: Science Core Elective Credit Hours: 4
    Course: STSO 2300 - Environment and Society Credit Hours: 4
-   Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4
-   Course: or MATH 1020 - Calculus II Credit Hours: 4
+   Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4 or MATH 1020 - Calculus II Credit Hours: 4
+
 
  Year: Second Year
   Sem: Fall
