@@ -73,6 +73,15 @@ def test_bulk_upload_success(upload, client: TestClient, event_loop: asyncio.Abs
     assert coreqs[0].department == "BMED" and coreqs[0].level == 4010
     co = [c.corequisite for c in coreqs]
     assert co == ['BMED-4200']
+    # We're going to test that semester info is tested properly
+
+    spring = event_loop.run_until_complete(SemesterInfo.get(semester = "Spring 2020"))
+    assert spring.semester == "Spring 2020"
+    assert spring.public == True
+    
+    summer = event_loop.run_until_complete(SemesterInfo.get(semester = "Summer 2020"))
+    assert summer.semester == "Summer 2020"
+    assert summer.semester == True
 
 
 @pytest.mark.testclient
