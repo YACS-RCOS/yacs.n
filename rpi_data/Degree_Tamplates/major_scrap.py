@@ -136,16 +136,20 @@ def handleEE(cur_entry):
             major_db[cur_entry]["Spring"].append("ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1")
             majorOutFile.write("   Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1\n")
 
-def chooseOneParse(liElement):
+def courseChoiceParse(element):
     resStr = ""
-    for ultag in liElement.find_all("ul"):
+    for ultag in element.find_all("ul"):
         for litag in ultag.find_all("li"):
-            #print("litag INNER:", litag.text)
+            #Solves edge case where extra info for a course is put in a separate <li> 
+                #tag which messes with appending all course choices by addin an unnecessary OR
+            if litag.text.lower().find("[intended to be taken for 4 credit hours]") != -1:
+                continue
             if len(resStr) > 0:
-                resStr += "OR {} ".format(litag.text)
+                resStr += "OR {}".format(litag.text)
             else:
                 resStr += litag.text
-    print("resStr", resStr)
+    
+    #print("resStr", resStr)
     return resStr
 
 #function that parses html page and stores major information in major_db
@@ -226,32 +230,36 @@ def scrapFromURL(webLink, major_db):
 
                             majorOutFile.write("  Sem: ")
                             majorOutFile.write(semName.text)
-                            majorOutFile.write("\n")
 
                             #initialize class entries for cur_entry's semName semester
                             major_db[cur_entry][semName.text] = []
-                            shouldBreak = False #shouldBreak is true if we did the inner loop for adding all of the following courses
                             for ultag in sem.find_all("ul"):
                                 for litag in ultag.find_all("li"):
                                     
                                     # Solves edge case for Music major program page where students are given many options for courses, 
-                                    #calls the chooseOneParse function which returns a string with all course names combined to form one 'course'
+                                    #calls the courseChoiceParse function which returns a string with all course names combined to form one 'course'
                                     text_to_add = parseText(litag.text, False)
                                     if (text_to_add == ""):
                                         continue
 
                                     #merge multiple class options into one class to store in the db
                                     if text_to_add.lower().find("of the following") != -1:
-                                        text_to_add = chooseOneParse(litag)
+                                        text_to_add = courseChoiceParse(litag)
                                         print("The text to add is: ", text_to_add)
+                                        
+                                    if text_to_add.lower()[:2] == "or":
+                                        print("found or in", major, "major")
+                                        majorOutFile.write(" " + text_to_add + "\n")
+                                        continue
+                                    else:
+                                        majorOutFile.write("\n")
 
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
                                     majorOutFile.write(text_to_add)
                                     majorOutFile.write("\n")
-                                    if (shouldBreak):
-                                        break
+
                             if yearText == "Second Year" and semName.text == "Spring" and major == "Engineering Core Curriculum":
                                 #stop after the 2nd year for the Engineering Core Curriculum major
                                 majorOutFile.write("\n")
@@ -260,9 +268,13 @@ def scrapFromURL(webLink, major_db):
                         
                         else:
                             # edge case where it is leftpad20
-                            for h3 in sem.find_all("h4"):
-                                if h3.text == "Culminating Experience":
-                                    majorOutFile.write("   Course: Culminating Experience ")    
+                            for h4 in sem.find_all("h4"):
+                                if h4.text == "Culminating Experience":
+                                    majorOutFile.write("   Course: Culminating Experience ")
+                                if h4.text.lower().find("choose one:") != -1:
+                                    for div in sem.find_all("div"):
+                                        #print("div text", div.text)
+                                        majorOutFile.write(courseChoiceParse(div))
                             for em in sem.find_all("em"):
                                 if em.text[:13] == "Credit Hours:":
                                     majorOutFile.write(em.text + "\n") 
