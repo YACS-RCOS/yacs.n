@@ -9,7 +9,7 @@ async def get_user_info(session_id):
     users = UserModel()
     sessions = SessionModel()
 
-    session = sessions.get_session(session_id)
+    session = await sessions.get_session(session_id)
     if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
