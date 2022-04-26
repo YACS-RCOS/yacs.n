@@ -251,21 +251,19 @@ def scrapFromURL(webLink, major_db):
                                         print("found or in", major, "major")
                                         majorOutFile.write(" " + text_to_add + "\n")
                                         continue
-                                    else:
-                                        majorOutFile.write("\n")
-
+                                    
+                                    majorOutFile.write("\n")
                                     #the text has been confirmed to be a class and it has been parsed as well so add
                                     majorOutFile.write("   Course: ")
                                     major_db[cur_entry][semName.text].append(text_to_add)
                                     majorOutFile.write(text_to_add)
-                                    majorOutFile.write("\n")
 
                             if yearText == "Second Year" and semName.text == "Spring" and major == "Engineering Core Curriculum":
                                 #stop after the 2nd year for the Engineering Core Curriculum major
                                 majorOutFile.write("\n")
                                 return
                             #is there another edge case where some are not in ul or li                                        
-                        
+                            majorOutFile.write("\n")
                         else:
                             # edge case where it is leftpad20
                             for h4 in sem.find_all("h4"):
