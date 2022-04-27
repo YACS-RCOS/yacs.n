@@ -1,9 +1,11 @@
 from fastapi.testclient import TestClient
+import asyncio
 from models import SemesterDateRange
 import pytest
 
 @pytest.mark.testclient
-def test_map_date_range(client: TestClient):
+@pytest.mark.tortoise
+def test_map_date_range(client: TestClient, event_loop:asyncio.AbstractEventLoop):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
         ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'), 
         ('date_start', '2020-05-26'), ('date_start', '2020-05-26'), 
@@ -24,7 +26,8 @@ def test_map_date_range(client: TestClient):
     assert r.status_code == 200
 
 @pytest.mark.testclient
-def test_map_date_range_failure(client: TestClient):
+@pytest.mark.tortoise
+def test_map_date_range_failure(client: TestClient, event_loop:asyncio.AbstractEventLoop):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
         ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'), 
         ('date_start', '2020-01-01'), ('date_start', '2020-01-01'), 
