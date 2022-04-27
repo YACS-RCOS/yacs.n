@@ -2,16 +2,13 @@ import pytest
 import asyncio
 from fastapi.testclient import TestClient
 import os, inspect
-from models import Course, CourseSession, CoursePrerequisite, CourseCorequisite
+from models import Course, CourseSession, CoursePrerequisite, CourseCorequisite, SemesterInfo
 from datetime import date, time
 import pytz
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
 
-# {'name': 'ADMN-1824',
-#                     'semester': 'SUMMER 2020',
-#                     'cid': '-1'}
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -73,6 +70,15 @@ def test_bulk_upload_success(upload, client: TestClient, event_loop: asyncio.Abs
     assert coreqs[0].department == "BMED" and coreqs[0].level == 4010
     co = [c.corequisite for c in coreqs]
     assert co == ['BMED-4200']
+
+    # We're going to test that semester info is tested properly
+    spring = event_loop.run_until_complete(SemesterInfo.get(semester = "SPRING 2020"))
+    assert spring.semester == "SPRING 2020"
+    assert spring.public == True
+    
+    summer = event_loop.run_until_complete(SemesterInfo.get(semester = "SUMMER 2020"))
+    assert summer.semester == "SUMMER 2020"
+    assert summer.public == True
 
 
 @pytest.mark.testclient

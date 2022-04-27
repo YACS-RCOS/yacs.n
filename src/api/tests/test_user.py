@@ -40,6 +40,7 @@ def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.Ab
     add a valid new user into the session
     '''
     r = client.post("/api/user", json= {"name": "test2", "email":"test12@gmail.com","phone": "", "password":"test123", "major":"", "degree":""} )
+
     data = r.json()
     assert r.status_code == 200
     assert data['content'] is not None

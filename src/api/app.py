@@ -8,18 +8,17 @@ from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
 
 from api_models import *
-# import db.connection as connection
-# import db.classinfo as ClassInfo
+import db.classinfo as ClassInfo
 import db.courses as Courses
-# import db.semester_info as SemesterInfo
+import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
-# import db.admin as AdminInfo
-# import db.student_course_selection as CourseSelect
+import db.admin as AdminInfo
+import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
-# import controller.userevent as event_controller
+import controller.userevent as event_controller
 from io import StringIO
 import json
 import os
@@ -39,13 +38,13 @@ app.add_middleware(SessionMiddleware,
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
 # - init interfaces to db
-# class_info = ClassInfo.ClassInfo(db_conn)
+class_info = ClassInfo.ClassInfo()
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
-# admin_info = AdminInfo.Admin(db_conn)
-# course_select = CourseSelect.student_course_selection(db_conn)
-# semester_info = SemesterInfo.semester_info(db_conn)
+semester_info = SemesterInfo.semester_info()
+course_select = CourseSelect.student_course_selection()
 users = UserModel.User()
+admin = AdminInfo.Admin()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -61,38 +60,38 @@ async def root(request: Request):
 def apiroot():
     return Response(content='wow')
 
-# @app.get('/api/class')
-# @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
-#     """
-#     GET /api/class?semester={}&search={}
-#     Cached: 1 Hour
-#     """
-#     if semester:
-#         if not semester_info.is_public(semester):
-#             if is_admin_user(request.session):
-#                 classes, error = class_info.get_classes_full(semester)
-#                 return classes if not error else Response(error, status_code=500)
-#             return Response(content="Semester isn't available", status_code=401)
-#         if search is not None:
-#             classes, error = class_info.get_classes_by_search(semester, search)
-#         else:
-#             classes, error = class_info.get_classes_full(semester)
-#         return classes if not error else Response(error, status_code=500)
-#     return Response(content="missing semester option", status_code=400)
-#
-# @app.get('/api/department')
-# @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_departments():
-#     """
-#     GET /api/department
-#     Cached: 1 Hour
-#
-#     List of departments i.e. COGS, CIVL, CSCI, BIOL
-#     """
-#     departments, error = class_info.get_departments()
-#     return departments if not error else Response(content=error, status_code=500)
-#
+@app.get('/api/class')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
+    """
+    GET /api/class?semester={}&search={}
+    Cached: 1 Hour
+    """
+    if semester:
+        if not await semester_info.is_public(semester):
+            if is_admin_user(request.session):
+                classes, error = await class_info.get_classes_full(semester)
+                return classes if not error else Response(error, status_code=500)
+            return Response(content="Semester isn't available", status_code=401)
+        if search is not None:
+            classes, error = await class_info.get_classes_by_search(semester, search)
+        else:
+            classes, error = await class_info.get_classes_full(semester)
+        return classes if not error else Response(error, status_code=500)
+    return Response(content="missing semester option", status_code=400)
+
+@app.get('/api/department')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_departments():
+    """
+    GET /api/department
+    Cached: 1 Hour
+
+    List of departments i.e. COGS, CIVL, CSCI, BIOL
+    """
+    departments, error = await class_info.get_departments()
+    return departments if not error else Response(content=error, status_code=500)
+
 # @app.get('/api/subsemester')
 # @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 # async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
@@ -113,35 +112,34 @@ def apiroot():
 #     subsemesters, error = class_info.get_subsemesters()
 #     db_list = [dict(r) for r in subsemesters]
 #     return db_list if not error else Response(error, status_code=500)
-#
-# @app.get('/api/semester')
-# @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_semesters():
-#     """
-#     GET /api/semester
-#     Cached: 24 Hours
-#     """
-#     semesters, error = class_info.get_semesters()
-#     db_list = [dict(r) for r in semesters]
-#     return db_list if not error else Response(error, status_code=500)
-#
-# @app.get('/api/semesterInfo')
-# def get_all_semester_info():
-#     all_semester_info, error = class_info.get_all_semester_info()
-#     return all_semester_info if not error else Response(error, status=500)
-#
-# @app.get('/api/defaultsemester')
-# def get_defaultSemester():
-#     semester, error = admin_info.get_semester_default()
-#     return semester if not error else Response(error, status=500)
+
+@app.get('/api/semester')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_semesters():
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
+    semesters, error = await class_info.get_semesters()
+    db_list = [dict(r) for r in semesters]
+    return db_list if not error else Response(error, status_code=500)
+
+@app.get('/api/semesterInfo')
+async def get_all_semester_info():
+    all_semester_info, error = await class_info.get_all_semester_info()
+    return all_semester_info if not error else Response(error, status=500)
+
+@app.get('/api/defaultsemester')
+async def get_defaultSemester():
+    semester, error = await admin.get_semester_default()
+    return semester if not error else Response(error, status_code=500)
 
 @app.post('/api/defaultsemesterset')
-def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
-    success, error = admin_info.set_semester_default(semester_set.default)
+async def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
+    success, error = await admin.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
     else:
-        print(error)
         return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
@@ -160,8 +158,8 @@ async def uploadHandler(
     # update semester infos based on isPubliclyVisible, hiding semester if needed
     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
-    # for semester in semesters:
-    #     semester_info.upsert(semester, isPubliclyVisible)
+    for semester in semesters:
+        await semester_info.upsert(semester, isPubliclyVisible)
     # Like C, the cursor will be at EOF after full read, so reset to beginning
     csv_file.seek(0)
     # Clear out course data of the same semester before population due to
@@ -200,15 +198,28 @@ async def map_date_range_to_semester_part_handler(request: Request):
                  return Response(error, status_code=500)
      return Response("Did not receive proper form data", status_code=500)
 
-#@app.route('/api/user/course', methods=['GET'])
 @app.get('/api/user/course')
 async def get_student_courses(request: Request):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    courses, error = course_select.get_selection(request.session['user']['user_id'])
+    courses, error = await course_select.get_selection(request.session['user']['user_id'])
     return courses if not error else Response(error, status_code=500)
 
+@app.post('/api/user/course')
+async def add_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    #print("DEBUG", credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    resp, error = await course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    return Response(status_code=200) if not error else Response(error, status_code=500)
+
+@app.delete('/api/user/course')
+async def remove_student_course(request: Request, credentials: UserCoursePydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    resp, error = await course_select.remove_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
@@ -255,21 +266,20 @@ async def log_out(request: Request, session: SessionDeletePydantic):
 
     return response
 
-# @app.post('/api/event')
-# def add_user_event(request: Request, credentials: SessionPydantic):
-#     return Response(status_code=501)
-#     #return event_controller.add_event(json.loads(request.data))
-#
-# @app.post('/api/user/course')
-# async def add_student_course(request: Request, credentials: UserCoursePydantic):
-#     if 'user' not in request.session:
-#         return Response("Not authorized", status_code=403)
-#     resp, error = course_select.add_selection(credentials.name, credentials.semester, credentials.cid)
-#     return Response(status_code=200) if not error else Response(error, status_code=500)
-
-@app.delete('/api/user/course')
-async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+@app.post('/api/event')
+async def add_user_event(request: Request, userEvent: UserEvent):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
-    return Response(status_code=200) if not error else Response(error, status_code=500)
+    response =  await event_controller.add_event(userEvent.dict())
+    if response['success']:
+        request.session.pop('user', None)
+    return response
+
+@app.put('/api/event')
+async def update_user_event(request: Request, userEvent: UpdateUserEvent):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    response =  await event_controller.update_event(userEvent.dict())
+    if response['success']:
+        request.session.pop('user', None)
+    return response

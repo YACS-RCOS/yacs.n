@@ -2,6 +2,17 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+
+class UserEvent(BaseModel):
+    uid: str
+    eventID: str
+    data: str
+    createdAt: str
+
+class UpdateUserEvent(BaseModel):
+    uid: str
+    eventID: str
+    data: str
 class SessionPydantic(BaseModel):
     email: str
     password: str
