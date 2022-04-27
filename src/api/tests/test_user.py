@@ -33,8 +33,6 @@ TEST_USER_SIGNUP2 = { 'email': 'test2@email.com',
                      'major': 'ECON' }
 
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a valid new user into the session
@@ -50,8 +48,6 @@ def test_user_post_success(post_user, client: TestClient, event_loop: asyncio.Ab
     assert user is not None
     assert user.name == "test2" and user.email == "test12@gmail.com"
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_user_post_failure(post_user, client: TestClient):
     '''
     add a invalid new user into the session
@@ -61,8 +57,6 @@ def test_user_post_failure(post_user, client: TestClient):
     assert data['content'] is None
     assert r.status_code == 200
     
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_user_delete_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     delete a valid user in the session
@@ -87,8 +81,6 @@ def test_user_delete_success(post_user, client: TestClient, event_loop: asyncio.
     user = event_loop.run_until_complete(UserAccount.get(email=TEST_USER_SIGNUP['email']))
     assert user.name == TEST_USER_SIGNUP['name']
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_user_delete_failure(post_user, client: TestClient):
     '''
     delete a not exist user in the session
@@ -101,8 +93,6 @@ def test_user_delete_failure(post_user, client: TestClient):
     data2 = r2.json()
     assert data2['errMsg'] == "Wrong password."
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_user_delete_failure2(post_user, client: TestClient):
     '''
     delete the session, then try to delete user
@@ -114,8 +104,6 @@ def test_user_delete_failure2(post_user, client: TestClient):
     r1 = client.delete("/api/user", json= {"sessionID": sessID, "password": "12345"})
     assert r1.status_code == 403
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_get_user_success(client: TestClient, post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
@@ -137,8 +125,6 @@ def test_get_user_success(client: TestClient, post_user):
     assert data['content']['uid'] is not None
     client.delete("/api/session", json={'sessionID': sessionid})
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_get_user_failed(client: TestClient,post_user):
     '''
     Test user get with invalid sessionID
@@ -158,8 +144,6 @@ def test_get_user_failed(client: TestClient,post_user):
     assert data['errMsg'] == "Unable to find the session."
     client.delete("/api/session", json={'sessionID': sessionid})
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_get_user_after_session_closed(client: TestClient,post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP after session is closed.
@@ -176,9 +160,6 @@ def test_get_user_after_session_closed(client: TestClient,post_user):
     r = client.get("/api/user/"+sessionid)
     assert r.status_code == 403
 
-
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_put_user_success(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
@@ -218,9 +199,6 @@ def test_put_user_success(client:TestClient,post_user):
 
     r=client.delete("/api/session", json={'sessionID': sessionid})
 
-
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_put_user_after_session_closed(client:TestClient,post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2

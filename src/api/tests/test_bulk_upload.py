@@ -10,8 +10,6 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
 
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_bulk_upload_success(upload, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     Test bulk upload. This will upload data and verify the data is received and stored.
@@ -81,8 +79,6 @@ def test_bulk_upload_success(upload, client: TestClient, event_loop: asyncio.Abs
     assert summer.public == True
 
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_bulk_upload_no_file(client: TestClient):
     '''
     Tests bulk course upload for when no file is provided
@@ -95,8 +91,6 @@ def test_bulk_upload_no_file(client: TestClient):
                     files=multipart_form_data)
     assert r.status_code == 400
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_bulk_upload_wrong_file_extension(client: TestClient):
     '''
     Tests bulk course upload for when a non-csv file is provided

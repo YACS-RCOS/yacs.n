@@ -4,8 +4,6 @@ from models import AdminSettings
 import pytest
 
 
-@pytest.mark.tortoise
-@pytest.mark.testclient
 def test_default_semester_set(client: TestClient,event_loop: asyncio.AbstractEventLoop):
     r = client.post('/api/defaultsemesterset', json = {'default' :'SUMMER 2020'})
     assert r.status_code == 200

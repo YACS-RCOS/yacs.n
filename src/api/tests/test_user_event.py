@@ -9,8 +9,6 @@ import calendar
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_add_user_event_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a new user event
@@ -24,10 +22,7 @@ def test_add_user_event_success(post_user, client: TestClient, event_loop: async
     assert userEvent is not None
     assert userEvent.content == "aa"
     client.delete("/api/session", json={"sessionID": sess.json()['content']['sessionID']})
-    
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_add_user_event_failure(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a new user event without log in
@@ -36,9 +31,6 @@ def test_add_user_event_failure(post_user, client: TestClient, event_loop: async
     r = client.post("/api/event", json= {"uid": str(uid), "eventID":"1","data":"aa","createdAt": calendar.timegm(time.gmtime())} )
     assert r.status_code == 403
 
-
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_update_user_event_success(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     add a new user event
@@ -60,9 +52,6 @@ def test_update_user_event_success(post_user, client: TestClient, event_loop: as
     assert userEvent is not None
     assert userEvent.content == "changed"
 
-
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_update_user_event_failure(post_user, client: TestClient, event_loop: asyncio.AbstractEventLoop):
     '''
     update a new user event without log in

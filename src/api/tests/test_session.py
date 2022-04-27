@@ -4,8 +4,6 @@ import pytest
 TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_session_post_success(post_user, client: TestClient):
     '''
     Test session post with valid credentials
@@ -19,8 +17,6 @@ def test_session_post_success(post_user, client: TestClient):
     assert data['content']['userName'] == "TestName"
     client.delete("/api/session", json={'sessionID': data['content']['sessionID']})
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_session_post_failure(client: TestClient):
     '''
     Test session post with invalid credentials
@@ -31,8 +27,6 @@ def test_session_post_failure(client: TestClient):
     data = r.json()
     assert data['content'] is None
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_session_delete_success(post_user, client: TestClient):
     '''
     Test session delete with valid input
@@ -43,8 +37,6 @@ def test_session_delete_success(post_user, client: TestClient):
     assert r.status_code == 200
     assert r.json()['success'] == True
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_session_delete_failure(client: TestClient):
     '''
     Test session delete with invalid session id

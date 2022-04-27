@@ -4,8 +4,6 @@ from models import SemesterDateRange
 import pytest
 from datetime import date
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_map_date_range(client: TestClient, event_loop:asyncio.AbstractEventLoop):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
         ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'), 
@@ -26,8 +24,6 @@ def test_map_date_range(client: TestClient, event_loop:asyncio.AbstractEventLoop
 
     assert r.status_code == 200
 
-@pytest.mark.testclient
-@pytest.mark.tortoise
 def test_map_date_range_failure(client: TestClient, event_loop:asyncio.AbstractEventLoop):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
         ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'), 
