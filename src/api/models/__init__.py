@@ -6,5 +6,6 @@ from .course_corequisite import CourseCorequisite
 from .course_prerequisite import CoursePrerequisite
 from .course_session import CourseSession
 from .event import Event
+from .semester_info import SemesterInfo
 from .student_course_selection import StudentCourseSelection
 from .admin_settings import AdminSettings

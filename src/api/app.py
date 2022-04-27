@@ -11,7 +11,7 @@ from api_models import *
 # import db.connection as connection
 # import db.classinfo as ClassInfo
 import db.courses as Courses
-# import db.semester_info as SemesterInfo
+import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
@@ -43,8 +43,8 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
 # admin_info = AdminInfo.Admin(db_conn)
+semester_info = SemesterInfo.semester_info()
 course_select = CourseSelect.student_course_selection()
-# semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 admin = AdminInfo.AdminSetting()
 
@@ -161,8 +161,8 @@ async def uploadHandler(
     # update semester infos based on isPubliclyVisible, hiding semester if needed
     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
-    # for semester in semesters:
-    #     semester_info.upsert(semester, isPubliclyVisible)
+    for semester in semesters:
+        await semester_info.upsert(semester, isPubliclyVisible)
     # Like C, the cursor will be at EOF after full read, so reset to beginning
     csv_file.seek(0)
     # Clear out course data of the same semester before population due to
