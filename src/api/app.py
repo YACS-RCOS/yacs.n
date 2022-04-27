@@ -138,12 +138,15 @@ async def get_defaultSemester():
 
 @app.post('/api/defaultsemesterset')
 async def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
-    success, error = await admin.set_semester_default(semester_set.default)
-    if success:
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    response = await admin.set_semester_default(semester_set.default)
+    # response =  await event_controller.add_event(userEvent.dict())
+
+    # if success:
+    #     return Response(status_code=200)
+    # else:
+    #     print(error)
+    #     return Response(error.__str__(), status_code=500)
+    return response
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -274,8 +277,6 @@ async def add_user_event(request: Request, userEvent: UserEvent):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     response =  await event_controller.add_event(userEvent.dict())
-    if response['success']:
-        request.session.pop('user', None)
 
     return response
 
@@ -284,7 +285,6 @@ async def update_user_event(request: Request, userEvent: UpdateUserEvent):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     response =  await event_controller.update_event(userEvent.dict())
-    if response['success']:
-        request.session.pop('user', None)
+
 
     return response

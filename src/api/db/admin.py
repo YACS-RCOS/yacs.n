@@ -23,7 +23,7 @@ class AdminSetting(Model):
 		if (result == None):
 			return None
 		else:
-			result = result[0]['semester']
+			result = result[0][0]['semester']
 			return result
 
 
