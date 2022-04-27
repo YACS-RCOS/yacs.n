@@ -8,8 +8,7 @@ from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
 
 from api_models import *
-# import db.connection as connection
-# import db.classinfo as ClassInfo
+import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
@@ -39,7 +38,7 @@ app.add_middleware(SessionMiddleware,
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
 # - init interfaces to db
-# class_info = ClassInfo.ClassInfo(db_conn)
+class_info = ClassInfo.ClassInfo()
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
 semester_info = SemesterInfo.semester_info()
@@ -61,38 +60,38 @@ async def root(request: Request):
 def apiroot():
     return Response(content='wow')
 
-# @app.get('/api/class')
-# @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
-#     """
-#     GET /api/class?semester={}&search={}
-#     Cached: 1 Hour
-#     """
-#     if semester:
-#         if not semester_info.is_public(semester):
-#             if is_admin_user(request.session):
-#                 classes, error = class_info.get_classes_full(semester)
-#                 return classes if not error else Response(error, status_code=500)
-#             return Response(content="Semester isn't available", status_code=401)
-#         if search is not None:
-#             classes, error = class_info.get_classes_by_search(semester, search)
-#         else:
-#             classes, error = class_info.get_classes_full(semester)
-#         return classes if not error else Response(error, status_code=500)
-#     return Response(content="missing semester option", status_code=400)
-#
-# @app.get('/api/department')
-# @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_departments():
-#     """
-#     GET /api/department
-#     Cached: 1 Hour
-#
-#     List of departments i.e. COGS, CIVL, CSCI, BIOL
-#     """
-#     departments, error = class_info.get_departments()
-#     return departments if not error else Response(content=error, status_code=500)
-#
+@app.get('/api/class')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
+    """
+    GET /api/class?semester={}&search={}
+    Cached: 1 Hour
+    """
+    if semester:
+        if not await semester_info.is_public(semester):
+            if is_admin_user(request.session):
+                classes, error = await class_info.get_classes_full(semester)
+                return classes if not error else Response(error, status_code=500)
+            return Response(content="Semester isn't available", status_code=401)
+        if search is not None:
+            classes, error = await class_info.get_classes_by_search(semester, search)
+        else:
+            classes, error = await class_info.get_classes_full(semester)
+        return classes if not error else Response(error, status_code=500)
+    return Response(content="missing semester option", status_code=400)
+
+@app.get('/api/department')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_departments():
+    """
+    GET /api/department
+    Cached: 1 Hour
+
+    List of departments i.e. COGS, CIVL, CSCI, BIOL
+    """
+    departments, error = await class_info.get_departments()
+    return departments if not error else Response(content=error, status_code=500)
+
 # @app.get('/api/subsemester')
 # @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 # async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
@@ -113,23 +112,23 @@ def apiroot():
 #     subsemesters, error = class_info.get_subsemesters()
 #     db_list = [dict(r) for r in subsemesters]
 #     return db_list if not error else Response(error, status_code=500)
-#
-# @app.get('/api/semester')
-# @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-# async def get_semesters():
-#     """
-#     GET /api/semester
-#     Cached: 24 Hours
-#     """
-#     semesters, error = class_info.get_semesters()
-#     db_list = [dict(r) for r in semesters]
-#     return db_list if not error else Response(error, status_code=500)
-#
-# @app.get('/api/semesterInfo')
-# def get_all_semester_info():
-#     all_semester_info, error = class_info.get_all_semester_info()
-#     return all_semester_info if not error else Response(error, status=500)
-#
+
+@app.get('/api/semester')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_semesters():
+    """
+    GET /api/semester
+    Cached: 24 Hours
+    """
+    semesters, error = await class_info.get_semesters()
+    db_list = [dict(r) for r in semesters]
+    return db_list if not error else Response(error, status_code=500)
+
+@app.get('/api/semesterInfo')
+async def get_all_semester_info():
+    all_semester_info, error = await class_info.get_all_semester_info()
+    return all_semester_info if not error else Response(error, status=500)
+
 @app.get('/api/defaultsemester')
 async def get_defaultSemester():
     semester, error = await admin.get_semester_default()

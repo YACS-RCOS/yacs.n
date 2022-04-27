@@ -1,6 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
+@pytest.mark.tortoise
 @pytest.mark.testclient
 def test_semester_info_success(client: TestClient, upload):
     r = client.get("/api/semesterInfo")
