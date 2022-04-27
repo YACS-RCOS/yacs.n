@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 import asyncio
 from models import SemesterDateRange
 import pytest
+from datetime import date
 
 @pytest.mark.testclient
 @pytest.mark.tortoise
@@ -14,14 +15,14 @@ def test_map_date_range(client: TestClient, event_loop:asyncio.AbstractEventLoop
         ('semester_part_name', '5/26 - 8/22'), ('semester_part_name', '5/26 - 7/10'), 
         ('semester_part_name', '7/13 - 8/21')])
 
-    user = event_loop.run_until_complete(SemesterDateRange.get(date_start="2020-05-26", date_end = "2020-08-21"))
-    assert user.date_start == "2020-05-26" and user.date_end == "2020-08-21" and user.semester_part_name == "5/26 - 8/22"
+    user = event_loop.run_until_complete(SemesterDateRange.get(date_start=date(2020, 5, 26), date_end = date (2020,8,21)))
+    assert user.date_start == date(2020,5,26) and user.date_end == date(2020,8,21) and user.semester_part_name == "5/26 - 8/22"
 
-    user = event_loop.run_until_complete(SemesterDateRange.get(date_start="2020-05-26", date_end = "2020-07-10"))
-    assert user.date_start == "2020-05-26" and user.date_end == "2020-07-10" and user.semester_part_name == "5/26 - 7/10"
+    user = event_loop.run_until_complete(SemesterDateRange.get(date_start=date(2020,5,26), date_end = date(2020,7,10)))
+    assert user.date_start == date(2020, 5, 26) and user.date_end == date(2020, 7, 10) and user.semester_part_name == "5/26 - 7/10"
 
-    user = event_loop.run_until_complete(SemesterDateRange.get(date_start="2020-07-13", date_end = "2020-08-21"))
-    assert user.date_start == "2020-07-13" and user.date_end == "2020-08-21" and user.semester_part_name == "7/13 - 8/21"
+    user = event_loop.run_until_complete(SemesterDateRange.get(date_start= date (2020, 7, 13), date_end = date(2020, 8, 21)))
+    assert user.date_start == date(2020,7, 13) and user.date_end == date(2020, 8, 21) and user.semester_part_name == "7/13 - 8/21"
 
     assert r.status_code == 200
 
