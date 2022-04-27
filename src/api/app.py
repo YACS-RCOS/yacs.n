@@ -13,7 +13,7 @@ from api_models import *
 import db.courses as Courses
 # import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
-# import db.admin as AdminInfo
+import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
@@ -46,7 +46,7 @@ courses = Courses.Courses(FastAPICache)
 course_select = CourseSelect.student_course_selection()
 # semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
-admin = AdminInfo.Admin()
+admin = AdminInfo.AdminSetting()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -133,8 +133,8 @@ def apiroot():
 #
 @app.get('/api/defaultsemester')
 async def get_defaultSemester():
-    semester, error = await  admin.get_semester_default()
-    return semester if not error else Response(error, status=500)
+    semester = await  admin.get_semester_default()
+    return semester if semester!= None else Response(error, status=500)
 
 @app.post('/api/defaultsemesterset')
 async def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):

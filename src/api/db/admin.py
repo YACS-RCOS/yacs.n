@@ -1,28 +1,43 @@
-class Admin:
+from curses import A_ALTCHARSET
+from db.model import *
 
-	def __init__(self, db_conn):
-		self.db_conn = db_conn
-		self.interface_name = 'admin_info'
+
+# class User(Model):
+#     def __init__(self):
+#         super().__init__()
+
+class AdminSetting(Model):
+	def __init__(self):
+		super().__init__()
 
 	async def get_semester_default(self):
 		# NOTE: COALESCE takes first non-null vaue from the list
-		result, error = await self.db_conn.execute("""
+		sql = """
 			SELECT admin.semester FROM admin_settings admin
 			UNION ALL
 			SELECT si.semester FROM semester_info si WHERE si.public=true::boolean
 			LIMIT 1
-		""", None, True)
-
-		default_semester = None
-
-		if len(result) == 1:
-			# parse row
-			default_semester = result[0]['semester'] ## Only one record in table for admin_settings
-
-		if error:
-			return (None, error)
+		"""
+		args = None
+		result = await self.db.execute(sql, [], True)
+		if (result == None):
+			return None
 		else:
-			return (default_semester, error)
+			result = result[0]['semester']
+			return result
+
+
+		# default_semester = None
+
+		# if len(result) == 1:
+		# 	# parse row
+		# 	default_semester = result[0]['semester'] ## Only one record in table for admin_settings
+
+		# # if error:
+		# # 	return (None, error)
+		# # else:
+		# # 	return (default_semester, error)
+		# return result
 
 	async def set_semester_default(self, semester):
 		try:
@@ -32,7 +47,9 @@ class Admin:
 				VALUES('%s')
 				ON CONFLICT (semester) DO UPDATE SET semester = '%s'
 			"""
-			response, error = await self.db_conn.execute(cmd, [semester, semester], False)
+			# response, error = await self.db.execute(cmd, (semester, semester), False)
+			result = await self.db.execute(cmd, (semester,semester), False)
+			return result[0]
 
 		except Exception as e:
 			# self.db_conn.rollback()

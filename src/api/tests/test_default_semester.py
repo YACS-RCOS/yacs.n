@@ -4,7 +4,7 @@ from models import UserAccount
 import pytest
 @pytest.mark.tortoise
 @pytest.mark.testclient
-def test_default_semester_success(client: TestClient, upload,event_loop: asyncio.AbstractEventLoop):
+def test_default_semester_success(client: TestClient):
     r = client.get("/api/defaultsemester")
     data = r.json()
 
