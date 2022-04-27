@@ -32,7 +32,6 @@ class Admin(Model):
 				VALUES('%s')
 				ON CONFLICT (semester) DO UPDATE SET semester = '%s'
 			"""
-			# response, error = await self.db.execute(cmd, (semester, semester), False)
 			response, error = await self.db.execute(cmd, (semester,semester), False)
 
 		except Exception as e:
