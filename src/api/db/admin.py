@@ -1,12 +1,7 @@
-from curses import A_ALTCHARSET
 from db.model import *
 
 
-# class User(Model):
-#     def __init__(self):
-#         super().__init__()
-
-class AdminSetting(Model):
+class Admin(Model):
 	def __init__(self):
 		super().__init__()
 
@@ -18,26 +13,16 @@ class AdminSetting(Model):
 			SELECT si.semester FROM semester_info si WHERE si.public=true::boolean
 			LIMIT 1
 		"""
-		args = None
-		result = await self.db.execute(sql, [], True)
-		if (result == None):
-			return None
+		result, error = await self.db.execute(sql, [], True)
+
+		default_semester = None
+		if (len(result) == 1):
+			default_semester = result[0]['semester']
+
+		if error:
+			return (None, error)
 		else:
-			result = result[0][0]['semester']
-			return result
-
-
-		# default_semester = None
-
-		# if len(result) == 1:
-		# 	# parse row
-		# 	default_semester = result[0]['semester'] ## Only one record in table for admin_settings
-
-		# # if error:
-		# # 	return (None, error)
-		# # else:
-		# # 	return (default_semester, error)
-		# return result
+			return (default_semester, error)
 
 	async def set_semester_default(self, semester):
 		try:
@@ -48,11 +33,9 @@ class AdminSetting(Model):
 				ON CONFLICT (semester) DO UPDATE SET semester = '%s'
 			"""
 			# response, error = await self.db.execute(cmd, (semester, semester), False)
-			result = await self.db.execute(cmd, (semester,semester), False)
-			return result[0]
+			response, error = await self.db.execute(cmd, (semester,semester), False)
 
 		except Exception as e:
-			# self.db_conn.rollback()
 			return (False, e)
 
 		if response != None:

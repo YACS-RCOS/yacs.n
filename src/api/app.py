@@ -42,11 +42,10 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 # class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
-# admin_info = AdminInfo.Admin(db_conn)
 semester_info = SemesterInfo.semester_info()
 course_select = CourseSelect.student_course_selection()
 users = UserModel.User()
-admin = AdminInfo.AdminSetting()
+admin = AdminInfo.Admin()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -133,20 +132,16 @@ def apiroot():
 #
 @app.get('/api/defaultsemester')
 async def get_defaultSemester():
-    semester = await  admin.get_semester_default()
-    return semester if semester!= None else Response(error, status=500)
+    semester, error = await admin.get_semester_default()
+    return semester if not error else Response(error, status_code=500)
 
 @app.post('/api/defaultsemesterset')
 async def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
-    response = await admin.set_semester_default(semester_set.default)
-    # response =  await event_controller.add_event(userEvent.dict())
-
-    # if success:
-    #     return Response(status_code=200)
-    # else:
-    #     print(error)
-    #     return Response(error.__str__(), status_code=500)
-    return response
+    success, error = await admin.set_semester_default(semester_set.default)
+    if success:
+        return Response(status_code=200)
+    else:
+        return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -277,7 +272,8 @@ async def add_user_event(request: Request, userEvent: UserEvent):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     response =  await event_controller.add_event(userEvent.dict())
-
+    if response['success']:
+        request.session.pop('user', None)
     return response
 
 @app.put('/api/event')
@@ -285,6 +281,6 @@ async def update_user_event(request: Request, userEvent: UpdateUserEvent):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
     response =  await event_controller.update_event(userEvent.dict())
-
-
+    if response['success']:
+        request.session.pop('user', None)
     return response

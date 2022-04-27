@@ -1,9 +1,9 @@
-
 import asyncio
 from fastapi.testclient import TestClient
-# from api.db.semester_info import semester_info
 from models import AdminSettings
 import pytest
+
+
 @pytest.mark.tortoise
 @pytest.mark.testclient
 def test_default_semester_set(client: TestClient,event_loop: asyncio.AbstractEventLoop):
