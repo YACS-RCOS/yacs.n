@@ -1,7 +1,9 @@
-class semester_date_mapping:
+from db.model import *
 
-    def __init__(self, db_wrapper):
-        self.db = db_wrapper
+class semester_date_mapping(Model):
+
+    def __init__(self):
+        super().__init__()
 
     async def insert(self, date_start, date_end, name):
         return await self.db.execute("""

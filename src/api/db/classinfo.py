@@ -281,7 +281,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery('%(search)s')) AS ts_rank
                 FROM
                   course
               ) AS c

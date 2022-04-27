@@ -12,7 +12,7 @@ sys.path.insert(0, appdir)
 from app import app
 from db.connection import database
 from models import UserAccount, UserSession, Course, CourseCorequisite, CoursePrerequisite, \
-    CourseSession, Event
+    CourseSession, Event, SemesterDateRange
 
 db = database()
 run_async(db.connect())
@@ -25,6 +25,7 @@ async def clear_tables():
     await CourseCorequisite.all().delete()
     await CoursePrerequisite.all().delete()
     await Event.all().delete()
+    await SemesterDateRange.all().delete()
 
 run_async(clear_tables())
 

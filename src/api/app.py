@@ -12,7 +12,7 @@ from api_models import *
 # import db.classinfo as ClassInfo
 import db.courses as Courses
 # import db.semester_info as SemesterInfo
-# import db.semester_date_mapping as DateMapping
+import db.semester_date_mapping as DateMapping
 # import db.admin as AdminInfo
 # import db.student_course_selection as CourseSelect
 import db.connection
@@ -41,7 +41,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 # - init interfaces to db
 # class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(FastAPICache)
-# date_range_map = DateMapping.semester_date_mapping(db_conn)
+date_range_map = DateMapping.semester_date_mapping()
 # admin_info = AdminInfo.Admin(db_conn)
 # course_select = CourseSelect.student_course_selection(db_conn)
 # semester_info = SemesterInfo.semester_info(db_conn)
@@ -193,7 +193,7 @@ async def map_date_range_to_semester_part_handler(request: Request):
          end_dates = form.getlist('date_end')
          if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
              _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-             semester_info.upsert(semester_title, is_publicly_visible)
+             #semester_info.upsert(semester_title, is_publicly_visible)
              if (not error):
                  return Response(status_code=200)
              else:
