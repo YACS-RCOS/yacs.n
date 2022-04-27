@@ -13,7 +13,7 @@ from api_models import *
 import db.courses as Courses
 import db.semester_info as SemesterInfo
 # import db.semester_date_mapping as DateMapping
-# import db.admin as AdminInfo
+import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
@@ -42,10 +42,10 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 # class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(FastAPICache)
 # date_range_map = DateMapping.semester_date_mapping(db_conn)
-# admin_info = AdminInfo.Admin(db_conn)
 semester_info = SemesterInfo.semester_info()
 course_select = CourseSelect.student_course_selection()
 users = UserModel.User()
+admin = AdminInfo.Admin()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -130,18 +130,17 @@ def apiroot():
 #     all_semester_info, error = class_info.get_all_semester_info()
 #     return all_semester_info if not error else Response(error, status=500)
 #
-# @app.get('/api/defaultsemester')
-# def get_defaultSemester():
-#     semester, error = admin_info.get_semester_default()
-#     return semester if not error else Response(error, status=500)
+@app.get('/api/defaultsemester')
+async def get_defaultSemester():
+    semester, error = await admin.get_semester_default()
+    return semester if not error else Response(error, status_code=500)
 
 @app.post('/api/defaultsemesterset')
-def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
-    success, error = admin_info.set_semester_default(semester_set.default)
+async def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
+    success, error = await admin.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
     else:
-        print(error)
         return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
@@ -275,7 +274,6 @@ async def add_user_event(request: Request, userEvent: UserEvent):
     response =  await event_controller.add_event(userEvent.dict())
     if response['success']:
         request.session.pop('user', None)
-
     return response
 
 @app.put('/api/event')
@@ -285,5 +283,4 @@ async def update_user_event(request: Request, userEvent: UpdateUserEvent):
     response =  await event_controller.update_event(userEvent.dict())
     if response['success']:
         request.session.pop('user', None)
-
     return response
