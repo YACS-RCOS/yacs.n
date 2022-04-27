@@ -4,7 +4,7 @@ from tortoise.models import Model
 
 class UserSession(Model):
     session_id = fields.UUIDField(pk=True)
-    user_id = fields.IntField(nullable=False)
+    user_id = fields.IntField(null=False)
     start_time = fields.DatetimeField(null=True)
     end_time = fields.DatetimeField(null=True)
 
