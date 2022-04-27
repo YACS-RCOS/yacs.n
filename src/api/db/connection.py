@@ -1,6 +1,7 @@
 from tortoise import Tortoise, run_async
 from tortoise.transactions import in_transaction
 from tortoise.exceptions import OperationalError
+from tortoise.contrib.fastapi import register_tortoise
 import os
 
 # connection details
@@ -55,6 +56,6 @@ class database():
     def get_connection(self):
         return Tortoise.get_connection()
 
-
-db = database()
-run_async(db.connect())
+if __name__ == "__main__":
+    db = database()
+    run_async(db.connect())

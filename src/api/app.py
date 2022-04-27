@@ -6,6 +6,7 @@ from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
+from tortoise.contrib.fastapi import register_tortoise
 
 from api_models import *
 import db.classinfo as ClassInfo
@@ -16,6 +17,7 @@ import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.connection
 import db.user as UserModel
+import db.config as Config
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -34,6 +36,13 @@ do a cache.clear() to ensure data integrity
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
+
+register_tortoise(
+    app,
+    config=Config.TORTOISE_ORM,
+    generate_schemas=False,
+    add_exception_handlers=False
+)
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
