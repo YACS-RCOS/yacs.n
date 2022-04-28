@@ -39,7 +39,7 @@ jobs:
           DB_HOST: postgres
         working-directory: src/api
         run: |
-          python tables/database_session.py
+          python db/connection.py
 
 #      - name: Run unit tests with coverage
 #        env:
