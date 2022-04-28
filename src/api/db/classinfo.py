@@ -1,4 +1,5 @@
 from db.model import *
+import json
 
 class ClassInfo(Model):
 
@@ -87,7 +88,8 @@ class ClassInfo(Model):
               c.department asc,
               c.level asc
           """
-          return await self.db.execute(classes_by_semester_query, (semester), True)
+          resp = await self.db.execute(classes_by_semester_query, (semester), True)
+          return self.convert_json_aggs(resp)
         all_classes_query = """
             select
               c.department,
@@ -166,7 +168,8 @@ class ClassInfo(Model):
               c.department asc,
               c.level asc
         """
-        return await self.db.execute(all_classes_query, (), True)
+        resp = await self.db.execute(all_classes_query, (), True)
+        return self.convert_json_aggs(resp)
 
 
     async def get_departments(self):
@@ -246,7 +249,7 @@ class ClassInfo(Model):
       if semester is not None:
         # # parse search string to a format recognized by to_tsquery
         # ts_search = None if search is None else search.strip().replace(' ', '|')
-        return await self.db.execute("""
+        resp = await self.db.execute("""
             WITH ts AS (
               SELECT
                 c.department,
@@ -424,9 +427,21 @@ class ClassInfo(Model):
             WHERE NOT EXISTS (
               SELECT * FROM ts
             )            
-        """, {
-          'search': search,#ts_search,
-          'searchAny': '%' + search + '%',
-          'semester': semester
-        }, True)
+          """, {
+            'search': search,#ts_search,
+            'searchAny': '%' + search + '%',
+            'semester': semester
+          }, True)
+        return self.convert_json_aggs(resp)
       return None
+
+    def convert_json_aggs(self, input):
+        if input[1] or type(input[0]) != list:
+            return input
+        for i in input[0]:
+            i['sections'] = json.loads(i['sections'])
+            if i['prerequisites']:
+                i['prerequisites'] = json.loads(i['prerequisites'])
+            if i['corequisites']:
+                i['corequisites'] = json.loads(i['corequisites'])
+        return input
