@@ -39,7 +39,7 @@ jobs:
           DB_HOST: postgres
         working-directory: src/api
         run: |
-          python db/connection.py
+          PYTHONPATH=. python db/connection.py
 
 #      - name: Run unit tests with coverage
 #        env:
