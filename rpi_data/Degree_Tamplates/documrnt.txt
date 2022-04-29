@@ -1,1 +1,11 @@
 document
+For the table I have done previously about the major comparing between YACS
+and RPI Web is going to show how many majors YACS are missing compare to total
+number of majors we have. From this research I find out several non-exist majors
+and list them out so as to help other group members to add them on YACS later.
+Plus, based on this research I also find out some majors on YACS such as ASTR
+is actually not a formal degree that has been considered as major by RPI. In the
+other hands. Some majors like BIO can actually seperated into several different
+majors. I believe yacs could try to classify majors more exact and detailed in
+the future which can help users to be more comfortable and convenient on using 
+YACS.
