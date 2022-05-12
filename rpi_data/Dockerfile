@@ -1,7 +1,5 @@
 FROM python:3.8.12-slim-bullseye
 
-ADD cronjob /etc/cron.d/cronjob
-
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
 COPY modules ./modules/
@@ -15,5 +13,7 @@ RUN chmod +x /etc/cron.d/cronjob && \
   touch /var/log/cron.log
 
 RUN apt update && apt install cron curl -y && \
-  pip install --no-cache-dir -r requirements.txt
-CMD cron && tail -f /var/log/cron.log
+  pip install --no-cache-dir -r requirements.txt && \
+  crontab -l | { cat; echo "0 1 * * * bash /usr/src/automate-semesters.sh"; } | crontab -
+
+CMD cron

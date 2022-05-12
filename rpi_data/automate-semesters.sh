@@ -5,10 +5,10 @@ post() {
 
 	if [ ${test} == 0 ]
 	then
-		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=${1}" \
+		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@${1}" \
 			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
 	else
-		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=${1}" \
+		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@${1}" \
 			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
 	fi
 }
