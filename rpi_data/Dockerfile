@@ -10,7 +10,7 @@ COPY website_checker.py ./
 
 RUN apt update && apt install cron curl -y && \
   pip install --no-cache-dir -r requirements.txt && \
-  chmod 0644 automate-semesters.sh && \
-  crontab -l | { cat; echo "0 1 * * * bash /usr/src/automate-semesters.sh"; } | crontab -
+  chmod 0744 automate-semesters.sh && \
+  crontab -l | { cat; echo "0 * * * * /usr/src/automate-semesters.sh"; } | crontab -
 
-CMD cron
+CMD ["cron", "-f"]

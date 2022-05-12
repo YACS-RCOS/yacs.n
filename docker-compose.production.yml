@@ -86,3 +86,5 @@ services:
     build:
       context: ./rpi_data
       dockerfile: Dockerfile
+    depends_on:
+      - yacs_web
