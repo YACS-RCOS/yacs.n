@@ -8,13 +8,9 @@ COPY school-department-mapping.yaml ./
 COPY automate-semesters.sh ./
 COPY website_checker.py ./
 
-RUN chmod +x /etc/cron.d/cronjob && \
-  chmod +x /usr/src/automate-semesters.sh && \
-  touch /var/log/cron.log
-
 RUN apt update && apt install cron curl -y && \
   pip install --no-cache-dir -r requirements.txt && \
-  chmod 0644 ./automate-semesters.sh && \
+  chmod 0644 automate-semesters.sh && \
   crontab -l | { cat; echo "0 1 * * * bash /usr/src/automate-semesters.sh"; } | crontab -
 
 CMD cron
