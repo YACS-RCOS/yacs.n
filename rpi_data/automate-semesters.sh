@@ -12,7 +12,8 @@ spring() {
 		SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
 		cat p* > spring-${year}.csv
 		rm -rf p*.csv
-		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=spring-${year}" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
+		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=spring-${year}" \
+			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
 	else
 		echo "The requested Spring SIS page returned error 404." >&2
 	fi
@@ -34,7 +35,8 @@ summer() {
 		SOURCE_URL=${source_url_c} HEADERS=False DEST=p2.csv python3 ./modules/rpi-parse.py
 		cat p* > summer-${year}.csv
 		rm -rf p*.csv
-		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=summer-${year}" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
+		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=summer-${year}" \
+			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
 	else
 		echo "A requested Summer SIS page returned error 404." >&2
 	fi
@@ -52,7 +54,8 @@ fall() {
 		SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
 		cat p* > fall-${year}.csv
 		rm -rf p*.csv
-		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=fall-${year}" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
+		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=fall-${year}" \
+			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
 	else
 		echo "A requested Fall SIS page returned error 404." >&2
 	fi
