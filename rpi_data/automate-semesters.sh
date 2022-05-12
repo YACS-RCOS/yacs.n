@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+post() {
+	test=${TESTING:-0}
+
+	if [ ${test} == 0]
+	then
+		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=${1}" \
+			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
+	else
+		curl --insecure -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=${1}" \
+			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
+	fi
+}
+
 spring() {
 	local year=${1}
 	source_url=https://sis.rpi.edu/reg/zfs${year}01.htm
@@ -12,8 +25,7 @@ spring() {
 		SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
 		cat p* > spring-${year}.csv
 		rm -rf p*.csv
-		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=spring-${year}" \
-			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" -k $API_ENDPOINT
+		post spring-${year}.csv
 	else
 		echo "The requested Spring SIS page returned error 404." >&2
 	fi
@@ -35,8 +47,7 @@ summer() {
 		SOURCE_URL=${source_url_c} HEADERS=False DEST=p2.csv python3 ./modules/rpi-parse.py
 		cat p* > summer-${year}.csv
 		rm -rf p*.csv
-		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=summer-${year}" \
-			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
+		post summer-${year}.csv
 	else
 		echo "A requested Summer SIS page returned error 404." >&2
 	fi
@@ -54,8 +65,7 @@ fall() {
 		SOURCE_URL=${source_url} DEST=p0.csv HEADERS=True python3 ./modules/rpi-parse.py
 		cat p* > fall-${year}.csv
 		rm -rf p*.csv
-		curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=fall-${year}" \
-			-A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $API_ENDPOINT
+		post fall-${year}.csv
 	else
 		echo "A requested Fall SIS page returned error 404." >&2
 	fi
