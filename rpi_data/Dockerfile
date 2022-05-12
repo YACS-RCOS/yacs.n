@@ -14,6 +14,7 @@ RUN chmod +x /etc/cron.d/cronjob && \
 
 RUN apt update && apt install cron curl -y && \
   pip install --no-cache-dir -r requirements.txt && \
+  chmod 0644 ./automate-semesters.sh
   crontab -l | { cat; echo "0 1 * * * bash /usr/src/automate-semesters.sh"; } | crontab -
 
 CMD cron
