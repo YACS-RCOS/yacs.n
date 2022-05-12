@@ -1,4 +1,4 @@
-Flask==1.1.1
+fastapi==0.68.0
 psycopg2-binary==2.9.1
 gunicorn==19.9.0
 pandas==1.3.3

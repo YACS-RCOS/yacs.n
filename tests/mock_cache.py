@@ -3,7 +3,7 @@ class MockCache:
     def __init__(self):
         self.__reset()
 
-    def clear(self):
+    async def clear(self, namespace=None):
         self.cache_cleared = True
 
     def __is_cleared(self):
