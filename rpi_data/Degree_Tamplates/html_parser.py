@@ -1,4 +1,5 @@
-fin = open("URL2022FallRaw.txt", "r")
+filename = input("Input Filename: ")  #URL2022FallRaw.txt
+fin = open(filename, "r")
 fout = open("majorURLlist2022FA.txt", "a")
 fout.truncate(0)
 for line in fin:
