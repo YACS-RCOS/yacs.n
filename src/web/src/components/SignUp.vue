@@ -85,7 +85,24 @@ export default {
     };
   },
   methods: {
+    checkDegree(degree){
+      if (degree != "CSCI"){ //if this is inside the list of degrees, only CSCI for now
+        return false; //say no
+      }
+      return true;
+    },
     async onSubmit() {
+      
+      if( !checkDegree(this.form.degree ) ){ // if the return value is false
+        this.$bvToast.toast(errMsg || "Wrong major", {
+          title: "Signup failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+        this.$emit("submit");
+        return;
+      }
+
       let {
         data: { success, errMsg },
       } = await signup(this.form);
