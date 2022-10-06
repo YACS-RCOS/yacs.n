@@ -47,11 +47,11 @@
       </b-form-group>
 
       <b-form-group id="input-group-6" label="Major:" label-for="input-6">
-        <b-form-input
+        <b-form-select
           id="input-6"
           v-model="form.major"
-          placeholder="Eg. CSCI or ITWS"
-        ></b-form-input>
+         :options="getDegreeOptions()"
+        ></b-form-select>
       </b-form-group>
 
       <button type="submit" class="btn-primary btn w-100">
@@ -85,24 +85,7 @@ export default {
     };
   },
   methods: {
-    checkDegree(degree){
-      if (degree != "CSCI"){ //if this is inside the list of degrees, only CSCI for now
-        return false; //say no
-      }
-      return true;
-    },
     async onSubmit() {
-      
-      if( !checkDegree(this.form.degree ) ){ // if the return value is false
-        this.$bvToast.toast(errMsg || "Wrong major", {
-          title: "Signup failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-        this.$emit("submit");
-        return;
-      }
-
       let {
         data: { success, errMsg },
       } = await signup(this.form);
@@ -132,6 +115,9 @@ export default {
 
       this.$emit("submit");
     },
+    getDegreeOptions(){
+      return ["Computer Science"];
+    }
   },
 };
 </script>
