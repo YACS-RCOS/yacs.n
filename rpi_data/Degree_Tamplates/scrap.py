@@ -9,7 +9,7 @@ def scrapFromURL(webLink):
     page = requests.get(URL)
 
     soup = BeautifulSoup(page.content, "html.parser")
-    outFile = open("pathwayData.txt", "a")
+    outFile = open("majorData.txt", "a")
     outFile.truncate(0)
 
     title_element = soup.find("h1", id="acalog-content")
@@ -26,7 +26,7 @@ def scrapFromURL(webLink):
 
 
 def cleaning1():
-    fin = open("pathwayData.txt", "r").read().replace(
+    fin = open("majorData.txt", "r").read().replace(
         "\n", " ").replace("\xa0", " ")
     fout = open("pathDataClean11.txt", "a")
     fout.truncate(0)
@@ -40,7 +40,7 @@ def cleaning1():
 
 
 def clean2():
-    f = open("pathDataClean11.txt", "r")
+    f = open("majorDataClean1.txt", "r")
     fout = open("ideal.json", "a")
     fout.write('{\n')
     lines = f.readlines()
@@ -69,6 +69,6 @@ def clean2():
     fout.write(output_string)
 
 
-fin = open("pathwayURLlist.txt", "r")
+fin = open("majorURLlist2022FA.txt", "r")
 
 scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=8&poid=1756&returnto=185")

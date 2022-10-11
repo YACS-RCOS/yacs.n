@@ -9,7 +9,8 @@ Created on Tue Nov  2 17:40:34 2021
 import requests
 from bs4 import BeautifulSoup
 
-outFile = open("pathwayData.txt", "a") #append mode
+#outFile = open("pathwayData.txt", "a") #append mode
+outFile = open("majorData.txt", "a") #append mode
 outFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 def scrapFromURL(webLink, major_db):
@@ -95,6 +96,7 @@ def scrapFromURL(webLink, major_db):
 
 major_db = {}
 f = open("majorURLlist.txt", "r")
+#f = open("majorURLlist2022FA.txt", "r")
 #fout = open("majorData.txt", "w")
 i = 0
 #scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542", major_db)
@@ -103,7 +105,8 @@ for link in f:
     print(link)
     scrapFromURL(link, major_db)
 outFile.close()
-outFile2 = open("DBCommands.txt", "a")
+#outFile2 = open("DBCommands.txt", "a")
+outFile2 = open("DBCCommands6.txt", "a")
 outFile2.truncate(0)
 commandlines = ["","",""]
 cmd_sem1 = ""
