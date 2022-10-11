@@ -1,0 +1,13 @@
+Issue:
+
+I was looking into building a Rate My Professors display for the yacs calendar
+but I noticed that the professor names are incorrectly formatted due to the
+site that the scraper is taking information from (https://sis.rpi.edu/reg/zfs202209.htm). 
+
+This affects the UI as well since courses with multiple professors listed (prof1/prof2/prof3)
+tend to have names cut off.
+
+The site that I believe is used by quacs for their course information scraper is directly through
+the sis portal which accurately includes the full names of the professors. I think the issue with
+this is the info is locked behind sis login as opposed to the previous link which is an unlocked
+site.
