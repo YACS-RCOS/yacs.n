@@ -51,6 +51,10 @@
       <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
+      <b>Ratings</b>
+      <br />
+      <span data-cy="ratings"> Testing </span>
+      <br />
     </b-popover>
   </div>
 </template>
