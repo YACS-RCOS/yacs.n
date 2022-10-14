@@ -16,6 +16,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.majors as Majors
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -41,25 +42,30 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn, FastAPICache)
+majors = Majors.Majors(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 users = UserModel.User()
 
+
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
         return True
     return False
 
+
 @app.get('/')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def root(request: Request):
-    return Response(content='YACS API is Up!',)
+    return Response(content='YACS API is Up!', )
+
 
 @app.get('/api')
 def apiroot():
     return Response(content='wow')
+
 
 @app.get('/api/class')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
@@ -80,7 +86,8 @@ async def get_classes(request: Request, semester: str or None = None, search: st
             classes, error = class_info.get_classes_full(semester)
         return classes if not error else Response(error, status_code=500)
     return Response(content="missing semester option", status_code=400)
-    
+
+
 @app.get('/api/department')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_departments():
@@ -92,6 +99,7 @@ async def get_departments():
     """
     departments, error = class_info.get_departments()
     return departments if not error else Response(content=error, status_code=500)
+
 
 @app.get('/api/subsemester')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
@@ -112,6 +120,7 @@ async def get_subsemesters(subsemester: SubsemesterPydantic = Depends(Subsemeste
     db_list = [dict(r) for r in subsemesters]
     return db_list if not error else Response(error, status_code=500)
 
+
 @app.get('/api/semester')
 @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_semesters():
@@ -123,10 +132,12 @@ async def get_semesters():
     db_list = [dict(r) for r in semesters]
     return db_list if not error else Response(error, status_code=500)
 
+
 @app.get('/api/semesterInfo')
 def get_all_semester_info():
     all_semester_info, error = class_info.get_all_semester_info()
     return all_semester_info if not error else Response(error, status=500)
+
 
 @app.get('/api/defaultsemester')
 def get_defaultSemester():
@@ -144,7 +155,8 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
         print(error)
         return Response(error.__str__(), status_code=500)
 
-#Parses the data from the .csv data files
+
+# Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
 async def uploadHandler(
         isPubliclyVisible: str = Form(...),
@@ -176,35 +188,143 @@ async def uploadHandler(
         print(error)
         return Response(error.__str__(), status_code=500)
 
+
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
-     # This depends on date_start, date_end, and semester_part_name being
-     # ordered since each field has multiple entries. They should be ordered
-     # as each dict entry has the value of list. But if it doesn't work,
-     # look into parameter_storage_class which will change the default
-     # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
-     form = await request.form()
-     if (form):
-         # If checkbox is false, then, by design, it is not included in the form data.
-         is_publicly_visible = form.get('isPubliclyVisible', default=False)
-         semester_title = form.get('semesterTitle')
-         semester_part_names = form.getlist('semester_part_name')
-         start_dates = form.getlist('date_start')
-         end_dates = form.getlist('date_end')
-         if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
-             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-             semester_info.upsert(semester_title, is_publicly_visible)
-             if (not error):
-                 return Response(status_code=200)
-             else:
-                 return Response(error, status_code=500)
-     return Response("Did not receive proper form data", status_code=500)
+    # This depends on date_start, date_end, and semester_part_name being
+    # ordered since each field has multiple entries. They should be ordered
+    # as each dict entry has the value of list. But if it doesn't work,
+    # look into parameter_storage_class which will change the default
+    # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
+    form = await request.form()
+    if (form):
+        # If checkbox is false, then, by design, it is not included in the form data.
+        is_publicly_visible = form.get('isPubliclyVisible', default=False)
+        semester_title = form.get('semesterTitle')
+        semester_part_names = form.getlist('semester_part_name')
+        start_dates = form.getlist('date_start')
+        end_dates = form.getlist('date_end')
+        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
+            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            semester_info.upsert(semester_title, is_publicly_visible)
+            if (not error):
+                return Response(status_code=200)
+            else:
+                return Response(error, status_code=500)
+    return Response("Did not receive proper form data", status_code=500)
+
 
 @app.get('/api/user/course')
 async def get_student_courses(request: Request):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
+
+@app.post('/api/majorsUpload')
+async def majors_upload_handler(
+        file: UploadFile = File(...)):
+    # check for user files
+    if not file:
+        return Response("No file received", 400)
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have json extension", 400)
+    
+    # get file
+    contents = await file.read()
+    file = StringIO(contents.decode())
+    
+    majorfile = pd.read_json(file)
+    majorlist = majorfile.get("Major")
+    # Populate DB from File
+    error = None
+    
+    majors.reset_majors()
+    for major in majorlist:
+        majors.upsert(major, "B")
+    
+    if not error:
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error, status_code=500)
+
+
+@app.get('/api/majors')
+async def get_majors(request: Request):
+    error = None
+    majorlist = []
+    if not request.query_params.get("types"):
+        return Response("Requires degree types as ?types=...", status_code=400)
+        
+    for type in request.query_params.get("types"):
+        majorlistsql, error = majors.list_majors_in_degreetype(type)
+        
+        if error:
+            break
+            
+        for majordict in majorlistsql:
+            majorlist.append(majordict.get("major"))
+    
+    return majorlist if not error else Response(error, status_code=500)
+
+
+@app.post('/api/mapDateRangeToSemesterPart')
+async def map_date_range_to_semester_part_handler(request: Request):
+    # This depends on date_start, date_end, and semester_part_name being
+    # ordered since each field has multiple entries. They should be ordered
+    # as each dict entry has the value of list. But if it doesn't work,
+    # look into parameter_storage_class which will change the default
+    # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
+    form = await request.form()
+    if (form):
+        # If checkbox is false, then, by design, it is not included in the form data.
+        is_publicly_visible = form.get('isPubliclyVisible', default=False)
+        semester_title = form.get('semesterTitle')
+        semester_part_names = form.getlist('semester_part_name')
+        start_dates = form.getlist('date_start')
+        end_dates = form.getlist('date_end')
+        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
+            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            semester_info.upsert(semester_title, is_publicly_visible)
+            if (not error):
+                return Response(status_code=200)
+            else:
+                return Response(error, status_code=500)
+    return Response("Did not receive proper form data", status_code=500)
+
+
+@app.get('/api/user/course')
+async def get_student_courses(request: Request):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    
+    courses, error = course_select.get_selection(request.session['user']['user_id'])
+    return courses if not error else Response(error, status_code=500)
+
+
+@app.route('/api/mapDateRangeToSemesterPart', methods=['POST'])
+def map_date_range_to_semester_part_handler():
+    # This depends on date_start, date_end, and semester_part_name being
+    # ordered since each field has multiple entries. They should be ordered
+    # as each dict entry has the value of list. But if it doesn't work,
+    # look into request.parameter_storage_class which will change the default
+    # ImmutableMultiDict class that request.form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
+    if (request.form):
+        # If checkbox is false, then, by design, it is not included in the form data.
+        is_publicly_visible = request.form.get('isPubliclyVisible', default=False)
+        semester_title = request.form.get('semesterTitle')
+        semester_part_names = request.form.getlist('semester_part_name')
+        start_dates = request.form.getlist('date_start')
+        end_dates = request.form.getlist('date_end')
+        if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
+            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            semester_info.upsert(semester_title, is_publicly_visible)
+            if (not error):
+                return Response(status=200)
+            else:
+                return Response(error, status=500)
+    return Response("Did not receive proper form data", status=500)
+    
     courses, error = course_select.get_selection(request.session['user']['user_id'])
     return courses if not error else Response(error, status_code=500)
 
@@ -213,7 +333,7 @@ async def get_student_courses(request: Request):
 async def get_user_info(request: Request, session_id):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-
+    
     return user_controller.get_user_info(session_id)
 
 
@@ -221,19 +341,20 @@ async def get_user_info(request: Request, session_id):
 async def add_user(user: UserPydantic):
     return user_controller.add_user(user.dict())
 
+
 @app.delete('/api/user')
 async def delete_user(request: Request, session: UserDeletePydantic):
-
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-
+    
     return user_controller.delete_user(session.dict())
 
+
 @app.put('/api/user')
-async def update_user_info(request:Request, user:updateUser):
+async def update_user_info(request: Request, user: updateUser):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-
+    
     return user_controller.update_user(user)
 
 
@@ -247,18 +368,21 @@ async def log_in(request: Request, credentials: SessionPydantic):
         request.session['user'] = user
     return session_res
 
+
 @app.delete('/api/session')
 def log_out(request: Request, session: SessionDeletePydantic):
     response = session_controller.delete_session(session.dict())
-
+    
     if response['success']:
         request.session.pop('user', None)
-
+    
     return response
+
 
 @app.post('/api/event')
 def add_user_event(request: Request, credentials: SessionPydantic):
     return Response(status_code=501)
+
 
 @app.post('/api/user/course')
 async def add_student_course(request: Request, credentials: UserCoursePydantic):
@@ -269,8 +393,8 @@ async def add_student_course(request: Request, credentials: UserCoursePydantic):
 
 
 @app.delete('/api/user/course')
-async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+async def remove_student_course(request: Request, courseDelete: CourseDeletePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+    resp, error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
