@@ -28,6 +28,8 @@ for line in lines:
             break
         if line.find('footnote') != -1:
             continue
+        if line.find('Program for Graduates') != -1:
+            continue
         if  i == 0:
             if ipre == 3:
                 fout.write(']\n },\n')

@@ -411,8 +411,10 @@
    "Y2S2": [ "Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: IENV 1910 - Environmental Seminar Credit Hours: 2","Course: PHYS 1100 - Physics I Credit Hours: 4","Course: ERTH 2200 - Environmental Data Analysis Credit Hours: 4"],
    "Y3": "Third Year",
    "Y3S1": [ "The Arch Semester","Course: HASS Core Electives  Credit Hours: 8","Course: Track Course or Free Elective  Credit Hours: 4","Course: ERTH 4190 - Environmental Measurements Credit Hours: 4"],
-   "Y3S2": [ "Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Elective  Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4"],
-   "Y3S1": [ "The Arch Semester"   "Y4": "Fourth Year"],
+   "Y3S2": [ "Fall or Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Elective  Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4"],
+   "Y3S3": [ "Arch-Exempt Students Fall","Course: IENV 4700 - One Mile of the Hudson River Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Electives  Credit Hours: 8"],
+   "Y3S4": [ "Arch-Exempt Students Spring","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 4","HASS Core Electives  Credit Hours: 4"],
+   "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: Culminating Experience  Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 8","Course: ERTH 4750 - Geographic Information Systems in the Sciences Credit Hours: 4"],
    "Y4S2": [ "Spring","Course: Track Course and Free Elective  Credit Hours: 12","Course: BIOL 4850 - Principles of Ecology Credit Hours: 4"]
  },
