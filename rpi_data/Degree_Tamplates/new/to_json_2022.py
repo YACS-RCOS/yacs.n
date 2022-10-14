@@ -24,7 +24,7 @@ for line in lines:
     line = line.strip()
     if line != "":
         if line == 'End':
-            fout.write('],\n  }\n]\n')
+            fout.write(']\n  }\n]\n')
             break
         if line.find('footnote') != -1:
             continue
