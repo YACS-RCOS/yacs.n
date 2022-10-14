@@ -604,7 +604,9 @@
    "Y3S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: PHYS 4100 - Introductory Quantum Mechanics Credit Hours: 4","Course: PHYS 4210 - Electromagnetic Theory Credit Hours: 4","Course: PHYS 4420 - Thermodynamics and Statistical Mechanics Credit Hours: 4"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Mathematics Elective Credit Hours: 4","Course: Culminating Experience Credit Hours: 4"],
-   "Y4S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4" {
+   "Y4S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4"],
+ }
+ {
    "Major": "Psychological Science",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CSCI 1100 - Computer Science I Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4","Course: PSYC 1200 - Introduction to Psychological Science Credit Hours: 4"],
@@ -647,6 +649,6 @@
    "Y3S2": [ "Spring","Course: SUST Advanced Option Credit Hours: 4","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: CAS Course Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4300 - Sustainability and STS Careers Credit Hours: 4","Course: STSO 4980 - Research Design Credit Hours: 4"],
-   "Y4S2": [ "Spring","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"]
+   "Y4S2": [ "Spring","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"],
   }
 ]
