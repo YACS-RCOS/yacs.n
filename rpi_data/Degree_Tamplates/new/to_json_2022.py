@@ -1,5 +1,5 @@
 f = open("majorData2022.txt", "r")
-fout = open("majorData2022test.json", "w")
+fout = open("majorData2022.json", "w")
 lines = f.readlines()
 
 output_string = ""
@@ -48,7 +48,7 @@ for line in lines:
                 year = 2
                 output_string = '   "Y2": "Second Year",\n'
             if line.find('Third') != -1:
-                print('3'+line)
+                #print('3'+line) #use to test
                 year = 3
                 output_string = '   "Y3": "Third Year",\n'
             if line.find('Fourth') != -1:
