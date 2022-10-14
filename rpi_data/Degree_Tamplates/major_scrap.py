@@ -5,12 +5,14 @@ Created on Tue Nov  2 17:40:34 2021
 
 @author: ziweipeng
 """
-
+'''
+This file used to read the weblinks from "xxxURLlistxxx.txt" to the another txt file(include all the info on the website)
+'''
 import requests
 from bs4 import BeautifulSoup
 
 #outFile = open("pathwayData.txt", "a") #append mode
-outFile = open("majorData.txt", "a") #append mode
+outFile = open("majorData2022.txt", "a") #append mode
 outFile.truncate(0) #resizes the outfile to have 0 bytes effectively emptying it
 
 def scrapFromURL(webLink, major_db):
@@ -95,43 +97,77 @@ def scrapFromURL(webLink, major_db):
     return major_db
 
 major_db = {}
-f = open("majorURLlist.txt", "r")
-#f = open("majorURLlist2022FA.txt", "r")
+#f = open("majorURLlist.txt", "r")
+f = open("majorURLlist2022FA.txt", "r") #the updated txt file
 #fout = open("majorData.txt", "w")
 i = 0
 #scrapFromURL("http://catalog.rpi.edu/preview_program.php?catoid=22&poid=5333&returnto=542", major_db)
 
 for link in f:
-    print(link)
+    #print(link) use to test
     scrapFromURL(link, major_db)
+
+#print(major_db) #use to test
+
 outFile.close()
 #outFile2 = open("DBCommands.txt", "a")
-outFile2 = open("DBCCommands6.txt", "a")
+#outFile2 = open("DBCCommandsN.txt", "a")
+outFile2 = open("a.txt", "a")
 outFile2.truncate(0)
 commandlines = ["","",""]
 cmd_sem1 = ""
 cmd_sem2 = ""
 cmds = []
+#count = 0 #use to debug
+#print(major_db.keys) #use to test
+#print(major_db.values) #use to test
+
+''' 
+debug
+for major_year in major_db.keys():
+    cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+    count += 1
+    cmds.clear()
+print(count) #168
+
+'''
+
 for major_year in major_db.keys():
     #cmd_sem1 += "(\'{}\', \'{}\',".format(major_year[0], major_year[1])
     #cmd_sem2 = cmd_sem1
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
     cmds.append("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
     #outFile2.write("(\'{}\', \'{}\',".format(major_year[0], major_year[1]))
+    #print(cmds) #use to test
+
+    '''
+    debug
+    if (len(cmds) != 0):
+        count += 1
+        print("true")
+        print(count) #107
+    '''
+    '''
+    if (len(cmds) == 0):
+        continue
+    '''
     i = 0
-    for sem in major_db[major_year].keys():
+    for sem in major_db[major_year].keys(): #sem is the semester that will open for the class
+        #print(cmds[i]) #use to test
         cmds[i] += "\'{}\',\'{{".format(sem)
         for course in major_db[major_year][sem]:
             cmds[i] += "\"{}\",".format(course)
-        cmds[i] = cmds[i][:-1]
+            #print(course)
+        cmds[i] = cmds[i][:-1] #delete the ","
         cmds[i] += "}\'),\n"
-        i +=1
+        i += 1
     for command in cmds:
         outFile2.write(command)
     cmds.clear()
-        
+
 outFile2.close()   
         
-    
+'''   
 for item in major_db.keys():
     print("{}: {}".format(item, major_db[item]))
+'''
