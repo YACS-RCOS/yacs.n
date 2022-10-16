@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Vue</title>
+    <script src="https://unpkg.com/vue@3.0.2"></script>
+</head>
+<body>
+    <h1>William Lin</h1>
+    <div id="app"> 
+        <div v-if="Display"></div>
+            <p>Project : {{ title }} <p>  
+            <div>Age: {{ age }} <button v-on:click="age++">Increase age</button></div>
+            <div>Mood: {{ mood }} <button style = "margin-right:20px" v-on:click="mood--">:(</button> <button v-on:click="mood++">:)</button>
+            </div>
+        </div>
+        <button @click="Display items">
+            <span v-if="Show">Show Books</span>
+            <span v-if="Hide">Hide Books</span>
+        </button>
+    </body>div>
+
+    <script src="app.js"></script>
+</body>
+</html>
