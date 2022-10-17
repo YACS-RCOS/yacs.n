@@ -8,11 +8,11 @@ html_parser.py -> read -> "URL2022FallRaw.txt" -> write -> "majorURLlist2022FA.t
 
 2: <major_scrap.py>
 The major_scrap.py is used for read the "majorURLlist2022FA.txt" and then turn this file to a txt file that include all the 
-info on the websites of every links. And the files that be generated are "majorData2022.txt" and "DBCCommandsN.txt".
+info on the websites of every links. And the files that be generated are "majorData2022.txt" and "Database.txt".
 outfile = "majorData2022.txt"
 outfile2 = "DBCCommandsN.txt"
 
-major_scrap.py -> read -> "majorURLlist2022FA.txt" -> write -> "majorData2022.txt" and "DBCCommandsN.txt"
+major_scrap.py -> read -> "majorURLlist2022FA.txt" -> write -> "majorData2022.txt" and "Database.txt"
 
 3: <to_json_2022.py>
 After we get the "majorData2022.txt", so we can just put the file in the to_json_2022.py and then we may get a json file that include all the 
