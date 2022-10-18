@@ -43,6 +43,7 @@
           id="input-5"
           v-model="form.degree"
           :options="degrees"
+          required
         ></b-form-select>
       </b-form-group>
 
@@ -50,7 +51,8 @@
         <b-form-select
           id="input-6"
           v-model="form.major"
-         :options="getDegreeOptions()"
+          :options="getMajorOptions()"
+          required
         ></b-form-select>
       </b-form-group>
 
@@ -64,6 +66,8 @@
 <script>
 import { signup } from "@/services/UserService";
 import { userTypes } from "../store/modules/user";
+import { getMajors } from "@/services/AdminService";
+
 export default {
   name: "SignUp",
   data() {
@@ -74,15 +78,44 @@ export default {
         phone: "",
         password: "",
         degree: "",
-        major: "",
+        major: ""
       },
       degrees: [
         { text: "Select One", value: null },
         "Undergraduate",
-        "Graduate",
+        "Graduate"
       ],
-      show: true,
+      majors: [
+        [{ text: "Select a degree type first", value: null }],
+        [{ text: "Loading...", value: null }],
+        [{ text: "Loading...", value: null }]
+      ],
+      show: true
     };
+  },
+  mounted() {
+    getMajors("B").then(
+      (response) => {
+      this.majors[1] = response.data;
+      },
+      (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
+          title: "Loading undergraduate majors failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+      }
+    );
+    getMajors("MD").then(
+      (response) => {
+      this.majors[2] = response.data;
+      },
+      (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
+          title: "Loading graduate majors failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+      }
+    );
   },
   methods: {
     async onSubmit() {
@@ -115,8 +148,9 @@ export default {
 
       this.$emit("submit");
     },
-    getDegreeOptions(){
-      return ["Computer Science"];
+    getMajorOptions() {
+      let i = this.degrees.indexOf(this.form.degree);
+      return this.majors[(i > -1) ? i : 0];
     }
   },
 };
