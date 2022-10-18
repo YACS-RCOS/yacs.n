@@ -250,18 +250,19 @@ async def majors_upload_handler(
 
 
 @app.get('/api/majors')
-async def get_majors(request: Request):
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_majors(types: str):
     error = None
     majorlist = []
-    if not request.query_params.get("types"):
-        return Response("Requires degree types as ?types=...", status_code=400)
-        
-    for type in request.query_params.get("types"):
+    if not types:
+        return Response("Types cannot be empty.", status_code=422)
+    
+    for type in types:
         majorlistsql, error = majors.list_majors_in_degreetype(type)
         
         if error:
             break
-            
+        
         for majordict in majorlistsql:
             majorlist.append(majordict.get("major"))
     
