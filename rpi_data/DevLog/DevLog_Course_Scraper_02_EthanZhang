@@ -1,0 +1,10 @@
+Created 2 python files one in the db directory and one in the table directory.
+
+One of the programs (rmp.py in db directory) is able to create a json file 
+containing all the professor information scraped from the RPI rate my 
+professors site.
+
+Attempting to copy prexisting methods of parsing from csv files and translating
+the structure to work with the rmp.json file. Hopefully populating the database
+will allow frontend code to access the rmp information to output onto the calendar.
+
