@@ -37,16 +37,15 @@ class sis_client:
     def parse_time(self, time_string):
         time = time_string.split('-')
         time[0] = time[0].strip()
-        if(len(time) >= 2):
-            time[1] = time[1].split(',')
-            time[1][0] = time[1][0].strip()
-            time[1][1] = time[1][1].strip()
-            time[0] = time[0] + ' ' + time[1][1]
-            time[1] = time[1][0] + ' ' + time[1][1]
-            time[0] = datetime.datetime.strptime(time[0], '%B %d %Y')
-            time[1] = datetime.datetime.strptime(time[1], '%B %d %Y')
-            time[0] = str(time[0].date())
-            time[1] = str(time[1].date())
+        time[1] = time[1].split(',')
+        time[1][0] = time[1][0].strip()
+        time[1][1] = time[1][1].strip()
+        time[0] = time[0] + ' ' + time[1][1]
+        time[1] = time[1][0] + ' ' + time[1][1]
+        time[0] = datetime.datetime.strptime(time[0], '%B %d %Y')
+        time[1] = datetime.datetime.strptime(time[1], '%B %d %Y')
+        time[0] = str(time[0].date())
+        time[1] = str(time[1].date())
         return time
 
 
@@ -115,8 +114,7 @@ class sis_client:
 
                 info.append(schls[i])
                 info.append(semester_start_end_data[0])
-                if(len(semester_start_end_data) >= 2):
-                    info.append(semester_start_end_data[1])
+                info.append(semester_start_end_data[1])
                 info.append(self.SEMESTER_NAME)
 
                 if(info[5]): ##Days of the week
