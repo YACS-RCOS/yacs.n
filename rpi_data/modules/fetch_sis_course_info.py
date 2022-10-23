@@ -49,6 +49,7 @@ class sis_client:
         time[0] = str(time[0].date())
         time[1] = str(time[1].date())
         return time
+        
 
 
     #Actually runs the program
