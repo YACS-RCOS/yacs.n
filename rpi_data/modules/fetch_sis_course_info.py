@@ -59,7 +59,7 @@ class sis_client:
         response = requests.get(self.source_url)
         content = response.text
 
-        logging.error(response.text)
+        #logging.error(response.text)
 
 
         # Removes all divs to avoid bad parsing
