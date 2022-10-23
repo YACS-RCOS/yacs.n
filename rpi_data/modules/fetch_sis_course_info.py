@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from bs4 import NavigableString, Tag
+import logging
 
 import datetime
 import requests
@@ -35,7 +36,7 @@ class sis_client:
 
     #Gets the time info from the string
     def parse_time(self, time_string):
-        print(time_string)
+        logging.debug(time_string)
         time = time_string.split('-')
         time[0] = time[0].strip()
         time[1] = time[1].split(',')
