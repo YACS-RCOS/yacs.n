@@ -35,6 +35,7 @@ class sis_client:
 
     #Gets the time info from the string
     def parse_time(self, time_string):
+        print(time_string)
         time = time_string.split('-')
         time[0] = time[0].strip()
         time[1] = time[1].split(',')
