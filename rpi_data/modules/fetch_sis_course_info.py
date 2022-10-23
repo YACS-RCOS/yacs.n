@@ -115,7 +115,8 @@ class sis_client:
 
                 info.append(schls[i])
                 info.append(semester_start_end_data[0])
-                info.append(semester_start_end_data[1])
+                if(len(semester_start_end_data) >= 2):
+                    info.append(semester_start_end_data[1])
                 info.append(self.SEMESTER_NAME)
 
                 if(info[5]): ##Days of the week
