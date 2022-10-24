@@ -4,7 +4,6 @@ import { COURSES } from "@/store";
 import DepartmentListComponenet from "@/components/DepartmentList";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner";
-
 export default {
   name: "CourseExplorer",
   components: {
@@ -101,11 +100,9 @@ export default {
   justify-content: center;
   align-content: center;
 }
-
 .departmentBox {
   text-align: center;
 }
-
 .school-name {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
@@ -119,9 +116,3 @@ export default {
 </template>
 
 <script>
-export default {
-  name: "DegreeTemplates",
-};
-</script>
-
-<style></style>
