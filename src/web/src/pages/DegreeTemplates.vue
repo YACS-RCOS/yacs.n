@@ -1,5 +1,121 @@
+<script>
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
+import DepartmentListComponenet from "@/components/DepartmentList";
+import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+
+export default {
+  name: "CourseExplorer",
+  components: {
+    DepartmentList: DepartmentListComponenet,
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+        },
+      ],
+    };
+  },
+  methods: {
+    generateRequirementsText,
+  },
+  computed: {
+    ...mapState(["isLoadingCourses"]),
+    ...mapGetters([COURSES]),
+    schoolDepartmentObjects() {
+      let keyArr = Object.entries(this.schoolsMajorDict)
+        .map((schoolDepartmentMapping) => ({
+          school: schoolDepartmentMapping[0],
+          departments: schoolDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
+        } else {
+          columnArr[1].push(keyArr[i]);
+        }
+      }
+      return columnArr;
+    },
+    schoolsMajorDict() {
+      let schoolsMajorDict = {};
+      for (const c of this.courses) {
+        if (!schoolsMajorDict[c.school]) {
+          schoolsMajorDict[c.school] = new Set();
+        }
+        schoolsMajorDict[c.school].add(c.department);
+      }
+      return schoolsMajorDict;
+    },
+    deptClassDict() {
+      let deptClassDict = {};
+      for (const c of this.courses) {
+        if (deptClassDict[c.department]) {
+          deptClassDict[c.department].push(c);
+        } else {
+          deptClassDict[c.department] = [c];
+        }
+      }
+      return deptClassDict;
+    },
+  },
+  metaInfo() {
+    return {
+      title: "Explore",
+      titleTemplate: "%s | YACS",
+      meta: [
+        { charset: "utf-8" },
+        {
+          vmid: "description",
+          name: "description",
+          content: "Explore courses in YACS",
+        },
+        {
+          name: "keywords",
+          content: "RPI, YACS, Rensselaer Polytechnic Institute",
+        },
+        { property: "og:title", content: "RPI - YACS Course Scheduler" },
+        { property: "og:site_name", content: "YACS" },
+        { property: "og:type", content: "website" },
+      ],
+    };
+  },
+};
+</script>
+
+<style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+
+.departmentBox {
+  text-align: center;
+}
+
+.school-name {
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+</style>
+
 <template>
-  <p>hi welcome to degree templates</p>
+  <h3>
+    HELLO
+  </h3>
 </template>
 
 <script>
