@@ -48,8 +48,7 @@ export default {
         if (formData.get("file") && formData.get("file").name) {
           let filename = formData.get("file").name;
           uploadMajors(formData)
-            .then((response) => {
-              console.log(response);
+            .then(() => {
               // Axios will only enter this block if the status code is 2xx,
               // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
               this.$bvToast.toast(
