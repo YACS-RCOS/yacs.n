@@ -233,20 +233,33 @@ async def majors_upload_handler(
     contents = await file.read()
     file = StringIO(contents.decode())
     
-    majorfile = pd.read_json(file)
-    majorlist = majorfile.get("Major")
-    # Populate DB from File
+    jsonfile = json.load(file)
     error = None
     
-    majors.reset_majors()
-    for major in majorlist:
-        majors.upsert(major, "B")
+    #this is the format from the course suggestions branch
+    if jsonfile is list:
+        majorfile = pd.read_json(file)
+        majorlist = majorfile.get("Major")
+        # Populate DB from File
     
+        majors.reset_majors()
+        for major in majorlist:
+            majors.upsert(major, "B") # we have no way of determining which major is which due to limitations in this format
+            
+    #this is the json format where each major name is  listed by major type
+    else:
+        print(jsonfile)
+        majors.reset_majors()
+        for type in jsonfile.keys():
+            for major in jsonfile[type]:
+                majors.upsert(major, type[0])
+
     if not error:
         return Response(status_code=200)
     else:
         print(error)
         return Response(error, status_code=500)
+    
 
 
 @app.get('/api/majors')
