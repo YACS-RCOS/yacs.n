@@ -81,11 +81,11 @@ async def get_classes(request: Request, semester: str or None = None, search: st
         return classes if not error else Response(error, status_code=500)
     return Response(content="missing semester option", status_code=400)
 
-@app.get('/api/course/{crn}')
+@app.post('/api/course/{crn}')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_course(request: Request, semester: str or None = None, crn: str or None = None):
     """
-    GET /api/course/:crn?semester={}
+    POST /api/course/:crn?semester={}
     Cached: 1 Hour
     """
 
