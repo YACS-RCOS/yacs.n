@@ -80,6 +80,27 @@ async def get_classes(request: Request, semester: str or None = None, search: st
             classes, error = class_info.get_classes_full(semester)
         return classes if not error else Response(error, status_code=500)
     return Response(content="missing semester option", status_code=400)
+
+@app.get('/api/course/{crn}')
+@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_course(request: Request, semester: str or None = None, crn: str or None = None):
+    """
+    GET /api/course/:crn?semester={}
+    Cached: 1 Hour
+    """
+
+    if not crn.isdigit():
+        return Response("Invalid CRN", status_code=400)
+    
+    if semester:
+        if not semester_info.is_public(semester):
+            if is_admin_user(request.session):
+                classes, error = class_info.get_classes_by_search(semester, crn)
+                return classes[0] if not error else Response(error, status_code=500)
+            return Response(content="Semester isn't available", status_code=401)
+        classes, error = class_info.get_classes_by_search(semester, crn)
+        return classes[0] if not error else Response(error, status_code=500)
+    return Response(content="missing semester option", status_code=400)
     
 @app.get('/api/department')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
