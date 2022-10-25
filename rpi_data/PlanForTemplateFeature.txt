@@ -1,3 +1,10 @@
 Plan For Feature:
 
-- add 
+- Add a new tab to hold this feature
+- Create a screen to show all the majors seperated by school
+- When any major pressed then open template for page:
+    template should hold:
+        - check boxes for classes that have been taken
+        - prerequisites for the given class when clicked
+        - if class is optional or required
+        - OTHER
