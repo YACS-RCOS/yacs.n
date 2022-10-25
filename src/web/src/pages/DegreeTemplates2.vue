@@ -1,354 +1,118 @@
-<template>
-    <b-container fluid>
-      <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-  
-      <!-- button to switch between alphabet order and category order -->
-      <div style="float: left;" class="w-10">
-        <b-button
-          @click="listAlphabet()"
-          style="
-            margin-top: 10px;
-            color: #007bff;
-            border: solid #007bff;
-            background-color: transparent;
-          "
-        >
-          List by Alphabet
-        </b-button>
-        <br />
-        <b-button
-          @click="listCate()"
-          style="
-            margin-top: 10px;
-            color: #007bff;
-            border: solid #007bff;
-            background-color: transparent;
-          "
-        >
-          List by Category
-        </b-button>
-      </div>
-      <div v-if="categories.length > 0" class="mx-auto w-75">
-        <!-- pop-up window -->
-        <b-modal ref="my-modal">
-          <div class="block text-left" v-if="showPath != null" md="10">
-            <h3
-              class="text-center"
-              style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
-            >
-              {{ showPath.Name[0] }}
-            </h3>
-            <br />
-            <div v-for="(item, itemName) in showPath" :key="itemName">
-              <h4 style="color: #3395ff; margin-top: -20px;">
-                {{ itemName + ": " }}
-              </h4>
-              <li
-                v-for="course in item"
-                :key="course"
-                v-on:click="goPage(course)"
-                class="courseInPath"
-              >
-                {{ course }}
-              </li>
-              <br />
-            </div>
-          </div>
-        </b-modal>
-  
-        <b-row>
-          <!-- splitted categories into 2 arrays, so we can have 2 columns -->
-          <b-col
-            v-for="(catCol, index) in categoryCols"
-            :key="`catCol-${index}`"
-            md="6"
-            v-show="cateShow"
-          >
-            <b-row
-              v-for="categoryObj in catCol"
-              :key="categoryObj['Category Name'][0]"
-              class="categoryBox border m-2 mb-4"
-            >
-              <b-col>
-                <!-- Category Title  -->
-                <b-row class="category-title">
-                  <h3 class="m-1 ml-2">
-                    {{ categoryObj["Category Name"][0] }}
-                  </h3>
-                </b-row>
-                <!-- Pathway Names  -->
-                <b-row>
-                  <div class="d-flex flex-column flex-grow-1">
-                    <!-- LOOP Through the Pathway Categories list -->
-                    <div
-                      v-for="pathway in categoryObj['Pathways']"
-                      :key="pathway['Name'][0]"
-                      role="tablist"
-                    >
-                      <div class="mt-1 mb-1 w-100">
-                        <!-- pathway button -->
-                        <b-button
-                          @click="ShowPath(pathway)"
-                          squared
-                          variant="light"
-                          class="pathway-button m-0 ml-1"
-                        >
-                          {{ pathway["Name"][0] }}
-                        </b-button>
-                      </div>
-                    </div>
-                  </div>
-                </b-row>
-              </b-col>
-            </b-row>
-          </b-col>
-  
-          <!-- splitted Pathways in alphabet order -->
-          <!--alphabetCols is a reference to the function's return value (array of dictionaries)-->
-          <b-col
-            v-for="(alphCol, index) in alphabetCols" 
-            :key="`alphCol-${index}`"
-            md="6"
-            v-show="alphShow"
-          >
-            <b-row
-              v-for="alphabetObj in alphCol"
-              :key="alphabetObj['Category Name'][0]"
-              class="categoryBox border m-2 mb-4"
-            >
-              <b-col>
-                <!-- Alphabet Title  -->
-                <!-- "category-title" corresponds to code at the bottom of this file (what appears on the site)  -->
-                <b-row class="category-title">
-                  <h3 class="m-1 ml-2">
-                    {{ alphabetObj["Category Name"][0] }}
-                  </h3>
-                </b-row>
-                <!-- Pathway Names  -->
-                <b-row>
-                  <div class="d-flex flex-column flex-grow-1">
-                    <!-- LOOP Through the Pathway Alphabet list -->
-                    <div
-                      v-for="pathway in alphabetObj['Pathways']"
-                      :key="pathway['Name'][0]"
-                      role="tablist"
-                    >
-                      <div class="mt-1 mb-1 w-100">
-                        <!-- pathway button -->
-                        <b-button
-                          @click="ShowPath(pathway)"
-                          squared
-                          variant="light"
-                          class="pathway-button m-0 ml-1"
-                        >
-                          {{ pathway["Name"][0] }}
-                        </b-button>
-                      </div>
-                    </div>
-                  </div>
-                </b-row>
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-row>
-      </div>
-      <CenterSpinner
-        v-else
-        :height="80"
-        :fontSize="1.3"
-        loadingMessage="DegreeTemplates"
-        :topSpacing="30"
-      />
-    </b-container>
-  </template>
-  
-  <script>
-  import json from "./DegreeTemplates.json";
-  import CenterSpinnerComponent from "../components/CenterSpinner";
-  
-  export default {
-    name: "DegreeTemplates",
-    components: {
-      CenterSpinner: CenterSpinnerComponent,
-    },
-    data() {
-      return {
-        breadcrumbNav: [
-          {
-            text: "YACS",
-            to: "/",
-          },
-          {
-            text: "DegreeTemplates",
-          },
-        ],
-        categories: json,
-        showPath: null,
-        cateShow: true,
-        alphShow: false,
-      };
-    },
-    computed: {
-      /*
-        For categoryCols, we probably want to get some sort of dictionary containing each of the
-        Schools that contain majors and sort the displaying in this function.    
-      */
-      // splitted categories into 2 arrays, one array = one column
-      categoryCols() {
-        let ret = [];
-        let col1 = [];
-        let col2 = [];
-        for (var i = 0; i < this.categories.length; i++) {
-          if (i < this.categories.length / 2) {
-            col1.push(this.categories[i]);
-          } else {
-            col2.push(this.categories[i]);
-          }
-        }
-        ret.push(col1);
-        ret.push(col2);
-        return ret;
-      },
-  
-      // splitted degrees to alphabet categories, then splitted categories into 2 arrays, one array = one column
-      alphabetCols() {
-        let alphabet = [
-          "A",
-          "B",
-          "C",
-          "D",
-          "E",
-          "F",
-          "G",
-          "H",
-          "I",
-          "J",
-          "K",
-          "L",
-          "M",
-          "N",
-          "O",
-          "P",
-          "Q",
-          "R",
-          "S",
-          "T",
-          "U",
-          "V",
-          "W",
-          "X",
-          "Y",
-          "Z",
-        ];
-        let ret = [];
-        let col1 = [];
-        let col2 = [];
-        var half_length = Math.ceil(cols.length / 2);
-        var count = 0;
-        // splitted degrees to alphabet categories, then splitted categories into 2 arrays
-        for(var n = 0; n < alphabet.length; n++){ // iterates through each alphabet character and creates dictionary for each letter
-          var tmp = {
-            "Category Name":alphabet[n],
-            Degrees:[],
-          };
-          for(var m = 0; m < categories.length; m++){ // iterates through categories
-            if(categories[m]["Major"].startsWith(alphabet[n])){
-              // insert alphabetically within a letter category
-              var index = 0;
-              while(index < tmp["Degrees"].length){ // increment index until end of list or correct index is found 
-                if(categories[m]["Major"] < tmp["Degrees"][index]["Major"]){
-                  break;
-                }
-                index++;
-              }
-              tmp["Degrees"].splice(index, 0, categories[m]); // insert degree into tmp's Degree's list at correct alphabetical location
-            }
-          }
-          if (tmp["Degrees"].length > 0){
-            if(count < half_length){
-              col1.push(tmp);
-              count += tmp["Degrees"].length + 0.2;
-            } else{
-              col2.push(tmp);
-            }
-          }
-        }
-  
-        ret.push(col1);
-        ret.push(col2);
-        return ret;
-      },
-    },
-    methods: {
-      listAlphabet() {
-        this.cateShow = false;
-        this.alphShow = true;
-      },
-      listCate() {
-        this.cateShow = true;
-        this.alphShow = false;
-      },
-      // Display a pop-up window when a pathway is clicked
-      ShowPath(pathway) {
-        console.log(this.$refs["my-modal"]);
-        console.log(pathway);
-        this.showPath = pathway;
-        this.$refs["my-modal"].show();
-      },
-      // Go to the course page when a course inside the pop-up window is clicked
-      goPage(course) {
-        var subject = "" + course[0] + course[1] + course[2] + course[3];
-        var courseID = "" + course[5] + course[6] + course[7] + course[8];
-        if (course[4] != " ") {
-          return;
-        }
-        if (course[8] == "X") {
-          this.$router.push("/explore/" + subject);
+<script>
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
+import DepartmentListComponenet from "@/components/DepartmentList";
+import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+export default {
+  name: "CourseExplorer",
+  components: {
+    DepartmentList: DepartmentListComponenet,
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "Explore",
+        },
+      ],
+    };
+  },
+  methods: {
+    generateRequirementsText,
+  },
+  computed: {
+    ...mapState(["isLoadingCourses"]),
+    ...mapGetters([COURSES]),
+    schoolDepartmentObjects() {
+      let keyArr = Object.entries(this.schoolsMajorDict)
+        .map((schoolDepartmentMapping) => ({
+          school: schoolDepartmentMapping[0],
+          departments: schoolDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
         } else {
-          this.$router.push(
-            "/explore/" + subject + "/" + subject + "-" + courseID
-          );
+          columnArr[1].push(keyArr[i]);
         }
-      },
+      }
+      return columnArr;
     },
-  };
-  </script>
-  
-  <style>
-  .gridContainer {
-    display: inline-grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-content: center;
-  }
-  
-  .categoryBox {
-    text-align: center;
-  }
-  
-  .category-title {
-    color: hsl(211, 100%, 60%);
-    background: rgba(108, 90, 90, 0.15);
-    border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
-  }
-  
-  .pathway-button {
-    display: inline-block;
-    background: white;
-    border-style: none;
-    text-align: justify;
-    width: 95%;
-  }
-  
-  .pathway-button:hover {
-    background: rgba(108, 90, 90, 0.15) !important;
-  }
-  
-  .courseInPath {
-    cursor: pointer;
-  }
-  
-  .courseInPath:hover {
-    background-color: rgba(39, 130, 230, 0.5);
-  }
-  </style>
+    schoolsMajorDict() {
+      let schoolsMajorDict = {};
+      for (const c of this.courses) {
+        if (!schoolsMajorDict[c.school]) {
+          schoolsMajorDict[c.school] = new Set();
+        }
+        schoolsMajorDict[c.school].add(c.department);
+      }
+      return schoolsMajorDict;
+    },
+    deptClassDict() {
+      let deptClassDict = {};
+      for (const c of this.courses) {
+        if (deptClassDict[c.department]) {
+          deptClassDict[c.department].push(c);
+        } else {
+          deptClassDict[c.department] = [c];
+        }
+      }
+      return deptClassDict;
+    },
+  },
+  metaInfo() {
+    return {
+      title: "Explore",
+      titleTemplate: "%s | YACS",
+      meta: [
+        { charset: "utf-8" },
+        {
+          vmid: "description",
+          name: "description",
+          content: "Explore courses in YACS",
+        },
+        {
+          name: "keywords",
+          content: "RPI, YACS, Rensselaer Polytechnic Institute",
+        },
+        { property: "og:title", content: "RPI - YACS Course Scheduler" },
+        { property: "og:site_name", content: "YACS" },
+        { property: "og:type", content: "website" },
+      ],
+    };
+  },
+};
+</script>
+
+<style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+.departmentBox {
+  text-align: center;
+}
+.school-name {
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+</style>
+
+<template>
+  <h3>
+    HELLO
+  </h3>
+</template>
+
+<script>
