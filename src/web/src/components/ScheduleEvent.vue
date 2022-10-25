@@ -53,7 +53,7 @@
       <br />
       <b>Ratings</b>
       <br />
-      <span data-cy="ratings"> Testing </span>
+      <span data-cy="ratings">{{ props.ratings}}</span>
       <br />
     </b-popover>
   </div>
