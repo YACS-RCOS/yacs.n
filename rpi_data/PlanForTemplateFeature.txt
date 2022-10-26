@@ -8,3 +8,6 @@ Plan For Feature:
         - prerequisites for the given class when clicked
         - if class is optional or required
         - OTHER
+- Have some way to categorize the degrees by school since the
+  current json doesn't differentiate
+- 
