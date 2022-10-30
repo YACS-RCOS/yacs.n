@@ -51,9 +51,13 @@
       <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
-      <b>Ratings</b>
       <br />
-      <span data-cy="ratings">{{ props.ratings}}</span>
+      <span data-cy="rating">
+        <Button @click="$options.redirectToLink()">
+          {{ props.instructor }}
+          RateMyProfessor
+        </Button>
+      </span>
       <br />
     </b-popover>
   </div>
@@ -64,6 +68,10 @@ export default {
     var subject = courseName.split(" ")[0];
     var courseNumber = courseName.split(" ")[1];
     return `/explore/${subject}/${subject}-${courseNumber}`;
+  },
+  redirectToLink() {
+    location.reload();
+    window.location = "https://www.ratemyprofessors.com/school?sid=795";
   },
 };
 </script>
