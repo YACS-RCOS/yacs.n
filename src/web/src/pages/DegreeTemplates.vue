@@ -25,6 +25,35 @@
           background-color: transparent;
         "
       >
+        Button for all majors
+      </b-button>
+      <br />
+      <b-button
+        @click="Majors()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+
+    <div class="container">
+        <h3 class="p-3 text-center">Required Classes for Degree</h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Semester:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="user in users" :key="user.id">
+                    <td>{{user.Classes}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
+
         List by Category
       </b-button>
     </div>
