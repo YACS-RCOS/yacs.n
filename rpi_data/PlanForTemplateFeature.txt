@@ -11,3 +11,11 @@ Plan For Feature:
 - Have some way to categorize the degrees by school since the
   current json doesn't differentiate
 - 
+
+week 10/21- 10/28
+  - Figure out how to read through all the templates in the json file
+  - fix issues with scanner to edit format of json file
+  - figure out how to print out table for all majors sorted out by school
+  - Fix blocker that is being hit currently: 
+      - Not able to pull data from (COURSES, DepartmentListComponenet) and display in table
+  - Try to get something to print on the new tab that we created
