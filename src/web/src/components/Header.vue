@@ -105,6 +105,7 @@ import {
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
+// import router from "@/routes";
 export default {
   name: "Header",
   components: {
@@ -214,6 +215,12 @@ export default {
   .form-inline {
     justify-content: center;
   }
+}
+//highlight current page in the navbar using class built into vue router
+#header .nav-item .router-link-exact-active{
+  border-radius: 5px;
+  padding: calc(8px - 0.1em);
+  border: 0.1em double var(--dark-blue-secondary);
 }
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
