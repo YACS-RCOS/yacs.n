@@ -50,10 +50,6 @@
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
-        <b-nav-item :to="{ name: 'Course Plan' }">
-          <font-awesome-icon icon="list" />
-          Course Plan
-        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
