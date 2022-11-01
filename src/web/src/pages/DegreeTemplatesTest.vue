@@ -1,160 +1,229 @@
 <template>
-    <b-container fluid>
-      <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-      <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
-        <b-row>
-          <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
-          <b-col
-            v-for="(deptCol, index) in schoolDepartmentObjects"
-            :key="`deptCol-${index}`"
-            md="6"
-          >
-            <b-row
-              v-for="deptObj in deptCol"
-              :key="deptObj.school"
-              class="departmentBox border m-2 mb-4"
-            >
-              <b-col>
-                <!-- Department Title  -->
-                <b-row class="school-name">
-                  <h3 class="m-1 ml-2">
-                    {{ deptObj.school }}
-                  </h3>
-                </b-row>
-                <!-- Subject Title  -->
-                <b-row>
-                  <DepartmentList
-                    :majors="deptObj.departments"
-                    :deptClassDict="deptClassDict"
-                    v-on:showCourseInfo="showCourseInfo($event)"
-                  ></DepartmentList>
-                </b-row>
-              </b-col>
-            </b-row>
-          </b-col>
-        </b-row>
-      </div>
-      <CenterSpinner
-        v-else
-        :height="80"
-        :fontSize="1.3"
-        loadingMessage="Departments"
-        :topSpacing="30"
-      />
-    </b-container>
-  </template>
-  
-  <script>
-  import { mapGetters, mapState } from "vuex";
-  import { COURSES } from "@/store";
-  import DepartmentListComponenet from "@/components/DepartmentList";
-  import { generateRequirementsText } from "@/utils";
-  import CenterSpinnerComponent from "../components/CenterSpinner";
-  
-  export default {
-    name: "DegreeTemplates",
-    components: {
-      DepartmentList: DepartmentListComponenet,
-      CenterSpinner: CenterSpinnerComponent,
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+
+    <!-- button to switch between alphabet order and category order -->
+    <div style="float: left;" class="w-10">
+      <b-button
+        @click="listAlphabet()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+        List by Alphabet
+      </b-button>
+      <br />
+      <b-button
+        @click="listCate()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+        List by Category
+      </b-button>
+    </div>
+    <CenterSpinner
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="DegreeTemplatesTest"
+      :topSpacing="30"
+    />
+  </b-container>
+</template>
+
+<script>
+import json from "./DegreeTemplates.json";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+
+export default {
+  name: "DegreeTemplatesTest",
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+  },
+  data() {
+    return {
+      breadcrumbNav: [
+        {
+          text: "YACS",
+          to: "/",
+        },
+        {
+          text: "DegreeTemplatesTest",
+        },
+      ],
+      categories: json,
+      showPath: null,
+      cateShow: true,
+      alphShow: false,
+    };
+  },
+  computed: {
+    /*
+      For categoryCols, we probably want to get some sort of dictionary containing each of the
+      Schools that contain majors and sort the displaying in this function.    
+    */
+    // splitted categories into 2 arrays, one array = one column
+    categoryCols() {
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      for (var i = 0; i < this.categories.length; i++) {
+        if (i < this.categories.length / 2) {
+          col1.push(this.categories[i]);
+        } else {
+          col2.push(this.categories[i]);
+        }
+      }
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
     },
-    data() {
-      return {
-        breadcrumbNav: [
-          {
-            text: "YACS",
-            to: "/",
-          },
-          {
-            text: "DegreeTemplates",
-          },
-        ],
-      };
-    },
-    methods: {
-      generateRequirementsText,
-    },
-    computed: {
-      ...mapState(["isLoadingCourses"]),
-      ...mapGetters([COURSES]),
-      schoolDepartmentObjects() {
-        let keyArr = Object.entries(this.schoolsMajorDict)
-          .map((schoolDepartmentMapping) => ({
-            school: schoolDepartmentMapping[0],
-            departments: schoolDepartmentMapping[1],
-          }))
-          .sort((left, right) => right.departments.size - left.departments.size);
-        let columnArr = [[], []];
-        //This is a greedy alg for solving the partition problem
-        for (let i = 0; i < keyArr.length; i++) {
-          if (i % 2 === 0) {
-            columnArr[0].push(keyArr[i]);
-          } else {
-            columnArr[1].push(keyArr[i]);
+
+    // splitted degrees to alphabet categories, then splitted categories into 2 arrays, one array = one column
+    alphabetCols() {
+      let alphabet = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+      ];
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      var half_length = Math.ceil(this.categories.length / 2);
+      var count = 0;
+      // splitted degrees to alphabet categories, then splitted categories into 2 arrays
+      for(var n = 0; n < alphabet.length; n++){ // iterates through each alphabet character and creates dictionary for each letter
+        var tmp = {
+          "Category Name":alphabet[n],
+          Degrees:[],
+        };
+        for(var m = 0; m < this.categories.length; m++){ // iterates through categories
+          if(this.categories[m]["Major"].startsWith(alphabet[n])){
+            // insert alphabetically within a letter category
+            var index = 0;
+            while(index < tmp["Degrees"].length){ // increment index until end of list or correct index is found 
+              if(this.categories[m]["Major"] < tmp["Degrees"][index]["Major"]){
+                break;
+              }
+              index++;
+            }
+            tmp["Degrees"].splice(index, 0, this.categories[m]); // insert degree into tmp's Degree's list at correct alphabetical location
           }
         }
-        return columnArr;
-      },
-      schoolsMajorDict() {
-        let schoolsMajorDict = {};
-        for (const c of this.courses) {
-          if (!schoolsMajorDict[c.school]) {
-            schoolsMajorDict[c.school] = new Set();
-          }
-          schoolsMajorDict[c.school].add(c.department);
-        }
-        return schoolsMajorDict;
-      },
-      deptClassDict() {
-        let deptClassDict = {};
-        for (const c of this.courses) {
-          if (deptClassDict[c.department]) {
-            deptClassDict[c.department].push(c);
-          } else {
-            deptClassDict[c.department] = [c];
+        if (tmp["Degrees"].length > 0){
+          if(count < half_length){
+            col1.push(tmp);
+            count += tmp["Degrees"].length + 0.2;
+          } else{
+            col2.push(tmp);
           }
         }
-        return deptClassDict;
-      },
+      }
+
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
     },
-    metaInfo() {
-      return {
-        title: "DegreeTemplates",
-        titleTemplate: "%s | YACS",
-        meta: [
-          { charset: "utf-8" },
-          {
-            vmid: "description",
-            name: "description",
-            content: "DegreeTemplates in YACS",
-          },
-          {
-            name: "keywords",
-            content: "RPI, YACS, Rensselaer Polytechnic Institute",
-          },
-          { property: "og:title", content: "RPI - YACS Course Scheduler" },
-          { property: "og:site_name", content: "YACS" },
-          { property: "og:type", content: "website" },
-        ],
-      };
+  },
+  methods: {
+    listAlphabet() {
+      this.cateShow = false;
+      this.alphShow = true;
     },
-  };
-  </script>
-  
-  <style>
-  .gridContainer {
-    display: inline-grid;
-    grid-template-columns: auto auto;
-    justify-content: center;
-    align-content: center;
-  }
-  
-  .departmentBox {
-    text-align: center;
-  }
-  
-  .school-name {
-    background: rgba(108, 90, 90, 0.15);
-    border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
-  }
-  </style>
-  
+    listCate() {
+      this.cateShow = true;
+      this.alphShow = false;
+    },
+    // Display a pop-up window when a pathway is clicked
+    ShowPath(pathway) {
+      console.log(this.$refs["my-modal"]);
+      console.log(pathway);
+      this.showPath = pathway;
+      this.$refs["my-modal"].show();
+    },
+    // Go to the course page when a course inside the pop-up window is clicked
+    goPage(course) {
+      var subject = "" + course[0] + course[1] + course[2] + course[3];
+      var courseID = "" + course[5] + course[6] + course[7] + course[8];
+      if (course[4] != " ") {
+        return;
+      }
+      if (course[8] == "X") {
+        this.$router.push("/explore/" + subject);
+      } else {
+        this.$router.push(
+          "/explore/" + subject + "/" + subject + "-" + courseID
+        );
+      }
+    },
+  },
+};
+</script>
+
+<style>
+.gridContainer {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-content: center;
+}
+
+.categoryBox {
+  text-align: center;
+}
+
+.category-title {
+  color: hsl(211, 100%, 60%);
+  background: rgba(108, 90, 90, 0.15);
+  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+
+.pathway-button {
+  display: inline-block;
+  background: white;
+  border-style: none;
+  text-align: justify;
+  width: 95%;
+}
+
+.pathway-button:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
+}
+
+.courseInPath {
+  cursor: pointer;
+}
+
+.courseInPath:hover {
+  background-color: rgba(39, 130, 230, 0.5);
+}
+</style>
