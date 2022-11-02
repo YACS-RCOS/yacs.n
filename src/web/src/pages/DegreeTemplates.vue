@@ -28,7 +28,46 @@
         List by Category
       </b-button>
     </div>
+    <div v-if="degrees.length > 0" class="mx-auto w-75">
+      <b-modal ref="my-modal">
+        <div class="block text-left" v-if="showPath != null" md="10">
+          <h3
+            class="text-center"
+            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
+          >
+            {{ showPath.Name[0] }}
+          </h3>
+          <br />
+          <div v-for="(item, itemName) in showPath" :key="itemName">
+            <h4 style="color: #3395ff; margin-top: -20px;">
+              {{ itemName + ": " }}
+            </h4>
+            <li
+              v-for="course in item"
+              :key="course"
+              v-on:click="goPage(course)"
+              class="courseInPath"
+            >
+              {{ course }}
+            </li>
+            <br />
+          </div>
+        </div>
+      </b-modal>
+
+      <b-row>
+        <b-col
+          v-for="(catCol, index) in categoryCols"
+          :key="`catCol-${index}`"
+          md="6"
+          v-show="cateShow"
+        >
+        
+        </b-col>
+      </b-row>
+    </div>
     <CenterSpinner
+      v-else
       :height="80"
       :fontSize="1.3"
       loadingMessage="DegreeTemplates"
@@ -38,7 +77,8 @@
 </template>
 
 <script>
-import json from "./DegreeTemplates.json";
+import degrees_json from "./DegreeTemplates.json";
+import schools_json from "./schools.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
@@ -57,7 +97,8 @@ export default {
           text: "DegreeTemplates",
         },
       ],
-      categories: json,
+      degrees: degrees_json,
+      schools: schools_json,
       showPath: null,
       cateShow: true,
       alphShow: false,
@@ -68,16 +109,16 @@ export default {
       For categoryCols, we probably want to get some sort of dictionary containing each of the
       Schools that contain majors and sort the displaying in this function.    
     */
-    // splitted categories into 2 arrays, one array = one column
+    // splitted degrees into 2 arrays, one array = one column
     categoryCols() {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for (var i = 0; i < this.categories.length; i++) {
-        if (i < this.categories.length / 2) {
-          col1.push(this.categories[i]);
+      for (var i = 0; i < this.degrees.length; i++) {
+        if (i < this.degrees.length / 2) {
+          col1.push(this.degrees[i]);
         } else {
-          col2.push(this.categories[i]);
+          col2.push(this.degrees[i]);
         }
       }
       ret.push(col1);
@@ -85,7 +126,7 @@ export default {
       return ret;
     },
 
-    // splitted degrees to alphabet categories, then splitted categories into 2 arrays, one array = one column
+    // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
     alphabetCols() {
       let alphabet = [
         "A",
@@ -118,25 +159,25 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      var half_length = Math.ceil(this.categories.length / 2);
+      var half_length = Math.ceil(this.degrees.length / 2);
       var count = 0;
-      // splitted degrees to alphabet categories, then splitted categories into 2 arrays
+      // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays
       for(var n = 0; n < alphabet.length; n++){ // iterates through each alphabet character and creates dictionary for each letter
         var tmp = {
           "Category Name":alphabet[n],
           Degrees:[],
         };
-        for(var m = 0; m < this.categories.length; m++){ // iterates through categories
-          if(this.categories[m]["Major"].startsWith(alphabet[n])){
+        for(var m = 0; m < this.degrees.length; m++){ // iterates through degrees
+          if(this.degrees[m]["Major"].startsWith(alphabet[n])){
             // insert alphabetically within a letter category
             var index = 0;
             while(index < tmp["Degrees"].length){ // increment index until end of list or correct index is found 
-              if(this.categories[m]["Major"] < tmp["Degrees"][index]["Major"]){
+              if(this.degrees[m]["Major"] < tmp["Degrees"][index]["Major"]){
                 break;
               }
               index++;
             }
-            tmp["Degrees"].splice(index, 0, this.categories[m]); // insert degree into tmp's Degree's list at correct alphabetical location
+            tmp["Degrees"].splice(index, 0, this.degrees[m]); // insert degree into tmp's Degree's list at correct alphabetical location
           }
         }
         if (tmp["Degrees"].length > 0){

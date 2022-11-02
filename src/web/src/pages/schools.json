@@ -1,0 +1,68 @@
+[
+  {
+    "School of Architecture": [
+      "Architecture",
+      "Building Sciences"
+    ]
+  },
+  {
+    "School of Engineering": [
+      "Aeronautical Engineering",
+      "Biomedical Engineering",
+      "Chemical Engineering",
+      "Civil Engineering",
+      "Computer and Systems Engineering",
+      "Electrical Engineering",
+      "Environmental Engineering",
+      "Industrial and Management Engineering",
+      "Materials Engineering",
+      "Mechanical Engineering",
+      "Nuclear Engineering"
+    ]
+  },
+  {
+    "School of Humanities, Arts, and Social Sciences": [
+      "Biotechnology and Health Economics",
+      "Cognitive Science",
+      "Communication, Media, and Design",
+      "Design, Innovation, and Society",
+      "Economics",
+      "Electronic Arts",
+      "Electronic Media, Arts, and Communication",
+      "Games and Simulation Arts and Sciences",
+      "Music",
+      "Philosophy",
+      "Psychological Science",
+      "Science, Technology, and Society",
+      "Sustainability Studies"
+    ]
+  },
+  {
+    "School of Management": [
+      "Business Analytics",
+      "Business and Management"
+    ]
+  },
+  {
+    "School of Science": [
+      "Applied Physics",
+      "Biology",
+      "Biochemistry and Biophysics",
+      "Biological Neuroscience",
+      "Chemistry",
+      "Computational Biology",
+      "Computer Science",
+      "Environmental Science",
+      "Geology",
+      "Hydrogeology",
+      "Interdisciplinary Science",
+      "Mathematics",
+      "Physics"
+    ]
+  },
+  {
+    "Information Technology and Web Science": [
+      "Information Technology and Web Science"
+    ]
+  }
+]
