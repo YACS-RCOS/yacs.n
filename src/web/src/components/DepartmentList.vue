@@ -15,7 +15,8 @@
               params: { subject: major },
             }"
           >
-            <b>{{ major }}</b> - {{ getLongName(major) }}
+            <b>{{ major }}</b>
+            - {{ getLongName(major) }}
           </b-button>
         </div>
       </template>
