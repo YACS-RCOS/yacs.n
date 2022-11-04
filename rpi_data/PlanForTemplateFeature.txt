@@ -19,3 +19,7 @@ week 10/21- 10/28
   - Fix blocker that is being hit currently: 
       - Not able to pull data from (COURSES, DepartmentListComponenet) and display in table
   - Try to get something to print on the new tab that we created
+
+week 10/31 - 11/07
+  - Looked over Pathway.vue to understand how we load a table from information provided from a json file
+  

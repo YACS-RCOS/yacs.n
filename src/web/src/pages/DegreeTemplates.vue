@@ -28,19 +28,46 @@
         List by Category
       </b-button>
     </div>
+    
+    <b-row>
+      <!-- this for loop will set catCol to the first col value in the double column array thingy-->
+      <b-col
+        v-for="(catCol, index) in categoryCols"
+        :key="`catCol-${index}`"
+        md="6"
+        v-show="cateShow"
+      >
+      <!-- this for loop will take the given list and will take all objects form that list into catObj-->
+        <b-row
+          v-for="categoryObj in catCol"
+          :key="categoryObj['Major'][0]"
+          class="categoryBox border m-2 mb-4"
+        >
+          <b-col> 
+            <b-row>
+              <h3 class="m-1 ml-2">
+                {{categoryObj["Major"]}}
+              </h3>
+            </b-row>
+
+            <b-row>
+              
+            </b-row>
+          </b-col>
+
+        </b-row>
+      </b-col>
+    </b-row>
+
+
+
     <CenterSpinner
       :height="80"
       :fontSize="1.3"
       loadingMessage="DegreeTemplates"
       :topSpacing="30"
     />
-    
-
-
-    
   </b-container>
-            
-
 </template>
 
 <script>
@@ -88,7 +115,7 @@ export default {
       }
       ret.push(col1);
       ret.push(col2);
-      return ret;
+      return ret;//will be a list of 2 lists one for col 1 one for col 2
     },
 
     // splitted degrees to alphabet categories, then splitted categories into 2 arrays, one array = one column
@@ -170,7 +197,7 @@ export default {
       this.alphShow = false;
     },
     // Display a pop-up window when a pathway is clicked
-    ShowPath(pathway) {
+    /*ShowPath(pathway) {
       console.log(this.$refs["my-modal"]);
       console.log(pathway);
       this.showPath = pathway;
@@ -189,8 +216,8 @@ export default {
         this.$router.push(
           "/explore/" + subject + "/" + subject + "-" + courseID
         );
-      }
-    },
+      }*/
+    //},
   },
 };
 </script>
