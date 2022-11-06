@@ -1,16 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-  <p>hi welcome to degree templates</p>
-</template>
-
-<script>
-export default {
-  name: "DegreeTemplates",
-};
-</script>
-
-<style></style>
-=======
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
       <div class="majorsBox">
@@ -220,4 +208,3 @@ export default {
 }
 </style>
 
->>>>>>> Stashed changes
