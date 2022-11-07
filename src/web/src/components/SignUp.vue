@@ -96,10 +96,8 @@ export default {
   mounted() {
     getMajors().then(
       (response) => {
-        console.log(response.data);
         this.majors[1] = response.data["B"];
         this.majors[2] = [].concat(response.data["M"], response.data["D"]);
-        console.log(this.majors)
       },
       (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
           title: "Loading majors failed!",
