@@ -94,23 +94,15 @@ export default {
     };
   },
   mounted() {
-    getMajors("B").then(
+    getMajors().then(
       (response) => {
-      this.majors[1] = response.data;
+        console.log(response.data);
+        this.majors[1] = response.data["B"];
+        this.majors[2] = [].concat(response.data["M"], response.data["D"]);
+        console.log(this.majors)
       },
       (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
-          title: "Loading undergraduate majors failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-      }
-    );
-    getMajors("MD").then(
-      (response) => {
-      this.majors[2] = response.data;
-      },
-      (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
-          title: "Loading graduate majors failed!",
+          title: "Loading majors failed!",
           variant: "danger",
           noAutoHide: true,
         });

@@ -10,8 +10,8 @@ export const uploadCsv = (formData) =>
 export const uploadMajors = (formData) =>
   client.post("/majorsUpload", formData);
 
-export const getMajors = (majorTypes) =>
-  client.get("/majors?types=" + majorTypes);
+export const getMajors = () =>
+  client.get("/majors");
 
 export const mapDateRangeToSemesterPart = (formData) =>
   client.post("/mapDateRangeToSemesterPart", formData);
