@@ -1,12 +1,18 @@
 [
   {
-    "School of Architecture": [
+    "School Name": [
+      "School of Architecture"
+    ],
+    "Majors": [
       "Architecture",
       "Building Sciences"
     ]
   },
   {
-    "School of Engineering": [
+    "School Name": [
+      "School of Engineering"
+    ],
+    "Majors": [
       "Aeronautical Engineering",
       "Biomedical Engineering",
       "Chemical Engineering",
@@ -21,7 +27,10 @@
     ]
   },
   {
-    "School of Humanities, Arts, and Social Sciences": [
+    "School Name": [
+      "School of Humanities, Arts, and Social Sciences"
+    ],
+    "Majors": [
       "Biotechnology and Health Economics",
       "Cognitive Science",
       "Communication, Media, and Design",
@@ -38,13 +47,19 @@
     ]
   },
   {
-    "School of Management": [
+    "School Name": [
+      "School of Management"
+    ],
+    "Majors": [
       "Business Analytics",
       "Business and Management"
     ]
   },
   {
-    "School of Science": [
+    "School Name": [
+      "School of Science"
+    ],
+    "Majors": [
       "Applied Physics",
       "Biology",
       "Biochemistry and Biophysics",
@@ -61,7 +76,10 @@
     ]
   },
   {
-    "Information Technology and Web Science": [
+    "School Name": [
+      "Information Technology and Web Science"
+    ],
+    "Majors": [
       "Information Technology and Web Science"
     ]
   }
