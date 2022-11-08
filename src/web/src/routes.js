@@ -10,6 +10,7 @@ const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
+const UserPage = () => import("./pages/User");
 
 var router = new VueRouter({
   routes: [
@@ -51,6 +52,11 @@ var router = new VueRouter({
           component: CoursePage,
           name: "CoursePage",
           props: true,
+        },
+        {
+          path: "/user",
+          component: UserPage,
+          name: "User",
         },
       ],
     },
