@@ -57,12 +57,46 @@
 
       <b-row>
         <b-col
-          v-for="(catCol, index) in categoryCols"
-          :key="`catCol-${index}`"
+          v-for="(school, index) in schoolCols"
+          :key="`school-${index}`"
           md="6"
           v-show="cateShow"
         >
-        
+          <b-row
+          v-for="schoolObj in school"
+          :key="schoolObj['School Name'][0]"
+          class="categoryBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="category-title">
+                <h3 class="m-1 ml-2">
+                  {{ schoolObj["School Name"][0] }}
+                </h3>
+              </b-row>
+              <b-row>
+                <div class="d-flex flex-column flex-grow-1">
+                  <!-- LOOP Through the Pathway Categories list -->
+                  <div
+                    v-for="major in schoolObj['Majors']"
+                    :key="major"
+                    role="tablist"
+                  >
+                    <div class="mt-1 mb-1 w-100">
+                      <b-button
+                          @click="ShowPath(major)"
+                          squared
+                          variant="light"
+                          class="pathway-button m-0 ml-1"
+                        >
+                      {{ major }}
+                    </b-button>
+                    </div>
+                  </div>
+                </div>
+              </b-row>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </div>
@@ -110,6 +144,21 @@ export default {
       Schools that contain majors and sort the displaying in this function.    
     */
     // splitted degrees into 2 arrays, one array = one column
+    schoolCols(){
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      for(var i = 0; i < this.schools.length; i++){
+        if (i < this.schools.length / 2) {
+          col1.push(this.schools[i]);
+        } else {
+          col2.push(this.schools[i]);
+        }
+      }
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
+    },
     categoryCols() {
       let ret = [];
       let col1 = [];
