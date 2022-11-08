@@ -38,25 +38,14 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-5" label="Degree:" label-for="input-5">
-        <b-form-select
-          id="input-5"
-          v-model="form.degree"
-          :options="degrees"
-          required
-        ></b-form-select>
-      </b-form-group>
+      <degree-picker
+        :degree="form.degree"
+        :major="form.major"
+        @update:degree="newval => form.degree = newval"
+        @update:major="newval => form.major = newval"
+      ></degree-picker>
 
-      <b-form-group id="input-group-6" label="Major:" label-for="input-6">
-        <b-form-select
-          id="input-6"
-          v-model="form.major"
-          :options="getMajorOptions()"
-          required
-        ></b-form-select>
-      </b-form-group>
-
-      <button type="submit" class="btn-primary btn w-100">
+      <button class="btn-primary btn w-100" type="submit">
         Finish Sign Up!
       </button>
     </b-form>
@@ -66,10 +55,11 @@
 <script>
 import { signup } from "@/services/UserService";
 import { userTypes } from "../store/modules/user";
-import { getMajors } from "@/services/AdminService";
+import DegreePicker from "@/components/DegreePicker";
 
 export default {
   name: "SignUp",
+  components: { DegreePicker },
   data() {
     return {
       form: {
@@ -80,34 +70,8 @@ export default {
         degree: "",
         major: ""
       },
-      degrees: [
-        { text: "Select One", value: null },
-        "Undergraduate",
-        "Graduate"
-      ],
-      majors: [
-        [{ text: "Select a degree type first", value: null }],
-        [{ text: "Loading...", value: null }],
-        [{ text: "Loading...", value: null }]
-      ],
       show: true
     };
-  },
-  mounted() {
-    getMajors().then(
-      (response) => {
-        console.log(response.data);
-        this.majors[1] = response.data["B"];
-        this.majors[2] = [].concat(response.data["M"], response.data["D"]);
-        console.log(this.majors)
-      },
-      (errMsg) => {this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
-          title: "Loading majors failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-      }
-    );
   },
   methods: {
     async onSubmit() {
@@ -139,10 +103,6 @@ export default {
       }
 
       this.$emit("submit");
-    },
-    getMajorOptions() {
-      let i = this.degrees.indexOf(this.form.degree);
-      return this.majors[(i > -1) ? i : 0];
     }
   },
 };
