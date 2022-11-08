@@ -2,33 +2,37 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-container v-if="isLoggedIn" id="user-info-box" class="border align-content-center">
-      <h1 class="text-center">Hi, {{ user.name }}!</h1>
+      <h1 class="text-center">Hi, {{ form.name }}!</h1>
       <b-row v-for="(editing, label) in userData" :key="label" class="user-row">
         <b-col>
           {{ rendername(label) }}:
         </b-col>
 
-        <b-col v-if="editing == false">
-          {{ rendervalue(form[label.toLowerCase()]) }}
-        </b-col>
+        <template v-if="editing">
+          <b-col>
+            <b-input
+              v-model="form[label]"
+            ></b-input>
+          </b-col>
+          <b-col>
+            <b-button
+              @click="doneedit(label)"
+            >Done
+            </b-button>
+          </b-col>
+        </template>
 
-         <b-col v-else-if="editing == true">
-          Insert editing form here
-        </b-col>
-
-        <b-col v-if="editing == false">
-          <b-button
-            @click="addedit(label)"
-          >Edit
-          </b-button>
-        </b-col>
-
-        <b-col v-if="editing == true">
-          <b-button
-            @click="doneedit(label)"
-          >Done
-          </b-button>
-        </b-col>
+        <template v-else>
+          <b-col>
+            {{ rendervalue(form[label.toLowerCase()]) }}
+          </b-col>
+          <b-col>
+            <b-button
+              @click="addedit(label)"
+            >Edit
+            </b-button>
+          </b-col>
+        </template>
       </b-row>
     </b-container>
     <h1 v-else class="text-center">You should log in first.</h1>
@@ -67,8 +71,8 @@ export default {
     console.log(this.form);
 
     let temp = {};
-    for(const lab of ["name", "email", "phone"]){
-      temp[lab] = false
+    for (const lab of ["name", "email", "phone"]) {
+      temp[lab] = false;
     }
     this.userData = temp;
   },
@@ -82,21 +86,20 @@ export default {
     log(...val) {
       console.log(val);
     },
-    rendername(value){
+    rendername(value) {
       return value[0].toUpperCase() + value.substring(1);
     },
     rendervalue(value) {
       if (value === undefined || value.length == 0) {
         return "<not set>";
-      }
-      else{
+      } else {
         return value;
       }
     },
-    addedit(val){
+    addedit(val) {
       this.userData[val] = true;
     },
-    doneedit(val){
+    doneedit(val) {
       this.userData[val] = false;
     },
     async onSubmit() {
@@ -116,7 +119,7 @@ export default {
 
 }
 
-#user-info-box .user-row{
+#user-info-box .user-row {
   margin-bottom: 0.2em;
 }
 
