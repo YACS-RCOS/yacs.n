@@ -3,24 +3,28 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-container v-if="isLoggedIn" id="user-info-box" class="border align-content-center">
       <h1 class="text-center">Hi, {{ form.name }}!</h1>
-      <b-row v-for="(editing, label) in userData" :key="label" class="user-row">
+      <b-row v-for="(data, label) in userData" :key="label" class="user-row">
         <b-col>
           {{ rendername(label) }}:
         </b-col>
 
-        <template v-if="editing">
+        <b-form v-if="data.editing" inline @submit.prevent="doneedit(label)">
           <b-col>
             <b-input
-              v-model="form[label]"
+              :ref="label"
+              v-model="currentinput[label]"
+              :type="data.type"
+              required
             ></b-input>
           </b-col>
           <b-col>
             <b-button
-              @click="doneedit(label)"
+              type="submit"
             >Done
-            </b-button>
+            </b-button
+            >
           </b-col>
-        </template>
+        </b-form>
 
         <template v-else>
           <b-col>
@@ -60,7 +64,8 @@ export default {
         }
       ],
       userData: {},
-      form: {} //this will populate itself
+      form: {}, //this will populate itself
+      currentinput: {}
     };
   },
   mounted() {
@@ -68,11 +73,13 @@ export default {
       router.push("/");
     }
     this.form = Object.assign({}, this.user);
+    this.currentinput = Object.assign({}, this.user);
     console.log(this.form);
 
     let temp = {};
-    for (const lab of ["name", "email", "phone"]) {
-      temp[lab] = false;
+    for (const lab of [{ name: "text" }, { email: "email" }, { phone: "tel" }]) {
+      const x = Object.keys(lab)[0];
+      temp[x] = { editing: false, type: lab[x] };
     }
     this.userData = temp;
   },
@@ -84,7 +91,9 @@ export default {
   },
   methods: {
     log(...val) {
-      console.log(val);
+      this.$nextTick(() => {
+        console.log(val);
+      });
     },
     rendername(value) {
       return value[0].toUpperCase() + value.substring(1);
@@ -97,10 +106,16 @@ export default {
       }
     },
     addedit(val) {
-      this.userData[val] = true;
+      this.userData[val].editing = true;
     },
     doneedit(val) {
-      this.userData[val] = false;
+      this.userData[val].editing = false;
+    },
+    checkInput(input, type) {
+      switch (type) {
+        case "email":
+          return document.getEle;
+      }
     },
     async onSubmit() {
 
