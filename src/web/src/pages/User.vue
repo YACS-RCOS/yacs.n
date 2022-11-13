@@ -1,56 +1,80 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <b-container v-if="isLoggedIn" id="user-info-box" class="border align-content-center">
+    <b-container v-if="isLoggedIn" id="user-info-box" class="border">
       <h1 class="text-center">Hi, {{ form.name }}!</h1>
       <b-row v-for="(data, label) in userData" :key="label" class="user-row">
-        <b-col>
-          {{ rendername(label) }}:
-        </b-col>
-
-        <b-form v-if="data.editing" inline @submit.prevent="doneedit(label)">
+        <b-form inline style="width: 100%" @submit.prevent="stopediting(label)">
           <b-col>
-            <b-input
-              :ref="label"
-              v-model="currentinput[label]"
-              :type="data.type"
-              required
-            ></b-input>
+            {{ rendername(label) }}:
           </b-col>
-          <b-col>
-            <b-button
-              type="submit"
-            >Done
-            </b-button
-            >
-          </b-col>
+          <template v-if="data.editing">
+            <b-col>
+              <b-input
+                :ref="label"
+                v-model="currentinput[label]"
+                :type="data.type"
+                :required="data.required"
+              ></b-input>
+            </b-col>
+            <b-col>
+              <b-button
+                type="submit"
+              >Done
+              </b-button
+              >
+            </b-col>
+          </template>
+          <template v-else>
+            <b-col>
+              {{ rendervalue(form[label]) }}
+            </b-col>
+            <b-col>
+              <b-button
+                @click.prevent="startediting(label)"
+              >Edit
+              </b-button>
+            </b-col>
+          </template>
         </b-form>
-
-        <template v-else>
-          <b-col>
-            {{ rendervalue(form[label.toLowerCase()]) }}
-          </b-col>
-          <b-col>
-            <b-button
-              @click="addedit(label)"
-            >Edit
-            </b-button>
-          </b-col>
-        </template>
       </b-row>
+      <b-row class="user-row">
+        <b-col>
+          Current Degree:
+        </b-col>
+        <b-col>
+          {{currentinput.degree}}
+          <br>
+          {{currentinput.major}}
+        </b-col>
+        <b-col>
+          <b-button v-b-modal.degreepicker>Edit</b-button>
+        </b-col>
+      </b-row>
+      <b-row style="margin-top: 1em">
+        <b-button class="align-self-center m-auto">Submit Changes</b-button>
+      </b-row>
+
     </b-container>
     <h1 v-else class="text-center">You should log in first.</h1>
+    <b-modal id="degreepicker" size="xl">
+    <DegreePicker
+      :major="currentinput.major"
+      :degree="currentinput.degree"
+    ></DegreePicker>
+  </b-modal>
   </b-container>
 </template>
 
 <script>
 import { userTypes } from "@/store/modules/user";
 import { mapGetters } from "vuex";
-// import DegreePicker from "@/components/DegreePicker";
+import DegreePicker from "@/components/DegreePicker";
 import router from "@/routes";
 
 export default {
   name: "User",
+  components: { DegreePicker },
   // components: { DegreePicker },
   data() {
     return {
@@ -63,7 +87,11 @@ export default {
           text: "User"
         }
       ],
-      userData: {},
+      userData: {
+        name: { type: "text", required: true, editing: false },
+        email: { type: "email", required: true, editing: false },
+        phone: { type: "tel", editing: false }
+      },
       form: {}, //this will populate itself
       currentinput: {}
     };
@@ -75,13 +103,6 @@ export default {
     this.form = Object.assign({}, this.user);
     this.currentinput = Object.assign({}, this.user);
     console.log(this.form);
-
-    let temp = {};
-    for (const lab of [{ name: "text" }, { email: "email" }, { phone: "tel" }]) {
-      const x = Object.keys(lab)[0];
-      temp[x] = { editing: false, type: lab[x] };
-    }
-    this.userData = temp;
   },
   computed: {
     ...mapGetters({
@@ -105,10 +126,10 @@ export default {
         return value;
       }
     },
-    addedit(val) {
+    startediting(val) {
       this.userData[val].editing = true;
     },
-    doneedit(val) {
+    stopediting(val) {
       this.userData[val].editing = false;
     },
     checkInput(input, type) {
@@ -135,7 +156,15 @@ export default {
 }
 
 #user-info-box .user-row {
-  margin-bottom: 0.2em;
+  padding: 1em;
+  margin: 0.2em 0em;
+}
+
+#user-info-box .user-row *{
+  justify-content: center !important;
+  text-align: center;
+  display: flex;
+  align-self: baseline;
 }
 
 </style>
