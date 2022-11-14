@@ -190,9 +190,8 @@ export default {
       const find = filtered.find(
         (course) =>
           (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
+            course.full_title.toUpperCase().includes(this.textSearch.toUpperCase())) ||
+            course.title.toUpperCase().includes(thistextSearch.toUpperCase())
       );
 
       if (find) return [find];
