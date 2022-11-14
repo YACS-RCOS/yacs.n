@@ -1,21 +1,8 @@
-<template>
-  <b-container fluid>
-    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-      <div class="majorsBox">
-        <ul>
-          <li v-for="major in majors" :key="major.Major">
-            {{ major.Major }}
-          </li>
-        </ul>
-      </div>
-  </b-container>
-</template>
-
 <script>
-import json from "./DegreeTemplates.json";
-
+import degrees_json from "./DegreeTemplates.json";
+import schools_json from "./schools.json";
 export default {
-  name: "Degree Templates",
+  name: "DegreeTemplates",
   data() {
     return {
       breadcrumbNav: [
@@ -24,43 +11,54 @@ export default {
           to: "/",
         },
         {
-          text: "Degree Templates",
+          text: "DegreeTemplates",
         },
       ],
-      majors: json,
+      degrees: degrees_json,
+      schools: schools_json,
       showPath: null,
       cateShow: true,
       alphShow: false,
     };
   },
   computed: {
-    // splitted categories into 2 arrays, one array = one column
-    categoryCols() {
+    /*
+      For categoryCols, we probably want to get some sort of dictionary containing each of the
+      Schools that contain majors and sort the displaying in this function.    
+    */
+    // splitted degrees into 2 arrays, one array = one column
+    schoolCols(){
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for (var i = 0; i < this.categories.length; i++) {
-        if (i < this.categories.length / 2) {
-          col1.push(this.categories[i]);
+      for(var i = 0; i < this.schools.length; i++){
+        if (i < this.schools.length / 2) {
+          col1.push(this.schools[i]);
         } else {
-          col2.push(this.categories[i]);
+          col2.push(this.schools[i]);
         }
       }
       ret.push(col1);
       ret.push(col2);
       return ret;
     },
-
-    // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
-    alphabetCols() {
-      let cols = [];
-      // put all pathways in one array
-      for (var i = 0; i < this.categories.length; i++) {
-        for (var j = 0; j < this.categories[i]["Pathways"].length; j++) {
-          cols.push(this.categories[i]["Pathways"][j]);
+    categoryCols() {
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      for (var i = 0; i < this.degrees.length; i++) {
+        if (i < this.degrees.length / 2) {
+          col1.push(this.degrees[i]);
+        } else {
+          col2.push(this.degrees[i]);
         }
       }
-
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
+    },
+    // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
+    alphabetCols() {
       let alphabet = [
         "A",
         "B",
@@ -92,37 +90,36 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      var half_length = Math.ceil(cols.length / 2);
+      var half_length = Math.ceil(this.degrees.length / 2);
       var count = 0;
-      // splitted pathways to alphabet categories, then splitted categories into 2 arrays
-      for (var n = 0; n < alphabet.length; n++) {
+      // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays
+      for(var n = 0; n < alphabet.length; n++){ // iterates through each alphabet character and creates dictionary for each letter
         var tmp = {
-          "Category Name": alphabet[n],
-          Pathways: [],
+          "Category Name":alphabet[n],
+          Degrees:[],
         };
-        for (var m = 0; m < cols.length; m++) {
-          if (cols[m]["Name"][0].startsWith(alphabet[n])) {
+        for(var m = 0; m < this.degrees.length; m++){ // iterates through degrees
+          if(this.degrees[m]["Major"].startsWith(alphabet[n])){
+            // insert alphabetically within a letter category
             var index = 0;
-            while (index < tmp["Pathways"].length) {
-              if (cols[m]["Name"][0] < tmp["Pathways"][index]["Name"][0]) {
+            while(index < tmp["Degrees"].length){ // increment index until end of list or correct index is found 
+              if(this.degrees[m]["Major"] < tmp["Degrees"][index]["Major"]){
                 break;
               }
               index++;
             }
-            tmp["Pathways"].splice(index, 0, cols[m]);
+            tmp["Degrees"].splice(index, 0, this.degrees[m]); // insert degree into tmp's Degree's list at correct alphabetical location
           }
         }
-        // splitted categories into 2 arrays
-        if (tmp["Pathways"].length > 0) {
-          if (count < half_length) {
+        if (tmp["Degrees"].length > 0){
+          if(count < half_length){
             col1.push(tmp);
-            count += tmp["Pathways"].length + 0.2;
-          } else {
+            count += tmp["Degrees"].length + 0.2;
+          } else{
             col2.push(tmp);
           }
         }
       }
-
       ret.push(col1);
       ret.push(col2);
       return ret;
@@ -170,23 +167,14 @@ export default {
   justify-content: center;
   align-content: center;
 }
-.majorsBox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: hsl(211, 100%, 60%);
-}
-
 .categoryBox {
   text-align: center;
 }
-
 .category-title {
   color: hsl(211, 100%, 60%);
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
-
 .pathway-button {
   display: inline-block;
   background: white;
@@ -194,17 +182,13 @@ export default {
   text-align: justify;
   width: 95%;
 }
-
 .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
-
 .courseInPath {
   cursor: pointer;
 }
-
 .courseInPath:hover {
   background-color: rgba(39, 130, 230, 0.5);
 }
 </style>
-
