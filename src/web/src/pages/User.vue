@@ -5,19 +5,19 @@
       <h1 class="text-center">Hi, {{ form.name }}!</h1>
       <b-row v-for="(data, label) in userData" :key="label" class="user-row">
         <b-form inline style="width: 100%" @submit.prevent="stopediting(label)">
-          <b-col>
+          <b-col class="user-col-left">
             {{ rendername(label) }}:
           </b-col>
           <template v-if="data.editing">
-            <b-col>
+            <b-col class="user-col-center">
               <b-input
                 :ref="label"
                 v-model="currentinput[label]"
-                :type="data.type"
                 :required="data.required"
+                :type="data.type"
               ></b-input>
             </b-col>
-            <b-col>
+            <b-col class="user-col-right">
               <b-button
                 type="submit"
               >Done
@@ -26,10 +26,10 @@
             </b-col>
           </template>
           <template v-else>
-            <b-col>
+            <b-col class="user-col-center">
               {{ rendervalue(form[label]) }}
             </b-col>
-            <b-col>
+            <b-col class="user-col-right">
               <b-button
                 @click.prevent="startediting(label)"
               >Edit
@@ -39,15 +39,15 @@
         </b-form>
       </b-row>
       <b-row class="user-row">
-        <b-col>
+        <b-col class="user-col-left">
           Current Degree:
         </b-col>
-        <b-col>
-          {{currentinput.degree}}
+        <b-col class="user-col-center">
+          {{ currentinput.degree }}
           <br>
-          {{currentinput.major}}
+          {{ currentinput.major }}
         </b-col>
-        <b-col>
+        <b-col class="user-col-right">
           <b-button v-b-modal.degreepicker>Edit</b-button>
         </b-col>
       </b-row>
@@ -57,12 +57,13 @@
 
     </b-container>
     <h1 v-else class="text-center">You should log in first.</h1>
-    <b-modal id="degreepicker" size="xl">
-    <DegreePicker
-      :major="currentinput.major"
-      :degree="currentinput.degree"
-    ></DegreePicker>
-  </b-modal>
+
+    <b-modal id="degreepicker"  title="Pick Degree and Major:" size="xl" ok-only ok-title="Done">
+      <degree-picker
+        :degree="currentinput.degree"
+        :major="currentinput.major"
+      ></degree-picker>
+    </b-modal>
   </b-container>
 </template>
 
@@ -159,9 +160,22 @@ export default {
   padding: 1em;
   margin: 0.2em 0em;
 }
+#user-info-box .user-row .col {
+  /*min-width: max-content;*/
+  /*width: 33%;*/
+}
 
-#user-info-box .user-row *{
-  justify-content: center !important;
+#user-info-box .user-row .user-col-left{
+  justify-content: right;
+}
+#user-info-box .user-row .user-col-center{
+  justify-content: center;
+}
+#user-info-box .user-row .user-col-right{
+  justify-content: left;
+}
+
+#user-info-box .user-row * {
   text-align: center;
   display: flex;
   align-self: baseline;
