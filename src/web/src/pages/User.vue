@@ -4,7 +4,7 @@
     <b-container v-if="isLoggedIn" id="user-info-box" class="border">
       <h1 class="text-center">Hi, {{ form.name }}!</h1>
       <b-row v-for="(data, label) in userData" :key="label" class="user-row">
-        <b-form inline style="width: 100%" @submit.prevent="stopediting(label)">
+        <b-form inline style="width: 100%" @submit.prevent="finishedit(label)">
           <b-col class="user-col-left">
             {{ rendername(label) }}:
           </b-col>
@@ -43,9 +43,9 @@
           Current Degree:
         </b-col>
         <b-col class="user-col-center">
-          {{ currentinput.degree }}
+          {{ form.degree }}
           <br>
-          {{ currentinput.major }}
+          {{ form.major }}
         </b-col>
         <b-col class="user-col-right">
           <b-button v-b-modal.degreepicker>Edit</b-button>
@@ -58,11 +58,24 @@
     </b-container>
     <h1 v-else class="text-center">You should log in first.</h1>
 
-    <b-modal id="degreepicker"  title="Pick Degree and Major:" size="xl" ok-only ok-title="Done">
-      <degree-picker
-        :degree="currentinput.degree"
-        :major="currentinput.major"
-      ></degree-picker>
+    <b-modal
+      id="degreepicker"
+      ok-title="Done"
+      size="xl"
+      title="Pick Degree and Major:"
+      @cancel="handlecancel"
+      @close="handlecancel"
+      @hide="handlecancel"
+      @ok="handleok"
+    >
+      <b-form ref="modalform">
+        <degree-picker
+          :degree="currentinput.degree"
+          :major="currentinput.major"
+          @update:degree="newval => currentinput.degree = newval"
+          @update:major="newval => currentinput.major = newval"
+        ></degree-picker>
+      </b-form>
     </b-modal>
   </b-container>
 </template>
@@ -118,7 +131,7 @@ export default {
       });
     },
     rendername(value) {
-      return value[0].toUpperCase() + value.substring(1);
+        return value[0].toUpperCase() + value.substring(1);
     },
     rendervalue(value) {
       if (value === undefined || value.length == 0) {
@@ -130,13 +143,29 @@ export default {
     startediting(val) {
       this.userData[val].editing = true;
     },
-    stopediting(val) {
+    finishedit(val) {
       this.userData[val].editing = false;
+      this.form[val] = this.currentinput[val];
     },
     checkInput(input, type) {
       switch (type) {
         case "email":
           return document.getEle;
+      }
+    },
+    handleok(bvModalEvent) {
+      if (this.$refs["modalform"].checkValidity()) {
+        this.form.degree = this.currentinput.degree;
+        this.form.major = this.currentinput.major;
+      } else {
+        bvModalEvent.preventDefault();
+        this.$refs["modalform"].reportValidity();
+      }
+    },
+    handlecancel(bvModalEvent) {
+      if (bvModalEvent.trigger != "ok") {
+        this.currentinput.degree = this.form.degree;
+        this.currentinput.major = this.form.major;
       }
     },
     async onSubmit() {
@@ -160,18 +189,21 @@ export default {
   padding: 1em;
   margin: 0.2em 0em;
 }
+
 #user-info-box .user-row .col {
   /*min-width: max-content;*/
   /*width: 33%;*/
 }
 
-#user-info-box .user-row .user-col-left{
+#user-info-box .user-row .user-col-left {
   justify-content: right;
 }
-#user-info-box .user-row .user-col-center{
+
+#user-info-box .user-row .user-col-center {
   justify-content: center;
 }
-#user-info-box .user-row .user-col-right{
+
+#user-info-box .user-row .user-col-right {
   justify-content: left;
 }
 
