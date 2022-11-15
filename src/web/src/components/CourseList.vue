@@ -190,9 +190,15 @@ export default {
       const find = filtered.find(
         (course) =>
           (course.full_title &&
+<<<<<<< Updated upstream
             course.full_title.toUpperCase().includes(this.textSearch.toUpperCase())) ||
             course.title.toUpperCase().includes(thistextSearch.toUpperCase())
       );
+=======
+            course.full_title.toUpperCase() ===
+              this.textSearch.toUpperCase()) ||
+          course.title.toUpperCase() === this.textSearch.toUpperCase());
+>>>>>>> Stashed changes
 
       if (find) return [find];
       else return filtered;
