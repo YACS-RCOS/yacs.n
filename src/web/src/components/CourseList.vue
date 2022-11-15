@@ -192,7 +192,7 @@ export default {
           (course.full_title &&
 <<<<<<< Updated upstream
             course.full_title.toUpperCase().includes(this.textSearch.toUpperCase())) ||
-            course.title.toUpperCase().includes(thistextSearch.toUpperCase())
+            course.title.toUpperCase().includes(this.textSearch.toUpperCase())
       );
 =======
             course.full_title.toUpperCase() ===
