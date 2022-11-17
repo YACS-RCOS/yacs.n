@@ -1,3 +1,4 @@
+import os
 #store all the data in list
 listCollect = list()
 listEach = []
@@ -59,4 +60,22 @@ for i in listCollect:
                 holder[holderIndex]["corequisites"] = i[j][0]
     final.append(holder[holderIndex])
     holderIndex += 1
-print(final)
+#print(final)
+data.close()
+
+#write the basic case
+file = open("spring-2023.csv","w")
+file.write("course_name,description,prerequisites,corequisites\n")
+loop = 0
+for i in final:
+    for j in i.values():
+        if (loop == 0):
+            file.write(j)
+            loop += 1
+        elif (loop == 3):
+            loop = 0
+        else:
+            file.write("none,")
+            loop += 1
+    file.write("none")
+    file.write("\n")
