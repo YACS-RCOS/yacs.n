@@ -4,7 +4,7 @@
     <b-container v-if="isLoggedIn" id="user-info-box" class="border">
       <h1 class="text-center">Hi, {{ form.name }}!</h1>
       <b-row v-for="(data, label) in userData" :key="label" class="user-row">
-        <b-form inline style="width: 100%" @submit.prevent="finishedit(label)">
+        <b-form inline style="width: 100%" @submit.prevent="finishedit(label, true)" @reset.prevent="finishedit(label,false)">
           <b-col class="user-col-left">
             {{ rendername(label) }}:
           </b-col>
@@ -18,16 +18,13 @@
               ></b-input>
             </b-col>
             <b-col class="user-col-right">
-              <b-button
-                type="submit"
-              >Done
-              </b-button
-              >
+              <b-button type="reset" variant="danger">Cancel</b-button>
+              <b-button type="submit" variant="success">Done</b-button>
             </b-col>
           </template>
           <template v-else>
             <b-col class="user-col-center">
-              {{ rendervalue(form[label]) }}
+              <p :class="changed(label)">{{ rendervalue(form[label]) }}</p>
             </b-col>
             <b-col class="user-col-right">
               <b-button
@@ -52,7 +49,7 @@
         </b-col>
       </b-row>
       <b-row style="margin-top: 1em">
-        <b-button class="align-self-center m-auto">Submit Changes</b-button>
+        <b-button class="align-self-center m-auto" variant="success" @click="onSubmit">Submit Changes</b-button>
       </b-row>
 
     </b-container>
@@ -60,7 +57,9 @@
 
     <b-modal
       id="degreepicker"
+      cancel-variant="danger"
       ok-title="Done"
+      ok-variant="success"
       size="xl"
       title="Pick Degree and Major:"
       @cancel="handlecancel"
@@ -116,7 +115,6 @@ export default {
     }
     this.form = Object.assign({}, this.user);
     this.currentinput = Object.assign({}, this.user);
-    console.log(this.form);
   },
   computed: {
     ...mapGetters({
@@ -140,12 +138,19 @@ export default {
         return value;
       }
     },
+    changed(val) {
+      return (this.user[val] != this.form[val]) ? "user-changed-info" : "";
+    },
     startediting(val) {
       this.userData[val].editing = true;
     },
-    finishedit(val) {
+    finishedit(val, good) {
       this.userData[val].editing = false;
-      this.form[val] = this.currentinput[val];
+      if (good) {
+        this.form[val] = this.currentinput[val];
+      } else {
+        this.currentinput[val] = this.form[val];
+      }
     },
     checkInput(input, type) {
       switch (type) {
@@ -186,13 +191,14 @@ export default {
 }
 
 #user-info-box .user-row {
-  padding: 1em;
+  padding: 0.2em;
   margin: 0.2em 0em;
 }
 
 #user-info-box .user-row .col {
   /*min-width: max-content;*/
   /*width: 33%;*/
+  min-height: 2.5em;
 }
 
 #user-info-box .user-row .user-col-left {
@@ -206,6 +212,15 @@ export default {
 #user-info-box .user-row .user-col-right {
   justify-content: left;
 }
+
+#user-info-box .user-row .user-col-right * {
+  margin-right: 1em;
+}
+
+#user-info-box .user-row .user-changed-info {
+  color: var(--warning);
+}
+
 
 #user-info-box .user-row * {
   text-align: center;
