@@ -56,10 +56,11 @@ class User(Model):
                         name        = %(Name)s,
                         email       = %(Email)s,
                         phone       = %(Phone)s,
-                        password    = %(Password)s,
+                        password    = %(NewPassword)s,
                         major       = %(Major)s,
                         degree      = %(Degree)s
                     WHERE
-                        user_id = %(UID)s;
+                        user_id = %(UID)s AND
+                        password = %(Password)s;
                     """
         return self.db.execute(sql, args, False)[0]

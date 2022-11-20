@@ -20,7 +20,8 @@ class updateUser(BaseModel):
     sessionID:str
     email:str
     phone:str
-    newPassword:str
+    password:str
+    newpassword:Optional[str] = None
     major:str
     degree:str
 
@@ -46,4 +47,3 @@ class SubsemesterPydantic(BaseModel):
 
 class DefaultSemesterSetPydantic(BaseModel):
     default: str
-    

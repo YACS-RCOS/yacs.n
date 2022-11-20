@@ -36,21 +36,28 @@ def update_user(user:updateUser):
     session_id = user.sessionID
     email = user.email
     phone = user.phone
-    new_password = user.newPassword
+    password = user.password
+    new_password = user.newpassword
     major = user.major
     degree = user.degree
 
-    if(name==None or session_id==None or email==None or phone==None or new_password==None or major==None or degree==None):
+    if(name==None or session_id==None or email==None or phone==None or password==None or major==None or degree==None):
         return msg.error_msg("Please check your requests.")
-
-    if new_password.strip() == "":
+    
+    if password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
+    if len(password) > 255:
+        return msg.error_msg("Password cannot exceed 255 characters.")
+    
+    if new_password is not None:
+        if new_password.strip() == "":
+            return msg.error_msg("New password cannot be empty.")
+        elif len(new_password) > 255:
+            return msg.error_msg("New password cannot exceed 255 characters.")
+        
 
     if len(name) > 255:
         return msg.error_msg("Username cannot exceed 255 characters.")
-
-    if len(new_password) > 255:
-        return msg.error_msg("Password cannot exceed 255 characters.")
 
     # Get User according to sessionID
     session = sessions.get_session(session_id)
@@ -62,20 +69,28 @@ def update_user(user:updateUser):
     if end_time is not None:
         return msg.error_msg("This session already canceled.")
 
+    encrypted_pw = encrypt(password)
     args = {
         "Name": name,
         "Email": email,
         "Phone": phone,
-        "Password": encrypt(new_password),
+        "Password": encrypted_pw,
+        "NewPassword": encrypted_pw,
         "Major": major,
         "Degree": degree,
         "UID": uid
     }
-    ret = users.update_user(args)
-
-    if ret is None:
-        return msg.error_msg("Failed to update user profile.")
-
+    if new_password is not None:
+        encrypted_npw = encrypt(new_password)
+        args["NewPassword"] = encrypted_npw
+    
+    if len(users.get_user(uid=uid, password=encrypted_pw)) == 0:
+        return msg.error_msg("Incorrect Password.")
+    else:
+        ret = users.update_user(args)
+        if ret is None:
+            return msg.error_msg("Failed to update user profile.")
+        
     return msg.success_msg({})
 
 
