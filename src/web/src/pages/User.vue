@@ -85,6 +85,7 @@
       ref="login-modal"
       hide-footer
       title="Please enter your password to continue"
+      @hide="form.password = ''"
       @ok.prevent="onSubmit"
     >
       <b-form @submit.prevent="$refs['login-modal'].hide('ok')" @reset.prevent="$refs['login-modal'].hide('cancel')">
