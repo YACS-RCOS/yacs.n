@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-container v-if="isLoggedIn" id="user-info-box" class="border">
-      <h1 class="text-center">Hi, {{ form.name }}!</h1>
+      <h1 class="text-center">Hi, {{ user.name }}!</h1>
       <b-row v-for="(data, label) in userData" :key="label" class="user-row">
         <b-form inline style="width: 100%" @submit.prevent="finishedit(label, true)" @reset.prevent="finishedit(label,false)">
           <b-col class="user-col-left">
@@ -40,16 +40,19 @@
           Current Degree:
         </b-col>
         <b-col class="user-col-center">
-          {{ form.degree }}
-          <br>
-          {{ form.major }}
+          <div :class="changed('degree')" class="degreelabel">{{ form.degree }}</div>
+          <div :class="changed('major')" class="degreelabel">{{ form.major }}</div>
         </b-col>
         <b-col class="user-col-right">
           <b-button v-b-modal.degreepicker>Edit</b-button>
         </b-col>
       </b-row>
+      <b-row>
+
+      </b-row>
       <b-row style="margin-top: 1em">
-        <b-button class="align-self-center m-auto" variant="success" @click="onSubmit">Submit Changes</b-button>
+        <b-button class="align-self-center m-auto" style="width: 10em" variant="danger" @click="onReset">Reset Changes</b-button>
+        <b-button v-b-modal.login class="align-self-center m-auto" style="width: 10em" variant="success">Continue</b-button>
       </b-row>
 
     </b-container>
@@ -67,13 +70,36 @@
       @hide="handlecancel"
       @ok="handleok"
     >
-      <b-form ref="modalform">
+      <b-form ref="degreeform">
         <degree-picker
           :degree="currentinput.degree"
           :major="currentinput.major"
           @update:degree="newval => currentinput.degree = newval"
           @update:major="newval => currentinput.major = newval"
         ></degree-picker>
+      </b-form>
+    </b-modal>
+    <b-modal
+      id="login"
+      ref="login-modal"
+      hide-footer
+      title="Please enter your password to continue"
+      @ok.prevent="onSubmit"
+    >
+      <b-form @submit.prevent="$refs['login-modal'].hide('ok')" @reset.prevent="$refs['login-modal'].hide('cancel')">
+        <b-row>
+          <b-col>
+            <b-form-input
+              v-model="form.password"
+              required
+              type="password"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row style="margin-top: 1em">
+          <b-button class="align-self-center mr-auto ml-5" type="reset" variant="danger">Cancel</b-button>
+          <b-button class="align-self-center ml-auto mr-5" type="submit" variant="success">Submit Changes</b-button>
+        </b-row>
       </b-form>
     </b-modal>
   </b-container>
@@ -84,11 +110,11 @@ import { userTypes } from "@/store/modules/user";
 import { mapGetters } from "vuex";
 import DegreePicker from "@/components/DegreePicker";
 import router from "@/routes";
+import { modifyUser } from "@/services/UserService";
 
 export default {
   name: "User",
   components: { DegreePicker },
-  // components: { DegreePicker },
   data() {
     return {
       breadcrumbNav: [
@@ -113,8 +139,7 @@ export default {
     if (!this.isLoggedIn) {
       router.push("/");
     }
-    this.form = Object.assign({}, this.user);
-    this.currentinput = Object.assign({}, this.user);
+    this.onReset();
   },
   computed: {
     ...mapGetters({
@@ -129,7 +154,7 @@ export default {
       });
     },
     rendername(value) {
-        return value[0].toUpperCase() + value.substring(1);
+      return value[0].toUpperCase() + value.substring(1);
     },
     rendervalue(value) {
       if (value === undefined || value.length == 0) {
@@ -152,19 +177,13 @@ export default {
         this.currentinput[val] = this.form[val];
       }
     },
-    checkInput(input, type) {
-      switch (type) {
-        case "email":
-          return document.getEle;
-      }
-    },
     handleok(bvModalEvent) {
-      if (this.$refs["modalform"].checkValidity()) {
+      if (this.$refs["degreeform"].checkValidity()) {
         this.form.degree = this.currentinput.degree;
         this.form.major = this.currentinput.major;
       } else {
         bvModalEvent.preventDefault();
-        this.$refs["modalform"].reportValidity();
+        this.$refs["degreeform"].reportValidity();
       }
     },
     handlecancel(bvModalEvent) {
@@ -173,8 +192,33 @@ export default {
         this.currentinput.major = this.form.major;
       }
     },
+    onReset() {
+      this.form = Object.assign({}, this.user);
+      this.currentinput = Object.assign({}, this.user);
+    },
     async onSubmit() {
+      this.form.sessionID = this.$store.state.user.sessionId;
+      // // this.form.newPassword = "example";
+      let {
+        data: { success, errMsg }
+      } = await modifyUser(this.form);
 
+      if (!success) {
+        this.$bvToast.toast(errMsg || "Unknown error", {
+          title: "Updating user information failed",
+          variant: "danger",
+          noAutoHide: true
+        });
+        return;
+      } else {
+        this.$bvToast.toast("Your information has been updated.", {
+          title: "Updating user information success",
+          variant: "success"
+        });
+        this.$store.commit(userTypes.mutations.SET_USER_INFO, this.form);
+        this.$refs["login-modal"].hide();
+        return;
+      }
     }
   }
 };
@@ -207,6 +251,11 @@ export default {
 
 #user-info-box .user-row .user-col-center {
   justify-content: center;
+  display: grid;
+}
+
+#user-info-box .user-row .user-col-center .degreelabel {
+  display: grid;
 }
 
 #user-info-box .user-row .user-col-right {
