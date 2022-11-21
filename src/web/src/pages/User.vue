@@ -207,7 +207,6 @@ export default {
         this.$bvToast.toast(errMsg || "Unknown error", {
           title: "Updating user information failed",
           variant: "danger",
-          noAutoHide: true
         });
         return;
       } else {
