@@ -64,6 +64,7 @@
       ok-title="Done"
       ok-variant="success"
       size="xl"
+      static
       title="Pick Degree and Major:"
       @cancel="handlecancel"
       @close="handlecancel"
