@@ -55,6 +55,19 @@
           DegreeTemplates
         </b-nav-item>
       </b-navbar-nav>
+
+      <template>
+        <div>
+            <button class="Class of" @click="sayhello">Find Class
+            </button>
+        </div>
+      </template>
+
+      <template>
+      <button @click="increment">
+        Count is: {{ count }}, double is {{ double }}, click to increment.
+      </button>
+    </template>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
