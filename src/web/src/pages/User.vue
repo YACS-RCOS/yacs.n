@@ -37,6 +37,17 @@
       </b-row>
       <b-row class="user-row">
         <b-col class="user-col-left">
+          Password:
+        </b-col>
+        <b-col class="user-col-center">
+          <p>{{form.newpassword!=undefined? "Changed" : "Unchanged"}}</p>
+        </b-col>
+        <b-col class="user-col-right">
+          <b-button v-b-modal.newpassword-modal>Edit</b-button>
+        </b-col>
+      </b-row>
+      <b-row class="user-row">
+        <b-col class="user-col-left">
           Current Degree:
         </b-col>
         <b-col class="user-col-center">
@@ -47,9 +58,6 @@
           <b-button v-b-modal.degreepicker>Edit</b-button>
         </b-col>
       </b-row>
-      <b-row>
-
-      </b-row>
       <b-row style="margin-top: 1em">
         <b-button class="align-self-center m-auto" style="width: 10em" variant="danger" @click="onReset">Reset Changes</b-button>
         <b-button v-b-modal.login class="align-self-center m-auto" style="width: 10em" variant="success">Continue</b-button>
@@ -58,19 +66,17 @@
     </b-container>
     <h1 v-else class="text-center">You should log in first.</h1>
 
-    <b-modal
-      id="degreepicker"
-      cancel-variant="danger"
-      ok-title="Done"
-      ok-variant="success"
-      size="xl"
-      static
-      title="Pick Degree and Major:"
-      @cancel="handlecancel"
-      @close="handlecancel"
-      @hide="handlecancel"
-      @ok="handleok"
-    >
+    <b-modal id="degreepicker"
+             cancel-variant="danger"
+             ok-title="Done"
+             ok-variant="success"
+             size="xl"
+             static
+             title="Pick Degree and Major:"
+             @cancel="degreemodalHandlecancel"
+             @close="degreemodalHandlecancel"
+             @hide="degreemodalHandlecancel"
+             @ok="degreemodalHandleok">
       <b-form ref="degreeform">
         <degree-picker
           :degree="currentinput.degree"
@@ -80,27 +86,43 @@
         ></degree-picker>
       </b-form>
     </b-modal>
-    <b-modal
-      id="login"
-      ref="login-modal"
-      hide-footer
-      title="Please enter your password to continue"
-      @hide="form.password = ''"
-      @ok.prevent="onSubmit"
-    >
-      <b-form @submit.prevent="$refs['login-modal'].hide('ok')" @reset.prevent="$refs['login-modal'].hide('cancel')">
+    <b-modal id="login"
+             ref="login-modal"
+             cancel-variant="danger"
+             ok-title="Submit Changes"
+             ok-variant="success"
+             title="Please enter your password to continue"
+             @hide="form.password = ''"
+             @ok.prevent="loginmodalHandleok">
+      <b-form ref="loginform" @submit.prevent="$refs['login-modal'].hide('ok')" @reset.prevent="$refs['login-modal'].hide('cancel')">
         <b-row>
           <b-col>
             <b-form-input
               v-model="form.password"
+              autofocus
               required
               type="password"
             ></b-form-input>
           </b-col>
         </b-row>
-        <b-row style="margin-top: 1em">
-          <b-button class="align-self-center mr-auto ml-5" type="reset" variant="danger">Cancel</b-button>
-          <b-button class="align-self-center ml-auto mr-5" type="submit" variant="success">Submit Changes</b-button>
+      </b-form>
+    </b-modal>
+    <b-modal id="newpassword-modal"
+             ref="newpassword-modal"
+             cancel-variant="danger"
+             ok-title="Done"
+             ok-variant="success"
+             title="Please enter a new password"
+             @hide="newpasswordmodalHandleevent">
+      <b-form @submit.prevent="$refs['newpassword-modal'].hide('ok')" @reset.prevent="$refs['newpassword-modal'].hide('cancel')">
+        <b-row>
+          <b-col>
+            <b-form-input
+              v-model="currentinput.newpassword"
+              autofocus
+              type="password"
+            ></b-form-input>
+          </b-col>
         </b-row>
       </b-form>
     </b-modal>
@@ -179,7 +201,7 @@ export default {
         this.currentinput[val] = this.form[val];
       }
     },
-    handleok(bvModalEvent) {
+    degreemodalHandleok(bvModalEvent) {
       if (this.$refs["degreeform"].checkValidity()) {
         this.form.degree = this.currentinput.degree;
         this.form.major = this.currentinput.major;
@@ -188,11 +210,25 @@ export default {
         this.$refs["degreeform"].reportValidity();
       }
     },
-    handlecancel(bvModalEvent) {
+    degreemodalHandlecancel(bvModalEvent) {
       if (bvModalEvent.trigger != "ok") {
         this.currentinput.degree = this.form.degree;
         this.currentinput.major = this.form.major;
       }
+    },
+    loginmodalHandleok() {
+      if (this.$refs["loginform"].checkValidity()) {
+        this.onSubmit();
+      } else {
+        this.$refs["loginform"].reportValidity();
+      }
+    },
+    newpasswordmodalHandleevent(bvModalEvent) {
+      console.log(bvModalEvent.trigger);
+      if (bvModalEvent.trigger == "ok") {
+        this.form.newpassword = this.currentinput.newpassword.length == 0 ? undefined : this.currentinput.newpassword;
+      }
+        this.currentinput.newpassword = "";
     },
     onReset() {
       this.form = Object.assign({}, this.user);
@@ -200,7 +236,6 @@ export default {
     },
     async onSubmit() {
       this.form.sessionID = this.$store.state.user.sessionId;
-      // // this.form.newPassword = "example";
       let {
         data: { success, errMsg }
       } = await modifyUser(this.form);
@@ -208,7 +243,7 @@ export default {
       if (!success) {
         this.$bvToast.toast(errMsg || "Unknown error", {
           title: "Updating user information failed",
-          variant: "danger",
+          variant: "danger"
         });
         return;
       } else {
@@ -216,6 +251,7 @@ export default {
           title: "Updating user information success",
           variant: "success"
         });
+        this.form.newpassword = undefined;
         this.$store.commit(userTypes.mutations.SET_USER_INFO, this.form);
         this.$refs["login-modal"].hide();
         return;
