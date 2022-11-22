@@ -52,6 +52,8 @@ def update_user(user:updateUser):
     if new_password is not None:
         if new_password.strip() == "":
             return msg.error_msg("New password cannot be empty.")
+        if len(new_password) < 6:
+            return msg.error_msg("Password cannot less than 6 characters.")
         elif len(new_password) > 255:
             return msg.error_msg("New password cannot exceed 255 characters.")
         
