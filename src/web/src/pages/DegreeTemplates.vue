@@ -161,6 +161,15 @@ export default {
 </script>
 
 <style>
+
+.pathway-button {
+  display: inline-block;
+  background: blue;
+  border-style: none;
+  text-align: justify;
+  width: 95%;
+}
+
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -175,7 +184,12 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
+<<<<<<< Updated upstream
 .pathway-button {
+=======
+
+.pathway-control {
+>>>>>>> Stashed changes
   display: inline-block;
   background: white;
   border-style: none;
