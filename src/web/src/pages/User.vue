@@ -40,7 +40,7 @@
           Password:
         </b-col>
         <b-col class="user-col-center">
-          <p>{{form.newpassword!=undefined? "Changed" : "Unchanged"}}</p>
+          <p :class="form.newpassword!=undefined?'user-changed-info':''">{{ form.newpassword != undefined ? renderpassword(form.newpassword) : "&lt;unchanged&gt;" }}</p>
         </b-col>
         <b-col class="user-col-right">
           <b-button v-b-modal.newpassword-modal>Edit</b-button>
@@ -180,6 +180,9 @@ export default {
     rendername(value) {
       return value[0].toUpperCase() + value.substring(1);
     },
+    renderpassword(value) {
+      return "•".repeat(value.length);
+    },
     rendervalue(value) {
       if (value === undefined || value.length == 0) {
         return "<not set>";
@@ -228,7 +231,7 @@ export default {
       if (bvModalEvent.trigger == "ok") {
         this.form.newpassword = this.currentinput.newpassword.length == 0 ? undefined : this.currentinput.newpassword;
       }
-        this.currentinput.newpassword = "";
+      this.currentinput.newpassword = "";
     },
     onReset() {
       this.form = Object.assign({}, this.user);
