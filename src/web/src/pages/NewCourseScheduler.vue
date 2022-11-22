@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
-    <b-row class="h-100">
-      <b-col md="4" class="d-flex flex-column">
+    <b-row class="h-100">     
+      <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
         <b-card no-body class="h-100">
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
             <b-tab
@@ -50,7 +50,7 @@
           </b-tabs>
         </b-card>
       </b-col>
-      <div class="col-md-8">
+      <div :class= "[main]">
         <b-form-select
           v-if="
             !loading &&
@@ -66,6 +66,7 @@
           <div>
             <b-row>
               <b-col class="m-2">
+                <b-button ejs-button id="toggle" class="e-btn e-info" v-on:click="closeClick">Toggle Sidebar</b-button>
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -267,6 +268,8 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
+      showing: true,
+      main:"col-md-8",
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
@@ -281,6 +284,14 @@ export default {
     };
   },
   methods: {
+    closeClick() {
+      console.log("hello");
+      this.showing = !this.showing;
+      this.main = "col-md-8";
+      if (!this.showing){
+        this.main = "col-md-12";
+      } 
+    },
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
