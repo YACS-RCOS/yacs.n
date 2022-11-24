@@ -35,9 +35,16 @@
                         <select class="grade key-0" required>
                             <option class="grade" value="select">Select</option>
                             <option class="grade" value="4">A</option>
+                            <option class="grade" value="3.7">A-</option>
+                            <option class="grade" value="3.3">B+</option>
                             <option class="grade" value="3">B</option>
+                            <option class="grade" value="2.7">B-</option>
+                            <option class="grade" value="2.3">C+</option>
                             <option class="grade" value="2">C</option>
+                            <option class="grade" value="1.7">C-</option>
+                            <option class="grade" value="1.3">D+</option>
                             <option class="grade" value="1">D</option>
+                            <option class="grade" value=".7">D-</option>
                             <option class="grade" value="0">F</option>
                         </select>
                     </form>
@@ -119,17 +126,31 @@ export default {
             else{
                 resultGPA=oldGPA
             }
-            CGPAPARAGRAPH.textContent = "Your GPA is "+resultGPA;
+            CGPAPARAGRAPH.textContent = "Your GPA is "+resultGPA.toFixed(2);
         },
         gradeCalc(grade, unit) {
             if (grade === "A") {
                 return 4 * unit;
+            } else if (grade === "A-") {
+                return 3.7 * unit;
+            } else if (grade === "B+") {
+                return 3.3 * unit;
             } else if (grade === "B") {
                 return 3 * unit;
+            } else if (grade === "B-") {
+                return 2.7 * unit;
+            } else if (grade === "C+") {
+                return 2.3 * unit;
             } else if (grade === "C") {
                 return 2 * unit;
+            } else if (grade === "C-") {
+                return 1.7 * unit;
+            } else if (grade === "D+") {
+                return 1.3 * unit;
             } else if (grade === "D") {
                 return 1 * unit;
+            } else if (grade === "D-") {
+                return .7 * unit;
             } else if (grade === "F") {
                 return 0 * unit;
             }
