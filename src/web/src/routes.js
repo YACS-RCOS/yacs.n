@@ -6,7 +6,6 @@ const UploadCsvPage = () => import("./pages/UploadCsv");
 const EditSemestersPage = () => import("./pages/EditSemesters");
 const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
-const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const GPACalculatorPage = () => import("./pages/GPACalculator");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
@@ -30,11 +29,6 @@ var router = new VueRouter({
           component: CourseExplorerPage,
           name: "CourseExplorer",
           props: true,
-        },
-        {
-          path: "/template",
-          component: DegreeTemplatesPage,
-          name: "DegreeTemplates",
         },
         {
           path: "/GPACalc",

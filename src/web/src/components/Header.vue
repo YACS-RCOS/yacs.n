@@ -54,10 +54,6 @@
           <font-awesome-icon icon="list" />
           GPACalculator
         </b-nav-item>
-        <b-nav-item :to="{ name: 'DegreeTemplates' }">
-          <font-awesome-icon icon="calendar" />
-          DegreeTemplates
-        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">

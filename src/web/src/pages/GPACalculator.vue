@@ -1,86 +1,328 @@
 <template>
-  <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b-tab class="flex-grow-1" data-cy="course-search-tab">
-              <template v-slot:title>
-                <div class="text-center" data-cy="course-search-tab-header">   
-                  GPA calculator for semester               
-                </div>
-              </template>
-              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+    <b-container fluid>
+        <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
-                <label for="usr">Name:</label>
-                <input type="text" class="form-control">
+        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+                <b-tab class="flex-grow-1" data-cy="course-search-tab">
+                <template v-slot:title>
+                    <div class="text-center" data-cy="course-search-tab-header">   
+                    GPA For Semester               
+                    </div>
+                </template>
+                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
 
+                    <div class="calculator-box">
+                        <h1>GPA CALCULATOR</h1>
+                        <div id="course-wrapper">
+                        <form class="key-0">
+                        <p> <label id="course-row" for="courses">Courses:</label> 
+                        <label id="credit-row" for="credit-units">Credit Units:</label>
+                        <label id="grade-row" for="grade">Grades: </label></p>
+                        <input
+                            type="text"
+                            placeholder="Course Code"
+                            class="courses key-0"
+                            required/>
+                            <!-- <label for="credit-units">Credit Units:</label> -->
+                        <input
+                            type="number"
+                            class="credit-units key-0"
+                            placeholder="Credit Units"
+                            value=""
+                            required
+                        />
+                            <!--<label for="grade">Grade: </label> -->
+                        <select class="grade key-0" required>
+                            <option class="grade" value="select">Select</option>
+                            <option class="grade" value="4">A</option>
+                            <option class="grade" value="3">B</option>
+                            <option class="grade" value="2">C</option>
+                            <option class="grade" value="1">D</option>
+                            <option class="grade" value="0">F</option>
+                        </select>
+                    </form>
+                    </div>
+                    <!-- <section class"btn">+ Add Course</section> -->
+                    <div class="btn">
+                    <button @click="addCourse();">+ Add</button>
+                    <button @click="removeCourse();">- Remove</button>
+                    <button @click="calcCgpa();">Calculate GPA</button>
+                    </div>
+                    <div class="lastp">
+                    <p id="cgpa-calc">Your GPA is:</p>
+                    </div>
+                    </div>
+                </b-card-text>
+                </b-tab>
 
-                <input v-model="classes" placeholder="Number of classes this semester">
-                <p>Number of Classes: {{ classes }}</p>
+                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                <template v-slot:title>
+                    <div class="text-center" data-cy="selected-courses-tab-header">
+                    Total GPA After Semester    
+                    </div>
+                </template>
+                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
 
-                
+                    <div class="calculator-box">
+                        <h1>TOTAL GPA CALCULATOR</h1>
+                        
+                        <input v-model="oldGPA" placeholder="Old GPA" />
+                        <input v-model="totCred" placeholder="Total Credits taken" />
+                        <input v-model="newGPA" placeholder="New GPA" />
+                        <input v-model="curCred" placeholder="Current Credits" />
+                    
+                    <div class="btn">
+                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
+                    </div>
+                    <div class="lastp">
+                    <p id="fin-calc">Your GPA is:</p>
+                    </div>
+                    </div>
 
-
-
-
-              </b-card-text>
-            </b-tab>
-
-            <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-              <template v-slot:title>
-                <div class="text-center" data-cy="selected-courses-tab-header">
-                  GPA calculator for total time  
-                </div>
-              </template>
-              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-
-
-
-                <p>Enter GPA and number of Credits</p>
-
-
-
-
-              </b-card-text>
-            </b-tab>
-   </b-tabs>
+                </b-card-text>
+                </b-tab>
+        </b-tabs>
+    </b-container>
 </template>
-  
+
 <script>
 export default {
-  name: "GPACalculator",
-  data() {
+    name: "GPACalculator",
+    data() {
     return {
-      breadcrumbNav: [
+        breadcrumbNav: [
         {
-          text: "YACS",
-          to: "/",
+            text: "YACS",
+            to: "/",
         },
         {
-          text: "GPACalculator",
+            text: "GPACalculator",
         },
-      ],
+        ],
+        counter: 0,
+        reports: [],
     };
-  },
-  computed: {
-    //getAverageForSem(creditsPerclass,gradeList) {
-        //list of all credits in order of what they imputed
-        //list of all grades in in order of inputed
-        //will list gpa for the given semester
-        
-    //},
-    //getTotalAvg(creditHours, GPA, creditsPerclass, gradeList){
-        //number of credit hours
-        //GPA from thoes credit hours
-        //current semeser grade and creditsper class
-        //will return what new gpa will be and how its affected
-    //}
-  }
+    },
+    methods: {
+        finClac(oldGPA,totCred,newGPA,curCred){
+            const CGPAPARAGRAPH = document.getElementById("fin-calc");
+            let resultGPA = 0;
+            let gpaDif= Math.abs(oldGPA-newGPA);
+            let per=curCred/totCred;
+            let difference=per*gpaDif;
+            if(oldGPA>newGPA){
+                resultGPA=oldGPA-difference;
+            }
+            else if(oldGPA<newGPA){
+                resultGPA=oldGPA+difference;
+            }
+            else{
+                resultGPA=oldGPA
+            }
+            CGPAPARAGRAPH.textContent = "Your GPA is "+resultGPA;
+        },
+        gradeCalc(grade, unit) {
+            if (grade === "A") {
+                return 4 * unit;
+            } else if (grade === "B") {
+                return 3 * unit;
+            } else if (grade === "C") {
+                return 2 * unit;
+            } else if (grade === "D") {
+                return 1 * unit;
+            } else if (grade === "F") {
+                return 0 * unit;
+            }
+        },
+        addCourse() {
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`);
+            const course_name = `
+            <form class="add_new key-${this.counter}">
+                <input type="text" placeholder="Course Code" class="courses key-${this.counter}" required>
+                    <input type="number" placeholder="Credit Unit" class="credit-units key-${this.counter}" required>
+                    <select class="grade key-${this.counter}" required>
+                <option value="select">Select</option>
+                <option value="5">A</option>
+                <option value="4">B</option>
+                <option value="3">C</option>
+                <option value="2">D</option>
+                <option value="1">E</option>
+                <option value="0">F</option>
+                </select>  
+            </form>
+            `;
+            addNew.innerHTML = course_name;
+            document.getElementById("course-wrapper").appendChild(addNew);
+            this.counter++;
+        },
+        removeCourse() {
+            let mainForm = document.querySelector("form.add_new");
+            mainForm.remove();
+        },
+        calcCgpa() {
+            const CGPAPARAGRAPH = document.getElementById("cgpa-calc");
+            const GRADESSELECT = document.querySelectorAll("select.grade");
+            const UNIT = document.querySelectorAll("input.credit-units");
+
+            //const courseReport = {};
+
+            const listOfGrades = [];
+            const listOfUnits = [];
+            let totalUnits = 0;
+
+            GRADESSELECT.forEach((e) => {
+                let GRADES = e.options;
+                const selectedIndex = e.selectedIndex;
+                const selectedGrade = GRADES[selectedIndex];
+                const gradeValue = selectedGrade.text.toUpperCase();
+                listOfGrades.push(gradeValue);
+            });
+            console.log(listOfGrades);
+
+            UNIT.forEach((e) => {
+                const unitValue = parseInt(e.value);
+                totalUnits += unitValue;
+                listOfUnits.push(unitValue);
+            });
+            console.log(listOfUnits);
+
+            let totalEarnedUnits = 0;
+
+            for (let i = 0; i < listOfUnits.length; i++) {
+                totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+            }
+            const gpa = totalEarnedUnits / totalUnits;
+            
+            if (gpa >= 0){
+                CGPAPARAGRAPH.textContent = "Your GPA is " + gpa.toFixed(2);   
+            } else {
+                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";    
+            }
+        }
+    }
 };
 </script>
 
 <style>
-.gridContainer {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-content: center;
-}
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    }
+
+    #course-row {
+    font-size: 20px;
+    font-weight: bolder; 
+    margin-left: -2%;
+    }
+
+    #credit-row {
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 13%;
+    }
+
+    #grade-row {
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 8%;
+    }
+
+    .calculator-box {
+    width: 50%;
+    height: auto;
+    border:  rgba(108, 90, 90, 0.15);
+    margin: 100px auto;
+    /*  text-align: center; */
+    }
+
+
+    /* On screens that are 1200px or less, set the width to 75% */
+    @media screen and (max-width: 1200px) {
+    .calculator-box {
+        width: 70%;
+    }
+    }
+
+    /* On screens that are 950px or less, set the width to 75% */
+    @media screen and (max-width: 950px) {
+    .calculator-box {
+        width: 75%;
+    }
+    }
+
+    /* On screens that are 600px or less, set the width to 90% */
+    @media screen and (max-width: 600px) {
+    .calculator-box {
+        width: 90%;
+    }
+    }
+
+    h1 {
+    padding: 15px;
+    font-size: 40px;
+    text-align: center;
+    border: white;
+    background-color: rgba(108, 90, 90, 0.15);
+    }
+
+    p{
+    padding: 20px;
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    }
+    
+    #course-wrapper, form {
+    color: white;
+    padding-left: 10px;
+    margin: 0 auto;
+    text-align: center;
+    }
+    input{
+    border: none;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 5px;
+    width: 20%;
+    text-align: center;
+    }
+    select{
+    padding: 15px;
+    border: none;
+    border-radius: 7.5px;
+    width: 20%;
+    /*   height: 30px; */
+    }
+    button {
+    width: 15%;
+    height: 40px;
+    padding: 1px;
+    margin: 5px auto;
+    /*   margin-left: 10px; */
+    border-width: 3px;
+    border-radius: 10%;
+    border-style: solid;
+    }
+
+    .btn {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    }
+    .lastp {
+    border:  rgba(108, 90, 90, 0.15);
+    background-color: rgba(108, 90, 90, 0.15);;
+    }
+    .lastp p {
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 30px;
+    font-weight: bolder;
+    } 
 </style>
