@@ -25,31 +25,54 @@
           background-color: transparent;
         "
       >
-        List by Category
+        List by School
       </b-button>
     </div>
     <div v-if="degrees.length > 0" class="mx-auto w-75">
       <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showPath != null" md="10">
+        <div class="block text-left" v-if="showMajor != null" md="10">
           <h3
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
           >
-            {{ showPath.Name[0] }}
+            {{ showMajor.Major }}
           </h3>
           <br />
-          <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
-              {{ itemName + ": " }}
-            </h4>
-            <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
-            >
-              {{ course }}
-            </li>
+            <div v-for="(item, itemName) in showMajor" :key="itemName">
+              <h4 style="color: #3395ff; margin-top: -15px;">
+                <div v-if="itemName === 'Y1'">
+                  {{ "First Year: " }}
+                </div>
+                <div v-if="itemName === 'Y2'">
+                  {{ "Second Year: " }}
+                </div>
+                <div v-if="itemName === 'Y3'">
+                  {{ "Thind Year: " }}
+                </div>
+                <div v-if="itemName === 'Y4'">
+                  {{ "Fourth Year: " }}
+                </div>
+              </h4>
+              <div v-if="itemName != 'Major' && itemName != 'Y1' && itemName != 'Y2' && itemName != 'Y3'&& itemName != 'Y4'">
+                <div
+                  v-for="course in item" :key="course"
+                >
+                  <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                    {{ course }}
+                  </b>
+                  <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                    {{ course }}
+                  </b>
+                  <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                    {{ course }}
+                  </b>
+                  <li v-else
+                  v-on:click="goPage(course)"
+                  class="courseInPath">
+                    {{ course }}
+                  </li>
+                </div>
+              </div>
             <br />
           </div>
         </div>
@@ -79,17 +102,17 @@
                   <!-- LOOP Through the Pathway Categories list -->
                   <div
                     v-for="major in schoolObj['Majors']"
-                    :key="major"
+                    :key="major['Major']"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
                       <b-button
-                          @click="ShowPath(major)"
+                          @click="ShowMajor(major)"
                           squared
                           variant="light"
                           class="pathway-button m-0 ml-1"
                         >
-                      {{ major }}
+                      {{ major['Major'] }}
                     </b-button>
                     </div>
                   </div>
@@ -111,8 +134,7 @@
 </template>
 
 <script>
-import degrees_json from "./DegreeTemplates.json";
-import schools_json from "./schools.json";
+import degrees_json from "./SchoolDegreeTemplates.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
@@ -132,8 +154,7 @@ export default {
         },
       ],
       degrees: degrees_json,
-      schools: schools_json,
-      showPath: null,
+      showMajor: null,
       cateShow: true,
       alphShow: false,
     };
@@ -148,22 +169,7 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for(var i = 0; i < this.schools.length; i++){
-        if (i < this.schools.length / 2) {
-          col1.push(this.schools[i]);
-        } else {
-          col2.push(this.schools[i]);
-        }
-      }
-      ret.push(col1);
-      ret.push(col2);
-      return ret;
-    },
-    categoryCols() {
-      let ret = [];
-      let col1 = [];
-      let col2 = [];
-      for (var i = 0; i < this.degrees.length; i++) {
+      for(var i = 0; i < this.degrees.length; i++){
         if (i < this.degrees.length / 2) {
           col1.push(this.degrees[i]);
         } else {
@@ -174,8 +180,7 @@ export default {
       ret.push(col2);
       return ret;
     },
-
-    // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
+    // split degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
     alphabetCols() {
       let alphabet = [
         "A",
@@ -254,13 +259,17 @@ export default {
       this.alphShow = false;
     },
     // Display a pop-up window when a pathway is clicked
-    ShowPath(pathway) {
+    ShowMajor(major) {
       console.log(this.$refs["my-modal"]);
-      console.log(pathway);
-      this.showPath = pathway;
+      console.log(major);
+      this.showMajor = major;
       this.$refs["my-modal"].show();
     },
     // Go to the course page when a course inside the pop-up window is clicked
+    printCourse(course){
+      course;
+    },
+    
     goPage(course) {
       var subject = "" + course[0] + course[1] + course[2] + course[3];
       var courseID = "" + course[5] + course[6] + course[7] + course[8];
