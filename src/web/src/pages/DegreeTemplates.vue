@@ -77,7 +77,6 @@
           </div>
         </div>
       </b-modal>
-
       <b-row>
         <b-col
           v-for="(school, index) in schoolCols"
@@ -102,6 +101,50 @@
                   <!-- LOOP Through the Pathway Categories list -->
                   <div
                     v-for="major in schoolObj['Majors']"
+                    :key="major['Major']"
+                    role="tablist"
+                  >
+                    <div class="mt-1 mb-1 w-100">
+                      <b-button
+                          @click="ShowMajor(major)"
+                          squared
+                          variant="light"
+                          class="pathway-button m-0 ml-1"
+                        >
+                      {{ major['Major'] }}
+                    </b-button>
+                    </div>
+                  </div>
+                </div>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col
+          v-for="(school, index) in alphabetCols"
+          :key="`school-${index}`"
+          md="6"
+          v-show="alphShow"
+        >
+          <b-row
+          v-for="schoolObj in school"
+          :key="schoolObj['Category Name']"
+          class="categoryBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="category-title">
+                <h3 class="m-1 ml-2">
+                  {{ schoolObj["Category Name"] }}
+                </h3>
+              </b-row>
+              <b-row>
+                <div class="d-flex flex-column flex-grow-1">
+                  <!-- LOOP Through the Pathway Categories list -->
+                  <div
+                    v-for="major in schoolObj['Degrees']"
                     :key="major['Major']"
                     role="tablist"
                   >
@@ -213,27 +256,45 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      var half_length = Math.ceil(this.degrees.length / 2);
+
+      var degreeCount = 0;
+      for(var m = 0; m < this.degrees.length; m++){
+        degreeCount += this.degrees[m]['Majors'].length;
+      }
+
+      var half_length = Math.ceil(degreeCount / 2);
       var count = 0;
-      // splitted degrees to alphabet degrees, then splitted degrees into 2 arrays
+      // split degrees to alphabet degrees, then split degrees into 2 arrays
       for(var n = 0; n < alphabet.length; n++){ // iterates through each alphabet character and creates dictionary for each letter
         var tmp = {
           "Category Name":alphabet[n],
           Degrees:[],
         };
-        for(var m = 0; m < this.degrees.length; m++){ // iterates through degrees
-          if(this.degrees[m]["Major"].startsWith(alphabet[n])){
-            // insert alphabetically within a letter category
-            var index = 0;
-            while(index < tmp["Degrees"].length){ // increment index until end of list or correct index is found 
-              if(this.degrees[m]["Major"] < tmp["Degrees"][index]["Major"]){
-                break;
+
+        for(var i = 0; i < this.degrees.length; i++){
+          for(var j = 0; j < this.degrees[i]['Majors'].length; j++){
+            var bool = 0;
+            for(var k = 0; k < tmp['Degrees'].length; k++){
+              if(tmp['Degrees'][k]['Major'] === this.degrees[i]['Majors'][j]['Major']){
+                bool = 1;
               }
-              index++;
             }
-            tmp["Degrees"].splice(index, 0, this.degrees[m]); // insert degree into tmp's Degree's list at correct alphabetical location
+            if(bool === 1){
+              break;
+            }
+            if(this.degrees[i]['Majors'][j]['Major'].startsWith(alphabet[n])){
+              var index = 0;
+              while(index < tmp["Degrees"].length){
+                if(this.degrees[i]['Majors'][j]['Major'] < tmp["Degrees"][index]["Major"]){
+                  break;
+                }
+                index++;
+              }
+              tmp["Degrees"].splice(index, 0, this.degrees[i]['Majors'][j]);
+            }
           }
         }
+
         if (tmp["Degrees"].length > 0){
           if(count < half_length){
             col1.push(tmp);
