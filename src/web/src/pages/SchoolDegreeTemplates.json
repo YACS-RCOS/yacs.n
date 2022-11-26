@@ -236,7 +236,7 @@
         "Y1": "First Year",
         "Y1S1": [
           "Fall",
-          "HASS Elective Credit Hours:4",
+          " HASS Elective Credit Hours:4",
           "CHEM 1100 - Chemistry I | Credits: 4",
           "ENGR 1100 - Introduction to Engineering Analysis | Credits: 4",
           "ENGR 1200 - Engineering Graphics and CAD | Credits: 1",
@@ -511,6 +511,75 @@
         ]
       },
       {
+        "Major": "Design, Innovation, and Society/Mechanical Engineering",
+        "Y1": "First Year",
+        "Y1S1": [
+          "Fall",
+          "CHEM 1100 - Chemistry I | Credits: 4",
+          "ENGR 1200 - Engineering Graphics and CAD | Credits: 1",
+          "IHSS 1610 - Design and Innovation Studio I | Credits: 4",
+          "MATH 1010 - Calculus I | Credits: 4",
+          "STSO 1110 - Science, Technology, and Society | Credits: 4"
+        ],
+        "Y1S2": [
+          "Spring",
+          "ENGR 1100 - Introduction to Engineering Analysis | Credits: 4",
+          "ENGR 1300 - Engineering Processes | Credits: 1",
+          "STSO 2610 - Design and Innovation Studio II | Credits: 4",
+          "MATH 1020 - Calculus II | Credits: 4",
+          "STSO 2210 - Design, Culture, and Society | Credits: 4"
+        ],
+        "Y2": "Second Year",
+        "Y2S1": [
+          "Fall",
+          "STSO 2020 - Design and Innovation Studio III | Credits: 4",
+          "ENGR 2530 - Strength of Materials | Credits: 4",
+          "MATH 2400 - Introduction to Differential Equations | Credits: 4",
+          "PHYS 1100 - Physics I | Credits: 4"
+        ],
+        "Y2S2": [
+          "Spring",
+          "Engineering Design Elective | Credits: 4",
+          "MANE 2110 - Numerical Methods and Programming for Engineers | Credits: 3",
+          "MANE 2710 - Thermodynamics | Credits: 3",
+          "MATH 2010 - Multivariable Calculus and Matrix Algebra | Credits: 4",
+          "PHYS 1200 - Physics II | Credits: 4"
+        ],
+        "Y3": "Third Year",
+        "Y3S1": [
+          "The Arch Semester",
+          "PDI Studio Advanced Option | Credits: 4",
+          "ENGR 2090 - Engineering Dynamics | Credits: 4",
+          "MANE 2720 - Fluid Mechanics | Credits: 3",
+          "MANE 4030 - Elements of Mechanical Design | Credits: 4"
+        ],
+        "Y3S2": [
+          "Spring",
+          "PDI Studio Advanced Option | Credits: 4",
+          "ENGR 2300 - Electronic Instrumentation | Credits: 4",
+          "ENGR 2600 - Modeling and Analysis of Uncertainty | Credits: 3",
+          "MANE 4730 - Heat Transfer | Credits: 3"
+        ],
+        "Y4": "Fourth Year",
+        "Y4S1": [
+          "Fall",
+          "STS Advanced Option | Credits: 4",
+          "MANE Technical Elective | Credits: 3",
+          "ENGR 4010 - Professional Development: Leadership Competencies | Credits: 1",
+          "MANE 4040 - Mechanical Systems Laboratory | Credits: 2",
+          "STSO 4970 - Design and Innovation Senior Project | Credits: 4",
+          "MANE 4500 - Modeling and Control of Dynamic Systems | Credits: 3"
+        ],
+        "Y4S2": [
+          "Spring",
+          "STS Advanced Option | Credits: 4",
+          "MANE Computation Elective | Credits: 3",
+          "ENGR 1600 - Materials Science | Credits: 4",
+          "MANE 4260 - Multidisciplinary Capstone Design | Credits: 3",
+          "MANE 4510 - Control Systems Laboratory | Credits: 2"
+        ]
+      },
+      {
         "Major": "Electrical Engineering",
         "Y1": "First Year",
         "Y1S1": [
@@ -782,75 +851,6 @@
         ]
       },
       {
-        "Major": "Design, Innovation, and Society/Mechanical Engineering",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "CHEM 1100 - Chemistry I | Credits: 4",
-          "ENGR 1200 - Engineering Graphics and CAD | Credits: 1",
-          "IHSS 1610 - Design and Innovation Studio I | Credits: 4",
-          "MATH 1010 - Calculus I | Credits: 4",
-          "STSO 1110 - Science, Technology, and Society | Credits: 4"
-        ],
-        "Y1S2": [
-          "Spring",
-          "ENGR 1100 - Introduction to Engineering Analysis | Credits: 4",
-          "ENGR 1300 - Engineering Processes | Credits: 1",
-          "STSO 2610 - Design and Innovation Studio II | Credits: 4",
-          "MATH 1020 - Calculus II | Credits: 4",
-          "STSO 2210 - Design, Culture, and Society | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "STSO 2020 - Design and Innovation Studio III | Credits: 4",
-          "ENGR 2530 - Strength of Materials | Credits: 4",
-          "MATH 2400 - Introduction to Differential Equations | Credits: 4",
-          "PHYS 1100 - Physics I | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "Engineering Design Elective | Credits: 4",
-          "MANE 2110 - Numerical Methods and Programming for Engineers | Credits: 3",
-          "MANE 2710 - Thermodynamics | Credits: 3",
-          "MATH 2010 - Multivariable Calculus and Matrix Algebra | Credits: 4",
-          "PHYS 1200 - Physics II | Credits: 4"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "The Arch Semester",
-          "PDI Studio Advanced Option | Credits: 4",
-          "ENGR 2090 - Engineering Dynamics | Credits: 4",
-          "MANE 2720 - Fluid Mechanics | Credits: 3",
-          "MANE 4030 - Elements of Mechanical Design | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "PDI Studio Advanced Option | Credits: 4",
-          "ENGR 2300 - Electronic Instrumentation | Credits: 4",
-          "ENGR 2600 - Modeling and Analysis of Uncertainty | Credits: 3",
-          "MANE 4730 - Heat Transfer | Credits: 3"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "STS Advanced Option | Credits: 4",
-          "MANE Technical Elective | Credits: 3",
-          "ENGR 4010 - Professional Development: Leadership Competencies | Credits: 1",
-          "MANE 4040 - Mechanical Systems Laboratory | Credits: 2",
-          "STSO 4970 - Design and Innovation Senior Project | Credits: 4",
-          "MANE 4500 - Modeling and Control of Dynamic Systems | Credits: 3"
-        ],
-        "Y4S2": [
-          "Spring",
-          "STS Advanced Option | Credits: 4",
-          "MANE Computation Elective | Credits: 3",
-          "ENGR 1600 - Materials Science | Credits: 4",
-          "MANE 4260 - Multidisciplinary Capstone Design | Credits: 3",
-          "MANE 4510 - Control Systems Laboratory | Credits: 2"
-        ]
-      },
-      {
         "Major": "Mechanical Engineering Curriculum",
         "Y1": "First Year",
         "Y1S1": [
@@ -997,6 +997,72 @@
       "School of Humanities, Arts, and Social Sciences"
     ],
     "Majors": [
+      {
+        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
+        "Y1": "First Year",
+        "Y1S1": [
+          "Fall",
+          "Science Core Elective | Credits: 4",
+          "HASS Core Elective | Credits: 4",
+          "STSO 1110 - Science, Technology, and Society | Credits: 4",
+          "MATH 1500 - Calculus for Architecture, Management, and HASS | Credits: 4",
+          "MATH 1010 - Calculus I | Credits: 4"
+        ],
+        "Y1S2": [
+          "Spring",
+          "Science Core Elective | Credits: 4",
+          "HASS Core Elective | Credits: 4",
+          "Intermediate STS course | Credits: 4",
+          "MATH 1520 - Mathematical Methods in Management and Economics | Credits: 4",
+          "MATH 1020 - Calculus II | Credits: 4"
+        ],
+        "Y2": "Second Year",
+        "Y2S1": [
+          "Fall",
+          "HASS Core Elective | Credits: 4",
+          "Science Core Elective | Credits: 4",
+          "CAS Course | Credits: 4",
+          "STSO 2100 - Investigating Society | Credits: 4"
+        ],
+        "Y2S2": [
+          "Spring",
+          "CAS Course | Credits: 4",
+          "HASS Core Elective | Credits: 4",
+          "Science Core Elective | Credits: 4",
+          "Advanced STS Course | Credits: 4"
+        ],
+        "Y3": "Third Year",
+        "Y3S1": [
+          "Fall",
+          "CAS Course | Credits: 4",
+          "Advanced STS Course | Credits: 4",
+          "STSO 4980 - Research Design | Credits: 4"
+        ],
+        "Y3S2": [
+          "Spring",
+          "HASS Core Elective | Credits: 4",
+          "CAS Course | Credits: 4",
+          "STSO 4990 - STS and Sustainability Senior Project | Credits: 4"
+        ],
+        "Y4": "Fourth Year",
+        "Y4S1": [
+          "Fall",
+          "Federal Civil Procedure | Credits: 4",
+          "Contracts | Credits: 3",
+          "Property I | Credits: 2",
+          "Torts | Credits: 4",
+          "Introduction to Lawyering | Credits: 3"
+        ],
+        "Y4S2": [
+          "Spring",
+          "Constitutional Law | Credits: 4",
+          "(Course applied to HASS Core Elective)",
+          "Criminal Law | Credits: 3",
+          "Property II | Credits: 4",
+          "Introduction to Lawyering | Credits: 3",
+          "Contracts | Credits: 2"
+        ]
+      },
       {
         "Major": "Biotechnology and Health Economics",
         "Y1": "First Year",
@@ -1313,72 +1379,6 @@
           "ENGR 1600 - Materials Science | Credits: 4",
           "MANE 4260 - Multidisciplinary Capstone Design | Credits: 3",
           "MANE 4510 - Control Systems Laboratory | Credits: 2"
-        ]
-      },
-      {
-        "Major": "Biotechnology and Health Economics",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "BIOL 1010 - Introduction to Biology | Credits: 3",
-          "BIOL 1015 - Introduction to Biology Laboratory | Credits: 1",
-          "CHEM 1110 - Chemistry I with Advanced Lab | Credits: 4",
-          "MATH 1010 - Calculus I | Credits: 4",
-          "IHSS 1200 - Principles of Economics | Credits: 4",
-          "[See Footnote 1]"
-        ],
-        "Y1S2": [
-          "Spring",
-          "BIOL 2120 - Introduction to Cell and Molecular Biology | Credits: 3",
-          "BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory | Credits: 1",
-          "CHEM 1200 - Chemistry II | Credits: 4",
-          "MATH 1020 - Calculus II | Credits: 4",
-          "ECON 2010 - Intermediate Microeconomic Theory | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "Free Elective | Credits: 4",
-          "CHEM 2250 - Organic Chemistry I | Credits: 3",
-          "CHEM 2230 - Organic Chemistry Laboratory I | Credits: 1",
-          "ECON 4170 - Health Economics and Policy | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "Biotech and Health Economics Concentration Course #1 | Credits: 4 [See Footnote 2]",
-          "Free Elective | Credits: 4",
-          "PHYS 1100 - Physics I | Credits: 4",
-          "ECON 4270 - Behavioral Economics | Credits: 4"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "The Arch Semester",
-          "Free Elective | Credits: 4",
-          "Free Elective | Credits: 4",
-          "ECON 4570 - Econometrics | Credits: 4",
-          "BCBP 4760 - Molecular Biochemistry I | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "Biotech and Health Economics Concentration Course #2 | Credits: 4 [See Footnote 2]",
-          "Free Elective | Credits: 4",
-          "Free Elective | Credits: 4",
-          "ECON 4290 - Economics of Biotech and Medical Innovations | Credits: 4"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "Biotech and Health Economics Concentration Course #3 | Credits: 4 [See Footnote 2]",
-          "Free Elective | Credits: 4",
-          "Free Elective | Credits: 4",
-          "ECON 4940 - Readings in Economics | Credits: 4"
-        ],
-        "Y4S2": [
-          "Spring",
-          "Biotech and Health Economics Concentration Course #4 | Credits: 4 [See Footnote 2]",
-          "Free Elective | Credits: 4",
-          "Free Elective | Credits: 2",
-          "BCBP 4710 - Biochemistry Laboratory | Credits: 6"
         ]
       },
       {
@@ -1787,72 +1787,6 @@
         ]
       },
       {
-        "Major": "Accelerated Science, Technology, and Society (Law) B.S./J.D.",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "Science Core Elective | Credits: 4",
-          "HASS Core Elective | Credits: 4",
-          "STSO 1110 - Science, Technology, and Society | Credits: 4",
-          "MATH 1500 - Calculus for Architecture, Management, and HASS | Credits: 4",
-          "MATH 1010 - Calculus I | Credits: 4"
-        ],
-        "Y1S2": [
-          "Spring",
-          "Science Core Elective | Credits: 4",
-          "HASS Core Elective | Credits: 4",
-          "Intermediate STS course | Credits: 4",
-          "MATH 1520 - Mathematical Methods in Management and Economics | Credits: 4",
-          "MATH 1020 - Calculus II | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "Science Core Elective | Credits: 4",
-          "CAS Course | Credits: 4",
-          "STSO 2100 - Investigating Society | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "CAS Course | Credits: 4",
-          "HASS Core Elective | Credits: 4",
-          "Science Core Elective | Credits: 4",
-          "Advanced STS Course | Credits: 4"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "Fall",
-          "CAS Course | Credits: 4",
-          "Advanced STS Course | Credits: 4",
-          "STSO 4980 - Research Design | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4",
-          "CAS Course | Credits: 4",
-          "STSO 4990 - STS and Sustainability Senior Project | Credits: 4"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "Federal Civil Procedure | Credits: 4",
-          "Contracts | Credits: 3",
-          "Property I | Credits: 2",
-          "Torts | Credits: 4",
-          "Introduction to Lawyering | Credits: 3"
-        ],
-        "Y4S2": [
-          "Spring",
-          "Constitutional Law | Credits: 4",
-          "(Course applied to HASS Core Elective)",
-          "Criminal Law | Credits: 3",
-          "Property II | Credits: 4",
-          "Introduction to Lawyering | Credits: 3",
-          "Contracts | Credits: 2"
-        ]
-      },
-      {
         "Major": "Science, Technology, and Society",
         "Y1": "First Year",
         "Y1S1": [
@@ -2181,135 +2115,6 @@
         ]
       },
       {
-        "Major": "Biology",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "BIOL 1010 - Introduction to Biology | Credits: 3",
-          "BIOL 1015 - Introduction to Biology Laboratory | Credits: 1",
-          "CHEM 1110 - Chemistry I with Advanced Lab | Credits: 4",
-          "MATH 1010 - Calculus I | Credits: 4"
-        ],
-        "Y1S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4",
-          "BIOL 2120 - Introduction to Cell and Molecular Biology | Credits: 3",
-          "BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory | Credits: 1",
-          "CHEM 1200 - Chemistry II | Credits: 4",
-          "MATH 1020 - Calculus II | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "BIOL 2500 - Genetics and Evolution | Credits: 4",
-          "CHEM 2230 - Organic Chemistry Laboratory I | Credits: 1",
-          "CHEM 2250 - Organic Chemistry I | Credits: 3",
-          "PHYS 1100 - Physics I | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4",
-          "BIOL 4620 - Molecular Biology | Credits: 4",
-          "CHEM 2240 - Organic Chemistry Laboratory II | Credits: 1",
-          "CHEM 2260 - Organic Chemistry II | Credits: 3",
-          "PHYS 1200 - Physics II | Credits: 4"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "The Arch Semester",
-          "HASS Core Elective | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "BIOL - Biology Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "Elective | Credits: 4"
-        ],
-        "Y4S2": [
-          "Spring",
-          "BIOL - Biology Elective | Credits: 4",
-          "BIOL - Biology Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "Elective | Credits: 4"
-        ]
-      },
-      {
-        "Major": "Chemistry - Chemical Biology Track",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "CHEM 1110 - Chemistry I with Advanced Lab | Credits: 4",
-          "CHEM 1900 - Chemistry for Life | Credits: 1",
-          "MATH 1010 - Calculus I | Credits: 4",
-          "PHYS 1100 - Physics I | Credits: 4"
-        ],
-        "Y1S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4",
-          "CHEM 1200 - Chemistry II | Credits: 4",
-          "MATH 1020 - Calculus II | Credits: 4",
-          "PHYS 1200 - Physics II | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "CHEM 2110 - Equilibrium Chemistry and Quantitative Analysis | Credits: 3",
-          "CHEM 2120 - Experimental Chemistry I: Analytical Techniques | Credits: 2",
-          "CHEM 2250 - Organic Chemistry I | Credits: 3",
-          "MATH 2400 - Introduction to Differential Equations | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "Elective | Credits: 4",
-          "BIOL 2120 - Introduction to Cell and Molecular Biology | Credits: 3",
-          "CHEM 2030 - Inorganic Chemistry I | Credits: 3",
-          "CHEM 2260 - Organic Chemistry II | Credits: 3",
-          "CHEM 2290 - Experimental Chemistry II: Synthesis and Characterization | Credits: 3"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "CHEM 4410 - Macroscopic Physical Chemistry | Credits: 3",
-          "CHEM 4760 - Molecular Biochemistry I | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "HASS Core Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "BIOL 2500 - Genetics and Evolution | Credits: 4",
-          "CHEM 4420 - Microscopic Physical Chemistry | Credits: 3",
-          "CHEM 4030 - Experimental Chemistry III Abridged: Physical Methods | Credits: 2"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "HASS Core Elective | Credits: 4",
-          "Electives Credit hours: 4",
-          "CHEM 4110 - Instrumental Methods of Analysis | Credits: 3",
-          "CHEM 4900 - Professional Development Seminar | Credits: 1",
-          "CHEM 4950 - Senior Experience | Credits: 2"
-        ],
-        "Y4S2": [
-          "Spring",
-          "Electives Credit hours 3",
-          "BIOL 4710 - Biochemistry Laboratory | Credits: 6",
-          "CHEM 4120 - Experimental Chemistry IV: Physical and Instrumental Methods | Credits: 3",
-          "CHEM 4770 - Molecular Biochemistry II | Credits: 4"
-        ]
-      },
-      {
         "Major": "Biological Neuroscience",
         "Y1": "First Year",
         "Y1S1": [
@@ -2374,6 +2179,67 @@
           "Free Elective | Credits: 4​",
           "BIOL 4150 - Cellular Neuroscience | Credits: 4",
           "BIOL 4250 - Developmental Biology | Credits: 4"
+        ]
+      },
+      {
+        "Major": "Biology",
+        "Y1": "First Year",
+        "Y1S1": [
+          "Fall",
+          "HASS Core Elective | Credits: 4",
+          "BIOL 1010 - Introduction to Biology | Credits: 3",
+          "BIOL 1015 - Introduction to Biology Laboratory | Credits: 1",
+          "CHEM 1110 - Chemistry I with Advanced Lab | Credits: 4",
+          "MATH 1010 - Calculus I | Credits: 4"
+        ],
+        "Y1S2": [
+          "Spring",
+          "HASS Core Elective | Credits: 4",
+          "BIOL 2120 - Introduction to Cell and Molecular Biology | Credits: 3",
+          "BIOL 2125 - Introduction to Cellular and Molecular Biology Laboratory | Credits: 1",
+          "CHEM 1200 - Chemistry II | Credits: 4",
+          "MATH 1020 - Calculus II | Credits: 4"
+        ],
+        "Y2": "Second Year",
+        "Y2S1": [
+          "Fall",
+          "HASS Core Elective | Credits: 4",
+          "BIOL 2500 - Genetics and Evolution | Credits: 4",
+          "CHEM 2230 - Organic Chemistry Laboratory I | Credits: 1",
+          "CHEM 2250 - Organic Chemistry I | Credits: 3",
+          "PHYS 1100 - Physics I | Credits: 4"
+        ],
+        "Y2S2": [
+          "Spring",
+          "HASS Core Elective | Credits: 4",
+          "BIOL 4620 - Molecular Biology | Credits: 4",
+          "CHEM 2240 - Organic Chemistry Laboratory II | Credits: 1",
+          "CHEM 2260 - Organic Chemistry II | Credits: 3",
+          "PHYS 1200 - Physics II | Credits: 4"
+        ],
+        "Y3": "Third Year",
+        "Y3S1": [
+          "The Arch Semester",
+          "HASS Core Elective | Credits: 4"
+        ],
+        "Y3S2": [
+          "Spring",
+          "HASS Core Elective | Credits: 4"
+        ],
+        "Y4": "Fourth Year",
+        "Y4S1": [
+          "Fall",
+          "BIOL - Biology Elective | Credits: 4",
+          "Elective | Credits: 4",
+          "Elective | Credits: 4",
+          "Elective | Credits: 4"
+        ],
+        "Y4S2": [
+          "Spring",
+          "BIOL - Biology Elective | Credits: 4",
+          "BIOL - Biology Elective | Credits: 4",
+          "Elective | Credits: 4",
+          "Elective | Credits: 4"
         ]
       },
       {
@@ -2908,69 +2774,6 @@
           "Capstone III",
           "Elective | Credits: 4",
           "Elective | Credits: 4"
-        ]
-      },
-      {
-        "Major": "Applied Physics",
-        "Y1": "First Year",
-        "Y1S1": [
-          "Fall",
-          "HASS Elective | Credits: 4",
-          "CSCI 1100 - Computer Science I | Credits: 4",
-          "MATH 1010 - Calculus I | Credits: 4",
-          "PHYS 1140 - Introductory Modern Physics | Credits: 4",
-          "PHYS 1010 - A Passion for Physics | Credits: 1"
-        ],
-        "Y1S2": [
-          "Spring",
-          "Free Elective",
-          "BIOL 1010 - Introduction to Biology | Credits: 3",
-          "BIOL 1015 - Introduction to Biology Laboratory | Credits: 1",
-          "MATH 1020 - Calculus II | Credits: 4"
-        ],
-        "Y2": "Second Year",
-        "Y2S1": [
-          "Fall",
-          "HASS Elective, | Credits: 4",
-          "CHEM 1100 - Chemistry I | Credits: 4",
-          "MATH 2400 - Introduction to Differential Equations | Credits: 4",
-          "PHYS 1250 - Introductory Electromagnetic Theory | Credits: 4"
-        ],
-        "Y2S2": [
-          "Spring",
-          "HASS Elective | Credits: 4",
-          "MATH 2010 - Multivariable Calculus and Matrix Algebra | Credits: 4",
-          "PHYS 2210 - Quantum Physics I | Credits: 4",
-          "PHYS 4330 - Theoretical Mechanics | Credits: 4"
-        ],
-        "Y3": "Third Year",
-        "Y3S1": [
-          "The Arch Semester",
-          "HASS Elective | Credits: 4",
-          "Mathematics Elective | Credits: 4",
-          "Elective | Credits: 4",
-          "PHYS 2350 - Experimental Physics | Credits: 4"
-        ],
-        "Y3S2": [
-          "Spring",
-          "Technical Elective | Credits: 4",
-          "MATH 4600 - Advanced Calculus | Credits: 4",
-          "PHYS 4210 - Electromagnetic Theory | Credits: 4",
-          "PHYS 4420 - Thermodynamics and Statistical Mechanics | Credits: 4"
-        ],
-        "Y4": "Fourth Year",
-        "Y4S1": [
-          "Fall",
-          "Culminating Experience | Credits: 4",
-          "Technical Elective | Credits: 4",
-          "Technical Elective | Credits: 4",
-          "HASS Elective | Credits: 4"
-        ],
-        "Y4S2": [
-          "Spring",
-          "Technical Elective | Credits: 4",
-          "Free Elective | Credits: 4",
-          "HASS Elective | Credits: 4"
         ]
       },
       {
