@@ -4,6 +4,7 @@
       <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
         <b-card no-body class="h-100">
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+            <sidebar href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</sidebar>
             <b-tab
               title="Course Search"
               active
@@ -66,7 +67,6 @@
           <div>
             <b-row>
               <b-col class="m-2">
-                <b-button ejs-button id="toggle" class="e-btn e-info" v-on:click="closeClick">Toggle Sidebar</b-button>
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -101,6 +101,9 @@
                 </b-button>
               </b-col>
             </b-row>
+              <b-col cols="8" class="m-2 text-center">
+                <b-button class="openbtn" v-on:click="closeClick">☰ Open Sidebar</b-button> 
+              </b-col>
             <Schedule v-if="loading" />
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
@@ -680,6 +683,39 @@ export default {
   }
 }
 
+.d-flex flex-column {
+  transition: 0.5s;
+}
+
+.closebtn {
+  position: absolute;
+  cursor: pointer;
+  top: 10px;
+  right: 25px;
+  font-size: 25px;
+  margin-left: 50px;
+}
+
+.sidebar {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #007bff;
+  display: block;
+  transition: 0.3s;
+}
+
+.openbtn {
+  font-size: 15px;
+  cursor: pointer;
+  color: #007bff;
+  border: solid #007bff;
+  background-color: transparent;
+  margin: auto;
+  display: flex;
+  text-align: center;
+}
+
 .tab-content {
   display: flex;
   flex-grow: 1;
@@ -711,4 +747,5 @@ footer {
 #export-ics-button {
   background: #3d4959 !important;
 }
+
 </style>
