@@ -5,7 +5,6 @@
       <b-row>
         <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
         <b-col
-          style="color: #3395ff;"
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
           md="6"
@@ -154,6 +153,7 @@ export default {
 }
 
 .school-name {
+  color: #3395ff;
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
