@@ -1,10 +1,13 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
-    <b-row class="h-100">     
+    <b-row class="h-100"> 
+      <b-col v-if = "!showing" class="m-1 text-center">
+        <b-button class="openbtn" v-on:click="closeClick">☰ Open</b-button> 
+      </b-col>    
       <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
         <b-card no-body class="h-100">
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <sidebar href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</sidebar>
+            <b href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</b>
             <b-tab
               title="Course Search"
               active
@@ -101,9 +104,6 @@
                 </b-button>
               </b-col>
             </b-row>
-              <b-col cols="8" class="m-2 text-center">
-                <b-button class="openbtn" v-on:click="closeClick">☰ Open Sidebar</b-button> 
-              </b-col>
             <Schedule v-if="loading" />
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
@@ -288,11 +288,10 @@ export default {
   },
   methods: {
     closeClick() {
-      console.log("hello");
       this.showing = !this.showing;
       this.main = "col-md-8";
       if (!this.showing){
-        this.main = "col-md-12";
+        this.main = "col-md-11";
       } 
     },
     toggleColors() {
@@ -685,6 +684,7 @@ export default {
 
 .d-flex flex-column {
   transition: 0.5s;
+  background-color: #111;
 }
 
 .closebtn {
