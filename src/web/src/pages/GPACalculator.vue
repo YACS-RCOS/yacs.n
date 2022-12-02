@@ -223,6 +223,14 @@ export default {
         }
     }
 };
+//during the end of this semester one feature that I worked on was YACS gpa calculator
+//this claculator has 2 features- 1 where you simply calculate your gpa from the given smemster
+//                              - 1 see what your new gpa from your past gpa based on your credit hours
+//this was a great project that helpred me get more familiar with vue 
+//Some features that were interesting was the buttons on my gpa calculator add remove and calculate
+//add: adds to the list of classes taken and will show a new row in this calculaore
+//remove: opposite of add and deletes the last row 
+//calculate: a calculate function that takes the credits and grades of each course and loops through with an algorithm to calculate your final gpa
 </script>
 
 <style>
@@ -346,4 +354,5 @@ export default {
     font-size: 30px;
     font-weight: bolder;
     } 
+
 </style>
