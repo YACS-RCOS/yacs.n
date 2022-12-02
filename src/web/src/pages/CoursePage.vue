@@ -130,27 +130,11 @@ export default {
         //let professorName = this.courseObj.sections[0].sessions[0].instructor;
         //let sectionNum = this.courseObj.sections.length;
         //console.log(sectionNum);
-
-        
         return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor;
-        
-        
         //return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor +<bar />
         //      +"Semester: " + this.courseObj.semester +<bar />+
         //      +"Location: " + this.courseObj.sections[0].sessions[0].location; 
         
-        
-
-               //"Location: " + this.courseObj.sections[0].sessions[0].location;
-        // for(idx = 0 ; idx< this.courseObj.sections.length; idx++ )
-        // {
-        //   for(idx2 = 0; idx2< this.courseObj.sections[idx].sessions.length ; idx2++)
-        //   {
-        //     return "Instructor Name: " + professorName + '\n'+ 
-        //            "Semester: " + this.courseObj.semester+ '\n'+
-        //            "start date: " + this.courseObj.sections[idx].date_start;
-        //   }
-        // }
       }
       //console.log(this.courseObj);
       //console.log(this.courseObj.sections[0]);
