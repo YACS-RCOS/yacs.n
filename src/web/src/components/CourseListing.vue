@@ -195,6 +195,9 @@ export default {
      * @param {boolean} collapse If provided, set collapse state
      */
     toggleCollapse(collapse) {
+
+      console.log(this.course);
+
       if (!this.loaded) {
         this.loaded = true;
       }

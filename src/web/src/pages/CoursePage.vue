@@ -24,12 +24,31 @@
       </b-row>
       <b-row>
         <b-col class="mb-4">
+          
+
+
+          <CourseListing
+                :course="courseObj"
+                defaultAction="toggleCourse"
+                v-on="$listeners"
+                lazyLoadCollapse
+              >               
+              </CourseListing>
+          
+          <br />
+          Description
           <br />
           {{ courseObj.description }}
+          <br />
+          When offered: {{courseObj.frequency}} 
+          <br />
         </b-col>
       </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
+    
+      
+    
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -61,14 +80,19 @@ import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
+import CourseListingComponent from "@/components/CourseListing";
+
+
 export default {
   components: {
+    CourseListing: CourseListingComponent,
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
   },
   name: "CoursePage",
   data() {
     return {
+      coursePlaceHolder: this.courseObj,
       courseName: this.$route.params.course,
       breadcrumbNav: [
         {
@@ -97,9 +121,47 @@ export default {
     ...mapGetters([COURSES]),
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
+      console.log(this.courseObj);
+      
+      // let idx;
+      // let idx2;
+      if(this.courseObj!=null)
+      {
+        //let professorName = this.courseObj.sections[0].sessions[0].instructor;
+        //let sectionNum = this.courseObj.sections.length;
+        //console.log(sectionNum);
+
+        
+        return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor;
+        
+        
+        //return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor +<bar />
+        //      +"Semester: " + this.courseObj.semester +<bar />+
+        //      +"Location: " + this.courseObj.sections[0].sessions[0].location; 
+        
+        
+
+               //"Location: " + this.courseObj.sections[0].sessions[0].location;
+        // for(idx = 0 ; idx< this.courseObj.sections.length; idx++ )
+        // {
+        //   for(idx2 = 0; idx2< this.courseObj.sections[idx].sessions.length ; idx2++)
+        //   {
+        //     return "Instructor Name: " + professorName + '\n'+ 
+        //            "Semester: " + this.courseObj.semester+ '\n'+
+        //            "start date: " + this.courseObj.sections[idx].date_start;
+        //   }
+        // }
+      }
+      //console.log(this.courseObj);
+      //console.log(this.courseObj.sections[0]);
+      //console.log(this.courseObj.sections[0].sessions[0]);
+      //console.log(this.courseObj.sections[0].sessions[0].instructor);
+      
       if (precoreqtext === null) {
+        //console.log(this.courseObj.);
         return "No information on pre/corequisites";
       }
+      
       const regex = /([A-Z]){4}( )([0-9]){4}/g;
       while (precoreqtext.search(regex) != -1) {
         let index = precoreqtext.search(regex);
