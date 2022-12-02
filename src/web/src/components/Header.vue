@@ -51,7 +51,7 @@
           Pathways
         </b-nav-item>
         <b-nav-item :to="{ name: 'GPACalculator' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="calculator" />
           GPACalculator
         </b-nav-item>
       </b-navbar-nav>
