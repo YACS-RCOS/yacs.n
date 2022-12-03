@@ -95,6 +95,25 @@ export const getCourses = (semester, search = null, filter = true) =>
     return filter ? courses.filter((c) => c.sections.length !== 0) : courses;
   });
 /**
+ *  Input is the full list of courses and a list of filters,
+ *  of size 5, where (except 0) forbiddenTimes[i] is a list
+ *  of filtered times on day i, each filtered time being a list of time
+ *  strings
+ * 
+ *  Returns a list of all courses that pass the time filter
+ *  @returns {Course[]}
+ */
+export const filterCoursesByTime = (courses, forbiddenTimes) => {
+  if(forbiddenTimes.length === 0 || courses.length === 0) {
+    return courses;
+  }
+  
+  return courses.filter((c) => {
+    let ov = overlaps(c, forbiddenTimes);
+    return (c.sections.length === 0 || (ov === false));
+  });
+}
+/**
  * Returns a list of all departments
  * @returns {Promise<Department>}
  */
@@ -148,3 +167,29 @@ export const removeStudentCourse = (course_info) =>
 
 export const getStudentCourses = () =>
   client.get("/user/course").then((res) => res.data);
+
+const overlaps = (course, filter) => {
+  for(const section of course.sections) {
+    let is_valid = true;
+
+    for(const session of section.sessions) {
+      for(const time of filter[session.day_of_week]) {
+        if(session.time_start <= time[1] && session.time_end >= time[0]) {
+          is_valid = false;
+          break;
+        }
+      }
+      if(is_valid === false) {
+        break;
+      }
+    }
+
+    //Found a valid section, therefore this course does not completely overlap
+    if(is_valid === true) {
+      return false;
+    }
+  }
+
+  //A course overlaps if there are no valid sections
+  return true;
+};
