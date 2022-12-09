@@ -272,14 +272,3 @@ export default {
   },
 };
 </script>
-
-.openbtn {
-  font-size: 15px;
-  cursor: pointer;
-  color: #007bff;
-  border: solid #007bff;
-  background-color: transparent;
-  margin: auto;
-  display: flex;
-  text-align: center;
-}
