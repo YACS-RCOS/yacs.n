@@ -48,12 +48,12 @@ services:
       - STRICT_TRANSPORT_SECURITY=max-age=31536000; includeSubDomains; preload
       - USE_LIMIT_REQ=no
       # ===== Whitelists =====
-      - USE_REMOTE_API=${ENABLE_BLOCK:-no}
-      - BLOCK_USER_AGENT=${ENABLE_BLOCK:-no}
-      - BLOCK_TOR_EXIT_NODE=${ENABLE_BLOCK:-no}
-      - BLOCK_PROXIES=${ENABLE_BLOCK:-no}
-      - BLOCK_ABUSERS=${ENABLE_BLOCK:-no}
-      - BLOCK_REFERRER=${ENABLE_BLOCK:-no}
+      - USE_REMOTE_API=${ENABLE_BLOCK:-yes}
+      - BLOCK_USER_AGENT=${ENABLE_BLOCK:-yes}
+      - BLOCK_TOR_EXIT_NODE=${ENABLE_BLOCK:-yes}
+      - BLOCK_PROXIES=${ENABLE_BLOCK:-yes}
+      - BLOCK_ABUSERS=${ENABLE_BLOCK:-yes}
+      - BLOCK_REFERRER=${ENABLE_BLOCK:-yes}
       # === above bunkerized-nginx config ===
 
   yacs_api:
