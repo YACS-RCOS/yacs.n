@@ -19,6 +19,7 @@ class ClubInfo(Base):
     organization_type = Column(VARCHAR(length=255))
     requirement = Column(VARCHAR(length=255))
     discription = Column(VARCHAR(length=255))  
+    new_member = Column(BOOLEAN, default=True)
 
     __table_args__ = (
         PrimaryKeyConstraint('org_id'),
