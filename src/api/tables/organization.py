@@ -10,7 +10,7 @@ class ClubInfo(Base):
     name = Column(VARCHAR(length=255))
     location = Column(VARCHAR(length=255))
     size = Column(VARCHAR(length=255))
-    operation = Column(VARCHAR(length=255))
+    operation = Column(BOOLEAN, default=True)
     day_of_week = Column(INTEGER)
     meeting_time = Column(VARCHAR(length=255))
     contact = Column(VARCHAR(length=255))
