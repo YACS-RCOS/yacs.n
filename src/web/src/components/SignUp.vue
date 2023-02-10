@@ -68,7 +68,7 @@ export default {
         phone: "",
         password: "",
         degree: "",
-        major: ""
+        major: [null]
       },
       show: true
     };

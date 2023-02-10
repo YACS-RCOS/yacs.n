@@ -52,7 +52,9 @@
         </b-col>
         <b-col class="user-col-center">
           <div :class="changed('degree')" class="degreelabel">{{ form.degree }}</div>
-          <div :class="changed('major')" class="degreelabel">{{ form.major }}</div>
+          <div class="degreelabel m-auto">
+            <div v-for="(name, i) in form.major" :key="name" :class="changed_major(i)">{{ name }}<br/></div>
+          </div>
         </b-col>
         <b-col class="user-col-right">
           <b-button v-b-modal.degreepicker>Edit</b-button>
@@ -193,6 +195,9 @@ export default {
     changed(val) {
       return (this.user[val] != this.form[val]) ? "user-changed-info" : "";
     },
+    changed_major(val) {
+      return (this.form.major.length <  this.user.major.length || val >= this.user.major.length || this.form.major[val] != this.user.major[val]) ? "user-changed-info" : "";
+    },
     startediting(val) {
       this.userData[val].editing = true;
     },
@@ -207,7 +212,7 @@ export default {
     degreemodalHandleok(bvModalEvent) {
       if (this.$refs["degreeform"].checkValidity()) {
         this.form.degree = this.currentinput.degree;
-        this.form.major = this.currentinput.major;
+        this.form.major = Object.assign([], this.currentinput.major);
       } else {
         bvModalEvent.preventDefault();
         this.$refs["degreeform"].reportValidity();
@@ -216,7 +221,7 @@ export default {
     degreemodalHandlecancel(bvModalEvent) {
       if (bvModalEvent.trigger != "ok") {
         this.currentinput.degree = this.form.degree;
-        this.currentinput.major = this.form.major;
+        this.currentinput.major = Object.assign([], this.form.major);
       }
     },
     loginmodalHandleok() {
@@ -234,8 +239,8 @@ export default {
       this.currentinput.newpassword = "";
     },
     onReset() {
-      this.form = Object.assign({}, this.user);
-      this.currentinput = Object.assign({}, this.user);
+      this.form = JSON.parse(JSON.stringify(this.user));
+      this.currentinput = JSON.parse(JSON.stringify(this.user));
     },
     async onSubmit() {
       this.form.sessionID = this.$store.state.user.sessionId;

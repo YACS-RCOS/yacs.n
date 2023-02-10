@@ -1,3 +1,5 @@
+import json
+
 from db.model import *
 
 class User(Model):
@@ -17,7 +19,10 @@ class User(Model):
                             enable = %s"""
 
         args = (str(uid), name, email, phone, password, major, degree, enable)
-        return self.db.execute(sql, args, True)[0]
+        result = self.db.execute(sql, args, True)[0]
+        if len(result) >= 1 and 'major' in result[0]:
+            result[0]['major'] = json.loads(result[0]['major'])
+        return result
 
     def add_user(self, args):
         sql = """
@@ -41,6 +46,7 @@ class User(Model):
                     %(Enable)s
                 )
                 """
+        args['Major'] = json.dumps(args['Major'])
         return self.db.execute(sql, args, False)[0]
 
     def delete_user(self, uid):
@@ -63,4 +69,5 @@ class User(Model):
                         user_id = %(UID)s AND
                         password = %(Password)s;
                     """
+        args['Major'] = json.dumps(args['Major'])
         return self.db.execute(sql, args, False)[0]
