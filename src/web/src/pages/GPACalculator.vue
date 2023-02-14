@@ -46,6 +46,7 @@
                             <option class="grade" value="1">D</option>
                             <option class="grade" value=".67">D-</option>
                             <option class="grade" value="0">F</option>
+                            <option class="grade" value="">P</option>
                         </select>
                     </form>
                     </div>
@@ -154,6 +155,7 @@ export default {
             } else if (grade === "F") {
                 return 0 * unit;
             }
+            
         },
         addCourse() {
             let addNew = document.createElement("form");
@@ -174,7 +176,8 @@ export default {
                 <option value="1.33">D+</option>
                 <option value="1.00">D</option>
                 <option value="0.67">D-</option>
-                <option value="0">F</option>
+                <option value="0.00">F</option>
+                <option value="">P</option>
                 </select>  
             </form>
             `;
