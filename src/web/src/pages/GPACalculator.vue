@@ -35,16 +35,16 @@
                         <select class="grade key-0" required>
                             <option class="grade" value="select">Select</option>
                             <option class="grade" value="4">A</option>
-                            <option class="grade" value="3.7">A-</option>
-                            <option class="grade" value="3.3">B+</option>
+                            <option class="grade" value="3.67">A-</option>
+                            <option class="grade" value="3.33">B+</option>
                             <option class="grade" value="3">B</option>
-                            <option class="grade" value="2.7">B-</option>
-                            <option class="grade" value="2.3">C+</option>
+                            <option class="grade" value="2.67">B-</option>
+                            <option class="grade" value="2.33">C+</option>
                             <option class="grade" value="2">C</option>
-                            <option class="grade" value="1.7">C-</option>
-                            <option class="grade" value="1.3">D+</option>
+                            <option class="grade" value="1.67">C-</option>
+                            <option class="grade" value="1.33">D+</option>
                             <option class="grade" value="1">D</option>
-                            <option class="grade" value=".7">D-</option>
+                            <option class="grade" value=".67">D-</option>
                             <option class="grade" value="0">F</option>
                         </select>
                     </form>
@@ -132,25 +132,25 @@ export default {
             if (grade === "A") {
                 return 4 * unit;
             } else if (grade === "A-") {
-                return 3.7 * unit;
+                return 3.67 * unit;
             } else if (grade === "B+") {
-                return 3.3 * unit;
+                return 3.33 * unit;
             } else if (grade === "B") {
                 return 3 * unit;
             } else if (grade === "B-") {
-                return 2.7 * unit;
+                return 2.67 * unit;
             } else if (grade === "C+") {
-                return 2.3 * unit;
+                return 2.33 * unit;
             } else if (grade === "C") {
                 return 2 * unit;
             } else if (grade === "C-") {
-                return 1.7 * unit;
+                return 1.67 * unit;
             } else if (grade === "D+") {
-                return 1.3 * unit;
+                return 1.33 * unit;
             } else if (grade === "D") {
                 return 1 * unit;
             } else if (grade === "D-") {
-                return .7 * unit;
+                return .67 * unit;
             } else if (grade === "F") {
                 return 0 * unit;
             }
