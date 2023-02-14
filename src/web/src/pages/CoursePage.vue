@@ -18,6 +18,10 @@
         </b-col>
       </b-row>
       <b-row>
+        <h4>professor: </h4> 
+        <h3> email</h3>
+      </b-row>
+      <b-row>
         <b-col>
           <p v-html="transformed" />
         </b-col>
