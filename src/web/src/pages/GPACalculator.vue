@@ -168,7 +168,6 @@ export default {
                 <option value="4">B</option>
                 <option value="3">C</option>
                 <option value="2">D</option>
-                <option value="1">E</option>
                 <option value="0">F</option>
                 </select>  
             </form>
