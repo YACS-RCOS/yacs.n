@@ -20,26 +20,26 @@
           required
           @blur.native="currentmajor[i] = $refs['majorpicker' + i][0].localValue; refresh()"
         ></b-form-select>
-        <!--the @input is used to keep focus since it disappears for some reason-->
       </div>
-      <b-button
-        variant=""
-        @click="currentmajor.push(null)"
-      >+
-      </b-button>
       <b-button
         :disabled="currentmajor==null || currentmajor.length <= 1"
         @click="currentmajor.pop()"
-      >-
+      >
+        <font-awesome-icon :icon="faMinus" class="m-auto"/>
       </b-button>
-
-
+      <b-button
+        variant=""
+        @click="currentmajor.push(null)"
+      >
+        <font-awesome-icon :icon="faPlus" class="m-auto"/>
+      </b-button>
     </b-form-group>
   </div>
 </template>
 
 <script>
 import { getMajors } from "@/services/AdminService";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   name: "DegreePicker",
@@ -63,6 +63,8 @@ export default {
       ],
       loaded: false,
       placeholder: placeholder,
+      faMinus: faMinus,
+      faPlus: faPlus
     };
   },
   mounted() {
@@ -155,7 +157,7 @@ export default {
           for(var j = 0; j < this.nummajors; j++) {
             var temp = Object.assign([], this.majors[(i > -1) ? i : 0]);
             for(var k = 0; k < this.nummajors; k++) {
-              if(k == j){
+              if(k == j) {
                 continue;
               }
               var prev = temp.indexOf(this.currentmajor[k]);
@@ -163,7 +165,6 @@ export default {
             }
             ans.push(temp)
           }
-          // console.log(ans)
           return ans;
         }
 
@@ -180,3 +181,13 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+
+#majorinput button {
+  margin: 1em 0.1em;
+  /*width: 2em;*/
+}
+
+</style>
