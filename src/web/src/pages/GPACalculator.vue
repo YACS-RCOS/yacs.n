@@ -164,10 +164,16 @@ export default {
                     <input type="number" placeholder="Credit Unit" class="credit-units key-${this.counter}" required>
                     <select class="grade key-${this.counter}" required>
                 <option value="select">Select</option>
-                <option value="5">A</option>
-                <option value="4">B</option>
-                <option value="3">C</option>
-                <option value="2">D</option>
+                <option value="4.00">A</option>
+                <option value="3.67">A-</option>
+                <option value="3.33">B+</option>
+                <option value="3.00">B</option>
+                <option value="2.67">B-</option>
+                <option value="2.33">C+</option>
+                <option value="2.00">C</option>
+                <option value="1.33">D+</option>
+                <option value="1.00">D</option>
+                <option value="0.67">D-</option>
                 <option value="0">F</option>
                 </select>  
             </form>
