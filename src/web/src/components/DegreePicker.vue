@@ -1,4 +1,3 @@
-`
 <template>
   <div>
     <b-form-group id="degreeinput" label="Degree:">
