@@ -18,8 +18,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <h4>professor: </h4> 
-        <h3> email</h3>
+        <li v-for="item in courseObj.sessions" :key="item.id">
+        {{ item.section }} </li>
       </b-row>
       <b-row>
         <b-col>
