@@ -80,6 +80,8 @@
                         <input v-model="curCred" placeholder="Current Credits" />
                     
                     <div class="btn">
+                    <button @click="addSemester();">+ Add</button>
+                    <button @click="removeSemester();">- Remove</button>
                     <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
                     </div>
                     <div class="lastp">
@@ -163,7 +165,7 @@ export default {
             const course_name = `
             <form class="add_new key-${this.counter}">
                 <input type="text" placeholder="Course Code" class="courses key-${this.counter}" required>
-                    <input type="number" placeholder="Credit Unit" class="credit-units key-${this.counter}" required>
+                    <input type="number" placeholder="Credit Units" class="credit-units key-${this.counter}" required>
                     <select class="grade key-${this.counter}" required>
                 <option value="select">Select</option>
                 <option value="4.00">A</option>
@@ -186,6 +188,26 @@ export default {
             this.counter++;
         },
         removeCourse() {
+            let mainForm = document.querySelector("form.add_new");
+            mainForm.remove();
+        },
+        addSemester() {
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`);
+            const course_name = `
+            <form class="add_new key-${this.counter}">
+                <input type="number" placeholder="Old GPA" class="courses key-${this.counter}" required>
+                <input type="number" placeholder="Total Prev. Credits" class="credit-units key-${this.counter}" required>
+                <input type="number" placeholder="New GPA" class="courses key-${this.counter}" required>
+                <input type="number" placeholder="New Credits" class="credit-units key-${this.counter}" required>
+               
+            </form>
+            `;
+            addNew.innerHTML = course_name;
+            document.getElementById("course-wrapper").appendChild(addNew);
+            this.counter++;
+        },
+        removeSemester() {
             let mainForm = document.querySelector("form.add_new");
             mainForm.remove();
         },
