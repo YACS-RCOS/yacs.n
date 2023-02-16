@@ -75,9 +75,9 @@
                         <h1>TOTAL GPA CALCULATOR</h1>
                         <div id="semester-wrapper">
                         <input v-model="oldGPA" placeholder="Old GPA" />
-                        <input v-model="totCred" placeholder="Total Prev. Credits" />
+                        <input v-model="totCred" class= "credit_units key-0" placeholder="Total Prev. Credits" />
                         <input v-model="newGPA" placeholder="New GPA" />
-                        <input v-model="curCred" placeholder="Current Credits" />
+                        <input v-model="curCred" class="credit_units key-0" placeholder="Current Credits" />
 
                         </div>
                     
@@ -195,13 +195,13 @@ export default {
         },
         addSemester() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`);
+            addNew.classList.add("add_new", `key-${this.counter}`); //check what this does
             const semester_name = `
             <form class="add_new key-${this.counter}">
-                <input type="number" placeholder="Old GPA" class="courses key-${this.counter}" required>
-                <input type="number" placeholder="Total Prev. Credits" class="credit-units key-${this.counter}" required>
-                <input type="number" placeholder="New GPA" class="courses key-${this.counter}" required>
-                <input type="number" placeholder="Current Credits" class="credit-units key-${this.counter}" required>
+                <input type="text" placeholder="Old GPA" class="courses key-${this.counter}" required>
+                <input type="number" placeholder="Total Prev. Credits" class="credit_units key-${this.counter}" required>
+                <input type="text" placeholder="New GPA" class="courses key-${this.counter}" required>
+                <input type="number" placeholder="Current Credits" class="credit_units key-${this.counter}" required>
                
             </form>
             `;
