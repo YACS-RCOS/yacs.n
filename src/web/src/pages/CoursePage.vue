@@ -34,6 +34,9 @@
       <b-button class="openbtn"
                 :class="{active:isActive}"
                 @click="toggle()"
+                :style="{
+                 backgroundColor: this.counter!=0 ? this.counter%2==1 ? 'green' : 'red' : null,
+                 }"
                 >{{isActive ? 'Remove' : 'Select'}}</b-button>
     </div>
     <CenterSpinner
@@ -79,6 +82,7 @@ export default {
   name: "CoursePage",
   data() {
     return {
+      counter: 0,
       isActive: false,
       courseName: this.$route.params.course,
       breadcrumbNav: [
@@ -178,6 +182,7 @@ export default {
     },
 
     toggle() {
+      this.counter = this.counter + 1;
       if (!this.isActive) {
         this.addCourse();
         this.isActive = true;
