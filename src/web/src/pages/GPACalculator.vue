@@ -222,6 +222,9 @@ export default {
                 if(listOfGrades[i] != "P"){
                     totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
                 }
+                else{
+                    totalUnits -= listOfUnits[i];
+                }
                 
             }
             const gpa = totalEarnedUnits / totalUnits;
