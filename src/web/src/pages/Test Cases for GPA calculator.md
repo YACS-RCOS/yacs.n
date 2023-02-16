@@ -73,3 +73,63 @@ D       |  2
 D-      |  4
 
 Expected GPA: 2.25
+
+
+Input:
+
+Grades  |  Credit
+
+A       |  4
+A-      |  4 
+D       |  1
+C+      |  4
+
+Expected GPA: 3.15
+
+
+Input:
+
+Grades  |  Credit
+
+C+      |  4
+C       |  4 
+C-      |  4
+D       |  4
+
+Expected GPA: 1.75
+
+
+Input:
+
+Grades  |  Credit
+
+A       |  4
+A       |  3 
+A       |  2
+A       |  1
+
+Expected GPA: 4.00
+
+
+Input:
+
+Grades  |  Credit
+
+D       |  4
+F       |  3 
+A       |  2
+A       |  1
+
+Expected GPA: 1.60
+
+
+Input:
+
+Grades  |  Credit
+
+F       |  4
+F       |  3 
+F       |  2
+F       |  1
+
+Expected GPA: 0.00
