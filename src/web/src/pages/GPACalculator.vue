@@ -73,11 +73,13 @@
 
                     <div class="calculator-box">
                         <h1>TOTAL GPA CALCULATOR</h1>
-                        
+                        <div id="semester-wrapper">
                         <input v-model="oldGPA" placeholder="Old GPA" />
                         <input v-model="totCred" placeholder="Total Prev. Credits" />
                         <input v-model="newGPA" placeholder="New GPA" />
                         <input v-model="curCred" placeholder="Current Credits" />
+
+                        </div>
                     
                     <div class="btn">
                     <button @click="addSemester();">+ Add</button>
@@ -199,12 +201,12 @@ export default {
                 <input type="number" placeholder="Old GPA" class="courses key-${this.counter}" required>
                 <input type="number" placeholder="Total Prev. Credits" class="credit-units key-${this.counter}" required>
                 <input type="number" placeholder="New GPA" class="courses key-${this.counter}" required>
-                <input type="number" placeholder="New Credits" class="credit-units key-${this.counter}" required>
+                <input type="number" placeholder="Current Credits" class="credit-units key-${this.counter}" required>
                
             </form>
             `;
             addNew.innerHTML = semester_name;
-            document.getElementById("fin-calc").appendChild(addNew);
+            document.getElementById("semester-wrapper").appendChild(addNew);
             this.counter++;
         },
         removeSemester() {
