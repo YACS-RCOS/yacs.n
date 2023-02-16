@@ -35,7 +35,7 @@
                 :class="{active:isActive}"
                 @click="toggle()"
                 :style="{
-                 backgroundColor: this.counter!=0 ? this.counter%2==1 ? 'green' : 'red' : null,
+                 backgroundColor: isActive ? 'red' : null,
                  }"
                 >{{isActive ? 'Remove' : 'Select'}}</b-button>
     </div>
@@ -182,7 +182,6 @@ export default {
     },
 
     toggle() {
-      this.counter = this.counter + 1;
       if (!this.isActive) {
         this.addCourse();
         this.isActive = true;
