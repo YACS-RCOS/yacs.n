@@ -194,7 +194,7 @@ export default {
         addSemester() {
             let addNew = document.createElement("form");
             addNew.classList.add("add_new", `key-${this.counter}`);
-            const course_name = `
+            const semester_name = `
             <form class="add_new key-${this.counter}">
                 <input type="number" placeholder="Old GPA" class="courses key-${this.counter}" required>
                 <input type="number" placeholder="Total Prev. Credits" class="credit-units key-${this.counter}" required>
@@ -203,8 +203,8 @@ export default {
                
             </form>
             `;
-            addNew.innerHTML = course_name;
-            document.getElementById("course-wrapper").appendChild(addNew);
+            addNew.innerHTML = semester_name;
+            document.getElementById("fin-calc").appendChild(addNew);
             this.counter++;
         },
         removeSemester() {
