@@ -34,18 +34,18 @@
                             <!--<label for="grade">Grade: </label> -->
                         <select class="grade key-0" required>
                             <option class="grade" value="select">Select</option>
-                            <option class="grade" value="4">A</option>
+                            <option class="grade" value="4.00">A</option>
                             <option class="grade" value="3.67">A-</option>
                             <option class="grade" value="3.33">B+</option>
-                            <option class="grade" value="3">B</option>
+                            <option class="grade" value="3.00">B</option>
                             <option class="grade" value="2.67">B-</option>
                             <option class="grade" value="2.33">C+</option>
-                            <option class="grade" value="2">C</option>
+                            <option class="grade" value="2.00">C</option>
                             <option class="grade" value="1.67">C-</option>
                             <option class="grade" value="1.33">D+</option>
-                            <option class="grade" value="1">D</option>
-                            <option class="grade" value=".67">D-</option>
-                            <option class="grade" value="0">F</option>
+                            <option class="grade" value="1.00">D</option>
+                            <option class="grade" value="0.67">D-</option>
+                            <option class="grade" value="0.00">F</option>
                             <option class="grade" value="">P</option>
                         </select>
                     </form>
@@ -75,7 +75,7 @@
                         <h1>TOTAL GPA CALCULATOR</h1>
                         
                         <input v-model="oldGPA" placeholder="Old GPA" />
-                        <input v-model="totCred" placeholder="Total Credits taken" />
+                        <input v-model="totCred" placeholder="Total Prev. Credits" />
                         <input v-model="newGPA" placeholder="New GPA" />
                         <input v-model="curCred" placeholder="Current Credits" />
                     
@@ -154,7 +154,7 @@ export default {
                 return .67 * unit;
             } else if (grade === "F") {
                 return 0 * unit;
-            }
+            } 
             
         },
         addCourse() {
@@ -219,7 +219,10 @@ export default {
             let totalEarnedUnits = 0;
 
             for (let i = 0; i < listOfUnits.length; i++) {
-                totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+                if(listOfGrades[i] != "P"){
+                    totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+                }
+                
             }
             const gpa = totalEarnedUnits / totalUnits;
             
