@@ -52,6 +52,10 @@
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
           <font-awesome-icon icon="list" />
+          Professor
+        </b-nav-item>
+        <b-nav-item :to="{ name: 'Pathway' }">
+          <font-awesome-icon icon="list" />
           Club
         </b-nav-item>
       </b-navbar-nav>
