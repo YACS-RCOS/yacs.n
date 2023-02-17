@@ -383,7 +383,7 @@ export default {
     text-align: center;
     margin: 0;
     position: absolute;
-    top: 85%;
+    top: 80%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -393,7 +393,7 @@ export default {
     background-color: rgba(108, 90, 90, 0.15);    
     margin: 0;
     position: absolute;
-    top: 80%;
+    top: 95%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
