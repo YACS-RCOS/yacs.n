@@ -391,12 +391,6 @@ export default {
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
     background-color: rgba(108, 90, 90, 0.15);    
-    margin: 0;
-    position: absolute;
-    top: 95%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     }
     .lastp p {
     color: white;
@@ -404,12 +398,6 @@ export default {
     padding: 10px;
     font-size: 30px;
     font-weight: bolder;
-    margin: 0;
-    position: absolute;
-    top: 95%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     } 
 
 </style>
