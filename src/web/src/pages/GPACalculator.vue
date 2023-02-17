@@ -77,8 +77,8 @@
                         <h1>TOTAL GPA CALCULATOR</h1>
                         <div id="semester-wrapper">
                         
-                        <input v-model="totCred" class= "credit_units key-0" placeholder="Total Credits" />
-                        <input v-model="oldGPA" placeholder="GPA" />
+                        <input v-model="totCred" class= "credit_units0 key-0" placeholder="Total Credits" />
+                        <input v-model="oldGPA" class = "oldGPA key-0" placeholder="GPA" />
                         
                         
                         </div>
@@ -120,7 +120,6 @@ export default {
     },
     methods: {
         finClac(oldGPA,totCred,newGPA,curCred){
-            const CGPAPARAGRAPH = document.getElementById("fin-calc");
             let resultGPA = 0;
             let gpaDif= Math.abs(oldGPA-newGPA);
             let per=curCred/totCred;
@@ -134,7 +133,7 @@ export default {
             else{
                 resultGPA=oldGPA
             }
-            CGPAPARAGRAPH.textContent = "Your GPA is "+resultGPA.toFixed(2);
+            return resultGPA;
         },
         gradeCalc(grade, unit) {
             if (grade === "A") {
@@ -171,7 +170,7 @@ export default {
             <form class="add_new key-${this.counter}">
                 <input type="text" placeholder="Course Code" class="courses key-${this.counter}" required>
                     <input type="number" placeholder="Credit Units" class="credit-units key-${this.counter}" required>
-                    <select class="grade key-${this.counter}" required>
+                    <select class="grade1 key-${this.counter}" required>
                 <option value="select">Select</option>
                 <option value="4.00">A</option>
                 <option value="3.67">A-</option>
@@ -199,11 +198,11 @@ export default {
         },
         addGPA() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`); //check what this does
+            addNew.classList.add("add_new", `key-${this.counter}`); 
             const semester_name = `
             <form class="add_new key-${this.counter}">
-                <input type="text" placeholder="Current GPA" class="courses key-${this.counter}" required>
-                <input type="number" placeholder="Current Credits" class="credit_units key-${this.counter}" required>
+                <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
+                <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
                
             </form>
             `;
@@ -213,11 +212,11 @@ export default {
         },
         addClass() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`); //check what this does
+            addNew.classList.add("add_new", `key-${this.counter}`); 
             const semester_name = `
             <form class="add_new key-${this.counter}">
-                <input type="number" placeholder="Credit Units" class="credit-units key-${this.counter}" required>
-                <select class="grade key-${this.counter}" required>
+                <input type="number" placeholder="Credit Units" class="credit_units2 key-${this.counter}" required>
+                <select class="grade2 key-${this.counter}" required>
                 <option value="select">Select</option>
                 <option value="4.00">A</option>
                 <option value="3.67">A-</option>
@@ -242,9 +241,116 @@ export default {
             let mainForm = document.querySelector("form.add_new");
             mainForm.remove();
         },
+        calcFgpa() {
+            const CGPAPARAGRAPH = document.getElementById("fin-calc");
+            const GRADESSELECT = document.querySelectorAll("select.grade2");
+            const GPAINP = document.querySelectorAll("input.curr_gpa");
+            const UNITGPA = document.querySelectorAll("input.credit_units1");
+            const UNITCLASS = document.querySelectorAll("input.credit_units2");
+            const OGCREDITS = document.querySelector("input.credit_units0");
+            const OGGPA = document.querySelector("input.oldGPA");
+
+            //const courseReport = {};
+
+            const listOfGrades = [];
+            const listOfUnits = [];
+            let totalUnits = 0;
+
+            const listOfGPA = [];
+            const listOfCredits = [];
+            let totalCredits = 0;
+
+            let originalCredit = parseInt(OGCREDITS.value);
+            let originalGPA = parseInt(OGGPA.value);
+
+            GRADESSELECT.forEach((e) => {
+                let GRADES = e.options;
+                const selectedIndex = e.selectedIndex;
+                const selectedGrade = GRADES[selectedIndex];
+                const gradeValue = selectedGrade.text.toUpperCase();
+                listOfGrades.push(gradeValue);
+            });
+            console.log(listOfGrades);
+
+            UNITGPA.forEach((e) => {
+                const unitValue = parseInt(e.value);
+                totalUnits += unitValue;
+                listOfUnits.push(unitValue);
+            });
+            console.log(listOfUnits);
+
+            GPAINP.forEach((e) => {
+                let GPA = e.options;
+                const selectedIndex = e.selectedIndex;
+                const selectedGPA = GPA[selectedIndex];
+                const GPAValue = selectedGPA.text.toUpperCase();
+                listOfGPA.push(GPAValue);
+            });
+            console.log(listOfGPA);
+
+            UNITCLASS.forEach((e) => {
+                const creditValue = parseInt(e.value);
+                totalCredits += creditValue;
+                listOfCredits.push(creditValue);
+            });
+            console.log(listOfCredits);
+
+           
+
+            let totalEarnedUnits = 0;
+           
+
+            for (let i = 0; i < listOfUnits.length; i++) {
+                if(listOfGrades[i] != "P"){
+                    totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+                }
+                else{
+                    totalUnits -= listOfUnits[i];
+                }
+                
+            }
+
+            const gpaGrades = totalEarnedUnits / totalUnits;
+
+            let gpaUpdated = 0;
+
+            totalCredits = originalCredit;
+
+
+            for (let i = 0; i < listOfCredits.length; i++) {
+                if(i==0){
+                    gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
+                }
+                else{
+                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]); 
+                }
+
+                totalCredits += listOfCredits[i];
+                
+                
+            }
+
+            if(listOfUnits.length > 0 && listOfCredits.length > 0){
+                finGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits); 
+            }
+            else if(listOfCredits.length > 0){
+                finalGPA = gpaUpdated;
+            }
+            else if(listOfUnits.length > 0){
+                finalGPA = this.finClac(originalGPA, originalCredit, gpaGrades, totalUnits); 
+            }
+            
+
+            
+            if (finalGPA >= 0){
+                CGPAPARAGRAPH.textContent = "Your GPA is " + finGPA.toFixed(2);   
+            } else {
+                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";    
+            }
+        },
         calcCgpa() {
             const CGPAPARAGRAPH = document.getElementById("cgpa-calc");
-            const GRADESSELECT = document.querySelectorAll("select.grade");
+            const GRADESSELECT = document.querySelectorAll("select.grade1");
             const UNIT = document.querySelectorAll("input.credit-units");
 
             //const courseReport = {};
