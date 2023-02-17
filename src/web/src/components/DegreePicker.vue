@@ -18,7 +18,7 @@
           :options="majorslist[i]"
           :value="thing"
           required
-          @blur.native="$nextTick(() => {log(activeElement().className);})"
+          @blur.native="currentmajor[i] = $refs['majorpicker' + i][0].localValue; refresh()"
         ></b-form-select>
       </div>
       <b-button
@@ -99,17 +99,13 @@ export default {
       console.log(x)
       return x
     },
-    activeElement(){
-      return document.activeElement;
-    },
-    refresh(elem) {
-      console.log(elem)
-      //hack to force vue to see that the value changed
-      // var temp = this.currentmajor;
-      // this.currentmajor = null;
-      // this.$nextTick(() => {
-      //   this.currentmajor = temp;
-      // });
+    refresh() {
+      // hack to force vue to see that the value changed
+      var temp = this.currentmajor;
+      this.currentmajor = null;
+      this.$nextTick(() => {
+        this.currentmajor = temp;
+      });
     },
     check() {
       this.$nextTick().then(() => {
