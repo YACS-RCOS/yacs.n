@@ -224,6 +224,7 @@ export default {
                 <option value="2.67">B-</option>
                 <option value="2.33">C+</option>
                 <option value="2.00">C</option>
+                <option value="2.33">C-</option>
                 <option value="1.33">D+</option>
                 <option value="1.00">D</option>
                 <option value="0.67">D-</option>
@@ -371,7 +372,7 @@ export default {
     
     #course-wrapper, form {
     color: white;
-    padding-left: 10px;
+    padding: 10px;
     margin: 0 auto;
     text-align: center;
     }
