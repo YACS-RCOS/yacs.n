@@ -30,11 +30,21 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+      </b-row>
+      <b-row>
         <b-col>
-          <b-form-group label="Time filter" for="time">
+          <b-form-group label="Begin Time filter" for="time">
             <b-form-select
               v-model="selectedTime"
-              :options="departmentOptions"
+              :options="TimeOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="End Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="TimeOptions"
             ></b-form-select>
           </b-form-group>
         </b-col>
