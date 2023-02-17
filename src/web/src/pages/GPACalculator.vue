@@ -370,7 +370,7 @@ export default {
     padding: 1px;
     margin: 5px auto;
     /*   margin-left: 10px; */
-    border-width: 3px;
+    border-width: 4px;
     border-radius: 10%;
     border-style: solid;
     }
