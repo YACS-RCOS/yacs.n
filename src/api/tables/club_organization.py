@@ -8,7 +8,7 @@ class Club(Base):
     __tablename__ = "club"
 
     name = Column(VARCHAR(length=255))
-    description = TEXT
+    description = Column(TEXT)
     building = Column(VARCHAR(length=255))
     room = Column(VARCHAR(length=255))
     days = Column(TSVECTOR)

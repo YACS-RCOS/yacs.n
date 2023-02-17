@@ -1,3 +1,4 @@
+from pickle import TRUE
 from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import VARCHAR, TSVECTOR
 
@@ -13,6 +14,6 @@ class Professor(Base):
     department = Column(VARCHAR(length=255))
     office_room = Column(VARCHAR(length=255))
     #make classes a foreign key (vecotr of courses)
-    classes = Column(TSVECTOR) 
+    classes = Column(TSVECTOR, foreign_key = TRUE) 
     office_hours_time = Column(TSVECTOR)
     webex = Column(VARCHAR(length=255))

@@ -1,0 +1,11 @@
+from sqlalchemy import Column
+from sqlalchemy.dialects.postgresql import INTEGER, VARCHAR, TEXT
+
+from .database import Base
+
+class Degree(Base):
+    __tablename__ = "degree_class"
+
+    department_code = Column(VARCHAR(length=255))
+    name = Column(VARCHAR(length=255))
+    credits = Column(INTEGER)
