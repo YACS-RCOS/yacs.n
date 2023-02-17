@@ -19,9 +19,9 @@
       </b-row>
       
         <h4 v-for="item in sectionlist" :key="item.id">
-          {{ item }}
-          <h4 v-for="section in item.sessions" :key="section.id">
+          <h4 v-for="section in item.sessions.slice(0,1)" :key="section.id">
             section: {{ section.section }} professor: {{ section.instructor }}
+
         </h4> </h4> 
       <b-row>
         <b-col>
@@ -96,6 +96,9 @@ export default {
     };
   },
   methods: {
+    sortby(a,b){
+      return a.section - b.section
+    },
     generateRequirementsText,
   },
   computed: {
