@@ -383,14 +383,14 @@ export default {
     text-align: center;
     margin: 0;
     position: absolute;
-    top: 75%;
+    top: 85%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     }
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
-    background-color: rgba(108, 90, 90, 0.15);;    
+    background-color: rgba(108, 90, 90, 0.15);    
     margin: 0;
     position: absolute;
     top: 80%;
@@ -406,7 +406,7 @@ export default {
     font-weight: bolder;
     margin: 0;
     position: absolute;
-    top: 80%;
+    top: 95%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
