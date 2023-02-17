@@ -384,8 +384,9 @@ export default {
     margin: 0;
     position: absolute;
     top: 70%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     }
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
