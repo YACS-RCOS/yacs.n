@@ -329,8 +329,10 @@ export default {
                 
             }
 
+            let finalGPA = 0;
+
             if(listOfUnits.length > 0 && listOfCredits.length > 0){
-                finGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits); 
+                finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits); 
             }
             else if(listOfCredits.length > 0){
                 finalGPA = gpaUpdated;
@@ -342,7 +344,7 @@ export default {
 
             
             if (finalGPA >= 0){
-                CGPAPARAGRAPH.textContent = "Your GPA is " + finGPA.toFixed(2);   
+                CGPAPARAGRAPH.textContent = "Your GPA is " + finalGPA.toFixed(2);   
             } else {
                 CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";    
             }
