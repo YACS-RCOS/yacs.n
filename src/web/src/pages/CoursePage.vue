@@ -34,6 +34,9 @@
       <b-button class="openbtn"
                 :class="{active:isActive}"
                 @click="toggle()"
+                :style="{
+                  backgroundColor: isActive ? 'red' : null,
+                }"
                 >{{isActive ? 'Remove' : 'Select'}}</b-button>
     </div>
     <CenterSpinner
