@@ -391,7 +391,7 @@ export default {
     /*   height: 30px; */
     }
     button {
-    width: 25%;
+    width: 20%;
     height: 40px;
     padding: 1px;
     margin: 5px auto;
@@ -402,11 +402,11 @@ export default {
     }
 
     button1 {
-    width: 25%;
+    width: 20%;
     height: 40px;
     padding: 1px;
     margin: 5px auto;
-    /*   margin-left: 10px; */
+    margin-left: 10px; 
     border-width: 1px;
     border-radius: 10%;
     border-style: solid;
