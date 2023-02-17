@@ -379,7 +379,7 @@ export default {
     width: 100%;
     padding: 10px;
     display: inline-block;
-    margin: 0 auto;
+    margin: 2 auto;
     text-align: center;
     }
     .lastp {
