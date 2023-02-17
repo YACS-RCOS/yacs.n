@@ -1,14 +1,14 @@
 <template>
   <b-navbar
     id="header"
-    class="bg-white"
+    class="bg-dark"
     style="margin-bottom: 0 !important;"
     toggleable="md"
     type="primary"
-    variant="light"
+    variant=dark
   >
     <b-navbar-brand
-      class="align-middle text-dark"
+      class="align-middle text-blue"
       :to="{ name: 'CourseScheduler' }"
     >
       YACS
