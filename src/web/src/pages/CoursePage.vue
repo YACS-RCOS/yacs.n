@@ -17,10 +17,12 @@
           <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
         </b-col>
       </b-row>
-      <b-row>
-        <li v-for="item in courseObj.sessions" :key="item.id">
-        {{ item.section }} </li>
-      </b-row>
+      
+        <h4 v-for="item in sectionlist" :key="item.id">
+          {{ item }}
+          <h4 v-for="section in item.sessions" :key="section.id">
+            section: {{ section.section }} professor: {{ section.instructor }}
+        </h4> </h4> 
       <b-row>
         <b-col>
           <p v-html="transformed" />
@@ -128,6 +130,9 @@ export default {
     },
     courseObj() {
       return this.courses.find((course) => course.name === this.courseName);
+    },
+    sectionlist(){
+      return this.courseObj.sections
     },
     getCredits() {
       var credits;
