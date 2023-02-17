@@ -405,7 +405,7 @@ export default {
     width: 20%;
     height: 40px;
     padding: 1px;
-
+    margin: 5px auto;
     margin-left: 10px; 
     border-width: 1px;
     border-radius: 10%;
