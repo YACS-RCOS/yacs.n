@@ -373,12 +373,6 @@ export default {
     border-width: 3px;
     border-radius: 10%;
     border-style: solid;
-    margin: 0;
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
     }
 
     .btn {
