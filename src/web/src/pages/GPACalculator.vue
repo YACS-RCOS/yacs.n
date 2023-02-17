@@ -381,7 +381,11 @@ export default {
     display: inline-block;
     margin: 0 auto;
     text-align: center;
+    margin: 0;
+    position: absolute;
     top: 60%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
     }
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
