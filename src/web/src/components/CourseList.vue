@@ -30,6 +30,14 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+        <b-col>
+          <b-form-group label="Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="departmentOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
