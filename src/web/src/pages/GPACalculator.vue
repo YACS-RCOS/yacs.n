@@ -380,7 +380,7 @@ export default {
     padding: 15px;
     margin: 10px;
     border-radius: 5px;
-    width: 20%;
+    width: 25%;
     text-align: center;
     }
     select{
