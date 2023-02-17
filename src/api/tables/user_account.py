@@ -16,3 +16,11 @@ class UserAccount(Base):
     enable = Column(BOOLEAN, default=True)
     admin = Column(BOOLEAN, default=False)
     super_admin = Column(BOOLEAN, default=False)
+
+    '''
+    SELCET user_account.name, user_semester.semester, user_semester.courses, user_GPA
+    FROM user_account
+    RIGHT JOIN user_semester
+    ON user_semester.user_id=user_account.user_id
+    ORDER BY user_account.user_id
+    '''
