@@ -295,7 +295,7 @@ export default {
         {
           bgcolor: this.$store.state.darkMode
             ? allExportVariables.bColor
-            : "white",
+            : "black",
         }
       );
     },
