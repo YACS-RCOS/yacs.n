@@ -381,6 +381,7 @@ export default {
     display: inline-block;
     margin: 0 auto;
     text-align: center;
+    top: 60%;
     }
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
