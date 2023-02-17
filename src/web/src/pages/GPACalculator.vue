@@ -54,7 +54,7 @@
                     <div class="btn">
                     <button @click="addCourse();">+ Add</button>
                     <button @click="removeCourse();">- Remove</button>
-                    <button1 @click="calcCgpa();">Calculate GPA</button1>
+                    <button @click="calcCgpa();">Calculate GPA</button>
                     </div>
                     <div class="lastp">
                     <p id="cgpa-calc">Your GPA is:</p>
@@ -391,17 +391,6 @@ export default {
     /*   height: 30px; */
     }
     button {
-    width: 20%;
-    height: 40px;
-    padding: 1px;
-    margin: 5px auto;
-    /*   margin-left: 10px; */
-    border-width: 1px;
-    border-radius: 10%;
-    border-style: solid;
-    }
-
-    button1 {
     width: 20%;
     height: 40px;
     padding: 1px;
