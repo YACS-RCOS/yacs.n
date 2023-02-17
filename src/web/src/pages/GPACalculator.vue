@@ -54,7 +54,7 @@
                     <div class="btn">
                     <button @click="addCourse();">+ Add</button>
                     <button @click="removeCourse();">- Remove</button>
-                    <button @click="calcCgpa();">Calculate GPA</button>
+                    <button1 @click="calcCgpa();">Calculate GPA</button1>
                     </div>
                     <div class="lastp">
                     <p id="cgpa-calc">Your GPA is:</p>
@@ -85,7 +85,7 @@
                     <button @click="addClass();">+ Add Class</button>
                     <button @click="addGPA();">+ Add GPA</button>
                     <button @click="removeSemester();">- Remove</button>
-                    <button1 @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button1>
+                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc">Your GPA is:</p>
