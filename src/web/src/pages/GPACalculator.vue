@@ -53,6 +53,8 @@
                     <!-- <section class"btn">+ Add Course</section> -->
                     <div class="btn">
                     <button @click="addCourse();">+ Add</button>
+                    </div>
+                    <div class="btn1">
                     <button @click="removeCourse();">- Remove</button>
                     <button @click="calcCgpa();">Calculate GPA</button>
                     </div>
@@ -178,6 +180,7 @@ export default {
                 <option value="2.67">B-</option>
                 <option value="2.33">C+</option>
                 <option value="2.00">C</option>
+                <option value="2.33">C-</option>
                 <option value="1.33">D+</option>
                 <option value="1.00">D</option>
                 <option value="0.67">D-</option>
@@ -390,12 +393,12 @@ export default {
     /*   height: 30px; */
     }
     button {
-    width: 15%;
+    width: 25%;
     height: 40px;
     padding: 1px;
     margin: 5px auto;
     /*   margin-left: 10px; */
-    border-width: 3px;
+    border-width: 1px;
     border-radius: 10%;
     border-style: solid;
     }
@@ -404,12 +407,22 @@ export default {
     width: 100%;
     padding: 10px;
     display: inline-block;
-    margin: 0 auto;
+    margin: 1px auto;
     text-align: center;
     }
+
+    .btn1 {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+    margin: 1px auto;
+    text-align: center;
+    margin-left: 10px;
+    }
+
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
-    background-color: rgba(108, 90, 90, 0.15);;
+    background-color: rgba(108, 90, 90, 0.15);    
     }
     .lastp p {
     color: white;

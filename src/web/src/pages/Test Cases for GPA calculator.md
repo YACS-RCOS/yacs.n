@@ -12,7 +12,7 @@ B       |  4
 B-      |  4
 
 Expected GPA: 3.34
-
+Output: 3.33
 
 Input:
 
@@ -27,7 +27,7 @@ D-      |  4
 F       |  4
 
 Expected GPA: 1.29
-
+Output: 1.29
 
 Input:
 
@@ -41,6 +41,7 @@ B       |  4
 A       |  4
 
 Expected GPA: 3.31
+Output: 3.32
 
 
 Input:
@@ -57,6 +58,7 @@ C+      |  3
 A       |  4
 
 Expected GPA: 3.31
+Output: 3.32
 
 
 Input:
@@ -73,6 +75,7 @@ D       |  2
 D-      |  4
 
 Expected GPA: 2.25
+Output: 2.25
 
 
 Input:
@@ -85,6 +88,7 @@ D       |  1
 C+      |  4
 
 Expected GPA: 3.15
+Output: 3.15
 
 
 Input:
@@ -97,6 +101,7 @@ C-      |  4
 D       |  4
 
 Expected GPA: 1.75
+Output: 1.75
 
 
 Input:
@@ -109,6 +114,7 @@ A       |  2
 A       |  1
 
 Expected GPA: 4.00
+Output: 4.00
 
 
 Input:
@@ -121,6 +127,7 @@ A       |  2
 A       |  1
 
 Expected GPA: 1.60
+Output: 1.60
 
 
 Input:
@@ -133,3 +140,4 @@ F       |  2
 F       |  1
 
 Expected GPA: 0.00
+Output: 0.00
