@@ -365,7 +365,7 @@ export default {
     /*   height: 30px; */
     }
     button {
-    width: 15%;
+    width: 25%;
     height: 40px;
     padding: 1px;
     margin: 5px auto;
