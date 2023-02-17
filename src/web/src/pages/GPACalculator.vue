@@ -372,10 +372,11 @@ export default {
     
     #course-wrapper, form {
     color: white;
-    padding: 10px;
+    padding-left: 10px;
     margin: 0 auto;
     text-align: center;
     }
+    
     input{
     border: none;
     padding: 15px;
