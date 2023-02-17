@@ -383,7 +383,7 @@ export default {
     text-align: center;
     margin: 0;
     position: absolute;
-    top: 60%;
+    top: 70%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     }
