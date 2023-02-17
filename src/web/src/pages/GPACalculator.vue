@@ -32,7 +32,7 @@
                             required
                         />
                             <!--<label for="grade">Grade: </label> -->
-                        <select class="grade key-0" required>
+                        <select class="grade1 key-0" required>
                             <option class="grade" value="select">Select</option>
                             <option class="grade" value="4.00">A</option>
                             <option class="grade" value="3.67">A-</option>
