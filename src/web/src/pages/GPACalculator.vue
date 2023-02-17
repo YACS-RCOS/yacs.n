@@ -53,6 +53,8 @@
                     <!-- <section class"btn">+ Add Course</section> -->
                     <div class="btn">
                     <button @click="addCourse();">+ Add</button>
+                    </div>
+                    <div class="btn1">
                     <button @click="removeCourse();">- Remove</button>
                     <button @click="calcCgpa();">Calculate GPA</button>
                     </div>
@@ -370,7 +372,7 @@ export default {
     padding: 1px;
     margin: 5px auto;
     /*   margin-left: 10px; */
-    border-width: 4px;
+    border-width: 1px;
     border-radius: 10%;
     border-style: solid;
     }
@@ -379,9 +381,19 @@ export default {
     width: 100%;
     padding: 10px;
     display: inline-block;
-    margin: 2px auto;
+    margin: 1px auto;
     text-align: center;
     }
+
+    .btn1 {
+    width: 100%;
+    padding: 10px;
+    display: inline-block;
+    margin: 1px auto;
+    text-align: center;
+    margin-left: 10px;
+    }
+
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
     background-color: rgba(108, 90, 90, 0.15);    
