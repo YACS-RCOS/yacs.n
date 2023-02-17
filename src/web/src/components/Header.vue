@@ -51,11 +51,11 @@
           Pathways
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="university" />
           Professor
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="users" />
           Club
         </b-nav-item>
       </b-navbar-nav>
