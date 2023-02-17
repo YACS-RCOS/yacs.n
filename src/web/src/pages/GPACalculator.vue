@@ -53,8 +53,6 @@
                     <!-- <section class"btn">+ Add Course</section> -->
                     <div class="btn">
                     <button @click="addCourse();">+ Add</button>
-                    </div>
-                    <div class="btn1">
                     <button @click="removeCourse();">- Remove</button>
                     <button @click="calcCgpa();">Calculate GPA</button>
                     </div>
@@ -86,7 +84,7 @@
                     <div class="btn">
                     <button @click="addSemester();">+ Add</button>
                     <button @click="removeSemester();">- Remove</button>
-                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
+                    <button1 @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button1>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc">Your GPA is:</p>
@@ -377,21 +375,23 @@ export default {
     border-style: solid;
     }
 
+    button1 {
+    width: 25%;
+    height: 40px;
+    padding: 1px;
+    margin: 5px auto;
+    /*   margin-left: 10px; */
+    border-width: 1px;
+    border-radius: 10%;
+    border-style: solid;
+    }
+
     .btn {
     width: 100%;
     padding: 10px;
     display: inline-block;
     margin: 1px auto;
     text-align: center;
-    }
-
-    .btn1 {
-    width: 100%;
-    padding: 10px;
-    display: inline-block;
-    margin: 1px auto;
-    text-align: center;
-    margin-left: 10px;
     }
 
     .lastp {
