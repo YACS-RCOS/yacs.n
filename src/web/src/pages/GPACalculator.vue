@@ -74,15 +74,16 @@
                     <div class="calculator-box">
                         <h1>TOTAL GPA CALCULATOR</h1>
                         <div id="semester-wrapper">
-                        <input v-model="oldGPA" placeholder="Old GPA" />
-                        <input v-model="totCred" class= "credit_units key-0" placeholder="Total Prev. Credits" />
-                        <input v-model="newGPA" placeholder="New GPA" />
-                        <input v-model="curCred" class="credit_units key-0" placeholder="Current Credits" />
-
+                        
+                        <input v-model="totCred" class= "credit_units key-0" placeholder="Total Credits" />
+                        <input v-model="oldGPA" placeholder="GPA" />
+                        
+                        
                         </div>
                     
                     <div class="btn">
-                    <button @click="addSemester();">+ Add</button>
+                    <button @click="addClass();">+ Add Class</button>
+                    <button @click="addGPA();">+ Add GPA</button>
                     <button @click="removeSemester();">- Remove</button>
                     <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
                     </div>
@@ -193,16 +194,41 @@ export default {
             let mainForm = document.querySelector("form.add_new");
             mainForm.remove();
         },
-        addSemester() {
+        addGPA() {
             let addNew = document.createElement("form");
             addNew.classList.add("add_new", `key-${this.counter}`); //check what this does
             const semester_name = `
             <form class="add_new key-${this.counter}">
-                <input type="text" placeholder="Old GPA" class="courses key-${this.counter}" required>
-                <input type="number" placeholder="Total Prev. Credits" class="credit_units key-${this.counter}" required>
-                <input type="text" placeholder="New GPA" class="courses key-${this.counter}" required>
+                <input type="text" placeholder="Current GPA" class="courses key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units key-${this.counter}" required>
                
+            </form>
+            `;
+            addNew.innerHTML = semester_name;
+            document.getElementById("semester-wrapper").appendChild(addNew);
+            this.counter++;
+        },
+        addClass() {
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`); //check what this does
+            const semester_name = `
+            <form class="add_new key-${this.counter}">
+                <input type="number" placeholder="Credit Units" class="credit-units key-${this.counter}" required>
+                <select class="grade key-${this.counter}" required>
+                <option value="select">Select</option>
+                <option value="4.00">A</option>
+                <option value="3.67">A-</option>
+                <option value="3.33">B+</option>
+                <option value="3.00">B</option>
+                <option value="2.67">B-</option>
+                <option value="2.33">C+</option>
+                <option value="2.00">C</option>
+                <option value="1.33">D+</option>
+                <option value="1.00">D</option>
+                <option value="0.67">D-</option>
+                <option value="0.00">F</option>
+                <option value="">P</option>
+                </select>  
             </form>
             `;
             addNew.innerHTML = semester_name;
