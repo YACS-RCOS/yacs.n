@@ -53,11 +53,15 @@
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
+        <div
+            style="padding-top: 2px; padding-right: 7px"
+        >Color Mode</div>
         <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
           <b-form-checkbox
             :checked="$store.state.darkMode"
             :indeterminate="followDevice"
             @change="toggle_style()"
+            switch="true"
           ></b-form-checkbox>
           <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
         </b-nav-form>
@@ -158,6 +162,7 @@ export default {
           autoHideDelay: 2000,
           noHoverPause: true,
           variant: "info",
+          toaster:  'b-toaster-top-center',
         }
       );
     },
@@ -167,6 +172,7 @@ export default {
         autoHideDelay: 1000,
         noHoverPause: true,
         variant: "success",
+        toaster:  'b-toaster-top-center'
       });
     },
   },
