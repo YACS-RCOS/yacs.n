@@ -31,6 +31,24 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="Begin Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="TimeOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="End Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="TimeOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -95,7 +113,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments, getCourses } from "@/services/YacsService";
+import { getDepartments, getCourses, getTime } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -115,6 +133,8 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      selectedbegin_time: null,
+      selectedend_time: null,
       courseList: null,
       debounceTime: 300,
     };
@@ -122,6 +142,9 @@ export default {
   created() {
     getDepartments().then((departments) => {
       this.departmentOptions.push(...departments.map((d) => d.department));
+    });
+    getTime().then(() => {
+      this.TimeOptions.push(...time.map((t) => t.time));
     });
   },
   methods: {
@@ -150,6 +173,12 @@ export default {
     departmentOptions() {
       return [{ text: "All", value: null }].concat(
         ...this.departments.map(({ department }) => department)
+      );
+    },
+
+    TimeOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.time.map(({ start_time }) => start_time)
       );
     },
 

@@ -102,6 +102,19 @@ export const getDepartments = () =>
   client.get("/department").then(({ data }) => {
     return data;
   });
+export const getTime = () =>
+{
+  const start = new Date(2023, 1, 17, 0, 0);
+  const end = new Date(2023, 1, 17, 23, 30);
+  const timeList = [];
+  let time = new Date(start);
+  while (time <= end) {
+    timeList.push(time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+    time.setMinutes(time.getMinutes() + 30);
+  }
+  return timeList;
+}
+
 /**
  * Returns a list of all subsemesters
  * @returns {Promise<Subsemester[]>}
