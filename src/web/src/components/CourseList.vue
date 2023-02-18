@@ -31,6 +31,24 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="Begin Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="TimeOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="End Time filter" for="time">
+            <b-form-select
+              v-model="selectedTime"
+              :options="TimeOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+      </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -95,7 +113,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments, getCourses } from "@/services/YacsService";
+import { getDepartments, getCourses, getTimes } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -115,6 +133,8 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      selectedStartTime: null,
+      selectedEndTime:null,
       courseList: null,
       debounceTime: 300,
     };
@@ -123,6 +143,9 @@ export default {
     getDepartments().then((departments) => {
       this.departmentOptions.push(...departments.map((d) => d.department));
     });
+    getTimes().then(() => {
+      this.TimeOptions.push(...times.map((t) => t.times));
+    })
   },
   methods: {
     courseInfoModalToggle(course) {
@@ -165,6 +188,12 @@ export default {
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
+    },
+
+    TimeOptions(){
+      return [{ text: "All", value: null }].concat(
+        ...this.times.map(({}) => times)
+      );
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
