@@ -22,6 +22,9 @@
           <p v-html="transformed" />
         </b-col>
       </b-row>
+      <h4 v-for="item in instructorList" :key="item.id">
+          {{ item }}
+           </h4> 
       <b-row>
         <b-col class="mb-4">
 
@@ -106,7 +109,17 @@ export default {
           text: this.$route.params.course,
         },
       ],
+      instructorList:[]
     };
+  },
+  mounted(){
+    const instructors = new Set();
+    this.courseObj.sections.forEach(section => {
+      section.sessions.forEach(session => {
+        instructors.add(session.instructor);
+      });
+    });
+    this.instructorList = Array.from(instructors);
   },
   methods: {
     generateRequirementsText,
