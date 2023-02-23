@@ -17,12 +17,6 @@
           <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
         </b-col>
       </b-row>
-      
-        <h4 v-for="item in sectionlist" :key="item.id">
-          <h4 v-for="section in item.sessions.slice(0,1)" :key="section.id">
-            section: {{ section.section }} professor: {{ section.instructor }}
-
-        </h4> </h4> 
       <b-row>
         <b-col>
           <p v-html="transformed" />
@@ -30,12 +24,29 @@
       </b-row>
       <b-row>
         <b-col class="mb-4">
+
+          <CourseListing
+                :course="courseObj"
+                defaultAction="toggleCourse"
+                v-on="$listeners"
+                lazyLoadCollapse
+              >               
+              </CourseListing>
+          
+          <br />
+          Description
           <br />
           {{ courseObj.description }}
+          <br />
+          When offered: {{courseObj.frequency}} 
+          <br />
         </b-col>
       </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
+    
+      
+    
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -66,15 +77,17 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
-
+import CourseListingComponent from "@/components/CourseListing";
 export default {
   components: {
+    CourseListing: CourseListingComponent,
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
   },
   name: "CoursePage",
   data() {
     return {
+      coursePlaceHolder: this.courseObj,
       courseName: this.$route.params.course,
       breadcrumbNav: [
         {
@@ -96,9 +109,6 @@ export default {
     };
   },
   methods: {
-    sortby(a,b){
-      return a.section - b.section
-    },
     generateRequirementsText,
   },
   computed: {
@@ -106,9 +116,23 @@ export default {
     ...mapGetters([COURSES]),
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
+      console.log(this.courseObj);
+      
+      // let idx;
+      // let idx2;
+      if(this.courseObj!=null)
+      {
+        //let professorName = this.courseObj.sections[0].sessions[0].instructor;
+        //let sectionNum = this.courseObj.sections.length;
+        //console.log(sectionNum);
+        return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor;
+      }
+      
       if (precoreqtext === null) {
+        //console.log(this.courseObj.);
         return "No information on pre/corequisites";
       }
+      
       const regex = /([A-Z]){4}( )([0-9]){4}/g;
       while (precoreqtext.search(regex) != -1) {
         let index = precoreqtext.search(regex);
@@ -133,9 +157,6 @@ export default {
     },
     courseObj() {
       return this.courses.find((course) => course.name === this.courseName);
-    },
-    sectionlist(){
-      return this.courseObj.sections
     },
     getCredits() {
       var credits;
