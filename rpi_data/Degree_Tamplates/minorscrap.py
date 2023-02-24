@@ -13,7 +13,7 @@ def scrapFromURL(webLink):
     outFile.truncate(0)
 
     title_element = soup.find("h1", id="acalog-content")
-    outFile.write(minorelement.text)
+    outFile.write(minor_element.text)
     outFile.write(":\n")
 
     pathWayName = soup.find_all(id="acalog-content")
@@ -22,4 +22,3 @@ def scrapFromURL(webLink):
     for course in info:
         outFile.write(minorcourse.text)
     outFile.close()
-    cleaning1()
