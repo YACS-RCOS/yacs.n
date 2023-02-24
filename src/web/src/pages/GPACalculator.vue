@@ -431,23 +431,26 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: Georgia, serif;
     }
 
     #course-row {
     font-size: 20px;
+    color: #7c8a94;
     font-weight: bolder;
     margin-left: -2%;
     }
 
     #credit-row {
     font-size: 20px;
+    color: #7c8a94;
     font-weight: bolder;
     margin-left: 13%;
     }
 
     #grade-row {
     font-size: 20px;
+    color: #7c8a94;
     font-weight: bolder;
     margin-left: 8%;
     }
