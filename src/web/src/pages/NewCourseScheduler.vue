@@ -6,6 +6,7 @@
       </b-col>   
       <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
         <b-card no-body class="h-100">
+          <!-- Transition: resposible of transitions -->
           <Transition name="open-slide"> 
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</b>
@@ -742,10 +743,11 @@ export default {
   }
 }
 
-.open-slide-enter-active{
+.open-slide-enter-active {
 }
 
 .open-slide-leave-active {
+  transition: opacity 0.5s ease;
 }
 
 .open-slide-enter-from,
