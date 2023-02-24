@@ -4,6 +4,13 @@
       <b-col v-if = "!showing" class="m-1 text-center">
         <b-button class="openbtn" v-on:click="closeClick">☰ Open</b-button> 
       </b-col>  
+
+      <Sidebar>
+        <ul class="sidebar-panal-nav">
+          <li> check </li>
+        </ul>
+      </Sidebar>
+
       <!-- Start fixing 
       <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
         <b-card no-body class="h-100">
@@ -244,6 +251,8 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
+import Sidebar from "./Sidebar.vue"
+
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
     if ((p.time[i] & section.times[i]) > 0) return false;
@@ -263,9 +272,10 @@ export default {
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
-    SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent,
-    CenterSpinner: CenterSpinnerComponent,
+    Sidebar,
+    //SelectedCourses: SelectedCoursesComponent,
+    //CourseList: CourseListComponent,
+    //CenterSpinner: CenterSpinnerComponent,
   },
   data() {
     return {
