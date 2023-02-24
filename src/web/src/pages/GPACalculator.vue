@@ -120,7 +120,7 @@
                     <div class="btn">
                     <button @click="addWeight();">+ Add Class</button>
                     <button @click="removeSemester();">- Remove</button>
-                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
+                    <button @click="finClac(oldGPA1,totCred,newGPA,curCred);">Calculate GPA</button>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc1">Your GPA is:</p>
@@ -133,7 +133,6 @@
 
                 </b-card-text>
                 </b-tab>
-
 
 
 
@@ -358,7 +357,7 @@ export default {
             });
             console.log(listOfGrades);
 
-            UNITGPA.forEach((e) => {
+            UNITCLASS.forEach((e) => {
                 const unitValue = parseInt(e.value);
                 totalUnits += unitValue;
                 listOfUnits.push(unitValue);
@@ -374,7 +373,7 @@ export default {
             });
             console.log(listOfGPA);
 
-            UNITCLASS.forEach((e) => {
+            UNITGPA.forEach((e) => {
                 const creditValue = parseInt(e.value);
                 totalCredits += creditValue;
                 listOfCredits.push(creditValue);
@@ -421,7 +420,7 @@ export default {
             if(listOfUnits.length > 0 && listOfCredits.length > 0){
                 finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits);
             }
-            else if(listOfCredits.length > 0){
+            else if(listOfCredits.length > 0){ 
                 finalGPA = gpaUpdated;
             }
             else if(listOfUnits.length > 0){
