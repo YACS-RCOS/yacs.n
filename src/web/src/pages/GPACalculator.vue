@@ -85,7 +85,7 @@
                     <button @click="addClass();">+ Add Class</button>
                     <button @click="addGPA();">+ Add GPA</button>
                     <button @click="removeSemester();">- Remove</button>
-                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
+                    <button @click="calcFgpa();">Calculate GPA</button>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc">Your GPA is:</p>
