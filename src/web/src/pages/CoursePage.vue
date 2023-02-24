@@ -22,9 +22,13 @@
           <p v-html="transformed" />
         </b-col>
       </b-row>
-      <h4 v-for="item in instructorList" :key="item.id">
-          {{ item }}
-           </h4> 
+      <h2>Instructors:</h2>
+      <ul>
+        <li v-for="item in instructorList" :key="item.id">
+        {{ item }}
+      </li> 
+      </ul>
+      
       <b-row>
         <b-col class="mb-4">
 
@@ -113,12 +117,22 @@ export default {
     };
   },
   mounted(){
+    //Creat a set to store professor names.
     const instructors = new Set();
+    //Use the loop to get professor name of each session
     this.courseObj.sections.forEach(section => {
       section.sessions.forEach(session => {
-        instructors.add(session.instructor);
+        //Some sessions may have mult professor just split them
+        const instructorArr = session.instructor.split("/");
+        instructorArr.forEach(instructor =>{
+          //Remove duplicate items, and some strange names
+          if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
+          instructors.add(instructor.trim());
+        }
+        });
       });
     });
+    //Change set to array
     this.instructorList = Array.from(instructors);
   },
   methods: {
@@ -133,14 +147,7 @@ export default {
       
       // let idx;
       // let idx2;
-      if(this.courseObj!=null)
-      {
-        //let professorName = this.courseObj.sections[0].sessions[0].instructor;
-        //let sectionNum = this.courseObj.sections.length;
-        //console.log(sectionNum);
-        return "Instructor Name: " + this.courseObj.sections[0].sessions[0].instructor;
-      }
-      
+
       if (precoreqtext === null) {
         //console.log(this.courseObj.);
         return "No information on pre/corequisites";
