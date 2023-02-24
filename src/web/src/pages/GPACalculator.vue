@@ -5,8 +5,8 @@
         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                 <b-tab class="flex-grow-1" data-cy="course-search-tab">
                 <template v-slot:title>
-                    <div class="text-center" data-cy="course-search-tab-header">   
-                    GPA For Semester               
+                    <div class="text-center" data-cy="course-search-tab-header">
+                    GPA For Semester
                     </div>
                 </template>
                 <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -15,7 +15,7 @@
                         <h1>GPA CALCULATOR</h1>
                         <div id="course-wrapper">
                         <form class="key-0">
-                        <p> <label id="course-row" for="courses">Courses:</label> 
+                        <p> <label id="course-row" for="courses">Courses:</label>
                         <label id="credit-row" for="credit-units">Credit Units:</label>
                         <label id="grade-row" for="grade">Grades: </label></p>
                         <input
@@ -66,7 +66,7 @@
                 <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
                 <template v-slot:title>
                     <div class="text-center" data-cy="selected-courses-tab-header">
-                    Total GPA After Semester    
+                    Total GPA After Semester
                     </div>
                 </template>
                 <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
@@ -74,13 +74,13 @@
                     <div class="calculator-box">
                         <h1>TOTAL GPA CALCULATOR</h1>
                         <div id="semester-wrapper">
-                        
+
                         <input v-model="totCred" class= "credit_units0 key-0" placeholder="Total Credits" />
                         <input v-model="oldGPA" class = "oldGPA key-0" placeholder="GPA" />
-                        
-                        
+
+
                         </div>
-                    
+
                     <div class="btn">
                     <button @click="addClass();">+ Add Class</button>
                     <button @click="addGPA();">+ Add GPA</button>
@@ -94,6 +94,50 @@
 
                 </b-card-text>
                 </b-tab>
+
+
+                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                <template v-slot:title>
+                    <div class="text-center" data-cy="elected-courses-tab-header">
+                        Weight Calculator
+
+                    </div>
+                </template>
+                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+
+
+
+
+                    <div class="calculator-box">
+                        <h1>Weight Calculator</h1>
+                        <div id="weight-wrapper">
+
+                        <input v-model="totCred" class= "credit_units0 key-0" placeholder="Total Credits" />
+                        <input v-model="oldGPA" class = "oldGPA key-0" placeholder="GPA" />
+
+                        </div>
+
+                    <div class="btn">
+                    <button @click="addWeight();">+ Add Class</button>
+                    <button @click="removeSemester();">- Remove</button>
+                    <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
+                    </div>
+                    <div class="lastp">
+                    <p id="fin-calc">Your GPA is:</p>
+                    </div>
+                    </div>
+
+
+
+
+
+                </b-card-text>
+                </b-tab>
+
+
+
+
+
         </b-tabs>
     </b-container>
 </template>
@@ -114,9 +158,21 @@ export default {
         ],
         counter: 0,
         reports: [],
+        forms: [],
     };
     },
     methods: {
+        AddForm() {
+            const newForm = {
+            id: Date.now(),
+            name:``,
+
+            }
+            this.forms.push(newForm);
+        },
+        removeForm(id) {
+            this.forms = this.forms.filter(form => form.id !== id);
+        },
         finClac(oldGPA,totCred,newGPA,curCred){
             let resultGPA = 0;
             let gpaDif= Math.abs(oldGPA-newGPA);
@@ -158,8 +214,8 @@ export default {
                 return .67 * unit;
             } else if (grade === "F") {
                 return 0 * unit;
-            } 
-            
+            }
+
         },
         addCourse() {
             let addNew = document.createElement("form");
@@ -183,7 +239,7 @@ export default {
                 <option value="0.67">D-</option>
                 <option value="0.00">F</option>
                 <option value="">P</option>
-                </select>  
+                </select>
             </form>
             `;
             addNew.innerHTML = course_name;
@@ -196,12 +252,13 @@ export default {
         },
         addGPA() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`); 
+            addNew.classList.add("add_new", `key-${this.counter}`);
             const semester_name = `
             <form class="add_new key-${this.counter}">
                 <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
-               
+                <button @click = "selfRemove()">-</button>
+
             </form>
             `;
             addNew.innerHTML = semester_name;
@@ -210,7 +267,7 @@ export default {
         },
         addClass() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`); 
+            addNew.classList.add("add_new", `key-${this.counter}`);
             const semester_name = `
             <form class="add_new key-${this.counter}">
                 <input type="number" placeholder="Credit Units" class="credit_units2 key-${this.counter}" required>
@@ -229,11 +286,41 @@ export default {
                 <option value="0.67">D-</option>
                 <option value="0.00">F</option>
                 <option value="">P</option>
-                </select>  
+                </select>
+                <button @click = "selfRemove()">-</button>
             </form>
             `;
             addNew.innerHTML = semester_name;
             document.getElementById("semester-wrapper").appendChild(addNew);
+            this.counter++;
+        },
+        addWeight() {
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`);
+            const semester_name = `
+            <form class="add_new key-${this.counter}">
+
+                <input type="text" placeholder="Course Name" class="courses key-${this.counter}">
+
+                <select class="level key-${this.counter}" required>
+                <option value="select">Level</option>
+                <option value="1">1000</option>
+                <option value="2">2000</option>
+                <option value="4">4000</option>
+                </select>
+
+                <select class="level key-${this.counter}" required>
+                <option value="select">Type</option>
+                <option value="0">Major</option>
+                <option value="1">Hass</option>
+                <option value="2">Others</option>
+
+                </select>
+
+            </form>
+            `;
+            addNew.innerHTML = semester_name;
+            document.getElementById("weight-wrapper").appendChild(addNew);
             this.counter++;
         },
         removeSemester() {
@@ -294,10 +381,10 @@ export default {
             });
             console.log(listOfCredits);
 
-           
+
 
             let totalEarnedUnits = 0;
-           
+
 
             for (let i = 0; i < listOfUnits.length; i++) {
                 if(listOfGrades[i] != "P"){
@@ -306,7 +393,7 @@ export default {
                 else{
                     totalUnits -= listOfUnits[i];
                 }
-                
+
             }
 
             const gpaGrades = totalEarnedUnits / totalUnits;
@@ -321,32 +408,32 @@ export default {
                     gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
                 }
                 else{
-                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]); 
+                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]);
                 }
 
                 totalCredits += listOfCredits[i];
-                
-                
+
+
             }
 
             let finalGPA = 0;
 
             if(listOfUnits.length > 0 && listOfCredits.length > 0){
-                finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits); 
+                finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits);
             }
             else if(listOfCredits.length > 0){
                 finalGPA = gpaUpdated;
             }
             else if(listOfUnits.length > 0){
-                finalGPA = this.finClac(originalGPA, originalCredit, gpaGrades, totalUnits); 
+                finalGPA = this.finClac(originalGPA, originalCredit, gpaGrades, totalUnits);
             }
-            
 
-            
+
+
             if (finalGPA >= 0){
-                CGPAPARAGRAPH.textContent = "Your GPA is " + finalGPA.toFixed(2);   
+                CGPAPARAGRAPH.textContent = "Your GPA is " + finalGPA.toFixed(2);
             } else {
-                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";    
+                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";
             }
         },
         calcCgpa() {
@@ -385,25 +472,47 @@ export default {
                 else{
                     totalUnits -= listOfUnits[i];
                 }
-                
+
             }
             const gpa = totalEarnedUnits / totalUnits;
-            
+
             if (gpa >= 0){
-                CGPAPARAGRAPH.textContent = "Your GPA is " + gpa.toFixed(2);   
+                CGPAPARAGRAPH.textContent = "Your GPA is " + gpa.toFixed(2);
             } else {
-                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";    
+                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";
             }
+        },
+
+        selfRemove(){
+            this.formData = null;
+        },
+
+
+        CourseWeight(level, isMajor, isHass){
+            let TypeWeight = 0.7;
+            let LevelWeight = 0.3;
+            let type = 0;
+            if(isMajor){
+                type = 2;
+            }else if(isHass){
+                type = 0.7;
+            }else{
+                type = 1;
+            }
+            let score = TypeWeight * type + LevelWeight * level;
+            return score;
         }
+
+
     }
 };
 //during the end of this semester one feature that I worked on was YACS gpa calculator
 //this claculator has 2 features- 1 where you simply calculate your gpa from the given smemster
 //                              - 1 see what your new gpa from your past gpa based on your credit hours
-//this was a great project that helpred me get more familiar with vue 
+//this was a great project that helpred me get more familiar with vue
 //Some features that were interesting was the buttons on my gpa calculator add remove and calculate
 //add: adds to the list of classes taken and will show a new row in this calculaore
-//remove: opposite of add and deletes the last row 
+//remove: opposite of add and deletes the last row
 //calculate: a calculate function that takes the credits and grades of each course and loops through with an algorithm to calculate your final gpa
 </script>
 
@@ -417,7 +526,7 @@ export default {
 
     #course-row {
     font-size: 20px;
-    font-weight: bolder; 
+    font-weight: bolder;
     margin-left: -2%;
     }
 
@@ -477,14 +586,14 @@ export default {
     color: white;
     text-align: center;
     }
-    
+
     #course-wrapper, form {
     color: white;
     padding-left: 10px;
     margin: 0 auto;
     text-align: center;
     }
-    
+
     input{
     border: none;
     padding: 15px;
@@ -505,7 +614,7 @@ export default {
     height: 40px;
     padding: 1px;
     margin: 5px auto;
-    margin-left: 10px; 
+    margin-left: 10px;
     border-width: 1px;
     border-radius: 10%;
     border-style: solid;
@@ -521,7 +630,7 @@ export default {
 
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
-    background-color: rgba(108, 90, 90, 0.15);    
+    background-color: rgba(108, 90, 90, 0.15);
     }
     .lastp p {
     color: white;
@@ -529,6 +638,6 @@ export default {
     padding: 10px;
     font-size: 30px;
     font-weight: bolder;
-    } 
+    }
 
 </style>
