@@ -128,7 +128,7 @@ export default {
       selectedDepartment: null,
       selectedCredits: null,
       courseList: null,
-      debounceTime: 300
+      debounceTime: 300,
     };
   },
   created() {
@@ -214,7 +214,7 @@ export default {
             (this.selectedSubsemester.date_start.getTime() ===
               course.date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime())))
+                course.date_end.getTime())));
 
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
