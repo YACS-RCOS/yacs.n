@@ -18,36 +18,6 @@
                         <p> <label id="course-row" for="courses">Courses:</label>
                         <label id="credit-row" for="credit-units">Credit Units:</label>
                         <label id="grade-row" for="grade">Grades: </label></p>
-                        <input
-                            type="text"
-                            placeholder="Course Code"
-                            class="courses key-0"
-                            required/>
-                            <!-- <label for="credit-units">Credit Units:</label> -->
-                        <input
-                            type="number"
-                            class="credit-units key-0"
-                            placeholder="Credit Units"
-                            value=""
-                            required
-                        />
-                            <!--<label for="grade">Grade: </label> -->
-                        <select class="grade1 key-0" required>
-                            <option class="grade" value="select">Select</option>
-                            <option class="grade" value="4.00">A</option>
-                            <option class="grade" value="3.67">A-</option>
-                            <option class="grade" value="3.33">B+</option>
-                            <option class="grade" value="3.00">B</option>
-                            <option class="grade" value="2.67">B-</option>
-                            <option class="grade" value="2.33">C+</option>
-                            <option class="grade" value="2.00">C</option>
-                            <option class="grade" value="1.67">C-</option>
-                            <option class="grade" value="1.33">D+</option>
-                            <option class="grade" value="1.00">D</option>
-                            <option class="grade" value="0.67">D-</option>
-                            <option class="grade" value="0.00">F</option>
-                            <option class="grade" value="">P</option>
-                        </select>
                     </form>
                     </div>
                     <!-- <section class"btn">+ Add Course</section> -->
@@ -589,7 +559,7 @@ export default {
 
     #course-wrapper, form {
     color: white;
-    padding: 15px;
+    padding: 10px;
     margin: 0 auto;
     text-align: center;
     width: 100%;
@@ -597,14 +567,14 @@ export default {
 
     input{
     border: none;
-    padding: 15px;
+    padding: 10px;
     margin: 10px;
     border-radius: 5px;
     width: 25%;
     text-align: center;
     }
     select{
-    padding: 15px;
+    padding: 10px;
     border: none;
     border-radius: 7.5px;
     width: 20%;
@@ -615,7 +585,7 @@ export default {
     height: 40px;
     padding: 1px;
     margin: 5px auto;
-    margin-left: 10px;
+    margin-left: 20px;
     border-width: 1px;
     border-radius: 10%;
     border-style: solid;
