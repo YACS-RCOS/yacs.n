@@ -249,6 +249,8 @@ export default {
 
             let originalCredit = parseInt(OGCREDITS.value);
             let originalGPA = parseFloat(OGGPA.value);
+            console.log(originalCredit);
+            console.log(originalGPA);
 
             GRADESSELECT.forEach((e) => {
                 let GRADES = e.options;
@@ -266,11 +268,8 @@ export default {
             });
             console.log(listOfUnits);
 
-            GPAINP.forEach((e) => {
-                let GPA = e.options;
-                const selectedIndex = e.selectedIndex;
-                const selectedGPA = GPA[selectedIndex];
-                const GPAValue = selectedGPA.text.toUpperCase();
+            GPAINP.forEach((a) => {
+                const GPAValue = parseFloat(a.value);
                 listOfGPA.push(GPAValue);
             });
             console.log(listOfGPA);
@@ -281,7 +280,6 @@ export default {
                 listOfCredits.push(creditValue);
             });
             console.log(listOfCredits);
-
 
 
             let totalEarnedUnits = 0;
@@ -307,14 +305,15 @@ export default {
 
             for (let i = 0; i < listOfCredits.length; i++) {
                 if(i==0){
-                    gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
+                    gpaUpdated = this.finClac(originalGPA, originalCredit+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                     
                 }
                 else{
-                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]);
+                   gpaUpdated = this.finClac(gpaUpdated, totalCredits+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                 }
 
                 totalCredits += listOfCredits[i];
+                console.log(gpaUpdated);
                 
 
             }
@@ -324,13 +323,16 @@ export default {
             let finalGPA = 0;
 
             if(listOfUnits.length > 0 && listOfCredits.length > 0){
-                finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits);
+                finalGPA = this.finClac(gpaUpdated, totalCredits, gpaGrades, totalUnits);
+                console.log(finalGPA);
             }
             else if(listOfCredits.length > 0){ 
                 finalGPA = gpaUpdated;
+                console.log(finalGPA);
             }
             else if(listOfUnits.length > 0){
                 finalGPA = this.finClac(originalGPA, originalCredit, gpaGrades, totalUnits);
+                console.log(finalGPA);
             }
 
 
