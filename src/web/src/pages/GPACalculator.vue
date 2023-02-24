@@ -592,6 +592,7 @@ export default {
     padding: 15px;
     margin: 0 auto;
     text-align: center;
+    width: 25%;
     }
 
     input{
@@ -599,7 +600,7 @@ export default {
     padding: 15px;
     margin: 10px;
     border-radius: 5px;
-    /*width: 25%;*/
+    width: 25%;
     text-align: center;
     }
     select{
