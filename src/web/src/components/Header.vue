@@ -50,7 +50,7 @@
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
-        <b-nav-item :to="{ name: 'Pathway' }">
+        <b-nav-item :to="{ name: 'Professor' }">
           <font-awesome-icon icon="university" />
           Professor
         </b-nav-item>
