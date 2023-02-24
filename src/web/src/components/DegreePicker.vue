@@ -7,6 +7,7 @@
         :options="degrees"
         required
         @input="check"
+        @change="currentmajor = [null]"
       ></b-form-select>
     </b-form-group>
 
