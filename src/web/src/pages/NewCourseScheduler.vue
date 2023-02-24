@@ -4,9 +4,9 @@
       <b-col v-if = "!showing" class="m-1 text-center">
         <b-button class="openbtn" v-on:click="closeClick">☰ Open</b-button> 
       </b-col>   
-      <Transition name="slide-open"> 
-        <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
-          <b-card no-body class="h-100">
+      <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
+        <b-card no-body class="h-100">
+          <Transition name="slide-open"> 
             <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
               <b href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</b>
               <b-tab
@@ -53,9 +53,9 @@
                 </b-card-text>
               </b-tab>
             </b-tabs>
-          </b-card>
-        </b-col>
-      </Transition>
+          </Transition>
+        </b-card>
+      </b-col>
       <div :class= "[main]">
         <b-form-select
           v-if="
