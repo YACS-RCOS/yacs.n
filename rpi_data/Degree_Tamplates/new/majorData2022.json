@@ -20,7 +20,7 @@
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4"],
    "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1100 - Chemistry I Credit Hours: 4","Course: MANE 1060 - Fundamentals of Flight Credit Hours: 1","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4"],
    "Y2": "Second Year",
-   "Y2S1": [ "Fall","Course: SoE 2…. Engineering Design Elective","Course: ENGR 1300 - Engineering Processes Credit Hours: 1","Course: ENGR 2530 - Strength of Materials Credit Hours: 4","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4","Course: MANE 2710 - Thermodynamics Credit Hours: 3"],
+   "Y2S1": [ "Fall","Course: SoE 2…. Engineering Design Elective","Course: ENGR 1300 - Engineering Processes Credit Hours: 1","Course: ENGR 2530 - Strength of Materials Credit Hours: 4","Course: MANE 2710 - Thermodynamics Credit Hours: 3","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4"],
    "Y2S2": [ "Spring","Course: HASS Core Elective  Credit Hours: 4","Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","Course: MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3","Course: MANE 2720 - Fluid Mechanics Credit Hours: 3","Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4"],
    "Y3": "Third Year",
    "Y3S1": [ "The Arch Semester","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4","Course: MANE 4060 - Aerospace Structures and Materials Credit Hours: 4","Course: MANE 4070 - Aerodynamics Credit Hours: 4"],
@@ -180,7 +180,7 @@
    "Y4S2": [ "Spring","Course: Free Elective II Credit Hours: 4","Course: Free Elective III Credit Hours: 4","Course: CHME 4060 - Chemical Process Design: Applications Credit Hours: 3","Course: CHME 4160 - Chemical Engineering Laboratory II Credit Hours: 3","Course: CHME 4170 - Bioprocessing Laboratory Course Credit Hours: 3","Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1"]
  },
  {
-   "Major": "Chemistry ",
+   "Major": "Chemistry B.S.",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4","Course: CHEM 1900 - Chemistry for Life Credit Hours: 1"],
    "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1200 - Chemistry II Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4"],
@@ -196,19 +196,6 @@
  },
  {
    "Major": "Chemistry - Chemical Biology Track",
-   "Y1": "First Year",
-   "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","Course: CHEM 1900 - Chemistry for Life Credit Hours: 1","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4"],
-   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1200 - Chemistry II Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4"],
-   "Y2": "Second Year",
-   "Y2S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 2110 - Equilibrium Chemistry and Quantitative Analysis Credit Hours: 3","Course: CHEM 2120 - Experimental Chemistry I: Analytical Techniques Credit Hours: 2","Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4"],
-   "Y2S2": [ "Spring","Course: Elective Credit Hours: 4","Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3","Course: CHEM 2030 - Inorganic Chemistry I Credit Hours: 3","Course: CHEM 2260 - Organic Chemistry II Credit Hours: 3","Course: CHEM 2290 - Experimental Chemistry II: Synthesis and Characterization Credit Hours: 3"],
-   "Y3": "Third Year",
-   "Y3S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: Elective Credit Hours: 4","Course: CHEM 4410 - Macroscopic Physical Chemistry Credit Hours: 3","Course: CHEM 4760 - Molecular Biochemistry I Credit Hours: 4"],
-   "Y3S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: Elective Credit Hours: 4","Course: BIOL 2500 - Genetics and Evolution Credit Hours: 4","Course: CHEM 4420 - Microscopic Physical Chemistry Credit Hours: 3","Course: CHEM 4030 - Experimental Chemistry III Abridged: Physical Methods Credit Hours: 2"],
-   "Y4": "Fourth Year",
-   "Y4S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: Electives Credit hours: 4","Course: CHEM 4110 - Instrumental Methods of Analysis Credit Hours: 3","Course: CHEM 4900 - Professional Development Seminar Credit Hours: 1","Course: CHEM 4950 - Senior Experience Credit Hours: 2"],
-   "Y4S2": [ "Spring","Course: Electives Credit hours 3","Course: BIOL 4710 - Biochemistry Laboratory Credit Hours: 6","Course: CHEM 4120 - Experimental Chemistry IV: Physical and Instrumental Methods Credit Hours: 3","Course: CHEM 4770 - Molecular Biochemistry II Credit Hours: 4"]
- },
  {
    "Major": "Chemistry - Industrial Chemistry Track",
    "Y1": "First Year",
@@ -282,7 +269,11 @@
    "Y3S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: ECSE 2050 - Introduction to Electronics Credit Hours: 4","Course: ECSE 2410 - Signals and Systems Credit Hours: 3","Course: ECSE 2500 - Engineering Probability Credit Hours: 3","Course: ECSE 2900 - ECSE Enrichment Seminar Credit Hours: 1"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: Computer Engineering Elective Credit Hours: 3-4​","Course: Restricted Elective Credit Hours: 3-4","Course: Technical Elective Credit Hours: 3-4","Course: Free Elective Credit Hours: 3-4","Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3","Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1"],
-   "Y4S2": [ "Spring","Course: Restricted Elective Credit Hours: 3-4","Course: Science Elective Credit Hours: 4","Course: Free Electives (2 if needed) Credit Hours: 3 - 8","Course: HASS Core Elective Credit Hours: 4"]
+   "Y4S2": [ "Spring","Course:"]
+ },
+ {
+   "Major": "Restricted Elective Credit Hours 3-4",
+,"Course: Science Elective Credit Hours: 4","Course: Free Electives (2 if needed) Credit Hours: 3 - 8","Course: HASS Core Elective Credit Hours: 4"]
  },
  {
    "Major": "Computer Science",
@@ -338,7 +329,11 @@
    "Y2S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: ECON 2010 - Intermediate Microeconomic Theory Credit Hours: 4","Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4"],
    "Y2S2": [ "Spring","Course: Economics Elective Credit Hours: 4","Course: Statistics Option Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: ECON 2020 - Intermediate Macroeconomic Theory Credit Hours: 4"],
    "Y3": "Third Year",
-   "Y3S1": [ "The Arch Semester","Course: HASS Core Elective Credit Hours: 4","Course: Science Core Elective Credit Hours: 4 (if Statistics Option did not count toward the Science Core)","or Free Elective Credit Hours 4 (if Statistics Option did count toward the Science Core)","Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4"],
+   "Y3S1": [ "The Arch Semester","Course: HASS Core Elective Credit Hours: 4","Course: Science Core Elective Credit Hours: 4 (if Statistics Option did not count toward the Science Core)"]
+ },
+ {
+   "Major": "or Free Elective Credit Hours 4 (if Statistics Option did count toward the Science Core)",
+,"Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4"],
    "Y3S2": [ "Spring","Course: Economics Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: ECON 4570 - Econometrics Credit Hours: 4"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: Culminating Experience Credit Hours: 4","​(See list below)"],
@@ -378,19 +373,18 @@
    "Major": "Engineering Core Curriculum",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1100 - Chemistry I Credit Hours: 4","Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","Course: MATH 1010 - Calculus I Credit Hours: 4"],
-   "Y1S2": [ "Spring","Course: Science Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 1300 - Engineering Processes Credit Hours: 1","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4"],
+   "Y1S2": [ "Spring","Course:  Science Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 1300 - Engineering Processes Credit Hours: 1","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4"],
    "Y2": "Second Year",
    "Y2S1": [ "Fall","Course: Engineering Elective Credit Hours: 4","Course: Engineering Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4"],
-   "Y2S2": [ "Spring","Course: Engineering Elective Credit Hours: 4","Course: Engineering Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4"]
- },
- {
+   "Y2S2": [ "Spring","Course: Engineering Elective Credit Hours: 4","Course: Engineering Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4"],
+,"Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4" {
    "Major": "Environmental Engineering",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1100 - Chemistry I Credit Hours: 4","Course: CIVL 1200 - Engineering Graphics for Civil Engineers Credit Hours: 1","Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4"],
-   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4","Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1","Course: CHEM 1200 - Chemistry II Credit Hours: 4"],
+   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4","Course: CHEM 1200 - Chemistry II Credit Hours: 4","Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1"],
    "Y2": "Second Year",
    "Y2S1": [ "Fall","Course: Biological Science Elective Credit Hours: 4","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4","Course: CIVL 2050 - Fluid Mechanics for Civil and Environmental Engineering Credit Hours: 4"],
-   "Y2S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","Course: ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4","Course: CIVL 2060 - Introduction to Water Resources Engineering Credit Hours: 4","Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1"],
+   "Y2S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3","Course: ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4","Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1","Course: CIVL 2060 - Introduction to Water Resources Engineering Credit Hours: 4"],
    "Y3": "Third Year",
    "Y3S1": [ "The Arch Semester","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective I Credit Hours: 4","Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4","Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1","Course: ENVE 4370 - Applied Hydrology and Design Credit Hours: 4"],
    "Y3S2": [ "Spring","Course: Technical Elective Credit Hours: 3","Course: Professional Development -Technical Issues and Solutions Credit Hourse: 2","Course: Multidisciplinary Eng, Elective Credit Hours: 3","Course: ENVE 4320 - Environmental Chemodynamics Credit Hours: 4","Course: ENVE 4340 - Physicochemical Processes in Environmental Engineering Credit Hours: 4"],
@@ -408,10 +402,8 @@
    "Y2S2": [ "Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: IENV 1910 - Environmental Seminar Credit Hours: 2","Course: PHYS 1100 - Physics I Credit Hours: 4","Course: ERTH 2200 - Environmental Data Analysis Credit Hours: 4"],
    "Y3": "Third Year",
    "Y3S1": [ "The Arch Semester","Course: HASS Core Electives  Credit Hours: 8","Course: Track Course or Free Elective  Credit Hours: 4","Course: ERTH 4190 - Environmental Measurements Credit Hours: 4"],
-   "Y3S2": [ "Fall or Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Elective  Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4"],
-   "Y3S3": [ "Arch-Exempt Students Fall","Course: IENV 4700 - One Mile of the Hudson River Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Electives  Credit Hours: 8"],
-   "Y3S4": [ "Arch-Exempt Students Spring","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 4","HASS Core Electives  Credit Hours: 4"],
-   "Y4": "Fourth Year",
+   "Y3S2": [ "Spring","Course: Track Course or Free Elective  Credit Hours: 4","Course: HASS Core Elective  Credit Hours: 4","Course: BIOL 4880 - Global Environmental Change Credit Hours: 4","Course: ERTH 4500 - Earth’s Climate: Past, Present, and Future Credit Hours: 4"],
+   "Y3S1": [ "The Arch Semester"   "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: Culminating Experience  Credit Hours: 4","Course: Track Course or Free Elective  Credit Hours: 8","Course: ERTH 4750 - Geographic Information Systems in the Sciences Credit Hours: 4"],
    "Y4S2": [ "Spring","Course: Track Course and Free Elective  Credit Hours: 12","Course: BIOL 4850 - Principles of Ecology Credit Hours: 4"]
  },
@@ -419,7 +411,11 @@
    "Major": "Games and Simulation Arts and Sciences",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: GSAS 1040 - Art for Interactive Media Credit Hours: 4","Course: GSAS 2510 - Introduction to Game Design Credit Hours: 4","Course: CSCI 1100 - Computer Science I Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4"],
-   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: GSAS 2540 - Introduction to Game Programming Credit Hours: 4","Course: CSCI 1200 - Data Structures Credit Hours: 4","Course: or","Science Core Elective Credit Hours 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)","Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4","Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)"],
+   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: GSAS 2540 - Introduction to Game Programming Credit Hours: 4","Course: CSCI 1200 - Data Structures Credit Hours: 4","Course: or"]
+ },
+ {
+   "Major": "Science Core Elective Credit Hours 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)",
+,"Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: MATH 1520 - Mathematical Methods in Management and Economics Credit Hours: 4","Course: Science Core Elective Credit Hours: 4 (CSCI 1200 Data Structures is required for only the CSCI & COGS concentrations)"],
    "Y2": "Second Year",
    "Y2S1": [ "Fall","Course: GSAS Concentration Course Credit Hours: 4","Course: GSAS Concentration Course Credit Hours: 4","Course: GSAS 2520 - Introduction to Game Storytelling Credit Hours: 4","Course: GSAS 4520 - Game Development I Credit Hours: 4"],
    "Y2S2": [ "Spring","Course: GSAS Concentration Course​ Credit Hours: 4","Course: GSAS Concentration Course​ Credit Hours: 4","Course: GSAS 1600 - History and Culture of Games Credit Hours: 4","Course: GSAS 4540 - Game Development II Credit Hours: 4"],
@@ -523,7 +519,11 @@
  {
    "Major": "Mechanical Engineering Curriculum",
    "Y1": "First Year",
-   "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CHEM 1100 - Chemistry I Credit Hours: 4","Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","Course: MATH 1010 - Calculus I Credit Hours: 4"],
+   "Y1S1": [ "Fall","Course:"]
+ },
+ {
+   "Major": "HASS Core Elective Credit Hours 4",
+,"Course: CHEM 1100 - Chemistry I Credit Hours: 4","Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4","Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1","Course: MATH 1010 - Calculus I Credit Hours: 4"],
    "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: ENGR 1300 - Engineering Processes Credit Hours: 1","Course: ENGR 1600 - Materials Science Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4","Course: PHYS 1100 - Physics I Credit Hours: 4"],
    "Y2": "Second Year",
    "Y2S1": [ "Fall","Course: STSO 4100   - Professional Development II Credit Hours: 2","Course: ENGR 2530 - Strength of Materials Credit Hours: 4","Course: MANE 2710 - Thermodynamics Credit Hours: 3","Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4","Course: PHYS 1200 - Physics II Credit Hours: 4"],
@@ -582,15 +582,6 @@
  },
  {
    "Major": "Physician-Scientist",
-   "Y1": "First Year",
-   "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 1010 - Introduction to Biology Credit Hours: 3","Course: BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1","Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4"],
-   "Y1S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 4","Course: CHEM 1200 - Chemistry II Credit Hours: 4","Course: MATH 1020 - Calculus II Credit Hours: 4"],
-   "Y2": "Second Year",
-   "Y2S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 2500 - Genetics and Evolution Credit Hours: 4","Course: CHEM 2230 - Organic Chemistry Laboratory I Credit Hours: 1","Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3","Course: PHYS 1100 - Physics I Credit Hours: 4","Sem: Spring","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 4620 - Molecular Biology Credit Hours: 4","Course: CHEM 2240 - Organic Chemistry Laboratory II Credit Hours: 1","Course: CHEM 2260 - Organic Chemistry II Credit Hours: 3","Course: PHYS 1200 - Physics II Credit Hours: 4"],
-   "Y3": "Third Year",
-   "Y3S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 4110 - Investigative Medicine I Credit Hours: 1","Course: BIOL 4200 - Biostatistics Credit Hours: 4","Course: BIOL 4270 - Human Physiology Credit Hours: 4","Course: BIOL 4760 - Molecular Biochemistry I Credit Hours: 4"],
-   "Y3S2": [ "Spring","Course: HASS Core Elective Credit Hours: 4","Course: BIOL 4100 - From Neuron to Behavior Credit Hours: 4","Course: BIOL 4120 - Investigative Medicine II Credit Hours: 1","Course: BIOL 4250 - Developmental Biology Credit Hours: 4","Course: BIOL 4980 - Biomedical Research Credit Hours: 6","Courses transferred from Albany Medical College","Summer III","Course: Research Credit Hours: 0","Academic Year IV","Course: Academic coursework totaling 28 credit hours will be taken at Albany Medical College during the fourth year."]
- },
  {
    "Major": "Physics",
    "Y1": "First Year",
@@ -604,9 +595,7 @@
    "Y3S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: PHYS 4100 - Introductory Quantum Mechanics Credit Hours: 4","Course: PHYS 4210 - Electromagnetic Theory Credit Hours: 4","Course: PHYS 4420 - Thermodynamics and Statistical Mechanics Credit Hours: 4"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Mathematics Elective Credit Hours: 4","Course: Culminating Experience Credit Hours: 4"],
-   "Y4S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4"]
- },
- {
+   "Y4S2": [ "Spring","Course: Free Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4" {
    "Major": "Psychological Science",
    "Y1": "First Year",
    "Y1S1": [ "Fall","Course: HASS Core Elective Credit Hours: 4","Course: CSCI 1100 - Computer Science I Credit Hours: 4","Course: MATH 1010 - Calculus I Credit Hours: 4","Course: MATH 1500 - Calculus for Architecture, Management, and HASS Credit Hours: 4","Course: PSYC 1200 - Introduction to Psychological Science Credit Hours: 4"],
@@ -649,6 +638,4 @@
    "Y3S2": [ "Spring","Course: SUST Advanced Option Credit Hours: 4","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4"],
    "Y4": "Fourth Year",
    "Y4S1": [ "Fall","Course: CAS Course Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4300 - Sustainability and STS Careers Credit Hours: 4","Course: STSO 4980 - Research Design Credit Hours: 4"],
-   "Y4S2": [ "Spring","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"]
-  }
-]
+   "Y4S2": [ "Spring","Course: CAS Course Credit Hours: 4","Course: HASS Core Elective Credit Hours: 4","Course: Free Elective Credit Hours: 4","Course: STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4"

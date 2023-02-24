@@ -84,8 +84,8 @@ Aeronautical Engineering Curriculum:
 	(See footnotes 1, 5, and 6 below)
    Course: ENGR 1300 - Engineering Processes Credit Hours: 1
    Course: ENGR 2530 - Strength of Materials Credit Hours: 4
-   Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: MANE 2710 - Thermodynamics Credit Hours: 3
+   Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
   Sem: Spring Semester (17 credits)
    Course: HASS Core Elective  Credit Hours: 4
 	(See footnote 3 below)
@@ -102,7 +102,7 @@ Aeronautical Engineering Curriculum:
    Course: MANE 4060 - Aerospace Structures and Materials Credit Hours: 4
    Course: MANE 4070 - Aerodynamics Credit Hours: 4
   Sem: Fall or Spring Semester (16 credits)
-   Course: Free Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4 
 	(See footnotes 6 and 9 below) 
    Course: STSO 4100   Professional Development II Credit Hours: 2
 	(See footnote 1, 6, and 7 below)
@@ -113,7 +113,7 @@ Aeronautical Engineering Curriculum:
 
  Year: Fourth Year
   Sem: Fall Semester (16 credits)
-   Course: MANE 4…. Computation Elective Credit Hours: 3
+   Course: MANE 4…. Computation Elective Credit Hours: 3 
 	(See footnotes 1, 6, and 10 below)
    Course: MANE 4…. Flight Mechanics Elective Credit Hours: 4
 	(See footnotes 9 and 11 below)
@@ -415,7 +415,7 @@ Biomedical Engineering:
 
  Year: Fourth Year
   Sem: Fall
-   Course: BME Tech Elective II - Credit Hours: 3
+   Course: BME Tech Elective II - Credit Hours: 3 
    Course: Free Elective- Credit Hours: 3
 	(See footnote 4 below)
    Course: HASS Elective - Credit Hours: 4
@@ -517,7 +517,7 @@ Building Sciences B.S.:
    Course: HASS Core Elective Credit Hours: 4
   Sem: Fall OR Spring
    Course: Concentration 3 Credit Hours: 4
-   Course: HASS Core Elective Credit Hours: 4
+   Course: HASS Core Elective Credit Hours: 4 
    Course: Professional Elective Credit Hours: 2
    Course: Free Elective Credit Hours: 4
    Course: ARCH 4330 - Structures 2 Credit Hours: 3
@@ -579,7 +579,7 @@ Business Analytics:
 
  Year: Fourth Year
   Sem: Fall
-   Course: MGMT 4170 - Data Resource Management Credit Hours:
+   Course: MGMT 4170 - Data Resource Management Credit Hours: 
    Course: MGMT 4190 - Introduction to Machine Learning Applications Credit Hours: 4
   Sem: Spring
    Course: MGMT 4870 - Strategy and Policy Credit Hours: 4
@@ -698,7 +698,7 @@ Chemical Engineering:
    Course: CHME 4160 - Chemical Engineering Laboratory II Credit Hours: 3
    Course: CHME 4170 - Bioprocessing Laboratory Course Credit Hours: 3
    Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
-Chemistry :
+Chemistry B.S.:
  Year: First Year
   Sem: Fall
    Course: HASS Core Elective Credit Hours: 4
@@ -751,58 +751,6 @@ Chemistry :
    Course: CHEM 4120 - Experimental Chemistry IV: Physical and Instrumental Methods Credit Hours: 3
    Course: CHEM 4620 - Introduction to Polymer Chemistry Credit Hours: 3
 Chemistry - Chemical Biology Track:
- Year: First Year
-  Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4
-   Course: CHEM 1900 - Chemistry for Life Credit Hours: 1
-   Course: MATH 1010 - Calculus I Credit Hours: 4
-   Course: PHYS 1100 - Physics I Credit Hours: 4
-  Sem: Spring
-   Course: HASS Core Elective Credit Hours: 4
-   Course: CHEM 1200 - Chemistry II Credit Hours: 4
-   Course: MATH 1020 - Calculus II Credit Hours: 4
-   Course: PHYS 1200 - Physics II Credit Hours: 4
-
- Year: Second Year
-  Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   Course: CHEM 2110 - Equilibrium Chemistry and Quantitative Analysis Credit Hours: 3
-   Course: CHEM 2120 - Experimental Chemistry I: Analytical Techniques Credit Hours: 2
-   Course: CHEM 2250 - Organic Chemistry I Credit Hours: 3
-   Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
-  Sem: Spring
-   Course: Elective Credit Hours: 4
-   Course: BIOL 2120 - Introduction to Cell and Molecular Biology Credit Hours: 3
-   Course: CHEM 2030 - Inorganic Chemistry I Credit Hours: 3
-   Course: CHEM 2260 - Organic Chemistry II Credit Hours: 3
-   Course: CHEM 2290 - Experimental Chemistry II: Synthesis and Characterization Credit Hours: 3
-
- Year: Third Year
-  Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Elective Credit Hours: 4
-   Course: CHEM 4410 - Macroscopic Physical Chemistry Credit Hours: 3
-   Course: CHEM 4760 - Molecular Biochemistry I Credit Hours: 4
-  Sem: Spring
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Elective Credit Hours: 4
-   Course: BIOL 2500 - Genetics and Evolution Credit Hours: 4
-   Course: CHEM 4420 - Microscopic Physical Chemistry Credit Hours: 3
-   Course: CHEM 4030 - Experimental Chemistry III Abridged: Physical Methods Credit Hours: 2
-
- Year: Fourth Year
-  Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   Course: Electives Credit hours: 4
-   Course: CHEM 4110 - Instrumental Methods of Analysis Credit Hours: 3
-   Course: CHEM 4900 - Professional Development Seminar Credit Hours: 1
-   Course: CHEM 4950 - Senior Experience Credit Hours: 2
-  Sem: Spring
-   Course: Electives Credit hours 3
-   Course: BIOL 4710 - Biochemistry Laboratory Credit Hours: 6
-   Course: CHEM 4120 - Experimental Chemistry IV: Physical and Instrumental Methods Credit Hours: 3
-   Course: CHEM 4770 - Molecular Biochemistry II Credit Hours: 4
 Chemistry - Industrial Chemistry Track:
  Year: First Year
   Sem: Fall
@@ -888,7 +836,7 @@ Civil Engineering:
    Course: CIVL 2670 - Introduction to Structural Engineering Credit Hours: 4
 
  Year: Third Year
-  Sem: The Arch Summer Semester*
+  Sem: The Arch Summer Semester* 
    Course: HASS Elective Credit Hours: 4 
    Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4
    Course: ENGR 4760 - Engineering Economics Credit Hours: 3
@@ -1059,7 +1007,8 @@ Computer and Systems Engineering:
    Course: ECSE 4900 - Multidisciplinary Capstone Design Credit Hours: 3
    Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
   Sem: Spring
-   Course: Restricted Elective Credit Hours: 3-4
+   Course: 
+Restricted Elective Credit Hours: 3-4
 (See footnotes 1, 4 and 5 below)
 
    Course: Science Elective Credit Hours: 4
@@ -1454,8 +1403,8 @@ Environmental Engineering:
    Course: HASS Core Elective Credit Hours: 4
    Course: MATH 1020 - Calculus II Credit Hours: 4
    Course: PHYS 1100 - Physics I Credit Hours: 4
-   Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1
    Course: CHEM 1200 - Chemistry II Credit Hours: 4
+   Course: CIVL 1100 - Introduction to Civil and Environmental Engineering Credit Hours: 1
 
  Year: Second Year
   Sem: Fall
@@ -1467,8 +1416,8 @@ Environmental Engineering:
    Course: HASS Core Elective Credit Hours: 4
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
    Course: ENVE 2110 - Introduction to Environmental Engineering Credit Hours: 4
-   Course: CIVL 2060 - Introduction to Water Resources Engineering Credit Hours: 4
    Course: CIVL 1300 - Beginning Programming in Civil and Environmental Engineering Credit Hours: 1
+   Course: CIVL 2060 - Introduction to Water Resources Engineering Credit Hours: 4
 
  Year: Third Year
   Sem: The Arch Summer Semester*
@@ -1652,7 +1601,7 @@ Geology:
    Course: ERTH 2120 - Structural Geology Credit Hours: 4
   Sem: Spring
    Course: Culminating Experience  Credit Hours: 4
-   Course: Electives  Credit Hours: 6-7
+   Course: Electives  Credit Hours: 6-7 
    Course: ERTH 4970 - Out-of-Classroom Experience in Earth Sciences Credit Hours: 2 to 4
    Course: ERTH 4980 - Undergraduate Research Thesis Credit Hours: 2 to 4
 Hydrogeology:
@@ -1924,14 +1873,16 @@ Mathematics:
    Course: Elective Credit Hours: 4
 Mechanical Engineering Curriculum:
  Year: First Year
-  Sem: Fall
-   Course: HASS Core Elective Credit Hours: 4
-   (See footnote 3 below)
+  Sem: Fall (17 credits)
+   Course: 
+HASS Core Elective Credit Hours: 4 
+	(See footnote 3 below)
+
    Course: CHEM 1100 - Chemistry I Credit Hours: 4
    Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4
    Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1
    Course: MATH 1010 - Calculus I Credit Hours: 4
-  Sem: Spring
+  Sem: Spring (17 credits)
    Course: HASS Core Elective Credit Hours: 4
 	 (See footnote 3 below)
    Course: ENGR 1300 - Engineering Processes Credit Hours: 1
@@ -1940,28 +1891,28 @@ Mechanical Engineering Curriculum:
    Course: PHYS 1100 - Physics I Credit Hours: 4
 
  Year: Second Year
-  Sem: Fall
+  Sem: Fall (17 credits)
    Course: STSO 4100   - Professional Development II Credit Hours: 2
 	(See footnotes 1 and 4 below)
    Course: ENGR 2530 - Strength of Materials Credit Hours: 4
    Course: MANE 2710 - Thermodynamics Credit Hours: 3
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: PHYS 1200 - Physics II Credit Hours: 4
-  Sem: Spring
-   Course: SoE-2….  Engineering Design Elective Credit Hours: 4
+  Sem: Spring (15 credits)
+   Course: SoE-2….  Engineering Design Elective Credit Hours: 4 
 	(See footnotes 1, 5, and 6 below)
    Course: ENGR 2300 - Electronic Instrumentation Credit Hours: 4
    Course: MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3
    Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4
 
  Year: Third Year
-  Sem: The Arch Summer Semester*
+  Sem: The Arch Summer Semester* (15 credits)
    Course: HASS Core Elective Credit Hours: 4
 	(See footnote 3 below)
    Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4
    Course: MANE 2720 - Fluid Mechanics Credit Hours: 3
    Course: MANE 4030 - Elements of Mechanical Design Credit Hours: 4
-  Sem: Fall OR Spring
+  Sem: Fall OR Spring (17 credits)
    Course: Free Elective Credit Hours: 4
 	(See footnote 6 below)
    Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3
@@ -1971,17 +1922,17 @@ Mechanical Engineering Curriculum:
    Course: MANE 4740 - Thermal and Fluids Engineering Laboratory Credit Hours: 2
 
  Year: Fourth Year
-  Sem: Fall
+  Sem: Fall  (16 credits)
    Course: HASS Core Elective Credit hours:  4
 	 (See footnote 3 below)
    Course: MANE 4…. Technical Elective Credit hours:  3
 	 (See footnotes 1 and 9 below)
-   Course: MANE 4…. Computation Elective Credit hours:  3
+   Course: MANE 4…. Computation Elective Credit hours:  3 
 	(See footnotes 1 and 9 below)
    Course: ENGR 4010 - Professional Development: Leadership Competencies Credit Hours: 1
    Course: MANE 4260 - Multidisciplinary Capstone Design Credit Hours: 3
    Course: MANE 4510 - Control Systems Laboratory Credit Hours: 2
-  Sem: Spring
+  Sem: Spring 15 credits)
    Course: SoE/SoS-4…. Technical Elective II Credit hours:  3
 	( See footnotes 1 and 9 below)
    Course: Free Elective Credit Hours: 4
@@ -2012,7 +1963,7 @@ Music:
  Year: Second Year
   Sem: Fall
    Course: HASS Core OR History and Culture Course
-
+	
 (See footnote 4 below)
 
 
@@ -2035,7 +1986,7 @@ Music:
    Course: Science Core Elective Credit Hours: 4
    Course: HASS Core Elective Credit Hours: 4
    Course: HASS Core Elective OR History and Culture Course Credit Hours: 4
-
+	
 ​(See footnote 4 below)
 
 
@@ -2043,7 +1994,7 @@ Music:
    Course: Free Elective Credit Hours: 4
    Course: ​​ARTS 4700 - Sound Recording and Production II is a recommended course for this elective (not required)
    Course: Private Music Lesson or Performance Ensemble Credit Hours: 1
-
+	
 (See footnote 3 below)
 
 
@@ -2104,14 +2055,14 @@ Music:
    Course: ​(ARTS 4880  can be taken if a student’s semester away was in the spring)
 Nuclear Engineering Curriculum:
  Year: First Year
-  Sem: Fall
+  Sem: Fall 
    Course: HASS Core Elective Credit Hours: 4
 	(See footnote 3 below)
    Course: ENGR 1100 - Introduction to Engineering Analysis Credit Hours: 4
    Course: ENGR 1200 - Engineering Graphics and CAD Credit Hours: 1
    Course: MATH 1010 - Calculus I Credit Hours: 4
    Course: PHYS 1100 - Physics I Credit Hours: 4
-  Sem: Spring
+  Sem: Spring 
    Course: HASS Core Elective Credit Hours: 4
 	 (See footnote 3 below)
    Course: CHEM 1100 - Chemistry I Credit Hours: 4
@@ -2120,13 +2071,13 @@ Nuclear Engineering Curriculum:
    Course: PHYS 1200 - Physics II Credit Hours: 4
 
  Year: Second Year
-  Sem: Fall
+  Sem: Fall 
    Course: MANE 2710 - Thermodynamics Credit Hours: 3
    Course: MANE 2830 - Nuclear Phenomena for Engineering Applications Credit Hours: 4
    Course: MATH 2010 - Multivariable Calculus and Matrix Algebra Credit Hours: 4
    Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: STSO 4100 - Professional Development  2 –Technical Issues and Solutions Credit Hours: 2
-  Sem: Spring
+  Sem: Spring 
    Course: Materials Science Elective Credit Hours: 4 
 	(See footnotes 1, 5, and 7 below)
    Course: MANE 2110 - Numerical Methods and Programming for Engineers Credit Hours: 3
@@ -2152,7 +2103,7 @@ Nuclear Engineering Curriculum:
 
  Year: Fourth Year
   Sem: Fall
-   Course: Free Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4 
 	(See footnote 1 below)
    Course: HASS Core Elective  Credit Hours: 4
 	 (See footnote 3 below)
@@ -2212,9 +2163,9 @@ Philosophy:
 
  Year: Fourth Year
   Sem: Fall
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
-   Course: Free Elective Credit Hours: 4
+   Course: Free Elective Credit Hours: 4 
+   Course: Free Elective Credit Hours: 4 
+   Course: Free Elective Credit Hours: 4 
    Course: PHIL 4990 - Capstone Experience in Philosophy Credit Hours: 3 to 6
   Sem: Spring
    Course: Philosophy Elective Credit Hours: 4
@@ -2478,5 +2429,3 @@ Sustainability Studies:
    Course: HASS Core Elective Credit Hours: 4
    Course: Free Elective Credit Hours: 4
    Course: STSO 4990 - STS and Sustainability Senior Project Credit Hours: 4
-
-End

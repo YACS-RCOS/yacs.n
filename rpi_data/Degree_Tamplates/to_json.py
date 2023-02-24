@@ -1,5 +1,5 @@
-f = open("majorDtaClean1.txt", "r")
-fout = open("ideal.json", "w")
+f = open("majorDtaClean1.txt", "r", encoding='UTF-8')
+fout = open("ideal.json", "w", encoding='UTF-8')
 lines = f.readlines()
 i = 0
 required_finished = False
@@ -12,9 +12,10 @@ def is_course_code(line):
     if(len(line) < 10):
         return False
     return (line[0:4].isupper() & line[5:9].isnumeric()) | line[0:8].isupper()
+
 for line in lines:
     line = line.strip()
-    if(current_array == ""):t
+    if(current_array == ""):
         current_array = "name"
         category_dict[current_array] = [line]
     elif(current_array == "Compatible minor"):
