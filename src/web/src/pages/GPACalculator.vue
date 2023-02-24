@@ -279,6 +279,8 @@ export default {
 
             let originalCredit = parseInt(OGCREDITS.value);
             let originalGPA = parseFloat(OGGPA.value);
+            console.log(originalCredit);
+            console.log(originalGPA);
 
             GRADESSELECT.forEach((e) => {
                 let GRADES = e.options;
@@ -354,13 +356,16 @@ export default {
             let finalGPA = 0;
 
             if(listOfUnits.length > 0 && listOfCredits.length > 0){
-                finalGPA = this.finClac(gpaUpdated, originalCredit, gpaGrades, totalUnits);
+                finalGPA = this.finClac(gpaUpdated, totalCredits, gpaGrades, totalUnits);
+                console.log(finalGPA);
             }
             else if(listOfCredits.length > 0){ 
                 finalGPA = gpaUpdated;
+                console.log(finalGPA);
             }
             else if(listOfUnits.length > 0){
                 finalGPA = this.finClac(originalGPA, originalCredit, gpaGrades, totalUnits);
+                console.log(finalGPA);
             }
 
 
