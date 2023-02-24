@@ -6,10 +6,8 @@ from .database import Base
 class Pathway(Base):
     __tablename__ = "pathway"
 
-    name = Column(VARCHAR(length=255))
+    name = Column(VARCHAR(length=255), nullable=False)
     description = Column(TEXT)
     category = Column(VARCHAR(length=255))
-    # required_courses = Column(TSVECTOR, bool = False)
-    # #foreign key for courses
-    # courses = Column(TSVECTOR, foreign_key = TRUE)
+    #make this a table and link it to requiremetns
     

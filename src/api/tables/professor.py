@@ -9,11 +9,11 @@ class Professor(Base):
 
     first_name = Column(VARCHAR(length=255))
     last_name = Column(VARCHAR(length=255)) 
+    #optional phone number
     phone_number = Column(VARCHAR(length=255)) 
     email = Column(VARCHAR(length=255), primary_key = True)
     department = Column(VARCHAR(length=255))
     office_room = Column(VARCHAR(length=255))
-    #make classes a foreign key (vecotr of courses)
-    classes = Column(TSVECTOR, foreign_key = TRUE) 
+    classes = Column(VARCHAR(length=255), foreign_key = TRUE) #maybe TSVECTOR
     office_hours_time = Column(TSVECTOR)
     webex = Column(VARCHAR(length=255))

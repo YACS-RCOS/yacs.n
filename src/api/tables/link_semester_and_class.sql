@@ -1,7 +1,8 @@
 CREATE TABLE semester_degree_class (
-  semester_id INT NOT NULL, /*The semester_id column is a foreign key column that references the id column in the semesters table.*/
+  semester_id INT NOT NULL, 
   degree_class_id INT NOT NULL,
   PRIMARY KEY (semester_id, degree_class_id),
+  /*The semester_id column is a foreign key column that references the id column in the semesters table.*/
   FOREIGN KEY (semester_id) REFERENCES semesters(id),
   FOREIGN KEY (degree_class_id) REFERENCES degree_classes(id)
 );
