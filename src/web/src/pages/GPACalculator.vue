@@ -112,8 +112,8 @@
                         <h1>Weight Calculator</h1>
                         <div id="weight-wrapper">
 
-                        <input v-model="totCred" class= "credit_units0 key-0" placeholder="Total Credits" />
-                        <input v-model="oldGPA" class = "oldGPA key-0" placeholder="GPA" />
+                        <input v-model="totCred" class= "credit_units3 key-0" placeholder="Total Credits" />
+                        <input v-model="oldGPA" class = "oldGPA1 key-0" placeholder="GPA" />
 
                         </div>
 
@@ -123,7 +123,7 @@
                     <button @click="finClac(oldGPA,totCred,newGPA,curCred);">Calculate GPA</button>
                     </div>
                     <div class="lastp">
-                    <p id="fin-calc">Your GPA is:</p>
+                    <p id="fin-calc1">Your GPA is:</p>
                     </div>
                     </div>
 
