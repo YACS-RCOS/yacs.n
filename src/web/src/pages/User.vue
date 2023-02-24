@@ -52,8 +52,8 @@
         </b-col>
         <b-col class="user-col-center">
           <div :class="changed('degree')" class="degreelabel">{{ form.degree }}</div>
-          <div class="degreelabel m-auto">
-            <div v-for="(name, i) in form.major" :key="name" :class="changed_major(i)">{{ name }}<br/></div>
+          <div class="degreelabel">
+            <div v-for="(name, i) in form.major" :key="name" :class="changed_major(i) +  ' degreelabel'">{{ name }}<br/></div>
           </div>
         </b-col>
         <b-col class="user-col-right">
@@ -300,7 +300,8 @@ export default {
 }
 
 #user-info-box .user-row .user-col-center .degreelabel {
-  display: grid;
+  display: block;
+  text-align: center;
 }
 
 #user-info-box .user-row .user-col-right {
