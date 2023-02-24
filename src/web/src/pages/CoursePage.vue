@@ -28,6 +28,9 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
+      <div>
+        <CourseInfo/>
+      </div>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
@@ -60,11 +63,13 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CourseInfo from "../components/CourseInfo.vue";
 
 export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CourseInfo,
   },
   name: "CoursePage",
   data() {
