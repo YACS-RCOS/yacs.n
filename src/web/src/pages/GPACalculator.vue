@@ -496,7 +496,6 @@ export default {
 
     #course-wrapper, form {
     color: white;
-    padding: 10px;
     margin: 0 auto;
     text-align: center;
     width: 100%;
@@ -504,6 +503,7 @@ export default {
 
     input{
     border: none;
+    padding: 10px;
     margin: 10px;
     border-radius: 5px;
     width: 25%;
