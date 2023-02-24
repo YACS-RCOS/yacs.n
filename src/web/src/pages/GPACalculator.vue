@@ -588,9 +588,10 @@ export default {
 
     #course-wrapper, form {
     color: white;
-    padding-left: 10px;
+    padding: 15px;
     margin: 0 auto;
     text-align: center;
+    width: 100%;
     }
 
     input{
