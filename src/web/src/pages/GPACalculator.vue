@@ -268,11 +268,8 @@ export default {
             });
             console.log(listOfUnits);
 
-            GPAINP.forEach((e) => {
-                let GPA = e.options;
-                const selectedIndex = e.selectedIndex;
-                const selectedGPA = GPA[selectedIndex];
-                const GPAValue = selectedGPA.text.toUpperCase();
+            GPAINP.forEach((a) => {
+                const GPAValue = parseFloat(a.value);
                 listOfGPA.push(GPAValue);
             });
             console.log(listOfGPA);
@@ -283,7 +280,6 @@ export default {
                 listOfCredits.push(creditValue);
             });
             console.log(listOfCredits);
-
 
 
             let totalEarnedUnits = 0;
@@ -309,14 +305,15 @@ export default {
 
             for (let i = 0; i < listOfCredits.length; i++) {
                 if(i==0){
-                    gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
+                    gpaUpdated = this.finClac(originalGPA, originalCredit+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                     
                 }
                 else{
-                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]);
+                   gpaUpdated = this.finClac(gpaUpdated, totalCredits+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                 }
 
                 totalCredits += listOfCredits[i];
+                console.log(gpaUpdated);
                 
 
             }
@@ -494,7 +491,7 @@ export default {
     }
 
     p{
-    padding: 20px;
+    padding: 10px;
     font-size: 1rem;
     color: white;
     text-align: center;
@@ -502,7 +499,6 @@ export default {
 
     #course-wrapper, form {
     color: white;
-    padding: 10px;
     margin: 0 auto;
     text-align: center;
     width: 100%;
