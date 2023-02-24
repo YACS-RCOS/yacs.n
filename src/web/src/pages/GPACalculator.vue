@@ -305,14 +305,15 @@ export default {
 
             for (let i = 0; i < listOfCredits.length; i++) {
                 if(i==0){
-                    gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
+                    gpaUpdated = this.finClac(originalGPA, originalCredit+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                     
                 }
                 else{
-                   gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]);
+                   gpaUpdated = this.finClac(gpaUpdated, totalCredits+listOfCredits[i], listOfGPA[i], listOfCredits[i]);
                 }
 
                 totalCredits += listOfCredits[i];
+                console.log(gpaUpdated);
                 
 
             }
