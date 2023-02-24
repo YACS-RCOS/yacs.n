@@ -8,6 +8,7 @@ const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
 const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
+const ProfessorPage = () => import("./pages/Professor");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
 
@@ -39,6 +40,11 @@ var router = new VueRouter({
           path: "/pathway",
           component: PathwayPage,
           name: "Pathway",
+        },
+        {
+          path: "/professor",
+          component: ProfessorPage,
+          name: "Professor",
         },
         {
           path: "/explore/:subject",
