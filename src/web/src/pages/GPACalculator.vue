@@ -486,7 +486,7 @@ export default {
     }
 
     p{
-    padding: 20px;
+    padding: 10px;
     font-size: 1rem;
     color: white;
     text-align: center;
@@ -502,7 +502,6 @@ export default {
 
     input{
     border: none;
-    padding: 10px;
     margin: 10px;
     border-radius: 5px;
     width: 25%;
