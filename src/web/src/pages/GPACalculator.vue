@@ -268,11 +268,8 @@ export default {
             });
             console.log(listOfUnits);
 
-            GPAINP.forEach((e) => {
-                let GPA = e.options;
-                const selectedIndex = e.selectedIndex;
-                const selectedGPA = GPA[selectedIndex];
-                const GPAValue = selectedGPA.text.toUpperCase();
+            GPAINP.forEach((a) => {
+                const GPAValue = parseFloat(a.value);
                 listOfGPA.push(GPAValue);
             });
             console.log(listOfGPA);
@@ -283,7 +280,6 @@ export default {
                 listOfCredits.push(creditValue);
             });
             console.log(listOfCredits);
-
 
 
             let totalEarnedUnits = 0;
