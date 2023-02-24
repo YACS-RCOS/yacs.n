@@ -22,6 +22,7 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+
         <b-col>
           <b-form-group label="Filter Department" for="department">
             <b-form-select
@@ -30,6 +31,16 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+
+        <b-col>
+          <b-form-group label="Filter Credits" for="credits">
+            <b-form-select
+              v-model="selectedCredits"
+              :options="CreditsOptions"
+            ></b-form-select>
+          </b-form-group>
+        </b-col>
+
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
@@ -115,8 +126,9 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      selectedCredits: null,
       courseList: null,
-      debounceTime: 300,
+      debounceTime: 300
     };
   },
   created() {
@@ -153,6 +165,16 @@ export default {
       );
     },
 
+    CreditsOptions() {
+      return[{ text: "All", value: null },
+      { text: "1 Credit", value: 1 },
+      { text: "2 Credits", value: 2 },
+      { text: "3 Credits", value: 3 },
+      { text: "4 Credits", value: 4 }]
+    },
+
+
+
     subsemesterOptions() {
       let options = [{ text: "All", value: null }];
       options.push(
@@ -165,6 +187,12 @@ export default {
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
+    },
+    
+    creditsOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.credits.map(({ credit }) => credit)
+      )
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
@@ -179,12 +207,14 @@ export default {
         (course) =>
           (!this.selectedDepartment ||
             course.department === this.selectedDepartment) &&
+          (!this.selectedCredits ||
+            course.min_credits <= this.selectedCredits &&
+            course.max_credits >= this.selectedCredits) &&
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() ===
               course.date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime()))
-      );
+                course.date_end.getTime())))
 
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
