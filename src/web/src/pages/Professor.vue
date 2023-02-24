@@ -33,7 +33,7 @@
       v-else
       :height="80"
       :fontSize="1.3"
-      loadingMessage="Pathways"
+      loadingMessage="Professor"
       :topSpacing="30"
     />
   </b-container>
@@ -43,7 +43,7 @@
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
-  name: "Pathway",
+  name: "Professor",
   components: {
     CenterSpinner: CenterSpinnerComponent,
   },
@@ -55,7 +55,7 @@ export default {
           to: "/",
         },
         {
-          text: "Pathways",
+          text: "Professor",
         },
       ],
     };
