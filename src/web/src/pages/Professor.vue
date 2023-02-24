@@ -6,13 +6,7 @@
 </template>
 
 <script>
-import CenterSpinnerComponent from "../components/CenterSpinner";
-
 export default {
-  name: "Professor",
-  components: {
-    CenterSpinner: CenterSpinnerComponent,
-  },
   data() {
     return {
       searchQuery: '',
