@@ -589,7 +589,7 @@ export default {
 
     #course-wrapper, form {
     color: white;
-    padding: 15px;
+    /*padding: 15px;*/
     margin: 0 auto;
     text-align: center;
     }
@@ -597,7 +597,7 @@ export default {
     input{
     border: none;
     padding: 15px;
-    margin: 100px;
+    margin: 10px;
     border-radius: 5px;
     width: 25%;
     text-align: center;
