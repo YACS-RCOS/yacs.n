@@ -25,14 +25,14 @@
           background-color: transparent;
         "
       >
-        List by Department
+        List by Type
       </b-button>
 
     </div>
     <CenterSpinner
       :height="80"
       :fontSize="1.3"
-      loadingMessage="Professor"
+      loadingMessage="Organization"
       :topSpacing="30"
     />
   </b-container>
@@ -42,7 +42,7 @@
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
-  name: "Professor",
+  name: "Organization",
   components: {
     CenterSpinner: CenterSpinnerComponent,
   },
@@ -54,7 +54,7 @@ export default {
           to: "/",
         },
         {
-          text: "Professor",
+          text: "Organization",
         },
       ],
     };
