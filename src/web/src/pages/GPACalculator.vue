@@ -431,26 +431,26 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Georgia, serif;
+    font-family: sans-serif;
     }
 
     #course-row {
     font-size: 20px;
-    color: #7c8a94;
+    color: #aeb2b8;
     font-weight: bolder;
     margin-left: -2%;
     }
 
     #credit-row {
     font-size: 20px;
-    color: #7c8a94;
+    color: #aeb2b8;
     font-weight: bolder;
     margin-left: 13%;
     }
 
     #grade-row {
     font-size: 20px;
-    color: #7c8a94;
+    color: #aeb2b8;
     font-weight: bolder;
     margin-left: 8%;
     }
@@ -490,7 +490,7 @@ export default {
     font-size: 40px;
     text-align: center;
     border: white;
-    background-color: rgba(108, 90, 90, 0.15);
+    background-color: #AFC9C6;
     }
 
     p{
@@ -509,7 +509,6 @@ export default {
     }
 
     input{
-    border: none;
     padding: 10px;
     margin: 10px;
     border-radius: 5px;
@@ -518,7 +517,7 @@ export default {
     }
     select{
     padding: 10px;
-    border: none;
+
     border-radius: 7.5px;
     width: 20%;
     /*   height: 30px; */
@@ -544,10 +543,10 @@ export default {
 
     .lastp {
     border:  rgba(108, 90, 90, 0.15);
-    background-color: rgba(108, 90, 90, 0.15);
+    background-color: #AFC9C6;
     }
     .lastp p {
-    color: white;
+    color: black;
     text-align: center;
     padding: 10px;
     font-size: 30px;
