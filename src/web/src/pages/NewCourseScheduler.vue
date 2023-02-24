@@ -223,9 +223,9 @@ import { mapGetters, mapState } from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
-import SelectedCoursesComponent from "@/components/SelectedCourses";
-import CourseListComponent from "@/components/CourseList";
-import CenterSpinnerComponent from "../components/CenterSpinner";
+//import SelectedCoursesComponent from "@/components/SelectedCourses";
+//import CourseListComponent from "@/components/CourseList";
+//import CenterSpinnerComponent from "../components/CenterSpinner";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
@@ -755,6 +755,18 @@ export default {
 footer {
   margin: 0px !important;
 }
+
+ul.sidebar-panel-nav {
+   list-style-type: none;
+ }
+
+ ul.sidebar-panel-nav > li > a {
+   color: #fff;
+   text-decoration: none;
+   font-size: 1.5rem;
+   display: block;
+   padding-bottom: 0.5em;
+ }
 
 #export-ics-button {
   background: #3d4959 !important;
