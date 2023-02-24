@@ -33,19 +33,45 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-form-group label="Begin Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="Begin Time" label-for="btime">
+            <b-form-input
+            id="btime"
+            v-model="begintime"
+            :debounce="debounceTime"
+            trim
+            placeholder="10:00"
+            ></b-form-input>
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="End Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="End Time" label-for="etime">
+            <b-form-input
+            id="etime"
+            v-model="endtime"
+            :debounce="debounceTime"
+            trim
+            placeholder="13:00"
+            ></b-form-input>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="M">
+          <b-form-checkbox v-model="isChecked" 
+          name="monday" 
+          value="monday" 
+          id="monday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="T">
+          <b-form-checkbox v-model="isChecked" 
+          name="tuesday" 
+          value="tuesday" 
+          id="tuesday">
+          </b-form-checkbox>
           </b-form-group>
         </b-col>
       </b-row>
@@ -212,6 +238,8 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
+      console.log("detail below");
+      console.log(find);
 
       if (find) return [find];
       else return filtered;
