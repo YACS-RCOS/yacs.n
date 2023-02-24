@@ -592,7 +592,7 @@ export default {
     padding: 15px;
     margin: 0 auto;
     text-align: center;
-    width: 25%;
+    width: 100%;
     }
 
     input{
