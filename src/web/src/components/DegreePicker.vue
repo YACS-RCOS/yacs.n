@@ -28,7 +28,6 @@
         <font-awesome-icon :icon="faMinus" class="m-auto"/>
       </b-button>
       <b-button
-        variant=""
         @click="currentmajor.push(null)"
       >
         <font-awesome-icon :icon="faPlus" class="m-auto"/>
@@ -112,7 +111,7 @@ export default {
         if(this.loaded) {
           var refresh = false
           for(var i in this.currentmajor) {
-            if(this.majorslist[0].indexOf(this.currentmajor[i]) == -1) {
+            if(!this.$refs['majorpicker' + i][0].$el.checkValidity()) {
               refresh = true;
               this.currentmajor[i] = null;
             }
