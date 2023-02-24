@@ -96,47 +96,6 @@
                 </b-tab>
 
 
-                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-                <template v-slot:title>
-                    <div class="text-center" data-cy="elected-courses-tab-header">
-                        Weight Calculator
-
-                    </div>
-                </template>
-                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-
-
-
-
-                    <div class="calculator-box">
-                        <h1>Weight Calculator</h1>
-                        <div id="weight-wrapper">
-
-                        <input v-model="totCred" class= "credit_units3 key-0" placeholder="Total Credits" />
-                        <input v-model="oldGPA" class = "oldGPA1 key-0" placeholder="GPA" />
-
-                        </div>
-
-                    <div class="btn">
-                    <button @click="addWeight();">+ Add Class</button>
-                    <button @click="removeSemester();">- Remove</button>
-                    <button @click="finClac(oldGPA1,totCred,newGPA,curCred);">Calculate GPA</button>
-                    </div>
-                    <div class="lastp">
-                    <p id="fin-calc1">Your GPA is:</p>
-                    </div>
-                    </div>
-
-
-
-
-
-                </b-card-text>
-                </b-tab>
-
-
-
-
         </b-tabs>
     </b-container>
 </template>
@@ -175,6 +134,7 @@ export default {
         finClac(oldGPA,totCred,newGPA,curCred){
             let resultGPA = 0;
             let gpaDif= Math.abs(oldGPA-newGPA);
+            
             let per=curCred/totCred;
             let difference=per*gpaDif;
             if(oldGPA>newGPA){
@@ -293,35 +253,7 @@ export default {
             document.getElementById("semester-wrapper").appendChild(addNew);
             this.counter++;
         },
-        addWeight() {
-            let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`);
-            const semester_name = `
-            <form class="add_new key-${this.counter}">
-
-                <input type="text" placeholder="Course Name" class="courses key-${this.counter}">
-
-                <select class="level key-${this.counter}" required>
-                <option value="select">Level</option>
-                <option value="1">1000</option>
-                <option value="2">2000</option>
-                <option value="4">4000</option>
-                </select>
-
-                <select class="level key-${this.counter}" required>
-                <option value="select">Type</option>
-                <option value="0">Major</option>
-                <option value="1">Hass</option>
-                <option value="2">Others</option>
-
-                </select>
-
-            </form>
-            `;
-            addNew.innerHTML = semester_name;
-            document.getElementById("weight-wrapper").appendChild(addNew);
-            this.counter++;
-        },
+     
         removeSemester() {
             let mainForm = document.querySelector("form.add_new");
             mainForm.remove();
@@ -346,7 +278,7 @@ export default {
             let totalCredits = 0;
 
             let originalCredit = parseInt(OGCREDITS.value);
-            let originalGPA = parseInt(OGGPA.value);
+            let originalGPA = parseFloat(OGGPA.value);
 
             GRADESSELECT.forEach((e) => {
                 let GRADES = e.options;
@@ -396,6 +328,7 @@ export default {
             }
 
             const gpaGrades = totalEarnedUnits / totalUnits;
+            console.log(gpaGrades);
 
             let gpaUpdated = 0;
 
@@ -405,15 +338,18 @@ export default {
             for (let i = 0; i < listOfCredits.length; i++) {
                 if(i==0){
                     gpaUpdated = this.finClac(originalGPA, originalCredit, listOfGPA[i], listOfCredits[i]);
+                    
                 }
                 else{
                    gpaUpdated = this.finClac(gpaUpdated, totalCredits, listOfGPA[i], listOfCredits[i]);
                 }
 
                 totalCredits += listOfCredits[i];
-
+                
 
             }
+
+            console.log(gpaUpdated);
 
             let finalGPA = 0;
 
