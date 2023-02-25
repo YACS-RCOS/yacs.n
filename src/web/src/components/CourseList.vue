@@ -33,19 +33,74 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-form-group label="Begin Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="Begin Time" label-for="btime">
+            <b-form-input
+            id="btime"
+            v-model="begintime"
+            :debounce="debounceTime"
+            trim
+            placeholder="00:00"
+            ></b-form-input>
+            <input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" title="Please enter a valid 24-hour time in the format HH:mm">  
+          </b-form-group>
+        </b-col>>
+        <b-col>
+          <b-form-group label="End Time" label-for="etime">
+            <b-form-input
+            id="etime"
+            v-model="begintime"
+            :debounce="debounceTime"
+            trim
+            placeholder="24:00"
+            ></b-form-input>
+            <input type="text" pattern="^([01]\d|2[0-3]):([0-5]\d)$" title="Please enter a valid 24-hour time in the format HH:mm"> 
+          </b-form-group>
+        </b-col>>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-form-group label="M">
+          <b-form-checkbox v-model="isChecked" 
+            name="Monday" 
+            value="Monday" 
+            id="Monday">
+          </b-form-checkbox>
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="End Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="T">
+          <b-form-checkbox v-model="isChecked" 
+            name="Tuesday" 
+            value="Tuesday" 
+            id="Tuesday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="M">
+          <b-form-checkbox v-model="isChecked" 
+            name="Wednesday" 
+            value="Wednesday" 
+            id="Wednesday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="R">
+          <b-form-checkbox v-model="isChecked" 
+            name="Thursday" 
+            value="Thursday" 
+            id="Thursday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="F">
+          <b-form-checkbox v-model="isChecked" 
+            name="Friday" 
+            value="Friday" 
+            id="Friday">
+          </b-form-checkbox>
           </b-form-group>
         </b-col>
       </b-row>
@@ -113,7 +168,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments, getCourses, getTimes } from "@/services/YacsService";
+import { getDepartments, getCourses } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -133,8 +188,6 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      selectedStartTime: null,
-      selectedEndTime:null,
       courseList: null,
       debounceTime: 300,
     };
@@ -146,6 +199,14 @@ export default {
     getTimes().then(() => {
       this.TimeOptions.push(...times.map((t) => t.times));
     })
+    const beginInput = document.getElementById('btime');
+    const endSelect = document.getElementById('etime');
+
+    const beginTime = beginInput.value;
+    const endTime = endSelect.value;
+
+    console.log('Begin Time:', beginTime);
+    console.log('End Time:', endTime);
   },
   methods: {
     courseInfoModalToggle(course) {
@@ -190,11 +251,6 @@ export default {
       return options;
     },
 
-    TimeOptions(){
-      return [{ text: "All", value: null }].concat(
-        ...this.times.map(({}) => times)
-      );
-    },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -218,7 +274,7 @@ export default {
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
         (course) =>
-          (course.full_title &&
+          (course.full_title && 
             course.full_title.toUpperCase() ===
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()

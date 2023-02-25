@@ -130,20 +130,7 @@ export const getSubSemesters = (semester) =>
         return subsemester;
       });
     });
-export const getTimes = () =>
-{
-    const start= new Date(2023, 1, 17, 0, 0);
-    const end = new Date(2023, 1, 17, 23, 59);
-    const timeList = [];
-    let time = new Date(start);
-  
-    while (time <= end) {
-      timeList.push(time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-      time.setMinutes(time.getMinutes() + 30);
-    }
-  
-    return timeList;
-  };
+
 export const getSemesters = () =>
   client.get("/semester").then((res) => res.data);
 
