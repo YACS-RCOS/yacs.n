@@ -33,22 +33,54 @@
       </b-row>
       <b-row>
         <b-col>
-          <b-form-group label="Begin Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="Begin Time filter" for="begintime">
+            <b-form-input
+            id="begintime"
+            v-model="begintime"
+            :debounce="debounceTime"
+            trim
+            placeholder="08:00"
+            v-validate="'regex:^([01][0-9]|2[0-3]):[0-5][0-9]$'" 
+            :state="errors.has('begintime') ? false : null"
+            ></b-form-input>
+            <div v-show="errors.has('begintime')" class="invalid-feedback"></div>
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="End Time filter" for="time">
-            <b-form-select
-              v-model="selectedTime"
-              :options="TimeOptions"
-            ></b-form-select>
+          <b-form-group label="End Time filter" for="endtime">
+            <b-form-input
+            id="endtime"
+            v-model="endtime"
+            :debounce="debounceTime"
+            trim
+            placeholder="13:00"
+            v-validate="'regex:^([01][0-9]|2[0-3]):[0-5][0-9]$'" 
+            :state="errors.has('endtime') ? false : null"
+            ></b-form-input>
+            <div v-show="errors.has('endtime')" class="invalid-feedback"></div>
           </b-form-group>
         </b-col>
       </b-row>
+      <b-row>
+      <b-col>
+          <b-form-group label="W">
+          <b-form-checkbox v-model="isChecked" 
+          name="Wednesday" 
+          value="Wednesday" 
+          id="Wednesday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="R">
+          <b-form-checkbox v-model="isChecked" 
+          name="Thursday" 
+          value="Thursday" 
+          id="Thursday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+      </b-row>  
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -113,7 +145,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
 
-import { getDepartments, getCourses, getTime } from "@/services/YacsService";
+import { getDepartments, getCourses } from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
@@ -133,8 +165,6 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      selectedbegin_time: null,
-      selectedend_time: null,
       courseList: null,
       debounceTime: 300,
     };
@@ -142,9 +172,6 @@ export default {
   created() {
     getDepartments().then((departments) => {
       this.departmentOptions.push(...departments.map((d) => d.department));
-    });
-    getTime().then(() => {
-      this.TimeOptions.push(...time.map((t) => t.time));
     });
   },
   methods: {
@@ -176,11 +203,6 @@ export default {
       );
     },
 
-    TimeOptions() {
-      return [{ text: "All", value: null }].concat(
-        ...this.time.map(({ start_time }) => start_time)
-      );
-    },
 
     subsemesterOptions() {
       let options = [{ text: "All", value: null }];
@@ -223,6 +245,8 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
+      console.log("detail below");
+      console.log(find);
 
       if (find) return [find];
       else return filtered;
