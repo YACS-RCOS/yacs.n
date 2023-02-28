@@ -2,7 +2,7 @@
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
       <b-col v-if = "!showing" class="m-1 text-center">
-        <ToggleB></ToggleB>
+        <Burgar></Burgar>
       </b-col>  
 
       <Sidebar>
@@ -251,7 +251,7 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import TobbleB from "./TobbleB.vue"
+import Burgar from "./Burgar.vue"
 import Sidebar from "./Sidebar.vue"
 
 const noConflict = (p, section) => {
@@ -273,7 +273,7 @@ export default {
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
-    ToggleB,
+    Burgar,
     Sidebar,
     //SelectedCourses: SelectedCoursesComponent,
     //CourseList: CourseListComponent,

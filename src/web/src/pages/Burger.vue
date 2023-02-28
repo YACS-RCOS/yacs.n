@@ -1,30 +1,28 @@
 <template>
-    <div id="togglebutton"
-         :class="{ 'active' : isTBActive }"
+    <div id="burger"
+         :class="{ 'active' : isBurgerActive }"
          @click.prevent="toggle">
         <slot>
-            <button type="button" class="toggle-button" title="Menu">
-                <span class="toggle-bar toggle-bar--1"></span>
-                <span class="toggle-bar toggle-bar--2"></span>
-                <span class="toggle-bar toggle-bar--3"></span>
+            <button type="button" class="burger-button" title="Menu">
+                <span class="burger-bar burger-bar--1"></span>
+                <span class="burger-bar burger-bar--2"></span>
+                <span class="burger-bar burger-bar--3"></span>
             </button>
         </slot>
     </div>
 </template>
-
 <script>
     export default {
         data: () => ({
-            isTBActive: false
+            isBurgerActive: false
         }),
         methods: {
             toggle() {
-                this.isTBActive = !this.isTBActive
+                this.isBurgerActive = !this.isBurgerActive
             }
         }
     }
 </script>
-
 <style>
    .hidden {
         visibility: hidden;
@@ -39,7 +37,7 @@
         outline: 0;
     }
 
-    .toggle-button {
+    .burger-button {
         position: relative;
         height: 30px;
         width: 32px;
@@ -52,7 +50,7 @@
         transition: transform .6s cubic-bezier(.165,.84,.44,1);
     }
 
-    .toggle-bar {
+    .burger-bar {
         background-color: #130f40;
         position: absolute;
         top: 50%;
@@ -64,45 +62,45 @@
         transition: transform .6s cubic-bezier(.165,.84,.44,1),opacity .3s cubic-bezier(.165,.84,.44,1),background-color .6s cubic-bezier(.165,.84,.44,1);
     }
 
-    .toggle-bar--1 {
+    .burger-bar--1 {
         -webkit-transform: translateY(-6px);
         transform: translateY(-6px);
     }
 
-    .toggle-bar--2 {
+    .burger-bar--2 {
         transform-origin: 100% 50%;
         transform: scaleX(.8);
     }
 
-    .toggle-button:hover .toggle-bar--2 {
+    .burger-button:hover .burger-bar--2 {
         transform: scaleX(1);
     }
 
-    .no-touchevents .toggle-bar--2:hover {
+    .no-touchevents .burger-bar--2:hover {
         transform: scaleX(1);
     }
 
-    .toggle-bar--3 {
+    .burger-bar--3 {
         transform: translateY(6px);
     }
 
-    #toggle.active .toggle-button {
+    #burger.active .burger-button {
         transform: rotate(-180deg);
     }
 
-    #toggle.active .toggle-bar {
+    #burger.active .burger-bar {
         background-color: #fff;
     }
 
-    #toggle.active .toggle-bar--1 {
+    #burger.active .burger-bar--1 {
         transform: rotate(45deg)
     }
 
-    #toggle.active .toggle-bar--2 {
+    #burger.active .burger-bar--2 {
         opacity: 0;
     }
 
-    #toggle.active .toggle-bar--3 {
+    #burger.active .burger-bar--3 {
         transform: rotate(-45deg)
     }
 </style>
