@@ -435,21 +435,21 @@ export default {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 8%;
+    margin-left: 6%;
     }
 
     #credit-row {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 12%;
+    margin-left: 14%;
     }
 
     #grade-row {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 4%;
+    margin-left: 8%;
     }
 
     .calculator-box {
