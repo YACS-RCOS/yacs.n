@@ -493,7 +493,7 @@ export default {
     p{
     padding: 10px;
     font-size: 1rem;
-    color: white;
+    color: black;
     text-align: center;
     }
 
