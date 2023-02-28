@@ -2,7 +2,7 @@
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
       <b-col v-if = "!showing" class="m-1 text-center">
-        <Burgar></Burgar>
+        <Burger></Burger>
       </b-col>  
 
       <Sidebar>
@@ -251,8 +251,8 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import Burgar from "./Burgar.vue"
-import Sidebar from "./Sidebar.vue"
+import Burger from "@/pages/Burger"
+import Sidebar from "@/pages/Sidebar"
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
@@ -273,7 +273,7 @@ export default {
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
-    Burgar,
+    Burger,
     Sidebar,
     //SelectedCourses: SelectedCoursesComponent,
     //CourseList: CourseListComponent,
