@@ -1,4 +1,4 @@
-Test Cases for GPA calculator
+Test Cases for GPA for Semester calculator 
 
 
 Input:
