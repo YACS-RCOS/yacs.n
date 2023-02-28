@@ -425,14 +425,14 @@ export default {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 5%;
+    margin-left: 6%;
     }
 
     #credit-row {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 12%;
+    margin-left: 14%;
     }
 
     #grade-row {
@@ -475,6 +475,7 @@ export default {
     h1 {
     padding: 15px;
     font-size: 40px;
+    font-weight: bolder;
     text-align: center;
     border: white;
     background-color: #AFC9C6;
@@ -483,7 +484,7 @@ export default {
     p{
     padding: 10px;
     font-size: 1rem;
-    color: white;
+    color: black;
     text-align: center;
     }
 
