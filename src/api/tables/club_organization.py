@@ -1,4 +1,3 @@
-from tkinter.tix import TEXT
 from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import DATE, VARCHAR, TSVECTOR
 
@@ -8,7 +7,7 @@ class Club(Base):
     __tablename__ = "club"
 
     name = Column(VARCHAR(length=255))
-    description = Column(TEXT)
+    description = Column(VARCHAR(length=255))
     building = Column(VARCHAR(length=255))
     room = Column(VARCHAR(length=255))
     days = Column(TSVECTOR)

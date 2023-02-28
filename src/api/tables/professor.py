@@ -11,7 +11,7 @@ class Professor(Base):
     last_name = Column(VARCHAR(length=255)) 
     #optional phone number
     phone_number = Column(VARCHAR(length=255)) 
-    email = Column(VARCHAR(length=255), primary_key = True)
+    email = Column(VARCHAR(length=255), primary_key = TRUE)
     department = Column(VARCHAR(length=255))
     office_room = Column(VARCHAR(length=255))
     classes = Column(VARCHAR(length=255), foreign_key = TRUE) #maybe TSVECTOR
