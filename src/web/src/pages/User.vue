@@ -162,7 +162,7 @@ export default {
     };
   },
   mounted() {
-    if (!this.isLoggedIn) {
+    if(!this.isLoggedIn) {
       router.push("/");
     }
     this.onReset();
@@ -186,7 +186,7 @@ export default {
       return "•".repeat(value.length);
     },
     rendervalue(value) {
-      if (value === undefined || value.length == 0) {
+      if(value === undefined || value.length == 0) {
         return "<not set>";
       } else {
         return value;
@@ -196,21 +196,21 @@ export default {
       return (this.user[val] != this.form[val]) ? "user-changed-info" : "";
     },
     changed_major(val) {
-      return (this.form.major.length <  this.user.major.length || val >= this.user.major.length || this.form.major[val] != this.user.major[val]) ? "user-changed-info" : "";
+      return (this.form.major.length < this.user.major.length || val >= this.user.major.length || this.form.major[val] != this.user.major[val]) ? "user-changed-info" : "";
     },
     startediting(val) {
       this.userData[val].editing = true;
     },
     finishedit(val, good) {
       this.userData[val].editing = false;
-      if (good) {
+      if(good) {
         this.form[val] = this.currentinput[val];
       } else {
         this.currentinput[val] = this.form[val];
       }
     },
     degreemodalHandleok(bvModalEvent) {
-      if (this.$refs["degreeform"].checkValidity()) {
+      if(this.$refs["degreeform"].checkValidity()) {
         this.form.degree = this.currentinput.degree;
         this.form.major = Object.assign([], this.currentinput.major);
       } else {
@@ -219,21 +219,20 @@ export default {
       }
     },
     degreemodalHandlecancel(bvModalEvent) {
-      if (bvModalEvent.trigger != "ok") {
+      if(bvModalEvent.trigger != "ok") {
         this.currentinput.degree = this.form.degree;
         this.currentinput.major = Object.assign([], this.form.major);
       }
     },
     loginmodalHandleok() {
-      if (this.$refs["loginform"].checkValidity()) {
+      if(this.$refs["loginform"].checkValidity()) {
         this.onSubmit();
       } else {
         this.$refs["loginform"].reportValidity();
       }
     },
     newpasswordmodalHandleevent(bvModalEvent) {
-      console.log(bvModalEvent.trigger);
-      if (bvModalEvent.trigger == "ok") {
+      if(bvModalEvent.trigger == "ok") {
         this.form.newpassword = this.currentinput.newpassword.length == 0 ? undefined : this.currentinput.newpassword;
       }
       this.currentinput.newpassword = "";
@@ -248,7 +247,7 @@ export default {
         data: { success, errMsg }
       } = await modifyUser(this.form);
 
-      if (!success) {
+      if(!success) {
         this.$bvToast.toast(errMsg || "Unknown error", {
           title: "Updating user information failed",
           variant: "danger"
@@ -324,5 +323,3 @@ export default {
 }
 
 </style>
-
-<!-- make changes readonly by default, add edit button, list classes taken-->
