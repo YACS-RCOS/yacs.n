@@ -435,7 +435,7 @@ export default {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 5%;
+    margin-left: 8%;
     }
 
     #credit-row {
@@ -449,7 +449,7 @@ export default {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 8%;
+    margin-left: 4%;
     }
 
     .calculator-box {
@@ -495,6 +495,7 @@ export default {
     font-size: 1rem;
     color: black;
     text-align: center;
+    font-weight: bolder;
     }
 
     #course-wrapper, form {
