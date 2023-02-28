@@ -63,7 +63,7 @@
         </b-col>
       </b-row>
       <b-row style="margin-top: 1em">
-        <b-button class="align-self-center m-auto" style="width: 10em" variant="danger" @click="onReset">Reset Changes</b-button>
+        <b-button class="align-self-center m-auto" style="width: 10em" variant="danger" @click="onReset">Undo Changes</b-button>
         <b-button v-b-modal.login class="align-self-center m-auto" variant="success">Submit Changes...</b-button>
       </b-row>
 
