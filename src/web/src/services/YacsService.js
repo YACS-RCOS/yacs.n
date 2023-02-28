@@ -102,6 +102,16 @@ export const getDepartments = () =>
   client.get("/department").then(({ data }) => {
     return data;
   });
+
+export const getSecBegin = () =>
+  client.get("/begin_time").then(({ data }) => {
+    return data;
+  });
+
+export const getSecEnd = () =>
+  client.get("/endtime").then(({ data }) => {
+    return data;
+  });
 /**
  * Returns a list of all subsemesters
  * @returns {Promise<Subsemester[]>}

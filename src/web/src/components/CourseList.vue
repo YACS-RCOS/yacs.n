@@ -55,10 +55,10 @@
           </b-form-group>
         </b-col>
       </b-row>
-      <b-row>
+      <!-- <b-row>
         <b-col>
-          <b-form-group label="M">
-          <b-form-checkbox v-model="isChecked" 
+          <b-form-group label="Mon">
+          <b-form-checkbox v-model="mcheck" 
           name="monday" 
           value="monday" 
           id="monday">
@@ -66,15 +66,42 @@
           </b-form-group>
         </b-col>
         <b-col>
-          <b-form-group label="T">
-          <b-form-checkbox v-model="isChecked" 
+          <b-form-group label="Tue">
+          <b-form-checkbox v-model="tcheck" 
           name="tuesday" 
           value="tuesday" 
           id="tuesday">
           </b-form-checkbox>
           </b-form-group>
         </b-col>
-      </b-row>
+        <b-col>
+          <b-form-group label="Wed">
+          <b-form-checkbox v-model="wcheck" 
+          name="wednesday" 
+          value="wednesday" 
+          id="wednesday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Thu">
+          <b-form-checkbox v-model="rcheck" 
+          name="thursday" 
+          value="thurday" 
+          id="thursday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="Fri">
+          <b-form-checkbox v-model="fcheck" 
+          name="friday" 
+          value="friday" 
+          id="friday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+      </b-row> -->
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -159,6 +186,9 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      // begintime: null,
+      // endtime: null,
+      // dayWeek: null,
       courseList: null,
       debounceTime: 300,
     };
@@ -238,8 +268,11 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
+
+      // return match after time filter
+      
       console.log("detail below");
-      console.log(find);
+      console.log(filtered);
 
       if (find) return [find];
       else return filtered;
