@@ -56,6 +56,7 @@
                     <button @click="addGPA();">+ Add GPA</button>
                     <button @click="removeSemester();">- Remove</button>
                     <button @click="calcFgpa();">Calculate GPA</button>
+                    <button @click = "selfRemove()">Clear Form</button>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc">Your GPA is:</p>
@@ -186,7 +187,7 @@ export default {
             <form class="add_new key-${this.counter}">
                 <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
-                <button @click = "selfRemove()">-</button>
+                
 
             </form>
             `;
@@ -216,7 +217,7 @@ export default {
                 <option value="0.00">F</option>
                 <option value="">P</option>
                 </select>
-                <button @click = "selfRemove()">-</button>
+                
             </form>
             `;
             addNew.innerHTML = semester_name;
@@ -395,20 +396,7 @@ export default {
         },
 
 
-        CourseWeight(level, isMajor, isHass){
-            let TypeWeight = 0.7;
-            let LevelWeight = 0.3;
-            let type = 0;
-            if(isMajor){
-                type = 2;
-            }else if(isHass){
-                type = 0.7;
-            }else{
-                type = 1;
-            }
-            let score = TypeWeight * type + LevelWeight * level;
-            return score;
-        }
+     
 
 
     }
