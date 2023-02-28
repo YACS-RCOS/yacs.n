@@ -53,18 +53,12 @@
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
-        <div
-            style="padding-top: 2px; padding-right: 7px"
-        >Color Mode</div>
-        <b-nav-form id="darkmode-toggle-form" class="mr-md-2">
-          <b-form-checkbox
-            :checked="$store.state.darkMode"
-            :indeterminate="followDevice"
-            @change="toggle_style()"
-            switch="true"
-          ></b-form-checkbox>
-          <font-awesome-icon @dblclick="toggle_default()" icon="moon" />
-        </b-nav-form>
+
+        <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
+          <b-dropdown-item @click="toggle_light">light mode</b-dropdown-item>
+          <b-dropdown-item @click="toggle_dark()">dark mode</b-dropdown-item>
+          <b-dropdown-item @click="">toggle device's color</b-dropdown-item>
+        </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
           <!-- Using 'button-content' slot -->
