@@ -11,16 +11,18 @@
 	</div>
 </template>
 <script>
-	export default {
-		data: () => ({
-			isPanelOpen: true
-		}),
-		methods: {
-			closeSidebarPanel(){
-				this.isPanelOpen = false
-			}
-		}
-	}
+    import { store, mutations } from '@/store.js'
+
+    export default {
+        methods: {
+            closeSidebarPanel: mutations.toggleNav
+        },
+        computed: {
+            isPanelOpen() {
+                return store.isNavOpen
+            }
+        }
+    }
 </script>
 <style>
 	.slide-enter-active,
