@@ -15,6 +15,8 @@
                 v-model="currentinput[label]"
                 :required="data.required"
                 :type="data.type"
+                autofocus
+                @keydown.esc="finishedit(label,false)"
               ></b-input>
             </b-col>
             <b-col class="user-col-right">
