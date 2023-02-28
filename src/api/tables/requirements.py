@@ -10,8 +10,3 @@ class Requirements(Base):
     #foreign id referring to pathway object
     pathways = Column(TSVECTOR)
     classes_provded = Column(TSVECTOR)
-
-    #artifical primary key
-    #name: "required"
-    #pathway: "1213"
-    #class
