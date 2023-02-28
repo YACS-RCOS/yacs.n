@@ -31,19 +31,20 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
-        <form @submit.prevent="handleSubmit">
-          <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
-              <label class="form-check-label" :for="item.id">{{item.name}}</label>
-              <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.name">
-          </div>
-          <!-- print result -->
-          <div class="form-group">
-                  {{user.CreditsCollection}}
-          </div>
-          <div class="form-group">
-              <button class="btn btn-primary">Submit</button>
-          </div>
-      </form>
+
+        <b-col>
+          <b-form-group label="Filter Credits">
+            <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
+                <label class="form-check-label" :for="item.id">{{item.name}}</label>
+                <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.id">
+            </div>
+            <!-- print result -->
+            <div class="form-group">
+                    {{user.CreditsCollection}}
+            </div>
+          </b-form-group>
+        </b-col>
+
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
@@ -134,21 +135,25 @@ export default {
       debounceTime: 300,
       Items: [
                 {
-                    name: '1 Credit'
+                    name: '1 Credit',
+                    id: 1
                 }, 
                 {
-                    name: '2 Credits'
+                    name: '2 Credits',
+                    id: 2
                 }, 
                 {
-                    name: '3 Credits'
+                    name: '3 Credits',
+                    id: 3
                 }, 
                 {
-                    name: '4 Credits'
+                    name: '4 Credits',
+                    id: 4
                 }
-            ],            
-            user: {
-                CreditsCollection: []
-            }
+            ],        
+      user: {
+          CreditsCollection: []
+      }
     };
   },
   created() {
@@ -157,11 +162,6 @@ export default {
     });
   },
   methods: {
-
-    handleSubmit() {
-            alert(JSON.stringify(this.user));
-        },
-
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
@@ -188,14 +188,6 @@ export default {
       return [{ text: "All", value: null }].concat(
         ...this.departments.map(({ department }) => department)
       );
-    },
-
-    CreditsOptions() {
-      return[{ text: "All", value: null },
-      { text: "1 Credit", value: 1 },
-      { text: "2 Credits", value: 2 },
-      { text: "3 Credits", value: 3 },
-      { text: "4 Credits", value: 4 }]
     },
 
 
@@ -232,9 +224,9 @@ export default {
         (course) =>
           (!this.selectedDepartment ||
             course.department === this.selectedDepartment) &&
-          (!this.selectedCredits ||
-            course.min_credits <= this.selectedCredits &&
-            course.max_credits >= this.selectedCredits) &&
+          (this.user.CreditsCollection.length == 0 ||
+          course.min_credits == course.max_credits &&
+            this.user.CreditsCollection.includes(course.min_credits)) &&
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() ===
               course.date_start.getTime() &&
