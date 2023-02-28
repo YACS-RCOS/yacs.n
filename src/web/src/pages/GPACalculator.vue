@@ -515,7 +515,6 @@ export default {
     padding: 10px;
     margin: 9px;
     border-radius: 7.5px;
-    width: 20%;
     /*   height: 30px; */
     }
     button {
