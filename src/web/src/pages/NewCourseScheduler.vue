@@ -6,56 +6,58 @@
       <div :class= "[main]">
         <Burger></Burger>
         <Sidebar>
-          <b-col class="d-flex flex-column" ref="sidebar" v-if="showing">
-            <b-card no-body class="h-100">
-              <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-                <Burger></Burger>
-                <b-tab
-                  title="Course Search"
-                  active
-                  class="flex-grow-1 w-100"
-                  data-cy="course-search-tab"
-                >
-                  <b-card-text class="d-flex flex-grow-1 w-100">
-                    <CenterSpinner
-                      v-if="loading"
-                      class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                      :height="60"
-                      :fontSize="1"
-                      loadingMessage="Courses"
-                      :topSpacing="0"
-                    />
+          <div class="sidebar-panal-nav">
+            <b-col class="d-flex flex-column" ref="sidebar" v-if="showing">
+              <b-card no-body class="h-100">
+                <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+                  <Burger></Burger>
+                  <b-tab
+                    title="Course Search"
+                    active
+                    class="flex-grow-1 w-100"
+                    data-cy="course-search-tab"
+                  >
+                    <b-card-text class="d-flex flex-grow-1 w-100">
+                      <CenterSpinner
+                        v-if="loading"
+                        class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                        :height="60"
+                        :fontSize="1"
+                        loadingMessage="Courses"
+                        :topSpacing="0"
+                      />
 
-                    <CourseList
-                      v-if="!loading"
-                      @addCourse="addCourse"
-                      @removeCourse="removeCourse"
-                      @showCourseInfo="showCourseInfo"
-                      class="w-100"
-                    />
-                  </b-card-text>
-                </b-tab>
-                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-                  <template v-slot:title>
-                    <div class="text-center" data-cy="selected-courses-tab-header">
-                      Selected Courses
-                      <b-badge variant="light" data-cy="num-selected-courses">
-                        {{ numSelectedCourses }}
-                      </b-badge>
-                    </div>
-                  </template>
-                  <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                    <SelectedCourses
-                      :courses="selectedCourses"
-                      @removeCourse="removeCourse"
-                      @removeCourseSection="removeCourseSection"
-                      @addCourseSection="addCourseSection"
-                    />
-                  </b-card-text>
-                </b-tab>
-              </b-tabs>
-            </b-card>
-          </b-col>
+                      <CourseList
+                        v-if="!loading"
+                        @addCourse="addCourse"
+                        @removeCourse="removeCourse"
+                        @showCourseInfo="showCourseInfo"
+                        class="w-100"
+                      />
+                    </b-card-text>
+                  </b-tab>
+                  <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                    <template v-slot:title>
+                      <div class="text-center" data-cy="selected-courses-tab-header">
+                        Selected Courses
+                        <b-badge variant="light" data-cy="num-selected-courses">
+                          {{ numSelectedCourses }}
+                        </b-badge>
+                      </div>
+                    </template>
+                    <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                      <SelectedCourses
+                        :courses="selectedCourses"
+                        @removeCourse="removeCourse"
+                        @removeCourseSection="removeCourseSection"
+                        @addCourseSection="addCourseSection"
+                      />
+                    </b-card-text>
+                  </b-tab>
+                </b-tabs>
+              </b-card>
+            </b-col>
+          </div>
         </Sidebar>
         <b-form-select
           v-if="
