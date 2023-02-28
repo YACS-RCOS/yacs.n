@@ -8,8 +8,8 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: colors.red.darken1, // #E53935
-          secondary: colors.red.lighten4, // #FFCDD2
+          primary: colors.grey.darken1, // #E53935
+          secondary: colors.grey.lighten4, // #FFCDD2
           ...
         }
       },
@@ -20,7 +20,7 @@ export default createVuetify({
 <template>
   <b-navbar
     id="header"
-    class="bg-dark"
+    class="bg-light"
     style="margin-bottom: 0 !important;"
     toggleable="md"
     type="primary"
