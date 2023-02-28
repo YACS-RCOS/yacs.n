@@ -240,6 +240,9 @@ export default {
       this.currentinput.newpassword = "";
     },
     onReset() {
+      for(var key of Object.keys(this.userData)){
+        this.userData[key]["editing"] = false;
+      }
       this.form = JSON.parse(JSON.stringify(this.user));
       this.currentinput = JSON.parse(JSON.stringify(this.user));
     },
