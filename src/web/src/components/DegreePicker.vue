@@ -6,8 +6,8 @@
         :disabled="!loaded"
         :options="degrees"
         required
-        @input="check"
         @change="currentmajor = [null]"
+        @input="check"
       ></b-form-select>
     </b-form-group>
 
@@ -19,7 +19,7 @@
           :options="majorslist[i]"
           :value="thing"
           required
-          @blur.native="currentmajor[i] = $refs['majorpicker' + i][0].localValue; refresh()"
+          @blur.native="$set(currentmajor,i,$refs['majorpicker' + i][0].localValue)"
         ></b-form-select>
       </div>
       <b-button
@@ -99,26 +99,13 @@ export default {
       console.log(x)
       return x
     },
-    refresh() {
-      // hack to force vue to see that the value changed
-      var temp = this.currentmajor;
-      this.currentmajor = null;
-      this.$nextTick(() => {
-        this.currentmajor = temp;
-      });
-    },
     check() {
       this.$nextTick().then(() => {
         if(this.loaded) {
-          var refresh = false
           for(var i in this.currentmajor) {
             if(!this.$refs['majorpicker' + i][0].$el.checkValidity()) {
-              refresh = true;
-              this.currentmajor[i] = null;
+              this.$set(this.currentmajor, i, null);
             }
-          }
-          if(refresh) {
-            this.refresh();
           }
         }
       });
