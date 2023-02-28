@@ -31,16 +31,19 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
-
-        <b-col>
-          <b-form-group label="Filter Credits" for="credits">
-            <b-form-select
-              v-model="selectedCredits"
-              :options="CreditsOptions"
-            ></b-form-select>
-          </b-form-group>
-        </b-col>
-
+        <form @submit.prevent="handleSubmit">
+          <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
+              <label class="form-check-label" :for="item.id">{{item.name}}</label>
+              <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.name">
+          </div>
+          <!-- print result -->
+          <div class="form-group">
+                  {{user.CreditsCollection}}
+          </div>
+          <div class="form-group">
+              <button class="btn btn-primary">Submit</button>
+          </div>
+      </form>
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
@@ -129,6 +132,23 @@ export default {
       selectedCredits: null,
       courseList: null,
       debounceTime: 300,
+      Items: [
+                {
+                    name: '1 Credit'
+                }, 
+                {
+                    name: '2 Credits'
+                }, 
+                {
+                    name: '3 Credits'
+                }, 
+                {
+                    name: '4 Credits'
+                }
+            ],            
+            user: {
+                CreditsCollection: []
+            }
     };
   },
   created() {
@@ -137,6 +157,11 @@ export default {
     });
   },
   methods: {
+
+    handleSubmit() {
+            alert(JSON.stringify(this.user));
+        },
+
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
