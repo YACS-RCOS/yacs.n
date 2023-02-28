@@ -10,7 +10,24 @@
     <b-tab title="Syllabus"><p>I'm</p></b-tab>
     <b-tab title="Custom Fields"><p>the</p></b-tab>
     <b-tab title="Course FAQ"><p>file</p></b-tab>
-    <b-tab title="Sections"><p>yes</p></b-tab>
+    <b-tab title="Sections">
+      <p>{{ course.title }}</p>
+      <p>hi</p>
+    </b-tab>
   </b-tabs>
 </div>
 </template>
+
+<script>
+//import CourseListingComponent from "@/components/CourseListing";
+
+export default {
+  name: "CourseInfo",
+  //components: {
+  //  CourseListing: CourseListingComponent,
+  //},
+  props: {
+    course: Object,
+  },
+};
+</script>

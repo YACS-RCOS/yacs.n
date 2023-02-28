@@ -29,7 +29,7 @@
         </b-col>
       </b-row>
       <div>
-        <CourseInfo/>
+        <CourseInfo :course="courseObj"/>
       </div>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
