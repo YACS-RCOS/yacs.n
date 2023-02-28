@@ -54,7 +54,7 @@
                     <div class="btn">
                     <button @click="addClass();">+ Add Class</button>
                     <button @click="addGPA();">+ Add GPA</button>
-                    <button @click="removeSemester();">- Remove</button>
+                    <button @click="selfRemove();">- Remove</button>
                     <button @click="calcFgpa();">Calculate GPA</button>
                     </div>
                     <div class="lastp">
@@ -186,7 +186,7 @@ export default {
             <form class="add_new key-${this.counter}">
                 <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
-                <button @click = "selfRemove()">-</button>
+                <button @click = "removeSemester()">-</button>
 
             </form>
             `;
@@ -216,7 +216,7 @@ export default {
                 <option value="0.00">F</option>
                 <option value="">P</option>
                 </select>
-                <button @click = "selfRemove()">-</button>
+                <button @click = "removeSemester()">-</button>
             </form>
             `;
             addNew.innerHTML = semester_name;
