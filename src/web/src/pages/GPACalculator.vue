@@ -485,6 +485,7 @@ export default {
     h1 {
     padding: 15px;
     font-size: 40px;
+    font-weight: bolder;
     text-align: center;
     border: white;
     background-color: #AFC9C6;
@@ -495,7 +496,6 @@ export default {
     font-size: 1rem;
     color: black;
     text-align: center;
-    font-weight: bolder;
     }
 
     #course-wrapper, form {
