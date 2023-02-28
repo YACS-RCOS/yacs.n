@@ -435,14 +435,14 @@ export default {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: -2%;
+    margin-left: 5%;
     }
 
     #credit-row {
     font-size: 20px;
     color: #aeb2b8;
     font-weight: bolder;
-    margin-left: 13%;
+    margin-left: 12%;
     }
 
     #grade-row {
@@ -513,9 +513,8 @@ export default {
     }
     select{
     padding: 10px;
-
+    margin: 9px;
     border-radius: 7.5px;
-    width: 20%;
     /*   height: 30px; */
     }
     button {
