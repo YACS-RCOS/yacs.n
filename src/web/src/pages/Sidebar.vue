@@ -1,17 +1,16 @@
 <template>
-	<div class="sidebar">
-		<div class="sidebar-backdrop" @click="closeSidebarPanel" v-if="isPanelOpen">
-		<Transition name = "slide">
-			<div v-if = "isPanelOpen"
-				class = "sidebar-panel">
-				<slot></slot>
-			</div>
-		</Transition>
-		</div>
-	</div>
+    <div class="sidebar">
+        <div class="sidebar-backdrop" @click="closeSidebarPanel" v-if="isPanelOpen"></div>
+        <transition name="slide">
+            <div v-if="isPanelOpen"
+                 class="sidebar-panel">
+                <slot></slot>
+            </div>
+        </transition>
+    </div>
 </template>
 <script>
-    import { store, mutations } from '@/store.js'
+    import { store, mutations } from '@/pages/store.js'
 
     export default {
         methods: {
@@ -25,19 +24,19 @@
     }
 </script>
 <style>
-	.slide-enter-active,
-	.slide-enter-active
-	{
-		transition: transform 0.2s ease;
-	}
+    .slide-enter-active,
+    .slide-leave-active
+    {
+        transition: transform 0.2s ease;
+    }
 
-	.slide-enter,
-	.slide-leave-to{
-		transform: translateX(-100%);
-		translation: all 0.15s ease-in 0s;
-	}
+    .slide-enter,
+    .slide-leave-to {
+        transform: translateX(-100%);
+        transition: all 150ms ease-in 0s
+    }
 
-	.sidebar-backdrop {
+    .sidebar-backdrop {
         background-color: rgba(0,0,0,.5);
         width: 100vw;
         height: 100vh;
@@ -49,13 +48,13 @@
 
     .sidebar-panel {
         overflow-y: auto;
-        background-color: #000000;
+        background-color: #130f40;
         position: fixed;
         left: 0;
         top: 0;
         height: 100vh;
         z-index: 999;
         padding: 3rem 20px 2rem 20px;
-        width: 300px;
+        width: 500px;
     }
 </style>

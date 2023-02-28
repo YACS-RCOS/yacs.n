@@ -1,67 +1,61 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
-      <b-col v-if = "!showing" class="m-1 text-center">
-      </b-col>  
-
-      <!-- Start fixing 
-      <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
-        <b-card no-body class="h-100">
-          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b href="javascript:void(0)" class="closebtn" v-on:click="closeClick">x</b>
-            <b-tab
-              title="Course Search"
-              active
-              class="flex-grow-1 w-100"
-              data-cy="course-search-tab"
-            >
-              <b-card-text class="d-flex flex-grow-1 w-100">
-                <CenterSpinner
-                  v-if="loading"
-                  class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                  :height="60"
-                  :fontSize="1"
-                  loadingMessage="Courses"
-                  :topSpacing="0"
-                />
-
-                <CourseList
-                  v-if="!loading"
-                  @addCourse="addCourse"
-                  @removeCourse="removeCourse"
-                  @showCourseInfo="showCourseInfo"
-                  class="w-100"
-                />
-              </b-card-text>
-            </b-tab>
-            <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-              <template v-slot:title>
-                <div class="text-center" data-cy="selected-courses-tab-header">
-                  Selected Courses
-                  <b-badge variant="light" data-cy="num-selected-courses">
-                    {{ numSelectedCourses }}
-                  </b-badge>
-                </div>
-              </template>
-              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                <SelectedCourses
-                  :courses="selectedCourses"
-                  @removeCourse="removeCourse"
-                  @removeCourseSection="removeCourseSection"
-                  @addCourseSection="addCourseSection"
-                />
-              </b-card-text>
-            </b-tab>
-          </b-tabs>
-        </b-card>
-      </b-col>
-      -->
+      <!--<b-col v-if = "!showing" class="m-1 text-center">
+      --></b-col>  
       <div :class= "[main]">
         <Burger></Burger>
         <Sidebar>
-          <ul class="sidebar-panal-nav">
-            <li> check </li>
-          </ul>
+          <b-col class="d-flex flex-column" ref="sidebar" v-if="showing">
+            <b-card no-body class="h-100">
+              <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+                <Burger></Burger>
+                <b-tab
+                  title="Course Search"
+                  active
+                  class="flex-grow-1 w-100"
+                  data-cy="course-search-tab"
+                >
+                  <b-card-text class="d-flex flex-grow-1 w-100">
+                    <CenterSpinner
+                      v-if="loading"
+                      class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                      :height="60"
+                      :fontSize="1"
+                      loadingMessage="Courses"
+                      :topSpacing="0"
+                    />
+
+                    <CourseList
+                      v-if="!loading"
+                      @addCourse="addCourse"
+                      @removeCourse="removeCourse"
+                      @showCourseInfo="showCourseInfo"
+                      class="w-100"
+                    />
+                  </b-card-text>
+                </b-tab>
+                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                  <template v-slot:title>
+                    <div class="text-center" data-cy="selected-courses-tab-header">
+                      Selected Courses
+                      <b-badge variant="light" data-cy="num-selected-courses">
+                        {{ numSelectedCourses }}
+                      </b-badge>
+                    </div>
+                  </template>
+                  <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                    <SelectedCourses
+                      :courses="selectedCourses"
+                      @removeCourse="removeCourse"
+                      @removeCourseSection="removeCourseSection"
+                      @addCourseSection="addCourseSection"
+                    />
+                  </b-card-text>
+                </b-tab>
+              </b-tabs>
+            </b-card>
+          </b-col>
         </Sidebar>
         <b-form-select
           v-if="
@@ -222,9 +216,9 @@ import { mapGetters, mapState } from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
-//import SelectedCoursesComponent from "@/components/SelectedCourses";
-//import CourseListComponent from "@/components/CourseList";
-//import CenterSpinnerComponent from "../components/CenterSpinner";
+import SelectedCoursesComponent from "@/components/SelectedCourses";
+import CourseListComponent from "@/components/CourseList";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
@@ -274,9 +268,9 @@ export default {
     Schedule: ScheduleComponent,
     Burger,
     Sidebar,
-    //SelectedCourses: SelectedCoursesComponent,
-    //CourseList: CourseListComponent,
-    //CenterSpinner: CenterSpinnerComponent,
+    SelectedCourses: SelectedCoursesComponent,
+    CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
   },
   data() {
     return {
@@ -757,16 +751,12 @@ footer {
   margin: 0px !important;
 }
 
-ul.sidebar-panel-nav {
-   list-style-type: none;
-}
-
-ul.sidebar-panel-nav > li > a {
- color: #fff;
- text-decoration: none;
- font-size: 1.5rem;
- display: block;
- padding-bottom: 0.5em;
+sidebar-panel-nav {
+   color: #fff;
+   text-decoration: none;
+   font-size: 1.5rem;
+   display: block;
+   padding-bottom: 0.5em;
 }
 
 #export-ics-button {

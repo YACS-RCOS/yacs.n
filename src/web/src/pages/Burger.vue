@@ -12,14 +12,14 @@
     </div>
 </template>
 <script>
-    import{sotre, mutations} from '@/pages/store.js'
+    import{store, mutations} from '@/pages/store.js'
 
     export default {
         computed:{
             isBurgerActive(){
                 return store.isNavOpen
             }
-        }
+        },
         methods: {
             toggle() {
                 mutations.toggleNav()
