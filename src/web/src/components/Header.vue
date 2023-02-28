@@ -55,9 +55,9 @@
       <b-navbar-nav class="ml-auto">
 
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-          <b-dropdown-item @click="toggle_light">light mode</b-dropdown-item>
-          <b-dropdown-item @click="toggle_dark()">dark mode</b-dropdown-item>
-          <b-dropdown-item @click="">toggle device's color</b-dropdown-item>
+          <b-dropdown-item @click="toggle_style(true)">Light Mode</b-dropdown-item>
+          <b-dropdown-item @click="toggle_style(false)">Dark Mode</b-dropdown-item>
+          <b-dropdown-item @click="toggle_default">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -115,14 +115,17 @@ export default {
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
+    toggle_style(mode) {
+      if(this.followDevice!==mode) {
+        if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
+          this.notifyOnToggle();
+        }
+        this.$store.commit(TOGGLE_DARK_MODE);
+        this.$store.commit(SAVE_DARK_MODE);
+        this.followDevice = false;
 
-    toggle_style() {
-      if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
-        this.notifyOnToggle();
+        this.followDevice=mode;
       }
-      this.$store.commit(TOGGLE_DARK_MODE);
-      this.$store.commit(SAVE_DARK_MODE);
-      this.followDevice = false;
     },
     toggle_default() {
       if (this.$cookies.get(COOKIE_DARK_MODE) !== null) {
