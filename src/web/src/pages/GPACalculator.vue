@@ -182,12 +182,12 @@ export default {
         },
         addGPA() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`);
+            addNew.classList.add("add_new1", `key-${this.counter}`);
             const semester_name = `
-            <form class="add_new key-${this.counter}">
+            <form class="add_new1 key-${this.counter}">
                 <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
-                
+                <button @click="removeSemester();">- Remove</button>
 
             </form>
             `;
@@ -197,9 +197,9 @@ export default {
         },
         addClass() {
             let addNew = document.createElement("form");
-            addNew.classList.add("add_new", `key-${this.counter}`);
+            addNew.classList.add("add_new1", `key-${this.counter}`);
             const semester_name = `
-            <form class="add_new key-${this.counter}">
+            <form class="add_new1 key-${this.counter}">
                 <input type="number" placeholder="Credit Units" class="credit_units2 key-${this.counter}" required>
                 <select class="grade2 key-${this.counter}" required>
                 <option value="select">Select</option>
@@ -217,6 +217,8 @@ export default {
                 <option value="0.00">F</option>
                 <option value="">P</option>
                 </select>
+                <button @click="removeSemester();">- Remove</button>
+
                 
             </form>
             `;
@@ -226,7 +228,7 @@ export default {
         },
      
         removeSemester() {
-            let mainForm = document.querySelector("form.add_new");
+            let mainForm = document.querySelector("form.add_new1");
             mainForm.remove();
         },
         calcFgpa() {
