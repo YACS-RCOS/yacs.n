@@ -7,6 +7,7 @@
 				<slot></slot>
 			</div>
 		</Transition>
+		</div>
 	</div>
 </template>
 <script>
@@ -46,7 +47,7 @@
 
     .sidebar-panel {
         overflow-y: auto;
-        background-color: white;
+        background-color: #000000;
         position: fixed;
         left: 0;
         top: 0;

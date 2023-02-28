@@ -2,14 +2,7 @@
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
       <b-col v-if = "!showing" class="m-1 text-center">
-        <Burger></Burger>
       </b-col>  
-
-      <Sidebar>
-        <ul class="sidebar-panal-nav">
-          <li> check </li>
-        </ul>
-      </Sidebar>
 
       <!-- Start fixing 
       <b-col md="4" class="d-flex flex-column" ref="sidebar" v-if="showing">
@@ -64,6 +57,12 @@
       </b-col>
       -->
       <div :class= "[main]">
+        <Burger></Burger>
+        <Sidebar>
+          <ul class="sidebar-panal-nav">
+            <li> check </li>
+          </ul>
+        </Sidebar>
         <b-form-select
           v-if="
             !loading &&
