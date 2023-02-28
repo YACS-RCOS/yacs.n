@@ -2,7 +2,7 @@
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
       <b-col v-if = "!showing" class="m-1 text-center">
-        <b-button class="openbtn" v-on:click="closeClick">☰ Open</b-button> 
+        <ToggleB></ToggleB>
       </b-col>  
 
       <Sidebar>
@@ -251,6 +251,7 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
+import TobbleB from "./TobbleB.vue"
 import Sidebar from "./Sidebar.vue"
 
 const noConflict = (p, section) => {
@@ -272,6 +273,7 @@ export default {
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
+    ToggleB,
     Sidebar,
     //SelectedCourses: SelectedCoursesComponent,
     //CourseList: CourseListComponent,
@@ -758,15 +760,15 @@ footer {
 
 ul.sidebar-panel-nav {
    list-style-type: none;
- }
+}
 
- ul.sidebar-panel-nav > li > a {
-   color: #fff;
-   text-decoration: none;
-   font-size: 1.5rem;
-   display: block;
-   padding-bottom: 0.5em;
- }
+ul.sidebar-panel-nav > li > a {
+ color: #fff;
+ text-decoration: none;
+ font-size: 1.5rem;
+ display: block;
+ padding-bottom: 0.5em;
+}
 
 #export-ics-button {
   background: #3d4959 !important;
