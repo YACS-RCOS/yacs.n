@@ -11,7 +11,7 @@
     <b-tab title="Custom Fields"><p>the</p></b-tab>
     <b-tab title="Course FAQ"><p>file</p></b-tab>
     <b-tab title="Sections">
-      <p><CourseListing :course="course" /></p>
+      <p><CourseListing :course="course" :showAddButton = "false" /></p>
     </b-tab>
   </b-tabs>
 </div>
