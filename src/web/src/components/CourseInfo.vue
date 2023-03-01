@@ -11,21 +11,20 @@
     <b-tab title="Custom Fields"><p>the</p></b-tab>
     <b-tab title="Course FAQ"><p>file</p></b-tab>
     <b-tab title="Sections">
-      <p>{{ course.title }}</p>
-      <p>hi</p>
+      <p><CourseListing :course="course" /></p>
     </b-tab>
   </b-tabs>
 </div>
 </template>
 
 <script>
-//import CourseListingComponent from "@/components/CourseListing";
+import CourseListingComponent from "@/components/CourseListing";
 
 export default {
   name: "CourseInfo",
-  //components: {
-  //  CourseListing: CourseListingComponent,
-  //},
+  components: {
+    CourseListing: CourseListingComponent,
+  },
   props: {
     course: Object,
   },
