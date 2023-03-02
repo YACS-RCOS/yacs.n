@@ -43,7 +43,7 @@
           Schedule
         </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
-          <font-awesome-icon icon="search" />
+          <font-awesome-icon icon="list" />
           Explore
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
