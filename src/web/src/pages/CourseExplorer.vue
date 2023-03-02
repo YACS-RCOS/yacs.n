@@ -157,6 +157,4 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
-
-
 </style>

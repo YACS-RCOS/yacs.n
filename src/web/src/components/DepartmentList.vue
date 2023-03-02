@@ -73,5 +73,4 @@ export default {
 .majorShort {
   color: #3395ff;
 }
-
 </style>
