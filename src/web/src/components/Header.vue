@@ -110,25 +110,30 @@ export default {
   },
   data() {
     return {
-      followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
-      notify: false,
+      followDevice: null,
+      currentMode: this.$cookies.get(COOKIE_DARK_MODE) === null,
+      test: this.$store.state.darkMode,
+      counter: 0,
     };
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
-      if(this.followDevice!==mode) {
-
-        if(this.notify){
+      console.log("before: "+this.currentMode);
+      if(this.notify){
           this.unFollowDeviceTheme();
           this.notify=false;
+          this.followDevice=false;
         }
 
+      if(this.currentMode!==mode) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
 
-        this.followDevice = mode;
+        this.currentMode=mode;
       }
+      this.counter+=1;
+      console.log("after: "+this.currentMode);
     },
     toggle_device() {
       this.followDeviceTheme();
@@ -138,6 +143,8 @@ export default {
       this.$store.commit(TOGGLE_DARK_MODE);
 
       this.followDevice = true;
+      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE) === null;
+      console.log(this.currentMode);
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
