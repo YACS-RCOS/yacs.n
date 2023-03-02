@@ -1,5 +1,5 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
-from sqlalchemy.dialects.postgresql import TEXT, INTEGER, BOOLEAN, VARCHAR
+from sqlalchemy.dialects.postgresql import TEXT, INTEGER, BOOLEAN, VARCHAR, TSVECTOR
 
 from .database import Base
 
@@ -13,6 +13,9 @@ class UserAccount(Base):
     password = Column(TEXT)
     major = Column(TEXT)
     degree = Column(TEXT)
+    past_classes = Column(TSVECTOR)
+    GPA = Column(INTEGER)
+    school = Column(VARCHAR(length=255)) #for future purposes
     semester = Column(VARCHAR(length=255))
     enable = Column(BOOLEAN, default=True)
     admin = Column(BOOLEAN, default=False)
