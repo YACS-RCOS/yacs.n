@@ -57,7 +57,7 @@
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
           <b-dropdown-item @click="toggle_style(true)">Light Mode</b-dropdown-item>
           <b-dropdown-item @click="toggle_style(false)">Dark Mode</b-dropdown-item>
-          <b-dropdown-item @click="toggle_default">Follow Device Theme</b-dropdown-item>
+          <b-dropdown-item @click="toggle_device">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -111,29 +111,33 @@ export default {
   data() {
     return {
       followDevice: this.$cookies.get(COOKIE_DARK_MODE) === null,
+      notify: false,
     };
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
       if(this.followDevice!==mode) {
-        if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
-          this.notifyOnToggle();
+
+        if(this.notify){
+          this.unFollowDeviceTheme();
+          this.notify=false;
         }
+
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-        this.followDevice = false;
 
-        this.followDevice=mode;
+        this.followDevice = mode;
       }
     },
-    toggle_default() {
-      if (this.$cookies.get(COOKIE_DARK_MODE) !== null) {
-        this.notifyOnDefault();
-      }
+    toggle_device() {
+      this.followDeviceTheme();
+      this.notify=true;
+
       this.$store.commit(RESET_DARK_MODE);
-      this.followDevice = true;
       this.$store.commit(TOGGLE_DARK_MODE);
+
+      this.followDevice = true;
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
@@ -151,22 +155,22 @@ export default {
         });
       }
     },
-    notifyOnToggle() {
+    unFollowDeviceTheme() {
       this.$bvToast.toast(
-        `Double click moon icon to follow device's color scheme.`,
+        `No Longer Following Device Theme`,
         {
           title: "Color Scheme Changed",
           autoHideDelay: 2000,
           noHoverPause: true,
-          variant: "info",
+          variant: "danger",
           toaster:  'b-toaster-top-center',
         }
       );
     },
-    notifyOnDefault() {
-      this.$bvToast.toast(`Toggled to follow device color.`, {
+    followDeviceTheme() {
+      this.$bvToast.toast(`Now Following Device Theme`, {
         title: "Color Scheme Changed",
-        autoHideDelay: 1000,
+        autoHideDelay: 2000,
         noHoverPause: true,
         variant: "success",
         toaster:  'b-toaster-top-center'
@@ -222,4 +226,5 @@ export default {
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
 }
+
 </style>
