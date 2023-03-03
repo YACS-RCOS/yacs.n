@@ -38,7 +38,7 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }">
+        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
@@ -105,6 +105,7 @@ import {
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
+// import router from "@/routes";
 export default {
   name: "Header",
   components: {
@@ -214,6 +215,18 @@ export default {
   .form-inline {
     justify-content: center;
   }
+}
+//highlight current page in the navbar using class built into vue router
+.nav-item:not(.first) .router-link-active {
+  border-radius: 5px;
+  padding: calc(8px - 0.2em);
+  border: 0.2em solid var(--dark-blue-secondary);
+}
+
+.nav-item.first .router-link-exact-active {
+  border-radius: 5px;
+  padding: calc(8px - 0.2em);
+  border: 0.2em solid var(--dark-blue-secondary);
 }
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
