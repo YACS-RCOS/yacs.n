@@ -31,8 +31,6 @@
       <div>
         <CourseInfo :course="courseObj"/>
       </div>
-      <b-button @click="$router.go(-1)">Back</b-button>
-      <!--      :to="'/explore/' + courseObj.department"-->
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
