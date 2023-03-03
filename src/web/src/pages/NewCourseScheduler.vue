@@ -1,22 +1,22 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
-      <!--<b-col v-if = "!showing" class="m-1 text-center">
-      --></b-col>  
+      <b-col v-if = "!showing" class="col-md-3 text-center">
+      </b-col>  
       <div :class= "[main]">
         <Burger></Burger>
         <Sidebar>
-          <div class="sidebar-panal-nav">
-            <b-col class="d-flex flex-column" ref="sidebar" v-if="showing">
+          <div class="sidebar-panal-nav" style="height: 100%">
+            <b-col class="d-flex flex-column" ref="sidebar" v-if="showing" style="height: 100%">
               <b-card no-body class="h-100">
-                <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-                  <Burger></Burger>
+                <b-tabs card class="h-100 d-flex flex-column flex-grow-1">]
                   <b-tab
                     title="Course Search"
                     active
                     class="flex-grow-1 w-100"
                     data-cy="course-search-tab"
                   >
+                    <Burger></Burger>
                     <b-card-text class="d-flex flex-grow-1 w-100">
                       <CenterSpinner
                         v-if="loading"
@@ -281,7 +281,7 @@ export default {
       scheduler: null,
       exportIcon: faPaperPlane,
       showing: true,
-      main:"col-md-8",
+      main:"col-md-11",
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
