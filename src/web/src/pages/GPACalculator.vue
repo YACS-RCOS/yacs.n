@@ -88,6 +88,7 @@ export default {
         counter: 0,
         reports: [],
         forms: [],
+        index: 0,
     };
     },
     methods: {
@@ -199,7 +200,7 @@ export default {
             let addNew = document.createElement("form");
             addNew.classList.add("add_new1", `key-${this.counter}`);
             const semester_name = `
-            <form class="add_new1 key-${this.counter}">
+            <form class="add_new1 key-${this.counter} index-${this.index}">
                 <input type="number" placeholder="Credit Units" class="credit_units2 key-${this.counter}" required>
                 <select class="grade2 key-${this.counter}" required>
                 <option value="select">Select</option>
@@ -217,7 +218,7 @@ export default {
                 <option value="0.00">F</option>
                 <option value="">P</option>
                 </select>
-                <button @click="removeSemester();">- Remove</button>
+                <button @click="removeSemester(${this.index});">- Remove</button>
 
                 
             </form>
@@ -225,11 +226,12 @@ export default {
             addNew.innerHTML = semester_name;
             document.getElementById("semester-wrapper").appendChild(addNew);
             this.counter++;
+            this.index++;
         },
      
-        removeSemester() {
-            let mainForm = document.querySelector("form.add_new1");
-            mainForm.remove();
+        removeSemester(index) {
+            let thisForm = document.getElementsByClassName("index-this.index")
+            thisForm.remove();
         },
         calcFgpa() {
             const CGPAPARAGRAPH = document.getElementById("fin-calc");
