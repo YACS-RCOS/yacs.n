@@ -134,22 +134,10 @@ export default {
       courseList: null,
       debounceTime: 300,
       Items: [
-                {
-                    name: '1 Credit',
-                    id: 1
-                }, 
-                {
-                    name: '2 Credits',
-                    id: 2
-                }, 
-                {
-                    name: '3 Credits',
-                    id: 3
-                }, 
-                {
-                    name: '4 Credits',
-                    id: 4
-                }
+                {name: '1 Credit', id: 1}, 
+                {name: '2 Credits',id: 2}, 
+                {name: '3 Credits',id: 3}, 
+                {name: '4 Credits',id: 4}
             ],        
       user: {
           CreditsCollection: []
