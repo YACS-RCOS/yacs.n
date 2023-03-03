@@ -25,6 +25,7 @@
                     <button @click="addCourse();">+ Add</button>
                     <button @click="removeCourse();">- Remove</button>
                     <button @click="calcCgpa();">Calculate GPA</button>
+                    <button @click = "clearFormSemester()">Clear Form</button>
                     </div>
                     <div class="lastp">
                     <p id="cgpa-calc">Your GPA is:</p>
@@ -56,7 +57,7 @@
                     <button @click="addGPA();">+ Add GPA</button>
                     <button @click="removeSemester();">- Remove</button>
                     <button @click="calcFgpa();">Calculate GPA</button>
-                    <button @click = "selfRemove()">Clear Form</button>
+                    <button @click = "ClearFormTotal()">Clear Form</button>
                     </div>
                     <div class="lastp">
                     <p id="fin-calc">Your GPA is:</p>
@@ -393,8 +394,18 @@ export default {
             }
         },
 
-        selfRemove(){
-            this.formData = null;
+        clearFormTotal(){
+            const mainForm = document.querySelectorAll("form.add_new1");
+           	mainForm.forEach((e) => {
+            	e.remove();
+            });
+        },
+
+        clearFormSemester(){
+            const mainForm = document.querySelectorAll("form.add_new");
+           	mainForm.forEach((e) => {
+            	e.remove();
+            });
         },
 
 
