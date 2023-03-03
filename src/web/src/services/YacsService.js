@@ -148,3 +148,8 @@ export const removeStudentCourse = (course_info) =>
 
 export const getStudentCourses = () =>
   client.get("/user/course").then((res) => res.data);
+
+export const getDegreeTemplate = () =>
+  client.get("/degreeTemplate").then(({ data }) => {
+    return data;
+});

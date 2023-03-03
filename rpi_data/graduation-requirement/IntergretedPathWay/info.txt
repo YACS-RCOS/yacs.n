@@ -1,0 +1,5 @@
+LANG 1010 – Chinese I
+LANG 2340 – Chinese II
+LANG 4420 – Chinese III  
+LANG 4430 – Chinese IV
+LANG 4470 – Chinese V

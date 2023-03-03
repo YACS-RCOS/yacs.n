@@ -11,6 +11,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.degree_templates as DegreeTemplates
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -42,6 +43,7 @@ db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
+degree_templates = DegreeTemplates.DegreeTemplate(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
@@ -274,3 +276,14 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
         return Response("Not authorized", status_code=403)
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
+
+@app.route('/api/degreeTemplate', methods=['GET'])
+def get_degree_template_demo():
+    templates = degree_templates.get_template_demo()
+    return jsonify(templates)
+
+@app.route('/api/degreeTemplate', methods=['POST'])
+def add_degree_template():
+    template = request.get_json()
+    resp, error = degree_templates.import_degree_template(template)
+    return Response(status=204) if not error else Response(error, status=500

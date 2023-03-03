@@ -1,0 +1,313 @@
+{
+  "id": "UN_CSCI_2019",
+  "degree": "UN",
+  "major": "CSCI",
+  "year": 2019,
+  "semesters": [
+    {
+      "semester-name": "SemesterOne",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-1100",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Students with sufficient background in computer science may skip CSCI 1100 and replace it with four credits of other CSCI course(s) at the 2000 level or above",
+          "pre-requsit-of": ["CSCI-1200"]
+        },
+        {
+          "type": "Course",
+          "name": "MATH-1100",
+          "department": "MATH",
+          "creditHours": 4,
+          "description": "Non",
+          "pre-requsit-of": ["CSCI-1020"]
+        },
+        {
+          "type": "Course",
+          "name": "PHYS-1100",
+          "department": "PHYS",
+          "creditHours": 4,
+          "description": "If no prior experience in MATH1010, we recommend taking BIOL 1010and BIOL 1015 in the fall semesterof the first year; otherwise, we recommend taking PHYS 1100 in the fall semesterof the first year",
+          "pre-requsit-of": ["PHYS-1020"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterTwo",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-1200",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non",
+          "pre-requsit-of": ["CSCI-2200", "CSCI-2500"]
+        },
+        {
+          "type": "Course",
+          "name": "MATH-1020",
+          "department": "MATH",
+          "creditHours": 4,
+          "description": "Non",
+          "pre-requsit-of": ["MATH-2XXX"]
+        },
+        {
+          "type": "Course",
+          "name": "BIOL-1010",
+          "department": "BIOL",
+          "creditHours": 3,
+          "description": "If no prior experience in MATH1010, we recommend taking BIOL 1010and BIOL 1015 in the fall semesterof the first year; otherwise, we recommend taking PHYS 1100 in the fall semesterof the first year",
+          "pre-requsit-of": ["PHYS-1020"]
+        },
+        {
+          "type": "Course",
+          "name": "BIOL-1015",
+          "department": "BIOL",
+          "creditHours": 1,
+          "description": "If no prior experience in MATH1010, we recommend taking BIOL 1010and BIOL 1015 in the fall semesterof the first year; otherwise, we recommend taking PHYS 1100 in the fall semesterof the first year",
+          "pre-requsit-of": ["PHYS-1020"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterThree",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-2200",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Course",
+          "name": "CSCI-2500",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Courses",
+          "name": "Mathematics Option I",
+          "courses": [
+            "MATH 2010",
+            "MATH 4030",
+            "MATH 4040",
+            "MATH 4100",
+            "MATP 4600"
+          ],
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterFour",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-2300",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Course",
+          "name": "CSCI-2600",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Courses",
+          "name": "Mathematics Option II",
+          "courses": ["MATH-2XXX"],
+          "creditHours": 4,
+          "description": "Mathematics Option II must be any course in MATH/MATP at the 2000 level or above (excluding MATH 2800)"
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterFive",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-4210",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Courses",
+          "name": "CS Option/Capstone",
+          "courses": ["CSCI-4XXX"],
+          "creditHours": 16,
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterSix",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-4430",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Courses",
+          "name": "CS Option/Capstone",
+          "courses": ["CSCI-4XXX"],
+          "creditHours": 16,
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
+        },
+        {
+          "type": "Option-Departments",
+          "name": "HASS ELECTIVE",
+          "creditHours": 16,
+          "description": "Non",
+          "Departments": ["HASS"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Science Option",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": [
+            "ASTR-XXXX",
+            "BIOL-XXXX",
+            "CHEM-XXXX",
+            "ERTH-XXXX",
+            "ENVI-XXXX",
+            "PHYS-XXXX"
+          ]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterSeven",
+      "courses": [
+        {
+          "type": "Course",
+          "name": "CSCI-4430",
+          "department": "CSCI",
+          "creditHours": 4,
+          "description": "Non"
+        },
+        {
+          "type": "Option-Courses",
+          "name": "CS Option/Capstone",
+          "courses": ["CSCI-4XXX"],
+          "creditHours": 16,
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        }
+      ]
+    },
+
+    {
+      "semester-name": "SemesterEight",
+      "courses": [
+        {
+          "type": "Option-Courses",
+          "name": "CS Option/Capstone",
+          "courses": ["CSCI-4XXX"],
+          "creditHours": 16,
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
+        },
+        {
+          "type": "Option-Courses",
+          "name": "CS Option/Capstone",
+          "courses": ["CSCI-4XXX"],
+          "creditHours": 16,
+          "description": "Reading and independent study coursescannot be used for these courses. Note that of the required 16 credits, any missing credits due to 3-credit courses may be made up as free elective credits."
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        },
+        {
+          "type": "Option-Departments",
+          "name": "Free ELECTIVE",
+          "creditHours": 4,
+          "description": "Non",
+          "Departments": ["ALL-XXXX"]
+        }
+      ]
+    }
+  ]
+}
