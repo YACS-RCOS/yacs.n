@@ -232,7 +232,8 @@ export default {
         },
      
         removeSemester(index) {
-            let thisForm = document.getElementsByClassName("index-this.index")
+            const greeting = `index-, ${index}`;
+            let thisForm = document.getElementsByClassName(greeting)
             thisForm.remove();
         },
         calcFgpa() {
