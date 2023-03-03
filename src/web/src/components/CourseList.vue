@@ -40,10 +40,7 @@
             :debounce="debounceTime"
             trim
             placeholder="08:00"
-            v-validate="'regex:^([01][0-9]|2[0-3]):[0-5][0-9]$'" 
-            :state="errors.has('begintime') ? false : null"
             ></b-form-input>
-            <div v-show="errors.has('begintime')" class="invalid-feedback"></div>
           </b-form-group>
         </b-col>
         <b-col>
@@ -54,14 +51,29 @@
             :debounce="debounceTime"
             trim
             placeholder="13:00"
-            v-validate="'regex:^([01][0-9]|2[0-3]):[0-5][0-9]$'" 
-            :state="errors.has('endtime') ? false : null"
             ></b-form-input>
-            <div v-show="errors.has('endtime')" class="invalid-feedback"></div>
           </b-form-group>
         </b-col>
       </b-row>
       <b-row>
+        <b-col>
+          <b-form-group label="M">
+          <b-form-checkbox v-model="isChecked" 
+          name="Monday" 
+          value="Monday" 
+          id="Monday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="T">
+          <b-form-checkbox v-model="isChecked" 
+          name="Tuesday" 
+          value="Tuesday" 
+          id="Tuesday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
       <b-col>
           <b-form-group label="W">
           <b-form-checkbox v-model="isChecked" 
@@ -77,6 +89,15 @@
           name="Thursday" 
           value="Thursday" 
           id="Thursday">
+          </b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col>
+          <b-form-group label="F">
+          <b-form-checkbox v-model="isChecked" 
+          name="Friday" 
+          value="Friday" 
+          id="Friday">
           </b-form-checkbox>
           </b-form-group>
         </b-col>
@@ -165,6 +186,8 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      begintime: null,
+      endtime: null,
       courseList: null,
       debounceTime: 300,
     };
@@ -219,6 +242,17 @@ export default {
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
+
+    /*fiterSession(courseList){
+      
+      for(loop through courseList){
+        if (courseList[i].session[i] collide condition){
+          return false
+        }
+      }
+      return true
+    }*/
+
     filterCourses() {
       const courses =
         this.courseList !== null
@@ -245,8 +279,22 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
+      //find.sections[0].session.pop();
       console.log("detail below");
-      console.log(find);
+      console.log(filtered);
+      /*var f = filtered;
+      for(var x = 0; x < f.course.length; x++){
+        for(var y = 0; y < f.course[x].sections.length; y++){
+          for(var z = 0; z < f.course[x].sections[y].sessions.length; z++){
+            if(begintime>f.course[x].sections[y].sessions[z].time_start){
+              f.course[x].sections.remove(y);
+            }
+            else if(endtime<f.course[x].sections[y].sessions[z].time_end){
+              f.course[x].sections.remove(y);
+            }
+          }
+        }
+      }*/
 
       if (find) return [find];
       else return filtered;
