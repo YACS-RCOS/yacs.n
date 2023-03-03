@@ -32,76 +32,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
-          <b-form-group label="Begin Time" label-for="btime">
-            <b-form-input
-            id="btime"
-            v-model="begintime"
-            :debounce="debounceTime"
-            trim
-            placeholder="10:00"
-            ></b-form-input>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="End Time" label-for="etime">
-            <b-form-input
-            id="etime"
-            v-model="endtime"
-            :debounce="debounceTime"
-            trim
-            placeholder="13:00"
-            ></b-form-input>
-          </b-form-group>
-        </b-col>
+        <button id="myBtn">Open Modal</button>
       </b-row>
-      <!-- <b-row>
-        <b-col>
-          <b-form-group label="Mon">
-          <b-form-checkbox v-model="mcheck" 
-          name="monday" 
-          value="monday" 
-          id="monday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="Tue">
-          <b-form-checkbox v-model="tcheck" 
-          name="tuesday" 
-          value="tuesday" 
-          id="tuesday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="Wed">
-          <b-form-checkbox v-model="wcheck" 
-          name="wednesday" 
-          value="wednesday" 
-          id="wednesday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="Thu">
-          <b-form-checkbox v-model="rcheck" 
-          name="thursday" 
-          value="thurday" 
-          id="thursday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="Fri">
-          <b-form-checkbox v-model="fcheck" 
-          name="friday" 
-          value="friday" 
-          id="friday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-      </b-row> -->
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -155,6 +87,13 @@
           </DynamicScrollerItem>
         </template>
       </DynamicScroller>
+    </div>
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+      </div>
     </div>
   </div>
 </template>
@@ -249,7 +188,7 @@ export default {
           : this.$store.getters.courses;
 
       // filter by selected department
-      const filtered = courses.filter(
+       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
             course.department === this.selectedDepartment) &&
@@ -269,6 +208,18 @@ export default {
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
 
+
+      // const timefilter = filtered.filter(
+      //   (course) =>
+      //     (!this.selectedDepartment ||
+      //       course.department === this.selectedDepartment) &&
+      //     (!this.selectedSubsemester ||
+      //       (this.selectedSubsemester.date_start.getTime() ===
+      //         course.date_start.getTime() &&
+      //         this.selectedSubsemester.date_end.getTime() ===
+      //           course.date_end.getTime()))
+      // )
+
       // return match after time filter
       
       console.log("detail below");
@@ -279,6 +230,31 @@ export default {
     },
   },
 };
+// // Get the modal
+// var modal = document.getElementById("myModal");
+
+// // Get the button that opens the modal
+// var btn = document.getElementById("myBtn");
+
+// // Get the <span> element that closes the modal
+// var span = document.getElementsByClassName("close")[0];
+
+// // When the user clicks on the button, open the modal
+// btn.onclick = function() {
+//   modal.style.display = "block";
+// }
+
+// // When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//   modal.style.display = "none";
+// }
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//   if (event.target == modal) {
+//     modal.style.display = "none";
+//   }
+// }
 </script>
 
 <style scoped lang="scss">
@@ -310,5 +286,42 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 17px;
   padding: 20px;
+}
+#myModel
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>

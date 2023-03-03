@@ -31,6 +31,7 @@ export const _getCourseIdentifier = (courseObj) => {
     ${courseObj.max_credits}
     ${courseObj.department}
     ${courseObj.level}
+    ${courseObj.sections}
     ${courseObj.date_start.getMonth() + 1}
     ${courseObj.date_start.getDay() + 1}
     ${courseObj.date_start.getFullYear()}
@@ -100,6 +101,11 @@ export const getCourses = (semester, search = null, filter = true) =>
  */
 export const getDepartments = () =>
   client.get("/department").then(({ data }) => {
+    return data;
+  });
+
+  export const getSessioninfo = () =>
+  client.get("/sections").then(({ data }) => {
     return data;
   });
 
