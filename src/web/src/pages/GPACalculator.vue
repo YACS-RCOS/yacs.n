@@ -232,6 +232,8 @@ export default {
         },
      
         removeSemester(index) {
+            console.log(index);
+            console.log(this.index);
             const greeting = `index-, ${index}`;
             let thisForm = document.getElementsByClassName(greeting)
             thisForm.remove();
