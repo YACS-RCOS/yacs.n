@@ -72,8 +72,6 @@ class DegreeTemplate:
         #self.cache.clear()
         return (True, None)
     
-    
-   
     def get_template(self):
         return self.db_conn.execute("""
             select
@@ -92,6 +90,6 @@ if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
     json_text = open('../../../rpi_data/graduation-requirement/Template/UN-CSCI-2019.json', 'r') 
-    courses = Courses(connection.db)
+    courses = DegreeTemplate(connection.db)
     courses.import_degree_template(json_text)
     
