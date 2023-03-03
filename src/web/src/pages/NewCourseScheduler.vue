@@ -2,12 +2,12 @@
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
       <b-col v-if = "!showing" class="col-md-3 text-center">
-      </b-col>  
+      </b-col>
       <div :class= "[main]">
         <Burger></Burger>
         <Sidebar>
           <div class="sidebar-panal-nav" style="height: 100%">
-            <b-col class="d-flex flex-column" ref="sidebar" v-if="showing" style="height: 100%">
+            <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%">
               <b-card no-body class="h-100">
                 <b-tabs card class="h-100 d-flex flex-column flex-grow-1">]
                   <b-tab
@@ -70,7 +70,7 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
-        <div id="allScheduleData">
+        <div id="allScheduleData" class="justify-content-right">
           <div>
             <b-row>
               <b-col class="m-2">
@@ -248,6 +248,7 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 import Burger from "@/pages/Burger"
 import Sidebar from "@/pages/Sidebar"
+import store from '@/pages/store.js'
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
@@ -280,8 +281,6 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
-      showing: true,
-      main:"col-md-11",
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
@@ -296,13 +295,6 @@ export default {
     };
   },
   methods: {
-    closeClick() {
-      this.showing = !this.showing;
-      this.main = "col-md-8";
-      if (!this.showing){
-        this.main = "col-md-11";
-      } 
-    },
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
@@ -653,6 +645,18 @@ export default {
           : 1;
       }
       return 1;
+    },
+
+    showing(){
+      return store.isNavOpen
+    },
+
+    main(){
+      if(!showing){
+        return "col-md-12"
+      }else{
+        return "col-md-9"
+      }
     },
   },
   watch: {
