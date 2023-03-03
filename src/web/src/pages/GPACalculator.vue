@@ -229,6 +229,8 @@ export default {
             document.getElementById("semester-wrapper").appendChild(addNew);
             this.counter++;
             this.index++;
+            console.log(index);
+            console.log(this.index);
         },
      
         removeSemester(index) {
