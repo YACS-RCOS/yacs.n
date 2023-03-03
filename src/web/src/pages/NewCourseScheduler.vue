@@ -81,7 +81,13 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
+                  <!-- working on this -->
                   Can't display because of course conflict!
+                  <!-- <script type = "text/javscript">
+                  function conflict_message("hello", "people", "world"){
+                      console.log("") 
+                  } </script> -->
+                  conflict_message("hello", "people", "world");
                 </span>
                 <span v-else>
                   Displaying schedule {{ this.index + 1 }} out of
@@ -252,6 +258,7 @@ const addSection = (p, section) => {
     time: ret,
   };
 };
+
 export default {
   name: "MainPage",
   mixins: [NotificationsMixin],
@@ -299,11 +306,15 @@ export default {
         }
       );
     },
+    
     async loadStudentCourses() {
       if (!this.courses.length) {
         return;
       }
-
+    //function
+    function conflict_message (temp, course_1, course_2){
+      return temp + course_1 + course_2;
+    }
       this.scheduler = new SubSemesterScheduler();
       // Filter out "full" subsemester
       this.subsemesters
@@ -601,9 +612,11 @@ export default {
      * @returns {string}
      */
     selectedCrns() {
+      console.log("hello");
       return (
         this.possibilities[this.index] &&
         this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
+        
       );
     },
     /**
@@ -621,7 +634,8 @@ export default {
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
     },
-
+  
+    //conflict message
     scheduleDisplayMessage() {
       if (this.possibilities.length === 1) {
         return this.possibilities[0].sections.length === 0
