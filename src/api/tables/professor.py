@@ -15,4 +15,3 @@ class Professor(Base):
     #ForeignKey('user_account.user_id')
     classes = Column(TSVECTOR, ForeignKey("course.crn")) 
     office_hours_time = Column(TSVECTOR)
-    webex = Column(VARCHAR(length=255))
