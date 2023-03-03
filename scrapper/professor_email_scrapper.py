@@ -23,14 +23,16 @@ list.remove([['Faculty', 'Roster']])
 for i in list:
     if i == [['‘']] or i == [['\xa0']]:
         list.remove(i)
-print(list)
-i = 0
-email_list = []
-j = 0
+    for j in i:
+        for k in j:
+            if k == '':
+                j.remove(k)
+
 print(len(list))
+email_list = []
 professor_dict = []
 for i in list:
-    professor = i[0][1]+'-'+i[0][0]
+    professor = i[0][1].replace('\xa0','')+'-'+i[0][0]
     professor_url = 'https://faculty.rpi.edu/' + professor
     response_professor = requests.get(professor_url)
     if response_professor.status_code == 200:
@@ -39,6 +41,60 @@ for i in list:
         email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
         new_dict = {professor:email_address}
         professor_dict.append(new_dict)
+    elif len(i[0]) == 3 and i[0][2][0] == '(':
+        professor = i[0][2].replace('(','').replace(')','').replace('\xa0','')+'-'+i[0][0]
+        professor_url = 'https://faculty.rpi.edu/' + professor
+        response_professor = requests.get(professor_url)
+        if response_professor.status_code != 200:
+            professor = i[0][2].replace('(', '').replace(')', '').replace('\xa0', '') + '-' + i[0][1][0] + '-' + i[0][0]
+            professor_url = 'https://faculty.rpi.edu/' + professor
+            response_professor = requests.get(professor_url)
+        html2 = response_professor.text
+        soup2 = BeautifulSoup(html2, 'html.parser')
+        email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
+        new_dict = {professor: email_address}
+        professor_dict.append(new_dict)
+    elif len(i[0]) == 3:
+        professor = i[0][2] + '-' + i[0][0] + '-' + i[0][1]
+        professor_url = 'https://faculty.rpi.edu/' + professor
+        response_professor = requests.get(professor_url)
+        if response_professor.status_code != 200:
+            professor = i[0][0]
+            professor_url = 'https://faculty.rpi.edu/' + professor
+            response_professor = requests.get(professor_url)
+            if response_professor.status_code != 200:
+                professor = i[0][1].replace('.','') + '-' + i[0][2] + '-' + i[0][0]
+                professor_url = 'https://faculty.rpi.edu/' + professor
+                response_professor = requests.get(professor_url)
+                if response_professor.status_code != 200:
+                    professor = i[0][2] + '-' + i[0][0]
+                    professor_url = 'https://faculty.rpi.edu/' + professor
+                    response_professor = requests.get(professor_url)
+        if response_professor.status_code == 200:
+            html2 = response_professor.text
+            soup2 = BeautifulSoup(html2, 'html.parser')
+            email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
+            new_dict = {professor: email_address}
+            professor_dict.append(new_dict)
+    elif len(i[0]) == 4:
+        professor = i[0][2] + '-' + i[0][3] + '-' + i[0][0] + '-' + i[0][1]
+        professor_url = 'https://faculty.rpi.edu/' + professor
+        response_professor = requests.get(professor_url)
+        if response_professor.status_code != 200:
+            professor = i[0][1] + '-' + i[0][2] + '-' + i[0][3] + '-' + i[0][0]
+            professor_url = 'https://faculty.rpi.edu/' + professor
+            response_professor = requests.get(professor_url)
+            if response_professor.status_code != 200:
+                professor = i[0][3].replace('\xa0','') + '-' + i[0][0] + '-' + i[0][1] + '-' + i[0][2]
+                professor_url = 'https://faculty.rpi.edu/' + professor
+                response_professor = requests.get(professor_url)
+        html2 = response_professor.text
+        soup2 = BeautifulSoup(html2, 'html.parser')
+        email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
+        new_dict = {professor: email_address}
+        professor_dict.append(new_dict)
+print(len(professor_dict))
+
 with open("email.json", "w") as outfile:
     json.dump(professor_dict,outfile, indent=1)
 

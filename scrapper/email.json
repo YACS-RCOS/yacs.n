@@ -1,5 +1,8 @@
 [
  {
+  "Thomas-Abbott": "abbott3@rpi.edu"
+ },
+ {
   "Tarek-Abdoun": "abdout@rpi.edu"
  },
  {
@@ -75,6 +78,9 @@
   "Marvin-Bentley": "bentlm3@rpi.edu"
  },
  {
+  "B-Wayne-Bequette": "bequette@rpi.edu"
+ },
+ {
   "Tathagata-Bhaduri": "bhadut2@rpi.edu"
  },
  {
@@ -94,6 +100,9 @@
  },
  {
   "Jonas-Braasch": "braasj@rpi.edu"
+ },
+ {
+  "Selmer-Bringsjord": "Selmer.Bringsjord@gmail.com"
  },
  {
   "Elisabeth-Brown": "browne10@rpi.edu"
@@ -133,6 +142,9 @@
  },
  {
   "Joe-Chow": "chowj@rpi.edu"
+ },
+ {
+  "Paul-Chow": "chowt@rpi.edu"
  },
  {
   "Christopher-Cioffi": "cioffc4@rpi.edu"
@@ -180,6 +192,9 @@
   "June-Deery": "deeryj@rpi.edu"
  },
  {
+  "Justin-Den-Herder": "denhej@rpi.edu"
+ },
+ {
   "Peter-Dinolfo": "dinolp@rpi.edu"
  },
  {
@@ -192,7 +207,7 @@
   "Joshua-Draper": "drapej@rpi.edu"
  },
  {
-  "David-Duquette": "duqued@rpi.edu"
+  "Chanaka-Edirisinghe": "edirin@rpi.edu"
  },
  {
   "Omar-El-Shafee": "elshao2@rpi.edu"
@@ -222,16 +237,25 @@
   "Christopher-Fisher-Lochhead": "fishec5@rpi.edu"
  },
  {
+  "Edwin-Fohtung": "fohtue@rpi.edu"
+ },
+ {
   "Scott-Forth": "forths@rpi.edu"
  },
  {
   "Bill-Francis": "francb@rpi.edu"
  },
  {
+  "W-Randolph-Franklin": "mail@wrfranklin.org"
+ },
+ {
   "Keith-Fraser": "frasek2@rpi.edu"
  },
  {
   "Daniel-Gall": "galld@rpi.edu"
+ },
+ {
+  "Belmiro-Galo-da-Silva": "galodb@rpi.edu"
  },
  {
   "Farhan-Gandhi": "gandhf@rpi.edu"
@@ -312,6 +336,9 @@
   "Fudong-Han": "hanf2@rpi.edu"
  },
  {
+  "Sean-X-He": "hex6@rpi.edu"
+ },
+ {
   "Ronald-Hedden": "hedder@rpi.edu"
  },
  {
@@ -339,6 +366,9 @@
   "Allison-Hoffman": "hoffma3@rpi.edu"
  },
  {
+  "Jose-Holguin-Veras": "holguj2@rpi.edu"
+ },
+ {
   "Mark-Holmes": "holmes@rpi.edu"
  },
  {
@@ -349,6 +379,9 @@
  },
  {
   "Liping-Huang": "huangl5@rpi.edu"
+ },
+ {
+  "Rena-Huang": "huangz3@rpi.edu"
  },
  {
   "Michael-Hughes": "hughem6@rpi.edu"
@@ -390,6 +423,9 @@
   "Robert-Jones": "jonesr2@rpi.edu"
  },
  {
+  "Agung-Julius": "agung@ecse.rpi.edu"
+ },
+ {
   "Elizabeth-Kam": "kamw@rpi.edu"
  },
  {
@@ -406,6 +442,12 @@
  },
  {
   "Pankaj-Karande": "karanp@rpi.edu"
+ },
+ {
+  "Yong-Sung-Kim": "kimy10@rpi.edu"
+ },
+ {
+  "Miles-Kimball": "kimbam2@rpi.edu"
  },
  {
   "Abby-Kinchy": "kincha@rpi.edu"
@@ -480,6 +522,9 @@
   "Carla-Leitao": "leitac@rpi.edu"
  },
  {
+  "Conor-Lennon": "lennoc@rpi.edu"
+ },
+ {
   "Christopher-Letchford": "letchc@rpi.edu"
  },
  {
@@ -502,6 +547,12 @@
  },
  {
   "Edwin-Liu": "liue2@rpi.edu"
+ },
+ {
+  "Emily-Liu": "liue@rpi.edu"
+ },
+ {
+  "Liu-Liu": "liu.liu@rpi.edu"
  },
  {
   "John-Loercher": "loercj@rpi.edu"
@@ -678,6 +729,9 @@
   "Huaming-Peng": "pengh5@rpi.edu"
  },
  {
+  "Ukwatte-Lokuliyanage-Indika-Perera": "pereru2@rpi.edu"
+ },
+ {
   "Peter-Persans": "persap@rpi.edu"
  },
  {
@@ -721,6 +775,9 @@
  },
  {
   "Elaine-Renz": "renze@rpi.edu"
+ },
+ {
+  "Luiz-Victor-Repolho-Cagliari": "repoll2@rpi.edu"
  },
  {
   "Trevor-Rhone": "rhonet@rpi.edu"
@@ -772,6 +829,9 @@
  },
  {
   "John-Schroeder": "schroj@rpi.edu"
+ },
+ {
+  "E-Fred-Schubert": "schubert@rpi.edu"
  },
  {
   "Donald-Schwendeman": "schwed@rpi.edu"
@@ -828,6 +888,9 @@
   "Frank-Spear": "spearf@rpi.edu"
  },
  {
+  "Mary-Anne-Staniszewski": "stanim@rpi.edu"
+ },
+ {
   "David-Stec": "stecd2@rpi.edu"
  },
  {
@@ -849,10 +912,16 @@
   "Maurice-Suckling": "sucklm@rpi.edu"
  },
  {
+  "Jian-Sun": "jsun@ecse.rpi.edu"
+ },
+ {
   "Ron-Sun": "sunr@rpi.edu"
  },
  {
   "Ravishankar-Sundararaman": "sundar@rpi.edu"
+ },
+ {
+  "Svedberg": "svedbp@rpi.edu"
  },
  {
   "Michael-Symans": "symans@rpi.edu"
@@ -912,6 +981,9 @@
   "Igor-Vamos": "vamosi@rpi.edu"
  },
  {
+  "Bram-van-Heuveln": "heuveb@rpi.edu"
+ },
+ {
   "Luigi-Vanfretti": "luigi.vanfretti@gmail.com"
  },
  {
@@ -948,7 +1020,13 @@
   "Ge-Wang": "wangg6@rpi.edu"
  },
  {
+  "Gwo-Ching-Wang": "wangg@rpi.edu"
+ },
+ {
   "Meng-Wang": "wangm7@rpi.edu"
+ },
+ {
+  "Cara-Wang": "wangx18@rpi.edu"
  },
  {
   "Xun-Wang": "wangx33@rpi.edu"
@@ -1017,6 +1095,12 @@
   "Mourad-Zeghal": "zeghal@rpi.edu"
  },
  {
+  "Eliane-Zerbetto-Traldi": "zerbee@rpi.edu"
+ },
+ {
+  "Helen-Zha": "zhar@rpi.edu"
+ },
+ {
   "Lucy-Zhang": "zhanglucy@rpi.edu"
  },
  {
@@ -1024,6 +1108,9 @@
  },
  {
   "Tong-Zhang": "tzhang@ecse.rpi.edu"
+ },
+ {
+  "Helen-Zhou": "zhouy12@rpi.edu"
  },
  {
   "Antonella-Zompa": "zompaa@rpi.edu"
