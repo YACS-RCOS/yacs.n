@@ -120,23 +120,29 @@ export default {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
       console.log("before: "+this.currentMode);
+      //On first run make grab current mode
+      if(this.counter===0){
+        this.currentMode= (this.$cookies.get(COOKIE_DARK_MODE) === null);
+      }
+      //Sends message to user that device theme is no longer followed
       if(this.notify){
           this.unFollowDeviceTheme();
           this.notify=false;
           this.followDevice=false;
         }
 
+      //if the current code isn't equal to the one being called, them change theme
       if(this.currentMode!==mode) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
 
-        this.currentMode=mode;
+        this.currentMode=mode; //update mode
       }
       this.counter+=1;
       console.log("after: "+this.currentMode);
     },
     toggle_device() {
-      this.followDeviceTheme();
+      this.followDeviceTheme();//sends user message
       this.notify=true;
 
       this.$store.commit(RESET_DARK_MODE);
