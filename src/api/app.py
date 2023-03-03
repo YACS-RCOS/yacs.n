@@ -274,3 +274,5 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
         return Response("Not authorized", status_code=403)
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
+
+    #import the Professor function file and reference the function
