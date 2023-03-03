@@ -200,6 +200,7 @@ export default {
         addClass() {
             let addNew = document.createElement("form");
             addNew.classList.add("add_new1", `key-${this.counter}`);
+            addNew.classList.add("index", `key-${this.index}`);
             const semester_name = `
             <form class="add_new1 key-${this.counter} index-${this.index}">
                 <input type="number" placeholder="Credit Units" class="credit_units2 key-${this.counter}" required>
