@@ -22,7 +22,7 @@
           <p v-html="transformed" />
         </b-col>
       </b-row>
-      <h2>Instructors:</h2>
+      <h5>Instructors:</h5>
       <ul>
         <li v-for="item in instructorList" :key="item.id">
         {{ item }}
@@ -34,6 +34,10 @@
 
           <CourseListing
                 :course="courseObj"
+                @addCourse="addCourse"
+                @removeCourse="removeCourse"
+                @removeCourseSection="removeCourseSection"
+                @addCourseSection="addCourseSection"
                 defaultAction="toggleCourse"
                 v-on="$listeners"
                 lazyLoadCollapse
@@ -79,12 +83,17 @@
 </template>
 
 <script>
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 import CourseListingComponent from "@/components/CourseListing";
+import {
+  addStudentCourse,
+  removeStudentCourse,
+} from "@/services/YacsService";
 export default {
   components: {
     CourseListing: CourseListingComponent,
@@ -123,7 +132,8 @@ export default {
     this.courseObj.sections.forEach(section => {
       section.sessions.forEach(session => {
         //Some sessions may have mult professor just split them
-        const instructorArr = session.instructor.split("/");
+        const instructorArr1 = session.instructor.split(" ");
+        const instructorArr = instructorArr1[0].split("/")
         instructorArr.forEach(instructor =>{
           //Remove duplicate items, and some strange names
           if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
@@ -137,6 +147,86 @@ export default {
   },
   methods: {
     generateRequirementsText,
+    addCourse() {
+      const course = this.courseObj;
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourse(course)
+          .save();
+      }
+      /*
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
+      */
+    },
+    addCourseSection(course, section) {
+      section.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourseSection(course, section)
+          .save();
+      }
+    },
+    removeCourse() {
+      const course = this.courseObj;
+      course.selected = false;
+      course.sections.forEach((section) => this.removeCourseSection(section));
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: null,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .removeCourse(course)
+          .save();
+      }
+    },
+    removeCourseSection(section) {
+      if (section.selected) {
+        section.selected = false;
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.courseObj.semester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.courseObj.semester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+    },
+    toggle() {
+      if (!this.isActive) {
+        this.addCourse();
+        this.isActive = true;
+      } else {
+        this.removeCourse();
+        this.isActive = false;
+      }
+    },
+
   },
   computed: {
     ...mapState(["isLoadingCourses"]),

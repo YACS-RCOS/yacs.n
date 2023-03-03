@@ -45,7 +45,7 @@
           <b-list-group-item
             class="selected"
             button
-            v-for="section in course.sections"
+            v-for="section in sortedSections"
             :key="section.crn"
             @click.stop="toggleCourseSection(section)"
             :style="{
@@ -66,7 +66,7 @@
           >
             <b-row class="mb-2" align-h="between">
               <b-col cols="auto">
-                {{ section.crn }} - {{ section.sessions[0].section }}
+                {{ section.crn }} - {{ section.sessions[0].section }} - {{ getInstructor(section.sessions) }}
               </b-col>
               <b-col v-if="section.seats_total > 0" cols="auto">
                 <course-section-seats-badge
@@ -234,7 +234,19 @@ export default {
     showInfoModal() {
       this.$emit("showCourseInfo", this.course);
     },
+    getInstructor(sessions){
+      for(let i = 0; i<sessions.length; i++){
+        if(sessions[i].instructor !== "Staff"){
+          return sessions[i].instructor
+        }
+      }
+    }
   },
+  computed: {
+    sortedSections() {
+      return this.course.sections.slice().sort((a, b) => a.sessions[0].section - b.sessions[0].section)
+    }
+  }
 };
 </script>
 
