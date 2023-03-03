@@ -110,25 +110,17 @@ export default {
   },
   data() {
     return {
-      followDevice: null,
       currentMode: this.$cookies.get(COOKIE_DARK_MODE) === null,
-      test: this.$store.state.darkMode,
-      counter: 0,
     };
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
       console.log("before: "+this.currentMode);
-      //On first run make grab current mode
-      if(this.counter===0){
-        this.currentMode= (this.$cookies.get(COOKIE_DARK_MODE) === null);
-      }
       //Sends message to user that device theme is no longer followed
       if(this.notify){
           this.unFollowDeviceTheme();
           this.notify=false;
-          this.followDevice=false;
         }
 
       //if the current code isn't equal to the one being called, them change theme
@@ -136,9 +128,9 @@ export default {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
 
+        //this.$store.darkMode=true;
         this.currentMode=mode; //update mode
       }
-      this.counter+=1;
       console.log("after: "+this.currentMode);
     },
     toggle_device() {
@@ -148,8 +140,7 @@ export default {
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
 
-      this.followDevice = true;
-      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE) === null;
+      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);
       console.log(this.currentMode);
     },
     onLogIn() {
