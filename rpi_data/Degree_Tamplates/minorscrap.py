@@ -28,3 +28,11 @@ def scrapFromURL(webLink, minor_db):
         for div in items.find_all("div", recursive = False):
             if (div.text == "Program Requirements" ):
                 startScrap = True
+        for ultag in sem.find_all("ul"):
+            for litag in ultag.find_all("li"):
+                if not (len(litag.text) < 4 or litag.text[:4] == "(See"):
+                # have < 4 so that 'and' and 'or' statement are not recorded
+                    outFile.write("   Course: ")
+                    major_db[cur_entry][semName.text].append(litag.text)
+                    outFile.write(litag.text)
+                    outFile.write("\n")
