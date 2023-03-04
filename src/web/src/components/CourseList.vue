@@ -104,6 +104,11 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <b-row>
+        <!-- <button type="button" class="open-button" onclick="openForm()">Open Form</button>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button> -->
+
+      </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -199,14 +204,6 @@ export default {
     getTimes().then(() => {
       this.TimeOptions.push(...times.map((t) => t.times));
     })
-    const beginInput = document.getElementById('btime');
-    const endSelect = document.getElementById('etime');
-
-    const beginTime = beginInput.value;
-    const endTime = endSelect.value;
-
-    console.log('Begin Time:', beginTime);
-    console.log('End Time:', endTime);
   },
   methods: {
     courseInfoModalToggle(course) {
@@ -270,7 +267,18 @@ export default {
               this.selectedSubsemester.date_end.getTime() ===
                 course.date_end.getTime()))
       );
+//       /fiterSession(courseList)
+          // for(loop through courseList){
+          //   if (courseList[i].session[i] collide condition){
+          //     return false
+          //   }
+          // }
+          // return true
+          // }
+          // const find2 = filtered.find(
+          //   (course) =>
 
+          // );
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
         (course) =>
@@ -283,6 +291,13 @@ export default {
       if (find) return [find];
       else return filtered;
     },
+    // function openForm() {
+    //   document.getElementById("myForm").style.display = "block";
+    // };
+
+    // function closeForm() {
+    //   document.getElementById("myForm").style.display = "none";
+    // };
   },
 };
 </script>
@@ -317,4 +332,17 @@ export default {
   font-size: 17px;
   padding: 20px;
 }
+
+/* .open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+} */
 </style>
