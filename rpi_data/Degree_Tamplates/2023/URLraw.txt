@@ -52,9 +52,7 @@
 <li style="list-style-type: none">&#8226;&#160;
 <a href="preview_program.php?catoid=24&poid=6421&returnto=604">Environmental Engineering</a></li>
 <li style="list-style-type: none">&#8226;&#160;
-<a href="preview_program.php?catoid=24&poid=6423&returnto=604">Environmental Science</a></li>
 <li style="list-style-type: none">&#8226;&#160;
-<a href="preview_program.php?catoid=24&poid=6427&returnto=604">Games and Simulation Arts and Sciences</a></li>
 <li style="list-style-type: none">&#8226;&#160;
 <a href="preview_program.php?catoid=24&poid=6429&returnto=604">Geology</a></li>
 <li style="list-style-type: none">&#8226;&#160;
@@ -68,7 +66,6 @@
 <li style="list-style-type: none">&#8226;&#160;
 <a href="preview_program.php?catoid=24&poid=6467&returnto=604">Mathematics</a></li>
 <li style="list-style-type: none">&#8226;&#160;
-<a href="preview_program.php?catoid=24&poid=6473&returnto=604">Mechanical Engineering Curriculum</a></li>
 <li style="list-style-type: none">&#8226;&#160;
 <a href="preview_program.php?catoid=24&poid=6530&returnto=604">Music</a></li>
 <li style="list-style-type: none">&#8226;&#160;

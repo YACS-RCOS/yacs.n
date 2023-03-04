@@ -23,15 +23,12 @@ http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6401&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6408&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6414&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6421&returnto=604
-http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6423&returnto=604
-http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6427&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6429&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6436&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6438&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6441&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6463&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6467&returnto=604
-http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6473&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6530&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6482&returnto=604
 http://catalog.rpi.edu/preview_program.php?catoid=24&poid=6485&returnto=604
