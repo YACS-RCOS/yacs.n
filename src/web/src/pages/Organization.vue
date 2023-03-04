@@ -39,7 +39,11 @@
 </template>
 
 <script>
-import CenterSpinnerComponent from "../components/CenterSpinner";
+import { mapGetters, mapState } from "vuex";
+import { COURSES } from "@/store";
+import { generateRequirementsText } from "@/utils";
+import CenterSpinnerComponent from "../components/CenterSpinner.vue";
+import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
 export default {
   name: "Organization",
