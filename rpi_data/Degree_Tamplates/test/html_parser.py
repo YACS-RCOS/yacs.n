@@ -1,6 +1,6 @@
-filename = "URLrawTest.txt"  #URL2022FallRaw.txt
+filename = "URLraw.txt"  #URL2022FallRaw.txt
 fin = open(filename, "r",encoding='UTF-8')
-fout = open("majorURLtest.txt", "a",encoding='UTF-8')
+fout = open("temp/majorURL.txt", "a",encoding='UTF-8')
 fout.truncate(0)
 for line in fin:
     if(line[0:2] == "<a"): #from <a href="preview_program.php?catoid=24&poid=6545&returnto=604"

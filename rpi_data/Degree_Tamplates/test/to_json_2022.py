@@ -1,5 +1,5 @@
-f = open("majorDataTest.txt", "r", encoding='UTF-8')
-fout = open("jsons/majorDataTest.json", "w", encoding='UTF-8')
+f = open("temp/majorData.txt", "r", encoding='UTF-8')
+fout = open("jsons/majorDataTemp.json", "w", encoding='UTF-8')
 lines = f.readlines()
 
 output_string = ""
