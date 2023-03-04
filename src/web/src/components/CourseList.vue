@@ -105,9 +105,13 @@
         </b-col>
       </b-row>
       <b-row>
-        <!-- <button type="button" class="open-button" onclick="openForm()">Open Form</button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close</button> -->
-
+        <button type="button" class="open-button" onclick="openPop()">Open Pop</button>
+        <div class="form-popup" id="myPop">
+        <form action="/action_page.php" class="pop-container"> 
+            
+        <button type="button" class="btn cancel" onclick="closePop()">Close</button>
+        </form>
+        </div>  
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
@@ -291,12 +295,12 @@ export default {
       if (find) return [find];
       else return filtered;
     },
-    // function openForm() {
-    //   document.getElementById("myForm").style.display = "block";
+    // function openPop() {
+    //   document.getElementById("myPop").style.display = "block";
     // };
 
-    // function closeForm() {
-    //   document.getElementById("myForm").style.display = "none";
+    // function closePop() {
+    //   document.getElementById("myPop").style.display = "none";
     // };
   },
 };
@@ -345,4 +349,17 @@ export default {
   right: 28px;
   width: 280px;
 } */
+
+/*.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  border: 3px solid #f1f1f1;
+}
+
+.form-container {
+  max-width: 50px;
+  padding: 5px;
+  background-color: white;
+}*/
 </style>
