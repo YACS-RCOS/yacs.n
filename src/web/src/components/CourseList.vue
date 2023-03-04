@@ -188,6 +188,7 @@ export default {
       selectedDepartment: null,
       begintime: null,
       endtime: null,
+      weekday: null,
       courseList: null,
       debounceTime: 300,
     };
@@ -244,10 +245,34 @@ export default {
     // if no exact match exists, returns similar options.
 
     /*fiterSession(courseList){
-      
-      for(loop through courseList){
-        if (courseList[i].session[i] collide condition){
+      if (weekday!=null){
+        a=weekday;
+      }
+      else{
+        a=10;
+      }
+      for(var x=0; x<courseList.length; x++){
+        if (courseList[x].session[i] collide condition){
           return false
+        if (a>7){
+          for (var y=0; y<courseList[x].sections.length; y++){
+            bool check = false;
+            for(var z = 0; z<courseList[x].section[y].sessions.length; z++){
+              if(courseList[x].section[y].session[z].time_start<begintime){
+                check=true;
+              }
+              else if(courseList[x].section[y].session[z].time_end>endtime){
+                check=true;
+              }
+            }
+            if(check){
+              delete courseList[x].section[y] from courseList
+            }
+          }
+        }
+        else{//consideration on week day is needed
+          
+        }
         }
       }
       return true
@@ -279,7 +304,13 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
-      //find.sections[0].session.pop();
+
+      /*const find2 = filtered.find(
+        (course) =>
+          
+      );*/
+
+      filtered[0].sections[0].session.pop();
       console.log("detail below");
       console.log(filtered);
       /*var f = filtered;
