@@ -34,14 +34,12 @@
 
         <b-col>
           <b-form-group label="Filter Credits">
-            <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
-                <label class="form-check-label" :for="item.id">{{item.name}}</label>
-                <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.id">
-            </div>
-            <!-- print result -->
-            <div class="form-group">
-                    {{user.CreditsCollection}}
-            </div>
+            <b-row>
+              <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
+                  <label class="form-check-label" :for="item.id">{{item.name}}</label>
+                  <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.id">
+              </div>
+            </b-row>
           </b-form-group>
         </b-col>
 
