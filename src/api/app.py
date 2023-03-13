@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
+
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
@@ -11,6 +12,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.professor as Professor
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -20,6 +22,7 @@ import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
 from io import StringIO
+from sqlalchemy.orm import Session
 import json
 import os
 import pandas as pd
@@ -236,7 +239,6 @@ async def update_user_info(request:Request, user:updateUser):
 
     return user_controller.update_user(user)
 
-
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
     session_res = session_controller.add_session(credentials.dict())
@@ -275,4 +277,21 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
+@app.get('/api/professor/name') #should be {professor}/name
+async def get_professor_name(email: str, response: Response):
+    # Get the professor from the database
+    professor = Session.query(Professor).filter(Professor.email == email).first() #change filter
+
+    if professor is None:
+        response.status_code = 404
+        return {"error": "Professor not found"}
+
+    # Create a dictionary containing the professor's first and last name
+    data = {
+        "first_name": professor.first_name,
+        "last_name": professor.last_name,
+    }
+
+    # Return the data as a JSON response
+    return data
     #import the Professor function file and reference the function
