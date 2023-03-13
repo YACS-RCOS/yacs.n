@@ -55,8 +55,8 @@
       <b-navbar-nav class="ml-auto">
 
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-          <b-dropdown-item @click="toggle_style(true)">Light Mode</b-dropdown-item>
-          <b-dropdown-item @click="toggle_style(false)">Dark Mode</b-dropdown-item>
+          <b-dropdown-item @click="toggle_style(false)">Light Mode</b-dropdown-item>
+          <b-dropdown-item @click="toggle_style(true)">Dark Mode</b-dropdown-item>
           <b-dropdown-item @click="toggle_device">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
@@ -110,28 +110,27 @@ export default {
   },
   data() {
     return {
-      currentMode: this.$cookies.get(COOKIE_DARK_MODE) === null,
+      currentMode: this.$cookies.get(COOKIE_DARK_MODE),
     };
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
-      console.log("before: "+this.currentMode);
       //Sends message to user that device theme is no longer followed
       if(this.notify){
           this.unFollowDeviceTheme();
           this.notify=false;
         }
 
+      console.log("BEFORE: curr="+this.currentMode+" mode="+mode);
       //if the current code isn't equal to the one being called, them change theme
-      if(this.currentMode!==mode) {
+      //if(this.currentMode!==mode) {
+      if((mode===false && this.currentMode === "true") || (mode===true && this.currentMode === "false")) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-
-        //this.$store.darkMode=true;
-        this.currentMode=mode; //update mode
+        this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //update mode
+        console.log("AFTER: "+this.currentMode);
       }
-      console.log("after: "+this.currentMode);
     },
     toggle_device() {
       this.followDeviceTheme();//sends user message
@@ -139,6 +138,7 @@ export default {
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
+      this.$store.commit(SAVE_DARK_MODE);
 
       this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);
       console.log(this.currentMode);
