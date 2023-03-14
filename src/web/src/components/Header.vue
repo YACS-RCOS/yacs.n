@@ -122,14 +122,12 @@ export default {
           this.notify=false;
         }
 
-      console.log("BEFORE: curr="+this.currentMode+" mode="+mode);
-      //if the current code isn't equal to the one being called, them change theme
-      //if(this.currentMode!==mode) {
+      //this.currentMode treated as a string
+      //only switch themes if mode and this.currentMode are opposite
       if((mode===false && this.currentMode === "true") || (mode===true && this.currentMode === "false")) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-        this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //update mode
-        console.log("AFTER: "+this.currentMode);
+        this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
       }
     },
     toggle_device() {
@@ -140,8 +138,7 @@ export default {
       this.$store.commit(TOGGLE_DARK_MODE);
       this.$store.commit(SAVE_DARK_MODE);
 
-      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);
-      console.log(this.currentMode);
+      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
@@ -226,7 +223,7 @@ export default {
     justify-content: center;
   }
 }
-// no idea why but need to manually set this for it to show up
+//no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
 }
