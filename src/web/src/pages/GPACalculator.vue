@@ -179,8 +179,8 @@ export default {
             this.counter++;
         },
         removeCourse() {
-            let mainForm = document.querySelector("form.add_new");
-            mainForm.remove();
+            let mainForms = document.querySelectorAll("form.add_new");
+            mainForms[mainForms.length-1].remove();
         },
         addGPA() {
             let addNew = document.createElement("form");
