@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
-
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
@@ -12,7 +11,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
-import db.professor as Professor
+import db.professor as Professor 
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -277,7 +276,8 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
-@app.get('/api/professor/name') #should be {professor}/name
+@app.get('/api/professor') #retreives first and last name of professor based on email
+#@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_professor_name(email: str, response: Response):
     # Get the professor from the database
     professor = Session.query(Professor).filter(Professor.email == email).first() #change filter
