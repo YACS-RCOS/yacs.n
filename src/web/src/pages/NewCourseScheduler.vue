@@ -16,7 +16,6 @@
                     class="flex-grow-1 w-100"
                     data-cy="course-search-tab"
                   >
-                    <Burger></Burger>
                     <b-card-text class="d-flex flex-grow-1 w-100">
                       <CenterSpinner
                         v-if="loading"
