@@ -30,9 +30,7 @@
               :options="departmentOptions"
             ></b-form-select>
           </b-form-group>
-        </b-col>
 
-        <b-col>
           <b-form-group label="Filter Credits">
             <b-row>
               <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
@@ -43,7 +41,9 @@
           </b-form-group>
         </b-col>
 
+        
       </b-row>
+      
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
