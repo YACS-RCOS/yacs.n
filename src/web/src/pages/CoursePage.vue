@@ -25,7 +25,7 @@
       <h5>Instructors:</h5>
       <ul>
         <li v-for="item in instructorList" :key="item.id">
-        {{ item }}
+        {{ item.name }} -- {{ item.email }}
       </li> 
       </ul>
       
@@ -125,26 +125,30 @@ export default {
       instructorList:[]
     };
   },
-  mounted(){
-    //Creat a set to store professor names.
-    const instructors = new Set();
-    //Use the loop to get professor name of each session
-    this.courseObj.sections.forEach(section => {
-      section.sessions.forEach(session => {
-        //Some sessions may have mult professor just split them
-        const instructorArr1 = session.instructor.split(" ");
-        const instructorArr = instructorArr1[0].split("/")
-        instructorArr.forEach(instructor =>{
-          //Remove duplicate items, and some strange names
-          if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
-          instructors.add(instructor.trim());
+  mounted() {
+  // Create a set to store professor names and emails.
+  const instructors = new Set();
+
+  // Use the loop to get professor name and email of each session
+  this.courseObj.sections.forEach((section) => {
+    section.sessions.forEach((session) => {
+      // Some sessions may have multiple professors, split them by "/"
+      const instructorArr = session.instructor.split("/");
+      instructorArr.forEach((instructor) => {
+        // Split each professor name and email by space
+        const [name, email] = instructor.trim().split(" ");
+        // Remove duplicate items, and some strange names
+        if (name && name !== "Staff" && name !== "B") {
+          // Add the professor name and email as an object to the set
+          instructors.add({ name: name, email: email });
         }
-        });
       });
     });
-    //Change set to array
-    this.instructorList = Array.from(instructors);
-  },
+  });
+
+  // Change set to array
+  this.instructorList = Array.from(instructors);
+},
   methods: {
     generateRequirementsText,
     addCourse() {
