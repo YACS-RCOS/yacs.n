@@ -25,7 +25,19 @@
           background-color: transparent;
         "
       >
-        List by Type
+        List by Category
+      </b-button>
+      <br />
+      <b-button
+        @click="listCate()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+        List by Club/Frat
       </b-button>
 
     </div>
