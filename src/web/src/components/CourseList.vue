@@ -31,6 +31,63 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <button>Open modal</button>
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <div class="title">Select the day of the week you would like your class to be</div>
+          <button class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+          <b-row>
+            <b-col>
+              <b-form-group label="M">
+              <b-form-checkbox v-model="isChecked" 
+                name="Monday" 
+                value="Monday" 
+                id="Monday">
+              </b-form-checkbox>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group label="T">
+              <b-form-checkbox v-model="isChecked" 
+                name="Tuesday" 
+                value="Tuesday" 
+                id="Tuesday">
+              </b-form-checkbox>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group label="M">
+              <b-form-checkbox v-model="isChecked" 
+                name="Wednesday" 
+                value="Wednesday" 
+                id="Wednesday">
+              </b-form-checkbox>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group label="R">
+              <b-form-checkbox v-model="isChecked" 
+                name="Thursday" 
+                value="Thursday" 
+                id="Thursday">
+              </b-form-checkbox>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group label="F">
+              <b-form-checkbox v-model="isChecked" 
+                name="Friday" 
+                value="Friday" 
+                id="Friday">
+              </b-form-checkbox>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </div>
+      </div>
+      <div class="active" id="overlay"></div>
       <b-row>
         <b-col>
           <b-form-group label="Begin Time" label-for="btime">
@@ -57,62 +114,15 @@
           </b-form-group>
         </b-col>>
       </b-row>
-      <b-row>
-        <b-col>
-          <b-form-group label="M">
-          <b-form-checkbox v-model="isChecked" 
-            name="Monday" 
-            value="Monday" 
-            id="Monday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="T">
-          <b-form-checkbox v-model="isChecked" 
-            name="Tuesday" 
-            value="Tuesday" 
-            id="Tuesday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="M">
-          <b-form-checkbox v-model="isChecked" 
-            name="Wednesday" 
-            value="Wednesday" 
-            id="Wednesday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="R">
-          <b-form-checkbox v-model="isChecked" 
-            name="Thursday" 
-            value="Thursday" 
-            id="Thursday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="F">
-          <b-form-checkbox v-model="isChecked" 
-            name="Friday" 
-            value="Friday" 
-            id="Friday">
-          </b-form-checkbox>
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-row>
+      <!-- <b-row>
         <button type="button" class="open-button" onclick="openPop()">Open Pop</button>
-        <div class="form-popup" id="myPop">
+        <div class="form-modal" id="myPop">
         <form action="/action_page.php" class="pop-container"> 
             
         <button type="button" class="btn cancel" onclick="closePop()">Close</button>
         </form>
         </div>  
-      </b-row>
+      </b-row> -->
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -271,7 +281,7 @@ export default {
               this.selectedSubsemester.date_end.getTime() ===
                 course.date_end.getTime()))
       );
-//       /fiterSession(courseList)
+//       /filterSession(courseList)
           // for(loop through courseList){
           //   if (courseList[i].session[i] collide condition){
           //     return false
@@ -350,7 +360,7 @@ export default {
   width: 280px;
 } */
 
-/*.form-popup {
+/*.form-modal {
   display: none;
   position: fixed;
   bottom: 0;
@@ -362,4 +372,63 @@ export default {
   padding: 5px;
   background-color: white;
 }*/
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translated(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  width: 500px;
+  max-width: 80%;
+}
+
+.modal{
+  transform: translate(-50%, -50%) scale(0);
+}
+.modal-header{
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.modal-header .title{
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.modal-header .close{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.modal-body{
+  padding: 10px 15px;
+  
+}
+
+#overlay{
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-in-out;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
+#overlay.active {
+  pointer-events: none;
+  opacity: 1;
+}
+ 
 </style>
