@@ -55,9 +55,9 @@
       <b-navbar-nav class="ml-auto">
 
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-          <b-dropdown-item @click="toggle_style(false)">Light Mode</b-dropdown-item>
-          <b-dropdown-item @click="toggle_style(true)">Dark Mode</b-dropdown-item>
-          <b-dropdown-item @click="toggle_device">Follow Device Theme</b-dropdown-item>
+          <b-dropdown-item :class="this.currItem===0 ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.currItem===1 ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.currItem===2 ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -111,8 +111,20 @@ export default {
   data() {
     return {
       currentMode: this.$cookies.get(COOKIE_DARK_MODE),
+      currItem: -1,
     };
   },
+  // mounted(){
+  //   if(this.currentMode==="false"){
+  //     this.currItem=0;
+  //   }
+  //   else if(this.currentMode==="true"){
+  //     this.currItem=1;
+  //   }
+  //   else{
+  //     this.currItem=2;
+  //   }
+  // },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
@@ -121,6 +133,14 @@ export default {
           this.unFollowDeviceTheme();
           this.notify=false;
         }
+      if(mode===false){
+        this.currItem=0;
+        //this.modeColor=false;
+      }
+      else if(mode===true){
+        this.currItem=1;
+        //this.modeColor=true;
+      }
 
       //this.currentMode treated as a string
       //only switch themes if mode and this.currentMode are opposite
@@ -133,6 +153,9 @@ export default {
     toggle_device() {
       this.followDeviceTheme();//sends user message
       this.notify=true;
+
+      this.currItem=2;
+      //this.modeColor=null;
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
@@ -226,6 +249,9 @@ export default {
 //no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
+}
+.drop-down-item{
+  background: red !important;
 }
 
 </style>
