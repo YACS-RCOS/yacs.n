@@ -9,15 +9,15 @@
     </div>
 </template>
 <script>
-    import { store, mutations } from '@/pages/store.js'
+    import { data, methods } from '@/pages/NewCourseScheduler.vue'
 
     export default {
         methods: {
-            closeSidebarPanel: mutations.toggleNav
+            closeSidebarPanel: data.toggleNav
         },
         computed: {
             isPanelOpen() {
-                return store.isNavOpen
+                return data.isNavOpen
             }
         }
     }

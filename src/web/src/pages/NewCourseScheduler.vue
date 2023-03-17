@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
-      <b-col v-if = "!showing" class="col-md-3 text-center">
+      <b-col v-if = "!isNavOpen" class="col-md-3 text-center">
       </b-col>
       <div :class= "[main]">
         <Burger></Burger>
@@ -247,7 +247,6 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 import Burger from "@/pages/Burger"
 import Sidebar from "@/pages/Sidebar"
-import store from '@/pages/store.js'
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
@@ -280,6 +279,9 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
+      main: "col-md-12",
+
+      isNavOpen: false, //for sidebar open check
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
@@ -294,6 +296,14 @@ export default {
     };
   },
   methods: {
+    toggleNav(){
+      this.isNavOpen = !this.isNavOpen;
+      if(this.isNavOpen){
+        main = "col-md-9";
+      }else{
+        main = "col-md-12";
+      }
+    },
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
@@ -644,18 +654,6 @@ export default {
           : 1;
       }
       return 1;
-    },
-
-    showing(){
-      return store.isNavOpen
-    },
-
-    main(){
-      if(!showing){
-        return "col-md-12"
-      }else{
-        return "col-md-9"
-      }
     },
   },
   watch: {

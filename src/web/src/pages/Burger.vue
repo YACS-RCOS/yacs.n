@@ -12,17 +12,17 @@
     </div>
 </template>
 <script>
-    import{store, mutations} from '@/pages/store.js'
+    import{data, methods} from '@/pages/NewCourseScheduler.vue'
 
     export default {
         computed:{
             isBurgerActive(){
-                return store.isNavOpen
+                return Data.isNavOpen
             }
         },
         methods: {
             toggle() {
-                mutations.toggleNav()
+                methods.toggleNav()
             }
         }
     }
