@@ -189,7 +189,6 @@ export default {
             <form class="add_new1 key-${this.counter}">
                 <input type="text" placeholder="Current GPA" class="curr_gpa key-${this.counter}" required>
                 <input type="number" placeholder="Current Credits" class="credit_units1 key-${this.counter}" required>
-                <button @click="removeSemester();">- Remove</button>
 
             </form>
             `;
