@@ -45,7 +45,7 @@
           <b-list-group-item
             class="selected"
             button
-            v-for="section in course.sections"
+            v-for="section in sortedSections"
             :key="section.crn"
             @click.stop="toggleCourseSection(section)"
             :style="{
@@ -66,7 +66,7 @@
           >
             <b-row class="mb-2" align-h="between">
               <b-col cols="auto">
-                {{ section.crn }} - {{ section.sessions[0].section }}
+                {{ section.crn }} - {{ section.sessions[0].section }} - {{ getInstructor(section.sessions) }}
               </b-col>
               <b-col v-if="section.seats_total > 0" cols="auto">
                 <course-section-seats-badge
@@ -99,21 +99,16 @@
 
 <script>
 import "@/typedef";
-
 import { DAY_SHORTNAMES, readableTime, readableDate } from "@/utils";
-
 import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
-
 import {
   faTimes,
   faPlus,
   faChevronDown,
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
-
 import CourseSectionSeatsBadge from "./CourseSectionSeatsBadge.vue";
 import CourseSectionsOpenBadge from "./CourseSectionsOpenBadge.vue";
-
 // Course Listing by default is a collapsible display of a course and its
 // sections and sessions
 // However, there are slots available to customize the information displayed
@@ -128,7 +123,6 @@ export default {
   },
   props: {
     course: Object,
-
     // If true, collapse is open when created
     // If lazyLoadCollapse is true, this is ignored
     openInitial: {
@@ -142,7 +136,6 @@ export default {
       type: Boolean,
       default: false,
     },
-
     // Method name of default action
     // When body of CourseListing is clicked on, the
     // defaultAction is called
@@ -152,7 +145,6 @@ export default {
       type: String,
       default: "toggleCollapse",
     },
-
     //if this is false the add course + button wont appear
     //this is useful for the course explorer
     showAddButton: {
@@ -167,15 +159,12 @@ export default {
       faChevronDown,
       faChevronUp,
       DAY_SHORTNAMES,
-
       // v-model with collapse
       // true or false for open or close respectively collapse
       showCollapse: !this.lazyLoadCollapse && this.openInitial,
-
       // initially false, set to true on first collapse toggle
       // Used for lazy loading
       loaded: false,
-
       showAdd: this.showAddButton,
     };
   },
@@ -184,12 +173,10 @@ export default {
     readableDate,
     getBackgroundColor,
     getBorderColor,
-
     // Just a wrapper, can't call `[defaultAction]()` in html
     callDefaultAction() {
       this[this.defaultAction]();
     },
-
     /**
      * Toggle collapse state
      * @param {boolean} collapse If provided, set collapse state
@@ -198,11 +185,9 @@ export default {
       if (!this.loaded) {
         this.loaded = true;
       }
-
       this.showCollapse =
         collapse !== undefined ? collapse : !this.showCollapse;
     },
-
     /**
      * Toggle course selected state
      * Emits removeCourse and addCourse events
@@ -229,12 +214,23 @@ export default {
         this.$emit("addCourseSection", this.course, section);
       }
     },
-
     //used in the course explorer to show a courses info modal
     showInfoModal() {
       this.$emit("showCourseInfo", this.course);
     },
+    getInstructor(sessions){
+      for(let i = 0; i<sessions.length; i++){
+        if(sessions[i].instructor !== "Staff"){
+          return sessions[i].instructor
+        }
+      }
+    }
   },
+  computed: {
+    sortedSections() {
+      return this.course.sections.slice().sort((a, b) => a.sessions[0].section - b.sessions[0].section)
+    }
+  }
 };
 </script>
 
