@@ -1,0 +1,132 @@
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6336&returnto=604">Architectural Acoustics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6337&returnto=604">Architectural History Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6345&returnto=604">Architecture Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6347&returnto=604">Astrobiology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6348&returnto=604">Astronomy Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6349&returnto=604">Astrophysics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6543&returnto=604">Behavioral and Cognitive Neuroscience Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6351&returnto=604">Biochemistry/Biophysics Minor for Biology Majors</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6352&returnto=604">Biochemistry/Biophysics Minor for Biomedical Engineering Majors</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6353&returnto=604">Biochemistry/Biophysics Minor for Chemical Engineering Majors</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6354&returnto=604">Biochemistry/Biophysics Minor for Chemistry Majors</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=7354&returnto=604">Biological Neuroscience Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6358&returnto=604">Biology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6361&returnto=604">Biomedical Engineering and Management Minor </a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6373&returnto=604">Chemistry Minor for Non-Chemistry Majors</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6375&returnto=604">Chinese Language Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6381&returnto=604">Civil Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6506&returnto=604">Cognitive Science Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6544&returnto=604">Cognitive Science of Artificial Intelligence Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6387&returnto=604">Computer and Systems Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6393&returnto=604">Computer Science Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=7358&returnto=604">Data Science and Engineering</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6532&returnto=604">Ecology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6403&returnto=604">Economics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6541&returnto=604">Economics of Banking and Finance Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6620&returnto=604">Economics of Decision-Making</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6537&returnto=604">Economics of Healthcare Markets Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6538&returnto=604">Economics of Policy and Regulations</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6539&returnto=604">Economics of Quantitative Modeling</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6540&returnto=604">Economics of Technology and Innovation Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6411&returnto=604">Electrical Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6416&returnto=604">Electronic Arts Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6504&returnto=604">Entrepreneurship Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=7352&returnto=604">Environmental Design</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6422&returnto=604">Environmental Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6426&returnto=604">Finance Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6496&returnto=604">General Psychology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6430&returnto=604">Geology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6561&returnto=604">Graphic Design Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6549&returnto=604">History Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6437&returnto=604">Hydrogeology Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6443&returnto=604">Information Technology and Web Science Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6560&returnto=604">Interactive Media/Data Design Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6450&returnto=604">Lighting Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6533&returnto=604">Lighting Minor in Biological Sciences</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6529&returnto=604">Linguistics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6451&returnto=604">Literature and Creative Writing Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6452&returnto=604">Management Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6455&returnto=604">Marketing Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6466&returnto=604">Materials Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6469&returnto=604">Mathematics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6559&returnto=604">Media and Culture Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6480&returnto=604">Music Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6483&returnto=604">Nuclear Engineering Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6486&returnto=604">Philosophy Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6517&returnto=604">Philosophy of Logic, Computation, and Mind Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6490&returnto=604">Physics Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6526&returnto=604">Psychological Science Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6548&returnto=604">Public Health Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6501&returnto=604">Science, Technology, and Society Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6384&returnto=604">Strategic Communication Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6547&returnto=604">Studio Arts</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6503&returnto=604">Sustainability Studies Minor</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6546&returnto=604">Video, Performance, and Social Practice</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6542&returnto=604">Well-being</a></li>
+<li style="list-style-type: none">&#8226;&#160;
+<a href="preview_program.php?catoid=24&poid=6493&returnto=604">Writing Minor</a></li>
