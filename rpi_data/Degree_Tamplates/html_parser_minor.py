@@ -1,5 +1,5 @@
-filename = input("filename:")
-fin = open(filename, "r")
+#filename = input("filename:")
+fin = open("minorRaw.txt", "r")
 fout = open("MinorURLlist.txt", "a")
 fout.truncate(0)
 for line in fin:
