@@ -228,9 +228,8 @@ export default {
             addNew.innerHTML = semester_name;
             document.getElementById("semester-wrapper").appendChild(addNew);
             this.counter++;
-            this.index++;
+        
 
-            console.log(this.index);
         },
      
         removeSemester(index) {
