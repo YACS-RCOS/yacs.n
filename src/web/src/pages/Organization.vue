@@ -29,7 +29,7 @@
       </b-button>
       <br />
       <b-button
-        @click="listCate()"
+        @click="listClub_or_Frat()"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -51,12 +51,6 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-import { COURSES } from "@/store";
-import { generateRequirementsText } from "@/utils";
-import CenterSpinnerComponent from "../components/CenterSpinner.vue";
-import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
-
 export default {
   name: "Organization",
   components: {
@@ -75,6 +69,18 @@ export default {
       ],
     };
   },
+  listAlphabet() {
+    this.cateShow = false;
+    this.alphShow = true;
+  },
+  listCate() {
+    this.cateShow = true;
+    this.alphShow = false;
+  }, 
+  listClub_or_Frat() {
+    this.cateShow = true;
+    this.alphShow = false;
+  }, 
 };
 </script>
 
