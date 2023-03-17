@@ -45,18 +45,40 @@ class Professor:
             email, dep, office, classes, office_time], False)
         return (True, None) if not error else (False, error)
 
-    def get_professor(self, email):
+    def get_professor_info_by_email(self,email):
         if email is None:
-            sql =   """
+            sql =   """ 
                         select
-                            varaible name
-                    """ 
+                            *
+                        from
+                            professor
+                        where
+                            email = %s
+                    """
+        #add the vriables in semester_info
+        info, error = self.db_conn.execute(sql, [email], True)
+        return (info, None) if not error else (False, error)
+
+
+    def get_professor_name_by_email(self,email):
+        if email is None:
+            sql =   """ 
+                        select
+                            first_name, 
+                            last_name, 
+                        from
+                            professor
+                        where
+                            email = %s
+                    """
+        name, error = self.db_conn.execute(sql, [email], True)
+        return (name, None) if not error else (False, error)
+        
+    
+    def get_professor_info_by_rcs(self,rcs):
+        return self.get_professor_name_by_email(self, rcs+"rpi.edu")
 
     #gets classes, name(both first and last --> return json file), phone_nu,.... office horus time
-    #new function array of prfoessors in json
-    #functions given professor email, find professor (search inside json) i think its done already
     # return all professrs in a dtabase (json)
     # return all the parofesors in a certain department (json)
-    #get_professor_name_by_rcsID WHERE p.rcsID =  %s DO
-    #get_professor_email_by_name DO
     # return all professrs that teach a certain class throughout curretn sesmter (json)

@@ -220,7 +220,6 @@ async def get_user_info(request: Request, session_id):
 
     return user_controller.get_user_info(session_id)
 
-
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
     return user_controller.add_user(user.dict())
@@ -278,24 +277,20 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
-@app.get('/api/professor') #retreives first and last name of professor based on email
-#@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_professor_name(email: str, response: Response):
-    # Get the professor from the database
-    professor = Session.query(Professor).filter(Professor.email == email).first() 
+@app.get('/api/user/{session_id}')
+async def get_user_info(request: Request, session_id):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
 
-    if professor is None:
-        response.status_code = 404
-        return {"error": "Professor not found"}
+    return user_controller.get_user_info(session_id)
 
-    # Create a dictionary containing the professor's first and last name
-    data = {
-        "first_name": professor.first_name,
-        "last_name": professor.last_name,
-    }
-
+@app.get('/api/professor/{email}') #retreives first and last name of professor based on email
+async def get_professor_name(email):
+    # searches professor's first and last name by email
+    professorName, error = professor_info.get_professor_info_by_email(email)
+    if error is None:
+        Response(content=error, status_code=500)
     # Return the data as a JSON response
-    return data
-    #currently recieving internal server error prob b/c web scraper for professors isn't done
+    return professorName 
 
     #import the Professor function file and reference the function

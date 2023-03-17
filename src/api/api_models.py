@@ -14,7 +14,6 @@ class CourseDeletePydantic(BaseModel):
     cid: Optional[str] = None
     semester: str
 
-
 class updateUser(BaseModel):
     name:str
     sessionID:str
@@ -46,4 +45,7 @@ class SubsemesterPydantic(BaseModel):
 
 class DefaultSemesterSetPydantic(BaseModel):
     default: str
+
+#class Professor(BaseModel):
+#add professor and figure out what to do
     
