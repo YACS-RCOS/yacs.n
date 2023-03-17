@@ -10,6 +10,7 @@ const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
+const Prerequisites = () => import("./pages/Prerequisites");
 
 var router = new VueRouter({
   routes: [
@@ -50,6 +51,12 @@ var router = new VueRouter({
           path: "/explore/:subject/:course",
           component: CoursePage,
           name: "CoursePage",
+          props: true,
+        },
+        {
+          path: "/Prerequisites",
+          component: Prerequisites,
+          name: "Prerequisites",
           props: true,
         },
       ],
