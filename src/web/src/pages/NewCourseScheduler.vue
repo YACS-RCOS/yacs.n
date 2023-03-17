@@ -4,60 +4,77 @@
       <b-col v-if = "!isNavOpen" class="col-md-3 text-center">
       </b-col>
       <div :class= "[main]">
-        <Burger></Burger>
-        <Sidebar>
-          <div class="sidebar-panal-nav" style="height: 100%">
-            <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%">
-              <b-card no-body class="h-100">
-                <b-tabs card class="h-100 d-flex flex-column flex-grow-1">]
-                  <b-tab
-                    title="Course Search"
-                    active
-                    class="flex-grow-1 w-100"
-                    data-cy="course-search-tab"
-                  >
-                    <b-card-text class="d-flex flex-grow-1 w-100">
-                      <CenterSpinner
-                        v-if="loading"
-                        class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                        :height="60"
-                        :fontSize="1"
-                        loadingMessage="Courses"
-                        :topSpacing="0"
-                      />
+        <!--This is a button, an animated one-->
+        <div id="burger"
+          :class="{ 'active' : isNavOpen }"
+          @click.prevent="toggleNav">
+          <slot>
+              <button type="button" class="burger-button" title="Menu">
+                  <span class="burger-bar burger-bar--1"></span>
+                  <span class="burger-bar burger-bar--2"></span>
+                  <span class="burger-bar burger-bar--3"></span>
+              </button>
+          </slot>
+      </div>
+        <div class="sidebar">
+          <div class="sidebar-backdrop" @click="toggleNav" v-if="isNavOpen"></div>
+            <transition name="slide">
+              <div v-if="isNavOpen" class="sidebar-panel">
+                  <div class="sidebar-panal-nav" style="height: 100%">
+                    <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%">
+                      <b-card no-body class="h-100">
+                        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">]
+                          <b-tab
+                            title="Course Search"
+                            active
+                            class="flex-grow-1 w-100"
+                            data-cy="course-search-tab"
+                          >
+                            <b-card-text class="d-flex flex-grow-1 w-100">
+                              <CenterSpinner
+                                v-if="loading"
+                                class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                                :height="60"
+                                :fontSize="1"
+                                loadingMessage="Courses"
+                                :topSpacing="0"
+                              />
 
-                      <CourseList
-                        v-if="!loading"
-                        @addCourse="addCourse"
-                        @removeCourse="removeCourse"
-                        @showCourseInfo="showCourseInfo"
-                        class="w-100"
-                      />
-                    </b-card-text>
-                  </b-tab>
-                  <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-                    <template v-slot:title>
-                      <div class="text-center" data-cy="selected-courses-tab-header">
-                        Selected Courses
-                        <b-badge variant="light" data-cy="num-selected-courses">
-                          {{ numSelectedCourses }}
-                        </b-badge>
-                      </div>
-                    </template>
-                    <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                      <SelectedCourses
-                        :courses="selectedCourses"
-                        @removeCourse="removeCourse"
-                        @removeCourseSection="removeCourseSection"
-                        @addCourseSection="addCourseSection"
-                      />
-                    </b-card-text>
-                  </b-tab>
-                </b-tabs>
-              </b-card>
-            </b-col>
-          </div>
-        </Sidebar>
+                              <CourseList
+                                v-if="!loading"
+                                @addCourse="addCourse"
+                                @removeCourse="removeCourse"
+                                @showCourseInfo="showCourseInfo"
+                                class="w-100"
+                              />
+                            </b-card-text>
+                          </b-tab>
+                          <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                            <template v-slot:title>
+                              <div class="text-center" data-cy="selected-courses-tab-header">
+                                Selected Courses
+                                <b-badge variant="light" data-cy="num-selected-courses">
+                                  {{ numSelectedCourses }}
+                                </b-badge>
+                              </div>
+                            </template>
+                            <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                              <SelectedCourses
+                                :courses="selectedCourses"
+                                @removeCourse="removeCourse"
+                                @removeCourseSection="removeCourseSection"
+                                @addCourseSection="addCourseSection"
+                              />
+                            </b-card-text>
+                          </b-tab>
+                        </b-tabs>
+                      </b-card>
+                    </b-col>
+                  </div>
+                <slot></slot>
+              </div>
+            </transition>
+        </div>
         <b-form-select
           v-if="
             !loading &&
@@ -245,9 +262,6 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import Burger from "@/pages/Burger"
-import Sidebar from "@/pages/Sidebar"
-
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
     if ((p.time[i] & section.times[i]) > 0) return false;
@@ -267,8 +281,6 @@ export default {
   mixins: [NotificationsMixin],
   components: {
     Schedule: ScheduleComponent,
-    Burger,
-    Sidebar,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
     CenterSpinner: CenterSpinnerComponent,
@@ -299,9 +311,9 @@ export default {
     toggleNav(){
       this.isNavOpen = !this.isNavOpen;
       if(this.isNavOpen){
-        main = "col-md-9";
+        this.main = "col-md-9";
       }else{
-        main = "col-md-12";
+        this.main = "col-md-12";
       }
     },
     toggleColors() {
@@ -764,6 +776,120 @@ sidebar-panel-nav {
 
 #export-ics-button {
   background: #3d4959 !important;
+}
+
+.slide-enter-active,
+.slide-leave-active
+{
+    transition: transform 0.2s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+    transform: translateX(-100%);
+    transition: all 150ms ease-in 0s
+}
+
+.sidebar-backdrop {
+    background-color: rgba(0,0,0,.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.sidebar-panel {
+    overflow-y: auto;
+    background-color: #130f40;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 999;
+    padding: 3rem 20px 2rem 20px;
+    width: 500px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* remove blue outline */
+button:focus {
+    outline: 0;
+}
+
+.burger-button {
+    position: relative;
+    height: 30px;
+    width: 32px;
+    display: block;
+    z-index: 999;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    pointer-events: all;
+    transition: transform .6s cubic-bezier(.165,.84,.44,1);
+}
+
+.burger-bar {
+    background-color: #130f40;
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    left: 6px;
+    height: 2px;
+    width: auto;
+    margin-top: -1px;
+    transition: transform .6s cubic-bezier(.165,.84,.44,1),opacity .3s cubic-bezier(.165,.84,.44,1),background-color .6s cubic-bezier(.165,.84,.44,1);
+}
+
+.burger-bar--1 {
+    -webkit-transform: translateY(-6px);
+    transform: translateY(-6px);
+}
+
+.burger-bar--2 {
+    transform-origin: 100% 50%;
+    transform: scaleX(.8);
+}
+
+.burger-button:hover .burger-bar--2 {
+    transform: scaleX(1);
+}
+
+.no-touchevents .burger-bar--2:hover {
+    transform: scaleX(1);
+}
+
+.burger-bar--3 {
+    transform: translateY(6px);
+}
+
+#burger.active .burger-button {
+    transform: rotate(-180deg);
+}
+
+#burger.active .burger-bar {
+    background-color: #fff;
+}
+
+#burger.active .burger-bar--1 {
+    transform: rotate(45deg)
+}
+
+#burger.active .burger-bar--2 {
+    opacity: 0;
+}
+
+#burger.active .burger-bar--3 {
+    transform: rotate(-45deg)
 }
 
 </style>
