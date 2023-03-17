@@ -245,17 +245,17 @@ export default {
     // if no exact match exists, returns similar options.
 
     /*fiterSession(courseList){
-      a=0;
+      a=0;#the variable used to store the input of weekday
       if (weekday!=null){
         a=weekday;
       }
-      else{
+      else{#if nothing is provided, give a value that isn't in data
         a=10;
       }
       for(var x=0; x<courseList.length; x++){
-        if (a>7){
+        if (a>7){#don't need to consider on the week of day
           for (var y=0; y<courseList[x].sections.length; y++){
-            bool check = false;
+            bool check = false;#variable to check if we need to delete this section
             for(var z = 0; z<courseList[x].section[y].sessions.length; z++){
               if(courseList[x].section[y].session[z].time_start<begintime){
                 check=true;
@@ -265,10 +265,11 @@ export default {
               }
             }
             if(check){
+              #delete courList[x].section[y] from courseList
               courseList[x].splice(y,1);
             }
           }
-          if(courseList.length==0){return false;}
+          if(courseList.length==0){return false;}#if nothing we find that fit the time filter
         }
         else{//consideration on week day is needed
           for(var y=0; y<courseList[x].sections.length;y++){
@@ -279,7 +280,6 @@ export default {
               }
             }
             if(check){
-              #delete courList[x].section[y] from courseList
               courseList[x].splice(y,1);
             }
           }
@@ -337,7 +337,7 @@ export default {
         (course) => 
           
       );*/
-      /*const result=filtered;
+      /*const result=filtered;#create a result array so we can edit it directly in time filter
       const find2 = filterSession(result);
       if(find2) return[result];*/
 
