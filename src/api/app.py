@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+#from api.tables import professor
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
@@ -47,6 +48,7 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
+professor_info =  Professor.Professor(db_conn)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -280,7 +282,7 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
 #@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_professor_name(email: str, response: Response):
     # Get the professor from the database
-    professor = Session.query(Professor).filter(Professor.email == email).first() #change filter
+    professor = Session.query(Professor).filter(Professor.email == email).first() 
 
     if professor is None:
         response.status_code = 404
@@ -294,4 +296,6 @@ async def get_professor_name(email: str, response: Response):
 
     # Return the data as a JSON response
     return data
+    #currently recieving internal server error prob b/c web scraper for professors isn't done
+
     #import the Professor function file and reference the function
