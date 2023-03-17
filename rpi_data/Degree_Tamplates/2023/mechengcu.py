@@ -12,7 +12,7 @@ time.sleep(1)
 f = open('jsons/mechengcu.json', 'w', encoding='utf-8')
 
 result = {
-    "Major": "Environmental Science",
+    "Major": "Mechanical Engineering Curriculum",
     "Y1": "First Year",
     "Y1S1": ["Fall"],
     "Y1S2": ["Spring"],

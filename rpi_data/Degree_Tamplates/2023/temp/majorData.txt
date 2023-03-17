@@ -84,8 +84,8 @@ Aeronautical Engineering Curriculum:
 	(See footnotes 1, 5, and 6 below)
    Course: ENGR 1300 - Engineering Processes Credit Hours: 1
    Course: ENGR 2530 - Strength of Materials Credit Hours: 4
-   Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
    Course: MANE 2710 - Thermodynamics Credit Hours: 3
+   Course: MATH 2400 - Introduction to Differential Equations Credit Hours: 4
   Sem: Spring Semester (17 credits)
    Course: HASS Core Elective  Credit Hours: 4
 	(See footnote 3 below)
