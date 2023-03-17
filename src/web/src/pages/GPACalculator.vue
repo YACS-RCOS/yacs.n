@@ -232,7 +232,7 @@ export default {
 
         },
      
-        removeSemester(index) {
+        removeSemester() {
             let mainForms = document.querySelectorAll("form.add_new1");
             mainForms[mainForms.length-1].remove();
         },
