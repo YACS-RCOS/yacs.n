@@ -245,6 +245,7 @@ export default {
     // if no exact match exists, returns similar options.
 
     /*fiterSession(courseList){
+      a=0;
       if (weekday!=null){
         a=weekday;
       }
@@ -252,8 +253,6 @@ export default {
         a=10;
       }
       for(var x=0; x<courseList.length; x++){
-        if (courseList[x].session[i] collide condition){
-          return false
         if (a>7){
           for (var y=0; y<courseList[x].sections.length; y++){
             bool check = false;
@@ -266,13 +265,42 @@ export default {
               }
             }
             if(check){
-              delete courseList[x].section[y] from courseList
+              courseList[x].splice(y,1);
             }
           }
+          if(courseList.length==0){return false;}
         }
         else{//consideration on week day is needed
-          
-        }
+          for(var y=0; y<courseList[x].sections.length;y++){
+            bool check =false;
+            for(var z = 0; z<courseList[x].section[y].sessions.length; z++){
+              if(courseList[x].section[y].session[z].day_of_week!=a){
+                check=true;
+              }
+            }
+            if(check){
+              #delete courList[x].section[y] from courseList
+              courseList[x].splice(y,1);
+            }
+          }
+          if(courseList.length==0){return false;}
+          for(var x=0; x<courseList.length; x++){
+            for (var y=0; y<courseList[x].sections.length; y++){
+              bool check = false;
+              for(var z = 0; z<courseList[x].section[y].sessions.length; z++){
+                if(courseList[x].section[y].session[z].time_start<begintime){
+                  check=true;
+                }
+                else if(courseList[x].section[y].session[z].time_end>endtime){
+                  check=true;
+                }
+              }
+              if(check){
+                courseList[x].splice(y,1);
+              }
+            }
+          }
+          if(courseList.length==0){return false;}
         }
       }
       return true
@@ -306,9 +334,12 @@ export default {
       );
 
       /*const find2 = filtered.find(
-        (course) =>
+        (course) => 
           
       );*/
+      /*const result=filtered;
+      const find2 = filterSession(result);
+      if(find2) return[result];*/
 
       filtered[0].sections[0].session.pop();
       console.log("detail below");
