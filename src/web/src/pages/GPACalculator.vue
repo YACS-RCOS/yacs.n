@@ -220,7 +220,7 @@ export default {
                 <option value="0.00">F</option>
                 <option value="">P</option>
                 </select>
-                <button @click="removeSemester(${this.index});">- Remove</button>
+               
 
                 
             </form>
@@ -234,11 +234,8 @@ export default {
         },
      
         removeSemester(index) {
-            console.log(index);
-            console.log(this.index);
-            const greeting = `index-, ${index}`;
-            let thisForm = document.getElementsByClassName(greeting)
-            thisForm.remove();
+            let mainForms = document.querySelectorAll("form.add_new1");
+            mainForms[mainForms.length-1].remove();
         },
         calcFgpa() {
             const CGPAPARAGRAPH = document.getElementById("fin-calc");
