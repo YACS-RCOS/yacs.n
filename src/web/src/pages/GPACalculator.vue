@@ -46,8 +46,8 @@
                         <h1>TOTAL GPA CALCULATOR</h1>
                         <div id="semester-wrapper">
 
-                        <input v-model="totCred" class= "credit_units0 key-0" placeholder="Total Credits" />
-                        <input v-model="oldGPA" class = "oldGPA key-0" placeholder="GPA" />
+                        <input class= "credit_units0 key-0" placeholder="Total Credits" />
+                        <input class = "oldGPA key-0" placeholder="GPA" />
 
 
                         </div>
