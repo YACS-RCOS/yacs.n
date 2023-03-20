@@ -1,29 +1,31 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
-      <b-col v-if = "!isNavOpen" class="col-md-3 text-center">
-      </b-col>
+      <!--<b-col v-if = "!isNavOpen" class="col-md-3 text-center">
+      </b-col>-->
+      <div v-if = "isNavOpen" class="col-md-3">
+      </div>
       <div :class= "[main]">
         <!--This is a button, an animated one-->
         <div id="burger"
           :class="{ 'active' : isNavOpen }"
           @click.prevent="toggleNav">
           <slot>
-              <button type="button" class="burger-button" title="Menu">
-                  <span class="burger-bar burger-bar--1"></span>
-                  <span class="burger-bar burger-bar--2"></span>
-                  <span class="burger-bar burger-bar--3"></span>
-              </button>
+            <button type="button" class="burger-button">
+              <span class="burger-bar burger-bar--1"></span>
+              <span class="burger-bar burger-bar--2"></span>
+              <span class="burger-bar burger-bar--3"></span>
+            </button>
           </slot>
-      </div>
+        </div>
         <div class="sidebar">
-          <div class="sidebar-backdrop" @click="toggleNav" v-if="isNavOpen"></div>
+          <div class="sidebar-backdrop" v-if="isNavOpen"></div>
             <transition name="slide">
               <div v-if="isNavOpen" class="sidebar-panel">
                   <div class="sidebar-panal-nav" style="height: 100%">
                     <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%">
                       <b-card no-body class="h-100">
-                        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">]
+                        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                           <b-tab
                             title="Course Search"
                             active
@@ -709,15 +711,6 @@ export default {
   background-color: #111;
 }
 
-.closebtn {
-  position: absolute;
-  cursor: pointer;
-  top: 10px;
-  right: 25px;
-  font-size: 25px;
-  margin-left: 50px;
-}
-
 .sidebar {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
@@ -725,17 +718,6 @@ export default {
   color: #007bff;
   display: block;
   transition: 0.3s;
-}
-
-.openbtn {
-  font-size: 15px;
-  cursor: pointer;
-  color: #007bff;
-  border: solid #007bff;
-  background-color: transparent;
-  margin: auto;
-  display: flex;
-  text-align: center;
 }
 
 .tab-content {
@@ -790,8 +772,8 @@ sidebar-panel-nav {
     transition: all 150ms ease-in 0s
 }
 
-.sidebar-backdrop {
-    background-color: rgba(0,0,0,.5);
+.sidebar-backdrop { //it is a background feature when the sidebar opens, left here for easier modification that possibly happen on future.
+    background-color: rgba(255, 255, 255, 0);
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -800,16 +782,16 @@ sidebar-panel-nav {
     cursor: pointer;
 }
 
-.sidebar-panel {
+.sidebar-panel { // The actual view of sidebar back
     overflow-y: auto;
-    background-color: #130f40;
+    background-color: #00acf0cb;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
     z-index: 999;
-    padding: 3rem 20px 2rem 20px;
-    width: 500px;
+    padding: 2rem 15px 1.5rem 15px;
+    width: 25%;
 }
 
 .hidden {
@@ -877,7 +859,7 @@ button:focus {
 }
 
 #burger.active .burger-bar {
-    background-color: #fff;
+    background-color: #130f40;
 }
 
 #burger.active .burger-bar--1 {
