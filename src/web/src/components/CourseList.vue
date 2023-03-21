@@ -34,14 +34,12 @@
           <b-form-group label="Filter Credits">
             <b-row>
               <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
-                  <label class="form-check-label" :for="item.id">{{item.name}}</label>
                   <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.id">
+                  <label class="form-check-label" :for="item.id"> {{ item.name }} </label>
               </div>
             </b-row>
           </b-form-group>
         </b-col>
-
-        
       </b-row>
       
     </div>
@@ -132,7 +130,7 @@ export default {
       courseList: null,
       debounceTime: 300,
       Items: [
-                {name: '1 Credit', id: 1}, 
+                {name: '1 Credit ', id: 1}, 
                 {name: '2 Credits',id: 2}, 
                 {name: '3 Credits',id: 3}, 
                 {name: '4 Credits',id: 4}
