@@ -66,10 +66,13 @@
                   <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
                     {{ course }}
                   </b>
+                  <li v-else-if="course.includes('Elective')">
+                      {{ course }}
+                  </li>
                   <li v-else
-                  v-on:click="goPage(course)"
-                  class="courseInPath">
-                    {{ course }}
+                    v-on:click="goPage(course)"
+                    class="courseInPath">
+                      {{ course }}
                   </li>
                 </div>
               </div>
@@ -177,7 +180,7 @@
 </template>
 
 <script>
-import degrees_json from "./SchoolDegreeTemplates.json";
+import degrees_json from "./DegreeTemplates.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
@@ -335,6 +338,10 @@ export default {
       var subject = "" + course[0] + course[1] + course[2] + course[3];
       var courseID = "" + course[5] + course[6] + course[7] + course[8];
       if (course[4] != " ") {
+        return;
+      }
+      // haven't implemented free elective/hass elective display - good feature for future
+      if(course.includes("Elective")){
         return;
       }
       if (course[8] == "X") {
