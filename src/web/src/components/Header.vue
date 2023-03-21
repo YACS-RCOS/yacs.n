@@ -69,6 +69,10 @@ export default createVuetify({
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
+        <b-nav-item :to="{name: 'Prerequisites'}">
+          <font-awesome-icon icon="list" />
+          Prerequisites
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">

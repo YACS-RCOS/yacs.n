@@ -1,13 +1,23 @@
-<template>
-    <p>Choose your prerequisites from the search below</p>
-    
-</template>
-
 <script>
 export default {
     name:"Prerequisites",
-    
+    data() {
+    return {
+      Prerequisites: 'Select your classes from the menu below'
+    }
+  }
 };
 </script>
 
-<style></style>
+<template>
+    <p class = "Prerequisites">{{ Prerequisites }}</p>
+    
+</template>
+
+<style>
+.Prerequisites{
+    color: blue;
+  font-weight: bold;
+}
+
+</style>
