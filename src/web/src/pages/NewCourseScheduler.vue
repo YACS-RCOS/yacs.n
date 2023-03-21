@@ -1,8 +1,6 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100"> 
-      <!--<b-col v-if = "!isNavOpen" class="col-md-3 text-center">
-      </b-col>-->
       <div v-if = "isNavOpen" class="col-md-3">
       </div>
       <div :class= "[main]">
@@ -23,7 +21,7 @@
             <transition name="slide">
               <div v-if="isNavOpen" class="sidebar-panel">
                   <div class="sidebar-panal-nav" style="height: 100%">
-                    <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%">
+                    <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%; padding: 1px">
                       <b-card no-body class="h-100">
                         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                           <b-tab
@@ -784,13 +782,13 @@ sidebar-panel-nav {
 
 .sidebar-panel { // The actual view of sidebar back
     overflow-y: auto;
-    background-color: #00acf0cb;
+    background-color: #1eddff00;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
     z-index: 999;
-    padding: 2rem 15px 1.5rem 15px;
+    padding: 70px 0px 0px 0px;
     width: 25%;
 }
 
