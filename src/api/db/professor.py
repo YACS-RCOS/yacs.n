@@ -3,13 +3,13 @@ class Professor:
         self.db_conn = db_conn
     
     def add_professor(self, first_name, last_name, phone, email, dep, office, 
-        classes, office_time):
+        classes, office_time, rcs):
         sql = 	"""
                     INSERT INTO
                         professor (first_name, last_name, phone_numbber, email,
-                        department, office_room, classes, office_hours_time, rcsid)
+                        department, office_room, classes, office_hours_time, rcs)
                     VALUES
-                        (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s, %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s)
+                        (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s, %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
                     ON CONFLICT DO NOTHING;
                     """
         {
@@ -20,7 +20,8 @@ class Professor:
             "Dep": dep,
             "Office_room": office,
             "Classes": classes, 
-            "Office_time": office_time
+            "Office_time": office_time,
+            "Rcs_id": rcs
         }, 
         resp, error = self.db_conn.execute(sql, [first_name, last_name, phone, 
         email, dep, office, classes, office_time], False)
@@ -87,18 +88,45 @@ class Professor:
     def get_professor_info_by_rcs(self,rcs):
         return self.get_professor_name_by_email(self, rcs+"rpi.edu")
 
+    #get rcs by email
+    #get office hours by email (make speical case for no value)
 
-    def get_professors_by_department(self): #return as a json
-        return
+    #return as a json
+    def get_all_professors(self):  
+        return self.db_conn.execute("SELECT * FROM professor")
+    
+    #gets prfoessors' phone number by their email
+    def get_prfoessor_phone_number_by_email(self, email):
+        if email is None:
+            sql =   """ 
+                        select
+                            phone_number
+                        from
+                            professor
+                        where
+                            email = %(Email)s
+                    """
+            {
+                "Email": email
+            }
+        email, error = self.db_conn.execute(sql, [email], True)
+        return (email, None) if not error else (False, error)
 
-    def get_all_professors(self):  #return as a json
-        return
+    #seraches professors who are in a certain department
+    def get_professors_by_department(self,department): 
+        sql =   """
+                    select
+                        * 
+                    from
+                        professor
+                    where
+                        department = %(Department)s
+                """
+        {
+            "Department": department
+        }
+        department, error = self.db_conn.execute(sql, None, True)
+        return (department, None) if not error else (False, error)
 
-    # return all professrs that teach a certain class throughout curretn sesmter (json)
-    def get_professors_classes_by_semester(self):  #return as a json
-        return
-
-    def get_professor_phone_number(self):
-        return
     #gets classes, name(both first and last --> return json file), phone_nu,.... office horus time
 

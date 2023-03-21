@@ -277,20 +277,27 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
-@app.get('/api/user/{session_id}')
-async def get_user_info(request: Request, session_id):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-
-    return user_controller.get_user_info(session_id)
-
-@app.get('/api/professor/{email}') #retreives first and last name of professor based on email
-async def get_professor_name(email):
+@app.get('/api/professor/email/{email}') #retreives first and last name of professor based on email
+async def get_professor_name(email: str):
     # searches professor's first and last name by email
     professorName, error = professor_info.get_professor_info_by_email(email)
-    if error is None:
-        Response(content=error, status_code=500)
     # Return the data as a JSON response
-    return professorName 
+    return professorName if not error else Response(content=error, status_code=500)
 
-    #import the Professor function file and reference the function
+@app.get('/api/professor/department/{department}')
+async def get_professor_from_department(department: str):
+    professors, error = professor_info.get_professors_by_department(department)
+    return professors if not error else Response(content=error, status_code=500)
+
+@app.get('/api/professor')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_all_professors():
+    """
+    GET /api/professor
+    Cached: 24 Hours
+    """
+    professors, error = professor_info.get_all_professors()
+    db_list = [dict(prof) for prof in professors]
+    return db_list if not error else Response(error, status_code = 500)
+    
+#add professor and remove professors
