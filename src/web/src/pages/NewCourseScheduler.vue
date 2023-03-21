@@ -3,6 +3,7 @@
     <b-row class="h-100">
       <b-col md="4" class="d-flex flex-column">
         <b-card no-body class="h-100">
+
           <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
             <b-tab
               title="Course Search"
@@ -29,6 +30,7 @@
                 />
               </b-card-text>
             </b-tab>
+            
             <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
               <template v-slot:title>
                 <div class="text-center" data-cy="selected-courses-tab-header">
@@ -47,6 +49,26 @@
                 />
               </b-card-text>
             </b-tab>
+
+            <b-tab class="flex-grow-1" data-cy="correspond-prerequisites-tab">
+              <template v-slot:title>
+                <div class="text-center" data-cy="correspond-prerequisites-tab">
+                  Prerequisites
+                  <b-badge variant="light" data-cy="num-prerequisites">
+                    {{ numPrerequisites }}
+                  </b-badge>
+                </div>
+              </template>
+              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                <Prerequisites
+                  :courses="selectedCourses"
+                  @removeCourse="removeCourse"
+                  @removeCourseSection="removeCourseSection"
+                  @addCourseSection="addCourseSection"
+                />
+              </b-card-text>
+            </b-tab>
+
           </b-tabs>
         </b-card>
       </b-col>
@@ -211,6 +233,7 @@ import { mapGetters, mapState } from "vuex";
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
+import PrerequisitesComponent from "@/components/Prerequisite";
 import CourseListComponent from "@/components/CourseList";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
@@ -258,12 +281,14 @@ export default {
   components: {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
+    Prerequisites: PrerequisitesComponent,
     CourseList: CourseListComponent,
     CenterSpinner: CenterSpinnerComponent,
   },
   data() {
     return {
       selectedCourses: {},
+      prerequisites: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
