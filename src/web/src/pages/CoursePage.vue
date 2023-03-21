@@ -53,11 +53,9 @@
           <br />
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
-      <!--      :to="'/explore/' + courseObj.department"-->
-    
-      
-    
+      <div>
+        <CourseInfo :course="courseObj"/>
+      </div>
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -94,11 +92,14 @@ import {
   addStudentCourse,
   removeStudentCourse,
 } from "@/services/YacsService";
+import CourseInfo from "../components/CourseInfo.vue";
+
 export default {
   components: {
     CourseListing: CourseListingComponent,
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CourseInfo,
   },
   name: "CoursePage",
   data() {
