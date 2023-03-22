@@ -116,6 +116,9 @@ export default {
       selectedSubsemester: null,
       selectedDepartment: null,
       courseList: null,
+      select_start: null,
+      select_end: null,
+      select_day: null,
       debounceTime: 300,
     };
   },
@@ -166,6 +169,17 @@ export default {
       this.selectedSubsemester = options[0].value;
       return options;
     },
+    //check if time of certain session match the input 5*12 arr
+    time_check(day_of_week, time_start, time_end, schedule_arr){
+        start = parseInt(time_start.substring(0, 2))-8;
+        end = parseInt(time_end.substring(0, 2))-8;
+        for( i=start; i<=end; i++){
+          if(schedule_arr[day_of_week][i] = false){
+            return false;
+          }
+        }
+        return true;
+    },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -194,10 +208,61 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
-
-      if (find) return [find];
-      else return filtered;
+      // console.log("detail below");
+      // console.log(filtered);
+      // alert(filtered[0]["sections"][0]["sessions"][0]["time_start"] + filtered[0]["sections"][0]["sessions"][0]["time_end"]);
+      
+      if(find){ //if we have result for find filter
+        let time_filter=find;
+        for (course_index=find.length()-1; course_index >=0 ; course_index--){
+          course_section = find[course_index]["sections"];
+          for(section_index = course_section.length()-1; section_index >= 0; section_index--){
+            section_session = course_section[section_index]["sessions"];
+            Avaliable = true;//boolean that check if this section course can fit all time selected on the schedule_arr
+            for(session_index=section_session.length(); session_index > 0; session_index--){
+              day = section_session[session_index]["day_of_week"];
+              st = section_session[session_index]["time_start"];
+              en = section_session[session_index]["time_end"];
+              Avaliable = time_check(day,st,en,schedule_arr);//check if one session is available
+              if(!Avaliable){
+                break;//if any session is not available, break, and so we need to delete the whole section element in sections array
+              }
+            }
+            if(!Avaliable){
+              time_filter[course_index]["sections"].splice(section_index,1);
+            }
+          }
+        }
+        return time_filter;
+      }
+      else{
+        let time_filter=filtered;
+        for (course_index=filtered.length()-1; course_index >=0 ; course_index--){
+          course_section = filtered[course_index]["sections"];
+          for(section_index = course_section.length()-1; section_index >= 0; section_index--){
+            section_session = course_section[section_index]["sessions"];
+            Avaliable = true;
+            for(session_index=section_session.length(); session_index > 0; session_index--){
+              day = section_session[session_index]["day_of_week"];
+              st = section_session[session_index]["time_start"];
+              en = section_session[session_index]["time_end"];
+              Avaliable = time_check(day,st,en,schedule_arr);
+              if(!Avaliable){
+                break;
+              }
+            }
+            if(!Avaliable){
+              time_filter[course_index]["sections"].splice(section_index,1);
+            }
+          }
+        }
+        return time_filter;
+      }
+      // if (find) return [find];
+      // else return filtered;
     },
+
+    
   },
 };
 </script>
