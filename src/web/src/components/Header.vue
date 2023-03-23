@@ -116,15 +116,17 @@ export default {
     };
   },
   mounted(){
+    this.$store.commit(SAVE_DARK_MODE);
     console.log("begin: "+this.beginStatus);
-    if(this.beginStatus===false){
+    console.log("curr: "+this.currentMode);
+    if(this.beginStatus===null){
+      this.currItem=2;
+    }
+    else if(this.currentMode==="false"){
       this.currItem=0;
     }
-    else if(this.beginStatus===true){
+    else if(this.currentMode==="true"){
       this.currItem=1;
-    }
-    else{
-      this.currItem=2;
     }
   },
   methods: {
@@ -258,7 +260,7 @@ export default {
   color: var(--dark-text-primary) !important;
 }
 .drop-down-item{
-  background: red !important;
+  background: hsl(211, 100%, 60%) !important;
 }
 
 </style>
