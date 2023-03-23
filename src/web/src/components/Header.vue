@@ -111,20 +111,22 @@ export default {
   data() {
     return {
       currentMode: this.$cookies.get(COOKIE_DARK_MODE),
+      beginStatus: this.$cookies.get(COOKIE_DARK_MODE)===null,
       currItem: -1,
     };
   },
-  // mounted(){
-  //   if(this.currentMode==="false"){
-  //     this.currItem=0;
-  //   }
-  //   else if(this.currentMode==="true"){
-  //     this.currItem=1;
-  //   }
-  //   else{
-  //     this.currItem=2;
-  //   }
-  // },
+  mounted(){
+    console.log("begin: "+this.beginStatus);
+    if(this.beginStatus===false){
+      this.currItem=0;
+    }
+    else if(this.beginStatus===true){
+      this.currItem=1;
+    }
+    else{
+      this.currItem=2;
+    }
+  },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
@@ -135,11 +137,9 @@ export default {
         }
       if(mode===false){
         this.currItem=0;
-        //this.modeColor=false;
       }
       else if(mode===true){
         this.currItem=1;
-        //this.modeColor=true;
       }
 
       //this.currentMode treated as a string
@@ -148,20 +148,27 @@ export default {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
         this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
+        this.beginStatus=mode;
       }
+      console.log("currMode: "+this.currentMode);
+      console.log("begin: "+this.beginStatus);
+
     },
     toggle_device() {
       this.followDeviceTheme();//sends user message
       this.notify=true;
 
       this.currItem=2;
-      //this.modeColor=null;
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
       this.$store.commit(SAVE_DARK_MODE);
 
       this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
+      this.beginStatus = null;
+      console.log("currMode: "+this.currentMode);
+      console.log("begin: "+this.beginStatus);
+
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
