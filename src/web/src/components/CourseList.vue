@@ -32,12 +32,26 @@
         </b-col>
       </b-row>
       <b-row>
-            
-        <!-- popup box test  -->
-        <div class="popup" onclick="myFunction()">Click me!
-          <span class="popuptext" id="myPopup">Popup text...</span>
-        </div>
+        <!-- > time filter -->
+        <div>
+          <button @click="showModal = true">Open Time Filter</button>
 
+          <div v-if="showModal" class="modal">
+            <div class="modal-content">
+              <h2>Time Filter</h2>
+              <div>
+                <label for="start-time">Start Time:</label>
+                <input type="time" id="start-time" v-model="startTime">
+              </div>
+              <div>
+                <label for="end-time">End Time:</label>
+                <input type="time" id="end-time" v-model="endTime">
+              </div>
+              <button @click="applyFilter">Apply</button>
+              <button @click="showModal = false">Cancel</button>
+            </div>
+          </div>
+        </div>
       </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
@@ -128,6 +142,7 @@ export default {
       // dayWeek: null,
       courseList: null,
       debounceTime: 300,
+      showModal: false,
     };
   },
   created() {
@@ -147,6 +162,11 @@ export default {
           this.courseList = course_list;
         }
       );
+    },
+    //time filter
+    applyFilter() {
+      // Apply the time filter with this.startTime and this.endTime
+      this.showModal = false;
     },
   },
   watch: {
@@ -206,31 +226,13 @@ export default {
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
 
-
-      // const timefilter = filtered.filter(
-      //   (course) =>
-      //     (!this.selectedDepartment ||
-      //       course.department === this.selectedDepartment) &&
-      //     (!this.selectedSubsemester ||
-      //       (this.selectedSubsemester.date_start.getTime() ===
-      //         course.date_start.getTime() &&
-      //         this.selectedSubsemester.date_end.getTime() ===
-      //           course.date_end.getTime()))
-      // )
-
       // return match after time filter
-      
       console.log("detail below");
       console.log(filtered);
 
       if (find) return [find];
       else return filtered;
     },
-    // When the user clicks on <div>, open the popup
-    myFunction() {
-      var popup = document.getElementById("myPopup");
-      popup.classList.toggle("show");
-    }
   },  
 };
 </script>
@@ -266,57 +268,22 @@ export default {
   padding: 20px;
 }
 
-/* Popup container */
-.popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* The actual popup (appears on top) */
-.popup .popuptext {
-  visibility: hidden;
-  width: 160px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 8px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -80px;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
 }
 
 </style>
