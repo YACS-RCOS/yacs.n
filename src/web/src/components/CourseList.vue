@@ -34,6 +34,58 @@
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
+    <div>
+      <button @click="openPopup">Open Popup</button>
+      <div v-if="popupVisible" class="popup">
+        <div class="button-grid">
+          <div v-for="(row, rowIndex) in grid" :key="rowIndex">
+            <div class="button-row">
+              <button
+                v-for="(cell, cellIndex) in row"
+                :key="cellIndex"
+                :class="{ active: cell }"
+                @click="toggleCell(rowIndex, cellIndex)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div style="float: left;" class="w-10">
+      <b-button
+        @click="showPopup = !showPopup"
+        style="
+          margin-top: 0px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        ">
+        Filter by Time
+      </b-button>
+      <popup-grid v-if="showPopup"></popup-grid>
+    </div> -->
+    <!-- <div class="popup-grid">
+      <table>
+        <tbody>
+          <tr v-for="(row, rowIndex) in grid" :key="rowIndex">
+            <td v-for="(cell, colIndex) in row" :key="colIndex">
+              <button @click="toggleCell(rowIndex, colIndex)" :class="{ active: cell }" >
+            </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+    <!-- <div>
+      <button @click="showPopup = !showPopup" style="
+      margin-top: 10px;
+      color: #007bff;
+      border: solid #007bff;
+      background-color: transparent;
+    ">Filter by Time</button>
+      <popup-grid v-if="showPopup" :grid="grid" @update-grid="grid = $event"></popup-grid>
+    </div> -->
+    <!-- Button trigger modal -->
     <div id="scroll-box" data-cy="course-list">
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
@@ -116,7 +168,16 @@ export default {
       selectedSubsemester: null,
       selectedDepartment: null,
       courseList: null,
+      select_start:null,
+      select_end :null,
+      select_day:null,
       debounceTime: 300,
+      popupVisible: false,
+      grid: [
+        [true, false, true, false, true],
+        [false, true, false, true, false],
+        [true, false, true, false, true]
+      ]
     };
   },
   created() {
@@ -137,11 +198,26 @@ export default {
         }
       );
     },
+    // methods: {
+    //   toggleCell(rowIndex, colIndex) {
+    //     this.grid[rowIndex][colIndex] = !this.grid[rowIndex][colIndex]
+    //   }
+    // },
+    openPopup() {
+      this.popupVisible = true;
+    },
+    toggleCell(rowIndex, cellIndex) {
+      this.grid[rowIndex][cellIndex] = !this.grid[rowIndex][cellIndex];
+    }
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
       this.updateCourseList();
+    },
+    grid() {
+      // Update the popupVisible property when the grid values change
+      this.popupVisible = this.grid.some((row) => row.includes(true));
     },
   },
   computed: {
@@ -165,6 +241,17 @@ export default {
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
+    },
+    popupColor() {
+      // Calculate the popup window's background color based on the grid values
+      const trueCount = this.grid.reduce(
+        (acc, row) => acc + row.filter((cell) => cell).length,
+        0
+      );
+      const totalCount = this.grid.length * this.grid[0].length;
+      const ratio = trueCount / totalCount;
+      const hue = ratio * 120; // 120 degrees in the color wheel represents green
+      return `hsl(${hue}, 50%, 50%)`;
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
@@ -232,4 +319,41 @@ export default {
   font-size: 17px;
   padding: 20px;
 }
-</style>
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.button-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+button.active {
+  background-color: #007aff;
+  color: #fff;
+}
