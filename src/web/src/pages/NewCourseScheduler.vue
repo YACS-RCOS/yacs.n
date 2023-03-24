@@ -81,7 +81,7 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
-                  Can't display because of course conflict!
+                  Can't display because of course conflict with {{this.conflictDepartment}} {{ this.conflictTitle }} {{ this.conflictLevel }}
                 </span>
                 <span v-else>
                   Displaying schedule {{ this.index + 1 }} out of
@@ -239,6 +239,7 @@ import {
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
+  //this is where conflict is decided
   for (let i = 0; i < 5; i++) {
     if ((p.time[i] & section.times[i]) > 0) return false;
   }
@@ -267,6 +268,10 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
+      conflictLevel: null,
+      conflictDepartment: null,
+      conflictTitle: null,
+    
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
@@ -547,9 +552,20 @@ export default {
           if (!x.length) throw new Error("no selection!");
           return x
             .map((section) => {
+              console.log("schedule");
+              console.log(schedule);
+              console.log("section");
+              console.log(section);
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
+              else{
+                this.conflictTitle = section.title;
+                this.conflictLevel = section.level;
+                this.conflictDepartment = section.department;
+              }
+            
+
               return undefined;
             })
             .filter((x) => !!x);
