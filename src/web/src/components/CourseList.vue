@@ -34,21 +34,15 @@
       <b-row>
         <!-- > time filter -->
         <div>
-          <button @click="showModal = true">Open Time Filter</button>
-
-          <div v-if="showModal" class="modal">
-            <div class="modal-content">
-              <h2>Time Filter</h2>
-              <div>
-                <label for="start-time">Start Time:</label>
-                <input type="time" id="start-time" v-model="startTime">
+          <button @click="showGrid = true">Show Grid</button>
+          <div v-if="showGrid">
+            <button @click="showGrid = false">Close Grid</button>
+            <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
+              <div v-for="(box, boxIndex) in row" :key="boxIndex"
+                  class="grid-box"
+                  @click="handleBoxClick(rowIndex, boxIndex)">
+                {{ box.label }}
               </div>
-              <div>
-                <label for="end-time">End Time:</label>
-                <input type="time" id="end-time" v-model="endTime">
-              </div>
-              <button @click="applyFilter">Apply</button>
-              <button @click="showModal = false">Cancel</button>
             </div>
           </div>
         </div>
@@ -142,7 +136,33 @@ export default {
       // dayWeek: null,
       courseList: null,
       debounceTime: 300,
-      showModal: false,
+      showGrid: false,
+      grid: [
+        [
+          { label: 'Box 1', value: 1 },
+          { label: 'Box 2', value: 2 },
+          { label: 'Box 3', value: 3 },
+          { label: 'Box 4', value: 4 },
+        ],
+        [
+          { label: 'Box 5', value: 5 },
+          { label: 'Box 6', value: 6 },
+          { label: 'Box 7', value: 7 },
+          { label: 'Box 8', value: 8 },
+        ],
+        [
+          { label: 'Box 9', value: 9 },
+          { label: 'Box 10', value: 10 },
+          { label: 'Box 11', value: 11 },
+          { label: 'Box 12', value: 12 },
+        ],
+        [
+          { label: 'Box 13', value: 13 },
+          { label: 'Box 14', value: 14 },
+          { label: 'Box 15', value: 15 },
+          { label: 'Box 16', value: 16 },
+        ],
+      ],
     };
   },
   created() {
@@ -164,9 +184,11 @@ export default {
       );
     },
     //time filter
-    applyFilter() {
-      // Apply the time filter with this.startTime and this.endTime
-      this.showModal = false;
+    showPopup() {
+      this.popupVisible = true;
+    },
+    handleBoxClick(row, col) {
+      console.log(`Box at row ${row} and column ${col} clicked`);
     },
   },
   watch: {
@@ -268,22 +290,19 @@ export default {
   padding: 20px;
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+.grid-row {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+}
+
+.grid-box {
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  margin: 5px;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-}
-
 </style>
