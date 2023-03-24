@@ -34,21 +34,51 @@
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
-    <div>
-      <button @click="openPopup">Open Popup</button>
-      <div v-if="popupVisible" class="popup">
-        <div class="button-grid">
-          <div v-for="(row, rowIndex) in grid" :key="rowIndex">
-            <div class="button-row">
-              <button
-                v-for="(cell, cellIndex) in row"
-                :key="cellIndex"
-                :class="{ active: cell }"
-                @click="toggleCell(rowIndex, cellIndex)"
-              ></button>
-            </div>
+    <!-- <div>
+      <button @click="showModal = true">Time Filter</button>
+      <div v-if="showModal" class="modal">
+        <div class="modal-content">
+          <div v-show="showPopupWindow">
+            <h3>Popup Window</h3>
+            <table>
+              <tbody>
+                <tr v-for="(row, rowIndex) in colors" :key="rowIndex">
+                  <td v-for="(cell, cellIndex) in row" :key="cellIndex">
+                    <button
+                      :id="rowIndex + ',' + cellIndex"
+                      :class="{ 'color-button': true, 'grey': !cell, 'white': cell }"
+                      @click="switchColor(rowIndex, cellIndex)"
+                    >
+                      {{ rowIndex * 5 + cellIndex + 1 }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+          <button @click="showModal = false">Cancel</button>
         </div>
+      </div>
+    </div> -->
+    <div>
+      <button @click="togglePopupWindow">Show Popup Window</button>
+      <div v-show="showPopupWindow">
+        <h3>Popup Window</h3>
+        <table>
+          <tbody>
+            <tr v-for="(row, rowIndex) in colors" :key="rowIndex">
+              <td v-for="(cell, cellIndex) in row" :key="cellIndex">
+                <button
+                  :id="rowIndex + ',' + cellIndex"
+                  :class="{ 'color-button': true, 'grey': !cell, 'white': cell }"
+                  @click="switchColor(rowIndex, cellIndex)"
+                >
+                {{ times[rowIndex][cellIndex] }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <!-- <div style="float: left;" class="w-10">
@@ -172,12 +202,21 @@ export default {
       select_end :null,
       select_day:null,
       debounceTime: 300,
-      popupVisible: false,
-      grid: [
-        [true, false, true, false, true],
-        [false, true, false, true, false],
-        [true, false, true, false, true]
-      ]
+      colors: [
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+        [true, true, true, true, true],
+      ],
+      showPopupWindow: false,
     };
   },
   created() {
@@ -198,26 +237,29 @@ export default {
         }
       );
     },
-    // methods: {
-    //   toggleCell(rowIndex, colIndex) {
-    //     this.grid[rowIndex][colIndex] = !this.grid[rowIndex][colIndex]
-    //   }
-    // },
-    openPopup() {
-      this.popupVisible = true;
+    updateButtons() {
+      const buttons = document.getElementsByClassName('color-button');
+      for (let i = 0; i < buttons.length; i++) {
+        const row = Math.floor(i / 5);
+        const col = i % 5;
+        buttons[i].style.backgroundColor = this.colors[row][col] ? 'white' : 'grey';
+      }
     },
-    toggleCell(rowIndex, cellIndex) {
-      this.grid[rowIndex][cellIndex] = !this.grid[rowIndex][cellIndex];
-    }
+    togglePopupWindow() {
+      this.showPopupWindow = !this.showPopupWindow;
+      if (this.showPopupWindow) {
+        this.updateButtons();
+      }
+    },
+    switchColor(row, col) {
+      this.colors[row][col] = !this.colors[row][col];
+      this.updateButtons();
+    },
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
       this.updateCourseList();
-    },
-    grid() {
-      // Update the popupVisible property when the grid values change
-      this.popupVisible = this.grid.some((row) => row.includes(true));
     },
   },
   computed: {
@@ -242,17 +284,18 @@ export default {
       this.selectedSubsemester = options[0].value;
       return options;
     },
-    popupColor() {
-      // Calculate the popup window's background color based on the grid values
-      const trueCount = this.grid.reduce(
-        (acc, row) => acc + row.filter((cell) => cell).length,
-        0
-      );
-      const totalCount = this.grid.length * this.grid[0].length;
-      const ratio = trueCount / totalCount;
-      const hue = ratio * 120; // 120 degrees in the color wheel represents green
-      return `hsl(${hue}, 50%, 50%)`;
-    },
+    times() {
+      const startHour = 8;
+      const times = [];
+      for (let i = 0; i < 12; i++) {
+        const hour = startHour + i;
+        const ampm = hour >= 12 ? "PM" : "AM";
+        const displayHour = hour > 12 ? hour - 12 : hour;
+        const row = Array(5).fill(`${displayHour}:00 ${ampm}`);
+        times.push(row);
+      }
+      return times;
+  },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -349,6 +392,7 @@ export default {
 button {
   width: 50px;
   height: 50px;
+  align-items: center;
   border: 1px solid #ccc;
   background-color: #fff;
 }
