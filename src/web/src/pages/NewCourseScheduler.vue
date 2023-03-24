@@ -9,10 +9,13 @@
           :class="{ 'active' : isNavOpen }"
           @click.prevent="toggleNav">
           <slot>
-            <button type="button" class="burger-button">
+            <button type="button" class="burger-button" v-if="!isNavOpen">
               <span class="burger-bar burger-bar--1"></span>
               <span class="burger-bar burger-bar--2"></span>
               <span class="burger-bar burger-bar--3"></span>
+              <span class="burger-bar burger-bar--4"></span>
+              <span class="burger-bar burger-bar--5"></span>
+              <span class="burger-bar burger-bar--6"></span>
             </button>
           </slot>
         </div>
@@ -23,6 +26,20 @@
                   <div class="sidebar-panal-nav" style="height: 100%">
                     <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%; padding: 1px">
                       <b-card no-body class="h-100">
+                        <div id="burger"
+                          :class="{ 'active' : isNavOpen }"
+                          @click.prevent="toggleNav">
+                          <slot>
+                            <button type="button" class="burger-button">
+                              <span class="burger-bar burger-bar--1"></span>
+                              <span class="burger-bar burger-bar--2"></span>
+                              <span class="burger-bar burger-bar--3"></span>
+                              <span class="burger-bar burger-bar--4"></span>
+                              <span class="burger-bar burger-bar--5"></span>
+                              <span class="burger-bar burger-bar--6"></span>
+                            </button>
+                          </slot>
+                        </div>
                         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                           <b-tab
                             title="Course Search"
@@ -788,7 +805,7 @@ sidebar-panel-nav {
     top: 0;
     height: 100vh;
     z-index: 999;
-    padding: 70px 0px 0px 0px;
+    padding: 60px 0px 0px 0px;
     width: 25%;
 }
 
@@ -830,46 +847,68 @@ button:focus {
     transition: transform .6s cubic-bezier(.165,.84,.44,1),opacity .3s cubic-bezier(.165,.84,.44,1),background-color .6s cubic-bezier(.165,.84,.44,1);
 }
 
-.burger-bar--1 {
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);
+.burger-bar--1{
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
 }
 
-.burger-bar--2 {
-    transform-origin: 100% 50%;
-    transform: scaleX(.8);
+.burger-bar--2{
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-bar--3{
+  transform: scale(0.5) rotate(-45deg) translate(10px, 20px);
+}
+
+.burger-bar--4{
+  transform: scale(0.5) rotate(45deg) translate(10px, -20px);
+}
+
+.burger-bar--5{
+  transform: scale(0) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-bar--6{
+  transform: scale(0) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-button:hover .burger-bar--1 {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
+}
+
+.no-touchevents .burger-bar--1:hover {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
 }
 
 .burger-button:hover .burger-bar--2 {
-    transform: scaleX(1);
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
 }
 
 .no-touchevents .burger-bar--2:hover {
-    transform: scaleX(1);
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
 }
 
-.burger-bar--3 {
-    transform: translateY(6px);
+.burger-button:hover .burger-bar--5 {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.no-touchevents .burger-bar--5:hover {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-button:hover .burger-bar--6 {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.no-touchevents .burger-bar--6:hover {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
 #burger.active .burger-button {
-    transform: rotate(-180deg);
+  transform: rotate(-540deg);
 }
 
 #burger.active .burger-bar {
-    background-color: #130f40;
-}
-
-#burger.active .burger-bar--1 {
-    transform: rotate(45deg)
-}
-
-#burger.active .burger-bar--2 {
-    opacity: 0;
-}
-
-#burger.active .burger-bar--3 {
-    transform: rotate(-45deg)
+  background-color: #130f40;
 }
 
 </style>
