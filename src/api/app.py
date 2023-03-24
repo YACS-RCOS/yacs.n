@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 #from api.tables import professor
+from distutils.log import error
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
@@ -299,5 +300,12 @@ async def get_all_professors():
     professors, error = professor_info.get_all_professors()
     db_list = [dict(prof) for prof in professors]
     return db_list if not error else Response(error, status_code = 500)
-    
+
+@app.get('/api/professor/office_hours/{email}')
+async def get_office_hours(email: str):
+    professor_office_hours, error = professor_info.get_office_hours_by_email(email)    
+    return professor_office_hours if not error else Response(content=error, status_code=500)
+
+#professor rcs by email
+
 #add professor and remove professors

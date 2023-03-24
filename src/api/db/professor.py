@@ -53,7 +53,7 @@ class Professor:
         return (True, None) if not error else (False, error)
 
     def get_professor_info_by_email(self,email):
-        if email is None:
+        if email is not None:
             sql =   """ 
                         select
                             *
@@ -69,7 +69,7 @@ class Professor:
         return (info, None) if not error else (False, error)
 
     def get_professor_name_by_email(self,email):
-        if email is None:
+        if email is not None:
             sql =   """ 
                         select
                             first_name, 
@@ -88,8 +88,38 @@ class Professor:
     def get_professor_info_by_rcs(self,rcs):
         return self.get_professor_name_by_email(self, rcs+"rpi.edu")
 
-    #get rcs by email
-    #get office hours by email (make speical case for no value)
+    def get_professor_rcs_by_email(self,email):
+        if email is not None:
+            sql =   """
+                        select
+                            rcs
+                        from 
+                            professor
+                        where 
+                            email = %(Email)s
+                    """
+            {
+                "Email": email
+        }
+        rcs, error = self.db_conn.execute(sql , [email], True)
+        return rcs(None) if not error else(False, error)
+
+    def get_office_hours_by_email(self,email):
+        if email is not None:
+            sql =   """
+                        select 
+                            office_room
+                            office_hours_time
+                        from 
+                            professor
+                        where 
+                            email = %(Email)s
+                    """
+            {
+                "Email": email
+            }
+        office_hours, error = self.db_conn.execute(sql, [email], True)
+        return (office_hours,error) if not error else (False,error)
 
     #return as a json
     def get_all_professors(self):  
@@ -97,7 +127,7 @@ class Professor:
     
     #gets prfoessors' phone number by their email
     def get_prfoessor_phone_number_by_email(self, email):
-        if email is None:
+        if email is not None:
             sql =   """ 
                         select
                             phone_number
