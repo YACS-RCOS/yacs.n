@@ -40,6 +40,7 @@
             <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
               <div v-for="(box, boxIndex) in row" :key="boxIndex"
                   class="grid-box"
+                  :style="{ backgroundColor: box.color }"
                   @click="handleBoxClick(rowIndex, boxIndex)">
                 {{ box.label }}
               </div>
@@ -137,30 +138,91 @@ export default {
       courseList: null,
       debounceTime: 300,
       showGrid: false,
+      //grid is the time filter box check which box is clicked
       grid: [
         [
-          { label: 'Box 1', value: 1 },
-          { label: 'Box 2', value: 2 },
-          { label: 'Box 3', value: 3 },
-          { label: 'Box 4', value: 4 },
+          { label: '8:00', value: true, color: 'white'},
+          { label: '8:00', value: true, color: 'white'},
+          { label: '8:00', value: true, color: 'white'},
+          { label: '8:00', value: true, color: 'white'},
+          { label: '8:00', value: true, color: 'white'},
         ],
         [
-          { label: 'Box 5', value: 5 },
-          { label: 'Box 6', value: 6 },
-          { label: 'Box 7', value: 7 },
-          { label: 'Box 8', value: 8 },
+          { label: '9:00', value: true, color: 'white'},
+          { label: '9:00', value: true, color: 'white'},
+          { label: '9:00', value: true, color: 'white'},
+          { label: '9:00', value: true, color: 'white'},
+          { label: '9:00', value: true, color: 'white'},
         ],
         [
-          { label: 'Box 9', value: 9 },
-          { label: 'Box 10', value: 10 },
-          { label: 'Box 11', value: 11 },
-          { label: 'Box 12', value: 12 },
+          { label: '10:00', value: true, color: 'white'},
+          { label: '10:00', value: true, color: 'white'},
+          { label: '10:00', value: true, color: 'white'},
+          { label: '10:00', value: true, color: 'white'},
+          { label: '10:00', value: true, color: 'white'},
         ],
         [
-          { label: 'Box 13', value: 13 },
-          { label: 'Box 14', value: 14 },
-          { label: 'Box 15', value: 15 },
-          { label: 'Box 16', value: 16 },
+          { label: '11:00', value: true, color: 'white'},
+          { label: '11:00', value: true, color: 'white'},
+          { label: '11:00', value: true, color: 'white'},
+          { label: '11:00', value: true, color: 'white'},
+          { label: '11:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '12:00', value: true, color: 'white'},
+          { label: '12:00', value: true, color: 'white'},
+          { label: '12:00', value: true, color: 'white'},
+          { label: '12:00', value: true, color: 'white'},
+          { label: '12:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '13:00', value: true, color: 'white'},
+          { label: '13:00', value: true, color: 'white'},
+          { label: '13:00', value: true, color: 'white'},
+          { label: '13:00', value: true, color: 'white'},
+          { label: '13:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '14:00', value: true, color: 'white'},
+          { label: '14:00', value: true, color: 'white'},
+          { label: '14:00', value: true, color: 'white'},
+          { label: '14:00', value: true, color: 'white'},
+          { label: '14:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '15:00', value: true, color: 'white'},
+          { label: '15:00', value: true, color: 'white'},
+          { label: '15:00', value: true, color: 'white'},
+          { label: '15:00', value: true, color: 'white'},
+          { label: '15:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '16:00', value: true, color: 'white'},
+          { label: '16:00', value: true, color: 'white'},
+          { label: '16:00', value: true, color: 'white'},
+          { label: '16:00', value: true, color: 'white'},
+          { label: '16:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '17:00', value: true, color: 'white'},
+          { label: '17:00', value: true, color: 'white'},
+          { label: '17:00', value: true, color: 'white'},
+          { label: '17:00', value: true, color: 'white'},
+          { label: '17:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '18:00', value: true, color: 'white'},
+          { label: '18:00', value: true, color: 'white'},
+          { label: '18:00', value: true, color: 'white'},
+          { label: '18:00', value: true, color: 'white'},
+          { label: '18:00', value: true, color: 'white'},
+        ],
+        [
+          { label: '19:00', value: true, color: 'white'},
+          { label: '19:00', value: true, color: 'white'},
+          { label: '19:00', value: true, color: 'white'},
+          { label: '19:00', value: true, color: 'white'},
+          { label: '19:00', value: true, color: 'white'},
         ],
       ],
     };
@@ -184,11 +246,13 @@ export default {
       );
     },
     //time filter
-    showPopup() {
-      this.popupVisible = true;
-    },
     handleBoxClick(row, col) {
-      console.log(`Box at row ${row} and column ${col} clicked`);
+      this.grid[row][col].value = !this.grid[row][col].value
+      if(this.grid[row][col].color == 'yellow'){
+        this.grid[row][col].color = 'white';
+      }else{
+        this.grid[row][col].color = 'yellow';
+      }
     },
   },
   watch: {
