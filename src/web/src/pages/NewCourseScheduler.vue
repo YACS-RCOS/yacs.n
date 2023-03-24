@@ -9,7 +9,7 @@
           :class="{ 'active' : isNavOpen }"
           @click.prevent="toggleNav">
           <slot>
-            <button type="button" class="burger-button" v-if="!isNavOpen">
+            <button type="button" class="burger-button"><!--v-if="!isNavOpen"-->
               <span class="burger-bar burger-bar--1"></span>
               <span class="burger-bar burger-bar--2"></span>
               <span class="burger-bar burger-bar--3"></span>
@@ -26,20 +26,6 @@
                   <div class="sidebar-panal-nav" style="height: 100%">
                     <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%; padding: 1px">
                       <b-card no-body class="h-100">
-                        <div id="burger"
-                          :class="{ 'active' : isNavOpen }"
-                          @click.prevent="toggleNav">
-                          <slot>
-                            <button type="button" class="burger-button">
-                              <span class="burger-bar burger-bar--1"></span>
-                              <span class="burger-bar burger-bar--2"></span>
-                              <span class="burger-bar burger-bar--3"></span>
-                              <span class="burger-bar burger-bar--4"></span>
-                              <span class="burger-bar burger-bar--5"></span>
-                              <span class="burger-bar burger-bar--6"></span>
-                            </button>
-                          </slot>
-                        </div>
                         <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                           <b-tab
                             title="Course Search"
@@ -901,6 +887,10 @@ button:focus {
 
 .no-touchevents .burger-bar--6:hover {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-button:hover {
+  transform: translate(10px, 0px);
 }
 
 #burger.active .burger-button {
