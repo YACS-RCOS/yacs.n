@@ -13,6 +13,6 @@ class Professor(Base):
     phone_number = Column(VARCHAR(length=255)) 
     department = Column(VARCHAR(length=255))
     office_room = Column(VARCHAR(length=255))
-    classes = Column(TSVECTOR, ForeignKey("course.crn")) 
-    office_hours_time = Column(TSVECTOR)
+    classes = Column(VARCHAR(length=255), ForeignKey("course.crn")) 
+    office_hours_time = Column(VARCHAR(length=255))
     rcs = Column(VARCHAR(length=255))

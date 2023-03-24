@@ -11,7 +11,7 @@ class Professor:
                     VALUES
                         (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s, %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
                     ON CONFLICT DO NOTHING;
-                    """
+                """
         {
             "First_name": first_name,
             "Last_name": last_name,
@@ -28,7 +28,7 @@ class Professor:
         return (True, None) if not error else (False, error)
 
     def remove_professor_by_email(self, email):
-        if email is None:
+        if email is not None:
             sql =   """
                     DELETE FROM 
                         professor
@@ -86,7 +86,7 @@ class Professor:
         return (name, None) if not error else (False, error)
     
     def get_professor_info_by_rcs(self,rcs):
-        return self.get_professor_name_by_email(self, rcs+"rpi.edu")
+        return self.get_professor_info_by_email(self, rcs+"rpi.edu")
 
     def get_professor_rcs_by_email(self,email):
         if email is not None:
@@ -157,6 +157,3 @@ class Professor:
         }
         department, error = self.db_conn.execute(sql, None, True)
         return (department, None) if not error else (False, error)
-
-    #gets classes, name(both first and last --> return json file), phone_nu,.... office horus time
-
