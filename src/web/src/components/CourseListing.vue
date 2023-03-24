@@ -234,11 +234,6 @@ export default {
         .sort((a, b) => a.sessions[0].section - b.sessions[0].section);
     },
   },
-  computed: {
-    sortedSections() {
-      return this.course.sections.slice().sort((a, b) => a.sessions[0].section - b.sessions[0].section)
-    }
-  }
 };
 </script>
 

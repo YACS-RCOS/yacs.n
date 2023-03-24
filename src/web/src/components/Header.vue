@@ -38,7 +38,7 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
+        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first"  @click.native="redirectToSchedule">
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
@@ -117,6 +117,7 @@ export default {
     };
   },
   methods: {
+
     ...mapActions([SELECT_SEMESTER]),
 
     toggle_style() {
@@ -127,6 +128,14 @@ export default {
       this.$store.commit(SAVE_DARK_MODE);
       this.followDevice = false;
     },
+    
+    redirectToSchedule() {
+    const targetRoute = { name: 'CourseScheduler' };
+    this.$router.push(targetRoute).then(() => {
+      window.location.reload();
+    });
+  },
+
     toggle_default() {
       if (this.$cookies.get(COOKIE_DARK_MODE) !== null) {
         this.notifyOnDefault();
