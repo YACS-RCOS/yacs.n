@@ -791,7 +791,7 @@ sidebar-panel-nav {
     top: 0;
     height: 100vh;
     z-index: 999;
-    padding: 60px 0px 0px 0px;
+    padding: 60px 0px 0px;
     width: 25%;
 }
 
