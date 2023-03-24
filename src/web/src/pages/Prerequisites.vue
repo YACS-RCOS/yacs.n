@@ -4,6 +4,7 @@ export default {
     data() {
     return {
       Prerequisites: 'Select your classes from the menu below'
+      
     }
   }
 };
@@ -21,3 +22,5 @@ export default {
 }
 
 </style>
+
+import CourseListComponent from "@/components/CourseList";
