@@ -16,11 +16,19 @@
         <b-form-select
           :ref="'majorpicker' + i"
           :disabled="!loaded"
-          :options="majorslist[i]"
           :value="thing"
           required
-          @blur.native="$set(currentmajor,i,$refs['majorpicker' + i][0].localValue)"
-        ></b-form-select>
+          @blur.native="setmajor(i,$refs['majorpicker' + i][0].$el.value)"
+        >
+          <b-form-select-option
+            v-for="(major, j) in majors[degree]"
+            :key="j"
+            :disabled="major.disabled && (major.selectedfor != i)"
+            :value="major.value"
+          >
+            {{ major.text }}
+          </b-form-select-option>
+        </b-form-select>
       </div>
       <b-button
         :disabled="currentmajor==null || currentmajor.length <= 1"
@@ -29,7 +37,7 @@
         <font-awesome-icon :icon="faMinus" class="m-auto"/>
       </b-button>
       <b-button
-        @click="currentmajor.push(null)"
+        @click="currentmajor.push(null);"
       >
         <font-awesome-icon :icon="faPlus" class="m-auto"/>
       </b-button>
@@ -56,11 +64,10 @@ export default {
         "Undergraduate",
         "Graduate"
       ],
-      majors: [
-        [{ text: "Select a degree type first", value: null }],
-        [],
-        []
-      ],
+      majors: {
+        null: [{ text: "Select a degree type first", value: null }],
+      },
+      reversemajors: {},
       loaded: false,
       placeholder: placeholder,
       faMinus: faMinus,
@@ -76,10 +83,30 @@ export default {
     }
 
     getMajors().then(
+      //store majors in an array
       (response) => {
-        this.majors[1] = [this.placeholder].concat(response.data["B"]);
-        this.majors[2] = [this.placeholder].concat(response.data["M"], response.data["D"]);
+        this.majors[this.degrees[1]] = [this.placeholder].concat(response.data["B"].map((val) => {
+          return { text: val, value: val }
+        }));
+        this.majors[this.degrees[2]] = [this.placeholder].concat(
+          response.data["M"].map((val) => {
+            return { text: val, value: val }
+          }),
+          response.data["D"].map((val) => {
+            return { text: val, value: val }
+          })
+        );
 
+        //create reverse lookup table
+        this.reversemajors[this.degrees[1]] = []
+        this.reversemajors[this.degrees[2]] = []
+
+        this.majors[this.degrees[1]].forEach((val, index) => {
+          this.reversemajors[this.degrees[1]][val.text] = index;
+        });
+        this.majors[this.degrees[2]].forEach((val, index) => {
+          this.reversemajors[this.degrees[2]][val.text] = index;
+        });
       },
       (errMsg) => {
         this.$bvToast.toast(errMsg.response.data || "Unknown Error", {
@@ -106,10 +133,35 @@ export default {
             if(!this.$refs['majorpicker' + i][0].$el.checkValidity()) {
               this.$set(this.currentmajor, i, null);
             }
+            this.setmajor(i, this.currentmajor[i])
           }
         }
       });
-    }
+    },
+    setmajor(index, value) {
+      if(this.degree == null) {
+        return;
+      }
+
+      let val = (value.length > 0) ? value : null;
+
+      var oldindex = this.reversemajors[this.degree][this.currentmajor[index]]
+      var oldentry = this.majors[this.degree][oldindex]
+
+      var newindex = this.reversemajors[this.degree][val]
+      var newentry = this.majors[this.degree][newindex]
+
+      if(oldentry && oldentry.value) {
+        this.$set(oldentry, "disabled", false);
+        this.$set(oldentry, "selectedfor", -1);
+      }
+      if(newentry && newentry.value) {
+        this.$set(newentry, "disabled", true);
+        this.$set(newentry, "selectedfor", index);
+      }
+
+      this.$set(this.currentmajor, index, val);
+    },
   },
   computed: {
     currentdegree: {
@@ -132,29 +184,6 @@ export default {
       },
       set(val) {
         this.$emit("update:major", val);
-      }
-    },
-    majorslist: {
-      get() {
-        if(!this.loaded) {
-          return [{ text: "Loading...", value: null, disabled: true }];
-        } else {
-          let i = this.degrees.indexOf(this.currentdegree);
-          var ans = [];
-          for(var j = 0; j < this.nummajors; j++) {
-            var temp = Object.assign([], this.majors[(i > -1) ? i : 0]);
-            for(var k = 0; k < this.nummajors; k++) {
-              if(k == j) {
-                continue;
-              }
-              var prev = temp.indexOf(this.currentmajor[k]);
-              temp[prev] = { text: this.currentmajor[k], disabled: true };
-            }
-            ans.push(temp)
-          }
-          return ans;
-        }
-
       }
     },
     nummajors: {
