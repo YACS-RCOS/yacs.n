@@ -5,6 +5,19 @@ import json
 url = 'http://catalog.rpi.edu/content.php?catoid=24&navoid=609'
 response = requests.get(url)
 
+def a(response_professor):
+    html2 = response_professor.text
+    soup2 = BeautifulSoup(html2, 'html.parser')
+    email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
+    phone_number = soup2.find('div', {'class': 'field--name-field-phone-number'})
+    location_field = soup2.find('div', {'class': 'field--name-field-location'})
+    phone_number = (phone_number is not None and phone_number.text.strip() or '')
+    location_field = (location_field != None and location_field.text.strip() or '')
+    new_list = [email_address, phone_number, location_field]
+    new_dict = {professor: new_list}
+    professor_dict.append(new_dict)
+
+
 if response.status_code == 200:
     list = []
     html = response.text
@@ -36,11 +49,7 @@ for i in list:
     professor_url = 'https://faculty.rpi.edu/' + professor
     response_professor = requests.get(professor_url)
     if response_professor.status_code == 200:
-        html2 = response_professor.text
-        soup2 = BeautifulSoup(html2, 'html.parser')
-        email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
-        new_dict = {professor:email_address}
-        professor_dict.append(new_dict)
+        a(response_professor)
     elif len(i[0]) == 3 and i[0][2][0] == '(':
         professor = i[0][2].replace('(','').replace(')','').replace('\xa0','')+'-'+i[0][0]
         professor_url = 'https://faculty.rpi.edu/' + professor
@@ -49,11 +58,7 @@ for i in list:
             professor = i[0][2].replace('(', '').replace(')', '').replace('\xa0', '') + '-' + i[0][1][0] + '-' + i[0][0]
             professor_url = 'https://faculty.rpi.edu/' + professor
             response_professor = requests.get(professor_url)
-        html2 = response_professor.text
-        soup2 = BeautifulSoup(html2, 'html.parser')
-        email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
-        new_dict = {professor: email_address}
-        professor_dict.append(new_dict)
+        a(response_professor)
     elif len(i[0]) == 3:
         professor = i[0][2] + '-' + i[0][0] + '-' + i[0][1]
         professor_url = 'https://faculty.rpi.edu/' + professor
@@ -71,11 +76,7 @@ for i in list:
                     professor_url = 'https://faculty.rpi.edu/' + professor
                     response_professor = requests.get(professor_url)
         if response_professor.status_code == 200:
-            html2 = response_professor.text
-            soup2 = BeautifulSoup(html2, 'html.parser')
-            email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
-            new_dict = {professor: email_address}
-            professor_dict.append(new_dict)
+            a(response_professor)
     elif len(i[0]) == 4:
         professor = i[0][2] + '-' + i[0][3] + '-' + i[0][0] + '-' + i[0][1]
         professor_url = 'https://faculty.rpi.edu/' + professor
@@ -88,14 +89,10 @@ for i in list:
                 professor = i[0][3].replace('\xa0','') + '-' + i[0][0] + '-' + i[0][1] + '-' + i[0][2]
                 professor_url = 'https://faculty.rpi.edu/' + professor
                 response_professor = requests.get(professor_url)
-        html2 = response_professor.text
-        soup2 = BeautifulSoup(html2, 'html.parser')
-        email_address = soup2.select_one('a[href^="mailto:"]').get('href').replace("mailto:", "")
-        new_dict = {professor: email_address}
-        professor_dict.append(new_dict)
+        a(response_professor)
 print(len(professor_dict))
 
-with open("email.json", "w") as outfile:
+with open("professor.json", "w") as outfile:
     json.dump(professor_dict,outfile, indent=1)
 
 
