@@ -117,8 +117,6 @@ export default {
   },
   mounted(){
     this.$store.commit(SAVE_DARK_MODE);
-    console.log("begin: "+this.beginStatus);
-    console.log("curr: "+this.currentMode);
     if(this.beginStatus===null){
       this.currItem=2;
     }
@@ -152,8 +150,6 @@ export default {
         this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
         this.beginStatus=mode;
       }
-      console.log("currMode: "+this.currentMode);
-      console.log("begin: "+this.beginStatus);
 
     },
     toggle_device() {
@@ -168,9 +164,6 @@ export default {
 
       this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
       this.beginStatus = null;
-      console.log("currMode: "+this.currentMode);
-      console.log("begin: "+this.beginStatus);
-
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
