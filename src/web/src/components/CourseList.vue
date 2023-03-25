@@ -31,6 +31,23 @@
           </b-form-group>
         </b-col>
       </b-row>
+      <b-row>
+        <!-- > time filter -->
+        <div>
+          <button @click="showGrid = true">Show Grid</button>
+          <div v-if="showGrid">
+            <button @click="showGrid = false">Close Grid</button>
+            <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
+              <div v-for="(box, boxIndex) in row" :key="boxIndex"
+                  class="grid-box"
+                  :style="{ backgroundColor: box.color }"
+                  @click="handleBoxClick(rowIndex, boxIndex)">
+                {{ box.label }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </b-row>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -115,11 +132,176 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      // begintime: null,
+      // endtime: null,
+      // dayWeek: null,
       courseList: null,
-      select_start: null,
-      select_end: null,
-      select_day: null,
       debounceTime: 300,
+      showGrid: false,
+      //grid is the time filter box check which box is clicked
+      grid: [
+        [
+          { label: '0:00-0:59', value: true, color: 'white'},
+          { label: '0:00-0:59', value: true, color: 'white'},
+          { label: '0:00-0:59', value: true, color: 'white'},
+          { label: '0:00-0:59', value: true, color: 'white'},
+          { label: '0:00-0:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '1:00-1:59', value: true, color: 'white'},
+          { label: '1:00-1:59', value: true, color: 'white'},
+          { label: '1:00-1:59', value: true, color: 'white'},
+          { label: '1:00-1:59', value: true, color: 'white'},
+          { label: '1:00-1:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '2:00-2:59', value: true, color: 'white'},
+          { label: '2:00-2:59', value: true, color: 'white'},
+          { label: '2:00-2:59', value: true, color: 'white'},
+          { label: '2:00-2:59', value: true, color: 'white'},
+          { label: '2:00-2:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '3:00-3:59', value: true, color: 'white'},
+          { label: '3:00-3:59', value: true, color: 'white'},
+          { label: '3:00-3:59', value: true, color: 'white'},
+          { label: '3:00-3:59', value: true, color: 'white'},
+          { label: '3:00-3:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '4:00-4:59', value: true, color: 'white'},
+          { label: '4:00-4:59', value: true, color: 'white'},
+          { label: '4:00-4:59', value: true, color: 'white'},
+          { label: '4:00-4:59', value: true, color: 'white'},
+          { label: '4:00-4:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '5:00-5:59', value: true, color: 'white'},
+          { label: '5:00-5:59', value: true, color: 'white'},
+          { label: '5:00-5:59', value: true, color: 'white'},
+          { label: '5:00-5:59', value: true, color: 'white'},
+          { label: '5:00-5:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '6:00-6:59', value: true, color: 'white'},
+          { label: '6:00-6:59', value: true, color: 'white'},
+          { label: '6:00-6:59', value: true, color: 'white'},
+          { label: '6:00-6:59', value: true, color: 'white'},
+          { label: '6:00-6:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '7:00-7:59', value: true, color: 'white'},
+          { label: '7:00-7:59', value: true, color: 'white'},
+          { label: '7:00-7:59', value: true, color: 'white'},
+          { label: '7:00-7:59', value: true, color: 'white'},
+          { label: '7:00-7:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '9:00-9:59', value: true, color: 'white'},
+          { label: '9:00-9:59', value: true, color: 'white'},
+          { label: '9:00-9:59', value: true, color: 'white'},
+          { label: '9:00-9:59', value: true, color: 'white'},
+          { label: '9:00-9:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '10:00-10:59', value: true, color: 'white'},          
+          { label: '10:00-10:59', value: true, color: 'white'},
+          { label: '10:00-10:59', value: true, color: 'white'},
+          { label: '10:00-10:59', value: true, color: 'white'},
+          { label: '10:00-10:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '11:00-11:59', value: true, color: 'white'},
+          { label: '11:00-11:59', value: true, color: 'white'},
+          { label: '11:00-11:59', value: true, color: 'white'},
+          { label: '11:00-11:59', value: true, color: 'white'},
+          { label: '11:00-11:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '12:00-12:59', value: true, color: 'white'},
+          { label: '12:00-12:59', value: true, color: 'white'},
+          { label: '12:00-12:59', value: true, color: 'white'},
+          { label: '12:00-12:59', value: true, color: 'white'},
+          { label: '12:00-12:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '13:00-13:59', value: true, color: 'white'},
+          { label: '13:00-13:59', value: true, color: 'white'},
+          { label: '13:00-13:59', value: true, color: 'white'},
+          { label: '13:00-13:59', value: true, color: 'white'},
+          { label: '13:00-13:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '14:00-14:59', value: true, color: 'white'},
+          { label: '14:00-14:59', value: true, color: 'white'},
+          { label: '14:00-14:59', value: true, color: 'white'},
+          { label: '14:00-14:59', value: true, color: 'white'},
+          { label: '14:00-14:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '15:00-15:59', value: true, color: 'white'},
+          { label: '15:00-15:59', value: true, color: 'white'},
+          { label: '15:00-15:59', value: true, color: 'white'},
+          { label: '15:00-15:59', value: true, color: 'white'},
+          { label: '15:00-15:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '16:00-16:59', value: true, color: 'white'},
+          { label: '16:00-16:59', value: true, color: 'white'},
+          { label: '16:00-16:59', value: true, color: 'white'},
+          { label: '16:00-16:59', value: true, color: 'white'},
+          { label: '16:00-16:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '17:00-17:59', value: true, color: 'white'},
+          { label: '17:00-17:59', value: true, color: 'white'},
+          { label: '17:00-17:59', value: true, color: 'white'},
+          { label: '17:00-17:59', value: true, color: 'white'},
+          { label: '17:00-17:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '18:00-18:59', value: true, color: 'white'},
+          { label: '18:00-18:59', value: true, color: 'white'},
+          { label: '18:00-18:59', value: true, color: 'white'},
+          { label: '18:00-18:59', value: true, color: 'white'},
+          { label: '18:00-18:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '19:00-19:59', value: true, color: 'white'},
+          { label: '19:00-19:59', value: true, color: 'white'},
+          { label: '19:00-19:59', value: true, color: 'white'},
+          { label: '19:00-19:59', value: true, color: 'white'},
+          { label: '19:00-19:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '20:00-20:59', value: true, color: 'white'},
+          { label: '20:00-20:59', value: true, color: 'white'},
+          { label: '20:00-20:59', value: true, color: 'white'},
+          { label: '20:00-20:59', value: true, color: 'white'},
+          { label: '20:00-20:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '21:00-21:59', value: true, color: 'white'},
+          { label: '21:00-21:59', value: true, color: 'white'},
+          { label: '21:00-21:59', value: true, color: 'white'},
+          { label: '21:00-21:59', value: true, color: 'white'},
+          { label: '21:00-21:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '22:00-22:59', value: true, color: 'white'},
+          { label: '22:00-22:59', value: true, color: 'white'},
+          { label: '22:00-22:59', value: true, color: 'white'},
+          { label: '22:00-22:59', value: true, color: 'white'},
+          { label: '22:00-22:59', value: true, color: 'white'},
+        ],
+        [
+          { label: '23:00-23:59', value: true, color: 'white'},
+          { label: '23:00-23:59', value: true, color: 'white'},
+          { label: '23:00-23:59', value: true, color: 'white'},
+          { label: '23:00-23:59', value: true, color: 'white'},
+          { label: '23:00-23:59', value: true, color: 'white'},
+        ]
+      ],
     };
   },
   created() {
@@ -139,6 +321,15 @@ export default {
           this.courseList = course_list;
         }
       );
+    },
+    //time filter
+    handleBoxClick(row, col) {
+      this.grid[row][col].value = !this.grid[row][col].value
+      if(this.grid[row][col].color == 'yellow'){
+        this.grid[row][col].color = 'white';
+      }else{
+        this.grid[row][col].color = 'yellow';
+      }
     },
   },
   watch: {
@@ -169,17 +360,6 @@ export default {
       this.selectedSubsemester = options[0].value;
       return options;
     },
-    //check if time of certain session match the input 5*12 arr
-    time_check(day_of_week, time_start, time_end, schedule_arr){
-        start = parseInt(time_start.substring(0, 2))-8;
-        end = parseInt(time_end.substring(0, 2))-8;
-        for( i=start; i<=end; i++){
-          if(schedule_arr[day_of_week][i] = false){
-            return false;
-          }
-        }
-        return true;
-    },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -189,7 +369,7 @@ export default {
           : this.$store.getters.courses;
 
       // filter by selected department
-      const filtered = courses.filter(
+       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
             course.department === this.selectedDepartment) &&
@@ -208,62 +388,39 @@ export default {
               this.textSearch.toUpperCase()) ||
           course.title.toUpperCase() === this.textSearch.toUpperCase()
       );
-      // console.log("detail below");
-      // console.log(filtered);
-      // alert(filtered[0]["sections"][0]["sessions"][0]["time_start"] + filtered[0]["sections"][0]["sessions"][0]["time_end"]);
-      
-      if(find){ //if we have result for find filter
-        let time_filter=find;
-        for (course_index=find.length()-1; course_index >=0 ; course_index--){
-          course_section = find[course_index]["sections"];
-          for(section_index = course_section.length()-1; section_index >= 0; section_index--){
-            section_session = course_section[section_index]["sessions"];
-            Avaliable = true;//boolean that check if this section course can fit all time selected on the schedule_arr
-            for(session_index=section_session.length(); session_index > 0; session_index--){
-              day = section_session[session_index]["day_of_week"];
-              st = section_session[session_index]["time_start"];
-              en = section_session[session_index]["time_end"];
-              Avaliable = time_check(day,st,en,schedule_arr);//check if one session is available
-              if(!Avaliable){
-                break;//if any session is not available, break, and so we need to delete the whole section element in sections array
-              }
-            }
-            if(!Avaliable){
-              time_filter[course_index]["sections"].splice(section_index,1);
-            }
-          }
-        }
-        return time_filter;
-      }
-      else{
-        let time_filter=filtered;
-        for (course_index=filtered.length()-1; course_index >=0 ; course_index--){
-          course_section = filtered[course_index]["sections"];
-          for(section_index = course_section.length()-1; section_index >= 0; section_index--){
-            section_session = course_section[section_index]["sessions"];
-            Avaliable = true;
-            for(session_index=section_session.length(); session_index > 0; session_index--){
-              day = section_session[session_index]["day_of_week"];
-              st = section_session[session_index]["time_start"];
-              en = section_session[session_index]["time_end"];
-              Avaliable = time_check(day,st,en,schedule_arr);
-              if(!Avaliable){
+
+      let time_filter = find ? find : filtered;
+      let sample = find ? find : filtered;
+      for (let course_index=sample.length-1; course_index >=0 ; course_index--){
+        let course_section = sample[course_index]["sections"];
+        for(let section_index = course_section.length-1; section_index >= 0; section_index--){
+          let section_session = course_section[section_index]["sessions"];
+          let Avaliable = true;//boolean that check if this section course can fit all time selected on the schedule_arr
+          for(let session_index=section_session.length-1; session_index >= 0; session_index--){
+            let day = parseInt(section_session[session_index]["day_of_week"]);
+            let st = section_session[session_index]["time_start"];
+            let en = section_session[session_index]["time_end"];
+            if(st==null || en==null){break;}
+            let start = parseInt(st.substring(0, 2));
+            let end = parseInt(en.substring(0, 2));
+            for( let i=start; i<=end; i++){
+              if(this.grid[i][day].value == false){
+                Avaliable = false;
                 break;
               }
             }
-            if(!Avaliable){
-              time_filter[course_index]["sections"].splice(section_index,1);
+          }
+          if(!Avaliable){
+            time_filter[course_index]["sections"].splice(section_index,1);
+            if(time_filter[course_index]["sections"].length==0){
+              time_filter.splice(course_index,1);
             }
           }
         }
-        return time_filter;
       }
-      // if (find) return [find];
-      // else return filtered;
+      return time_filter;
     },
-
-    
-  },
+  },  
 };
 </script>
 
@@ -296,5 +453,21 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 17px;
   padding: 20px;
+}
+
+.grid-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.grid-box {
+  width: 90%;
+  height: 50px;
+  border: 1px solid black;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 </style>
