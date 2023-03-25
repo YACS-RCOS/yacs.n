@@ -174,6 +174,17 @@
           )
         }}
       </span>
+      <!--test-->
+      <br>
+      <span v-for="courseSection in courseInfoModalCourse.sections" :key="courseSection.crn">
+        <br>
+        <p id = "section">Section {{ courseSection.crn }}</p>
+          <span v-for="session in courseSection.sessions" :key="session.crn">
+            <p id = "session"> {{ session.session_type}}: {{ session.time_start }} ~ {{ session.time_end }}</p>
+
+          </span>
+      </span>
+      <!--test-->
       <span v-if="courseInfoModalCourse.description">
         <br />
         <br />

@@ -208,8 +208,11 @@ export default {
      * Emits removeCourse and addCourse events
      */
     toggleCourse() {
+      console.log("course obj below");
+        console.log(this.course);
       if (this.course.selected) {
         this.$emit("removeCourse", this.course);
+
       } else {
         this.$emit("addCourse", this.course);
       }
@@ -234,6 +237,10 @@ export default {
     showInfoModal() {
       this.$emit("showCourseInfo", this.course);
     },
+
+    toggleTime(){
+
+    }
   },
 };
 </script>
