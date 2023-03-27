@@ -44,15 +44,15 @@
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showOrganiztion != null" md="10">
+        <div class="block text-left" v-if="showOrganization != null" md="10">
           <h3
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
           >
-            {{ showOrganiztion.Name[0] }}
+            {{ showOrganization.Name[0] }}
           </h3>
           <br />
-          <div v-for="(item, itemName) in showOrganiztion" :key="itemName">
+          <div v-for="(item, itemName) in showOrganization" :key="itemName">
             <h4 style="color: #3395ff; margin-top: -20px;">
               {{ itemName + ": " }}
             </h4>
@@ -331,11 +331,11 @@ export default {
       this.alphShow = false;
     }, 
 
-    // Display a pop-up window when a pathway is clicked
-    ShowPath(pathway) {
+    // Display a pop-up window when a Organization is clicked
+    ShowOrganization(organization) {
       console.log(this.$refs["my-modal"]);
-      console.log(pathway);
-      this.showPath = pathway;
+      console.log(organization);
+      this.showPath = organization;
       this.$refs["my-modal"].show();
     },
 
