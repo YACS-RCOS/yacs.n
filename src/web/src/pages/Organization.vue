@@ -44,15 +44,15 @@
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showPath != null" md="10">
+        <div class="block text-left" v-if="showOrganiztion != null" md="10">
           <h3
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
           >
-            {{ showPath.Name[0] }}
+            {{ showOrganiztion.Name[0] }}
           </h3>
           <br />
-          <div v-for="(item, itemName) in showPath" :key="itemName">
+          <div v-for="(item, itemName) in showOrganiztion" :key="itemName">
             <h4 style="color: #3395ff; margin-top: -20px;">
               {{ itemName + ": " }}
             </h4>
@@ -193,7 +193,7 @@ export default {
         },
       ],
       categories: json,
-      showPath: null,
+      showOrganiztion: null,
       cateShow: true,
       alphShow: false,
       CFShow: false,
