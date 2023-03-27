@@ -57,12 +57,11 @@
               {{ itemName + ": " }}
             </h4>
             <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
+              v-for="info in item"
+              :key="info"
+
             >
-              {{ course }}
+              {{ info }}
             </li>
             <br />
           </div>
@@ -339,21 +338,6 @@ export default {
       this.$refs["my-modal"].show();
     },
 
-    // Go to the course page when a course inside the pop-up window is clicked
-    goPage(course) {
-      var subject = "" + course[0] + course[1] + course[2] + course[3];
-      var courseID = "" + course[5] + course[6] + course[7] + course[8];
-      if (course[4] != " ") {
-        return;
-      }
-      if (course[8] == "X") {
-        this.$router.push("/explore/" + subject);
-      } else {
-        this.$router.push(
-          "/explore/" + subject + "/" + subject + "-" + courseID
-        );
-      }
-    },
   },
 };
 </script>
@@ -388,11 +372,4 @@ export default {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
-.courseInPath {
-  cursor: pointer;
-}
-
-.courseInPath:hover {
-  background-color: rgba(39, 130, 230, 0.5);
-}
 </style>
