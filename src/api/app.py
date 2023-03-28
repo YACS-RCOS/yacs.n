@@ -214,11 +214,6 @@ async def map_date_range_to_semester_part_handler(request: Request):
     return Response("Did not receive proper form data", status_code=500)
 
 
-@app.get('/api/user/course')
-async def get_student_courses(request: Request):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-
 
 @app.post('/api/majorsUpload')
 async def majors_upload_handler(
