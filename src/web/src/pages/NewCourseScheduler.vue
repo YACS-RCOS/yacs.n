@@ -560,7 +560,15 @@ export default {
                 return addSection(schedule, section);
               }
               else{
-                this.conflictTitle = section.title;
+
+                const words = section.title.split(" ");
+
+                for (let i = 0; i < words.length; i++) {
+                    words[i] = words[i].charAt(0)+ words[i].slice(1).toLowerCase();
+                }
+
+               this.conflictTitle = words.join(" ");
+
                 this.conflictLevel = section.level;
                 this.conflictDepartment = section.department;
               }
