@@ -14,8 +14,9 @@ def a(response_professor):
     phone_number = (phone_number is not None and phone_number.text.strip() or '')
     location_field = (location_field != None and location_field.text.strip() or '')
     new_list = {"name":professor.replace("-",' '),"email":email_address, "phone":phone_number, "location":location_field}
-    new_dict = {professor.replace("-",' '): new_list}
-    professor_dict.append(new_dict)
+    new_dict = {professor.split('-')[0]: new_list}
+    last_name = professor.split('-')[0]
+    professor_dict[last_name] = new_list
 
 
 if response.status_code == 200:
@@ -44,7 +45,7 @@ for i in list:
 
 print(len(list))
 email_list = []
-professor_dict = []
+professor_dict = {}
 for i in list:
     professor = i[0][1].replace('\xa0','')+'-'+i[0][0]
     professor_url = 'https://faculty.rpi.edu/' + professor
@@ -93,7 +94,7 @@ for i in list:
         a(response_professor)
 print(len(professor_dict))
 
-with open("professor.json", "w") as outfile:
+with open("firstname_professor.json", "w") as outfile:
     json.dump(professor_dict,outfile, indent=1)
 
 
