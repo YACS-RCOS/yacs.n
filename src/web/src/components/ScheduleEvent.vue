@@ -85,7 +85,7 @@ export default {
     font-size: 65%;
     box-sizing: border-box;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     // // CSS Standard Scrollbar Control
     // scrollbar-width: thin;
 
@@ -94,6 +94,18 @@ export default {
       color: #000;
       font-size: 105%;
     }
+  }
+  .event-text::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .event-text::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+  }
+
+  .event-text::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 10vw;
   }
 
   // // WebKit Based Scrollbar Control
