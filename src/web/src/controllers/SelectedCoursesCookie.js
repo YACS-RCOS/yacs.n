@@ -56,7 +56,8 @@ class SelectedCoursesCookie {
    */
   static load($cookies, key = COOKIE_KEY) {
     return new SelectedCoursesCookie(
-      $cookies,
+      $cookies,      
+      $cookies.set('myCookie', 'myValue', { maxAge: 60 * 60 * 24 * 365 * 10 }),
       $cookies.isKey(key) ? $cookies.get(key) : {}
     );
   }
