@@ -58,6 +58,7 @@ class SelectedCoursesCookie {
     return new SelectedCoursesCookie(
       $cookies,      
       $cookies.set('myCookie', 'myValue', { maxAge: 60 * 60 * 24 * 365 * 10 }),
+      
       $cookies.isKey(key) ? $cookies.get(key) : {}
     );
   }
