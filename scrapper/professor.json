@@ -1,2606 +1,2978 @@
 [
  {
-  "Thomas-Abbott": [
-   "abbott3@rpi.edu",
-   "",
-   ""
-  ]
+  "Thomas Abbott": {
+   "name": "Thomas Abbott",
+   "email": "abbott3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Tarek Abdoun": {
+   "name": "Tarek Abdoun",
+   "email": "abdout@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Alhussein Abouzeid": {
+   "name": "Alhussein Abouzeid",
+   "email": "abouzeid@ecse.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Sibel Adali": {
+   "name": "Sibel Adali",
+   "email": "sibel@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Monica Agarwal": {
+   "name": "Monica Agarwal",
+   "email": "agarwm2@rpi.edu",
+   "phone": "518-276-2154",
+   "location": ""
+  }
+ },
+ {
+  "Nima Ahmadi": {
+   "name": "Nima Ahmadi",
+   "email": "ahmadn4@rpi.edu",
+   "phone": "518-276-4785",
+   "location": ""
+  }
+ },
+ {
+  "Billur Aksoy": {
+   "name": "Billur Aksoy",
+   "email": "aksoyb3@rpi.edu",
+   "phone": "5182763925",
+   "location": ""
+  }
+ },
+ {
+  "Eric Ameres": {
+   "name": "Eric Ameres",
+   "email": "ameree@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Michael Amitay": {
+   "name": "Michael Amitay",
+   "email": "michael.amitay@aol.com",
+   "phone": "518-276-4461",
+   "location": "Watervliet Facility"
+  }
+ },
+ {
+  "Kurt Anderson": {
+   "name": "Kurt Anderson",
+   "email": "anderk5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Skye Anicca": {
+   "name": "Skye Anicca",
+   "email": "aniccs@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Elliot Anshelevich": {
+   "name": "Elliot Anshelevich",
+   "email": "eanshel@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Eyosias Ashenafi": {
+   "name": "Eyosias Ashenafi",
+   "email": "ashene2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Tarek-Abdoun": [
-   "abdout@rpi.edu",
-   "",
-   ""
-  ]
+  "Chulsung Bae": {
+   "name": "Chulsung Bae",
+   "email": "baec@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Alhussein-Abouzeid": [
-   "abouzeid@ecse.rpi.edu",
-   "",
-   ""
-  ]
+  "Bharat Bagepalli": {
+   "name": "Bharat Bagepalli",
+   "email": "bagepb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sibel-Adali": [
-   "sibel@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "James Bailey": {
+   "name": "James Bailey",
+   "email": "bailej6@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Monica-Agarwal": [
-   "agarwm2@rpi.edu",
-   "518-276-2154",
-   ""
-  ]
+  "Amgalanbaatar Baldansuren": {
+   "name": "Amgalanbaatar Baldansuren",
+   "email": "baldaa@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Nima-Ahmadi": [
-   "ahmadn4@rpi.edu",
-   "518-276-4785",
-   ""
-  ]
+  "Jeffrey Banks": {
+   "name": "Jeffrey Banks",
+   "email": "banksj3@rpi.edu",
+   "phone": "518- 276-6412",
+   "location": ""
+  }
  },
  {
-  "Billur-Aksoy": [
-   "aksoyb3@rpi.edu",
-   "5182763925",
-   ""
-  ]
+  "Blanca Barquera": {
+   "name": "Blanca Barquera",
+   "email": "barqub@rpi.edu",
+   "phone": "518-276-3861",
+   "location": ""
+  }
  },
  {
-  "Eric-Ameres": [
-   "ameree@rpi.edu",
-   "",
-   ""
-  ]
+  "Nihat Baysal": {
+   "name": "Nihat Baysal",
+   "email": "baysan@rpi.edu",
+   "phone": "518-276-3327",
+   "location": ""
+  }
  },
  {
-  "Michael-Amitay": [
-   "michael.amitay@aol.com",
-   "518-276-4461",
-   "Watervliet Facility"
-  ]
+  "Georges Belfort": {
+   "name": "Georges Belfort",
+   "email": "belfog@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Kurt-Anderson": [
-   "anderk5@rpi.edu",
-   "",
-   ""
-  ]
+  "David Bell": {
+   "name": "David Bell",
+   "email": "belld@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Skye-Anicca": [
-   "aniccs@rpi.edu",
-   "",
-   ""
-  ]
+  "Christianna Bennett": {
+   "name": "Christianna Bennett",
+   "email": "bennec5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Elliot-Anshelevich": [
-   "eanshel@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "Kristin Bennett": {
+   "name": "Kristin Bennett",
+   "email": "bennek@rpi.edu",
+   "phone": "518-276-6899",
+   "location": ""
+  }
  },
  {
-  "Eyosias-Ashenafi": [
-   "ashene2@rpi.edu",
-   "",
-   ""
-  ]
+  "Victoria Bennett": {
+   "name": "Victoria Bennett",
+   "email": "bennev@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Chulsung-Bae": [
-   "baec@rpi.edu",
-   "",
-   ""
-  ]
+  "Marvin Bentley": {
+   "name": "Marvin Bentley",
+   "email": "bentlm3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Bharat-Bagepalli": [
-   "bagepb@rpi.edu",
-   "",
-   ""
-  ]
+  "B Wayne Bequette": {
+   "name": "B Wayne Bequette",
+   "email": "bequette@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "James-Bailey": [
-   "bailej6@rpi.edu",
-   "",
-   ""
-  ]
+  "Tathagata Bhaduri": {
+   "name": "Tathagata Bhaduri",
+   "email": "bhadut2@rpi.edu",
+   "phone": "",
+   "location": "JEC 4018"
+  }
  },
  {
-  "Amgalanbaatar-Baldansuren": [
-   "baldaa@rpi.edu",
-   "",
-   ""
-  ]
+  "Ishwara Bhat": {
+   "name": "Ishwara Bhat",
+   "email": "bhati@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jeffrey-Banks": [
-   "banksj3@rpi.edu",
-   "518- 276-6412",
-   ""
-  ]
+  "Elizabeth Blaber": {
+   "name": "Elizabeth Blaber",
+   "email": "blabee@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Blanca-Barquera": [
-   "barqub@rpi.edu",
-   "518-276-3861",
-   ""
-  ]
+  "Thierry Blanchet": {
+   "name": "Thierry Blanchet",
+   "email": "blanct@rpi.edu",
+   "phone": "518-276-8697",
+   "location": "2042 Jonsson Engineering Center"
+  }
  },
  {
-  "Nihat-Baysal": [
-   "baysan@rpi.edu",
-   "518-276-3327",
-   ""
-  ]
+  "Richard Bonocora": {
+   "name": "Richard Bonocora",
+   "email": "bonocr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Georges-Belfort": [
-   "belfog@rpi.edu",
-   "",
-   ""
-  ]
+  "Diana Borca Tasciuc": {
+   "name": "Diana Borca Tasciuc",
+   "email": "borcad@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "David-Bell": [
-   "belld@rpi.edu",
-   "",
-   ""
-  ]
+  "Jonas Braasch": {
+   "name": "Jonas Braasch",
+   "email": "braasj@rpi.edu",
+   "phone": "5182763864",
+   "location": "Greene Building, Rm. 203"
+  }
  },
  {
-  "Christianna-Bennett": [
-   "bennec5@rpi.edu",
-   "",
-   ""
-  ]
+  "Selmer Bringsjord": {
+   "name": "Selmer Bringsjord",
+   "email": "Selmer.Bringsjord@gmail.com",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Kristin-Bennett": [
-   "bennek@rpi.edu",
-   "518-276-6899",
-   ""
-  ]
+  "Elisabeth Brown": {
+   "name": "Elisabeth Brown",
+   "email": "browne10@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Victoria-Bennett": [
-   "bennev@rpi.edu",
-   "",
-   ""
-  ]
+  "Ethan Brown": {
+   "name": "Ethan Brown",
+   "email": "browne7@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Marvin-Bentley": [
-   "bentlm3@rpi.edu",
-   "",
-   ""
-  ]
+  "Sarah Cadieux": {
+   "name": "Sarah Cadieux",
+   "email": "cadies@rpi.edu",
+   "phone": "518-276-6474",
+   "location": ""
+  }
  },
  {
-  "B-Wayne-Bequette": [
-   "bequette@rpi.edu",
-   "",
-   ""
-  ]
+  "Brian Callahan": {
+   "name": "Brian Callahan",
+   "email": "callab5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Tathagata-Bhaduri": [
-   "bhadut2@rpi.edu",
-   "",
-   "JEC 4018"
-  ]
+  "Nancy Campbell": {
+   "name": "Nancy Campbell",
+   "email": "campbn2@rpi.edu",
+   "phone": "518 276-6065",
+   "location": ""
+  }
  },
  {
-  "Ishwara-Bhat": [
-   "bhati@rpi.edu",
-   "",
-   ""
-  ]
+  "Jennifer Cardinal": {
+   "name": "Jennifer Cardinal",
+   "email": "cardij3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Elizabeth-Blaber": [
-   "blabee@rpi.edu",
-   "",
-   ""
-  ]
+  "Christopher Carothers": {
+   "name": "Christopher Carothers",
+   "email": "chrisc@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Thierry-Blanchet": [
-   "blanct@rpi.edu",
-   "518-276-8697",
-   "2042 Jonsson Engineering Center"
-  ]
+  "Michael Century": {
+   "name": "Michael Century",
+   "email": "century@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Richard-Bonocora": [
-   "bonocr@rpi.edu",
-   "",
-   ""
-  ]
+  "Vidhya Chakrapani": {
+   "name": "Vidhya Chakrapani",
+   "email": "chakrv@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Diana-Borca-Tasciuc": [
-   "borcad@rpi.edu",
-   "",
-   ""
-  ]
+  "Benjamin Chang": {
+   "name": "Benjamin Chang",
+   "email": "changb3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jonas-Braasch": [
-   "braasj@rpi.edu",
-   "5182763864",
-   "Greene Building, Rm. 203"
-  ]
+  "Murali Chari": {
+   "name": "Murali Chari",
+   "email": "charim2@rpi.edu",
+   "phone": "518.276.3905",
+   "location": ""
+  }
  },
  {
-  "Selmer-Bringsjord": [
-   "Selmer.Bringsjord@gmail.com",
-   "",
-   ""
-  ]
+  "Tianyi Chen": {
+   "name": "Tianyi Chen",
+   "email": "chentianyi19@gmail.com",
+   "phone": "",
+   "location": "JEC 6036"
+  }
  },
  {
-  "Elisabeth-Brown": [
-   "browne10@rpi.edu",
-   "",
-   ""
-  ]
+  "Joe Chow": {
+   "name": "Joe Chow",
+   "email": "chowj@rpi.edu",
+   "phone": "15182766374",
+   "location": "JEC 7012"
+  }
  },
  {
-  "Ethan-Brown": [
-   "browne7@rpi.edu",
-   "",
-   ""
-  ]
+  "Paul Chow": {
+   "name": "Paul Chow",
+   "email": "chowt@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sarah-Cadieux": [
-   "cadies@rpi.edu",
-   "518-276-6474",
-   ""
-  ]
+  "Christopher Cioffi": {
+   "name": "Christopher Cioffi",
+   "email": "cioffc4@rpi.edu",
+   "phone": "518-276-6456",
+   "location": "Cogswell Laboratory Lab 325"
+  }
  },
  {
-  "Brian-Callahan": [
-   "callab5@rpi.edu",
-   "",
-   ""
-  ]
+  "Glenn Ciolek": {
+   "name": "Glenn Ciolek",
+   "email": "cioleg@rpi.edu",
+   "phone": "276-8077",
+   "location": ""
+  }
  },
  {
-  "Nancy-Campbell": [
-   "campbn2@rpi.edu",
-   "518 276-6065",
-   ""
-  ]
+  "Brian Clark": {
+   "name": "Brian Clark",
+   "email": "clarkb2@rpi.edu",
+   "phone": "5182764467",
+   "location": ""
+  }
  },
  {
-  "Jennifer-Cardinal": [
-   "cardij3@rpi.edu",
-   "",
-   ""
-  ]
+  "Wilfredo Col\u00f3n": {
+   "name": "Wilfredo Col\u00f3n",
+   "email": "colonw@rpi.edu",
+   "phone": "518-276-6969",
+   "location": "Cogswell 118"
+  }
  },
  {
-  "Christopher-Carothers": [
-   "chrisc@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "Lonn Combs": {
+   "name": "Lonn Combs",
+   "email": "combsl@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Michael-Century": [
-   "century@rpi.edu",
-   "",
-   ""
-  ]
+  "David Corr": {
+   "name": "David Corr",
+   "email": "corrd@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Vidhya-Chakrapani": [
-   "chakrv@rpi.edu",
-   "",
-   ""
-  ]
+  "Brandon Costelloe Kuehn": {
+   "name": "Brandon Costelloe Kuehn",
+   "email": "costeb2@rpi.edu",
+   "phone": "518-276-6390",
+   "location": ""
+  }
  },
  {
-  "Benjamin-Chang": [
-   "changb3@rpi.edu",
-   "",
-   ""
-  ]
+  "Steven Cramer": {
+   "name": "Steven Cramer",
+   "email": "crames@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Murali-Chari": [
-   "charim2@rpi.edu",
-   "518.276.3905",
-   ""
-  ]
+  "Jillian Crandall": {
+   "name": "Jillian Crandall",
+   "email": "crandj3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Tianyi-Chen": [
-   "chentianyi19@gmail.com",
-   "",
-   "JEC 6036"
-  ]
+  "Gustavo Crembil": {
+   "name": "Gustavo Crembil",
+   "email": "crembg@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Joe-Chow": [
-   "chowj@rpi.edu",
-   "15182766374",
-   "JEC 7012"
-  ]
+  "Barbara Cutler": {
+   "name": "Barbara Cutler",
+   "email": "cutleb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Paul-Chow": [
-   "chowt@rpi.edu",
-   "",
-   ""
-  ]
+  "Kathryn Dannemann": {
+   "name": "Kathryn Dannemann",
+   "email": "dannek2@rpi.edu",
+   "phone": "518-276-8293",
+   "location": ""
+  }
  },
  {
-  "Christopher-Cioffi": [
-   "cioffc4@rpi.edu",
-   "518-276-6456",
-   "Cogswell Laboratory Lab 325"
-  ]
+  "Yaron Danon": {
+   "name": "Yaron Danon",
+   "email": "danony@rpi.edu",
+   "phone": "518-276-4008",
+   "location": ""
+  }
  },
  {
-  "Glenn-Ciolek": [
-   "cioleg@rpi.edu",
-   "276-8077",
-   ""
-  ]
+  "Adam Dayem": {
+   "name": "Adam Dayem",
+   "email": "dayema@rpi.edu",
+   "phone": "",
+   "location": "M112 Greene"
+  }
  },
  {
-  "Brian-Clark": [
-   "clarkb2@rpi.edu",
-   "5182764467",
-   ""
-  ]
+  "June Deery": {
+   "name": "June Deery",
+   "email": "deeryj@rpi.edu",
+   "phone": "518-276-4047",
+   "location": ""
+  }
  },
  {
-  "Wilfredo-Col\u00f3n": [
-   "colonw@rpi.edu",
-   "518-276-6969",
-   "Cogswell 118"
-  ]
+  "Justin Den Herder": {
+   "name": "Justin Den Herder",
+   "email": "denhej@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Lonn-Combs": [
-   "combsl@rpi.edu",
-   "",
-   ""
-  ]
+  "Peter Dinolfo": {
+   "name": "Peter Dinolfo",
+   "email": "dinolp@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "David-Corr": [
-   "corrd@rpi.edu",
-   "",
-   ""
-  ]
+  "Jonathan Dordick": {
+   "name": "Jonathan Dordick",
+   "email": "dordick@rpi.edu",
+   "phone": "518-276-2899",
+   "location": "4005 CBIS"
+  }
  },
  {
-  "Brandon-Costelloe-Kuehn": [
-   "costeb2@rpi.edu",
-   "518-276-6390",
-   ""
-  ]
+  "Evan Douglis": {
+   "name": "Evan Douglis",
+   "email": "douglis@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Steven-Cramer": [
-   "crames@rpi.edu",
-   "",
-   ""
-  ]
+  "Joshua Draper": {
+   "name": "Joshua Draper",
+   "email": "drapej@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jillian-Crandall": [
-   "crandj3@rpi.edu",
-   "",
-   ""
-  ]
+  "Chanaka Edirisinghe": {
+   "name": "Chanaka Edirisinghe",
+   "email": "edirin@rpi.edu",
+   "phone": "5182763336",
+   "location": ""
+  }
  },
  {
-  "Gustavo-Crembil": [
-   "crembg@rpi.edu",
-   "",
-   ""
-  ]
+  "Omar El Shafee": {
+   "name": "Omar El Shafee",
+   "email": "elshao2@rpi.edu",
+   "phone": "5182762335",
+   "location": ""
+  }
  },
  {
-  "Barbara-Cutler": [
-   "cutleb@rpi.edu",
-   "",
-   ""
-  ]
+  "Yael Erel": {
+   "name": "Yael Erel",
+   "email": "erely2@rpi.edu",
+   "phone": "518-276-4060",
+   "location": "Greene Building, 102"
+  }
  },
  {
-  "Kathryn-Dannemann": [
-   "dannek2@rpi.edu",
-   "518-276-8293",
-   ""
-  ]
+  "Brett Fajen": {
+   "name": "Brett Fajen",
+   "email": "fajenb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Yaron-Danon": [
-   "danony@rpi.edu",
-   "518-276-4008",
-   ""
-  ]
+  "Rui Fan": {
+   "name": "Rui Fan",
+   "email": "fanr5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Adam-Dayem": [
-   "dayema@rpi.edu",
-   "",
-   "M112 Greene"
-  ]
+  "Jeremy Farrell": {
+   "name": "Jeremy Farrell",
+   "email": "farrej2@rpi.edu",
+   "phone": "",
+   "location": "MRC 201"
+  }
  },
  {
-  "June-Deery": [
-   "deeryj@rpi.edu",
-   "518-276-4047",
-   ""
-  ]
+  "Sarah Felix": {
+   "name": "Sarah Felix",
+   "email": "felixs2@rpi.edu",
+   "phone": "",
+   "location": "JEC 5044"
+  }
  },
  {
-  "Justin-Den-Herder": [
-   "denhej@rpi.edu",
-   "",
-   ""
-  ]
+  "Etana Ferede": {
+   "name": "Etana Ferede",
+   "email": "ferede@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Peter-Dinolfo": [
-   "dinolp@rpi.edu",
-   "",
-   ""
-  ]
+  "Andrew Fitzgerald": {
+   "name": "Andrew Fitzgerald",
+   "email": "fitzga2@rpi.edu",
+   "phone": "518-276-2083",
+   "location": "Sage 5410"
+  }
  },
  {
-  "Jonathan-Dordick": [
-   "dordick@rpi.edu",
-   "518-276-2899",
-   "4005 CBIS"
-  ]
+  "Christopher Fisher Lochhead": {
+   "name": "Christopher Fisher Lochhead",
+   "email": "fishec5@rpi.edu",
+   "phone": "518-276-4137",
+   "location": ""
+  }
  },
  {
-  "Evan-Douglis": [
-   "douglis@rpi.edu",
-   "",
-   ""
-  ]
+  "Edwin Fohtung": {
+   "name": "Edwin Fohtung",
+   "email": "fohtue@rpi.edu",
+   "phone": "(518) 276-3363",
+   "location": ""
+  }
  },
  {
-  "Joshua-Draper": [
-   "drapej@rpi.edu",
-   "",
-   ""
-  ]
+  "Scott Forth": {
+   "name": "Scott Forth",
+   "email": "forths@rpi.edu",
+   "phone": "518-276-4271",
+   "location": ""
+  }
  },
  {
-  "Chanaka-Edirisinghe": [
-   "edirin@rpi.edu",
-   "5182763336",
-   ""
-  ]
+  "Bill Francis": {
+   "name": "Bill Francis",
+   "email": "francb@rpi.edu",
+   "phone": "518-276-3908",
+   "location": ""
+  }
  },
  {
-  "Omar-El-Shafee": [
-   "elshao2@rpi.edu",
-   "5182762335",
-   ""
-  ]
+  "W Randolph Franklin": {
+   "name": "W Randolph Franklin",
+   "email": "mail@wrfranklin.org",
+   "phone": "+1(518)276-6077",
+   "location": ""
+  }
  },
  {
-  "Yael-Erel": [
-   "erely2@rpi.edu",
-   "518-276-4060",
-   "Greene Building, 102"
-  ]
+  "Keith Fraser": {
+   "name": "Keith Fraser",
+   "email": "frasek2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Brett-Fajen": [
-   "fajenb@rpi.edu",
-   "",
-   ""
-  ]
+  "Daniel Gall": {
+   "name": "Daniel Gall",
+   "email": "galld@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Rui-Fan": [
-   "fanr5@rpi.edu",
-   "",
-   ""
-  ]
+  "Belmiro Galo da Silva": {
+   "name": "Belmiro Galo da Silva",
+   "email": "galodb@rpi.edu",
+   "phone": "",
+   "location": "404 Amos Eaton Hall, 110 8th St, Troy, NY 12180"
+  }
  },
  {
-  "Jeremy-Farrell": [
-   "farrej2@rpi.edu",
-   "",
-   "MRC 201"
-  ]
+  "Farhan Gandhi": {
+   "name": "Farhan Gandhi",
+   "email": "gandhf@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sarah-Felix": [
-   "felixs2@rpi.edu",
-   "",
-   "JEC 5044"
-  ]
+  "Jianxi Gao": {
+   "name": "Jianxi Gao",
+   "email": "gaoj8@rpi.edu",
+   "phone": "518-276-8326",
+   "location": ""
+  }
  },
  {
-  "Etana-Ferede": [
-   "ferede@rpi.edu",
-   "",
-   ""
-  ]
+  "Raffi Garcia": {
+   "name": "Raffi Garcia",
+   "email": "garcir5@rpi.edu",
+   "phone": "5182763677",
+   "location": ""
+  }
  },
  {
-  "Andrew-Fitzgerald": [
-   "fitzga2@rpi.edu",
-   "518-276-2083",
-   "Sage 5410"
-  ]
+  "Shekhar Garde": {
+   "name": "Shekhar Garde",
+   "email": "gardes@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Christopher-Fisher-Lochhead": [
-   "fishec5@rpi.edu",
-   "518-276-4137",
-   ""
-  ]
+  "Julian Georg": {
+   "name": "Julian Georg",
+   "email": "georgj9@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Edwin-Fohtung": [
-   "fohtue@rpi.edu",
-   "(518) 276-3363",
-   ""
-  ]
+  "Vivek Ghosal": {
+   "name": "Vivek Ghosal",
+   "email": "ghosav@rpi.edu",
+   "phone": "518-276-3868",
+   "location": ""
+  }
  },
  {
-  "Scott-Forth": [
-   "forths@rpi.edu",
-   "518-276-4271",
-   ""
-  ]
+  "Asish Ghosh": {
+   "name": "Asish Ghosh",
+   "email": "ghosha4@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Bill-Francis": [
-   "francb@rpi.edu",
-   "518-276-3908",
-   ""
-  ]
+  "Joel Giedt": {
+   "name": "Joel Giedt",
+   "email": "giedtj@rpi.edu",
+   "phone": "518-276-6455",
+   "location": ""
+  }
  },
  {
-  "W-Randolph-Franklin": [
-   "mail@wrfranklin.org",
-   "+1(518)276-6077",
-   ""
-  ]
+  "Ryan Gilbert": {
+   "name": "Ryan Gilbert",
+   "email": "gilber2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Keith-Fraser": [
-   "frasek2@rpi.edu",
-   "",
-   ""
-  ]
+  "Susan Gilbert": {
+   "name": "Susan Gilbert",
+   "email": "gilbes2@rpi.edu",
+   "phone": "518-276-4415",
+   "location": "2237 Center for Biotechnology & Interdisciplinary Studies"
+  }
  },
  {
-  "Daniel-Gall": [
-   "galld@rpi.edu",
-   "",
-   ""
-  ]
+  "Alex Gittens": {
+   "name": "Alex Gittens",
+   "email": "gittea@rpi.edu",
+   "phone": "518-276-6476",
+   "location": "Lally 316"
+  }
  },
  {
-  "Belmiro-Galo-da-Silva": [
-   "galodb@rpi.edu",
-   "",
-   "404 Amos Eaton Hall, 110 8th St, Troy, NY 12180"
-  ]
+  "Timothy Golden": {
+   "name": "Timothy Golden",
+   "email": "goldent@rpi.edu",
+   "phone": "518-276-2669",
+   "location": ""
+  }
  },
  {
-  "Farhan-Gandhi": [
-   "gandhf@rpi.edu",
-   "",
-   ""
-  ]
+  "David Goldschmidt": {
+   "name": "David Goldschmidt",
+   "email": "goldsd3@rpi.edu",
+   "phone": "518-276-2819",
+   "location": ""
+  }
  },
  {
-  "Jianxi-Gao": [
-   "gaoj8@rpi.edu",
-   "518-276-8326",
-   ""
-  ]
+  "Matthew Goodheart": {
+   "name": "Matthew Goodheart",
+   "email": "goodhm@rpi.edu",
+   "phone": "518-276-3361",
+   "location": ""
+  }
  },
  {
-  "Raffi-Garcia": [
-   "garcir5@rpi.edu",
-   "5182763677",
-   ""
-  ]
+  "Tamar Gordon": {
+   "name": "Tamar Gordon",
+   "email": "gordot@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Shekhar-Garde": [
-   "gardes@rpi.edu",
-   "",
-   ""
-  ]
+  "Wayne Gray": {
+   "name": "Wayne Gray",
+   "email": "grayw@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Julian-Georg": [
-   "georgj9@rpi.edu",
-   "",
-   ""
-  ]
+  "Sarah Greene": {
+   "name": "Sarah Greene",
+   "email": "parras2@rpi.edu",
+   "phone": "518.276.6387",
+   "location": ""
+  }
  },
  {
-  "Vivek-Ghosal": [
-   "ghosav@rpi.edu",
-   "518-276-3868",
-   ""
-  ]
+  "Anita Greenfield": {
+   "name": "Anita Greenfield",
+   "email": "greena15@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Asish-Ghosh": [
-   "ghosha4@rpi.edu",
-   "",
-   ""
-  ]
+  "Richard Gross": {
+   "name": "Richard Gross",
+   "email": "grossr@rpi.edu",
+   "phone": "518-276-3734",
+   "location": ""
+  }
  },
  {
-  "Joel-Giedt": [
-   "giedtj@rpi.edu",
-   "518-276-6455",
-   ""
-  ]
+  "Aparna Gupta": {
+   "name": "Aparna Gupta",
+   "email": "guptaa@rpi.edu",
+   "phone": "518.276.2757",
+   "location": ""
+  }
  },
  {
-  "Ryan-Gilbert": [
-   "gilber2@rpi.edu",
-   "",
-   ""
-  ]
+  "Ernesto Gutierrez Miravete": {
+   "name": "Ernesto Gutierrez Miravete",
+   "email": "gutiee@rpi.edu",
+   "phone": "(860) 548-2464",
+   "location": ""
+  }
  },
  {
-  "Susan-Gilbert": [
-   "gilbes2@rpi.edu",
-   "518-276-4415",
-   "2237 Center for Biotechnology & Interdisciplinary Studies"
-  ]
+  "Juergen Hahn": {
+   "name": "Juergen Hahn",
+   "email": "hahnj@rpi.edu",
+   "phone": "(518) 276 2138",
+   "location": ""
+  }
  },
  {
-  "Alex-Gittens": [
-   "gittea@rpi.edu",
-   "518-276-6476",
-   "Lally 316"
-  ]
+  "Mariah Hahn": {
+   "name": "Mariah Hahn",
+   "email": "hahnm@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Timothy-Golden": [
-   "goldent@rpi.edu",
-   "518-276-2669",
-   ""
-  ]
+  "Prabhat Hajela": {
+   "name": "Prabhat Hajela",
+   "email": "hajela@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "David-Goldschmidt": [
-   "goldsd3@rpi.edu",
-   "518-276-2819",
-   ""
-  ]
+  "Rob Hamilton": {
+   "name": "Rob Hamilton",
+   "email": "hamilr4@rpi.edu",
+   "phone": "518-276-8083",
+   "location": ""
+  }
  },
  {
-  "Matthew-Goodheart": [
-   "goodhm@rpi.edu",
-   "518-276-3361",
-   ""
-  ]
+  "Fudong Han": {
+   "name": "Fudong Han",
+   "email": "hanf2@rpi.edu",
+   "phone": "518-276-2573",
+   "location": ""
+  }
  },
  {
-  "Tamar-Gordon": [
-   "gordot@rpi.edu",
-   "",
-   ""
-  ]
+  "Sean X He": {
+   "name": "Sean X He",
+   "email": "hex6@rpi.edu",
+   "phone": "518-276-8043",
+   "location": ""
+  }
  },
  {
-  "Wayne-Gray": [
-   "grayw@rpi.edu",
-   "",
-   ""
-  ]
+  "Ronald Hedden": {
+   "name": "Ronald Hedden",
+   "email": "hedder@rpi.edu",
+   "phone": "518-276-6537",
+   "location": ""
+  }
  },
  {
-  "Sarah-Greene": [
-   "parras2@rpi.edu",
-   "518.276.6387",
-   ""
-  ]
+  "Mona Hella": {
+   "name": "Mona Hella",
+   "email": "hellam@ecse.rpi.edu",
+   "phone": "518-276-6314",
+   "location": ""
+  }
  },
  {
-  "Anita-Greenfield": [
-   "greena15@rpi.edu",
-   "",
-   ""
-  ]
+  "James Hendler": {
+   "name": "James Hendler",
+   "email": "hendler@cs.rpi.edu",
+   "phone": "518-276-4401",
+   "location": ""
+  }
  },
  {
-  "Richard-Gross": [
-   "grossr@rpi.edu",
-   "518-276-3734",
-   ""
-  ]
+  "William Henshaw": {
+   "name": "William Henshaw",
+   "email": "henshw@rpi.edu",
+   "phone": "518-276-2994",
+   "location": ""
+  }
  },
  {
-  "Aparna-Gupta": [
-   "guptaa@rpi.edu",
-   "518.276.2757",
-   ""
-  ]
+  "Jason Hicken": {
+   "name": "Jason Hicken",
+   "email": "hickej2@rpi.edu",
+   "phone": "518-267-4893",
+   "location": "JEC 2036"
+  }
  },
  {
-  "Ernesto-Gutierrez-Miravete": [
-   "gutiee@rpi.edu",
-   "(860) 548-2464",
-   ""
-  ]
+  "Kathy High": {
+   "name": "Kathy High",
+   "email": "highk@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Juergen-Hahn": [
-   "hahnj@rpi.edu",
-   "(518) 276 2138",
-   ""
-  ]
+  "Azita Hirsa": {
+   "name": "Azita Hirsa",
+   "email": "hirsaa3@rpi.edu",
+   "phone": "518-276-8319",
+   "location": ""
+  }
  },
  {
-  "Mariah-Hahn": [
-   "hahnm@rpi.edu",
-   "",
-   ""
-  ]
+  "Amir Hirsa": {
+   "name": "Amir Hirsa",
+   "email": "amir.hirsa@gmail.com",
+   "phone": "518-276-6997",
+   "location": "5036 Jonsson Engineering Center"
+  }
  },
  {
-  "Prabhat-Hajela": [
-   "hajela@rpi.edu",
-   "",
-   ""
-  ]
+  "Allison Hoffman": {
+   "name": "Allison Hoffman",
+   "email": "hoffma3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Rob-Hamilton": [
-   "hamilr4@rpi.edu",
-   "518-276-8083",
-   ""
-  ]
+  "Jose Holguin Veras": {
+   "name": "Jose Holguin Veras",
+   "email": "holguj2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Fudong-Han": [
-   "hanf2@rpi.edu",
-   "518-276-2573",
-   ""
-  ]
+  "Mark Holmes": {
+   "name": "Mark Holmes",
+   "email": "holmes@rpi.edu",
+   "phone": "518-276-6891",
+   "location": ""
+  }
  },
  {
-  "Sean-X-He": [
-   "hex6@rpi.edu",
-   "518-276-8043",
-   ""
-  ]
+  "Kevin Housley": {
+   "name": "Kevin Housley",
+   "email": "houslk2@rpi.edu",
+   "phone": "518-276-2592",
+   "location": ""
+  }
  },
  {
-  "Ronald-Hedden": [
-   "hedder@rpi.edu",
-   "518-276-6537",
-   ""
-  ]
+  "Fleet Hower": {
+   "name": "Fleet Hower",
+   "email": "howerj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Mona-Hella": [
-   "hellam@ecse.rpi.edu",
-   "518-276-6314",
-   ""
-  ]
+  "Liping Huang": {
+   "name": "Liping Huang",
+   "email": "huangl5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "James-Hendler": [
-   "hendler@cs.rpi.edu",
-   "518-276-4401",
-   ""
-  ]
+  "Rena Huang": {
+   "name": "Rena Huang",
+   "email": "huangz3@rpi.edu",
+   "phone": "518-276-6086",
+   "location": ""
+  }
  },
  {
-  "William-Henshaw": [
-   "henshw@rpi.edu",
-   "518-276-2994",
-   ""
-  ]
+  "Michael Hughes": {
+   "name": "Michael Hughes",
+   "email": "hughem6@rpi.edu",
+   "phone": "(518) 276-3781",
+   "location": ""
+  }
  },
  {
-  "Jason-Hicken": [
-   "hickej2@rpi.edu",
-   "518-267-4893",
-   "JEC 2036"
-  ]
+  "Jason Huh": {
+   "name": "Jason Huh",
+   "email": "huhj2@rpi.edu",
+   "phone": "518-276-2659",
+   "location": "3408 Russell Sage Labs"
+  }
  },
  {
-  "Kathy-High": [
-   "highk@rpi.edu",
-   "",
-   ""
-  ]
+  "Robert Hull": {
+   "name": "Robert Hull",
+   "email": "hullr2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Azita-Hirsa": [
-   "hirsaa3@rpi.edu",
-   "518-276-8319",
-   ""
-  ]
+  "Jennifer Hurley": {
+   "name": "Jennifer Hurley",
+   "email": "hurlej2@rpi.edu",
+   "phone": "518-276-8458",
+   "location": "CBIS 2137"
+  }
  },
  {
-  "Amir-Hirsa": [
-   "amir.hirsa@gmail.com",
-   "518-276-6997",
-   "5036 Jonsson Engineering Center"
-  ]
+  "Joshua Hurst": {
+   "name": "Joshua Hurst",
+   "email": "hurstj2@rpi.edu",
+   "phone": "518-276-3947",
+   "location": ""
+  }
  },
  {
-  "Allison-Hoffman": [
-   "hoffma3@rpi.edu",
-   "",
-   ""
-  ]
+  "Ryosuke Imaeda": {
+   "name": "Ryosuke Imaeda",
+   "email": "imaedr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jose-Holguin-Veras": [
-   "holguj2@rpi.edu",
-   "",
-   ""
-  ]
+  "Xavier Intes": {
+   "name": "Xavier Intes",
+   "email": "intesx@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Mark-Holmes": [
-   "holmes@rpi.edu",
-   "518-276-6891",
-   ""
-  ]
+  "Radoslav Ivanov": {
+   "name": "Radoslav Ivanov",
+   "email": "ivanor@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Kevin-Housley": [
-   "houslk2@rpi.edu",
-   "518-276-2592",
-   ""
-  ]
+  "Gaurav Jain": {
+   "name": "Gaurav Jain",
+   "email": "gauraj@rpi.edu",
+   "phone": "518-276-2812",
+   "location": ""
+  }
  },
  {
-  "Fleet-Hower": [
-   "howerj@rpi.edu",
-   "",
-   ""
-  ]
+  "Christopher Jeansonne": {
+   "name": "Christopher Jeansonne",
+   "email": "jeansc@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Liping-Huang": [
-   "huangl5@rpi.edu",
-   "",
-   ""
-  ]
+  "Qiang Ji": {
+   "name": "Qiang Ji",
+   "email": "jiq@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Rena-Huang": [
-   "huangz3@rpi.edu",
-   "518-276-6086",
-   ""
-  ]
+  "Wei Ji": {
+   "name": "Wei Ji",
+   "email": "jiw2@rpi.edu",
+   "phone": "(518)276-6602",
+   "location": ""
+  }
  },
  {
-  "Michael-Hughes": [
-   "hughem6@rpi.edu",
-   "(518) 276-3781",
-   ""
-  ]
+  "Robert Jones": {
+   "name": "Robert Jones",
+   "email": "jonesr2@rpi.edu",
+   "phone": "518-276-4773",
+   "location": ""
+  }
  },
  {
-  "Jason-Huh": [
-   "huhj2@rpi.edu",
-   "518-276-2659",
-   "3408 Russell Sage Labs"
-  ]
+  "Agung Julius": {
+   "name": "Agung Julius",
+   "email": "agung@ecse.rpi.edu",
+   "phone": "(518) 276-6993",
+   "location": ""
+  }
  },
  {
-  "Robert-Hull": [
-   "hullr2@rpi.edu",
-   "",
-   ""
-  ]
+  "Elizabeth Kam": {
+   "name": "Elizabeth Kam",
+   "email": "kamw@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jennifer-Hurley": [
-   "hurlej2@rpi.edu",
-   "518-276-8458",
-   "CBIS 2137"
-  ]
+  "Junichi Kanai": {
+   "name": "Junichi Kanai",
+   "email": "kanaij@rpi.edu",
+   "phone": "276-3347",
+   "location": "JEC 3330A"
+  }
  },
  {
-  "Joshua-Hurst": [
-   "hurstj2@rpi.edu",
-   "518-276-3947",
-   ""
-  ]
+  "Hyun Kang": {
+   "name": "Hyun Kang",
+   "email": "kangh6@rpi.edu",
+   "phone": "518-276-8251",
+   "location": ""
+  }
  },
  {
-  "Ryosuke-Imaeda": [
-   "imaedr@rpi.edu",
-   "",
-   ""
-  ]
+  "Ashwani Kapila": {
+   "name": "Ashwani Kapila",
+   "email": "kapila@rpi.edu",
+   "phone": "518-276-6894",
+   "location": ""
+  }
  },
  {
-  "Xavier-Intes": [
-   "intesx@rpi.edu",
-   "",
-   ""
-  ]
+  "Koushik Kar": {
+   "name": "Koushik Kar",
+   "email": "koushik@ecse.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Radoslav-Ivanov": [
-   "ivanor@rpi.edu",
-   "",
-   ""
-  ]
+  "Pankaj Karande": {
+   "name": "Pankaj Karande",
+   "email": "karanp@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Gaurav-Jain": [
-   "gauraj@rpi.edu",
-   "518-276-2812",
-   ""
-  ]
+  "Yong Sung Kim": {
+   "name": "Yong Sung Kim",
+   "email": "kimy10@rpi.edu",
+   "phone": "276-2542",
+   "location": ""
+  }
  },
  {
-  "Christopher-Jeansonne": [
-   "jeansc@rpi.edu",
-   "",
-   ""
-  ]
+  "Miles Kimball": {
+   "name": "Miles Kimball",
+   "email": "kimbam2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Qiang-Ji": [
-   "jiq@rpi.edu",
-   "",
-   ""
-  ]
+  "Abby Kinchy": {
+   "name": "Abby Kinchy",
+   "email": "kincha@rpi.edu",
+   "phone": "518-276-6980",
+   "location": "5406 Sage Lab"
+  }
  },
  {
-  "Wei-Ji": [
-   "jiw2@rpi.edu",
-   "(518)276-6602",
-   ""
-  ]
+  "Margarita Kirova Snover": {
+   "name": "Margarita Kirova Snover",
+   "email": "kirovm@rpi.edu",
+   "phone": "518-276-3828",
+   "location": ""
+  }
  },
  {
-  "Robert-Jones": [
-   "jonesr2@rpi.edu",
-   "518-276-4773",
-   ""
-  ]
+  "Michael Klein": {
+   "name": "Michael Klein",
+   "email": "kleinm5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Agung-Julius": [
-   "agung@ecse.rpi.edu",
-   "(518) 276-6993",
-   ""
-  ]
+  "Michael Klein": {
+   "name": "Michael Klein",
+   "email": "kleinm5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Elizabeth-Kam": [
-   "kamw@rpi.edu",
-   "",
-   ""
-  ]
+  "Mattheos Koffas": {
+   "name": "Mattheos Koffas",
+   "email": "koffam@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Junichi-Kanai": [
-   "kanaij@rpi.edu",
-   "276-3347",
-   "JEC 3330A"
-  ]
+  "Fotios Kopsaftopoulos": {
+   "name": "Fotios Kopsaftopoulos",
+   "email": "kopsaf@rpi.edu",
+   "phone": "518-276-6439",
+   "location": "JEC 2024"
+  }
  },
  {
-  "Hyun-Kang": [
-   "kangh6@rpi.edu",
-   "518-276-8251",
-   ""
-  ]
+  "Nikhil Koratkar": {
+   "name": "Nikhil Koratkar",
+   "email": "koratn@rpi.edu",
+   "phone": "518 276 2630",
+   "location": "JEC 4009"
+  }
  },
  {
-  "Ashwani-Kapila": [
-   "kapila@rpi.edu",
-   "518-276-6894",
-   ""
-  ]
+  "Gerald Korenowski": {
+   "name": "Gerald Korenowski",
+   "email": "koreng@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Koushik-Kar": [
-   "koushik@ecse.rpi.edu",
-   "",
-   ""
-  ]
+  "Gyorgy Korniss": {
+   "name": "Gyorgy Korniss",
+   "email": "korniss@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Pankaj-Karande": [
-   "karanp@rpi.edu",
-   "",
-   ""
-  ]
+  "Gregor Kovacic": {
+   "name": "Gregor Kovacic",
+   "email": "kovacg@rpi.edu",
+   "phone": "518-276-6908",
+   "location": ""
+  }
  },
  {
-  "Yong-Sung-Kim": [
-   "kimy10@rpi.edu",
-   "276-2542",
-   ""
-  ]
+  "Russell Kraft": {
+   "name": "Russell Kraft",
+   "email": "kraftr2@rpi.edu",
+   "phone": "518-276-2765",
+   "location": "Jonsson 6028"
+  }
  },
  {
-  "Miles-Kimball": [
-   "kimbam2@rpi.edu",
-   "",
-   ""
-  ]
+  "Peter Kramer": {
+   "name": "Peter Kramer",
+   "email": "kramep@rpi.edu",
+   "phone": "518-276-6896",
+   "location": "331 Amos Eaton Hall"
+  }
  },
  {
-  "Abby-Kinchy": [
-   "kincha@rpi.edu",
-   "518-276-6980",
-   "5406 Sage Lab"
-  ]
+  "Ted Krueger": {
+   "name": "Ted Krueger",
+   "email": "krueger@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Margarita-Kirova-Snover": [
-   "kirovm@rpi.edu",
-   "518-276-3828",
-   ""
-  ]
+  "Uwe Kruger": {
+   "name": "Uwe Kruger",
+   "email": "krugeu@rpi.edu",
+   "phone": "(518) 276-4818",
+   "location": ""
+  }
  },
  {
-  "Michael-Klein": [
-   "kleinm5@rpi.edu",
-   "",
-   ""
-  ]
+  "Gina Kucinski": {
+   "name": "Gina Kucinski",
+   "email": "kucing@rpi.edu",
+   "phone": "518-276-6889",
+   "location": "Amos Eaton 409"
+  }
  },
  {
-  "Michael-Klein": [
-   "kleinm5@rpi.edu",
-   "",
-   ""
-  ]
+  "Jason Kuruzovich": {
+   "name": "Jason Kuruzovich",
+   "email": "kuruzj@rpi.edu",
+   "phone": "5182762332",
+   "location": ""
+  }
  },
  {
-  "Mattheos-Koffas": [
-   "koffam@rpi.edu",
-   "",
-   ""
-  ]
+  "Konstantin Kuzmin": {
+   "name": "Konstantin Kuzmin",
+   "email": "kuzmik2@rpi.edu",
+   "phone": "518-276-2609",
+   "location": ""
+  }
  },
  {
-  "Fotios-Kopsaftopoulos": [
-   "kopsaf@rpi.edu",
-   "518-276-6439",
-   "JEC 2024"
-  ]
+  "John LaGraff": {
+   "name": "John LaGraff",
+   "email": "lagraj2@rpi.edu",
+   "phone": "518-276-6125",
+   "location": ""
+  }
  },
  {
-  "Nikhil-Koratkar": [
-   "koratn@rpi.edu",
-   "518 276 2630",
-   "JEC 4009"
-  ]
+  "Rongjie Lai": {
+   "name": "Rongjie Lai",
+   "email": "lair@rpi.edu",
+   "phone": "518-276-2677",
+   "location": ""
+  }
  },
  {
-  "Gerald-Korenowski": [
-   "koreng@rpi.edu",
-   "",
-   ""
-  ]
+  "Daniel Lander": {
+   "name": "Daniel Lander",
+   "email": "landed2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Gyorgy-Korniss": [
-   "korniss@rpi.edu",
-   "",
-   ""
-  ]
+  "Nishtha Langer": {
+   "name": "Nishtha Langer",
+   "email": "langen@rpi.edu",
+   "phone": "518-276-4414",
+   "location": "Pitts 2208"
+  }
  },
  {
-  "Gregor-Kovacic": [
-   "kovacg@rpi.edu",
-   "518-276-6908",
-   ""
-  ]
+  "George Lee": {
+   "name": "George Lee",
+   "email": "leeg11@rpi.edu",
+   "phone": "518-276-6548",
+   "location": ""
+  }
  },
  {
-  "Russell-Kraft": [
-   "kraftr2@rpi.edu",
-   "518-276-2765",
-   "Jonsson 6028"
-  ]
+  "Sangwoo Lee": {
+   "name": "Sangwoo Lee",
+   "email": "lees27@rpi.edu",
+   "phone": "518-276-8676",
+   "location": ""
+  }
  },
  {
-  "Peter-Kramer": [
-   "kramep@rpi.edu",
-   "518-276-6896",
-   "331 Amos Eaton Hall"
-  ]
+  "Carla Leitao": {
+   "name": "Carla Leitao",
+   "email": "leitac@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ted-Krueger": [
-   "krueger@rpi.edu",
-   "",
-   ""
-  ]
+  "Conor Lennon": {
+   "name": "Conor Lennon",
+   "email": "lennoc@rpi.edu",
+   "phone": "518.276.6413",
+   "location": "SAGE 3402"
+  }
  },
  {
-  "Uwe-Kruger": [
-   "krugeu@rpi.edu",
-   "(518) 276-4818",
-   ""
-  ]
+  "Christopher Letchford": {
+   "name": "Christopher Letchford",
+   "email": "letchc@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Gina-Kucinski": [
-   "kucing@rpi.edu",
-   "518-276-6889",
-   "Amos Eaton 409"
-  ]
+  "Fengyan Li": {
+   "name": "Fengyan Li",
+   "email": "lif@rpi.edu",
+   "phone": "518-276-3201",
+   "location": ""
+  }
  },
  {
-  "Jason-Kuruzovich": [
-   "kuruzj@rpi.edu",
-   "5182762332",
-   ""
-  ]
+  "Jie Lian": {
+   "name": "Jie Lian",
+   "email": "lianj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Konstantin-Kuzmin": [
-   "kuzmik2@rpi.edu",
-   "518-276-2609",
-   ""
-  ]
+  "Lee Ligon": {
+   "name": "Lee Ligon",
+   "email": "ligonl@rpi.edu",
+   "phone": "518-276-3458",
+   "location": "JROWL 1C05"
+  }
  },
  {
-  "John-LaGraff": [
-   "lagraj2@rpi.edu",
-   "518-276-6125",
-   ""
-  ]
+  "Chjan Lim": {
+   "name": "Chjan Lim",
+   "email": "limc@rpi.edu",
+   "phone": "518-276-6904",
+   "location": ""
+  }
  },
  {
-  "Rongjie-Lai": [
-   "lair@rpi.edu",
-   "518-276-2677",
-   ""
-  ]
+  "JianJing Lin": {
+   "name": "JianJing Lin",
+   "email": "linj17@rpi.edu",
+   "phone": "518-276-2016",
+   "location": ""
+  }
  },
  {
-  "Daniel-Lander": [
-   "landed2@rpi.edu",
-   "",
-   ""
-  ]
+  "Shawn Yu Lin": {
+   "name": "Shawn Yu Lin",
+   "email": "sylin@rpi.edu",
+   "phone": "5182762978",
+   "location": ""
+  }
  },
  {
-  "Nishtha-Langer": [
-   "langen@rpi.edu",
-   "518-276-4414",
-   "Pitts 2208"
-  ]
+  "Edwin Liu": {
+   "name": "Edwin Liu",
+   "email": "liue2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "George-Lee": [
-   "leeg11@rpi.edu",
-   "518-276-6548",
-   ""
-  ]
+  "Emily Liu": {
+   "name": "Emily Liu",
+   "email": "liue@rpi.edu",
+   "phone": "518-276-8592",
+   "location": "Low Center for Industrial Innovation (CII) 5023"
+  }
  },
  {
-  "Sangwoo-Lee": [
-   "lees27@rpi.edu",
-   "518-276-8676",
-   ""
-  ]
+  "Liu Liu": {
+   "name": "Liu Liu",
+   "email": "liu.liu@rpi.edu",
+   "phone": "",
+   "location": "JEC 6018"
+  }
  },
  {
-  "Carla-Leitao": [
-   "leitac@rpi.edu",
-   "",
-   ""
-  ]
+  "John Loercher": {
+   "name": "John Loercher",
+   "email": "loercj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Conor-Lennon": [
-   "lennoc@rpi.edu",
-   "518.276.6413",
-   "SAGE 3402"
-  ]
+  "Matthew Lopez": {
+   "name": "Matthew Lopez",
+   "email": "lopezm6@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Christopher-Letchford": [
-   "letchc@rpi.edu",
-   "",
-   ""
-  ]
+  "Stephanie Loveless": {
+   "name": "Stephanie Loveless",
+   "email": "lovels3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Fengyan-Li": [
-   "lif@rpi.edu",
-   "518-276-3201",
-   ""
-  ]
+  "James Lu": {
+   "name": "James Lu",
+   "email": "luj@rpi.edu",
+   "phone": "(518) 276-2909",
+   "location": "CII - 6229"
+  }
  },
  {
-  "Jie-Lian": [
-   "lianj@rpi.edu",
-   "",
-   ""
-  ]
+  "Toh Ming Lu": {
+   "name": "Toh Ming Lu",
+   "email": "lut@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Lee-Ligon": [
-   "ligonl@rpi.edu",
-   "518-276-3458",
-   "JROWL 1C05"
-  ]
+  "Yuri Lvov": {
+   "name": "Yuri Lvov",
+   "email": "lvovy@rpi.edu",
+   "phone": "518-276-6893",
+   "location": "Amos Eaton 320"
+  }
  },
  {
-  "Chjan-Lim": [
-   "limc@rpi.edu",
-   "518-276-6904",
-   ""
-  ]
+  "Dan Lyles": {
+   "name": "Dan Lyles",
+   "email": "lylesd2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "JianJing-Lin": [
-   "linj17@rpi.edu",
-   "518-276-2016",
-   ""
-  ]
+  "Alexander Ma": {
+   "name": "Alexander Ma",
+   "email": "maa4@rpi.edu",
+   "phone": "518-276-3930",
+   "location": ""
+  }
  },
  {
-  "Shawn-Yu-Lin": [
-   "sylin@rpi.edu",
-   "5182762978",
-   ""
-  ]
+  "Malik Magdon Ismail": {
+   "name": "Malik Magdon Ismail",
+   "email": "magdon@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Edwin-Liu": [
-   "liue2@rpi.edu",
-   "",
-   ""
-  ]
+  "Johan Maharjan": {
+   "name": "Johan Maharjan",
+   "email": "maharj2@rpi.edu",
+   "phone": "5182763335",
+   "location": ""
+  }
  },
  {
-  "Emily-Liu": [
-   "liue@rpi.edu",
-   "518-276-8592",
-   "Low Center for Industrial Innovation (CII) 5023"
-  ]
+  "Mina Mahmoudi": {
+   "name": "Mina Mahmoudi",
+   "email": "mahmom2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Liu-Liu": [
-   "liu.liu@rpi.edu",
-   "",
-   "JEC 6018"
-  ]
+  "George Makhatadze": {
+   "name": "George Makhatadze",
+   "email": "makhag@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "John-Loercher": [
-   "loercj@rpi.edu",
-   "",
-   ""
-  ]
+  "Bimal Malaviya": {
+   "name": "Bimal Malaviya",
+   "email": "malavb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Matthew-Lopez": [
-   "lopezm6@rpi.edu",
-   "",
-   ""
-  ]
+  "James Malazita": {
+   "name": "James Malazita",
+   "email": "malazj@rpi.edu",
+   "phone": "518-276-3712",
+   "location": ""
+  }
  },
  {
-  "Stephanie-Loveless": [
-   "lovels3@rpi.edu",
-   "",
-   ""
-  ]
+  "Antoinette Maniatty": {
+   "name": "Antoinette Maniatty",
+   "email": "maniaa@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "James-Lu": [
-   "luj@rpi.edu",
-   "(518) 276-2909",
-   "CII - 6229"
-  ]
+  "Lydia Manikonda": {
+   "name": "Lydia Manikonda",
+   "email": "manikl@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Toh-Ming-Lu": [
-   "lut@rpi.edu",
-   "",
-   ""
-  ]
+  "Charles Martin": {
+   "name": "Charles Martin",
+   "email": "martic13@rpi.edu",
+   "phone": "518-276-6454",
+   "location": ""
+  }
  },
  {
-  "Yuri-Lvov": [
-   "lvovy@rpi.edu",
-   "518-276-6893",
-   "Amos Eaton 320"
-  ]
+  "Margaret McDermott": {
+   "name": "Margaret McDermott",
+   "email": "mcderm3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Dan-Lyles": [
-   "lylesd2@rpi.edu",
-   "",
-   ""
-  ]
+  "Deborah McGuinness": {
+   "name": "Deborah McGuinness",
+   "email": "dlm@cs.rpi.edu",
+   "phone": "518-276-4404",
+   "location": "2104 Winslow Building"
+  }
  },
  {
-  "Alexander-Ma": [
-   "maa4@rpi.edu",
-   "518-276-3930",
-   ""
-  ]
+  "Jonathan McKinney": {
+   "name": "Jonathan McKinney",
+   "email": "mckinj@rpi.edu",
+   "phone": "(518) 276-2218",
+   "location": "Pittsburgh Building - Room 2218"
+  }
  },
  {
-  "Malik-Magdon-Ismail": [
-   "magdon@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "Marjorie McShane": {
+   "name": "Marjorie McShane",
+   "email": "mcsham2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Johan-Maharjan": [
-   "maharj2@rpi.edu",
-   "5182763335",
-   ""
-  ]
+  "Nathan Meltz": {
+   "name": "Nathan Meltz",
+   "email": "meltzn@rpi.edu",
+   "phone": "518-276-3871",
+   "location": ""
+  }
  },
  {
-  "Mina-Mahmoudi": [
-   "mahmom2@rpi.edu",
-   "",
-   ""
-  ]
+  "John Milanese": {
+   "name": "John Milanese",
+   "email": "milanj3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "George-Makhatadze": [
-   "makhag@rpi.edu",
-   "",
-   ""
-  ]
+  "Ana Milanova": {
+   "name": "Ana Milanova",
+   "email": "milanova@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Bimal-Malaviya": [
-   "malavb@rpi.edu",
-   "",
-   ""
-  ]
+  "Branda Miller": {
+   "name": "Branda Miller",
+   "email": "milleb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "James-Malazita": [
-   "malazj@rpi.edu",
-   "518-276-3712",
-   ""
-  ]
+  "Kristen Mills": {
+   "name": "Kristen Mills",
+   "email": "millsk2@rpi.edu",
+   "phone": "5182768390",
+   "location": ""
+  }
  },
  {
-  "Antoinette-Maniatty": [
-   "maniaa@rpi.edu",
-   "",
-   ""
-  ]
+  "Sandipan Mishra": {
+   "name": "Sandipan Mishra",
+   "email": "mishrs2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Lydia-Manikonda": [
-   "manikl@rpi.edu",
-   "",
-   ""
-  ]
+  "John Mitchell": {
+   "name": "John Mitchell",
+   "email": "mitchj@rpi.edu",
+   "phone": "518-276-6915",
+   "location": ""
+  }
  },
  {
-  "Charles-Martin": [
-   "martic13@rpi.edu",
-   "518-276-6454",
-   ""
-  ]
+  "Nicholas Mizer": {
+   "name": "Nicholas Mizer",
+   "email": "mizern@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Margaret-McDermott": [
-   "mcderm3@rpi.edu",
-   "",
-   ""
-  ]
+  "Hisham Mohamed": {
+   "name": "Hisham Mohamed",
+   "email": "mohamh2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Deborah-McGuinness": [
-   "dlm@cs.rpi.edu",
-   "518-276-4404",
-   "2104 Winslow Building"
-  ]
+  "Gaetano Montelione": {
+   "name": "Gaetano Montelione",
+   "email": "monteg3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jonathan-McKinney": [
-   "mckinj@rpi.edu",
-   "(518) 276-2218",
-   "Pittsburgh Building - Room 2218"
-  ]
+  "Keith Moo Young": {
+   "name": "Keith Moo Young",
+   "email": "mooyoh2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Marjorie-McShane": [
-   "mcsham2@rpi.edu",
-   "",
-   ""
-  ]
+  "Thilanka Munasinghe": {
+   "name": "Thilanka Munasinghe",
+   "email": "munast@rpi.edu",
+   "phone": "",
+   "location": "Lally 315"
+  }
  },
  {
-  "Nathan-Meltz": [
-   "meltzn@rpi.edu",
-   "518-276-3871",
-   ""
-  ]
+  "Thilanka Munasinghe": {
+   "name": "Thilanka Munasinghe",
+   "email": "munast@rpi.edu",
+   "phone": "",
+   "location": "Lally 315"
+  }
  },
  {
-  "John-Milanese": [
-   "milanj3@rpi.edu",
-   "",
-   ""
-  ]
+  "Uzma Mushtaque": {
+   "name": "Uzma Mushtaque",
+   "email": "mushtu@rpi.edu",
+   "phone": "518-276-8326",
+   "location": ""
+  }
  },
  {
-  "Ana-Milanova": [
-   "milanova@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "Nadarajah Narendran": {
+   "name": "Nadarajah Narendran",
+   "email": "narenn2@rpi.edu",
+   "phone": "5182767176",
+   "location": "Gurley Building - 4th Floor, Troy, NY 12180"
+  }
  },
  {
-  "Branda-Miller": [
-   "milleb@rpi.edu",
-   "",
-   ""
-  ]
+  "Prabhakar Neti": {
+   "name": "Prabhakar Neti",
+   "email": "netip@rpi.edu",
+   "phone": "5182768160",
+   "location": ""
+  }
  },
  {
-  "Kristen-Mills": [
-   "millsk2@rpi.edu",
-   "5182768390",
-   ""
-  ]
+  "Dorit Nevo": {
+   "name": "Dorit Nevo",
+   "email": "nevod@rpi.edu",
+   "phone": "5182766431",
+   "location": ""
+  }
  },
  {
-  "Sandipan-Mishra": [
-   "mishrs2@rpi.edu",
-   "",
-   ""
-  ]
+  "Heidi Newberg": {
+   "name": "Heidi Newberg",
+   "email": "newbeh@rpi.edu",
+   "phone": "(518) 276-2652",
+   "location": ""
+  }
  },
  {
-  "John-Mitchell": [
-   "mitchj@rpi.edu",
-   "518-276-6915",
-   ""
-  ]
+  "Robert Nideffer": {
+   "name": "Robert Nideffer",
+   "email": "nidefr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Nicholas-Mizer": [
-   "mizern@rpi.edu",
-   "",
-   ""
-  ]
+  "Robert Niemiec": {
+   "name": "Robert Niemiec",
+   "email": "niemir2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Hisham-Mohamed": [
-   "mohamh2@rpi.edu",
-   "",
-   ""
-  ]
+  "Sandra Nierzwicki Bauer": {
+   "name": "Sandra Nierzwicki Bauer",
+   "email": "nierzs@rpi.edu",
+   "phone": "",
+   "location": "MRC 306"
+  }
  },
  {
-  "Gaetano-Montelione": [
-   "monteg3@rpi.edu",
-   "",
-   ""
-  ]
+  "Sergei Nirenburg": {
+   "name": "Sergei Nirenburg",
+   "email": "zavedomo@gmail.com",
+   "phone": "",
+   "location": "3rd Floor Carnegie"
+  }
  },
  {
-  "Keith-Moo-Young": [
-   "mooyoh2@rpi.edu",
-   "",
-   ""
-  ]
+  "Ralph Noble": {
+   "name": "Ralph Noble",
+   "email": "nobler@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Thilanka-Munasinghe": [
-   "munast@rpi.edu",
-   "",
-   "Lally 315"
-  ]
+  "Marianne Nyman": {
+   "name": "Marianne Nyman",
+   "email": "nymanm@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Thilanka-Munasinghe": [
-   "munast@rpi.edu",
-   "",
-   "Lally 315"
-  ]
+  "Michael Oatman": {
+   "name": "Michael Oatman",
+   "email": "oatman@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Uzma-Mushtaque": [
-   "mushtu@rpi.edu",
-   "518-276-8326",
-   ""
-  ]
+  "Peter Olausson": {
+   "name": "Peter Olausson",
+   "email": "olausj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Nadarajah-Narendran": [
-   "narenn2@rpi.edu",
-   "5182767176",
-   "Gurley Building - 4th Floor, Troy, NY 12180"
-  ]
+  "James Olson": {
+   "name": "James Olson",
+   "email": "olsonj7@rpi.edu",
+   "phone": "518-276-2389",
+   "location": "JEC 5009"
+  }
  },
  {
-  "Prabhakar-Neti": [
-   "netip@rpi.edu",
-   "5182768160",
-   ""
-  ]
+  "Brett Orzechowski": {
+   "name": "Brett Orzechowski",
+   "email": "orzecb@rpi.edu",
+   "phone": "518.276.3990",
+   "location": ""
+  }
  },
  {
-  "Dorit-Nevo": [
-   "nevod@rpi.edu",
-   "5182766431",
-   ""
-  ]
+  "Rahmi Ozisik": {
+   "name": "Rahmi Ozisik",
+   "email": "ozisik@rpi.edu",
+   "phone": "+1-518-276-6786",
+   "location": ""
+  }
  },
  {
-  "Heidi-Newberg": [
-   "newbeh@rpi.edu",
-   "(518) 276-2652",
-   ""
-  ]
+  "Rushabh Padalia": {
+   "name": "Rushabh Padalia",
+   "email": "padalr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Robert-Nideffer": [
-   "nidefr@rpi.edu",
-   "",
-   ""
-  ]
+  "Edmund Palermo": {
+   "name": "Edmund Palermo",
+   "email": "palere@rpi.edu",
+   "phone": "5182766124",
+   "location": ""
+  }
  },
  {
-  "Robert-Niemiec": [
-   "niemir2@rpi.edu",
-   "",
-   ""
-  ]
+  "Shaowu Pan": {
+   "name": "Shaowu Pan",
+   "email": "pans2@rpi.edu",
+   "phone": "518-276-6096",
+   "location": "JEC 2032"
+  }
  },
  {
-  "Sandra-Nierzwicki-Bauer": [
-   "nierzs@rpi.edu",
-   "",
-   "MRC 306"
-  ]
+  "Karthik Panneerselvam": {
+   "name": "Karthik Panneerselvam",
+   "email": "pannek2@rpi.edu",
+   "phone": "",
+   "location": "JEC 5009"
+  }
  },
  {
-  "Sergei-Nirenburg": [
-   "zavedomo@gmail.com",
-   "",
-   "3rd Floor Carnegie"
-  ]
+  "Santiago Paternain": {
+   "name": "Santiago Paternain",
+   "email": "paters@rpi.edu",
+   "phone": "5182766087",
+   "location": ""
+  }
  },
  {
-  "Ralph-Noble": [
-   "nobler@rpi.edu",
-   "",
-   ""
-  ]
+  "Stacy Patterson": {
+   "name": "Stacy Patterson",
+   "email": "pattes3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Marianne-Nyman": [
-   "nymanm@rpi.edu",
-   "",
-   ""
-  ]
+  "Jennifer Pazour": {
+   "name": "Jennifer Pazour",
+   "email": "pazouj@rpi.edu",
+   "phone": "(518) 276-6486",
+   "location": "CII 5111"
+  }
  },
  {
-  "Michael-Oatman": [
-   "oatman@rpi.edu",
-   "",
-   ""
-  ]
+  "Huaming Peng": {
+   "name": "Huaming Peng",
+   "email": "pengh5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Peter-Olausson": [
-   "olausj@rpi.edu",
-   "",
-   ""
-  ]
+  "Ukwatte Lokuliyanage Indika Perera": {
+   "name": "Ukwatte Lokuliyanage Indika Perera",
+   "email": "pereru2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "James-Olson": [
-   "olsonj7@rpi.edu",
-   "518-276-2389",
-   "JEC 5009"
-  ]
+  "Peter Persans": {
+   "name": "Peter Persans",
+   "email": "persap@rpi.edu",
+   "phone": "518-276-2934",
+   "location": ""
+  }
  },
  {
-  "Brett-Orzechowski": [
-   "orzecb@rpi.edu",
-   "518.276.3990",
-   ""
-  ]
+  "Catalin Picu": {
+   "name": "Catalin Picu",
+   "email": "picuc@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Rahmi-Ozisik": [
-   "ozisik@rpi.edu",
-   "+1-518-276-6786",
-   ""
-  ]
+  "Bruce Piper": {
+   "name": "Bruce Piper",
+   "email": "piperb@rpi.edu",
+   "phone": "518-276-6892",
+   "location": ""
+  }
  },
  {
-  "Rushabh-Padalia": [
-   "padalr@rpi.edu",
-   "",
-   ""
-  ]
+  "Joel Plawsky": {
+   "name": "Joel Plawsky",
+   "email": "plawsky@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Edmund-Palermo": [
-   "palere@rpi.edu",
-   "5182766124",
-   ""
-  ]
+  "Richard Plotka": {
+   "name": "Richard Plotka",
+   "email": "plotkr2@rpi.edu",
+   "phone": "(518) 276-2590",
+   "location": ""
+  }
  },
  {
-  "Shaowu-Pan": [
-   "pans2@rpi.edu",
-   "518-276-6096",
-   "JEC 2032"
-  ]
+  "Elizabeth Press": {
+   "name": "Elizabeth Press",
+   "email": "presse2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Karthik-Panneerselvam": [
-   "pannek2@rpi.edu",
-   "",
-   "JEC 5009"
-  ]
+  "Kenneth Ragsdale": {
+   "name": "Kenneth Ragsdale",
+   "email": "ragsdk@rpi.edu",
+   "phone": "518-276-3870",
+   "location": ""
+  }
  },
  {
-  "Santiago-Paternain": [
-   "paters@rpi.edu",
-   "5182766087",
-   ""
-  ]
+  "Ganpati Ramanath": {
+   "name": "Ganpati Ramanath",
+   "email": "ganapr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Stacy-Patterson": [
-   "pattes3@rpi.edu",
-   "",
-   ""
-  ]
+  "Seemanti Ramanath": {
+   "name": "Seemanti Ramanath",
+   "email": "ramans@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jennifer-Pazour": [
-   "pazouj@rpi.edu",
-   "(518) 276-6486",
-   "CII 5111"
-  ]
+  "Weina Ran": {
+   "name": "Weina Ran",
+   "email": "ranw@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Huaming-Peng": [
-   "pengh5@rpi.edu",
-   "",
-   ""
-  ]
+  "James Rees": {
+   "name": "James Rees",
+   "email": "reesj3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ukwatte-Lokuliyanage-Indika-Perera": [
-   "pereru2@rpi.edu",
-   "",
-   ""
-  ]
+  "Larry Reid": {
+   "name": "Larry Reid",
+   "email": "reidl@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Peter-Persans": [
-   "persap@rpi.edu",
-   "518-276-2934",
-   ""
-  ]
+  "John Reilly": {
+   "name": "John Reilly",
+   "email": "reillj2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Catalin-Picu": [
-   "picuc@rpi.edu",
-   "",
-   ""
-  ]
+  "Rick Relyea": {
+   "name": "Rick Relyea",
+   "email": "relyer@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Bruce-Piper": [
-   "piperb@rpi.edu",
-   "518-276-6892",
-   ""
-  ]
+  "Elaine Renz": {
+   "name": "Elaine Renz",
+   "email": "renze@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Joel-Plawsky": [
-   "plawsky@rpi.edu",
-   "",
-   ""
-  ]
+  "Luiz Victor Repolho Cagliari": {
+   "name": "Luiz Victor Repolho Cagliari",
+   "email": "repoll2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Richard-Plotka": [
-   "plotkr2@rpi.edu",
-   "(518) 276-2590",
-   ""
-  ]
+  "Trevor Rhone": {
+   "name": "Trevor Rhone",
+   "email": "rhonet@rpi.edu",
+   "phone": "518-276-8655",
+   "location": ""
+  }
  },
  {
-  "Elizabeth-Press": [
-   "presse2@rpi.edu",
-   "",
-   ""
-  ]
+  "Ross Rice": {
+   "name": "Ross Rice",
+   "email": "ricer3@rpi.edu",
+   "phone": "615.767.4128",
+   "location": ""
+  }
  },
  {
-  "Kenneth-Ragsdale": [
-   "ragsdk@rpi.edu",
-   "518-276-3870",
-   ""
-  ]
+  "Steven Roecker": {
+   "name": "Steven Roecker",
+   "email": "roecks@rpi.edu",
+   "phone": "5182866773",
+   "location": ""
+  }
  },
  {
-  "Ganpati-Ramanath": [
-   "ganapr@rpi.edu",
-   "",
-   ""
-  ]
+  "Karyn Rogers": {
+   "name": "Karyn Rogers",
+   "email": "rogerk5@rpi.edu",
+   "phone": "518-276-2372",
+   "location": ""
+  }
  },
  {
-  "Seemanti-Ramanath": [
-   "ramans@rpi.edu",
-   "",
-   ""
-  ]
+  "Kevin Rose": {
+   "name": "Kevin Rose",
+   "email": "rosek4@rpi.edu",
+   "phone": "518-276-8288",
+   "location": "JROWL 1W15"
+  }
  },
  {
-  "Weina-Ran": [
-   "ranw@rpi.edu",
-   "",
-   ""
-  ]
+  "Catherine Royer": {
+   "name": "Catherine Royer",
+   "email": "cathyannroyer@gmail.com",
+   "phone": "5184141440",
+   "location": "3244B CBIS"
+  }
  },
  {
-  "James-Rees": [
-   "reesj3@rpi.edu",
-   "",
-   ""
-  ]
+  "Kathleen Ruiz": {
+   "name": "Kathleen Ruiz",
+   "email": "ruiz@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Larry-Reid": [
-   "reidl@rpi.edu",
-   "",
-   ""
-  ]
+  "Rhett Russo": {
+   "name": "Rhett Russo",
+   "email": "russor4@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "John-Reilly": [
-   "reillj2@rpi.edu",
-   "",
-   ""
-  ]
+  "Eric Rutledge": {
+   "name": "Eric Rutledge",
+   "email": "rutlee@rpi.edu",
+   "phone": "518 276-3311",
+   "location": ""
+  }
  },
  {
-  "Rick-Relyea": [
-   "relyer@rpi.edu",
-   "",
-   ""
-  ]
+  "Silvia Ruzanka": {
+   "name": "Silvia Ruzanka",
+   "email": "ruzans@rpi.edu",
+   "phone": "518-276-3856",
+   "location": ""
+  }
  },
  {
-  "Elaine-Renz": [
-   "renze@rpi.edu",
-   "",
-   ""
-  ]
+  "Onkar Sahni": {
+   "name": "Onkar Sahni",
+   "email": "sahni@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Luiz-Victor-Repolho-Cagliari": [
-   "repoll2@rpi.edu",
-   "",
-   ""
-  ]
+  "Johnson Samuel": {
+   "name": "Johnson Samuel",
+   "email": "samuej2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Trevor-Rhone": [
-   "rhonet@rpi.edu",
-   "518-276-8655",
-   ""
-  ]
+  "Shayla Sawyer": {
+   "name": "Shayla Sawyer",
+   "email": "sawyes@rpi.edu",
+   "phone": "518-276-2164",
+   "location": ""
+  }
  },
  {
-  "Ross-Rice": [
-   "ricer3@rpi.edu",
-   "615.767.4128",
-   ""
-  ]
+  "Eric Schaffer": {
+   "name": "Eric Schaffer",
+   "email": "schafe2@rpi.edu",
+   "phone": "518-276-6615",
+   "location": ""
+  }
  },
  {
-  "Steven-Roecker": [
-   "roecks@rpi.edu",
-   "5182866773",
-   ""
-  ]
+  "Morgan Schaller": {
+   "name": "Morgan Schaller",
+   "email": "schall@rpi.edu",
+   "phone": "518-276-3358",
+   "location": ""
+  }
  },
  {
-  "Karyn-Rogers": [
-   "rogerk5@rpi.edu",
-   "518-276-2372",
-   ""
-  ]
+  "Paul Schoch": {
+   "name": "Paul Schoch",
+   "email": "schocp@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Kevin-Rose": [
-   "rosek4@rpi.edu",
-   "518-276-8288",
-   "JROWL 1W15"
-  ]
+  "John Schroeder": {
+   "name": "John Schroeder",
+   "email": "schroj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Catherine-Royer": [
-   "cathyannroyer@gmail.com",
-   "5184141440",
-   "3244B CBIS"
-  ]
+  "E Fred Schubert": {
+   "name": "E Fred Schubert",
+   "email": "schubert@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Kathleen-Ruiz": [
-   "ruiz@rpi.edu",
-   "",
-   ""
-  ]
+  "Donald Schwendeman": {
+   "name": "Donald Schwendeman",
+   "email": "schwed@rpi.edu",
+   "phone": "(518) 276-2647",
+   "location": ""
+  }
  },
  {
-  "Rhett-Russo": [
-   "russor4@rpi.edu",
-   "",
-   ""
-  ]
+  "Patricia Search": {
+   "name": "Patricia Search",
+   "email": "searcp@rpi.edu",
+   "phone": "518-276-6470",
+   "location": ""
+  }
  },
  {
-  "Eric-Rutledge": [
-   "rutlee@rpi.edu",
-   "518 276-3311",
-   ""
-  ]
+  "Oshani Seneviratne": {
+   "name": "Oshani Seneviratne",
+   "email": "senevo@rpi.edu",
+   "phone": "",
+   "location": "Lally 307 | Winslow 2143 | MRC 330C"
+  }
  },
  {
-  "Silvia-Ruzanka": [
-   "ruzans@rpi.edu",
-   "518-276-3856",
-   ""
-  ]
+  "Ali Shahsavari": {
+   "name": "Ali Shahsavari",
+   "email": "shahsa3@rpi.edu",
+   "phone": "518-276-3287",
+   "location": ""
+  }
  },
  {
-  "Onkar-Sahni": [
-   "sahni@rpi.edu",
-   "",
-   ""
-  ]
+  "Dennis Shelden": {
+   "name": "Dennis Shelden",
+   "email": "sheldd@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Johnson-Samuel": [
-   "samuej2@rpi.edu",
-   "",
-   ""
-  ]
+  "Jacob Shelley": {
+   "name": "Jacob Shelley",
+   "email": "shellj@rpi.edu",
+   "phone": "(518) 276-8173",
+   "location": ""
+  }
  },
  {
-  "Shayla-Sawyer": [
-   "sawyes@rpi.edu",
-   "518-276-2164",
-   ""
-  ]
+  "Mark Shephard": {
+   "name": "Mark Shephard",
+   "email": "shephm@rpi.edu",
+   "phone": "5182768044",
+   "location": "4019 CII"
+  }
  },
  {
-  "Eric-Schaffer": [
-   "schafe2@rpi.edu",
-   "518-276-6615",
-   ""
-  ]
+  "Jian Shi": {
+   "name": "Jian Shi",
+   "email": "shij4@rpi.edu",
+   "phone": "573-239-8872",
+   "location": ""
+  }
  },
  {
-  "Morgan-Schaller": [
-   "schall@rpi.edu",
-   "518-276-3358",
-   ""
-  ]
+  "Shanbin Shi": {
+   "name": "Shanbin Shi",
+   "email": "shis3@rpi.edu",
+   "phone": "518-276-8406",
+   "location": ""
+  }
  },
  {
-  "Paul-Schoch": [
-   "schocp@rpi.edu",
-   "",
-   ""
-  ]
+  "Sufei Shi": {
+   "name": "Sufei Shi",
+   "email": "shis2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "John-Schroeder": [
-   "schroj@rpi.edu",
-   "",
-   ""
-  ]
+  "Michael Shur": {
+   "name": "Michael Shur",
+   "email": "shurm13@gmail.com",
+   "phone": "5184218830",
+   "location": "Troy, NY"
+  }
  },
  {
-  "E-Fred-Schubert": [
-   "schubert@rpi.edu",
-   "",
-   ""
-  ]
+  "Mei Si": {
+   "name": "Mei Si",
+   "email": "sim@rpi.edu",
+   "phone": "518-276-3788",
+   "location": ""
+  }
  },
  {
-  "Donald-Schwendeman": [
-   "schwed@rpi.edu",
-   "(518) 276-2647",
-   ""
-  ]
+  "Christopher Sims": {
+   "name": "Christopher Sims",
+   "email": "simsc3@rpi.edu",
+   "phone": "1(518)2762963",
+   "location": ""
+  }
  },
  {
-  "Patricia-Search": [
-   "searcp@rpi.edu",
-   "518-276-6470",
-   ""
-  ]
+  "Sandeep Singh": {
+   "name": "Sandeep Singh",
+   "email": "sandes5@rpi.edu",
+   "phone": "518-276-2625",
+   "location": "JEC 2040"
+  }
  },
  {
-  "Oshani-Seneviratne": [
-   "senevo@rpi.edu",
-   "",
-   "Lally 307 | Winslow 2143 | MRC 330C"
-  ]
+  "George Slota": {
+   "name": "George Slota",
+   "email": "slotag@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ali-Shahsavari": [
-   "shahsa3@rpi.edu",
-   "518-276-3287",
-   ""
-  ]
+  "Susan Smith": {
+   "name": "Susan Smith",
+   "email": "smiths27@rpi.edu",
+   "phone": "518-276-2321",
+   "location": "Carnegie 309"
+  }
  },
  {
-  "Dennis-Shelden": [
-   "sheldd@rpi.edu",
-   "",
-   ""
-  ]
+  "Sebastian Souyris": {
+   "name": "Sebastian Souyris",
+   "email": "souyrs@rpi.edu",
+   "phone": "5182766582",
+   "location": "Pittsburgh Building 1210"
+  }
  },
  {
-  "Jacob-Shelley": [
-   "shellj@rpi.edu",
-   "(518) 276-8173",
-   ""
-  ]
+  "Frank Spear": {
+   "name": "Frank Spear",
+   "email": "spearf@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Mark-Shephard": [
-   "shephm@rpi.edu",
-   "5182768044",
-   "4019 CII"
-  ]
+  "Mary Anne Staniszewski": {
+   "name": "Mary Anne Staniszewski",
+   "email": "stanim@rpi.edu",
+   "phone": "518-276-2544",
+   "location": ""
+  }
  },
  {
-  "Jian-Shi": [
-   "shij4@rpi.edu",
-   "573-239-8872",
-   ""
-  ]
+  "David Stec": {
+   "name": "David Stec",
+   "email": "stecd2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Shanbin-Shi": [
-   "shis3@rpi.edu",
-   "518-276-8406",
-   ""
-  ]
+  "Jonathan Stetler": {
+   "name": "Jonathan Stetler",
+   "email": "stetlj2@rpi.edu",
+   "phone": "",
+   "location": "OFFICE: MRC 307"
+  }
  },
  {
-  "Sufei-Shi": [
-   "shis2@rpi.edu",
-   "",
-   ""
-  ]
+  "Daniel Stevenson": {
+   "name": "Daniel Stevenson",
+   "email": "steved8@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Michael-Shur": [
-   "shurm13@gmail.com",
-   "5184218830",
-   "Troy, NY"
-  ]
+  "Himali Stoccatore": {
+   "name": "Himali Stoccatore",
+   "email": "stocch@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Mei-Si": [
-   "sim@rpi.edu",
-   "518-276-3788",
-   ""
-  ]
+  "Michael Stradley": {
+   "name": "Michael Stradley",
+   "email": "stradm3@rpi.edu",
+   "phone": "2146036936",
+   "location": ""
+  }
  },
  {
-  "Christopher-Sims": [
-   "simsc3@rpi.edu",
-   "1(518)2762963",
-   ""
-  ]
+  "John Sturman": {
+   "name": "John Sturman",
+   "email": "sturmj@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sandeep-Singh": [
-   "sandes5@rpi.edu",
-   "518-276-2625",
-   "JEC 2040"
-  ]
+  "Maurice Suckling": {
+   "name": "Maurice Suckling",
+   "email": "sucklm@rpi.edu",
+   "phone": "518-276-8459",
+   "location": "West Hall 405"
+  }
  },
  {
-  "George-Slota": [
-   "slotag@rpi.edu",
-   "",
-   ""
-  ]
+  "Jian Sun": {
+   "name": "Jian Sun",
+   "email": "jsun@ecse.rpi.edu",
+   "phone": "(518) 276-8297",
+   "location": ""
+  }
  },
  {
-  "Susan-Smith": [
-   "smiths27@rpi.edu",
-   "518-276-2321",
-   "Carnegie 309"
-  ]
+  "Ron Sun": {
+   "name": "Ron Sun",
+   "email": "sunr@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sebastian-Souyris": [
-   "souyrs@rpi.edu",
-   "5182766582",
-   "Pittsburgh Building 1210"
-  ]
+  "Ravishankar Sundararaman": {
+   "name": "Ravishankar Sundararaman",
+   "email": "sundar@rpi.edu",
+   "phone": "518-276-6757",
+   "location": "MRC 208B"
+  }
  },
  {
-  "Frank-Spear": [
-   "spearf@rpi.edu",
-   "",
-   ""
-  ]
+  "Svedberg": {
+   "name": "Svedberg",
+   "email": "svedbp@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Mary-Anne-Staniszewski": [
-   "stanim@rpi.edu",
-   "518-276-2544",
-   ""
-  ]
+  "Michael Symans": {
+   "name": "Michael Symans",
+   "email": "symans@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "David-Stec": [
-   "stecd2@rpi.edu",
-   "",
-   ""
-  ]
+  "Sara Tack": {
+   "name": "Sara Tack",
+   "email": "tacks2@rpi.edu",
+   "phone": "",
+   "location": "Sage 4204"
+  }
  },
  {
-  "Jonathan-Stetler": [
-   "stetlj2@rpi.edu",
-   "",
-   "OFFICE: MRC 307"
-  ]
+  "Ali Tajer": {
+   "name": "Ali Tajer",
+   "email": "tajera@rpi.edu",
+   "phone": "(518) 276-8237",
+   "location": "JEC 6040"
+  }
  },
  {
-  "Daniel-Stevenson": [
-   "steved8@rpi.edu",
-   "",
-   ""
-  ]
+  "Prakrati Thakur": {
+   "name": "Prakrati Thakur",
+   "email": "thakup@rpi.edu",
+   "phone": "",
+   "location": "3502 Russell Sage Laboratory"
+  }
  },
  {
-  "Himali-Stoccatore": [
-   "stocch@rpi.edu",
-   "",
-   ""
-  ]
+  "Daniel Thero": {
+   "name": "Daniel Thero",
+   "email": "therod@rpi.edu",
+   "phone": "518-276-8102",
+   "location": ""
+  }
  },
  {
-  "Michael-Stradley": [
-   "stradm3@rpi.edu",
-   "2146036936",
-   ""
-  ]
+  "Deanna Thompson": {
+   "name": "Deanna Thompson",
+   "email": "thompd4@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "John-Sturman": [
-   "sturmj@rpi.edu",
-   "",
-   ""
-  ]
+  "John Tichy": {
+   "name": "John Tichy",
+   "email": "tichyj@rpi.edu",
+   "phone": "518-276-6986",
+   "location": ""
+  }
  },
  {
-  "Maurice-Suckling": [
-   "sucklm@rpi.edu",
-   "518-276-8459",
-   "West Hall 405"
-  ]
+  "Anthony Titus": {
+   "name": "Anthony Titus",
+   "email": "titusa@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Jian-Sun": [
-   "jsun@ecse.rpi.edu",
-   "(518) 276-8297",
-   ""
-  ]
+  "Minoru Tomozawa": {
+   "name": "Minoru Tomozawa",
+   "email": "tomozm@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ron-Sun": [
-   "sunr@rpi.edu",
-   "",
-   ""
-  ]
+  "Christopher Tong": {
+   "name": "Christopher Tong",
+   "email": "tongc4@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ravishankar-Sundararaman": [
-   "sundar@rpi.edu",
-   "518-276-6757",
-   "MRC 208B"
-  ]
+  "Filbert Totsingan": {
+   "name": "Filbert Totsingan",
+   "email": "totsif@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Svedberg": [
-   "svedbp@rpi.edu",
-   "",
-   ""
-  ]
+  "Christopher Tozzi": {
+   "name": "Christopher Tozzi",
+   "email": "tozzic@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Michael-Symans": [
-   "symans@rpi.edu",
-   "",
-   ""
-  ]
+  "Holly Traver": {
+   "name": "Holly Traver",
+   "email": "traveh@rpi.edu",
+   "phone": "5182768272",
+   "location": "Sage 3201"
+  }
  },
  {
-  "Sara-Tack": [
-   "tacks2@rpi.edu",
-   "",
-   "Sage 4204"
-  ]
+  "Alexandros Tsamis": {
+   "name": "Alexandros Tsamis",
+   "email": "tsamia@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ali-Tajer": [
-   "tajera@rpi.edu",
-   "(518) 276-8237",
-   "JEC 6040"
-  ]
+  "Steven Tysoe": {
+   "name": "Steven Tysoe",
+   "email": "tysoes@rpi.edu",
+   "phone": "(518) 649-5716",
+   "location": ""
+  }
  },
  {
-  "Prakrati-Thakur": [
-   "thakup@rpi.edu",
-   "",
-   "3502 Russell Sage Laboratory"
-  ]
+  "Shun Uchida": {
+   "name": "Shun Uchida",
+   "email": "uchids@rpi.edu",
+   "phone": "5182766944",
+   "location": ""
+  }
  },
  {
-  "Daniel-Thero": [
-   "therod@rpi.edu",
-   "518-276-8102",
-   ""
-  ]
+  "Chaitanya Ullal": {
+   "name": "Chaitanya Ullal",
+   "email": "ullalc@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Deanna-Thompson": [
-   "thompd4@rpi.edu",
-   "",
-   ""
-  ]
+  "Patrick Underhill": {
+   "name": "Patrick Underhill",
+   "email": "underp3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "John-Tichy": [
-   "tichyj@rpi.edu",
-   "518-276-6986",
-   ""
-  ]
+  "Igor Vamos": {
+   "name": "Igor Vamos",
+   "email": "vamosi@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Anthony-Titus": [
-   "titusa@rpi.edu",
-   "",
-   ""
-  ]
+  "Bram van Heuveln": {
+   "name": "Bram van Heuveln",
+   "email": "heuveb@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Minoru-Tomozawa": [
-   "tomozm@rpi.edu",
-   "",
-   ""
-  ]
+  "Luigi Vanfretti": {
+   "name": "Luigi Vanfretti",
+   "email": "luigi.vanfretti@gmail.com",
+   "phone": "518-496-0196",
+   "location": "JEC 6022"
+  }
  },
  {
-  "Christopher-Tong": [
-   "tongc4@rpi.edu",
-   "",
-   ""
-  ]
+  "Carlos Varela": {
+   "name": "Carlos Varela",
+   "email": "cvarela@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Filbert-Totsingan": [
-   "totsif@rpi.edu",
-   "",
-   ""
-  ]
+  "Christos Varsamis": {
+   "name": "Christos Varsamis",
+   "email": "varsac3@rpi.edu",
+   "phone": "(518) 276-3956",
+   "location": "4048 JEC Building"
+  }
  },
  {
-  "Christopher-Tozzi": [
-   "tozzic@rpi.edu",
-   "",
-   ""
-  ]
+  "Deepak Vashishth": {
+   "name": "Deepak Vashishth",
+   "email": "vashid@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Holly-Traver": [
-   "traveh@rpi.edu",
-   "5182768272",
-   "Sage 3201"
-  ]
+  "Raquel Velho": {
+   "name": "Raquel Velho",
+   "email": "velhor@rpi.edu",
+   "phone": "518-276-2199",
+   "location": ""
+  }
  },
  {
-  "Alexandros-Tsamis": [
-   "tsamia@rpi.edu",
-   "",
-   ""
-  ]
+  "Florencia Vetcher": {
+   "name": "Florencia Vetcher",
+   "email": "vetchf@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Steven-Tysoe": [
-   "tysoes@rpi.edu",
-   "(518) 649-5716",
-   ""
-  ]
+  "Sasha Wagner": {
+   "name": "Sasha Wagner",
+   "email": "wagnes3@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Shun-Uchida": [
-   "uchids@rpi.edu",
-   "5182766944",
-   ""
-  ]
+  "Daniel Walczyk": {
+   "name": "Daniel Walczyk",
+   "email": "walczd@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Chaitanya-Ullal": [
-   "ullalc@rpi.edu",
-   "",
-   ""
-  ]
+  "Alicia Walf": {
+   "name": "Alicia Walf",
+   "email": "walfa@rpi.edu",
+   "phone": "518-276-3840",
+   "location": "Carnegie 304"
+  }
  },
  {
-  "Patrick-Underhill": [
-   "underp3@rpi.edu",
-   "",
-   ""
-  ]
+  "Leo Wan": {
+   "name": "Leo Wan",
+   "email": "wanq@rpi.edu",
+   "phone": "518-276-2505",
+   "location": ""
+  }
  },
  {
-  "Igor-Vamos": [
-   "vamosi@rpi.edu",
-   "",
-   ""
-  ]
+  "Chunyu Wang": {
+   "name": "Chunyu Wang",
+   "email": "wangc5@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Bram-van-Heuveln": [
-   "heuveb@rpi.edu",
-   "",
-   ""
-  ]
+  "Ge Wang": {
+   "name": "Ge Wang",
+   "email": "wangg6@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Luigi-Vanfretti": [
-   "luigi.vanfretti@gmail.com",
-   "518-496-0196",
-   "JEC 6022"
-  ]
+  "Gwo Ching Wang": {
+   "name": "Gwo Ching Wang",
+   "email": "wangg@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Carlos-Varela": [
-   "cvarela@cs.rpi.edu",
-   "",
-   ""
-  ]
+  "Meng Wang": {
+   "name": "Meng Wang",
+   "email": "wangm7@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Christos-Varsamis": [
-   "varsac3@rpi.edu",
-   "(518) 276-3956",
-   "4048 JEC Building"
-  ]
+  "Cara Wang": {
+   "name": "Cara Wang",
+   "email": "wangx18@rpi.edu",
+   "phone": "518-276-2098",
+   "location": "JEC4032"
+  }
  },
  {
-  "Deepak-Vashishth": [
-   "vashid@rpi.edu",
-   "",
-   ""
-  ]
+  "Xun Wang": {
+   "name": "Xun Wang",
+   "email": "wangx33@rpi.edu",
+   "phone": "518-276-6243",
+   "location": ""
+  }
  },
  {
-  "Raquel-Velho": [
-   "velhor@rpi.edu",
-   "518-276-2199",
-   ""
-  ]
+  "Yinan Wang": {
+   "name": "Yinan Wang",
+   "email": "wangy88@rpi.edu",
+   "phone": "518-276-6837",
+   "location": "CII 5213"
+  }
  },
  {
-  "Florencia-Vetcher": [
-   "vetchf@rpi.edu",
-   "",
-   ""
-  ]
+  "Benjamin Weissman": {
+   "name": "Benjamin Weissman",
+   "email": "weissb2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Sasha-Wagner": [
-   "wagnes3@rpi.edu",
-   "",
-   ""
-  ]
+  "John Wen": {
+   "name": "John Wen",
+   "email": "wenj@rpi.edu",
+   "phone": "5182766156",
+   "location": "JEC 6052"
+  }
  },
  {
-  "Daniel-Walczyk": [
-   "walczd@rpi.edu",
-   "",
-   ""
-  ]
+  "Esther Wertz": {
+   "name": "Esther Wertz",
+   "email": "wertze@rpi.edu",
+   "phone": "518 276 2674",
+   "location": ""
+  }
  },
  {
-  "Alicia-Walf": [
-   "walfa@rpi.edu",
-   "518-276-3840",
-   "Carnegie 304"
-  ]
+  "Christian Wetzel": {
+   "name": "Christian Wetzel",
+   "email": "wetzel@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Leo-Wan": [
-   "wanq@rpi.edu",
-   "518-276-2505",
-   ""
-  ]
+  "Ingrid Wilke": {
+   "name": "Ingrid Wilke",
+   "email": "wilkei@rpi.edu",
+   "phone": "+1 518 276 6318",
+   "location": "Jonsson-Rowland Science Center (1C20)"
+  }
  },
  {
-  "Chunyu-Wang": [
-   "wangc5@rpi.edu",
-   "",
-   ""
-  ]
+  "Fred Willett": {
+   "name": "Fred Willett",
+   "email": "willef2@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Ge-Wang": [
-   "wangg6@rpi.edu",
-   "",
-   ""
-  ]
+  "Kyle Wilt": {
+   "name": "Kyle Wilt",
+   "email": "wiltk2@rpi.edu",
+   "phone": "(518) 276-2170",
+   "location": ""
+  }
  },
  {
-  "Gwo-Ching-Wang": [
-   "wangg@rpi.edu",
-   "",
-   ""
-  ]
+  "Corey Woodcock": {
+   "name": "Corey Woodcock",
+   "email": "woodcc2@rpi.edu",
+   "phone": "518-276-3439",
+   "location": ""
+  }
  },
  {
-  "Meng-Wang": [
-   "wangm7@rpi.edu",
-   "",
-   ""
-  ]
+  "Lirong Xia": {
+   "name": "Lirong Xia",
+   "email": "xial@rpi.edu",
+   "phone": "5182766720",
+   "location": ""
+  }
  },
  {
-  "Cara-Wang": [
-   "wangx18@rpi.edu",
-   "518-276-2098",
-   "JEC4032"
-  ]
+  "Ning Xiang": {
+   "name": "Ning Xiang",
+   "email": "xiangn@rpi.edu",
+   "phone": "518-276-6464",
+   "location": ""
+  }
  },
  {
-  "Xun-Wang": [
-   "wangx33@rpi.edu",
-   "518-276-6243",
-   ""
-  ]
+  "Jidong Xiao": {
+   "name": "Jidong Xiao",
+   "email": "xiaoj8@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Yinan-Wang": [
-   "wangy88@rpi.edu",
-   "518-276-6837",
-   "CII 5213"
-  ]
+  "Yangyang Xu": {
+   "name": "Yangyang Xu",
+   "email": "xuy21@rpi.edu",
+   "phone": "518-276-6902",
+   "location": ""
+  }
  },
  {
-  "Benjamin-Weissman": [
-   "weissb2@rpi.edu",
-   "",
-   ""
-  ]
+  "Pingkun Yan": {
+   "name": "Pingkun Yan",
+   "email": "yanp2@rpi.edu",
+   "phone": "(518) 276-4476",
+   "location": ""
+  }
  },
  {
-  "John-Wen": [
-   "wenj@rpi.edu",
-   "5182766156",
-   "JEC 6052"
-  ]
+  "Yingrui Yang": {
+   "name": "Yingrui Yang",
+   "email": "yangyri@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
  },
  {
-  "Esther-Wertz": [
-   "wertze@rpi.edu",
-   "518 276 2674",
-   ""
-  ]
- },
- {
-  "Christian-Wetzel": [
-   "wetzel@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Ingrid-Wilke": [
-   "wilkei@rpi.edu",
-   "+1 518 276 6318",
-   "Jonsson-Rowland Science Center (1C20)"
-  ]
- },
- {
-  "Fred-Willett": [
-   "willef2@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Kyle-Wilt": [
-   "wiltk2@rpi.edu",
-   "(518) 276-2170",
-   ""
-  ]
- },
- {
-  "Corey-Woodcock": [
-   "woodcc2@rpi.edu",
-   "518-276-3439",
-   ""
-  ]
- },
- {
-  "Lirong-Xia": [
-   "xial@rpi.edu",
-   "5182766720",
-   ""
-  ]
- },
- {
-  "Ning-Xiang": [
-   "xiangn@rpi.edu",
-   "518-276-6464",
-   ""
-  ]
- },
- {
-  "Jidong-Xiao": [
-   "xiaoj8@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Yangyang-Xu": [
-   "xuy21@rpi.edu",
-   "518-276-6902",
-   ""
-  ]
- },
- {
-  "Pingkun-Yan": [
-   "yanp2@rpi.edu",
-   "(518) 276-4476",
-   ""
-  ]
- },
- {
-  "Yingrui-Yang": [
-   "yangyri@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Birsen-Yazici": [
-   "yazici@ecse.rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Bulent-Yener": [
-   "yener@cs.rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Lei-Yu": [
-   "yul9@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Jianling-Yue": [
-   "yuej2@rpi.edu",
-   "518-276-3866",
-   ""
-  ]
- },
- {
-  "Mohammed-Zaki": [
-   "zakim@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Mourad-Zeghal": [
-   "zeghal@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Eliane-Zerbetto-Traldi": [
-   "zerbee@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Helen-Zha": [
-   "zhar@rpi.edu",
-   "518-276-4273",
-   ""
-  ]
- },
- {
-  "Lucy-Zhang": [
-   "zhanglucy@rpi.edu",
-   "",
-   "JEC5020; (mail stop) JEC2049-MANE, 110 8th St., Troy, NY 12180"
-  ]
- },
- {
-  "Shengbai-Zhang": [
-   "zhangs9@rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Tong-Zhang": [
-   "tzhang@ecse.rpi.edu",
-   "",
-   ""
-  ]
- },
- {
-  "Helen-Zhou": [
-   "zhouy12@rpi.edu",
-   "518-276-3867",
-   ""
-  ]
- },
- {
-  "Antonella-Zompa": [
-   "zompaa@rpi.edu",
-   "(860) 548-2402",
-   ""
-  ]
+  "Birsen Yazici": {
+   "name": "Birsen Yazici",
+   "email": "yazici@ecse.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Bulent Yener": {
+   "name": "Bulent Yener",
+   "email": "yener@cs.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Lei Yu": {
+   "name": "Lei Yu",
+   "email": "yul9@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Jianling Yue": {
+   "name": "Jianling Yue",
+   "email": "yuej2@rpi.edu",
+   "phone": "518-276-3866",
+   "location": ""
+  }
+ },
+ {
+  "Mohammed Zaki": {
+   "name": "Mohammed Zaki",
+   "email": "zakim@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Mourad Zeghal": {
+   "name": "Mourad Zeghal",
+   "email": "zeghal@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Eliane Zerbetto Traldi": {
+   "name": "Eliane Zerbetto Traldi",
+   "email": "zerbee@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Helen Zha": {
+   "name": "Helen Zha",
+   "email": "zhar@rpi.edu",
+   "phone": "518-276-4273",
+   "location": ""
+  }
+ },
+ {
+  "Lucy Zhang": {
+   "name": "Lucy Zhang",
+   "email": "zhanglucy@rpi.edu",
+   "phone": "",
+   "location": "JEC5020; (mail stop) JEC2049-MANE, 110 8th St., Troy, NY 12180"
+  }
+ },
+ {
+  "Shengbai Zhang": {
+   "name": "Shengbai Zhang",
+   "email": "zhangs9@rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Tong Zhang": {
+   "name": "Tong Zhang",
+   "email": "tzhang@ecse.rpi.edu",
+   "phone": "",
+   "location": ""
+  }
+ },
+ {
+  "Helen Zhou": {
+   "name": "Helen Zhou",
+   "email": "zhouy12@rpi.edu",
+   "phone": "518-276-3867",
+   "location": ""
+  }
+ },
+ {
+  "Antonella Zompa": {
+   "name": "Antonella Zompa",
+   "email": "zompaa@rpi.edu",
+   "phone": "(860) 548-2402",
+   "location": ""
+  }
  }
 ]

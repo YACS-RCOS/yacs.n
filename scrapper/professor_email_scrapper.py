@@ -13,8 +13,8 @@ def a(response_professor):
     location_field = soup2.find('div', {'class': 'field--name-field-location'})
     phone_number = (phone_number is not None and phone_number.text.strip() or '')
     location_field = (location_field != None and location_field.text.strip() or '')
-    new_list = [email_address, phone_number, location_field]
-    new_dict = {professor: new_list}
+    new_list = {"name":professor.replace("-",' '),"email":email_address, "phone":phone_number, "location":location_field}
+    new_dict = {professor.replace("-",' '): new_list}
     professor_dict.append(new_dict)
 
 
@@ -40,6 +40,7 @@ for i in list:
         for k in j:
             if k == '':
                 j.remove(k)
+
 
 print(len(list))
 email_list = []
