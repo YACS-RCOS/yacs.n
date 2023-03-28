@@ -66,9 +66,6 @@
                   <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
                     {{ course }}
                   </b>
-                  <li v-else-if="course.includes('Elective')">
-                      {{ course }}
-                  </li>
                   <li v-else
                     v-on:click="goPage(course)"
                     class="courseInPath">
@@ -228,34 +225,7 @@ export default {
     },
     // split degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
     alphabetCols() {
-      let alphabet = [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-      ];
+      let alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
       let ret = [];
       let col1 = [];
       let col2 = [];
@@ -335,15 +305,26 @@ export default {
     },
     
     goPage(course) {
+
+      let c_lower = course.toLowerCase();
+      if (c_lower.includes("math elective") || c_lower.includes("math option") || c_lower.includes("mathematics")){
+        console.log("MATH elective");
+        this.$router.push("/explore/MATH");
+        return;
+      }      
+
+      if (c_lower.includes("option") || c_lower.includes("elective")){
+        console.log("other elective");
+        this.$router.push("/explore/");
+        return;
+      }
+
       var subject = "" + course[0] + course[1] + course[2] + course[3];
       var courseID = "" + course[5] + course[6] + course[7] + course[8];
       if (course[4] != " ") {
         return;
       }
-      // haven't implemented free elective/hass elective display - good feature for future
-      if(course.includes("Elective")){
-        return;
-      }
+
       if (course[8] == "X") {
         this.$router.push("/explore/" + subject);
       } else {
