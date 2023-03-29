@@ -29,35 +29,33 @@
       </b-button>
     </div>
 
-
-    <div v-if="categories.length > 0" class="mx-auto w-75">
-      <b-row>
-        <!-- splitted categories into 2 arrays, so we can have 2 columns -->
+    <div class="mx-auto w-75">
+        <!-- splitted Pathways in alphabet order -->
         <b-col
-          v-for="(catCol, index) in categoryCols"
-          :key="`catCol-${index}`"
+          v-for="(alphCol, index) in alphabetCols"
+          :key="`alphCol-${index}`"
           md="6"
-          v-show="cateShow"
+          v-show="alphShow"
         >
           <b-row
-            v-for="categoryObj in catCol"
-            :key="categoryObj['Category Name'][0]"
+            v-for="alphabetObj in alphCol"
+            :key="alphabetObj['Category Name']"
             class="categoryBox border m-2 mb-4"
           >
             <b-col>
-              <!-- Category Title  -->
+              <!-- Alphabet Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ categoryObj["Category Name"][0] }}
+                  {{ alphabetObj["Category Name"] }}
                 </h3>
               </b-row>
               <!-- Pathway Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
+                  <!-- LOOP Through the Pathway Alphabet list -->
                   <div
-                    v-for="pathway in categoryObj['Pathways']"
-                    :key="pathway['Name'][0]"
+                    v-for="professor in alphabetObj['Professors']"
+                    :key="professor['Name']"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
@@ -68,7 +66,7 @@
                         variant="light"
                         class="pathway-button m-0 ml-1"
                       >
-                        {{ pathway["Name"][0] }}
+                        {{ professor["Name"] }}
                       </b-button>
                     </div>
                   </div>
@@ -77,73 +75,22 @@
             </b-col>
           </b-row>
         </b-col>
-
-        <!-- splitted Pathways in alphabet order -->
-        <b-col
-          v-for="(alphCol, index) in alphabetCols"
-          :key="`alphCol-${index}`"
-          md="6"
-          v-show="alphShow"
-        >
-          <b-row
-            v-for="alphabetObj in alphCol"
-            :key="alphabetObj['Category Name'][0]"
-            class="categoryBox border m-2 mb-4"
-          >
-            <b-col>
-              <!-- Alphabet Title  -->
-              <b-row class="category-title">
-                <h3 class="m-1 ml-2">
-                  {{ alphabetObj["Category Name"][0] }}
-                </h3>
-              </b-row>
-              <!-- Pathway Names  -->
-              <b-row>
-                <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
-                  <div
-                    v-for="pathway in alphabetObj['Pathways']"
-                    :key="pathway['Name'][0]"
-                    role="tablist"
-                  >
-                    <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
-                      <b-button
-                        @click="ShowPath(pathway)"
-                        squared
-                        variant="light"
-                        class="pathway-button m-0 ml-1"
-                      >
-                        {{ pathway["Name"][0] }}
-                      </b-button>
-                    </div>
-                  </div>
-                </div>
-              </b-row>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
     </div>
-    <CenterSpinner
-      v-else
-      :height="80"
-      :fontSize="1.3"
-      loadingMessage="Pathways"
-      :topSpacing="30"
-    />
+
+
+    
   </b-container>
 </template>
 
 <script>
 import json from "./Professors.json";
-import CenterSpinnerComponent from "../components/CenterSpinner";
+// import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "Professor",
-  components: {
-    CenterSpinner: CenterSpinnerComponent,
-  },
+  // components: {
+  //   CenterSpinner: CenterSpinnerComponent,
+  // },
   data() {
     return {
       breadcrumbNav: [
@@ -155,7 +102,6 @@ export default {
           text: "Professors",
         },
       ],
-      categories: [],
       professors: json,
       showProf: null,
       cateShow: false,
@@ -165,22 +111,28 @@ export default {
   computed: {
     // splitted categories into 2 arrays, one array = one column
     categoryCols() {
-      this.categories = Set();
+      let categories = new Map();
       let ret = [];
       let col1 = [];
       let col2 = [];
 
-      for (var i = 0; i < this.professors.length; i++){
-        this.categories.add(this.professors[i]["Department"]);
+      for (let i = 0; i < this.professors.length; i++){
+        if (!categories.has(this.professors[i]["Department"])){
+          categories.set(this.professors[i]["Department"], []);
+        }
+        categories.set(this.professors[i]["Department"], []).push(this.professors[i]);
       }
 
-      for (var i = 0; i < this.categories.length; i++) {
-        if (i < this.categories.length / 2) {
-          col1.push(this.categories[i]);
+      let i = 0;
+      for (const x of categories.entries()) {
+        if (i < this.categories.size / 2) {
+          col1.push(x);
         } else {
-          col2.push(this.categories[i]);
+          col2.push(x);
         }
+        i++;
       }
+
       ret.push(col1);
       ret.push(col2);
       return ret;
@@ -218,28 +170,29 @@ export default {
         "Y",
         "Z",
       ];
+
       let ret = [];
       let col1 = [];
       let col2 = [];
       for (var i = 0; i < alphabet.length; i++){
         var tmp = {
           "Category Name": alphabet[i],
-          Professors: [],
+          "Professors": [],
         };
         for (var j = 0; j < this.professors.length; j++){
           var name = this.professors[j];
           var last_name = name.split(" ")[1];
           if (last_name.startsWith(alphabet[i])){
-            tmp["Pathways"].push(this.professors[i]);
+            tmp["Professors"].push(this.professors[j]);
           }
         }
-        tmp["Pathways"].sort(function(a,b){return a.split[" "][1] - b.split[" "][1]});
+        tmp["Professors"].sort(function(a,b){return a.split[" "][1] - b.split[" "][1]});
 
         // splitted categories into 2 arrays
-        if (tmp["Pathways"].length > 0) {
+        if (tmp["Professors"].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
-            count += tmp["Pathways"].length + 0.2;
+            count += tmp["Professors"].length + 0.2;
           } else {
             col2.push(tmp);
           }

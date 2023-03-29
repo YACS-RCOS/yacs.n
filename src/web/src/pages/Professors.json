@@ -1,5 +1,5 @@
-{
-    "trzepj": {
+[
+    {
         "Name": "Louis Trzepacz",
         "Title": "Dean, Student Success",
         "Email": "trzepj@rpi.edu",
@@ -8,7 +8,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "gregac": {
+    {
         "Name": "Connie Grega",
         "Title": "Director, Graduate Student Services",
         "Email": "gregac@rpi.edu",
@@ -17,7 +17,7 @@
         "Portfolio": "Graduate Education",
         "Profile Page": ""
     },
-    "gelmaj": {
+    {
         "Name": "Jessica Anderson",
         "Title": "Administrative Coordinator",
         "Email": "gelmaj@rpi.edu",
@@ -26,7 +26,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": ""
     },
-    "dunns6": {
+    {
         "Name": "Stanley Dunn",
         "Title": "Vice Provost & Dean, Graduate Education",
         "Email": "dunns6@rpi.edu",
@@ -35,7 +35,7 @@
         "Portfolio": "Graduate Education",
         "Profile Page": ""
     },
-    "nevod": {
+    {
         "Name": "Dorit Nevo",
         "Title": "Acting Vice Provost & Dean, Graduate Education",
         "Email": "nevod@rpi.edu",
@@ -44,7 +44,7 @@
         "Portfolio": "Graduate Education",
         "Profile Page": "https://faculty.rpi.edu/Dorit-Nevo"
     },
-    "wagnel2": {
+    {
         "Name": "Lorelei Wagner",
         "Title": "Lecturer",
         "Email": "wagnel2@rpi.edu",
@@ -53,7 +53,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Lorelei-Wagner"
     },
-    "gallok2": {
+    {
         "Name": "Kathleen Galloway",
         "Title": "Assistant Professor",
         "Email": "gallok2@rpi.edu",
@@ -62,7 +62,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Kathleen-Galloway"
     },
-    "ricer3": {
+    {
         "Name": "Ross Rice",
         "Title": "Lecturer",
         "Email": "ricer3@rpi.edu",
@@ -71,7 +71,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Ross-Rice"
     },
-    "moreyj": {
+    {
         "Name": "Jamecyn Morey",
         "Title": "Performer",
         "Email": "moreyj@rpi.edu",
@@ -80,7 +80,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Jamecyn-Morey"
     },
-    "fishec5": {
+    {
         "Name": "Christopher Fisher-Lochhead",
         "Title": "Lecturer",
         "Email": "fishec5@rpi.edu",
@@ -89,7 +89,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Christopher-Fisher-Lochhead"
     },
-    "gerbit": {
+    {
         "Name": "Thomas Gerbino",
         "Title": "Adjunct",
         "Email": "gerbit@rpi.edu",
@@ -98,7 +98,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Thomas-Gerbino"
     },
-    "quiglp": {
+    {
         "Name": "Paul Quigley",
         "Title": "Adjunct",
         "Email": "quiglp@rpi.edu",
@@ -107,7 +107,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Paul-Quigley"
     },
-    "presse2": {
+    {
         "Name": "Elizabeth Press",
         "Title": "Lecturer",
         "Email": "presse2@rpi.edu",
@@ -116,7 +116,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Elizabeth-Press"
     },
-    "ruzans": {
+    {
         "Name": "Silvia Ruzanka",
         "Title": "Assistant Professor",
         "Email": "ruzans@rpi.edu",
@@ -125,7 +125,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Silvia-Ruzanka"
     },
-    "lovels3": {
+    {
         "Name": "Stephanie Loveless",
         "Title": "Lecturer",
         "Email": "lovels3@rpi.edu",
@@ -134,7 +134,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Stephanie-Loveless"
     },
-    "vamosi": {
+    {
         "Name": "Igor Vamos",
         "Title": "Professor & Department Head",
         "Email": "vamosi@rpi.edu",
@@ -143,7 +143,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Igor-Vamos"
     },
-    "georgj9": {
+    {
         "Name": "Julian Georg",
         "Title": "Lecturer",
         "Email": "georgj9@rpi.edu",
@@ -152,7 +152,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Julian-Georg"
     },
-    "frasek2": {
+    {
         "Name": "Keith Fraser",
         "Title": "Lecturer, Sr.",
         "Email": "frasek2@rpi.edu",
@@ -161,7 +161,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Keith-Fraser"
     },
-    "wangc5": {
+    {
         "Name": "Chunyu Wang",
         "Title": "Professor",
         "Email": "wangc5@rpi.edu",
@@ -170,7 +170,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Chunyu-Wang"
     },
-    "bystrc": {
+    {
         "Name": "Chris Bystroff",
         "Title": "Professor",
         "Email": "bystrc@rpi.edu",
@@ -179,7 +179,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Chris-Bystroff"
     },
-    "swankd": {
+    {
         "Name": "Doug Swank",
         "Title": "Professor",
         "Email": "swankd@rpi.edu",
@@ -188,7 +188,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Doug-Swank"
     },
-    "ramans": {
+    {
         "Name": "Seemanti Ramanath",
         "Title": "Lecturer",
         "Email": "ramans@rpi.edu",
@@ -197,7 +197,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Seemanti-Ramanath"
     },
-    "shablg": {
+    {
         "Name": "Georgi Shablovsky",
         "Title": "Course Developer",
         "Email": "shablg@rpi.edu",
@@ -206,7 +206,7 @@
         "Portfolio": "School of Science",
         "Profile Page": ""
     },
-    "kleinm6": {
+    {
         "Name": "Michael Klein",
         "Title": "Lecturer",
         "Email": "kleinm6@rpi.edu",
@@ -215,7 +215,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Michael-Klein"
     },
-    "stetlj2": {
+    {
         "Name": "Jonathan Stetler",
         "Title": "Lecturer",
         "Email": "stetlj2@rpi.edu",
@@ -224,7 +224,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Jonathan-Stetler"
     },
-    "bonocr": {
+    {
         "Name": "Richard Bonocora",
         "Title": "Lecturer, Sr.",
         "Email": "bonocr@rpi.edu",
@@ -233,7 +233,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Richard-Bonocora"
     },
-    "rutlee": {
+    {
         "Name": "Eric Rutledge",
         "Title": "Lecturer, Sr.",
         "Email": "rutlee@rpi.edu",
@@ -242,7 +242,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Eric-Rutledge"
     },
-    "nierzs": {
+    {
         "Name": "Sandra Nierzwicki-Bauer",
         "Title": "Director of DFWI & Professor",
         "Email": "nierzs@rpi.edu",
@@ -251,7 +251,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Sandra-Nierzwicki-Bauer"
     },
-    "ligonl": {
+    {
         "Name": "Lee Ligon",
         "Title": "Associate Professor & Associate Dean",
         "Email": "ligonl@rpi.edu",
@@ -260,7 +260,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Lee-Ligon"
     },
-    "gilbes2": {
+    {
         "Name": "Susan Gilbert",
         "Title": "Professor & Department Head",
         "Email": "gilbes2@rpi.edu",
@@ -269,7 +269,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Susan-Gilbert"
     },
-    "barqub": {
+    {
         "Name": "Blanca Barquera",
         "Title": "Professor",
         "Email": "barqub@rpi.edu",
@@ -278,7 +278,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Blanca-Barquera"
     },
-    "rosek4": {
+    {
         "Name": "Kevin Rose",
         "Title": "Associate Professor",
         "Email": "rosek4@rpi.edu",
@@ -287,7 +287,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Kevin-Rose"
     },
-    "dordick": {
+    {
         "Name": "Jonathan Dordick",
         "Title": "Institute Professor",
         "Email": "dordick@rpi.edu",
@@ -296,7 +296,7 @@
         "Portfolio": "Office for Research",
         "Profile Page": "https://faculty.rpi.edu/Jonathan-Dordick"
     },
-    "makhag": {
+    {
         "Name": "George Makhatadze",
         "Title": "Professor & Associate Department Head",
         "Email": "makhag@rpi.edu",
@@ -305,7 +305,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/George-Makhatadze"
     },
-    "leeg11": {
+    {
         "Name": "George Lee",
         "Title": "Lecturer",
         "Email": "leeg11@rpi.edu",
@@ -314,7 +314,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/George-Lee"
     },
-    "hahnm": {
+    {
         "Name": "Mariah Hahn",
         "Title": "Professor",
         "Email": "hahnm@rpi.edu",
@@ -323,7 +323,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Mariah-Hahn"
     },
-    "maldon": {
+    {
         "Name": "Natalia Maldonado Martinez",
         "Title": "Lecturer",
         "Email": "maldon@rpi.edu",
@@ -332,7 +332,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Natalia-Maldonado-Martinez"
     },
-    "agarwm2": {
+    {
         "Name": "Monica Agarwal",
         "Title": "Lecturer, Sr.",
         "Email": "agarwm2@rpi.edu",
@@ -341,7 +341,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Monica-Agarwal"
     },
-    "hahnj": {
+    {
         "Name": "Juergen Hahn",
         "Title": "Professor & Department Head",
         "Email": "hahnj@rpi.edu",
@@ -350,7 +350,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Juergen-Hahn"
     },
-    "mohamh2": {
+    {
         "Name": "Hisham Mohamed",
         "Title": "Lecturer, Sr.",
         "Email": "mohamh2@rpi.edu",
@@ -359,7 +359,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Hisham-Mohamed"
     },
-    "abbott3": {
+    {
         "Name": "Thomas Abbott",
         "Title": "Lecturer, Sr.",
         "Email": "abbott3@rpi.edu",
@@ -368,7 +368,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Thomas-Abbott"
     },
-    "stecd2": {
+    {
         "Name": "David Stec",
         "Title": "Lecturer",
         "Email": "stecd2@rpi.edu",
@@ -377,7 +377,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/David-Stec"
     },
-    "chapmr": {
+    {
         "Name": "Richard Chapman",
         "Title": "Adjunct",
         "Email": "chapmr@rpi.edu",
@@ -386,7 +386,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": ""
     },
-    "baysan": {
+    {
         "Name": "Nihat Baysal",
         "Title": "Professor of Practice",
         "Email": "baysan@rpi.edu",
@@ -395,7 +395,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Nihat-Baysal"
     },
-    "plawsky": {
+    {
         "Name": "Joel Plawsky",
         "Title": "Professor & Department Head",
         "Email": "plawsky@rpi.edu",
@@ -404,7 +404,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Joel-Plawsky"
     },
-    "woodcc2": {
+    {
         "Name": "Corey Woodcock",
         "Title": "Lecturer",
         "Email": "woodcc2@rpi.edu",
@@ -413,7 +413,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Corey-Woodcock"
     },
-    "karanp": {
+    {
         "Name": "Pankaj Karande",
         "Title": "Associate Professor",
         "Email": "karanp@rpi.edu",
@@ -422,7 +422,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Pankaj-Karande"
     },
-    "hedder": {
+    {
         "Name": "Ronald Hedden",
         "Title": "Professor of Practice",
         "Email": "hedder@rpi.edu",
@@ -431,7 +431,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ronald-Hedden"
     },
-    "colonw": {
+    {
         "Name": "Wilfredo Colon",
         "Title": "Professor & Department Head",
         "Email": "colonw@rpi.edu",
@@ -440,7 +440,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Wilfredo-Colon"
     },
-    "belfog": {
+    {
         "Name": "Georges Belfort",
         "Title": "Institute Professor",
         "Email": "belfog@rpi.edu",
@@ -449,7 +449,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Georges-Belfort"
     },
-    "maa4": {
+    {
         "Name": "Alexander Ma",
         "Title": "Lecturer, Sr.",
         "Email": "maa4@rpi.edu",
@@ -458,7 +458,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Alexander-Ma"
     },
-    "morrik8": {
+    {
         "Name": "Kathleen Morrissey",
         "Title": "Laboratory Manager",
         "Email": "morrik8@rpi.edu",
@@ -467,7 +467,7 @@
         "Portfolio": "School of Science",
         "Profile Page": ""
     },
-    "tysoes": {
+    {
         "Name": "Steven Tysoe",
         "Title": "Lecturer",
         "Email": "tysoes@rpi.edu",
@@ -476,7 +476,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Steven-Tysoe"
     },
-    "kirovm": {
+    {
         "Name": "Margarita Kirova-Snover",
         "Title": "Lecturer",
         "Email": "kirovm@rpi.edu",
@@ -485,7 +485,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Margarita-Kirova-Snover"
     },
-    "totsif": {
+    {
         "Name": "Filbert Totsingan",
         "Title": "Lecturer",
         "Email": "totsif@rpi.edu",
@@ -494,7 +494,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Filbert-Totsingan"
     },
-    "dinolp": {
+    {
         "Name": "Peter Dinolfo",
         "Title": "Associate Professor & Associate Head",
         "Email": "dinolp@rpi.edu",
@@ -503,7 +503,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Peter-Dinolfo"
     },
-    "bonitp2": {
+    {
         "Name": "Peter J.  Bonitatibus",
         "Title": "Professor of Practice",
         "Email": "bonitp2@rpi.edu",
@@ -512,7 +512,7 @@
         "Portfolio": "School of Science",
         "Profile Page": ""
     },
-    "koreng": {
+    {
         "Name": "Gerald Korenowski",
         "Title": "Professor",
         "Email": "koreng@rpi.edu",
@@ -521,7 +521,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Gerald-Korenowski"
     },
-    "sprage": {
+    {
         "Name": "Liz Sprague",
         "Title": "Lecturer, Sr.",
         "Email": "sprage@rpi.edu",
@@ -530,7 +530,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Liz-Sprague"
     },
-    "symans": {
+    {
         "Name": "Michael Symans",
         "Title": "Associate Professor",
         "Email": "symans@rpi.edu",
@@ -539,7 +539,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Michael-Symans"
     },
-    "letchc": {
+    {
         "Name": "Christopher Letchford",
         "Title": "Professor & Department Head",
         "Email": "letchc@rpi.edu",
@@ -548,7 +548,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Christopher-Letchford"
     },
-    "abdout": {
+    {
         "Name": "Tarek Abdoun",
         "Title": "Professor & Endowed Chair",
         "Email": "abdout@rpi.edu",
@@ -557,7 +557,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Tarek-Abdoun"
     },
-    "weissb2": {
+    {
         "Name": "Benjamin Weissman",
         "Title": "Lecturer",
         "Email": "weissb2@rpi.edu",
@@ -566,7 +566,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Benjamin-Weissman"
     },
-    "walfa": {
+    {
         "Name": "Alicia Walf",
         "Title": "Lecturer, Sr.",
         "Email": "walfa@rpi.edu",
@@ -575,7 +575,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Alicia-Walf"
     },
-    "sim": {
+    {
         "Name": "Mei Si",
         "Title": "Associate Professor",
         "Email": "sim@rpi.edu",
@@ -584,7 +584,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Mei-Si"
     },
-    "heuveb": {
+    {
         "Name": "Bram Van Heuveln",
         "Title": "Lecturer",
         "Email": "heuveb@rpi.edu",
@@ -593,7 +593,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Bram-Van-Heuveln"
     },
-    "gordot": {
+    {
         "Name": "Tamar Gordon",
         "Title": "Acting Department Head & Associate Professor",
         "Email": "gordot@rpi.edu",
@@ -602,7 +602,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Tamar-Gordon"
     },
-    "ranw": {
+    {
         "Name": "Weina Ran",
         "Title": "Lecturer",
         "Email": "ranw@rpi.edu",
@@ -611,7 +611,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Weina-Ran"
     },
-    "jeansc": {
+    {
         "Name": "Christopher Jeansonne",
         "Title": "Lecturer",
         "Email": "jeansc@rpi.edu",
@@ -620,7 +620,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Christopher-Jeansonne"
     },
-    "searcp": {
+    {
         "Name": "Patricia Search",
         "Title": "Professor & Director, Center for Global Communications & Design",
         "Email": "searcp@rpi.edu",
@@ -629,7 +629,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Patricia-Search"
     },
-    "zhouy12": {
+    {
         "Name": "Helen Zhou",
         "Title": "Associate Professor",
         "Email": "zhouy12@rpi.edu",
@@ -638,7 +638,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Helen-Zhou"
     },
-    "armaor": {
+    {
         "Name": "Rosemary Armao",
         "Title": "Adjunct",
         "Email": "armaor@rpi.edu",
@@ -647,7 +647,7 @@
         "Portfolio": "Undergraduate Education",
         "Profile Page": "https://faculty.rpi.edu/Rosemary-Armao"
     },
-    "mushtu": {
+    {
         "Name": "Uzma Mushtaque",
         "Title": "Lecturer",
         "Email": "mushtu@rpi.edu",
@@ -656,7 +656,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Uzma-Mushtaque"
     },
-    "hulbes": {
+    {
         "Name": "Shianne Hulbert",
         "Title": "Instrutional Support Coordinator",
         "Email": "hulbes@rpi.edu",
@@ -665,7 +665,7 @@
         "Portfolio": "School of Science",
         "Profile Page": ""
     },
-    "kuzmik2": {
+    {
         "Name": "Konstantin Kuzmin",
         "Title": "Lecturer",
         "Email": "kuzmik2@rpi.edu",
@@ -674,7 +674,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Konstantin-Kuzmin"
     },
-    "turnew2": {
+    {
         "Name": "Wes Turner",
         "Title": "Lecturer, Sr.",
         "Email": "turnew2@rpi.edu",
@@ -683,7 +683,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Wes-Turner"
     },
-    "goldsd3": {
+    {
         "Name": "David Goldschmidt",
         "Title": "Lecturer, Sr.",
         "Email": "goldsd3@rpi.edu",
@@ -692,7 +692,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/David-Goldschmidt"
     },
-    "sturmj": {
+    {
         "Name": "John Sturman",
         "Title": "Lecturer",
         "Email": "sturmj@rpi.edu",
@@ -701,7 +701,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/John-Sturman"
     },
-    "henshw": {
+    {
         "Name": "William Henshaw",
         "Title": "Professor",
         "Email": "henshw@rpi.edu",
@@ -710,7 +710,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/William-Henshaw"
     },
-    "zakim": {
+    {
         "Name": "Mohammed Zaki",
         "Title": "Professor & Department Head",
         "Email": "zakim@rpi.edu",
@@ -719,7 +719,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Mohammed-Zaki"
     },
-    "hendlj2": {
+    {
         "Name": "James Hendler",
         "Title": "Professor & Director, Data, Artificial Intelligence, and Computing",
         "Email": "hendlj2@rpi.edu",
@@ -728,7 +728,7 @@
         "Portfolio": "Office for Research",
         "Profile Page": "https://faculty.rpi.edu/James-Hendler"
     },
-    "brings": {
+    {
         "Name": "Selmer Bringsjord",
         "Title": "Professor",
         "Email": "brings@rpi.edu",
@@ -737,7 +737,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Selmer-Bringsjord"
     },
-    "milana2": {
+    {
         "Name": "Ana Milanova",
         "Title": "Associate Professor",
         "Email": "milana2@rpi.edu",
@@ -746,7 +746,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Ana-Milanova"
     },
-    "mcguid": {
+    {
         "Name": "Deborah McGuinness",
         "Title": "Sr. Constellation Prof. of Tetherless World Res. Constellation",
         "Email": "mcguid@rpi.edu",
@@ -755,7 +755,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Deborah-McGuinness"
     },
-    "carotc": {
+    {
         "Name": "Christopher Carothers",
         "Title": "Director, Center for Computational Innovations",
         "Email": "carotc@rpi.edu",
@@ -764,7 +764,7 @@
         "Portfolio": "Office for Research",
         "Profile Page": "https://faculty.rpi.edu/Christopher-Carothers"
     },
-    "varelc": {
+    {
         "Name": "Carlos Varela",
         "Title": "Professor",
         "Email": "varelc@rpi.edu",
@@ -773,7 +773,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Carlos-Varela"
     },
-    "cutleb": {
+    {
         "Name": "Barbara Cutler",
         "Title": "Associate Professor",
         "Email": "cutleb@rpi.edu",
@@ -782,7 +782,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Barbara-Cutler"
     },
-    "szymab": {
+    {
         "Name": "Bolek Szymanski",
         "Title": "Claire & Roland Schmitt Distinguished Prof. of Computer Science",
         "Email": "szymab@rpi.edu",
@@ -791,7 +791,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Bolek-Szymanski"
     },
-    "ashene2": {
+    {
         "Name": "Eyosias Ashenafi",
         "Title": "Lecturer",
         "Email": "ashene2@rpi.edu",
@@ -800,7 +800,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Eyosias-Ashenafi"
     },
-    "morrij5": {
+    {
         "Name": "Jeff Morris",
         "Title": "Lecturer",
         "Email": "morrij5@rpi.edu",
@@ -809,7 +809,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Jeff-Morris"
     },
-    "szczej": {
+    {
         "Name": "John Szczesniak",
         "Title": "Laboratory Manager",
         "Email": "szczej@rpi.edu",
@@ -818,7 +818,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "ganapr": {
+    {
         "Name": "Ganpati Ramanath",
         "Title": "Professor",
         "Email": "ganapr@rpi.edu",
@@ -827,7 +827,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ganpati-Ramanath"
     },
-    "warnej3": {
+    {
         "Name": "Jason Warner",
         "Title": "Lecturer",
         "Email": "warnej3@rpi.edu",
@@ -836,7 +836,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Jason-Warner"
     },
-    "taylok5": {
+    {
         "Name": "Keith Taylor",
         "Title": "Lecturer",
         "Email": "taylok5@rpi.edu",
@@ -845,7 +845,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "elshao2": {
+    {
         "Name": "Omar El-Shafee",
         "Title": "Lecturer, Sr.",
         "Email": "elshao2@rpi.edu",
@@ -854,7 +854,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Omar-El-Shafee"
     },
-    "ozisik": {
+    {
         "Name": "Rahmi Ozisik",
         "Title": "Associate Professor",
         "Email": "ozisik@rpi.edu",
@@ -863,7 +863,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Rahmi-Ozisik"
     },
-    "wangx33": {
+    {
         "Name": "Xun Wang",
         "Title": "Lecturer, Sr.",
         "Email": "wangx33@rpi.edu",
@@ -872,7 +872,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Xun-Wang"
     },
-    "sundar": {
+    {
         "Name": "Ravishankar Sundararaman",
         "Title": "Associate Professor & Career Development Chair",
         "Email": "sundar@rpi.edu",
@@ -881,7 +881,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ravishankar-Sundararaman"
     },
-    "keblip": {
+    {
         "Name": "Paul Keblinski",
         "Title": "Professor & Department Head",
         "Email": "keblip@rpi.edu",
@@ -890,7 +890,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Paul-Keblinski"
     },
-    "henrys3": {
+    {
         "Name": "Susan Henry",
         "Title": "Associate Director & Lecturer",
         "Email": "henrys3@rpi.edu",
@@ -899,7 +899,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "schiet": {
+    {
         "Name": "Tracy Sullivan",
         "Title": "Director, Archer Center",
         "Email": "schiet@rpi.edu",
@@ -908,7 +908,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "obierj": {
+    {
         "Name": "Judith Obiero",
         "Title": "Associate Director & Lecturer",
         "Email": "obierj@rpi.edu",
@@ -917,7 +917,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "agcaae": {
+    {
         "Name": "Esra Agca Aktunc",
         "Title": "Lecturer, Sr.",
         "Email": "agcaae@rpi.edu",
@@ -926,7 +926,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Esra-Agca-Aktunc"
     },
-    "bhadut2": {
+    {
         "Name": "Tathagata Bhaduri",
         "Title": "Lecturer",
         "Email": "bhadut2@rpi.edu",
@@ -935,7 +935,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Tathagata-Bhaduri"
     },
-    "oehlsm": {
+    {
         "Name": "Matt Oehlschlaeger",
         "Title": "Professor & Associate Dean",
         "Email": "oehlsm@rpi.edu",
@@ -944,7 +944,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Matt-Oehlschlaeger"
     },
-    "tongc4": {
+    {
         "Name": "Christopher Tong",
         "Title": "Professor of Practice",
         "Email": "tongc4@rpi.edu",
@@ -953,7 +953,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Christopher-Tong"
     },
-    "padalr": {
+    {
         "Name": "Rushabh Padalia",
         "Title": "Lecturer",
         "Email": "padalr@rpi.edu",
@@ -962,7 +962,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Rushabh-Padalia"
     },
-    "olausj": {
+    {
         "Name": "Peter Olausson",
         "Title": "Lecturer, Sr.",
         "Email": "olausj@rpi.edu",
@@ -971,7 +971,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Peter-Olausson"
     },
-    "zompaa": {
+    {
         "Name": "Antonella Zompa",
         "Title": "Professor of Practice",
         "Email": "zompaa@rpi.edu",
@@ -980,7 +980,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Antonella-Zompa"
     },
-    "hughem6": {
+    {
         "Name": "Michael Hughes",
         "Title": "Lecturer, Sr.",
         "Email": "hughem6@rpi.edu",
@@ -989,7 +989,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Michael-Hughes"
     },
-    "cadies": {
+    {
         "Name": "Sarah Cadieux",
         "Title": "Lecturer",
         "Email": "cadies@rpi.edu",
@@ -998,7 +998,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Sarah-Cadieux"
     },
-    "wagnes3": {
+    {
         "Name": "Sasha Wagner",
         "Title": "Assistant Professor",
         "Email": "wagnes3@rpi.edu",
@@ -1007,7 +1007,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Sasha-Wagner"
     },
-    "jonesr2": {
+    {
         "Name": "Robert Jones",
         "Title": "Lecturer",
         "Email": "jonesr2@rpi.edu",
@@ -1016,7 +1016,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Robert-Jones"
     },
-    "lennoc": {
+    {
         "Name": "Conor Lennon",
         "Title": "Associate Professor & Endowed Chair",
         "Email": "lennoc@rpi.edu",
@@ -1025,7 +1025,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Conor-Lennon"
     },
-    "mahmom2": {
+    {
         "Name": "Mina Mahmoudi",
         "Title": "Lecturer",
         "Email": "mahmom2@rpi.edu",
@@ -1034,7 +1034,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Mina-Mahmoudi"
     },
-    "parras2": {
+    {
         "Name": "Sarah Greene",
         "Title": "Lecturer",
         "Email": "parras2@rpi.edu",
@@ -1043,7 +1043,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Sarah-Greene"
     },
-    "pengh5": {
+    {
         "Name": "Huaming Peng",
         "Title": "Lecturer",
         "Email": "pengh5@rpi.edu",
@@ -1052,7 +1052,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Huaming-Peng"
     },
-    "sawyes": {
+    {
         "Name": "Shayla Sawyer",
         "Title": "Professor",
         "Email": "sawyes@rpi.edu",
@@ -1061,7 +1061,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Shayla-Sawyer"
     },
-    "netip": {
+    {
         "Name": "Prabhakar Neti",
         "Title": "Professor of Practice",
         "Email": "netip@rpi.edu",
@@ -1070,7 +1070,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Prabhakar-Neti"
     },
-    "krugeu": {
+    {
         "Name": "Uwe Kruger",
         "Title": "Professor of Practice",
         "Email": "krugeu@rpi.edu",
@@ -1079,7 +1079,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Uwe-Kruger"
     },
-    "reesj3": {
+    {
         "Name": "James Rees",
         "Title": "Lecturer",
         "Email": "reesj3@rpi.edu",
@@ -1088,7 +1088,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/James-Rees"
     },
-    "luj": {
+    {
         "Name": "James Lu",
         "Title": "Professor",
         "Email": "luj@rpi.edu",
@@ -1097,7 +1097,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/James-Lu"
     },
-    "wenj": {
+    {
         "Name": "John Wen",
         "Title": "Professor & Department Head",
         "Email": "wenj@rpi.edu",
@@ -1106,7 +1106,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/John-Wen"
     },
-    "schubert": {
+    {
         "Name": "E. Fred Schubert",
         "Title": "Constellation Chair/Professor (ECSE and Physics Depts)",
         "Email": "schubert@rpi.edu",
@@ -1115,7 +1115,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "wiltk2": {
+    {
         "Name": "Kyle Wilt",
         "Title": "Lecturer, Sr.",
         "Email": "wiltk2@rpi.edu",
@@ -1124,7 +1124,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Kyle-Wilt"
     },
-    "frankwr": {
+    {
         "Name": "W Randolph Franklin",
         "Title": "Professor",
         "Email": "frankwr@rpi.edu",
@@ -1133,7 +1133,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/W-Randolph-Franklin"
     },
-    "radker": {
+    {
         "Name": "Rich Radke",
         "Title": "Professor",
         "Email": "radker@rpi.edu",
@@ -1142,7 +1142,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Rich-Radke"
     },
-    "bhati": {
+    {
         "Name": "Ishwara Bhat",
         "Title": "Professor",
         "Email": "bhati@rpi.edu",
@@ -1151,7 +1151,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ishwara-Bhat"
     },
-    "kark": {
+    {
         "Name": "Koushik Kar",
         "Title": "Professor",
         "Email": "kark@rpi.edu",
@@ -1160,7 +1160,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Koushik-Kar"
     },
-    "zhangt4": {
+    {
         "Name": "Tong Zhang",
         "Title": "Professor",
         "Email": "zhangt4@rpi.edu",
@@ -1169,7 +1169,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Tong-Zhang"
     },
-    "chowj": {
+    {
         "Name": "Joe Chow",
         "Title": "Institute Professor",
         "Email": "chowj@rpi.edu",
@@ -1178,7 +1178,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Joe-Chow"
     },
-    "abouza": {
+    {
         "Name": "Alhussein Abouzeid",
         "Title": "Professor",
         "Email": "abouza@rpi.edu",
@@ -1187,7 +1187,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Alhussein-Abouzeid"
     },
-    "shurm": {
+    {
         "Name": "Michael Shur",
         "Title": "Patricia W. and C. Sheldon Roberts Professor (ECSE and Physics)",
         "Email": "shurm@rpi.edu",
@@ -1196,7 +1196,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Michael-Shur"
     },
-    "huangz3": {
+    {
         "Name": "Rena Huang",
         "Title": "Associate Professor",
         "Email": "huangz3@rpi.edu",
@@ -1205,7 +1205,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Rena-Huang"
     },
-    "kilduff": {
+    {
         "Name": "Chip Kilduff",
         "Title": "Associate Professor",
         "Email": "kilduff@rpi.edu",
@@ -1214,7 +1214,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Chip-Kilduff"
     },
-    "nidefr": {
+    {
         "Name": "Robert Nideffer",
         "Title": "Professor",
         "Email": "nidefr@rpi.edu",
@@ -1223,7 +1223,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Robert-Nideffer"
     },
-    "mizern": {
+    {
         "Name": "Nicholas Mizer",
         "Title": "Lecturer",
         "Email": "mizern@rpi.edu",
@@ -1232,7 +1232,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Nicholas-Mizer"
     },
-    "ameree": {
+    {
         "Name": "Eric Ameres",
         "Title": "Lecturer, Sr.",
         "Email": "ameree@rpi.edu",
@@ -1241,7 +1241,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Eric-Ameres"
     },
-    "korolr2": {
+    {
         "Name": "Rostyslav Korolov",
         "Title": "Lecturer",
         "Email": "korolr2@rpi.edu",
@@ -1250,7 +1250,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Rostyslav-Korolov"
     },
-    "hirsaa3": {
+    {
         "Name": "Azita Hirsa",
         "Title": "Lecturer",
         "Email": "hirsaa3@rpi.edu",
@@ -1259,7 +1259,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Azita-Hirsa"
     },
-    "mendod": {
+    {
         "Name": "David Mendonca",
         "Title": "Research Scientist, Sr.",
         "Email": "mendod@rpi.edu",
@@ -1268,7 +1268,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "pazouj": {
+    {
         "Name": "Jennifer Pazour",
         "Title": "Associate Professor",
         "Email": "pazouj@rpi.edu",
@@ -1277,7 +1277,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Jennifer-Pazour"
     },
-    "schelk": {
+    {
         "Name": "Kristen Schell",
         "Title": "Research Scientist",
         "Email": "schelk@rpi.edu",
@@ -1286,7 +1286,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "bennek": {
+    {
         "Name": "Kristin Bennett",
         "Title": "Professor & Associate Director",
         "Email": "bennek@rpi.edu",
@@ -1295,7 +1295,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Kristin-Bennett"
     },
-    "corroa": {
+    {
         "Name": "Amy Youmans",
         "Title": "Associate Director & Lecturer",
         "Email": "corroa@rpi.edu",
@@ -1304,7 +1304,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "aniccs": {
+    {
         "Name": "Skye Anicca",
         "Title": "Lecturer",
         "Email": "aniccs@rpi.edu",
@@ -1313,7 +1313,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Skye-Anicca"
     },
-    "yuej2": {
+    {
         "Name": "Jianling Yue",
         "Title": "Lecturer",
         "Email": "yuej2@rpi.edu",
@@ -1322,7 +1322,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Jianling-Yue"
     },
-    "narenn2": {
+    {
         "Name": "Nadarajah Narendran",
         "Title": "Professor",
         "Email": "narenn2@rpi.edu",
@@ -1331,7 +1331,7 @@
         "Portfolio": "School of Architecture",
         "Profile Page": "https://faculty.rpi.edu/Nadarajah-Narendran"
     },
-    "ballic2": {
+    {
         "Name": "Clint Ballinger",
         "Title": "Lecturer",
         "Email": "ballic2@rpi.edu",
@@ -1340,7 +1340,7 @@
         "Portfolio": "Lally School of Management",
         "Profile Page": "https://faculty.rpi.edu/Clint-Ballinger"
     },
-    "clarkb2": {
+    {
         "Name": "Brian Clark",
         "Title": "Associate Professor",
         "Email": "clarkb2@rpi.edu",
@@ -1349,7 +1349,7 @@
         "Portfolio": "Lally School of Management",
         "Profile Page": "https://faculty.rpi.edu/Brian-Clark"
     },
-    "mckinj": {
+    {
         "Name": "Jonathan McKinney",
         "Title": "Lecturer",
         "Email": "mckinj@rpi.edu",
@@ -1358,7 +1358,7 @@
         "Portfolio": "Lally School of Management",
         "Profile Page": "https://faculty.rpi.edu/Jonathan-McKinney"
     },
-    "francb": {
+    {
         "Name": "Bill Francis",
         "Title": "Professor & Endowed Chair",
         "Email": "francb@rpi.edu",
@@ -1367,7 +1367,7 @@
         "Portfolio": "Lally School of Management",
         "Profile Page": "https://faculty.rpi.edu/Bill-Francis"
     },
-    "kumarm2": {
+    {
         "Name": "M.V. Shyam Kumar",
         "Title": "Professor",
         "Email": "kumarm2@rpi.edu",
@@ -1376,7 +1376,7 @@
         "Portfolio": "Lally School of Management",
         "Profile Page": ""
     },
-    "lewisd2": {
+    {
         "Name": "Dan Lewis",
         "Title": "Associate Professor",
         "Email": "lewisd2@rpi.edu",
@@ -1385,7 +1385,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Dan-Lewis"
     },
-    "palere": {
+    {
         "Name": "Edmund Palermo",
         "Title": "Associate Professor",
         "Email": "palere@rpi.edu",
@@ -1394,7 +1394,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Edmund-Palermo"
     },
-    "hullr2": {
+    {
         "Name": "Robert Hull",
         "Title": "Vice President, Research",
         "Email": "hullr2@rpi.edu",
@@ -1403,7 +1403,7 @@
         "Portfolio": "Office for Research",
         "Profile Page": "https://faculty.rpi.edu/Robert-Hull"
     },
-    "duqued": {
+    {
         "Name": "David Duquette",
         "Title": "Professor",
         "Email": "duqued@rpi.edu",
@@ -1412,7 +1412,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/David-Duquette"
     },
-    "galld": {
+    {
         "Name": "Daniel Gall",
         "Title": "Professor",
         "Email": "galld@rpi.edu",
@@ -1421,7 +1421,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Daniel-Gall"
     },
-    "zerbee": {
+    {
         "Name": "Eliane Zerbetto Traldi",
         "Title": "Lecturer",
         "Email": "zerbee@rpi.edu",
@@ -1430,7 +1430,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Eliane-Zerbetto-Traldi"
     },
-    "kiehlm": {
+    {
         "Name": "Maya Kiehl",
         "Title": "Lecturer, Sr.",
         "Email": "kiehlm@rpi.edu",
@@ -1439,7 +1439,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Maya-Kiehl"
     },
-    "galodb": {
+    {
         "Name": "Belmiro Galo da Silva",
         "Title": "Lecturer",
         "Email": "galodb@rpi.edu",
@@ -1448,7 +1448,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Belmiro-Galo-da-Silva"
     },
-    "kovacg": {
+    {
         "Name": "Gregor Kovacic",
         "Title": "Professor",
         "Email": "kovacg@rpi.edu",
@@ -1457,7 +1457,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Gregor-Kovacic"
     },
-    "schwed": {
+    {
         "Name": "Donald Schwendeman",
         "Title": "Professor & Department Head",
         "Email": "schwed@rpi.edu",
@@ -1466,7 +1466,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Donald-Schwendeman"
     },
-    "piperb": {
+    {
         "Name": "Bruce Piper",
         "Title": "Associate Professor & Associate Department Head",
         "Email": "piperb@rpi.edu",
@@ -1475,7 +1475,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Bruce-Piper"
     },
-    "ghosha4": {
+    {
         "Name": "Asish Ghosh",
         "Title": "Professor of Practice",
         "Email": "ghosha4@rpi.edu",
@@ -1484,7 +1484,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Asish-Ghosh"
     },
-    "venerj2": {
+    {
         "Name": "Jordan Vener",
         "Title": "Associate Director & Lecturer",
         "Email": "venerj2@rpi.edu",
@@ -1493,7 +1493,7 @@
         "Portfolio": "Student Life",
         "Profile Page": ""
     },
-    "pannek2": {
+    {
         "Name": "Karthik Panneerselvam",
         "Title": "Lecturer",
         "Email": "pannek2@rpi.edu",
@@ -1502,7 +1502,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Karthik-Panneerselvam"
     },
-    "houslk2": {
+    {
         "Name": "Kevin Housley",
         "Title": "Lecturer",
         "Email": "houslk2@rpi.edu",
@@ -1511,7 +1511,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Kevin-Housley"
     },
-    "repoll2": {
+    {
         "Name": "Luiz Victor Repolho Cagliari",
         "Title": "Lecturer",
         "Email": "repoll2@rpi.edu",
@@ -1520,7 +1520,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Luiz-Victor-Repolho-Cagliari"
     },
-    "borcat": {
+    {
         "Name": "Theo Borca-Tasciuc",
         "Title": "Professor",
         "Email": "borcat@rpi.edu",
@@ -1529,7 +1529,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Theo-Borca-Tasciuc"
     },
-    "borcad": {
+    {
         "Name": "Diana Borca Tasciuc",
         "Title": "Professor",
         "Email": "borcad@rpi.edu",
@@ -1538,7 +1538,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Diana-Borca-Tasciuc"
     },
-    "mcdour": {
+    {
         "Name": "Randy McDougall",
         "Title": "Technical Manager",
         "Email": "mcdour@rpi.edu",
@@ -1547,7 +1547,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": ""
     },
-    "maniaa": {
+    {
         "Name": "Antoinette Maniatty",
         "Title": "Professor & Acting Department Head",
         "Email": "maniaa@rpi.edu",
@@ -1556,7 +1556,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Antoinette-Maniatty"
     },
-    "gutiee": {
+    {
         "Name": "Ernesto Gutierrez-Miravete",
         "Title": "Professor of Practice",
         "Email": "gutiee@rpi.edu",
@@ -1565,7 +1565,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Ernesto-Gutierrez-Miravete"
     },
-    "cunhaf": {
+    {
         "Name": "Francisco Cunha",
         "Title": "Professor of Practice",
         "Email": "cunhaf@rpi.edu",
@@ -1574,7 +1574,7 @@
         "Portfolio": "Rensselaer at Work",
         "Profile Page": "https://faculty.rpi.edu/Francisco-Cunha"
     },
-    "shis3": {
+    {
         "Name": "Shanbin Shi",
         "Title": "Assistant Professor",
         "Email": "shis3@rpi.edu",
@@ -1583,7 +1583,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Shanbin-Shi"
     },
-    "zhangl12": {
+    {
         "Name": "Lucy Zhang",
         "Title": "Professor",
         "Email": "zhangl12@rpi.edu",
@@ -1592,7 +1592,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Lucy-Zhang"
     },
-    "kopsaf": {
+    {
         "Name": "Fotios Kopsaftopoulos",
         "Title": "Assistant Professor",
         "Email": "kopsaf@rpi.edu",
@@ -1601,7 +1601,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Fotios-Kopsaftopoulos"
     },
-    "mishrs2": {
+    {
         "Name": "Sandipan Mishra",
         "Title": "Professor",
         "Email": "mishrs2@rpi.edu",
@@ -1610,7 +1610,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Sandipan-Mishra"
     },
-    "milanj3": {
+    {
         "Name": "John Milanese",
         "Title": "Lecturer",
         "Email": "milanj3@rpi.edu",
@@ -1619,7 +1619,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/John-Milanese"
     },
-    "smiths27": {
+    {
         "Name": "Susan Smith",
         "Title": "Lecturer",
         "Email": "smiths27@rpi.edu",
@@ -1628,7 +1628,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Susan-Smith"
     },
-    "kimy10": {
+    {
         "Name": "Yong Sung Kim",
         "Title": "Lecturer, Sr.",
         "Email": "kimy10@rpi.edu",
@@ -1637,7 +1637,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Yong-Sung-Kim"
     },
-    "michaj2": {
+    {
         "Name": "Joseph Michael",
         "Title": "Lecturer",
         "Email": "michaj2@rpi.edu",
@@ -1646,7 +1646,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Joseph-Michael"
     },
-    "persap": {
+    {
         "Name": "Peter Persans",
         "Title": "Professor",
         "Email": "persap@rpi.edu",
@@ -1655,7 +1655,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Peter-Persans"
     },
-    "westd2": {
+    {
         "Name": "Damien West",
         "Title": "Lecturer",
         "Email": "westd2@rpi.edu",
@@ -1664,7 +1664,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Damien-West"
     },
-    "martic13": {
+    {
         "Name": "Charles Martin",
         "Title": "Lecturer, Sr.",
         "Email": "martic13@rpi.edu",
@@ -1673,7 +1673,7 @@
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Charles-Martin"
     },
-    "wangg": {
+    {
         "Name": "Ge Wang",
         "Title": "Professor",
         "Email": "wangg6@rpi.edu",
@@ -1682,7 +1682,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ge-Wang"
     },
-    "jacobj9": {
+    {
         "Name": "Jason Jacobskind",
         "Title": "Lecturer",
         "Email": "jacobj9@rpi.edu",
@@ -1691,7 +1691,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Jason-Jacobskind"
     },
-    "traveh": {
+    {
         "Name": "Holly Traver",
         "Title": "Lecturer",
         "Email": "traveh@rpi.edu",
@@ -1700,7 +1700,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Holly-Traver"
     },
-    "yangyri": {
+    {
         "Name": "Yingrui Yang",
         "Title": "Associate Professor",
         "Email": "yangyri@rpi.edu",
@@ -1709,7 +1709,7 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Yingrui-Yang"
     },
-    "hoffma3": {
+    {
         "Name": "Allison Hoffman",
         "Title": "Lecturer",
         "Email": "hoffma3@rpi.edu",
@@ -1718,7 +1718,7 @@
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Allison-Hoffman"
     },
-    "estabs": {
+    {
         "Name": "Sam Estabrooks",
         "Title": "Lecturer",
         "Email": "estabs@rpi.edu",
@@ -1727,15 +1727,16 @@
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Sam-Estabrooks"
     },
-    "linhar": {
+    {
         "Name": "Robert Linhardt",
         "Title": "",
         "Email": "linhar@rpi.edu",
         "Phone": "518-276-3404",
-        "Department": "Ann and John H. Broadbent, Jr. ’59 Senior Constellation Professor of Biocatalysis and Metabolic Engineering",
+        "Department": "Ann and John H. Broadbent, Jr. \u201959 Senior Constellation Professor of Biocatalysis and Metabolic Engineering",
         "Portfolio": "",
         "Profile Page": "https://faculty.rpi.edu/Robert-Linhardt"
-    },"duttap": {
+    },
+    {
         "Name": "Partha Dutta",
         "Title": "Professor Emeritus",
         "Email": "duttap@rpi.edu",
@@ -1743,7 +1744,8 @@
         "Department": "Electrical, Computer, and Systems Engineering",
         "Portfolio": "",
         "Profile Page": "https://faculty.rpi.edu/Partha-Dutta"
-    },"wallaw": {
+    },
+    {
         "Name": "William Wallace",
         "Title": "Professor Emeritus",
         "Email": "wallaw@rpi.edu",
@@ -1752,4 +1754,4 @@
         "Portfolio": "",
         "Profile Page": "https://faculty.rpi.edu/William-Wallace"
     }
-}
+]
