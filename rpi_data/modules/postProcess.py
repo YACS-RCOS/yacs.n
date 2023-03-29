@@ -4,8 +4,10 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import re
 
-baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&subj_code_in={department}&crse_numb_in={courseNumber}'
+baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
+subj_code_in={department}&crse_numb_in={courseNumber}'
 
 
 def read_csv(file_name : str = 'fall-2023.csv') -> list:
@@ -27,8 +29,42 @@ def write_csv(file_name : str = 'fall-2023_fixed.csv', data :list = []) -> None:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerows(data)
 
+def parsePrerequisites(rawPrerequisites : str) -> str:
+    return re.findall(r'\b[A-Z]{4}\s[0-9]{4}\b', rawPrerequisites)
+
+
+def getCourseLink(semester : str, department : str, courseNumber : str) -> str:
+    return baseLink.format(semester=semester, department=department, courseNumber=courseNumber)
+
+def main():
+    session = requests.Session()
+    semester = '202309'
+    data = read_csv('rpi_data/modules/fall-2023.csv')
+
+    preDescription = ''
+    prePrerequisites = ''
+
+    for row in data:
+    # row = data[6]
+        department = row[11]
+        courseNumber = row[16]
+        link = getCourseLink(semester, department, courseNumber)
+        print(link)
+        page = session.get(link)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        rawbody = soup.find('td', class_='ntdefault')
+        body = rawbody.text.split('\n\n')
+        description = body[0].strip()
+        prerequisites = None
+        for i in range(1,len(body)):
+            if body[i].strip() == 'Prerequisites:':
+                rawprerequisites = parsePrerequisites(body[i+1].strip())
+                if rawprerequisites != []:
+                    prerequisites = rawprerequisites
+        row[20] = description
+        if prerequisites != None:
+            row[23] = prerequisites
+    write_csv('rpi_data/modules/fall-2023_fixed.csv',data)
 
 if __name__ == '__main__':
-    data = read_csv()
-    
-    write_csv(data=data)
+    main()
