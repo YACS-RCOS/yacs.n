@@ -174,6 +174,10 @@ export default {
           ? this.courseList
           : this.$store.getters.courses;
 
+      //get all courses by ID
+      // const coursesID = this.$store.getters.coursesById;
+      // console.log("courseID: "+coursesID.length);
+
       // filter by selected department
       const filtered = courses.filter(
         (course) =>
@@ -186,14 +190,60 @@ export default {
                 course.date_end.getTime()))
       );
 
-      // returns exact match, if not found, then department filtered list
+      // console.log("filter: "+filtered.length);
+      // // console.log(this.textSearch);
+      // // console.log(this.textSearch.toUpperCase().replace("-", " "));
+      // console.log(filtered[0].department+" "+filtered[0].level);
+      // console.log("title: "+filtered[0].title); //uppercase
+      // console.log("full title: "+filtered[0].full_title); //lowerase
+      var tempSEARCH = this.textSearch.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
+      var department = tempSEARCH.substring(0,4).toUpperCase();
+      var level = tempSEARCH.substring(4,8);
+      console.log("\nFULL: "+tempSEARCH);
+      console.log("DEP: "+department);
+      console.log("LEVEL: "+level);
+      var SEARCH = department+" "+level;
+      console.log("SEARCH: "+SEARCH);
+      //returns exact match, if not found, then department filtered list
+      //REAL
+      // const find = filtered.find(
+      //   (course) =>
+      //     (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
+      //       (course.title.toUpperCase() === this.textSearch.toUpperCase())
+      // );
+
       const find = filtered.find(
         (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
+          (course.full_title && course.full_title.toUpperCase() === SEARCH.toUpperCase()) ||
+            (course.title.toUpperCase() === SEARCH.toUpperCase())
       );
+
+      //DORIAN
+      // const find = filtered.find(
+      //   (course) =>{
+      //     console.log("ACT DEP: "+course.department);
+      //     console.log("ACT LEVEL: "+course.level);
+      //     return (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
+      //       (course.title.toUpperCase() === this.textSearch.toUpperCase()) ||
+      //       ((department === course.department.toUpperCase()) && (level === course.level));}
+      // );
+
+      //MLAMMON11
+      // const find = filtered.find(
+      //     (course) =>
+      //         (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
+      //         (course.title.toUpperCase() === this.textSearch.toUpperCase()) ||
+      //         ((course.department && course.department.toUpperCase() === this.textSearch.split("-")[0]) &&
+      //           (course.level === this.textSearch.split("-")[1])) ||
+      //         (course.title.toUpperCase() === this.textSearch.toUpperCase())
+      // );
+
+      // const find2 = filtered.find(
+      //     (course) =>
+      //         ((course.department.toUpperCase() === this.textSearch.toUpperCase().split("-")[0])
+      //             && (course.level === this.textSearch.split("-")[1]))
+      // );
+      // console.log("find 2: "+find2);
 
       if (find) return [find];
       else return filtered;
