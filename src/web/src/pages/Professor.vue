@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
-    <!-- button to switch between alphabet order and category order -->
+    <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
       <b-button
         @click="listAlphabet()"
@@ -17,7 +17,7 @@
       </b-button>
       <br />
       <b-button
-        @click="listCat()"
+        @click="listDepartment()"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -25,15 +25,59 @@
           background-color: transparent;
         "
       >
-        List by Category
+        List by Department
       </b-button>
     </div>
 
     <div v-if="professors.length > 0" class="mx-auto w-75">
       <b-row>
-        
+        <!-- split departments into 2 arrays, so we can have 2 columns -->
+        <b-col
+          v-for="(deptCol, index) in departmentCols"
+          :key="`deptCol-${index}`"
+          md="6"
+          v-show="deptShow"
+        >
+          <b-row
+            v-for="deptObj in deptCol"
+            :key="deptObj['Department']"
+            class="categoryBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Category Title  -->
+              <b-row class="category-title">
+                <h3 class="m-1 ml-2">
+                  {{ deptObj["Department"] }}
+                </h3>
+              </b-row>
+              <!-- Pathway Names  -->
+              <b-row>
+                <div class="d-flex flex-column flex-grow-1">
+                  <!-- LOOP Through the Pathway Categories list -->
+                  <div
+                    v-for="prof in deptObj['Professors']"
+                    :key="prof['Name']"
+                    role="tablist"
+                  >
+                    <div class="mt-1 mb-1 w-100">
+                      <!-- professor button -->
+                      <b-button
+                        @click="showProf(prof)"
+                        squared
+                        variant="light"
+                        class="professor-button m-0 ml-1"
+                      >
+                        {{ prof['Name'] }}
+                      </b-button>
+                    </div>
+                  </div>
+                </div>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
 
-        <!-- splitted Pathways in alphabet order -->
+        <!-- split professors into alphabet order -->
         <b-col
           v-for="(alphCol, index) in alphabetCols"
           :key="`alphCol-${index}`"
@@ -55,19 +99,19 @@
               <!-- Professor Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
+                  <!-- LOOP Through the Professor Alphabet list -->
                   <div
                     v-for="prof in alphabetObj['Professors']"
                     :key="prof['Name']"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
+                      <!-- professor button -->
                       <b-button
-                        @click="ShowProf(prof)"
+                        @click="showProf(prof)"
                         squared
                         variant="light"
-                        class="pathway-button m-0 ml-1"
+                        class="professor-button m-0 ml-1"
                       >
                         {{ prof["Name"] }}
                       </b-button>
@@ -112,12 +156,70 @@ export default {
       ],
       professors: json,
       showProf: null,
-      catShow: false,
+      deptShow: false,
       alphShow: true,
     };
   },
   computed: {
-    // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
+    departmentCols() {
+      // create list of departments
+      var half_length = Math.ceil(this.professors.length / 2);
+      var count = 0;
+      var departments = [];
+      var dept = "";
+      for (let i = 0; i < this.professors.length; i++){
+        dept = this.professors[i]["Department"];
+        if (dept == ""){
+          dept = this.professors[i]["Portfolio"];
+        }
+        if (!departments.includes(dept)){
+          departments.push(dept)
+        }
+      }
+      departments.sort();
+
+      let ret = [];
+      let col1 = [];
+      let col2 = [];
+      for (var i = 0; i < departments.length; i++){
+        var tmp = {
+          "Department": departments[i],
+          "Professors": [],
+        };
+        for (var j = 0; j < this.professors.length; j++){
+          dept = this.professors[j]["Department"];
+          if (dept == ""){
+            dept = this.professors[i]["Portfolio"];
+          }
+          var name = this.professors[j]["Name"];
+          var last_name = name.split(" ")[1];
+          if (dept == departments[i]){
+            var index = 0;
+            while (index < tmp["Professors"].length){
+              if (last_name < tmp["Professors"][index]["Name"].split(" ")[1]){
+                break
+              }
+              index++;
+            }
+            tmp["Professors"].splice(index, 0, this.professors[j]);
+          }
+        }
+
+        // split departments into 2 arrays
+        if (tmp["Professors"].length > 0) {
+          if (count < half_length) {
+            col1.push(tmp);
+            count += tmp["Professors"].length + 0.2;
+          } else {
+            col2.push(tmp);
+          }
+        }
+      }
+      ret.push(col1);
+      ret.push(col2);
+      return ret;
+    },
+    // split professors into alphabet groups, then split groups into 2 columns
     alphabetCols() {
       var half_length = Math.ceil(this.professors.length / 2);
       var count = 0;
@@ -173,7 +275,7 @@ export default {
           }
         }
 
-        // splitted categories into 2 arrays
+        // split departments into 2 arrays
         if (tmp["Professors"].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
@@ -191,11 +293,11 @@ export default {
 
   methods: {
     listAlphabet() {
-      this.catShow = false;
+      this.deptShow = false;
       this.alphShow = true;
     },
-    listCat() {
-      this.catShow = true;
+    listDepartment() {
+      this.deptShow = true;
       this.alphShow = false;
     },
   },
@@ -220,23 +322,15 @@ export default {
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
 
-.pathway-button {
+.professor-button {
   display: inline-block;
   background: white;
   border-style: none;
   text-align: justify;
-  width: 95%;
+  width: 75%;
 }
 
-.pathway-button:hover {
+.professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
-}
-
-.courseInPath {
-  cursor: pointer;
-}
-
-.courseInPath:hover {
-  background-color: rgba(39, 130, 230, 0.5);
 }
 </style>
