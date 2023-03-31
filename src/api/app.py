@@ -321,17 +321,16 @@ async def get_professor_info_by_email(email:str):
     professor_info, error = professor_info.get_professor_info_by_email(email)
     return professor_info if not error else Response(content=error, status_code=500)
 
-@app.get('api/professor/add/{info}')
-async def add_professor(info:str):
-    professor_info = info.split(' ')
-    # info = ["email", "first_name", "last_name", "phone_number", "department", "office_room",
-    #  "classes", "office_hours_time", "rcs"]
-    # for professor in professor_info:
+@app.post('api/professor/add')
+async def add_professor(request: Request, professor:ProfessorPydantic):
+    if 'user' not in request.session:
+        return Response("Not authorized", status_code=403)
+    professor, error = course_select.add_selection(professor.email, professor.first_name,professor.last_name, 
+    professor.phone_number, professor.department, professor.office_room, professor.classes, 
+    professor.office_hours_time, professor.rcs )
+    return professor if not error else Response(error, status_code=500)
 
-    # professor, error = professor_info.add_professor()
-    #return professor if not error else Response(content=error, status_code=500)
-
-@app.get('api/professor/remove/{email}')
+@app.delete('api/professor/remove/{email}')
 async def remove_professor(email:str):
     professor, error = professor_info.remove_professor_by_email(email)
     return professor if not error else Response(error, status_code=500)

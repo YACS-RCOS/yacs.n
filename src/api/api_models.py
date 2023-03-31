@@ -46,6 +46,15 @@ class SubsemesterPydantic(BaseModel):
 class DefaultSemesterSetPydantic(BaseModel):
     default: str
 
-#class Professor(BaseModel):
+class ProfessorPydantic(BaseModel):
+    email: str
+    first_name: str
+    last_name: str 
+    phone_number: str 
+    department: str 
+    office_room: str 
+    classes: str
+    office_hours_time: str 
+    rcs: str
 #add professor and figure out what to do
     
