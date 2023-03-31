@@ -1,38 +1,35 @@
 <template>
-    <b-list-group id="selected-course-list" flush data-cy="selected-courses">
+    <b-list-group id="prerequisite-list" flush data-cy="prerequisites">
       <div v-if="Object.keys(courses).length == 0" class="no-courses">
-        Oops! It looks like you haven't selected anything!
-        <br />
-        Please select some courses from the "Course Search" tab!
+        There is no Prerequisite to display!
       </div>
-      <b-list-group-item
-        class="selected"
-        v-for="course of courses"
-        :key="course.id"
-      >
-        <CourseListing :course="course" v-on="$listeners" />
-      </b-list-group-item>
+      <li v-for="course in courses" :key = "course">
+        {{ course.key }}
+        <p>
+            <b-col>
+                <p v-html=course.value />
+            </b-col>
+        </p>
+      </li>
     </b-list-group>
   </template>
   
   <script>
   import "@/typedef";
-  
-  import CourseListingComponent from "@/components/CourseListing";
+
   
   export default {
-    name: "SelectedCourses",
+    name: "Prerequisites",
     components: {
-      CourseListing: CourseListingComponent,
     },
     props: {
       courses: Object,
     },
   };
   </script>
-  
+
   <style scoped lang="scss">
-  #selected-course-list {
+  #prerequisite-list {
     overflow-y: scroll !important;
     overflow-x: auto;
     min-height: 200px;

@@ -55,16 +55,13 @@
                 <div class="text-center" data-cy="correspond-prerequisites-tab">
                   Prerequisites
                   <b-badge variant="light" data-cy="num-prerequisites">
-                    {{ numPrerequisites }}
+                    {{ getPrerequisites.length }}
                   </b-badge>
                 </div>
               </template>
               <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
                 <Prerequisites
-                  :courses="selectedCourses"
-                  @removeCourse="removeCourse"
-                  @removeCourseSection="removeCourseSection"
-                  @addCourseSection="addCourseSection"
+                :courses = getPrerequisites
                 />
               </b-card-text>
             </b-tab>
@@ -129,6 +126,7 @@
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
                 <h5>Credits: {{ totalCredits }}</h5>
+                <h5>Pre:{{ getPrerequisites }}</h5>
               </b-col>
 
               <b-col md="3" justify="end">
@@ -288,7 +286,6 @@ export default {
   data() {
     return {
       selectedCourses: {},
-      prerequisites: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
@@ -645,6 +642,62 @@ export default {
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
+    },
+
+    /**
+     * Get the Prerequisites
+     */
+    getPrerequisites() {
+      var prerequisites = []
+      /*
+      var array = Object.values(this.selectedCourses).map((c) => c.raw_precoreqs);
+      var course_name = Object.values(this.selectedCourses).map((c) => c.full_title);*/
+      /*
+      for(let i = 0; i < array.length; i++){
+          if(array[i]){
+          for(let j = 0; j < array[i].length; j++){
+            if(!prerequisites.includes(array[i][j])){
+              prerequisites.push({ key: array[i][j], value: course_name[i] })
+            }
+            else{
+              prerequisites.array[i][j].push(course_name[i])
+            }
+          }
+        }
+        */
+       let array = Object.values(this.selectedCourses)
+       for(let i = 0; i < array.length; i++){
+        if (array[i].raw_precoreqs){
+
+          let precoreqtext = array[i].raw_precoreqs;
+          if (precoreqtext === null) {
+            return "No information on pre/corequisites";
+          }
+          const regex = /([A-Z]){4}( )([0-9]){4}/g;
+          while (precoreqtext.search(regex) != -1) {
+            let index = precoreqtext.search(regex);
+            let beforetext = precoreqtext.slice(0, index);
+            let dept = precoreqtext.slice(index, index + 4);
+            let course_name = precoreqtext
+              .slice(index, index + 9)
+              .split(" ")
+              .join("-");
+            let link = '<a href="/explore/'.concat(
+              dept,
+              "/",
+              course_name,
+              '">',
+              course_name,
+              "</a>"
+            );
+            let aftertext = precoreqtext.slice(index + 9);
+            precoreqtext = beforetext.concat(link, aftertext);
+          }
+
+          prerequisites.push({ key: array[i].full_title, value: precoreqtext})
+        }
+       }
+      return prerequisites
     },
 
     scheduleDisplayMessage() {
