@@ -1,1433 +1,1784 @@
-export default {
-    "Louis": {
-        "Name": "Louis Trzepacz",
-        "Title": "Dean, Student Success",
-        "Email": "trzepj@rpi.edu",
-        "Phone": "518-276-8022",
-        "Department": "Student Success",
-        "Portfolio": "Student Life",
-        "Profile Page": ""
-    },
-    "Connie": {
-        "Name": "Connie Grega",
-        "Title": "Director, Graduate Student Services",
-        "Email": "gregac@rpi.edu",
-        "Phone": "518-276-6761",
-        "Department": "",
-        "Portfolio": "Graduate Education",
-        "Profile Page": ""
-    },
-    "Jessica": {
-        "Name": "Jessica Anderson",
-        "Title": "Administrative Coordinator",
-        "Email": "gelmaj@rpi.edu",
-        "Phone": "",
-        "Department": "Student Support and Success",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": ""
-    },
-    "Stanley": {
-        "Name": "Stanley Dunn",
-        "Title": "Vice Provost & Dean, Graduate Education",
-        "Email": "dunns6@rpi.edu",
-        "Phone": "518-276-8433",
-        "Department": "",
-        "Portfolio": "Graduate Education",
-        "Profile Page": ""
-    },
-    "Dorit": {
-        "Name": "Dorit Nevo",
-        "Title": "Acting Vice Provost & Dean, Graduate Education",
-        "Email": "nevod@rpi.edu",
-        "Phone": "518-276-3336",
-        "Department": "",
-        "Portfolio": "Graduate Education",
-        "Profile Page": "https://faculty.rpi.edu/Dorit-Nevo"
-    },
-    "Lorelei": {
-        "Name": "Lorelei Wagner",
-        "Title": "Lecturer",
-        "Email": "wagnel2@rpi.edu",
-        "Phone": "",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Lorelei-Wagner"
-    },
-    "Kathleen": {
-        "Name": "Kathleen Morrissey",
-        "Title": "Laboratory Manager",
-        "Email": "morrik8@rpi.edu",
-        "Phone": "518-276-4863",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": ""
-    },
-    "Ross": {
-        "Name": "Ross Rice",
-        "Title": "Lecturer",
-        "Email": "ricer3@rpi.edu",
-        "Phone": "518-276-4778",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Ross-Rice"
-    },
-    "Jamecyn": {
-        "Name": "Jamecyn Morey",
-        "Title": "Performer",
-        "Email": "moreyj@rpi.edu",
-        "Phone": "518-276-4778",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Jamecyn-Morey"
-    },
-    "Christopher": {
-        "Name": "Christopher Tong",
-        "Title": "Professor of Practice",
-        "Email": "tongc4@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Christopher-Tong"
-    },
-    "Thomas": {
-        "Name": "Thomas Abbott",
-        "Title": "Lecturer, Sr.",
-        "Email": "abbott3@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Thomas-Abbott"
-    },
-    "Paul": {
-        "Name": "Paul Keblinski",
-        "Title": "Professor & Department Head",
-        "Email": "keblip@rpi.edu",
-        "Phone": "518-276-6858",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Paul-Keblinski"
-    },
-    "Elizabeth": {
-        "Name": "Elizabeth Press",
-        "Title": "Lecturer",
-        "Email": "presse2@rpi.edu",
-        "Phone": "518-276-4778",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Elizabeth-Press"
-    },
-    "Silvia": {
-        "Name": "Silvia Ruzanka",
-        "Title": "Assistant Professor",
-        "Email": "ruzans@rpi.edu",
-        "Phone": "518-276-3856",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Silvia-Ruzanka"
-    },
-    "Stephanie": {
-        "Name": "Stephanie Loveless",
-        "Title": "Lecturer",
-        "Email": "lovels3@rpi.edu",
-        "Phone": "518-276-4778",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Stephanie-Loveless"
-    },
-    "Igor": {
-        "Name": "Igor Vamos",
-        "Title": "Professor & Department Head",
-        "Email": "vamosi@rpi.edu",
-        "Phone": "518-276-4778",
-        "Department": "Arts",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Igor-Vamos"
-    },
-    "Julian": {
-        "Name": "Julian Georg",
-        "Title": "Lecturer",
-        "Email": "georgj9@rpi.edu",
-        "Phone": "518-276-6310",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Julian-Georg"
-    },
-    "Keith": {
-        "Name": "Keith Taylor",
-        "Title": "Lecturer",
-        "Email": "taylok5@rpi.edu",
-        "Phone": "518-276-4406",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": ""
-    },
-    "Chunyu": {
-        "Name": "Chunyu Wang",
-        "Title": "Professor",
-        "Email": "wangc5@rpi.edu",
-        "Phone": "518-276-3497",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Chunyu-Wang"
-    },
-    "Chris": {
-        "Name": "Chris Bystroff",
-        "Title": "Professor",
-        "Email": "bystrc@rpi.edu",
-        "Phone": "518-276-3185",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Chris-Bystroff"
-    },
-    "Doug": {
-        "Name": "Doug Swank",
-        "Title": "Professor",
-        "Email": "swankd@rpi.edu",
-        "Phone": "518-276-4174",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Doug-Swank"
-    },
-    "Seemanti": {
-        "Name": "Seemanti Ramanath",
-        "Title": "Lecturer",
-        "Email": "ramans@rpi.edu",
-        "Phone": "518-276-8338",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Seemanti-Ramanath"
-    },
-    "Georgi": {
-        "Name": "Georgi Shablovsky",
-        "Title": "Course Developer",
-        "Email": "shablg@rpi.edu",
-        "Phone": "518-892-9592",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": ""
-    },
-    "Michael": {
-        "Name": "Michael Shur",
-        "Title": "Patricia W. and C. Sheldon Roberts Professor (ECSE and Physics)",
-        "Email": "shurm@rpi.edu",
-        "Phone": "518-276-2201",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Michael-Shur"
-    },
-    "Jonathan": {
-        "Name": "Jonathan McKinney",
-        "Title": "Lecturer",
-        "Email": "mckinj@rpi.edu",
-        "Phone": "518-276-2812",
-        "Department": "",
-        "Portfolio": "Lally School of Management",
-        "Profile Page": "https://faculty.rpi.edu/Jonathan-McKinney"
-    },
-    "Richard": {
-        "Name": "Richard Chapman",
-        "Title": "Adjunct",
-        "Email": "chapmr@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": ""
-    },
-    "Eric": {
-        "Name": "Eric Ameres",
-        "Title": "Lecturer, Sr.",
-        "Email": "ameree@rpi.edu",
-        "Phone": "518-276-4408",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Eric-Ameres"
-    },
-    "Sandra": {
-        "Name": "Sandra Nierzwicki-Bauer",
-        "Title": "Director of DFWI & Professor",
-        "Email": "nierzs@rpi.edu",
-        "Phone": "518-276-2359",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Sandra-Nierzwicki-Bauer"
-    },
-    "Lee": {
-        "Name": "Lee Ligon",
-        "Title": "Associate Professor & Associate Dean",
-        "Email": "ligonl@rpi.edu",
-        "Phone": "518-276-3458",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Lee-Ligon"
-    },
-    "Susan": {
-        "Name": "Susan Smith",
-        "Title": "Lecturer",
-        "Email": "smiths27@rpi.edu",
-        "Phone": "518-276-3881",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Susan-Smith"
-    },
-    "Blanca": {
-        "Name": "Blanca Barquera",
-        "Title": "Professor",
-        "Email": "barqub@rpi.edu",
-        "Phone": "518-276-3861",
-        "Department": "Biological Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Blanca-Barquera"
-    },
-    "Kevin": {
-        "Name": "Kevin Housley",
-        "Title": "Lecturer",
-        "Email": "houslk2@rpi.edu",
-        "Phone": "518-276-2529",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Kevin-Housley"
-    },
-    "George": {
-        "Name": "George Lee",
-        "Title": "Lecturer",
-        "Email": "leeg11@rpi.edu",
-        "Phone": "518-276-6204",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/George-Lee"
-    },
-    "Mariah": {
-        "Name": "Mariah Hahn",
-        "Title": "Professor",
-        "Email": "hahnm@rpi.edu",
-        "Phone": "518-276-2236",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Mariah-Hahn"
-    },
-    "Natalia": {
-        "Name": "Natalia Maldonado Martinez",
-        "Title": "Lecturer",
-        "Email": "maldon@rpi.edu",
-        "Phone": "518-276-6959",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Natalia-Maldonado-Martinez"
-    },
-    "Monica": {
-        "Name": "Monica Agarwal",
-        "Title": "Lecturer, Sr.",
-        "Email": "agarwm2@rpi.edu",
-        "Phone": "518-276-2154",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Monica-Agarwal"
-    },
-    "Juergen": {
-        "Name": "Juergen Hahn",
-        "Title": "Professor & Department Head",
-        "Email": "hahnj@rpi.edu",
-        "Phone": "518-276-2138",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Juergen-Hahn"
-    },
-    "Hisham": {
-        "Name": "Hisham Mohamed",
-        "Title": "Lecturer, Sr.",
-        "Email": "mohamh2@rpi.edu",
-        "Phone": "518-276-6323",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Hisham-Mohamed"
-    },
-    "David": {
-        "Name": "David Duquette",
-        "Title": "Professor",
-        "Email": "duqued@rpi.edu",
-        "Phone": "518-276-6490",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/David-Duquette"
-    },
-    "Nihat": {
-        "Name": "Nihat Baysal",
-        "Title": "Professor of Practice",
-        "Email": "baysan@rpi.edu",
-        "Phone": "518-276-3327",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Nihat-Baysal"
-    },
-    "Joel": {
-        "Name": "Joel Plawsky",
-        "Title": "Professor & Department Head",
-        "Email": "plawsky@rpi.edu",
-        "Phone": "518-276-6049",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Joel-Plawsky"
-    },
-    "Corey": {
-        "Name": "Corey Woodcock",
-        "Title": "Lecturer",
-        "Email": "woodcc2@rpi.edu",
-        "Phone": "518-276-3439",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Corey-Woodcock"
-    },
-    "Pankaj": {
-        "Name": "Pankaj Karande",
-        "Title": "Associate Professor",
-        "Email": "karanp@rpi.edu",
-        "Phone": "518-276-4459",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Pankaj-Karande"
-    },
-    "Ronald": {
-        "Name": "Ronald Hedden",
-        "Title": "Professor of Practice",
-        "Email": "hedder@rpi.edu",
-        "Phone": "518-276-6537",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Ronald-Hedden"
-    },
-    "Wilfredo": {
-        "Name": "Wilfredo Colon",
-        "Title": "Professor & Department Head",
-        "Email": "colonw@rpi.edu",
-        "Phone": "518-276-2515",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Wilfredo-Colon"
-    },
-    "Georges": {
-        "Name": "Georges Belfort",
-        "Title": "Institute Professor",
-        "Email": "belfog@rpi.edu",
-        "Phone": "518-276-6948",
-        "Department": "Chemical and Biological Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Georges-Belfort"
-    },
-    "Alexander": {
-        "Name": "Alexander Ma",
-        "Title": "Lecturer, Sr.",
-        "Email": "maa4@rpi.edu",
-        "Phone": "518-276-3930",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Alexander-Ma"
-    },
-    "Steven": {
-        "Name": "Steven Tysoe",
-        "Title": "Lecturer",
-        "Email": "tysoes@rpi.edu",
-        "Phone": "518-276-6456",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Steven-Tysoe"
-    },
-    "Margarita": {
-        "Name": "Margarita Kirova-Snover",
-        "Title": "Lecturer",
-        "Email": "kirovm@rpi.edu",
-        "Phone": "518-276-3828",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Margarita-Kirova-Snover"
-    },
-    "Filbert": {
-        "Name": "Filbert Totsingan",
-        "Title": "Lecturer",
-        "Email": "totsif@rpi.edu",
-        "Phone": "518-276-8648",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Filbert-Totsingan"
-    },
-    "Peter": {
-        "Name": "Peter Persans",
-        "Title": "Professor",
-        "Email": "persap@rpi.edu",
-        "Phone": "518-276-2934",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Peter-Persans"
-    },
-    "Gerald": {
-        "Name": "Gerald Korenowski",
-        "Title": "Professor",
-        "Email": "koreng@rpi.edu",
-        "Phone": "518-276-8480",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Gerald-Korenowski"
-    },
-    "Liz": {
-        "Name": "Liz Sprague",
-        "Title": "Lecturer, Sr.",
-        "Email": "sprage@rpi.edu",
-        "Phone": "518-276-2115",
-        "Department": "Chemistry and Chemical Biology",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Liz-Sprague"
-    },
-    "Tarek": {
-        "Name": "Tarek Abdoun",
-        "Title": "Professor & Endowed Chair",
-        "Email": "abdout@rpi.edu",
-        "Phone": "518-276-6544",
-        "Department": "Civil and Environmental Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Tarek-Abdoun"
-    },
-    "Benjamin": {
-        "Name": "Benjamin Weissman",
-        "Title": "Lecturer",
-        "Email": "weissb2@rpi.edu",
-        "Phone": "518-276-3318",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Benjamin-Weissman"
-    },
-    "Alicia": {
-        "Name": "Alicia Walf",
-        "Title": "Lecturer, Sr.",
-        "Email": "walfa@rpi.edu",
-        "Phone": "518-276-3840",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Alicia-Walf"
-    },
-    "Mei": {
-        "Name": "Mei Si",
-        "Title": "Associate Professor",
-        "Email": "sim@rpi.edu",
-        "Phone": "518-276-3788",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Mei-Si"
-    },
-    "Bram": {
-        "Name": "Bram Van Heuveln",
-        "Title": "Lecturer",
-        "Email": "heuveb@rpi.edu",
-        "Phone": "518-276-3316",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Bram-Van-Heuveln"
-    },
-    "Tamar": {
-        "Name": "Tamar Gordon",
-        "Title": "Acting Department Head & Associate Professor",
-        "Email": "gordot@rpi.edu",
-        "Phone": "518-276-8121",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Tamar-Gordon"
-    },
-    "Weina": {
-        "Name": "Weina Ran",
-        "Title": "Lecturer",
-        "Email": "ranw@rpi.edu",
-        "Phone": "",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Weina-Ran"
-    },
-    "Patricia": {
-        "Name": "Patricia Search",
-        "Title": "Professor & Director, Center for Global Communications & Design",
-        "Email": "searcp@rpi.edu",
-        "Phone": "518-276-6470",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Patricia-Search"
-    },
-    "Helen": {
-        "Name": "Helen Zhou",
-        "Title": "Associate Professor",
-        "Email": "zhouy12@rpi.edu",
-        "Phone": "518-276-3867",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Helen-Zhou"
-    },
-    "Rosemary": {
-        "Name": "Rosemary Armao",
-        "Title": "Adjunct",
-        "Email": "armaor@rpi.edu",
-        "Phone": "518-276-6809",
-        "Department": "Summer Programs",
-        "Portfolio": "Undergraduate Education",
-        "Profile Page": "https://faculty.rpi.edu/Rosemary-Armao"
-    },
-    "Uzma": {
-        "Name": "Uzma Mushtaque",
-        "Title": "Lecturer",
-        "Email": "mushtu@rpi.edu",
-        "Phone": "518-276-2712",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Uzma-Mushtaque"
-    },
-    "Shianne": {
-        "Name": "Shianne Hulbert",
-        "Title": "Instrutional Support Coordinator",
-        "Email": "hulbes@rpi.edu",
-        "Phone": "518-276-6911",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": ""
-    },
-    "Konstantin": {
-        "Name": "Konstantin Kuzmin",
-        "Title": "Lecturer",
-        "Email": "kuzmik2@rpi.edu",
-        "Phone": "518-276-2609",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Konstantin-Kuzmin"
-    },
-    "Wes": {
-        "Name": "Wes Turner",
-        "Title": "Lecturer, Sr.",
-        "Email": "turnew2@rpi.edu",
-        "Phone": "518-276-8184",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Wes-Turner"
-    },
-    "John": {
-        "Name": "John Milanese",
-        "Title": "Lecturer",
-        "Email": "milanj3@rpi.edu",
-        "Phone": "518-276-8645",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/John-Milanese"
-    },
-    "William": {
-        "Name": "William Wallace",
-        "Title": "Professor Emeritus",
-        "Email": "wallaw@rpi.edu",
-        "Phone": "",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "",
-        "Profile Page": "https://faculty.rpi.edu/William-Wallace"
-    },
-    "Mohammed": {
-        "Name": "Mohammed Zaki",
-        "Title": "Professor & Department Head",
-        "Email": "zakim@rpi.edu",
-        "Phone": "518-276-6340",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Mohammed-Zaki"
-    },
-    "James": {
-        "Name": "James Lu",
-        "Title": "Professor",
-        "Email": "luj@rpi.edu",
-        "Phone": "518-276-2909",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/James-Lu"
-    },
-    "Selmer": {
-        "Name": "Selmer Bringsjord",
-        "Title": "Professor",
-        "Email": "brings@rpi.edu",
-        "Phone": "518-276-8105",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Selmer-Bringsjord"
-    },
-    "Ana": {
-        "Name": "Ana Milanova",
-        "Title": "Associate Professor",
-        "Email": "milana2@rpi.edu",
-        "Phone": "518-276-6887",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Ana-Milanova"
-    },
-    "Deborah": {
-        "Name": "Deborah McGuinness",
-        "Title": "Sr. Constellation Prof. of Tetherless World Res. Constellation",
-        "Email": "mcguid@rpi.edu",
-        "Phone": "518-276-4404",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Deborah-McGuinness"
-    },
-    "Carlos": {
-        "Name": "Carlos Varela",
-        "Title": "Professor",
-        "Email": "varelc@rpi.edu",
-        "Phone": "518-276-6912",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Carlos-Varela"
-    },
-    "Barbara": {
-        "Name": "Barbara Cutler",
-        "Title": "Associate Professor",
-        "Email": "cutleb@rpi.edu",
-        "Phone": "518-276-3274",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Barbara-Cutler"
-    },
-    "Bolek": {
-        "Name": "Bolek Szymanski",
-        "Title": "Claire & Roland Schmitt Distinguished Prof. of Computer Science",
-        "Email": "szymab@rpi.edu",
-        "Phone": "518-276-6838",
-        "Department": "Computer Science",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Bolek-Szymanski"
-    },
-    "Eyosias": {
-        "Name": "Eyosias Ashenafi",
-        "Title": "Lecturer",
-        "Email": "ashene2@rpi.edu",
-        "Phone": "518-276-4890",
-        "Department": "Civil and Environmental Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Eyosias-Ashenafi"
-    },
-    "Jeff": {
-        "Name": "Jeff Morris",
-        "Title": "Lecturer",
-        "Email": "morrij5@rpi.edu",
-        "Phone": "518-276-2613",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Jeff-Morris"
-    },
-    "Ganpati": {
-        "Name": "Ganpati Ramanath",
-        "Title": "Professor",
-        "Email": "ganapr@rpi.edu",
-        "Phone": "518-276-6844",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Ganpati-Ramanath"
-    },
-    "Jason": {
-        "Name": "Jason Jacobskind",
-        "Title": "Lecturer",
-        "Email": "jacobj9@rpi.edu",
-        "Phone": "518-276-6472",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Jason-Jacobskind"
-    },
-    "Omar": {
-        "Name": "Omar El-Shafee",
-        "Title": "Lecturer, Sr.",
-        "Email": "elshao2@rpi.edu",
-        "Phone": "518-276-2335",
-        "Department": "Civil and Environmental Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Omar-El-Shafee"
-    },
-    "Rahmi": {
-        "Name": "Rahmi Ozisik",
-        "Title": "Associate Professor",
-        "Email": "ozisik@rpi.edu",
-        "Phone": "518-276-6786",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Rahmi-Ozisik"
-    },
-    "Xun": {
-        "Name": "Xun Wang",
-        "Title": "Lecturer, Sr.",
-        "Email": "wangx33@rpi.edu",
-        "Phone": "518-276-6243",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Xun-Wang"
-    },
-    "Ravishankar": {
-        "Name": "Ravishankar Sundararaman",
-        "Title": "Associate Professor & Career Development Chair",
-        "Email": "sundar@rpi.edu",
-        "Phone": "518-276-6757",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Ravishankar-Sundararaman"
-    },
-    "Tracy": {
-        "Name": "Tracy Sullivan",
-        "Title": "Director, Archer Center",
-        "Email": "schiet@rpi.edu",
-        "Phone": "518-276-2119",
-        "Department": "Student Success",
-        "Portfolio": "Student Life",
-        "Profile Page": ""
-    },
-    "Judith": {
-        "Name": "Judith Obiero",
-        "Title": "Associate Director & Lecturer",
-        "Email": "obierj@rpi.edu",
-        "Phone": "518-276-8479",
-        "Department": "Student Success",
-        "Portfolio": "Student Life",
-        "Profile Page": ""
-    },
-    "Esra": {
-        "Name": "Esra Agca Aktunc",
-        "Title": "Lecturer, Sr.",
-        "Email": "agcaae@rpi.edu",
-        "Phone": "518-276-2773",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Esra-Agca-Aktunc"
-    },
-    "Tathagata": {
-        "Name": "Tathagata Bhaduri",
-        "Title": "Lecturer",
-        "Email": "bhadut2@rpi.edu",
-        "Phone": "518-276-6360",
-        "Department": "Civil and Environmental Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Tathagata-Bhaduri"
-    },
-    "Matt": {
-        "Name": "Matt Oehlschlaeger",
-        "Title": "Professor & Associate Dean",
-        "Email": "oehlsm@rpi.edu",
-        "Phone": "518-276-6626",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Matt-Oehlschlaeger"
-    },
-    "Rushabh": {
-        "Name": "Rushabh Padalia",
-        "Title": "Lecturer",
-        "Email": "padalr@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Rushabh-Padalia"
-    },
-    "Antonella": {
-        "Name": "Antonella Zompa",
-        "Title": "Professor of Practice",
-        "Email": "zompaa@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Antonella-Zompa"
-    },
-    "Sarah": {
-        "Name": "Sarah Greene",
-        "Title": "Lecturer",
-        "Email": "parras2@rpi.edu",
-        "Phone": "518-276-6413",
-        "Department": "Economics",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Sarah-Greene"
-    },
-    "Sasha": {
-        "Name": "Sasha Wagner",
-        "Title": "Assistant Professor",
-        "Email": "wagnes3@rpi.edu",
-        "Phone": "518-276-3075",
-        "Department": "Earth and Environmental Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Sasha-Wagner"
-    },
-    "Robert": {
-        "Name": "Robert Linhardt",
-        "Title": "",
-        "Email": "linhar@rpi.edu",
-        "Phone": "518-276-3404",
-        "Department": "Ann and John H. Broadbent, Jr. \u00e2\u20ac\u212259 Senior Constellation Professor of Biocatalysis and Metabolic Engineering",
-        "Portfolio": "",
-        "Profile Page": "https://faculty.rpi.edu/Robert-Linhardt"
-    },
-    "Conor": {
-        "Name": "Conor Lennon",
-        "Title": "Associate Professor & Endowed Chair",
-        "Email": "lennoc@rpi.edu",
-        "Phone": "",
-        "Department": "Economics",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Conor-Lennon"
-    },
-    "Mina": {
-        "Name": "Mina Mahmoudi",
-        "Title": "Lecturer",
-        "Email": "mahmom2@rpi.edu",
-        "Phone": "",
-        "Department": "Economics",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Mina-Mahmoudi"
-    },
-    "Huaming": {
-        "Name": "Huaming Peng",
-        "Title": "Lecturer",
-        "Email": "pengh5@rpi.edu",
-        "Phone": "",
-        "Department": "Economics",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Huaming-Peng"
-    },
-    "Shayla": {
-        "Name": "Shayla Sawyer",
-        "Title": "Professor",
-        "Email": "sawyes@rpi.edu",
-        "Phone": "518-276-2164",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Shayla-Sawyer"
-    },
-    "Prabhakar": {
-        "Name": "Prabhakar Neti",
-        "Title": "Professor of Practice",
-        "Email": "netip@rpi.edu",
-        "Phone": "518-276-8160",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Prabhakar-Neti"
-    },
-    "Uwe": {
-        "Name": "Uwe Kruger",
-        "Title": "Professor of Practice",
-        "Email": "krugeu@rpi.edu",
-        "Phone": "518-276-4818",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Uwe-Kruger"
-    },
-    "E.": {
-        "Name": "E. Fred Schubert",
-        "Title": "Constellation Chair/Professor (ECSE and Physics Depts)",
-        "Email": "schubert@rpi.edu",
-        "Phone": "518-276-8775",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": ""
-    },
-    "Kyle": {
-        "Name": "Kyle Wilt",
-        "Title": "Lecturer, Sr.",
-        "Email": "wiltk2@rpi.edu",
-        "Phone": "518-276-2170",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Kyle-Wilt"
-    },
-    "W": {
-        "Name": "W Randolph Franklin",
-        "Title": "Professor",
-        "Email": "frankwr@rpi.edu",
-        "Phone": "518-276-6077",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/W-Randolph-Franklin"
-    },
-    "Rich": {
-        "Name": "Rich Radke",
-        "Title": "Professor",
-        "Email": "radker@rpi.edu",
-        "Phone": "518-276-6483",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Rich-Radke"
-    },
-    "Ishwara": {
-        "Name": "Ishwara Bhat",
-        "Title": "Professor",
-        "Email": "bhati@rpi.edu",
-        "Phone": "518-276-2786",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Ishwara-Bhat"
-    },
-    "Koushik": {
-        "Name": "Koushik Kar",
-        "Title": "Professor",
-        "Email": "kark@rpi.edu",
-        "Phone": "518-276-2653",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Koushik-Kar"
-    },
-    "Tong": {
-        "Name": "Tong Zhang",
-        "Title": "Professor",
-        "Email": "zhangt4@rpi.edu",
-        "Phone": "518-276-2945",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Tong-Zhang"
-    },
-    "Joe": {
-        "Name": "Joe Chow",
-        "Title": "Institute Professor",
-        "Email": "chowj@rpi.edu",
-        "Phone": "518-276-6374",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Joe-Chow"
-    },
-    "Alhussein": {
-        "Name": "Alhussein Abouzeid",
-        "Title": "Professor",
-        "Email": "abouza@rpi.edu",
-        "Phone": "518-276-6534",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Alhussein-Abouzeid"
-    },
-    "Rena": {
-        "Name": "Rena Huang",
-        "Title": "Associate Professor",
-        "Email": "huangz3@rpi.edu",
-        "Phone": "518-276-6086",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Rena-Huang"
-    },
-    "Chip": {
-        "Name": "Chip Kilduff",
-        "Title": "Associate Professor",
-        "Email": "kilduff@rpi.edu",
-        "Phone": "518-276-2042",
-        "Department": "Civil and Environmental Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Chip-Kilduff"
-    },
-    "Nicholas": {
-        "Name": "Nicholas Mizer",
-        "Title": "Lecturer",
-        "Email": "mizern@rpi.edu",
-        "Phone": "",
-        "Department": "GSAS",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Nicholas-Mizer"
-    },
-    "Rostyslav": {
-        "Name": "Rostyslav Korolov",
-        "Title": "Lecturer",
-        "Email": "korolr2@rpi.edu",
-        "Phone": "518-276-2773",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Rostyslav-Korolov"
-    },
-    "Azita": {
-        "Name": "Azita Hirsa",
-        "Title": "Lecturer",
-        "Email": "hirsaa3@rpi.edu",
-        "Phone": "518-276-8319",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Azita-Hirsa"
-    },
-    "Jennifer": {
-        "Name": "Jennifer Pazour",
-        "Title": "Associate Professor",
-        "Email": "pazouj@rpi.edu",
-        "Phone": "518-276-6486",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Jennifer-Pazour"
-    },
-    "Kristen": {
-        "Name": "Kristen Schell",
-        "Title": "Research Scientist",
-        "Email": "schelk@rpi.edu",
-        "Phone": "518-276-6622",
-        "Department": "Industrial and Systems Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": ""
-    },
-    "Kristin": {
-        "Name": "Kristin Bennett",
-        "Title": "Professor & Associate Director",
-        "Email": "bennek@rpi.edu",
-        "Phone": "518-276-6899",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Kristin-Bennett"
-    },
-    "Amy": {
-        "Name": "Amy Youmans",
-        "Title": "Associate Director & Lecturer",
-        "Email": "corroa@rpi.edu",
-        "Phone": "518-276-2288",
-        "Department": "Student Success",
-        "Portfolio": "Student Life",
-        "Profile Page": ""
-    },
-    "Skye": {
-        "Name": "Skye Anicca",
-        "Title": "Lecturer",
-        "Email": "aniccs@rpi.edu",
-        "Phone": "",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Skye-Anicca"
-    },
-    "Jianling": {
-        "Name": "Jianling Yue",
-        "Title": "Lecturer",
-        "Email": "yuej2@rpi.edu",
-        "Phone": "518-276-3866",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Jianling-Yue"
-    },
-    "Nadarajah": {
-        "Name": "Nadarajah Narendran",
-        "Title": "Professor",
-        "Email": "narenn2@rpi.edu",
-        "Phone": "518-687-7100",
-        "Department": "Lighting Research Center",
-        "Portfolio": "School of Architecture",
-        "Profile Page": "https://faculty.rpi.edu/Nadarajah-Narendran"
-    },
-    "Clint": {
-        "Name": "Clint Ballinger",
-        "Title": "Lecturer",
-        "Email": "ballic2@rpi.edu",
-        "Phone": "518-276-2343",
-        "Department": "",
-        "Portfolio": "Lally School of Management",
-        "Profile Page": "https://faculty.rpi.edu/Clint-Ballinger"
-    },
-    "Brian": {
-        "Name": "Brian Clark",
-        "Title": "Associate Professor",
-        "Email": "clarkb2@rpi.edu",
-        "Phone": "518-276-4467",
-        "Department": "",
-        "Portfolio": "Lally School of Management",
-        "Profile Page": "https://faculty.rpi.edu/Brian-Clark"
-    },
-    "Bill": {
-        "Name": "Bill Francis",
-        "Title": "Professor & Endowed Chair",
-        "Email": "francb@rpi.edu",
-        "Phone": "518-276-3908",
-        "Department": "",
-        "Portfolio": "Lally School of Management",
-        "Profile Page": "https://faculty.rpi.edu/Bill-Francis"
-    },
-    "M.V.": {
-        "Name": "M.V. Shyam Kumar",
-        "Title": "Professor",
-        "Email": "kumarm2@rpi.edu",
-        "Phone": "518-276-2961",
-        "Department": "",
-        "Portfolio": "Lally School of Management",
-        "Profile Page": ""
-    },
-    "Dan": {
-        "Name": "Dan Lewis",
-        "Title": "Associate Professor",
-        "Email": "lewisd2@rpi.edu",
-        "Phone": "518-276-2297",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Dan-Lewis"
-    },
-    "Edmund": {
-        "Name": "Edmund Palermo",
-        "Title": "Associate Professor",
-        "Email": "palere@rpi.edu",
-        "Phone": "518-276-6124",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Edmund-Palermo"
-    },
-    "Daniel": {
-        "Name": "Daniel Gall",
-        "Title": "Professor",
-        "Email": "galld@rpi.edu",
-        "Phone": "518-276-8471",
-        "Department": "Materials Science and Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Daniel-Gall"
-    },
-    "Eliane": {
-        "Name": "Eliane Zerbetto Traldi",
-        "Title": "Lecturer",
-        "Email": "zerbee@rpi.edu",
-        "Phone": "518-276-6345",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Eliane-Zerbetto-Traldi"
-    },
-    "Maya": {
-        "Name": "Maya Kiehl",
-        "Title": "Lecturer, Sr.",
-        "Email": "kiehlm@rpi.edu",
-        "Phone": "518-276-2307",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Maya-Kiehl"
-    },
-    "Belmiro": {
-        "Name": "Belmiro Galo da Silva",
-        "Title": "Lecturer",
-        "Email": "galodb@rpi.edu",
-        "Phone": "518-276-6345",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Belmiro-Galo-da-Silva"
-    },
-    "Gregor": {
-        "Name": "Gregor Kovacic",
-        "Title": "Professor",
-        "Email": "kovacg@rpi.edu",
-        "Phone": "518-276-6908",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Gregor-Kovacic"
-    },
-    "Donald": {
-        "Name": "Donald Schwendeman",
-        "Title": "Professor & Department Head",
-        "Email": "schwed@rpi.edu",
-        "Phone": "518-276-2647",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Donald-Schwendeman"
-    },
-    "Bruce": {
-        "Name": "Bruce Piper",
-        "Title": "Associate Professor & Associate Department Head",
-        "Email": "piperb@rpi.edu",
-        "Phone": "518-276-6892",
-        "Department": "Mathematical Sciences",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Bruce-Piper"
-    },
-    "Asish": {
-        "Name": "Asish Ghosh",
-        "Title": "Professor of Practice",
-        "Email": "ghosha4@rpi.edu",
-        "Phone": "518-276-3781",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Asish-Ghosh"
-    },
-    "Jordan": {
-        "Name": "Jordan Vener",
-        "Title": "Associate Director & Lecturer",
-        "Email": "venerj2@rpi.edu",
-        "Phone": "518-276-8243",
-        "Department": "Student Success",
-        "Portfolio": "Student Life",
-        "Profile Page": ""
-    },
-    "Karthik": {
-        "Name": "Karthik Panneerselvam",
-        "Title": "Lecturer",
-        "Email": "pannek2@rpi.edu",
-        "Phone": "518-276-2389",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Karthik-Panneerselvam"
-    },
-    "Luiz": {
-        "Name": "Luiz Victor Repolho Cagliari",
-        "Title": "Lecturer",
-        "Email": "repoll2@rpi.edu",
-        "Phone": "518-276-2531",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Luiz-Victor-Repolho-Cagliari"
-    },
-    "Theo": {
-        "Name": "Theo Borca-Tasciuc",
-        "Title": "Professor",
-        "Email": "borcat@rpi.edu",
-        "Phone": "518-276-2627",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Theo-Borca-Tasciuc"
-    },
-    "Diana": {
-        "Name": "Diana Borca Tasciuc",
-        "Title": "Professor",
-        "Email": "borcad@rpi.edu",
-        "Phone": "518-276-3385",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Diana-Borca-Tasciuc"
-    },
-    "Randy": {
-        "Name": "Randy McDougall",
-        "Title": "Technical Manager",
-        "Email": "mcdour@rpi.edu",
-        "Phone": "518-276-2391",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": ""
-    },
-    "Antoinette": {
-        "Name": "Antoinette Maniatty",
-        "Title": "Professor & Acting Department Head",
-        "Email": "maniaa@rpi.edu",
-        "Phone": "518-276-6984",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Antoinette-Maniatty"
-    },
-    "Ernesto": {
-        "Name": "Ernesto Gutierrez-Miravete",
-        "Title": "Professor of Practice",
-        "Email": "gutiee@rpi.edu",
-        "Phone": "860-548-2464",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Ernesto-Gutierrez-Miravete"
-    },
-    "Francisco": {
-        "Name": "Francisco Cunha",
-        "Title": "Professor of Practice",
-        "Email": "cunhaf@rpi.edu",
-        "Phone": "",
-        "Department": "Academic Programs",
-        "Portfolio": "Rensselaer at Work",
-        "Profile Page": "https://faculty.rpi.edu/Francisco-Cunha"
-    },
-    "Shanbin": {
-        "Name": "Shanbin Shi",
-        "Title": "Assistant Professor",
-        "Email": "shis3@rpi.edu",
-        "Phone": "518-276-8406",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Shanbin-Shi"
-    },
-    "Lucy": {
-        "Name": "Lucy Zhang",
-        "Title": "Professor",
-        "Email": "zhangl12@rpi.edu",
-        "Phone": "518-276-6914",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Lucy-Zhang"
-    },
-    "Fotios": {
-        "Name": "Fotios Kopsaftopoulos",
-        "Title": "Assistant Professor",
-        "Email": "kopsaf@rpi.edu",
-        "Phone": "518-276-6439",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Fotios-Kopsaftopoulos"
-    },
-    "Sandipan": {
-        "Name": "Sandipan Mishra",
-        "Title": "Professor",
-        "Email": "mishrs2@rpi.edu",
-        "Phone": "518-276-2020",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Sandipan-Mishra"
-    },
-    "Yong": {
-        "Name": "Yong Sung Kim",
-        "Title": "Lecturer, Sr.",
-        "Email": "kimy10@rpi.edu",
-        "Phone": "518-276-2542",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Yong-Sung-Kim"
-    },
-    "Joseph": {
-        "Name": "Joseph Michael",
-        "Title": "Lecturer",
-        "Email": "michaj2@rpi.edu",
-        "Phone": "518-276-8413",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Joseph-Michael"
-    },
-    "Damien": {
-        "Name": "Damien West",
-        "Title": "Lecturer",
-        "Email": "westd2@rpi.edu",
-        "Phone": "518-276-6310",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Damien-West"
-    },
-    "Charles": {
-        "Name": "Charles Martin",
-        "Title": "Lecturer, Sr.",
-        "Email": "martic13@rpi.edu",
-        "Phone": "518-276-6454",
-        "Department": "Physics, Applied Physics & Astronomy",
-        "Portfolio": "School of Science",
-        "Profile Page": "https://faculty.rpi.edu/Charles-Martin"
-    },
-    "Ge": {
-        "Name": "Ge Wang",
-        "Title": "Professor",
-        "Email": "wangg6@rpi.edu",
-        "Phone": "518-276-3726",
-        "Department": "Biomedical Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Ge-Wang"
-    },
-    "Holly": {
-        "Name": "Holly Traver",
-        "Title": "Lecturer",
-        "Email": "traveh@rpi.edu",
-        "Phone": "518-276-8272",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Holly-Traver"
-    },
-    "Yingrui": {
-        "Name": "Yingrui Yang",
-        "Title": "Associate Professor",
-        "Email": "yangyri@rpi.edu",
-        "Phone": "518-276-8273",
-        "Department": "Cognitive Science",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Yingrui-Yang"
-    },
-    "Allison": {
-        "Name": "Allison Hoffman",
-        "Title": "Lecturer",
-        "Email": "hoffma3@rpi.edu",
-        "Phone": "518-276-6472",
-        "Department": "Mechanical, Aerospace and Nuclear Engineering",
-        "Portfolio": "School of Engineering",
-        "Profile Page": "https://faculty.rpi.edu/Allison-Hoffman"
-    },
-    "Sam": {
-        "Name": "Sam Estabrooks",
-        "Title": "Lecturer",
-        "Email": "estabs@rpi.edu",
-        "Phone": "",
-        "Department": "Communication and Media",
-        "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
-        "Profile Page": "https://faculty.rpi.edu/Sam-Estabrooks"
-    },
-    "Partha": {
-        "Name": "Partha Dutta",
-        "Title": "Professor Emeritus",
-        "Email": "duttap@rpi.edu",
-        "Phone": "518-491-9364",
-        "Department": "Electrical, Computer, and Systems Engineering",
-        "Portfolio": "",
-        "Profile Page": "https://faculty.rpi.edu/Partha-Dutta"
-    }
+{
+ "Thomas": {
+  "name": "Thomas Abbott",
+  "email": "abbott3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Tarek": {
+  "name": "Tarek Abdoun",
+  "email": "abdout@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Alhussein": {
+  "name": "Alhussein Abouzeid",
+  "email": "abouzeid@ecse.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Sibel": {
+  "name": "Sibel Adali",
+  "email": "sibel@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Monica": {
+  "name": "Monica Agarwal",
+  "email": "agarwm2@rpi.edu",
+  "phone": "518-276-2154",
+  "location": ""
+ },
+ "Nima": {
+  "name": "Nima Ahmadi",
+  "email": "ahmadn4@rpi.edu",
+  "phone": "518-276-4785",
+  "location": ""
+ },
+ "Billur": {
+  "name": "Billur Aksoy",
+  "email": "aksoyb3@rpi.edu",
+  "phone": "5182763925",
+  "location": ""
+ },
+ "Eric": {
+  "name": "Eric Schaffer",
+  "email": "schafe2@rpi.edu",
+  "phone": "518-276-6615",
+  "location": ""
+ },
+ "Michael": {
+  "name": "Michael Symans",
+  "email": "symans@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Kurt": {
+  "name": "Kurt Anderson",
+  "email": "anderk5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Skye": {
+  "name": "Skye Anicca",
+  "email": "aniccs@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Elliot": {
+  "name": "Elliot Anshelevich",
+  "email": "eanshel@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Eyosias": {
+  "name": "Eyosias Ashenafi",
+  "email": "ashene2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Chulsung": {
+  "name": "Chulsung Bae",
+  "email": "baec@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Bharat": {
+  "name": "Bharat Bagepalli",
+  "email": "bagepb@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "James": {
+  "name": "James Rees",
+  "email": "reesj3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Amgalanbaatar": {
+  "name": "Amgalanbaatar Baldansuren",
+  "email": "baldaa@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jeffrey": {
+  "name": "Jeffrey Banks",
+  "email": "banksj3@rpi.edu",
+  "phone": "518- 276-6412",
+  "location": ""
+ },
+ "Blanca": {
+  "name": "Blanca Barquera",
+  "email": "barqub@rpi.edu",
+  "phone": "518-276-3861",
+  "location": ""
+ },
+ "Nihat": {
+  "name": "Nihat Baysal",
+  "email": "baysan@rpi.edu",
+  "phone": "518-276-3327",
+  "location": ""
+ },
+ "Georges": {
+  "name": "Georges Belfort",
+  "email": "belfog@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "David": {
+  "name": "David Stec",
+  "email": "stecd2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Christianna": {
+  "name": "Christianna Bennett",
+  "email": "bennec5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Kristin": {
+  "name": "Kristin Bennett",
+  "email": "bennek@rpi.edu",
+  "phone": "518-276-6899",
+  "location": ""
+ },
+ "Victoria": {
+  "name": "Victoria Bennett",
+  "email": "bennev@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Marvin": {
+  "name": "Marvin Bentley",
+  "email": "bentlm3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "B": {
+  "name": "B Wayne Bequette",
+  "email": "bequette@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Tathagata": {
+  "name": "Tathagata Bhaduri",
+  "email": "bhadut2@rpi.edu",
+  "phone": "",
+  "location": "JEC 4018"
+ },
+ "Ishwara": {
+  "name": "Ishwara Bhat",
+  "email": "bhati@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Elizabeth": {
+  "name": "Elizabeth Press",
+  "email": "presse2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Thierry": {
+  "name": "Thierry Blanchet",
+  "email": "blanct@rpi.edu",
+  "phone": "518-276-8697",
+  "location": "2042 Jonsson Engineering Center"
+ },
+ "Richard": {
+  "name": "Richard Plotka",
+  "email": "plotkr2@rpi.edu",
+  "phone": "(518) 276-2590",
+  "location": ""
+ },
+ "Diana": {
+  "name": "Diana Borca Tasciuc",
+  "email": "borcad@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jonas": {
+  "name": "Jonas Braasch",
+  "email": "braasj@rpi.edu",
+  "phone": "5182763864",
+  "location": "Greene Building, Rm. 203"
+ },
+ "Selmer": {
+  "name": "Selmer Bringsjord",
+  "email": "Selmer.Bringsjord@gmail.com",
+  "phone": "",
+  "location": ""
+ },
+ "Elisabeth": {
+  "name": "Elisabeth Brown",
+  "email": "browne10@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ethan": {
+  "name": "Ethan Brown",
+  "email": "browne7@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Sarah": {
+  "name": "Sarah Greene",
+  "email": "parras2@rpi.edu",
+  "phone": "518.276.6387",
+  "location": ""
+ },
+ "Brian": {
+  "name": "Brian Clark",
+  "email": "clarkb2@rpi.edu",
+  "phone": "5182764467",
+  "location": ""
+ },
+ "Nancy": {
+  "name": "Nancy Campbell",
+  "email": "campbn2@rpi.edu",
+  "phone": "518 276-6065",
+  "location": ""
+ },
+ "Jennifer": {
+  "name": "Jennifer Pazour",
+  "email": "pazouj@rpi.edu",
+  "phone": "(518) 276-6486",
+  "location": "CII 5111"
+ },
+ "Christopher": {
+  "name": "Christopher Tozzi",
+  "email": "tozzic@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Vidhya": {
+  "name": "Vidhya Chakrapani",
+  "email": "chakrv@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Benjamin": {
+  "name": "Benjamin Weissman",
+  "email": "weissb2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Murali": {
+  "name": "Murali Chari",
+  "email": "charim2@rpi.edu",
+  "phone": "518.276.3905",
+  "location": ""
+ },
+ "Tianyi": {
+  "name": "Tianyi Chen",
+  "email": "chentianyi19@gmail.com",
+  "phone": "",
+  "location": "JEC 6036"
+ },
+ "Joe": {
+  "name": "Joe Chow",
+  "email": "chowj@rpi.edu",
+  "phone": "15182766374",
+  "location": "JEC 7012"
+ },
+ "Paul": {
+  "name": "Paul Schoch",
+  "email": "schocp@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Glenn": {
+  "name": "Glenn Ciolek",
+  "email": "cioleg@rpi.edu",
+  "phone": "276-8077",
+  "location": ""
+ },
+ "Wilfredo": {
+  "name": "Wilfredo Col\u00f3n",
+  "email": "colonw@rpi.edu",
+  "phone": "518-276-6969",
+  "location": "Cogswell 118"
+ },
+ "Lonn": {
+  "name": "Lonn Combs",
+  "email": "combsl@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Brandon": {
+  "name": "Brandon Costelloe Kuehn",
+  "email": "costeb2@rpi.edu",
+  "phone": "518-276-6390",
+  "location": ""
+ },
+ "Steven": {
+  "name": "Steven Tysoe",
+  "email": "tysoes@rpi.edu",
+  "phone": "(518) 649-5716",
+  "location": ""
+ },
+ "Jillian": {
+  "name": "Jillian Crandall",
+  "email": "crandj3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gustavo": {
+  "name": "Gustavo Crembil",
+  "email": "crembg@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Barbara": {
+  "name": "Barbara Cutler",
+  "email": "cutleb@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Kathryn": {
+  "name": "Kathryn Dannemann",
+  "email": "dannek2@rpi.edu",
+  "phone": "518-276-8293",
+  "location": ""
+ },
+ "Yaron": {
+  "name": "Yaron Danon",
+  "email": "danony@rpi.edu",
+  "phone": "518-276-4008",
+  "location": ""
+ },
+ "Adam": {
+  "name": "Adam Dayem",
+  "email": "dayema@rpi.edu",
+  "phone": "",
+  "location": "M112 Greene"
+ },
+ "June": {
+  "name": "June Deery",
+  "email": "deeryj@rpi.edu",
+  "phone": "518-276-4047",
+  "location": ""
+ },
+ "Justin": {
+  "name": "Justin Den Herder",
+  "email": "denhej@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Peter": {
+  "name": "Peter Persans",
+  "email": "persap@rpi.edu",
+  "phone": "518-276-2934",
+  "location": ""
+ },
+ "Jonathan": {
+  "name": "Jonathan Stetler",
+  "email": "stetlj2@rpi.edu",
+  "phone": "",
+  "location": "OFFICE: MRC 307"
+ },
+ "Evan": {
+  "name": "Evan Douglis",
+  "email": "douglis@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Joshua": {
+  "name": "Joshua Hurst",
+  "email": "hurstj2@rpi.edu",
+  "phone": "518-276-3947",
+  "location": ""
+ },
+ "Chanaka": {
+  "name": "Chanaka Edirisinghe",
+  "email": "edirin@rpi.edu",
+  "phone": "5182763336",
+  "location": ""
+ },
+ "Omar": {
+  "name": "Omar El Shafee",
+  "email": "elshao2@rpi.edu",
+  "phone": "5182762335",
+  "location": ""
+ },
+ "Yael": {
+  "name": "Yael Erel",
+  "email": "erely2@rpi.edu",
+  "phone": "518-276-4060",
+  "location": "Greene Building, 102"
+ },
+ "Brett": {
+  "name": "Brett Orzechowski",
+  "email": "orzecb@rpi.edu",
+  "phone": "518.276.3990",
+  "location": ""
+ },
+ "Rui": {
+  "name": "Rui Fan",
+  "email": "fanr5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jeremy": {
+  "name": "Jeremy Farrell",
+  "email": "farrej2@rpi.edu",
+  "phone": "",
+  "location": "MRC 201"
+ },
+ "Etana": {
+  "name": "Etana Ferede",
+  "email": "ferede@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Andrew": {
+  "name": "Andrew Fitzgerald",
+  "email": "fitzga2@rpi.edu",
+  "phone": "518-276-2083",
+  "location": "Sage 5410"
+ },
+ "Edwin": {
+  "name": "Edwin Liu",
+  "email": "liue2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Scott": {
+  "name": "Scott Forth",
+  "email": "forths@rpi.edu",
+  "phone": "518-276-4271",
+  "location": ""
+ },
+ "Bill": {
+  "name": "Bill Francis",
+  "email": "francb@rpi.edu",
+  "phone": "518-276-3908",
+  "location": ""
+ },
+ "W": {
+  "name": "W Randolph Franklin",
+  "email": "mail@wrfranklin.org",
+  "phone": "+1(518)276-6077",
+  "location": ""
+ },
+ "Keith": {
+  "name": "Keith Moo Young",
+  "email": "mooyoh2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Daniel": {
+  "name": "Daniel Walczyk",
+  "email": "walczd@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Belmiro": {
+  "name": "Belmiro Galo da Silva",
+  "email": "galodb@rpi.edu",
+  "phone": "",
+  "location": "404 Amos Eaton Hall, 110 8th St, Troy, NY 12180"
+ },
+ "Farhan": {
+  "name": "Farhan Gandhi",
+  "email": "gandhf@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jianxi": {
+  "name": "Jianxi Gao",
+  "email": "gaoj8@rpi.edu",
+  "phone": "518-276-8326",
+  "location": ""
+ },
+ "Raffi": {
+  "name": "Raffi Garcia",
+  "email": "garcir5@rpi.edu",
+  "phone": "5182763677",
+  "location": ""
+ },
+ "Shekhar": {
+  "name": "Shekhar Garde",
+  "email": "gardes@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Julian": {
+  "name": "Julian Georg",
+  "email": "georgj9@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Vivek": {
+  "name": "Vivek Ghosal",
+  "email": "ghosav@rpi.edu",
+  "phone": "518-276-3868",
+  "location": ""
+ },
+ "Asish": {
+  "name": "Asish Ghosh",
+  "email": "ghosha4@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Joel": {
+  "name": "Joel Plawsky",
+  "email": "plawsky@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ryan": {
+  "name": "Ryan Gilbert",
+  "email": "gilber2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Susan": {
+  "name": "Susan Smith",
+  "email": "smiths27@rpi.edu",
+  "phone": "518-276-2321",
+  "location": "Carnegie 309"
+ },
+ "Alex": {
+  "name": "Alex Gittens",
+  "email": "gittea@rpi.edu",
+  "phone": "518-276-6476",
+  "location": "Lally 316"
+ },
+ "Timothy": {
+  "name": "Timothy Golden",
+  "email": "goldent@rpi.edu",
+  "phone": "518-276-2669",
+  "location": ""
+ },
+ "Matthew": {
+  "name": "Matthew Lopez",
+  "email": "lopezm6@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Tamar": {
+  "name": "Tamar Gordon",
+  "email": "gordot@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Wayne": {
+  "name": "Wayne Gray",
+  "email": "grayw@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Anita": {
+  "name": "Anita Greenfield",
+  "email": "greena15@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Aparna": {
+  "name": "Aparna Gupta",
+  "email": "guptaa@rpi.edu",
+  "phone": "518.276.2757",
+  "location": ""
+ },
+ "Ernesto": {
+  "name": "Ernesto Gutierrez Miravete",
+  "email": "gutiee@rpi.edu",
+  "phone": "(860) 548-2464",
+  "location": ""
+ },
+ "Juergen": {
+  "name": "Juergen Hahn",
+  "email": "hahnj@rpi.edu",
+  "phone": "(518) 276 2138",
+  "location": ""
+ },
+ "Mariah": {
+  "name": "Mariah Hahn",
+  "email": "hahnm@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Prabhat": {
+  "name": "Prabhat Hajela",
+  "email": "hajela@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Rob": {
+  "name": "Rob Hamilton",
+  "email": "hamilr4@rpi.edu",
+  "phone": "518-276-8083",
+  "location": ""
+ },
+ "Fudong": {
+  "name": "Fudong Han",
+  "email": "hanf2@rpi.edu",
+  "phone": "518-276-2573",
+  "location": ""
+ },
+ "Sean": {
+  "name": "Sean X He",
+  "email": "hex6@rpi.edu",
+  "phone": "518-276-8043",
+  "location": ""
+ },
+ "Ronald": {
+  "name": "Ronald Hedden",
+  "email": "hedder@rpi.edu",
+  "phone": "518-276-6537",
+  "location": ""
+ },
+ "Mona": {
+  "name": "Mona Hella",
+  "email": "hellam@ecse.rpi.edu",
+  "phone": "518-276-6314",
+  "location": ""
+ },
+ "William": {
+  "name": "William Henshaw",
+  "email": "henshw@rpi.edu",
+  "phone": "518-276-2994",
+  "location": ""
+ },
+ "Jason": {
+  "name": "Jason Kuruzovich",
+  "email": "kuruzj@rpi.edu",
+  "phone": "5182762332",
+  "location": ""
+ },
+ "Kathy": {
+  "name": "Kathy High",
+  "email": "highk@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Azita": {
+  "name": "Azita Hirsa",
+  "email": "hirsaa3@rpi.edu",
+  "phone": "518-276-8319",
+  "location": ""
+ },
+ "Amir": {
+  "name": "Amir Hirsa",
+  "email": "amir.hirsa@gmail.com",
+  "phone": "518-276-6997",
+  "location": "5036 Jonsson Engineering Center"
+ },
+ "Allison": {
+  "name": "Allison Hoffman",
+  "email": "hoffma3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jose": {
+  "name": "Jose Holguin Veras",
+  "email": "holguj2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Mark": {
+  "name": "Mark Shephard",
+  "email": "shephm@rpi.edu",
+  "phone": "5182768044",
+  "location": "4019 CII"
+ },
+ "Kevin": {
+  "name": "Kevin Rose",
+  "email": "rosek4@rpi.edu",
+  "phone": "518-276-8288",
+  "location": "JROWL 1W15"
+ },
+ "Fleet": {
+  "name": "Fleet Hower",
+  "email": "howerj@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Liping": {
+  "name": "Liping Huang",
+  "email": "huangl5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Rena": {
+  "name": "Rena Huang",
+  "email": "huangz3@rpi.edu",
+  "phone": "518-276-6086",
+  "location": ""
+ },
+ "Robert": {
+  "name": "Robert Niemiec",
+  "email": "niemir2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ryosuke": {
+  "name": "Ryosuke Imaeda",
+  "email": "imaedr@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Xavier": {
+  "name": "Xavier Intes",
+  "email": "intesx@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Radoslav": {
+  "name": "Radoslav Ivanov",
+  "email": "ivanor@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gaurav": {
+  "name": "Gaurav Jain",
+  "email": "gauraj@rpi.edu",
+  "phone": "518-276-2812",
+  "location": ""
+ },
+ "Qiang": {
+  "name": "Qiang Ji",
+  "email": "jiq@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Wei": {
+  "name": "Wei Ji",
+  "email": "jiw2@rpi.edu",
+  "phone": "(518)276-6602",
+  "location": ""
+ },
+ "Agung": {
+  "name": "Agung Julius",
+  "email": "agung@ecse.rpi.edu",
+  "phone": "(518) 276-6993",
+  "location": ""
+ },
+ "Junichi": {
+  "name": "Junichi Kanai",
+  "email": "kanaij@rpi.edu",
+  "phone": "276-3347",
+  "location": "JEC 3330A"
+ },
+ "Hyun": {
+  "name": "Hyun Kang",
+  "email": "kangh6@rpi.edu",
+  "phone": "518-276-8251",
+  "location": ""
+ },
+ "Ashwani": {
+  "name": "Ashwani Kapila",
+  "email": "kapila@rpi.edu",
+  "phone": "518-276-6894",
+  "location": ""
+ },
+ "Koushik": {
+  "name": "Koushik Kar",
+  "email": "koushik@ecse.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Pankaj": {
+  "name": "Pankaj Karande",
+  "email": "karanp@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Yong": {
+  "name": "Yong Sung Kim",
+  "email": "kimy10@rpi.edu",
+  "phone": "276-2542",
+  "location": ""
+ },
+ "Miles": {
+  "name": "Miles Kimball",
+  "email": "kimbam2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Abby": {
+  "name": "Abby Kinchy",
+  "email": "kincha@rpi.edu",
+  "phone": "518-276-6980",
+  "location": "5406 Sage Lab"
+ },
+ "Margarita": {
+  "name": "Margarita Kirova Snover",
+  "email": "kirovm@rpi.edu",
+  "phone": "518-276-3828",
+  "location": ""
+ },
+ "Mattheos": {
+  "name": "Mattheos Koffas",
+  "email": "koffam@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Fotios": {
+  "name": "Fotios Kopsaftopoulos",
+  "email": "kopsaf@rpi.edu",
+  "phone": "518-276-6439",
+  "location": "JEC 2024"
+ },
+ "Nikhil": {
+  "name": "Nikhil Koratkar",
+  "email": "koratn@rpi.edu",
+  "phone": "518 276 2630",
+  "location": "JEC 4009"
+ },
+ "Gerald": {
+  "name": "Gerald Korenowski",
+  "email": "koreng@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gyorgy": {
+  "name": "Gyorgy Korniss",
+  "email": "korniss@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gregor": {
+  "name": "Gregor Kovacic",
+  "email": "kovacg@rpi.edu",
+  "phone": "518-276-6908",
+  "location": ""
+ },
+ "Russell": {
+  "name": "Russell Kraft",
+  "email": "kraftr2@rpi.edu",
+  "phone": "518-276-2765",
+  "location": "Jonsson 6028"
+ },
+ "Ted": {
+  "name": "Ted Krueger",
+  "email": "krueger@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Uwe": {
+  "name": "Uwe Kruger",
+  "email": "krugeu@rpi.edu",
+  "phone": "(518) 276-4818",
+  "location": ""
+ },
+ "Gina": {
+  "name": "Gina Kucinski",
+  "email": "kucing@rpi.edu",
+  "phone": "518-276-6889",
+  "location": "Amos Eaton 409"
+ },
+ "Konstantin": {
+  "name": "Konstantin Kuzmin",
+  "email": "kuzmik2@rpi.edu",
+  "phone": "518-276-2609",
+  "location": ""
+ },
+ "John": {
+  "name": "John Wen",
+  "email": "wenj@rpi.edu",
+  "phone": "5182766156",
+  "location": "JEC 6052"
+ },
+ "Rongjie": {
+  "name": "Rongjie Lai",
+  "email": "lair@rpi.edu",
+  "phone": "518-276-2677",
+  "location": ""
+ },
+ "Nishtha": {
+  "name": "Nishtha Langer",
+  "email": "langen@rpi.edu",
+  "phone": "518-276-4414",
+  "location": "Pitts 2208"
+ },
+ "George": {
+  "name": "George Slota",
+  "email": "slotag@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Sangwoo": {
+  "name": "Sangwoo Lee",
+  "email": "lees27@rpi.edu",
+  "phone": "518-276-8676",
+  "location": ""
+ },
+ "Carla": {
+  "name": "Carla Leitao",
+  "email": "leitac@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Conor": {
+  "name": "Conor Lennon",
+  "email": "lennoc@rpi.edu",
+  "phone": "518.276.6413",
+  "location": "SAGE 3402"
+ },
+ "Fengyan": {
+  "name": "Fengyan Li",
+  "email": "lif@rpi.edu",
+  "phone": "518-276-3201",
+  "location": ""
+ },
+ "Jie": {
+  "name": "Jie Lian",
+  "email": "lianj@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Lee": {
+  "name": "Lee Ligon",
+  "email": "ligonl@rpi.edu",
+  "phone": "518-276-3458",
+  "location": "JROWL 1C05"
+ },
+ "Chjan": {
+  "name": "Chjan Lim",
+  "email": "limc@rpi.edu",
+  "phone": "518-276-6904",
+  "location": ""
+ },
+ "JianJing": {
+  "name": "JianJing Lin",
+  "email": "linj17@rpi.edu",
+  "phone": "518-276-2016",
+  "location": ""
+ },
+ "Shawn": {
+  "name": "Shawn Yu Lin",
+  "email": "sylin@rpi.edu",
+  "phone": "5182762978",
+  "location": ""
+ },
+ "Emily": {
+  "name": "Emily Liu",
+  "email": "liue@rpi.edu",
+  "phone": "518-276-8592",
+  "location": "Low Center for Industrial Innovation (CII) 5023"
+ },
+ "Liu": {
+  "name": "Liu Liu",
+  "email": "liu.liu@rpi.edu",
+  "phone": "",
+  "location": "JEC 6018"
+ },
+ "Stephanie": {
+  "name": "Stephanie Loveless",
+  "email": "lovels3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Toh": {
+  "name": "Toh Ming Lu",
+  "email": "lut@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Yuri": {
+  "name": "Yuri Lvov",
+  "email": "lvovy@rpi.edu",
+  "phone": "518-276-6893",
+  "location": "Amos Eaton 320"
+ },
+ "Dan": {
+  "name": "Dan Lyles",
+  "email": "lylesd2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Alexander": {
+  "name": "Alexander Ma",
+  "email": "maa4@rpi.edu",
+  "phone": "518-276-3930",
+  "location": ""
+ },
+ "Malik": {
+  "name": "Malik Magdon Ismail",
+  "email": "magdon@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Johan": {
+  "name": "Johan Maharjan",
+  "email": "maharj2@rpi.edu",
+  "phone": "5182763335",
+  "location": ""
+ },
+ "Mina": {
+  "name": "Mina Mahmoudi",
+  "email": "mahmom2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Bimal": {
+  "name": "Bimal Malaviya",
+  "email": "malavb@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Antoinette": {
+  "name": "Antoinette Maniatty",
+  "email": "maniaa@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Lydia": {
+  "name": "Lydia Manikonda",
+  "email": "manikl@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Charles": {
+  "name": "Charles Martin",
+  "email": "martic13@rpi.edu",
+  "phone": "518-276-6454",
+  "location": ""
+ },
+ "Margaret": {
+  "name": "Margaret McDermott",
+  "email": "mcderm3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Deborah": {
+  "name": "Deborah McGuinness",
+  "email": "dlm@cs.rpi.edu",
+  "phone": "518-276-4404",
+  "location": "2104 Winslow Building"
+ },
+ "Marjorie": {
+  "name": "Marjorie McShane",
+  "email": "mcsham2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Nathan": {
+  "name": "Nathan Meltz",
+  "email": "meltzn@rpi.edu",
+  "phone": "518-276-3871",
+  "location": ""
+ },
+ "Ana": {
+  "name": "Ana Milanova",
+  "email": "milanova@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Branda": {
+  "name": "Branda Miller",
+  "email": "milleb@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Kristen": {
+  "name": "Kristen Mills",
+  "email": "millsk2@rpi.edu",
+  "phone": "5182768390",
+  "location": ""
+ },
+ "Sandipan": {
+  "name": "Sandipan Mishra",
+  "email": "mishrs2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Nicholas": {
+  "name": "Nicholas Mizer",
+  "email": "mizern@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Hisham": {
+  "name": "Hisham Mohamed",
+  "email": "mohamh2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gaetano": {
+  "name": "Gaetano Montelione",
+  "email": "monteg3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Thilanka": {
+  "name": "Thilanka Munasinghe",
+  "email": "munast@rpi.edu",
+  "phone": "",
+  "location": "Lally 315"
+ },
+ "Uzma": {
+  "name": "Uzma Mushtaque",
+  "email": "mushtu@rpi.edu",
+  "phone": "518-276-8326",
+  "location": ""
+ },
+ "Nadarajah": {
+  "name": "Nadarajah Narendran",
+  "email": "narenn2@rpi.edu",
+  "phone": "5182767176",
+  "location": "Gurley Building - 4th Floor, Troy, NY 12180"
+ },
+ "Prabhakar": {
+  "name": "Prabhakar Neti",
+  "email": "netip@rpi.edu",
+  "phone": "5182768160",
+  "location": ""
+ },
+ "Dorit": {
+  "name": "Dorit Nevo",
+  "email": "nevod@rpi.edu",
+  "phone": "5182766431",
+  "location": ""
+ },
+ "Heidi": {
+  "name": "Heidi Newberg",
+  "email": "newbeh@rpi.edu",
+  "phone": "(518) 276-2652",
+  "location": ""
+ },
+ "Sandra": {
+  "name": "Sandra Nierzwicki Bauer",
+  "email": "nierzs@rpi.edu",
+  "phone": "",
+  "location": "MRC 306"
+ },
+ "Sergei": {
+  "name": "Sergei Nirenburg",
+  "email": "zavedomo@gmail.com",
+  "phone": "",
+  "location": "3rd Floor Carnegie"
+ },
+ "Ralph": {
+  "name": "Ralph Noble",
+  "email": "nobler@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Marianne": {
+  "name": "Marianne Nyman",
+  "email": "nymanm@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Rahmi": {
+  "name": "Rahmi Ozisik",
+  "email": "ozisik@rpi.edu",
+  "phone": "+1-518-276-6786",
+  "location": ""
+ },
+ "Rushabh": {
+  "name": "Rushabh Padalia",
+  "email": "padalr@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Edmund": {
+  "name": "Edmund Palermo",
+  "email": "palere@rpi.edu",
+  "phone": "5182766124",
+  "location": ""
+ },
+ "Shaowu": {
+  "name": "Shaowu Pan",
+  "email": "pans2@rpi.edu",
+  "phone": "518-276-6096",
+  "location": "JEC 2032"
+ },
+ "Karthik": {
+  "name": "Karthik Panneerselvam",
+  "email": "pannek2@rpi.edu",
+  "phone": "",
+  "location": "JEC 5009"
+ },
+ "Santiago": {
+  "name": "Santiago Paternain",
+  "email": "paters@rpi.edu",
+  "phone": "5182766087",
+  "location": ""
+ },
+ "Stacy": {
+  "name": "Stacy Patterson",
+  "email": "pattes3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Huaming": {
+  "name": "Huaming Peng",
+  "email": "pengh5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ukwatte": {
+  "name": "Ukwatte Lokuliyanage Indika Perera",
+  "email": "pereru2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Catalin": {
+  "name": "Catalin Picu",
+  "email": "picuc@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Bruce": {
+  "name": "Bruce Piper",
+  "email": "piperb@rpi.edu",
+  "phone": "518-276-6892",
+  "location": ""
+ },
+ "Kenneth": {
+  "name": "Kenneth Ragsdale",
+  "email": "ragsdk@rpi.edu",
+  "phone": "518-276-3870",
+  "location": ""
+ },
+ "Ganpati": {
+  "name": "Ganpati Ramanath",
+  "email": "ganapr@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Seemanti": {
+  "name": "Seemanti Ramanath",
+  "email": "ramans@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Weina": {
+  "name": "Weina Ran",
+  "email": "ranw@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Larry": {
+  "name": "Larry Reid",
+  "email": "reidl@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Rick": {
+  "name": "Rick Relyea",
+  "email": "relyer@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Elaine": {
+  "name": "Elaine Renz",
+  "email": "renze@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Luiz": {
+  "name": "Luiz Victor Repolho Cagliari",
+  "email": "repoll2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Trevor": {
+  "name": "Trevor Rhone",
+  "email": "rhonet@rpi.edu",
+  "phone": "518-276-8655",
+  "location": ""
+ },
+ "Ross": {
+  "name": "Ross Rice",
+  "email": "ricer3@rpi.edu",
+  "phone": "615.767.4128",
+  "location": ""
+ },
+ "Karyn": {
+  "name": "Karyn Rogers",
+  "email": "rogerk5@rpi.edu",
+  "phone": "518-276-2372",
+  "location": ""
+ },
+ "Catherine": {
+  "name": "Catherine Royer",
+  "email": "cathyannroyer@gmail.com",
+  "phone": "5184141440",
+  "location": "3244B CBIS"
+ },
+ "Kathleen": {
+  "name": "Kathleen Ruiz",
+  "email": "ruiz@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Rhett": {
+  "name": "Rhett Russo",
+  "email": "russor4@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Silvia": {
+  "name": "Silvia Ruzanka",
+  "email": "ruzans@rpi.edu",
+  "phone": "518-276-3856",
+  "location": ""
+ },
+ "Onkar": {
+  "name": "Onkar Sahni",
+  "email": "sahni@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Johnson": {
+  "name": "Johnson Samuel",
+  "email": "samuej2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Shayla": {
+  "name": "Shayla Sawyer",
+  "email": "sawyes@rpi.edu",
+  "phone": "518-276-2164",
+  "location": ""
+ },
+ "Morgan": {
+  "name": "Morgan Schaller",
+  "email": "schall@rpi.edu",
+  "phone": "518-276-3358",
+  "location": ""
+ },
+ "E": {
+  "name": "E Fred Schubert",
+  "email": "schubert@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Donald": {
+  "name": "Donald Schwendeman",
+  "email": "schwed@rpi.edu",
+  "phone": "(518) 276-2647",
+  "location": ""
+ },
+ "Patricia": {
+  "name": "Patricia Search",
+  "email": "searcp@rpi.edu",
+  "phone": "518-276-6470",
+  "location": ""
+ },
+ "Oshani": {
+  "name": "Oshani Seneviratne",
+  "email": "senevo@rpi.edu",
+  "phone": "",
+  "location": "Lally 307 | Winslow 2143 | MRC 330C"
+ },
+ "Ali": {
+  "name": "Ali Tajer",
+  "email": "tajera@rpi.edu",
+  "phone": "(518) 276-8237",
+  "location": "JEC 6040"
+ },
+ "Dennis": {
+  "name": "Dennis Shelden",
+  "email": "sheldd@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jacob": {
+  "name": "Jacob Shelley",
+  "email": "shellj@rpi.edu",
+  "phone": "(518) 276-8173",
+  "location": ""
+ },
+ "Jian": {
+  "name": "Jian Sun",
+  "email": "jsun@ecse.rpi.edu",
+  "phone": "(518) 276-8297",
+  "location": ""
+ },
+ "Shanbin": {
+  "name": "Shanbin Shi",
+  "email": "shis3@rpi.edu",
+  "phone": "518-276-8406",
+  "location": ""
+ },
+ "Sufei": {
+  "name": "Sufei Shi",
+  "email": "shis2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Mei": {
+  "name": "Mei Si",
+  "email": "sim@rpi.edu",
+  "phone": "518-276-3788",
+  "location": ""
+ },
+ "Sandeep": {
+  "name": "Sandeep Singh",
+  "email": "sandes5@rpi.edu",
+  "phone": "518-276-2625",
+  "location": "JEC 2040"
+ },
+ "Sebastian": {
+  "name": "Sebastian Souyris",
+  "email": "souyrs@rpi.edu",
+  "phone": "5182766582",
+  "location": "Pittsburgh Building 1210"
+ },
+ "Frank": {
+  "name": "Frank Spear",
+  "email": "spearf@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Mary": {
+  "name": "Mary Anne Staniszewski",
+  "email": "stanim@rpi.edu",
+  "phone": "518-276-2544",
+  "location": ""
+ },
+ "Himali": {
+  "name": "Himali Stoccatore",
+  "email": "stocch@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Maurice": {
+  "name": "Maurice Suckling",
+  "email": "sucklm@rpi.edu",
+  "phone": "518-276-8459",
+  "location": "West Hall 405"
+ },
+ "Ron": {
+  "name": "Ron Sun",
+  "email": "sunr@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ravishankar": {
+  "name": "Ravishankar Sundararaman",
+  "email": "sundar@rpi.edu",
+  "phone": "518-276-6757",
+  "location": "MRC 208B"
+ },
+ "Svedberg": {
+  "name": "Svedberg",
+  "email": "svedbp@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Sara": {
+  "name": "Sara Tack",
+  "email": "tacks2@rpi.edu",
+  "phone": "",
+  "location": "Sage 4204"
+ },
+ "Prakrati": {
+  "name": "Prakrati Thakur",
+  "email": "thakup@rpi.edu",
+  "phone": "",
+  "location": "3502 Russell Sage Laboratory"
+ },
+ "Deanna": {
+  "name": "Deanna Thompson",
+  "email": "thompd4@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Anthony": {
+  "name": "Anthony Titus",
+  "email": "titusa@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Minoru": {
+  "name": "Minoru Tomozawa",
+  "email": "tomozm@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Filbert": {
+  "name": "Filbert Totsingan",
+  "email": "totsif@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Holly": {
+  "name": "Holly Traver",
+  "email": "traveh@rpi.edu",
+  "phone": "5182768272",
+  "location": "Sage 3201"
+ },
+ "Alexandros": {
+  "name": "Alexandros Tsamis",
+  "email": "tsamia@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Shun": {
+  "name": "Shun Uchida",
+  "email": "uchids@rpi.edu",
+  "phone": "5182766944",
+  "location": ""
+ },
+ "Chaitanya": {
+  "name": "Chaitanya Ullal",
+  "email": "ullalc@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Patrick": {
+  "name": "Patrick Underhill",
+  "email": "underp3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Igor": {
+  "name": "Igor Vamos",
+  "email": "vamosi@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Bram": {
+  "name": "Bram van Heuveln",
+  "email": "heuveb@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Luigi": {
+  "name": "Luigi Vanfretti",
+  "email": "luigi.vanfretti@gmail.com",
+  "phone": "518-496-0196",
+  "location": "JEC 6022"
+ },
+ "Carlos": {
+  "name": "Carlos Varela",
+  "email": "cvarela@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Christos": {
+  "name": "Christos Varsamis",
+  "email": "varsac3@rpi.edu",
+  "phone": "(518) 276-3956",
+  "location": "4048 JEC Building"
+ },
+ "Deepak": {
+  "name": "Deepak Vashishth",
+  "email": "vashid@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Raquel": {
+  "name": "Raquel Velho",
+  "email": "velhor@rpi.edu",
+  "phone": "518-276-2199",
+  "location": ""
+ },
+ "Florencia": {
+  "name": "Florencia Vetcher",
+  "email": "vetchf@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Sasha": {
+  "name": "Sasha Wagner",
+  "email": "wagnes3@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Alicia": {
+  "name": "Alicia Walf",
+  "email": "walfa@rpi.edu",
+  "phone": "518-276-3840",
+  "location": "Carnegie 304"
+ },
+ "Leo": {
+  "name": "Leo Wan",
+  "email": "wanq@rpi.edu",
+  "phone": "518-276-2505",
+  "location": ""
+ },
+ "Chunyu": {
+  "name": "Chunyu Wang",
+  "email": "wangc5@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ge": {
+  "name": "Ge Wang",
+  "email": "wangg6@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Gwo": {
+  "name": "Gwo Ching Wang",
+  "email": "wangg@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Meng": {
+  "name": "Meng Wang",
+  "email": "wangm7@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Cara": {
+  "name": "Cara Wang",
+  "email": "wangx18@rpi.edu",
+  "phone": "518-276-2098",
+  "location": "JEC4032"
+ },
+ "Xun": {
+  "name": "Xun Wang",
+  "email": "wangx33@rpi.edu",
+  "phone": "518-276-6243",
+  "location": ""
+ },
+ "Yinan": {
+  "name": "Yinan Wang",
+  "email": "wangy88@rpi.edu",
+  "phone": "518-276-6837",
+  "location": "CII 5213"
+ },
+ "Esther": {
+  "name": "Esther Wertz",
+  "email": "wertze@rpi.edu",
+  "phone": "518 276 2674",
+  "location": ""
+ },
+ "Christian": {
+  "name": "Christian Wetzel",
+  "email": "wetzel@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Ingrid": {
+  "name": "Ingrid Wilke",
+  "email": "wilkei@rpi.edu",
+  "phone": "+1 518 276 6318",
+  "location": "Jonsson-Rowland Science Center (1C20)"
+ },
+ "Fred": {
+  "name": "Fred Willett",
+  "email": "willef2@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Kyle": {
+  "name": "Kyle Wilt",
+  "email": "wiltk2@rpi.edu",
+  "phone": "(518) 276-2170",
+  "location": ""
+ },
+ "Corey": {
+  "name": "Corey Woodcock",
+  "email": "woodcc2@rpi.edu",
+  "phone": "518-276-3439",
+  "location": ""
+ },
+ "Lirong": {
+  "name": "Lirong Xia",
+  "email": "xial@rpi.edu",
+  "phone": "5182766720",
+  "location": ""
+ },
+ "Ning": {
+  "name": "Ning Xiang",
+  "email": "xiangn@rpi.edu",
+  "phone": "518-276-6464",
+  "location": ""
+ },
+ "Jidong": {
+  "name": "Jidong Xiao",
+  "email": "xiaoj8@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Yangyang": {
+  "name": "Yangyang Xu",
+  "email": "xuy21@rpi.edu",
+  "phone": "518-276-6902",
+  "location": ""
+ },
+ "Pingkun": {
+  "name": "Pingkun Yan",
+  "email": "yanp2@rpi.edu",
+  "phone": "(518) 276-4476",
+  "location": ""
+ },
+ "Yingrui": {
+  "name": "Yingrui Yang",
+  "email": "yangyri@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Birsen": {
+  "name": "Birsen Yazici",
+  "email": "yazici@ecse.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Bulent": {
+  "name": "Bulent Yener",
+  "email": "yener@cs.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Lei": {
+  "name": "Lei Yu",
+  "email": "yul9@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Jianling": {
+  "name": "Jianling Yue",
+  "email": "yuej2@rpi.edu",
+  "phone": "518-276-3866",
+  "location": ""
+ },
+ "Mohammed": {
+  "name": "Mohammed Zaki",
+  "email": "zakim@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Mourad": {
+  "name": "Mourad Zeghal",
+  "email": "zeghal@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Eliane": {
+  "name": "Eliane Zerbetto Traldi",
+  "email": "zerbee@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Helen": {
+  "name": "Helen Zhou",
+  "email": "zhouy12@rpi.edu",
+  "phone": "518-276-3867",
+  "location": ""
+ },
+ "Lucy": {
+  "name": "Lucy Zhang",
+  "email": "zhanglucy@rpi.edu",
+  "phone": "",
+  "location": "JEC5020; (mail stop) JEC2049-MANE, 110 8th St., Troy, NY 12180"
+ },
+ "Shengbai": {
+  "name": "Shengbai Zhang",
+  "email": "zhangs9@rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Tong": {
+  "name": "Tong Zhang",
+  "email": "tzhang@ecse.rpi.edu",
+  "phone": "",
+  "location": ""
+ },
+ "Antonella": {
+  "name": "Antonella Zompa",
+  "email": "zompaa@rpi.edu",
+  "phone": "(860) 548-2402",
+  "location": ""
+ }
 }
