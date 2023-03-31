@@ -132,7 +132,7 @@ export default {
     redirectToSchedule() {
     const targetRoute = { name: 'CourseScheduler' };
     this.$router.push(targetRoute).then(() => {
-      window.location.reload();
+      location.reload();
     });
   },
 

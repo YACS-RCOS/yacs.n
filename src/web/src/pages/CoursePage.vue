@@ -25,7 +25,15 @@
       <h5>Instructors:</h5>
       <ul>
         <li v-for="item in instructorList" :key="item.id">
+      <template v-if="item in professorbylastname">
+        <span>{{ professorbylastname[item].Name }} --- {{ professorbylastname[item].Email }}</span>
+      </template>
+      <template v-else-if="item in professorbyfirstname">
+        <span>{{ professorbyfirstname[item].Name }} --- {{ professorbyfirstname[item].Email }}</span>
+      </template>
+      <template v-else>
         {{ item }}
+      </template>
       </li> 
       </ul>
       
@@ -93,6 +101,8 @@ import {
   removeStudentCourse,
 } from "@/services/YacsService";
 import CourseInfo from "../components/CourseInfo.vue";
+import professorbylastname from "./professordata_sortbylastname.js";
+import professorbyfirstname from "./professordata_sortbyfirstname.js";
 
 export default {
   components: {
@@ -123,7 +133,10 @@ export default {
           text: this.$route.params.course,
         },
       ],
-      instructorList:[]
+      instructorList:[],
+      professorbylastname:professorbylastname,
+      professorbyfirstname:professorbyfirstname,
+
     };
   },
   mounted(){
