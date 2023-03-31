@@ -33,6 +33,8 @@
       </b-row>
       <b-row>
         <!-- > time filter -->
+        <!-- <div class="course-filter"
+        :class="{ 'time-filter' : course.selected}"> -->
         <div>
           <button @click="showGrid = true">Show Grid</button>
           <div v-if="showGrid">
@@ -464,10 +466,13 @@ export default {
   width: 90%;
   height: 50px;
   border: 1px solid black;
+  border-radius: 7px;
+  font-size: inherit;
   margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 }
+
 </style>

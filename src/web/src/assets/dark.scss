@@ -29,6 +29,11 @@
     background-color: var(--dark-primary) !important;
   }
 
+  // .grid-row{
+  //   background-color: var(--dark-primary) !important;
+  //   color: var(--dark-text-primary) !important;
+  // }
+
   .py-3 {
     background-color: var(--dark-primary) !important;
   }
@@ -50,6 +55,10 @@
     background: var(--dark-secondary) !important;
   }
 
+  // .time-filter{
+  //   background-color: var(--dark-primary) !important;
+  //   color: var(--dark-text-primary) !important;
+  // }
   .bg-light {
     background-color: var(--dark-secondary) !important;
   }
@@ -251,6 +260,44 @@
   .breadcrumb {
     background-color: var(--dark-secondary) !important;
   }
+  // Define the style rules for the button grid in light mode
+.grid-row {
+  display: flex;
+}
+
+.grid-box {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: $light-box-color;
+  color: $light-text-color;
+}
+
+// Define the style rules for the button grid in dark mode
+.dark-mode {
+  .grid-box {
+    background-color: $dark-box-color;
+    color: $dark-text-color;
+  }
+
+  button {
+    color: $dark-text-color;
+  }
+}
+
+// Add a class to the body tag to toggle the dark mode
+body.dark-mode {
+  background-color: $dark-bg-color;
+  
+  .grid-row {
+    border-bottom: 1px solid $dark-box-color;
+  }
+}
+
 }
 
 /*
