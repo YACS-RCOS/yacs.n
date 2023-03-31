@@ -1,4 +1,4 @@
-{
+export default{
  "Abbott": {
   "name": "Thomas Abbott",
   "email": "abbott3@rpi.edu",

@@ -31,6 +31,12 @@
       <template v-else-if="item in professorbyfirstname">
         <span>{{ professorbyfirstname[item].Name }} --- {{ professorbyfirstname[item].Email }}</span>
       </template>
+      <template v-else-if="item in professorbylastname1">
+        <span>{{ professorbylastname1[item].name }} --- {{ professorbylastname1[item].email }}</span>
+      </template>
+      <template v-else-if="item in professorbyfirstname1">
+        <span>{{ professorbyfirstname1[item].name }} --- {{ professorbyfirstname1[item].email }}</span>
+      </template>
       <template v-else>
         {{ item }}
       </template>
@@ -101,8 +107,10 @@ import {
   removeStudentCourse,
 } from "@/services/YacsService";
 import CourseInfo from "../components/CourseInfo.vue";
-import professorbylastname from "./professordata_sortbylastname.js";
-import professorbyfirstname from "./professordata_sortbyfirstname.js";
+import professorbylastname from "./professorbylastname.js";
+import professorbyfirstname from "./professorbyfirstname.js";
+import professorbyfirstname1 from "./professordata_sortbyfirstname.js";
+import professorbylastname1 from "./professordata_sortbylastname.js";
 
 export default {
   components: {
@@ -136,7 +144,8 @@ export default {
       instructorList:[],
       professorbylastname:professorbylastname,
       professorbyfirstname:professorbyfirstname,
-
+      professorbylastname1:professorbylastname1,
+      professorbyfirstname1:professorbyfirstname1,
     };
   },
   mounted(){
