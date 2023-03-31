@@ -17,7 +17,7 @@
       </b-button>
       <br />
       <b-button
-        @click="listCate()"
+        @click="listCat()"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -29,7 +29,10 @@
       </b-button>
     </div>
 
-    <div class="mx-auto w-75">
+    <div v-if="professors.length > 0" class="mx-auto w-75">
+      <b-row>
+        
+
         <!-- splitted Pathways in alphabet order -->
         <b-col
           v-for="(alphCol, index) in alphabetCols"
@@ -39,34 +42,34 @@
         >
           <b-row
             v-for="alphabetObj in alphCol"
-            :key="alphabetObj['Category Name']"
+            :key="alphabetObj['Letter']"
             class="categoryBox border m-2 mb-4"
           >
             <b-col>
               <!-- Alphabet Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ alphabetObj["Category Name"] }}
+                  {{ alphabetObj["Letter"] }}
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
+              <!-- Professor Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
                   <!-- LOOP Through the Pathway Alphabet list -->
                   <div
-                    v-for="professor in alphabetObj['Professors']"
-                    :key="professor['Name']"
+                    v-for="prof in alphabetObj['Professors']"
+                    :key="prof['Name']"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
                       <!-- pathway button -->
                       <b-button
-                        @click="goPage(professor)"
+                        @click="ShowProf(prof)"
                         squared
                         variant="light"
                         class="pathway-button m-0 ml-1"
                       >
-                        {{ professor["Name"] }}
+                        {{ prof["Name"] }}
                       </b-button>
                     </div>
                   </div>
@@ -75,22 +78,27 @@
             </b-col>
           </b-row>
         </b-col>
+      </b-row>
     </div>
-
-
-    
+    <CenterSpinner
+      v-else
+      :height="80"
+      :fontSize="1.3"
+      loadingMessage="Professors"
+      :topSpacing="30"
+    />    
   </b-container>
 </template>
 
 <script>
 import json from "./Professors.json";
-// import CenterSpinnerComponent from "../components/CenterSpinner";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
   name: "Professor",
-  // components: {
-  //   CenterSpinner: CenterSpinnerComponent,
-  // },
+  components: {
+    CenterSpinner: CenterSpinnerComponent,
+  },
   data() {
     return {
       breadcrumbNav: [
@@ -104,40 +112,11 @@ export default {
       ],
       professors: json,
       showProf: null,
-      cateShow: false,
+      catShow: false,
       alphShow: true,
     };
   },
   computed: {
-    // splitted categories into 2 arrays, one array = one column
-    categoryCols() {
-      let categories = new Map();
-      let ret = [];
-      let col1 = [];
-      let col2 = [];
-
-      for (let i = 0; i < this.professors.length; i++){
-        if (!categories.has(this.professors[i]["Department"])){
-          categories.set(this.professors[i]["Department"], []);
-        }
-        categories.set(this.professors[i]["Department"], []).push(this.professors[i]);
-      }
-
-      let i = 0;
-      for (const x of categories.entries()) {
-        if (i < this.categories.size / 2) {
-          col1.push(x);
-        } else {
-          col2.push(x);
-        }
-        i++;
-      }
-
-      ret.push(col1);
-      ret.push(col2);
-      return ret;
-    },
-
     // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
     alphabetCols() {
       var half_length = Math.ceil(this.professors.length / 2);
@@ -176,17 +155,23 @@ export default {
       let col2 = [];
       for (var i = 0; i < alphabet.length; i++){
         var tmp = {
-          "Category Name": alphabet[i],
+          "Letter": alphabet[i],
           "Professors": [],
         };
         for (var j = 0; j < this.professors.length; j++){
-          var name = this.professors[j];
+          var name = this.professors[j]["Name"];
           var last_name = name.split(" ")[1];
           if (last_name.startsWith(alphabet[i])){
-            tmp["Professors"].push(this.professors[j]);
+            var index = 0;
+            while (index < tmp["Professors"].length){
+              if (last_name < tmp["Professors"][index]["Name"].split(" ")[1]){
+                break
+              }
+              index++;
+            }
+            tmp["Professors"].splice(index, 0, this.professors[j]);
           }
         }
-        tmp["Professors"].sort(function(a,b){return a.split[" "][1] - b.split[" "][1]});
 
         // splitted categories into 2 arrays
         if (tmp["Professors"].length > 0) {
@@ -198,7 +183,6 @@ export default {
           }
         }
       }
-
       ret.push(col1);
       ret.push(col2);
       return ret;
@@ -207,19 +191,13 @@ export default {
 
   methods: {
     listAlphabet() {
-      this.cateShow = false;
+      this.catShow = false;
       this.alphShow = true;
     },
-    listCate() {
-      this.cateShow = true;
+    listCat() {
+      this.catShow = true;
       this.alphShow = false;
     },
-
-    // Go to the professor's page when clicked
-    goPage(professor) {
-      this.$router.push("/explore/" + professor);
-    },
-
   },
 };
 </script>
