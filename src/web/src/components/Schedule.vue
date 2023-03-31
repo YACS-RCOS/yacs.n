@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="schedule-grid">
+    <div class="schedule-grid" @click="handleGridClick">
       <div
         class="grid-day"
         v-for="(day, index) of days"
@@ -160,6 +160,9 @@ export default {
     mapSessionType(type) {
       return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
+    handleGridClick(event) {
+      console.log("Grid clicked:", event);
+    },
   },
   computed: {
     /**
@@ -249,6 +252,8 @@ $hourFontSize: 0.5em;
   width: calc(100% - #{$hourFontSize + $labelOffset + 1.75em});
   height: 100%;
   left: 2.5em;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .day-label {
