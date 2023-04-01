@@ -55,9 +55,12 @@
       <b-navbar-nav class="ml-auto">
 
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-          <b-dropdown-item :class="this.currItem===0 ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.currItem===1 ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.currItem===2 ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
+<!--          <b-dropdown-item :class="this.currItem===0 ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>-->
+<!--          <b-dropdown-item :class="this.currItem===1 ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>-->
+<!--          <b-dropdown-item :class="this.currItem===2 ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>-->
+          <b-dropdown-item :class="this.beginStatus===false ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.beginStatus===true ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.beginStatus===null ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -116,16 +119,16 @@ export default {
     };
   },
   mounted(){
-    this.$store.commit(SAVE_DARK_MODE);
-    if(this.beginStatus===null){
-      this.currItem=2;
-    }
-    else if(this.currentMode==="false"){
-      this.currItem=0;
-    }
-    else if(this.currentMode==="true"){
-      this.currItem=1;
-    }
+     console.log("beginStatus: "+this.beginStatus);
+    // if(this.beginStatus === true){
+    //   this.currItem = 0;
+    // }
+    // else if(this.beginStatus === false){
+    //   this.currItem = 1;
+    // }
+    // else{
+    //   this.currItem = 2;
+    // }
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
@@ -135,34 +138,62 @@ export default {
           this.unFollowDeviceTheme();
           this.notify=false;
         }
-      if(mode===false){
-        this.currItem=0;
-      }
-      else if(mode===true){
-        this.currItem=1;
-      }
+      // if(mode===false){
+      //   this.currItem=0;
+      // }
+      // else if(mode===true){
+      //   this.currItem=1;
+      // }
 
       //this.currentMode treated as a string
       //only switch themes if mode and this.currentMode are opposite
-      if((mode===false && this.currentMode === "true") || (mode===true && this.currentMode === "false")) {
+      // if((mode===false && this.currentMode === "true") || (mode===true && this.currentMode === "false")) {
+      //   this.$store.commit(TOGGLE_DARK_MODE);
+      //   this.$store.commit(SAVE_DARK_MODE);
+      //   this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
+      //   this.beginStatus=mode;
+      // }
+
+      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)");
+      console.log("deviceTheme "+ deviceTheme.matches);
+
+      console.log("BEFORE beginStatus: "+this.beginStatus);
+
+      if((mode===false && this.beginStatus === true) || (mode===true && this.beginStatus === false)) {
+        console.log("FIRST");
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-        this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
-        this.beginStatus=mode;
+        this.currentMode = this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
+        this.beginStatus = mode;
+        //this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
+        //this.beginStatus=mode;
       }
+      // else if(this.beginStatus === null && deviceTheme !== mode){
+      //   console.log("SECOND");
+      //   this.$store.commit(TOGGLE_DARK_MODE);
+      //   this.$store.commit(SAVE_DARK_MODE);
+      //   // this.beginStatus=mode;
+      // }
+      // else if(this.beginStatus === null && deviceTheme === mode){
+      //   this.$store.commit(SAVE_DARK_MODE);
+      // }
+
+      //this.beginStatus=mode;
+
+      console.log("AFTER beginStatus: "+this.beginStatus);
 
     },
     toggle_device() {
       this.followDeviceTheme();//sends user message
       this.notify=true;
 
-      this.currItem=2;
+      //this.currItem=2;
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
-      this.$store.commit(SAVE_DARK_MODE);
+      //this.$store.commit(SAVE_DARK_MODE);
 
-      this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
+      //this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
       this.beginStatus = null;
     },
     onLogIn() {
