@@ -1,7 +1,7 @@
 <template id = "body">
   <div fluid class="py-3 h-100">
     <h1>Graduatation Requirements</h1>
-    <b-modal ref="my-modal">
+    <b-modal ref="course-pop-up">
       <div class="d-block text-center" v-if="modelShowing != null">
         <h3>{{ modelShowing.name }}</h3>
         <p>Required credits: {{ modelShowing.creditHours }}</p>
@@ -18,7 +18,7 @@
         >Possible categories: {{ modelShowing.Departments }}</p>
         <p
           v-if="modelShowing['pre-requsit-of'] != null"
-        >Prerequsit of: {{ modelShowing["pre-requsit-of"] }}</p>
+        >Prerequsite of: {{ modelShowing["pre-requsite-of"] }}</p>
       </div>
     </b-modal>
     <b-row>
@@ -31,7 +31,7 @@
       <b-col sm="4">
         <b-form-select v-model="selected" :options="optionsYear"></b-form-select>
       </b-col>
-      <tr v-for="template in templates" :key="template.id" text-align:center>
+      <tr v-for="template in templates" :key="template.Major" text-align:center>
         <td scope="row">{{ template.id }}</td>
       </tr>
     </b-row>
@@ -40,7 +40,7 @@
         <h2>{{ semester["semester-name"] }}</h2>
         <draggable class="list-group" :list="list1" group="people">
           <b-button
-            @click="showModal(course)"
+            @click="displayCourse(course)"
             v-for="course in semester.courses"
             :key="course"
           >{{ course.name }} | {{ course.creditHours }}</b-button>
@@ -50,10 +50,12 @@
   </div>
 </template>
 
+
 <script>
-import { getDegreeTemplate } from "../services/YacsService";
+// import { getDegreeTemplate } from "../services/YacsService";
+import  draggable  from "vuedraggable";
+import  degree_json from "./DegreeTemplatesFormatted.json";
 //import DepartmentListComponenet from "@/components/DepartmentList";
-import draggable from "vuedraggable";
 export default {
   name: "DegreeTemplates",
   components: {
@@ -61,22 +63,23 @@ export default {
     //DepartmentList: DepartmentListComponenet,
   },
   methods: {
-    showModal(course) {
-      this.modelShowing = course;
-      this.modelShowing.subName = null;
-      this.$refs["my-modal"].show();
+    displayCourse(course) {
+      this.courseInfo = course;
+      this.courseInfo.subName = null;
+      this.$refs["course-pop-up"].show();
     },
     changeTitle(courseName) {
-      this.modelShowing.name = courseName;
+      this.courseInfo.name = courseName;
     },
   },
   data() {
     return {
       templates: [],
       semsterAll: [],
-      modelShowing: null,
+      courseInfo: null,
       degree: "UNGD",
       selected: null,
+      /* below if for the dropdown boxes */
       optionsDegree: [
         { text: "Plese select a Degree" },
         { text: "GRAD" },
@@ -84,24 +87,27 @@ export default {
       ],
       optionsYear: [
         { text: "Plese select your entering Year" },
-        { text: "2017" },
-        { text: "2018" },
         { text: "2019" },
         { text: "2020" },
+        { text: "2021" },
+        { text: "2022" },
       ],
       optionsMajor: [
         { text: "Plese select your major" },
-        { text: "CSCI" },
-        { text: "ITWS" },
       ],
     };
   },
 
   created() {
-    getDegreeTemplate().then((list) => {
-      this.templates = list;
-      this.semesterAll = this.templates[0].semesters;
-    });
+    this.templates = degree_json;
+    for (var i = 0; i < this.templates.length; i++){
+      this.optionsMajor.push({text: degree_json[i]["Major"]});
+      console.log(this.templates[i]["Major"]);
+    }
+    // getDegreeTemplate().then((list) => {
+    //   this.templates = list;
+    //   this.semesterAll = this.templates[0].semesters;
+    // });
   },
 };
 </script>
