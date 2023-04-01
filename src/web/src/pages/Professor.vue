@@ -25,7 +25,7 @@
           background-color: transparent;
         "
       >
-        List by Category
+        List by Department
       </b-button>
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
@@ -76,24 +76,24 @@
                   {{ categoryObj["Department Name"][0] }}
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
+              <!-- professor Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
+                  <!-- LOOP Through the professor department list -->
                   <div
-                    v-for="pathway in categoryObj['Professors']"
-                    :key="pathway['Name'][0]"
+                    v-for="professor in categoryObj['Professors']"
+                    :key="professor['Name'][0]"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
+                      <!-- professor button -->
                       <b-button
-                        @click="ShowPath(pathway)"
+                        @click="ShowPath(professor)"
                         squared
                         variant="light"
-                        class="pathway-button m-0 ml-1"
+                        class="professor-button m-0 ml-1"
                       >
-                        {{ pathway["Name"][0] }}
+                        {{ professor["Name"][0] }}
                       </b-button>
                     </div>
                   </div>
@@ -103,7 +103,7 @@
           </b-row>
         </b-col>
 
-        <!-- splitted Pathways in alphabet order -->
+        <!-- splitted professors in alphabet order -->
         <b-col
           v-for="(alphCol, index) in alphabetCols"
           :key="`alphCol-${index}`"
@@ -122,24 +122,24 @@
                   {{ alphabetObj["Department Name"][0] }}
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
+              <!-- professor Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
+                  <!-- LOOP Through the professor Alphabet list -->
                   <div
-                    v-for="pathway in alphabetObj['Professors']"
-                    :key="pathway['Name'][0]"
+                    v-for="professor in alphabetObj['Professors']"
+                    :key="professor['Name'][0]"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
+                      <!-- professor button -->
                       <b-button
-                        @click="ShowPath(pathway)"
+                        @click="ShowPath(professor)"
                         squared
                         variant="light"
-                        class="pathway-button m-0 ml-1"
+                        class="professor-button m-0 ml-1"
                       >
-                        {{ pathway["Name"][0] }}
+                        {{ professor["Name"][0] }}
                       </b-button>
                     </div>
                   </div>
@@ -204,10 +204,10 @@ export default {
       return ret;
     },
 
-    // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
+    // splitted professors to alphabet categories, then splitted categories into 2 arrays, one array = one column
     alphabetCols() {
       let cols = [];
-      // put all pathways in one array
+      // put all professors in one array
       for (var i = 0; i < this.categories.length; i++) {
         for (var j = 0; j < this.categories[i]["Professors"].length; j++) {
           cols.push(this.categories[i]["Professors"][j]);
@@ -247,7 +247,7 @@ export default {
       let col2 = [];
       var half_length = Math.ceil(cols.length / 2);
       var count = 0;
-      // splitted pathways to alphabet categories, then splitted categories into 2 arrays
+      // splitted professors to alphabet categories, then splitted categories into 2 arrays
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = {
           "Department Name": alphabet[n],
@@ -290,11 +290,11 @@ export default {
       this.cateShow = true;
       this.alphShow = false;
     },
-    // Display a pop-up window when a pathway is clicked
-    ShowPath(pathway) {
+    // Display a pop-up window when a professor is clicked
+    ShowPath(professor) {
       console.log(this.$refs["my-modal"]);
-      console.log(pathway);
-      this.showPath = pathway;
+      console.log(professor);
+      this.showPath = professor;
       this.$refs["my-modal"].show();
     },
     // Go to the course page when a course inside the pop-up window is clicked
@@ -334,7 +334,7 @@ export default {
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
 
-.pathway-button {
+.professor-button {
   display: inline-block;
   background: white;
   border-style: none;
@@ -342,7 +342,7 @@ export default {
   width: 95%;
 }
 
-.pathway-button:hover {
+.professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
