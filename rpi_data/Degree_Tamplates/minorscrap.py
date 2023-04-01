@@ -15,8 +15,8 @@ def scrapFromURL(webLink, minor_db):
     
     #find the first h1 which is the minor name
     title_element = soup.find("h1", id="acalog-content")
-    outFile.write(minor_element.text)
-    minor = minor_element.text
+    outFile.write(title_element.text)
+    minor = title_element.text
     #the entire class template has a custom leftpad of 20 consistently, so gather that data
     clp20 = soup.find_all(class_ = "custom_leftpad_20")
     cur_entry = ("","")
@@ -44,4 +44,26 @@ i = 0
 for link in f:
     print(link)
     scrapFromURL(link, minor_db)
+outFile.close()
+#still need to get the commands text file with the footnote info
+outFile2 = open("__", "a")
+outFile2.truncate(0)
+commandlines = ["","",""]
+cmd_sem1= ""
+cmds = []
+for minor_year in minor_db.keys():
+    cmds.append("(\'{}\', \'{}\',".format(minor_year[0], minor_year[1]))
+    i = 0
+    for sem in minor_db[minor_year].keys():
+        cmds[i] += "\'{}\',\'{{".format(sem)
+        for course in minor_db[minor_year][sem]:
+            cmds[i] += "\"{}\",".format(course)
+        cmds[i] = cmds[i][:-1]
+        cmds[i] += "}\'),\n"
+        i +=1
+    for command in cmds:
+        outFile2.write(command)
+    cmds.clear()
+        
+outFile2.close() 
 
