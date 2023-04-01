@@ -27,41 +27,29 @@
       >
         List by Category
       </b-button>
-      <br />
-      <b-button
-        @click="listClub_or_Frat()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Club/Frat
-      </b-button>
-
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showOrganization != null" md="10">
+        <div class="block text-left" v-if="showPath != null" md="10">
           <h3
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
           >
-            {{ showOrganization.Name[0] }}
+            {{ showPath.Name[0] }}
           </h3>
           <br />
-          <div v-for="(item, itemName) in showOrganization" :key="itemName">
+          <div v-for="(item, itemName) in showPath" :key="itemName">
             <h4 style="color: #3395ff; margin-top: -20px;">
               {{ itemName + ": " }}
             </h4>
             <li
-              v-for="info in item"
-              :key="info"
-
+              v-for="course in item"
+              :key="course"
+              v-on:click="goPage(course)"
+              class="courseInPath"
             >
-              {{ info }}
+              {{ course }}
             </li>
             <br />
           </div>
@@ -93,7 +81,7 @@
                 <div class="d-flex flex-column flex-grow-1">
                   <!-- LOOP Through the Pathway Categories list -->
                   <div
-                    v-for="pathway in categoryObj['Pathways']"
+                    v-for="pathway in categoryObj['Organizations']"
                     :key="pathway['Name'][0]"
                     role="tablist"
                   >
@@ -139,7 +127,7 @@
                 <div class="d-flex flex-column flex-grow-1">
                   <!-- LOOP Through the Pathway Alphabet list -->
                   <div
-                    v-for="pathway in alphabetObj['Pathways']"
+                    v-for="pathway in alphabetObj['Organizations']"
                     :key="pathway['Name'][0]"
                     role="tablist"
                   >
@@ -163,20 +151,21 @@
       </b-row>
     </div>
     <CenterSpinner
+      v-else
       :height="80"
       :fontSize="1.3"
-      loadingMessage="Organization"
+      loadingMessage="Organizations"
       :topSpacing="30"
     />
   </b-container>
 </template>
 
 <script>
-import CenterSpinnerComponent from "../components/CenterSpinner";
 import json from "./Organization_Data.json";
+import CenterSpinnerComponent from "../components/CenterSpinner";
 
 export default {
-  name: "Organization",
+  name: "Orgnizations",
   components: {
     CenterSpinner: CenterSpinnerComponent,
   },
@@ -188,14 +177,13 @@ export default {
           to: "/",
         },
         {
-          text: "Organization",
+          text: "Organizations",
         },
       ],
       categories: json,
-      showOrganiztion: null,
+      showPath: null,
       cateShow: true,
       alphShow: false,
-      CFShow: false,
     };
   },
   computed: {
@@ -221,8 +209,8 @@ export default {
       let cols = [];
       // put all pathways in one array
       for (var i = 0; i < this.categories.length; i++) {
-        for (var j = 0; j < this.categories[i]["Pathways"].length; j++) {
-          cols.push(this.categories[i]["Pathways"][j]);
+        for (var j = 0; j < this.categories[i]["Organizations"].length; j++) {
+          cols.push(this.categories[i]["Organizations"][j]);
         }
       }
 
@@ -263,25 +251,25 @@ export default {
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = {
           "Category Name": alphabet[n],
-          Pathways: [],
+          Organizations: [],
         };
         for (var m = 0; m < cols.length; m++) {
           if (cols[m]["Name"][0].startsWith(alphabet[n])) {
             var index = 0;
-            while (index < tmp["Pathways"].length) {
-              if (cols[m]["Name"][0] < tmp["Pathways"][index]["Name"][0]) {
+            while (index < tmp["Organizations"].length) {
+              if (cols[m]["Name"][0] < tmp["Organizations"][index]["Name"][0]) {
                 break;
               }
               index++;
             }
-            tmp["Pathways"].splice(index, 0, cols[m]);
+            tmp["Organizations"].splice(index, 0, cols[m]);
           }
         }
         // splitted categories into 2 arrays
-        if (tmp["Pathways"].length > 0) {
+        if (tmp["Organizations"].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
-            count += tmp["Pathways"].length + 0.2;
+            count += tmp["Organizations"].length + 0.2;
           } else {
             col2.push(tmp);
           }
@@ -292,52 +280,38 @@ export default {
       ret.push(col2);
       return ret;
     },
-
-    //Tmp function
-    CluborFratCols() {
-      let ret = [];
-      let col1 = [];
-      let col2 = [];
-      for (var i = 0; i < this.categories.length; i++) {
-        if (i < this.categories.length / 2) {
-          col1.push(this.categories[i]);
-        } else {
-          col2.push(this.categories[i]);
-        }
-      }
-      ret.push(col1);
-      ret.push(col2);
-      return ret;
-    },
-
   },
-
-
   methods: {
     listAlphabet() {
       this.cateShow = false;
-      this.CFShow = false;
       this.alphShow = true;
     },
     listCate() {
       this.cateShow = true;
-      this.CFShow = false;
       this.alphShow = false;
-    }, 
-    listClub_or_Frat() {
-      this.cateShow = false;
-      this.CFShow = true;
-      this.alphShow = false;
-    }, 
-
-    // Display a pop-up window when a Organization is clicked
-    ShowOrganization(organization) {
+    },
+    // Display a pop-up window when a pathway is clicked
+    ShowPath(pathway) {
       console.log(this.$refs["my-modal"]);
-      console.log(organization);
-      this.showPath = organization;
+      console.log(pathway);
+      this.showPath = pathway;
       this.$refs["my-modal"].show();
     },
-
+    // Go to the course page when a course inside the pop-up window is clicked
+    goPage(course) {
+      var subject = "" + course[0] + course[1] + course[2] + course[3];
+      var courseID = "" + course[5] + course[6] + course[7] + course[8];
+      if (course[4] != " ") {
+        return;
+      }
+      if (course[8] == "X") {
+        this.$router.push("/explore/" + subject);
+      } else {
+        this.$router.push(
+          "/explore/" + subject + "/" + subject + "-" + courseID
+        );
+      }
+    },
   },
 };
 </script>
@@ -372,4 +346,11 @@ export default {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
+.courseInPath {
+  cursor: pointer;
+}
+
+.courseInPath:hover {
+  background-color: rgba(39, 130, 230, 0.5);
+}
 </style>

@@ -3,7 +3,7 @@
         "Category Name": [
             "Culture"
         ],
-        "Organization Information": [
+        "Organizations": [
             {
                 "Name": [
                     "KSA"
@@ -50,7 +50,7 @@
         "Category Name": [
             "Sport"
         ],
-        "Organization Information": [
+        "Organizations": [
             {
                 "Name": [
                     "Sport_tmp"
@@ -97,7 +97,7 @@
         "Category Name": [
             "Frat"
         ],
-        "Organization Information": [            
+        "Organizations": [            
             {
                 "Name": [
                     "Frat1"
