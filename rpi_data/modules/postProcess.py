@@ -14,14 +14,14 @@ subj_code_in={department}&crse_numb_in={courseNumber}'
 
 
 def read_csv(file_name : str = 'fall-2023.csv') -> list:
-    with open(file_name, 'r') as csv_file:
+    with open(file_name, 'r', encoding='UTF-8') as csv_file:
         csv_reader = csv.reader(csv_file)
         csv_reader = list(csv_reader)
         csv_reader.pop(0)
         return csv_reader
 
 def write_csv(file_name : str = 'fall-2023_fixed.csv', data :list = []) -> None:
-    with open(file_name, 'w') as csv_file:
+    with open(file_name, 'w', encoding='UTF-8') as csv_file:
         data.insert(0,['course_name', 'course_type', 'course_credit_hours', 
         'course_days_of_the_week', 'course_start_time', 'course_end_time', 
         'course_instructor', 'course_location', 'course_max_enroll', 'course_enrolled', 
@@ -49,20 +49,21 @@ def parseCorequisites(rawCorequisites : str) -> str:
     return retList
 
 def readData(filename : str) -> dict:
-    with open(filename, 'r') as infile:
+    with open(filename, 'r', encoding='UTF-8') as infile:
         return json.load(infile)
 
 def saveData(filename :str, data : dict) -> None:
-    with open(filename, 'w') as outfile:
+    with open(filename, 'w', encoding='UTF-8') as outfile:
         json.dump(data, outfile, indent=4)
     return None
 
 def getCourseLink(semester : str, department : str, courseNumber : str) -> str:
     return baseLink.format(semester=semester, department=department, courseNumber=courseNumber)
 
-def WithoutData(filename : str, dataFilename : str, semester : str, DEBUG):
+def WithoutData(filename : str, dataFilename : str, DEBUG):
     session = requests.Session()
     data = read_csv(filename)
+    semester = parseSemester(filename)
     Data = dict()
 
     for row in data:
@@ -76,6 +77,8 @@ def WithoutData(filename : str, dataFilename : str, semester : str, DEBUG):
         rawbody = soup.find('td', class_='ntdefault')
         body = rawbody.text.split('\n\n')
         description = body[0].strip()
+        description = description.split('\n \n')[0]
+        description = description.replace('\n','')
         
         prerequisites = None
         corequisites = None
@@ -108,6 +111,9 @@ def WithData(filename : str, dataFilename : str) -> None:
         department = row[11]
         courseNumber = row[16]
         shortName = department+courseNumber
+        if shortName not in Data:
+            WithoutData(filename, dataFilename, 'n')
+            return None
         description = Data[shortName]['description']
         prerequisites = Data[shortName]['prerequisites']
         corequisites = Data[shortName]['corequisites']
@@ -150,7 +156,7 @@ def main() -> None:
         WithData(filename, dataFilename)
     else:
         semester = parseSemester(filename)
-        WithoutData(filename, dataFilename, semester, DEBUG)
+        WithoutData(filename, dataFilename, DEBUG)
 
 
 if __name__ == '__main__':
