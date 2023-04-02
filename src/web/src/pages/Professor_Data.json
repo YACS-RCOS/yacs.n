@@ -6,42 +6,32 @@
         "Professors": [
             {
                 "Name": [
-                    "AMP"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "A"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             },
             {
                 "Name": [
-                    "TMP"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "B"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             }
         ]
@@ -53,42 +43,32 @@
         "Professors": [
             {
                 "Name": [
-                    "Sport_tmp"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "C"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             },
             {
                 "Name": [
-                    "Sport_tmp2"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "D"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             }
         ]
@@ -100,62 +80,47 @@
         "Professors": [            
             {
                 "Name": [
-                    "Frat1"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "E"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             },
             {
                 "Name": [
-                    "Frat2"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "F"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             },
             {
                 "Name": [
-                    "Frat3"
-                ],
-                "Active / Open for new member": [
-                    "Active / Open for new member"
-                ],
-                "Introduction": [
-                    "We are Korean Student Assosiation"
-                ],
-                "GBM time": [
-                    "Every Wednesday at Union"
+                    "G"
                 ],
                 "Contact Info": [
-                    "Discord"
+                    "aaa@rpi.edu"
                 ],
-                "Current Number of Members": [
-                    "30"
+                "Personal page": [
+                    "http"
+                ],
+                "Teaching class": [
+                    "CSCI-1100 Computer Science 1",
+                    "CSCI-1200 Data Structure"
                 ]
             }
         ]

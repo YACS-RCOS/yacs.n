@@ -76,24 +76,24 @@
                   {{ categoryObj["Category Name"][0] }}
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
+              <!-- Organization Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
+                  <!-- LOOP Through the Organization Categories list -->
                   <div
-                    v-for="pathway in categoryObj['Organizations']"
-                    :key="pathway['Name'][0]"
+                    v-for="organization in categoryObj['Organizations']"
+                    :key="organization['Name'][0]"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
+                      <!-- organization button -->
                       <b-button
-                        @click="ShowPath(pathway)"
+                        @click="ShowPath(organization)"
                         squared
                         variant="light"
-                        class="pathway-button m-0 ml-1"
+                        class="organization-button m-0 ml-1"
                       >
-                        {{ pathway["Name"][0] }}
+                        {{ organization["Name"][0] }}
                       </b-button>
                     </div>
                   </div>
@@ -103,7 +103,7 @@
           </b-row>
         </b-col>
 
-        <!-- splitted Pathways in alphabet order -->
+        <!-- splitted organization in alphabet order -->
         <b-col
           v-for="(alphCol, index) in alphabetCols"
           :key="`alphCol-${index}`"
@@ -122,24 +122,24 @@
                   {{ alphabetObj["Category Name"][0] }}
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
+              <!-- organization Names  -->
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
+                  <!-- LOOP Through the organization Alphabet list -->
                   <div
-                    v-for="pathway in alphabetObj['Organizations']"
-                    :key="pathway['Name'][0]"
+                    v-for="organization in alphabetObj['Organizations']"
+                    :key="organization['Name'][0]"
                     role="tablist"
                   >
                     <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
+                      <!-- organization button -->
                       <b-button
-                        @click="ShowPath(pathway)"
+                        @click="ShowPath(organization)"
                         squared
                         variant="light"
-                        class="pathway-button m-0 ml-1"
+                        class="organization-button m-0 ml-1"
                       >
-                        {{ pathway["Name"][0] }}
+                        {{ organization["Name"][0] }}
                       </b-button>
                     </div>
                   </div>
@@ -204,10 +204,10 @@ export default {
       return ret;
     },
 
-    // splitted pathways to alphabet categories, then splitted categories into 2 arrays, one array = one column
+    // splitted organization to alphabet categories, then splitted categories into 2 arrays, one array = one column
     alphabetCols() {
       let cols = [];
-      // put all pathways in one array
+      // put all organization in one array
       for (var i = 0; i < this.categories.length; i++) {
         for (var j = 0; j < this.categories[i]["Organizations"].length; j++) {
           cols.push(this.categories[i]["Organizations"][j]);
@@ -247,7 +247,7 @@ export default {
       let col2 = [];
       var half_length = Math.ceil(cols.length / 2);
       var count = 0;
-      // splitted pathways to alphabet categories, then splitted categories into 2 arrays
+      // splitted organization to alphabet categories, then splitted categories into 2 arrays
       for (var n = 0; n < alphabet.length; n++) {
         var tmp = {
           "Category Name": alphabet[n],
@@ -290,11 +290,11 @@ export default {
       this.cateShow = true;
       this.alphShow = false;
     },
-    // Display a pop-up window when a pathway is clicked
-    ShowPath(pathway) {
+    // Display a pop-up window when a organization is clicked
+    ShowPath(organization) {
       console.log(this.$refs["my-modal"]);
-      console.log(pathway);
-      this.showPath = pathway;
+      console.log(organization);
+      this.showPath = organization;
       this.$refs["my-modal"].show();
     },
     // Go to the course page when a course inside the pop-up window is clicked
@@ -334,7 +334,7 @@ export default {
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
 
-.pathway-button {
+.organization-button {
   display: inline-block;
   background: white;
   border-style: none;
@@ -342,7 +342,7 @@ export default {
   width: 95%;
 }
 
-.pathway-button:hover {
+.organization-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
