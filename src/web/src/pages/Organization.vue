@@ -46,7 +46,6 @@
             <li
               v-for="course in item"
               :key="course"
-              v-on:click="goPage(course)"
               class="courseInPath"
             >
               {{ course }}
@@ -296,21 +295,6 @@ export default {
       console.log(organization);
       this.showPath = organization;
       this.$refs["my-modal"].show();
-    },
-    // Go to the course page when a course inside the pop-up window is clicked
-    goPage(course) {
-      var subject = "" + course[0] + course[1] + course[2] + course[3];
-      var courseID = "" + course[5] + course[6] + course[7] + course[8];
-      if (course[4] != " ") {
-        return;
-      }
-      if (course[8] == "X") {
-        this.$router.push("/explore/" + subject);
-      } else {
-        this.$router.push(
-          "/explore/" + subject + "/" + subject + "-" + courseID
-        );
-      }
     },
   },
 };
