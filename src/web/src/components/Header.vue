@@ -55,12 +55,9 @@
       <b-navbar-nav class="ml-auto">
 
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-<!--          <b-dropdown-item :class="this.currItem===0 ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>-->
-<!--          <b-dropdown-item :class="this.currItem===1 ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>-->
-<!--          <b-dropdown-item :class="this.currItem===2 ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>-->
-          <b-dropdown-item :class="this.beginStatus===false ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.beginStatus===true ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.beginStatus===null ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
+          <b-dropdown-item :class="this.darkMode===false ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.darkMode===true ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
+          <b-dropdown-item :class="this.darkMode===null ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
         </b-nav-dropdown>
 
         <b-nav-item-dropdown right v-if="isLoggedIn">
@@ -98,7 +95,7 @@
 <script>
 import {
   SELECT_SEMESTER,
-  COOKIE_DARK_MODE,
+ //COOKIE_DARK_MODE,
   TOGGLE_DARK_MODE,
   SAVE_DARK_MODE,
   RESET_DARK_MODE,
@@ -113,22 +110,8 @@ export default {
   },
   data() {
     return {
-      currentMode: this.$cookies.get(COOKIE_DARK_MODE),
-      beginStatus: this.$cookies.get(COOKIE_DARK_MODE)===null,
-      currItem: -1,
+      darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
     };
-  },
-  mounted(){
-     console.log("beginStatus: "+this.beginStatus);
-    // if(this.beginStatus === true){
-    //   this.currItem = 0;
-    // }
-    // else if(this.beginStatus === false){
-    //   this.currItem = 1;
-    // }
-    // else{
-    //   this.currItem = 2;
-    // }
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
@@ -138,63 +121,31 @@ export default {
           this.unFollowDeviceTheme();
           this.notify=false;
         }
-      // if(mode===false){
-      //   this.currItem=0;
-      // }
-      // else if(mode===true){
-      //   this.currItem=1;
-      // }
 
-      //this.currentMode treated as a string
-      //only switch themes if mode and this.currentMode are opposite
-      // if((mode===false && this.currentMode === "true") || (mode===true && this.currentMode === "false")) {
-      //   this.$store.commit(TOGGLE_DARK_MODE);
-      //   this.$store.commit(SAVE_DARK_MODE);
-      //   this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
-      //   this.beginStatus=mode;
-      // }
+      //determines the default theme of user (either light or dark)
+      const deviceTheme= window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)");
-      console.log("deviceTheme "+ deviceTheme.matches);
-
-      console.log("BEFORE beginStatus: "+this.beginStatus);
-
-      if((mode===false && this.beginStatus === true) || (mode===true && this.beginStatus === false)) {
-        console.log("FIRST");
+      //if the button mode user pressed is opposite of the current color, then toggle
+      // OR if the user was previously following their device theme and button pressed isn't their device theme, toggle
+      if((mode===false && this.darkMode === true) || (mode===true && this.darkMode === false)
+        || this.darkMode == null && mode!== deviceTheme) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-        this.currentMode = this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
-        this.beginStatus = mode;
-        //this.currentMode=this.$cookies.get(COOKIE_DARK_MODE); //resets currentMode to current cookie status
-        //this.beginStatus=mode;
       }
-      // else if(this.beginStatus === null && deviceTheme !== mode){
-      //   console.log("SECOND");
-      //   this.$store.commit(TOGGLE_DARK_MODE);
-      //   this.$store.commit(SAVE_DARK_MODE);
-      //   // this.beginStatus=mode;
-      // }
-      // else if(this.beginStatus === null && deviceTheme === mode){
-      //   this.$store.commit(SAVE_DARK_MODE);
-      // }
+      else { // if user was following device theme and pressed the same button color, make the cookie with curr color
+        this.$store.commit(SAVE_DARK_MODE);
+      }
 
-      //this.beginStatus=mode;
-
-      console.log("AFTER beginStatus: "+this.beginStatus);
-
+      this.darkMode= this.$store.getters.darkModeState; //resets to match current color mode
     },
     toggle_device() {
       this.followDeviceTheme();//sends user message
       this.notify=true;
 
-      //this.currItem=2;
-
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
-      //this.$store.commit(SAVE_DARK_MODE);
 
-      //this.currentMode = this.$cookies.get(COOKIE_DARK_MODE);//resets currentMode to current cookie status
-      this.beginStatus = null;
+      this.darkMode= null;//sets color mode
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
@@ -241,7 +192,6 @@ export default {
     }),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
     ...mapState(["semesters", "selectedSemester"]),
-
     semesterOptions() {
       return this.semesters.map(({ semester }) => ({
         text: semester,
@@ -286,5 +236,4 @@ export default {
 .drop-down-item{
   background: hsl(211, 100%, 60%) !important;
 }
-
 </style>
