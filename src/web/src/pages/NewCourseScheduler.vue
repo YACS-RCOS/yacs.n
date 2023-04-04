@@ -294,9 +294,9 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
-      main: "col-md-12",
+      main: "col-md-9",
 
-      isNavOpen: false, //for sidebar open check
+      isNavOpen: true, //for sidebar open check
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
