@@ -9,7 +9,8 @@ class Professor:
                         professor (first_name, last_name, phone_numbber, email,
                         department, office_room, classes, office_hours_time, rcs)
                     VALUES
-                        (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s, %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
+                        (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
+                         %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
                     ON CONFLICT DO NOTHING;
                 """
         {

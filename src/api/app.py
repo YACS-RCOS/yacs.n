@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-#from api.tables import professor
-from distutils.log import error
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
@@ -13,7 +11,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
-import db.professor as Professor 
+import db.professor as All_professors
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -49,7 +47,7 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
-professor_info =  Professor.Professor(db_conn)
+professor_info =  All_professors.Professor(db_conn)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -323,12 +321,22 @@ async def get_professor_info_by_email(email:str):
 
 @app.post('api/professor/add')
 async def add_professor(request: Request, professor:ProfessorPydantic):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-    professor, error = course_select.add_selection(professor.email, professor.first_name,professor.last_name, 
-    professor.phone_number, professor.department, professor.office_room, professor.classes, 
-    professor.office_hours_time, professor.rcs )
-    return professor if not error else Response(error, status_code=500)
+    return Response("Maybe Bad", status_code=403)
+    # if 'user' not in request.session:
+    #     return Response("Not authorized", status_code=403)
+    # professor, error = professor_info.add_professor(professor.email, professor.first_name,professor.last_name, 
+    # professor.phone_number, professor.department, professor.office_room, professor.classes, 
+    # professor.office_hours_time, professor.rcs )
+    # return professor if not error else Response(error, status_code=500)
+
+@app.post('api/professor/add/test')
+async def add_test_professor(professor:ProfessorPydantic):
+    return Response("Maybe Bad", status_code=403)
+    professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
+        "lally 300", "class1", "3:00pm", "rcs")
+    # professor
+    # return Response(error, status_code = 500)
+    #return professor if not error else Response(error, status_code = 500)
 
 @app.delete('api/professor/remove/{email}')
 async def remove_professor(email:str):
