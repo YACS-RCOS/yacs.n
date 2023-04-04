@@ -95,7 +95,7 @@
 <script>
 import {
   SELECT_SEMESTER,
- //COOKIE_DARK_MODE,
+  COOKIE_DARK_MODE,
   TOGGLE_DARK_MODE,
   SAVE_DARK_MODE,
   RESET_DARK_MODE,
@@ -111,7 +111,14 @@ export default {
   data() {
     return {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
+      notify: false,
     };
+  },
+  mounted() {
+      if(this.$cookies.get(COOKIE_DARK_MODE) === null) {
+        this.darkMode = null;
+        this.notify = true;
+      }
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
@@ -144,7 +151,6 @@ export default {
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
-
       this.darkMode= null;//sets color mode
     },
     onLogIn() {
