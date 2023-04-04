@@ -715,8 +715,6 @@ export default {
 .sidebar {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 25px;
-  color: #007bff;
   display: block;
   transition: 0.3s;
 }
