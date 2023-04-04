@@ -32,6 +32,32 @@
     </div>
 
     <div v-if="professors.length > 0" class="mx-auto w-75">
+      <!-- pop-up window -->
+      <b-modal ref="my-modal">
+        <div class="block text-left" v-if="showProf != null" md="10">
+          <h3
+            class="text-center"
+            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
+          >
+            {{ showProf.Name }}
+          </h3>
+          <br />
+          <div v-for="(item, itemName) in showProf" :key="itemName">
+            <h4 v-if="itemName != 'Name'" style="color: #3395ff; margin-top: -20px;">
+              {{ itemName + ": " }}
+            </h4>
+            <h5
+              v-if="itemName != 'Name'"
+              :key="item"
+              class="profInfo"
+            >
+              {{ item }}
+            </h5>
+            <br />
+          </div>
+        </div>
+      </b-modal>
+
       <b-row>
         <!-- split departments into 2 arrays, so we can have 2 columns -->
         <b-col
@@ -64,7 +90,7 @@
                     <div class="mt-1 mb-1 w-100">
                       <!-- professor button -->
                       <b-button
-                        @click="showProf(prof)"
+                        @click="ShowProf(prof)"
                         squared
                         variant="light"
                         class="professor-button m-0 ml-1"
@@ -110,7 +136,7 @@
                     <div class="mt-1 mb-1 w-100">
                       <!-- professor button -->
                       <b-button
-                        @click="showProf(prof)"
+                        @click="ShowProf(prof)"
                         squared
                         variant="light"
                         class="professor-button m-0 ml-1"
@@ -312,6 +338,13 @@ export default {
     listDepartment() {
       this.deptShow = true;
       this.alphShow = false;
+    },
+    // Display a pop-up window when a professor is clicked
+    ShowProf(professor) {
+      console.log(this.$refs["my-modal"]);
+      console.log(professor);
+      this.showProf = professor;
+      this.$refs["my-modal"].show();
     },
   },
 };
