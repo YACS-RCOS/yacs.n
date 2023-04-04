@@ -11,6 +11,7 @@
           color: #007bff;
           border: solid #007bff;
           background-color: transparent;
+          width: 100%;
         "
       >
         List by Alphabet
@@ -23,6 +24,7 @@
           color: #007bff;
           border: solid #007bff;
           background-color: transparent;
+          width: 100%;
         "
       >
         List by Department
@@ -192,11 +194,11 @@ export default {
             dept = this.professors[i]["Portfolio"];
           }
           var name = this.professors[j]["Name"];
-          var last_name = name.split(" ")[1];
+          var last_name = name.split(" ").slice(-1)[0];
           if (dept == departments[i]){
             var index = 0;
             while (index < tmp["Professors"].length){
-              if (last_name < tmp["Professors"][index]["Name"].split(" ")[1]){
+              if (last_name < tmp["Professors"][index]["Name"].split(" ").slice(-1)){
                 break
               }
               index++;
@@ -204,6 +206,15 @@ export default {
             tmp["Professors"].splice(index, 0, this.professors[j]);
           }
         }
+
+        // sort by last name, then first name
+        tmp["Professors"].sort((a,b) => {
+          if (a["Name"].split(" ").slice(-1)[0] === b["Name"].split(" ").slice(-1)[0]){
+            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1
+          } else {
+            return a["Name"].split(" ").slice(-1)[0] < b["Name"].split(" ").slice(-1)[0] ? -1 : 1
+          }
+        });
 
         // split departments into 2 arrays
         if (tmp["Professors"].length > 0) {
@@ -262,20 +273,22 @@ export default {
         };
         for (var j = 0; j < this.professors.length; j++){
           var name = this.professors[j]["Name"];
-          var last_name = name.split(" ")[1];
+          var last_name = name.split(" ").slice(-1)[0];
           if (last_name.startsWith(alphabet[i])){
-            var index = 0;
-            while (index < tmp["Professors"].length){
-              if (last_name < tmp["Professors"][index]["Name"].split(" ")[1]){
-                break
-              }
-              index++;
-            }
-            tmp["Professors"].splice(index, 0, this.professors[j]);
+            tmp["Professors"].push(this.professors[j]);
           }
         }
 
-        // split departments into 2 arrays
+        // sort by last name, then first name
+        tmp["Professors"].sort((a,b) => {
+          if (a["Name"].split(" ").slice(-1)[0] === b["Name"].split(" ").slice(-1)[0]){
+            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1
+          } else {
+            return a["Name"].split(" ").slice(-1)[0] < b["Name"].split(" ").slice(-1)[0] ? -1 : 1
+          }
+        });
+
+        // split into 2 arrays
         if (tmp["Professors"].length > 0) {
           if (count < half_length) {
             col1.push(tmp);
@@ -327,7 +340,9 @@ export default {
   background: white;
   border-style: none;
   text-align: justify;
-  width: 75%;
+  width: 95%;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .professor-button:hover {
