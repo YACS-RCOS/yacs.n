@@ -1,6 +1,5 @@
-# from pickle import FALSE
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.postgresql import VARCHAR, TSVECTOR
+from sqlalchemy.dialects.postgresql import VARCHAR
 
 from .database import Base
 

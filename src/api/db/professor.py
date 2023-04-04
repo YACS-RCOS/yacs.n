@@ -1,5 +1,7 @@
 class Professor:
-    def __init__(self, db_conn):
+    def __init__(self, db_wrapper, cache, db_conn):
+        self.db = db_wrapper
+        self.cache = cache
         self.db_conn = db_conn
     
     def add_professor(self, first_name, last_name, phone, email, dep, office, 

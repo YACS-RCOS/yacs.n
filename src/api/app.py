@@ -47,7 +47,7 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
-professor_info =  All_professors.Professor(db_conn)
+professor_info =  All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -311,13 +311,13 @@ async def get_professor_phone_number_by_email(email: str):
 
 @app.get('/api/prfessor/{rcs}')
 async def get_professor_info_by_rcs(rcs:str):
-    professor_info, error = professor_info.get_professor_info_by_rcs(rcs)
-    return professor_info if not error else Response(content=error,status_code=500)
+    professor_rcs, error = professor_info.get_professor_info_by_rcs(rcs)
+    return professor_rcs if not error else Response(content=error,status_code=500)
 
 @app.get('/api/professor/{email}')
 async def get_professor_info_by_email(email:str):
-    professor_info, error = professor_info.get_professor_info_by_email(email)
-    return professor_info if not error else Response(content=error, status_code=500)
+    professor_email, error = professor_info.get_professor_info_by_email(email)
+    return professor_email if not error else Response(content=error, status_code=500)
 
 @app.post('api/professor/add')
 async def add_professor(request: Request, professor:ProfessorPydantic):
