@@ -30,7 +30,37 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+        
       </b-row>
+    </div>
+    <div class="add-schedule">
+      <button @click="showForm = true">Add Schedule</button>
+
+      <div v-if="showForm">
+        <form>
+          <div class="form-row">
+          <label for="day">Day of the Week:</label>
+          <select id="day" name="day">
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+
+          </select>
+          </div>
+
+          <label for="start">Start Time:</label>
+          <input type="time" id="start" name="start">
+
+          <label for="end">End Time:</label>
+          <input type="time" id="end" name="end">
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -110,6 +140,7 @@ export default {
   },
   data() {
     return {
+      showForm: false,
       faInfoCircle,
       DAY_SHORTNAMES,
       textSearch: "",
@@ -231,5 +262,33 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 17px;
   padding: 20px;
+}
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  margin-bottom: 0.5rem;
+}
+
+.form-row input {
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-row label {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  .form-row input {
+    margin-bottom: 0;
+  }
 }
 </style>
