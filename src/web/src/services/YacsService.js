@@ -154,7 +154,7 @@ export const getProfessors = () =>
 
 
 export const addProfessors = () =>
-  client.post("/professor/add").then((res) => res.data);
+  client.get("/professor/add").then((res) => res.data);
 
 export const addProfessorsTest = () =>
-  client.post("/professor/add/test").then((res) => res.data);
+  client.get("/professor/add/test").then((res) => res.data);
