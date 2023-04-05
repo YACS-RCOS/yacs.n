@@ -309,19 +309,19 @@ async def get_professor_phone_number_by_email(email: str):
     phone_number, error = professor_info.get_prfoessor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
 
-@app.get('/api/prfessor/{rcs}')
+@app.get('/api/prfessor/rcs/{rcs}')
 async def get_professor_info_by_rcs(rcs:str):
     professor_rcs, error = professor_info.get_professor_info_by_rcs(rcs)
     return professor_rcs if not error else Response(content=error,status_code=500)
 
-@app.get('/api/professor/{email}')
+@app.get('/api/professor/email/{email}')
 async def get_professor_info_by_email(email:str):
     professor_email, error = professor_info.get_professor_info_by_email(email)
     return professor_email if not error else Response(content=error, status_code=500)
 
-@app.post('api/professor/add')
-async def add_professor(request: Request, professor:ProfessorPydantic):
-    return Response("Maybe Bad", status_code=403)
+@app.get('api/professor/add')
+async def add_professor( professor:ProfessorPydantic):
+    return Response(content='PROFESSOR ADDED')
     # if 'user' not in request.session:
     #     return Response("Not authorized", status_code=403)
     # professor, error = professor_info.add_professor(professor.email, professor.first_name,professor.last_name, 
@@ -332,10 +332,10 @@ async def add_professor(request: Request, professor:ProfessorPydantic):
 @app.post('api/professor/add/test')
 async def add_test_professor(professor:ProfessorPydantic):
     return Response("Maybe Bad", status_code=403)
-    professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
-        "lally 300", "class1", "3:00pm", "rcs")
-    # professor
-    # return Response(error, status_code = 500)
+    # professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
+    #     "lally 300", "class1", "3:00pm", "rcs")
+    #professor
+    #return Response(error, status_code = 500)
     #return professor if not error else Response(error, status_code = 500)
 
 @app.delete('api/professor/remove/{email}')

@@ -1,8 +1,8 @@
 class Professor:
-    def __init__(self, db_wrapper, cache, db_conn):
-        self.db = db_wrapper
-        self.cache = cache
+    def __init__(self, db_conn, cache):
+       # self.db = db_wrapper
         self.db_conn = db_conn
+        self.cache = cache
     
     def add_professor(self, first_name, last_name, phone, email, dep, office, 
         classes, office_time, rcs):
@@ -126,7 +126,10 @@ class Professor:
 
     #return as a json
     def get_all_professors(self):  
-        return self.db_conn.execute("SELECT * FROM professor")
+        return self.db_conn.execute("""
+                        select 
+                            SELECT * FROM professor
+                    """, None, True)
     
     #gets prfoessors' phone number by their email
     def get_prfoessor_phone_number_by_email(self, email):
