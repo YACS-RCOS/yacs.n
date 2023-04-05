@@ -148,3 +148,13 @@ export const removeStudentCourse = (course_info) =>
 
 export const getStudentCourses = () =>
   client.get("/user/course").then((res) => res.data);
+
+export const getProfessors = () =>
+  client.get("/professor").then((res) => res.data);
+
+
+export const addProfessors = () =>
+  client.post("/professor/add").then((res) => res.data);
+
+export const addProfessorsTest = () =>
+  client.post("/professor/add/test").then((res) => res.data);
