@@ -319,7 +319,7 @@ async def get_professor_info_by_email(email:str):
     professor_email, error = professor_info.get_professor_info_by_email(email)
     return professor_email if not error else Response(content=error, status_code=500)
 
-@app.post('api/professor/add')
+@app.get('api/professor/add')
 async def add_professor():
     return Response(content='PROFESSOR ADDED', status_code=403)
     # if 'user' not in request.session:
@@ -329,7 +329,7 @@ async def add_professor():
     # professor.office_hours_time, professor.rcs )
     # return professor if not error else Response(error, status_code=500)
 
-@app.post('api/professor/add/test')
+@app.get('api/professor/add/test')
 async def add_test_professor():
     return Response(content = "Maybe Bad", status_code=403)
     # professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
