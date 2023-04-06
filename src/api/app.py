@@ -333,11 +333,11 @@ async def add_professor(professor:ProfessorPydantic):
 async def add_test_professor():
     #return Response(content = "Maybe Bad", status_code=403)
     professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
-        "lally 300", "class1", "3:00pm", "rcs")
+        "lally 300", "50039", "3:00pm", "rcs")
     # return Response(error, status_code = 500)
-    return professor if not error else Response(error, status_code = 500)
+    return professor if not error else Response(str(error), status_code = 500)
 
-@app.delete('api/professor/remove/{email}')
+@app.delete('/api/professor/remove/{email}')
 async def remove_professor(email:str):
     professor, error = professor_info.remove_professor_by_email(email)
     return professor if not error else Response(error, status_code=500)

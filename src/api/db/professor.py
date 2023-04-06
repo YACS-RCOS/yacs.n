@@ -1,21 +1,20 @@
 class Professor:
     def __init__(self, db_conn, cache):
-       # self.db = db_wrapper
         self.db_conn = db_conn
         self.cache = cache
     
     def add_professor(self, first_name, last_name, phone, email, dep, office, 
         classes, office_time, rcs):
-        sql = 	"""
-                    INSERT INTO
-                        professor (first_name, last_name, phone_numbber, email,
-                        department, office_room, classes, office_hours_time, rcs)
-                    VALUES
-                        (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
-                         %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
-                    ON CONFLICT DO NOTHING;
-                """
-        {
+                return self.db_conn.execute("""
+            INSERT INTO 
+                professor (first_name, last_name, phone_number, email,
+                department, office_room, classes, office_hours_time, rcs)
+            VALUES 
+                (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
+               %(Dep)s, %(Office_room)s, %(classes)s, %(Office_time)s, %(Rcs_id)s)
+            ON CONFLICT DO NOTHING
+            ;
+        """, {
             "First_name": first_name,
             "Last_name": last_name,
             "Phone_number": phone,
@@ -25,10 +24,30 @@ class Professor:
             "Classes": classes, 
             "Office_time": office_time,
             "Rcs_id": rcs
-        }, 
-        resp, error = self.db_conn.execute(sql, [first_name, last_name, phone, 
-        email, dep, office, classes, office_time], False)
-        return (True, None) if not error else (False, error)
+        }, False)
+        # sql = 	"""
+        #             INSERT INTO
+        #                 professor (first_name, last_name, phone_numbber, email,
+        #                 department, office_room, classes, office_hours_time, rcs)
+        #             VALUES
+        #                 (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
+        #                  %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s),
+        #             ON CONFLICT DO NOTHING;
+        #         """
+        # {
+        #     "First_name": first_name,
+        #     "Last_name": last_name,
+        #     "Phone_number": phone,
+        #     "Email": email,
+        #     "Dep": dep,
+        #     "Office_room": office,
+        #     "Classes": classes, 
+        #     "Office_time": office_time,
+        #     "Rcs_id": rcs
+        # }, 
+        # resp, error = self.db_conn.execute(sql, [first_name, last_name, phone, 
+        # email, dep, office, classes, office_time, rcs], False)
+        # return (True, None) if not error else (False, error)
 
     def remove_professor_by_email(self, email):
         if email is not None:

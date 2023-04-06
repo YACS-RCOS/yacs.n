@@ -12,6 +12,7 @@ class Professor(Base):
     phone_number = Column(VARCHAR(length=255)) 
     department = Column(VARCHAR(length=255))
     office_room = Column(VARCHAR(length=255))
-    classes = Column(VARCHAR(length=255), ForeignKey("course.crn")) 
+    # classes = Column(VARCHAR(length=255), ForeignKey("course.crn")) 
+    classes = Column(VARCHAR(length=255)) 
     office_hours_time = Column(VARCHAR(length=255))
     rcs = Column(VARCHAR(length=255))
