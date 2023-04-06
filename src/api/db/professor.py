@@ -5,7 +5,7 @@ class Professor:
     
     def add_professor(self, first_name, last_name, phone, email, dep, office, 
         classes, office_time, rcs):
-                return self.db_conn.execute("""
+            return self.db_conn.execute("""
             INSERT INTO 
                 professor (first_name, last_name, phone_number, email,
                 department, office_room, classes, office_hours_time, rcs)
@@ -21,7 +21,7 @@ class Professor:
             "Email": email,
             "Dep": dep,
             "Office_room": office,
-            "Classes": classes, 
+            "classes": classes, 
             "Office_time": office_time,
             "Rcs_id": rcs
         }, False)
@@ -145,8 +145,7 @@ class Professor:
 
     #return as a json
     def get_all_professors(self):  
-        return self.db_conn.execute("""
-                        select 
+        return self.db_conn.execute(""" 
                             SELECT * FROM professor
                     """, None, True)
     

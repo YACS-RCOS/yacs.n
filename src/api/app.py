@@ -295,8 +295,12 @@ async def get_all_professors():
     GET /api/professor
     Cached: 24 Hours
     """
-    professors, error = professor_info.get_all_professors()
-    db_list = [dict(prof) for prof in professors]
+    professors, error = professor_info.get_all_professors()  # replace professor_info with db_manager
+    db_list = [dict(prof) for prof in professors] if professors else []
+    # if len(db_list) == 0:
+    #     return Response(content='EMPTY', status_code=403)
+    # else: 
+    #     return Response(content='IT WORKS', status_code=403)
     return db_list if not error else Response(error, status_code = 500)
 
 @app.get('/api/professor/office_hours/{email}')
@@ -332,8 +336,8 @@ async def add_professor(professor:ProfessorPydantic):
 @app.get('/api/professor/add/test')
 async def add_test_professor():
     #return Response(content = "Maybe Bad", status_code=403)
-    professor, error = professor_info.add_professor("random@email.com", "random", "person", "347", "CSCI", 
-        "lally 300", "50039", "3:00pm", "rcs")
+    professor, error = professor_info.add_professor("random", "person", "number", "person@RANDOM.com", "CSCI", 
+        "lally 300", "52995", "3:00pm", "rcs")
     # return Response(error, status_code = 500)
     return professor if not error else Response(str(error), status_code = 500)
 
