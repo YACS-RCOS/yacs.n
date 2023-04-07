@@ -174,6 +174,9 @@ export default {
           ? this.courseList
           : this.$store.getters.courses;
 
+
+      //filter finds out the departmemt first 
+
       // filter by selected department
       const filtered = courses.filter(
         (course) =>
@@ -187,15 +190,20 @@ export default {
       );
 
       // returns exact match, if not found, then department filtered list
-      const find = filtered.find(
+      const find = filtered.filter
+      (      
+        //full_title: names of classes 
         (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
-      );
+          (course.full_title &&  
+           course.full_title.toUpperCase().includes(this.textSearch.toUpperCase()) ||
+           course.title.toUpperCase().includes(this.textSearch.toUpperCase()) ||
+           course.department.toUpperCase().includes(this.textSearch.toUpperCase()))||
+           course.level.toString().includes(this.textSearch)
+);
 
-      if (find) return [find];
+      console.log(find);
+
+      if (find) return find;
       else return filtered;
     },
   },
