@@ -123,6 +123,9 @@
   .dropdown-item {
     color: var(--dark-text-primary) !important;
   }
+  .dropdown-item:hover {
+    background-color: var(--dark-border-primary) !important;
+  }
 
   .link {
     color: var(--dark-text-primary) !important;
