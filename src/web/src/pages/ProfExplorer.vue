@@ -90,7 +90,7 @@
                     <div class="mt-1 mb-1 w-100">
                       <!-- professor button -->
                       <b-button
-                        @click="ShowProf(prof)"
+                        @click="goPage(prof)"
                         squared
                         variant="light"
                         class="professor-button m-0 ml-1"
@@ -136,7 +136,7 @@
                     <div class="mt-1 mb-1 w-100">
                       <!-- professor button -->
                       <b-button
-                        @click="ShowProf(prof)"
+                        @click="goPage(prof)"
                         squared
                         variant="light"
                         class="professor-button m-0 ml-1"
@@ -345,6 +345,12 @@ export default {
       console.log(professor);
       this.showProf = professor;
       this.$refs["my-modal"].show();
+    },
+    // Go to the professor page when a professor is clicked
+    goPage(professor) {
+      console.log(professor);
+      var rcs = professor["Email"].replace("@rpi.edu", "");
+      this.$router.push("/professor/" + rcs);
     },
   },
 };
