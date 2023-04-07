@@ -276,7 +276,7 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
-@app.get('/api/professor/name/{email}') #retreives first and last name of professor based on email
+@app.get('/api/professor/name/{email}')
 async def get_professor_name(email: str):
     # searches professor's first and last name by email
     professorName, error = professor_info.get_professor_info_by_email(email)
@@ -297,10 +297,6 @@ async def get_all_professors():
     """
     professors, error = professor_info.get_all_professors()  # replace professor_info with db_manager
     db_list = [dict(prof) for prof in professors] if professors else []
-    # if len(db_list) == 0:
-    #     return Response(content='EMPTY', status_code=403)
-    # else: 
-    #     return Response(content='IT WORKS', status_code=403)
     return db_list if not error else Response(error, status_code = 500)
 
 @app.get('/api/professor/office_hours/{email}')
@@ -310,7 +306,7 @@ async def get_office_hours(email: str):
 
 @app.get('/api/professor/phone_number/{email}')
 async def get_professor_phone_number_by_email(email: str):
-    phone_number, error = professor_info.get_prfoessor_phone_number_by_email(email)
+    phone_number, error = professor_info.get_professor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
 
 @app.get('/api/professor/rcs/{rcs}')
@@ -323,25 +319,23 @@ async def get_professor_info_by_email(email:str):
     professor_email, error = professor_info.get_professor_info_by_email(email)
     return professor_email if not error else Response(content=error, status_code=500)
 
-@app.get('/api/professor/add')
-async def add_professor(professor:ProfessorPydantic):
-    #return Response(content='PROFESSOR ADDED', status_code=403)
-    # if 'user' not in request.session:
-    #     return Response("Not authorized", status_code=403)
-    professor, error = professor_info.add_professor(professor.email, professor.first_name,professor.last_name, 
-    professor.phone_number, professor.department, professor.office_room, professor.classes, 
-    professor.office_hours_time, professor.rcs )
+@app.post('/api/professor/add/single/{msg}')
+async def add_professor(msg:str):
+    info = msg.split(",")
+
+    #msg should be first name, last name, phone number, email, dep, , office , classes,  office_hours time, rcs
+    professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
+    info[5], info[6] ,info[7], info[8])
     return professor if not error else Response(error, status_code=500)
 
-@app.get('/api/professor/add/test')
+@app.post('/api/professor/add/test')
 async def add_test_professor():
-    #return Response(content = "Maybe Bad", status_code=403)
-    professor, error = professor_info.add_professor("random", "person", "number", "person@RANDOM.com", "CSCI", 
-        "lally 300", "52995", "3:00pm", "rcs")
-    # return Response(error, status_code = 500)
-    return professor if not error else Response(str(error), status_code = 500)
+    professor, error = professor_info.add_professor("random", "person", "number", "prof@rpi.edu", "CSCI", 
+        "lally 300", "52995", "3:00pm", "prof")
+    return professor if not error else Response(content = error, status_code = 500)
 
-@app.delete('/api/professor/remove/{email}')
-async def remove_professor(email:str):
+@app.delete('/api/professor/remove')
+async def remove_professor(request: Request, email:str):
+    print(email)
     professor, error = professor_info.remove_professor_by_email(email)
     return professor if not error else Response(error, status_code=500)

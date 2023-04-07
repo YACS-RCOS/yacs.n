@@ -152,9 +152,17 @@ export const getStudentCourses = () =>
 export const getProfessors = () =>
   client.get("/professor").then((res) => res.data);
 
-
 export const addProfessors = () =>
-  client.get("/professor/add").then((res) => res.data);
+  client.post("/professor/add").then((res) => res.data);
 
 export const addProfessorsTest = () =>
-  client.get("/professor/add/test").then((res) => res.data);
+  client.post("/professor/add/test").then((res) => res.data);
+
+
+
+export const remove_professor = (email) =>
+  client
+    .delete("/professor/remove", {
+      data: 'prof@rpi.edu',
+    })
+    .then((res) => res.data);
