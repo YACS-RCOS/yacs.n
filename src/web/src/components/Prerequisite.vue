@@ -3,8 +3,11 @@
       <div v-if="Object.keys(courses).length == 0" class="no-courses">
         There is no Prerequisite to display!
       </div>
-      <li v-for="course in courses" :key = "course">
-        {{ course.key }}
+      <b-list-group-item v-for="course of courses" :key="course.id">
+        <CourseListing :course="course" v-on="$listeners" />
+      </b-list-group-item>
+      <li v-for="course in courses" :key = "course.title">
+        {{ course.title }}
         <p>
             <b-col>
                 <p v-html=course.value />
@@ -16,11 +19,12 @@
   
   <script>
   import "@/typedef";
+  import PrerequisiteListingComponents from "@/components/PrerequisiteListing";
 
-  
   export default {
     name: "Prerequisites",
     components: {
+        CourseListing: PrerequisiteListingComponents,
     },
     props: {
       courses: Object,

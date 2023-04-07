@@ -127,6 +127,7 @@
                 <h5>CRNs: {{ selectedCrns }}</h5>
                 <h5>Credits: {{ totalCredits }}</h5>
                 <h5>Pre: <p v-html=getPrerequisites /></h5>
+                <h5>SC: {{ this.selectedCourses }}</h5>
               </b-col>
 
               <b-col md="3" justify="end">
@@ -681,7 +682,9 @@ export default {
             output = output.concat(link,"<br />");
           }
 
-          prerequisites.push({ key: array[i].full_title, value: output})
+          prerequisites.push({ title: array[i].full_title, id: array[i].id,
+            date_start: array[i].date_start, data_end: array[i].date_end,
+             value: output})
         }
        }
       return prerequisites
