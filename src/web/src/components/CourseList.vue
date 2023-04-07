@@ -44,16 +44,15 @@
           <div class="form-row">
           <label for="day">Day of the Week:</label>
           <select id="day" name="day">
-            <option value="monday">Monday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="wednesday">Wednesday</option>
-            <option value="thursday">Thursday</option>
-            <option value="friday">Friday</option>
-            <option value="saturday">Saturday</option>
-            <option value="sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
           </select>
           </div>
-
           <label for="start">Start Time:</label>
           <input type="time" id="start" name="start">
 
@@ -239,6 +238,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.add-schedule {
+  background-color: #ffffff; /* Green */
+  border-style: solid ;
+  border-color: rgb(0, 0, 0, 0.05);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 #scroll-box {
   // overflow-y: scroll !important;
   // overflow-x: hidden;
@@ -280,6 +294,7 @@ export default {
 .form-row input {
   margin-bottom: 1rem;
 }
+
 
 @media (min-width: 768px) {
   .form-row {
