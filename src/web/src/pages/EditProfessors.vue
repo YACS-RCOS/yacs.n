@@ -12,10 +12,10 @@
         <button @click="getProf()">getProf </button>
         <button @click="getProfName()">getProfName</button>
         <button @click="getProfDepartment()">getProfDepartment</button>
-        <button @click="getOfficeHours()">getProfDepartment</button>
-        <button @click="getProfEmail()">getProfDepartment</button>
-        <button @click="getProfByRcs()">getProfDepartment</button>
-        <button @click="getProfByEmail()">getProfDepartment</button>
+        <button @click="getOfficeHours()">getProfOfficeHours</button>
+        <button @click="getProfNumberByEmail()">getProfNumberByEmail</button>
+        <button @click="getProfByRcs()">getProfByRcs</button>
+        <button @click="getProfByEmail()">getProfByEmail</button>
         <button @click="removeProf()">removeProf</button>
         <button @click="addProf()">addProf</button>
         <button @click="addProfTest()">addProfTest</button>
@@ -41,60 +41,69 @@
       };
     },
     methods:{
+      //works
       getProf(){
         console.log("getProfessors");
-        result = getProfessors();
-        console.log(result)
+        this.result = getProfessors();
+        console.log(this.result)
       },
+      //works  
       getProfName(){
-        console.log("get_professor_name");
-        result = get_professor_name(this.email);
-        console.log(result)
+      console.log("get_professor_name");
+        this.result = get_professor_name(this.email);
+        console.log(this.result)
       },
+      //works
       getProfDepartment(){
         console.log("get_professor_from_department");
-        result = get_professor_from_department(this.department);
-        console.log(result)
+        this.result = get_professor_from_department(this.department);
+        console.log(this.result)
       },
+      //works
       getProfName(){
         console.log("get_professor_name");
-        result = get_professor_name(this.email);
-        console.log(result)
+        this.result = get_professor_name(this.email);
+        console.log(this.result)
       },
+      //works
       getOfficeHours(){
         console.log("get_office_hours");
-        result = get_office_hours(this.email);
-        console.log(result)
+        this.result = get_office_hours(this.email);
+        console.log(this.result)
       },
-      getProfEmail(){
+      //works
+      getProfNumberByEmail(){
         console.log("get_professor_phone_number_by_email");
-        result = get_professor_phone_number_by_email(this.email);
-        console.log(result)
+        this.result = get_professor_phone_number_by_email(this.email);
+        console.log(this.result)
       },
       getProfByRcs(){
+      //works
         console.log("get_professor_info_by_rcs");
-        result = get_professor_info_by_rcs(this.rcs);
-        console.log(result)
+        this.result = get_professor_info_by_rcs(this.rcs);
+        console.log(this.result)
       },
+      //works
       getProfByEmail(){
         console.log("get_professor_info_by_email");
-        result = get_professor_info_by_email(this.email);
-        console.log(result)
+        this.result = get_professor_info_by_email(this.email);
+        console.log(this.result)
       },
       removeProf(){ 
         console.log("remove_professor");
-        result = remove_professor(this.email);
-        console.log(result)
+        this.result = remove_professor(this.email);
+        console.log(this.result)
       },
+      //works
       addProf(){
         console.log("addProfessors");
-        result = addProfessors(addMsg);
-        console.log(result)
+        this.result = addProfessors(this.addMsg);
+        console.log(this.result)
       },
       addProfTest(){
-        console.log("get_professor_from_department");
-        result = addProfessorsTest();
-        console.log(result)
+        console.log("addProfessorsTest");
+        this.result = addProfessorsTest();
+        console.log(this.result)
       }
     }
   };

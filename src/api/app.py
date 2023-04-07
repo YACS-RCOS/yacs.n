@@ -330,8 +330,8 @@ async def add_professor(msg:str):
 
 @app.post('/api/professor/add/test')
 async def add_test_professor():
-    professor, error = professor_info.add_professor("random", "person", "number", "prof@rpi.edu", "CSCI", 
-        "lally 300", "52995", "3:00pm", "prof")
+    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI", 
+        "lally 300", "52995", "3:00pm", "test?")
     return professor if not error else Response(content = error, status_code = 500)
 
 @app.delete('/api/professor/remove')

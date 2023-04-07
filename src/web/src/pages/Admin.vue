@@ -21,6 +21,13 @@
     >
       Set Default Semester
     </a>
+      <a
+      v-b-modal.editProfessors
+      class="text-primary d-block"
+      style="cursor: pointer;"
+    >
+      Edit Professors
+    </a>
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
