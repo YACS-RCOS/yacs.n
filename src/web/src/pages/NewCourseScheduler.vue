@@ -127,7 +127,6 @@
                 <h5>CRNs: {{ selectedCrns }}</h5>
                 <h5>Credits: {{ totalCredits }}</h5>
                 <h5>Pre: <p v-html=getPrerequisites /></h5>
-                <h5>SC: {{ this.selectedCourses }}</h5>
               </b-col>
 
               <b-col md="3" justify="end">
@@ -656,14 +655,10 @@ export default {
         if (array[i].raw_precoreqs){
 
           let precoreqtext = array[i].raw_precoreqs;
-          if (precoreqtext === null) {
-            return "No information on pre/corequisites";
-          }
+          /*
           const regex = /([A-Z]){4}( )([0-9]){4}/g;
-          var output = ""
           while (precoreqtext.search(regex) != -1) {
             let index = precoreqtext.search(regex);
-            let beforetext = precoreqtext.slice(0, index);
             let dept = precoreqtext.slice(index, index + 4);
             let course_name = precoreqtext
               .slice(index, index + 9)
@@ -677,16 +672,28 @@ export default {
               course_name,
               "</a>"
             );
-            let aftertext = precoreqtext.slice(index + 9);
-            precoreqtext = beforetext.concat(link, aftertext);
-            output = output.concat(link,"<br />");
+            precoreqtext = precoreqtext.slice(index + 9);
+            if (!prerequisites.includes(link)){
+              prerequisites.push( link );
+            }
+            */
+          const regex_and = "and"
+          while (precoreqtext.search(regex_and) != -1) {
+            let index = precoreqtext.search(regex_and);
+            let course = precoreqtext.slice(0, index);
+            prerequisites.push(course)
+            precoreqtext = precoreqtext.slice(index + 3)
           }
-
-          prerequisites.push({ title: array[i].full_title, id: array[i].id,
-            date_start: array[i].date_start, data_end: array[i].date_end,
-             value: output})
+          const regex_or = "or"
+          precoreqtext = array[i].raw_precoreqs;
+          while (precoreqtext.search(regex_or) != -1) {
+            let index = precoreqtext.search(regex_or);
+            let course = precoreqtext.slice(0, index);
+            prerequisites.push(course)
+            precoreqtext = precoreqtext.slice(index + 2)
+          }
         }
-       }
+      }
       return prerequisites
     },
 
