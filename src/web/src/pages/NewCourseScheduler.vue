@@ -892,7 +892,7 @@ button:focus {
 }
 
 #burger.active .burger-button {
-  transform: rotate(-540deg);
+  transform: rotateY(-540deg);
 }
 
 #burger.active .burger-bar {
