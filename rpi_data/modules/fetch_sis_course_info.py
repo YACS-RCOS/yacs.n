@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from bs4 import NavigableString, Tag
+import logging
 
 import datetime
 import requests
@@ -35,6 +36,7 @@ class sis_client:
 
     #Gets the time info from the string
     def parse_time(self, time_string):
+        logging.debug(time_string)
         time = time_string.split('-')
         time[0] = time[0].strip()
         time[1] = time[1].split(',')
@@ -47,6 +49,7 @@ class sis_client:
         time[0] = str(time[0].date())
         time[1] = str(time[1].date())
         return time
+        
 
 
     #Actually runs the program
@@ -56,6 +59,9 @@ class sis_client:
 
         response = requests.get(self.source_url)
         content = response.text
+
+        #logging.error(response.text)
+
 
         # Removes all divs to avoid bad parsing
         cont = content.split("\n")
@@ -78,7 +84,8 @@ class sis_client:
 
         # NOTE: The Value 1, findChildren('h3', recursive=True)[1], 
         # May Change Semester To Semester Depending On # Lines Above/Below Each SIS Section. 
-        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[1].findChildren('span')[0].contents[0]
+        raw_semester_start_end_data = genInfo[0].findChildren('h3', recursive=True)[2].findChildren('span')[0].contents[0]
+        #logging.error(raw_semester_start_end_data)
         semester_start_end_data = self.parse_time(raw_semester_start_end_data)
 
         for gens in genInfo:
