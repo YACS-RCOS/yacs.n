@@ -38,6 +38,9 @@
 
       <div v-if="showForm">
         <form>
+          <label for="name">Schedule Name:</label>
+          <input type="text" id="name" name="name">
+
           <div class="form-row">
           <label for="day">Day of the Week:</label>
           <select id="day" name="day">
@@ -48,7 +51,6 @@
             <option value="friday">Friday</option>
             <option value="saturday">Saturday</option>
             <option value="sunday">Sunday</option>
-
           </select>
           </div>
 
@@ -57,6 +59,9 @@
 
           <label for="end">End Time:</label>
           <input type="time" id="end" name="end">
+
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location">
 
           <button type="submit">Submit</button>
         </form>
