@@ -23,24 +23,41 @@
                 :topSpacing="0"
               />
 
-                <CourseList
-                  v-if="!loading"
-                  @addCourse="addCourse"
-                  @removeCourse="removeCourse"
-                  @showCourseInfo="showCourseInfo"
-                  class="w-100"
-                />
+              <CourseList
+                v-if="!loading"
+                @addCourse="addCourse"
+                @removeCourse="removeCourse"
+                @showCourseInfo="showCourseInfo"
+                class="w-100"
+              />
+
+              
             </b-card-text>
         </b-tab>
         </b-tabs>
       </b-col>
+      <div class = "col-md-10">
+        
+      </div>
     </b-row>
   </b-container>
 </template>
 
 
 <script>
-
+import CourseListComponent from "@/components/CourseList";
+import CenterSpinnerComponent from "../components/CenterSpinner";
+// import SelectedCoursesComponent from "@/components/SelectedCourses";
+export default{
+  name: "MainPage",
+  // mixins: [NotificationsMixin],
+  components: {
+    // Schedule: ScheduleComponent,
+    // SelectedCourses: SelectedCoursesComponent,
+    CourseList: CourseListComponent,
+    CenterSpinner: CenterSpinnerComponent,
+  },
+};
 </script>
 
 
