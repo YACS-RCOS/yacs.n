@@ -35,14 +35,22 @@
         <!-- > time filter -->
         <!-- <div class="course-filter"
         :class="{ 'time-filter' : course.selected}"> -->
+<<<<<<< HEAD
         <div>
           <button @click="showGrid = true">Time Filter</button>
           <button @click="showGrid = false">Close Filter</button>
           <div v-if="showGrid">
             <!-- <button @click="showGrid = false">Close Filter</button> -->
             <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
+=======
+        <div class='badge-light'>
+          <button @click="showGrid = true" class='badge-light'>Show Grid</button>
+          <div v-if="showGrid">
+            <button @click="showGrid = false" class='badge-light'>Close Grid</button>
+            <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row badge-light">
+>>>>>>> a3c4e1c84870d2f4e673b25f92b93caf7b158cf2
               <div v-for="(box, boxIndex) in row" :key="boxIndex"
-                  class="grid-box"
+                  class="grid-box badge-light"
                   :style="{ backgroundColor: box.color }"
                   @click="handleBoxClick(rowIndex, boxIndex)">
                 {{ box.label }}
