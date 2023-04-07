@@ -34,7 +34,7 @@
       </b-row>
     </div>
     <div class="add-schedule">
-      <button @click="showForm = true">Add Schedule</button>
+      <button @click="showForm = true">Add a Event</button>
 
       <div v-if="showForm">
         <form>
@@ -59,10 +59,10 @@
 
           <label for="end">End Time:</label>
           <input type="time" id="end" name="end">
-
-          <label for="location">Location:</label>
+          <div class="Location-row">
+            <label for="location">Location:</label>
           <input type="text" id="location" name="location">
-
+          </div>
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -295,5 +295,9 @@ export default {
   .form-row input {
     margin-bottom: 0;
   }
+}
+.Location-row {
+  display: flex;
+  flex-direction: column;
 }
 </style>
