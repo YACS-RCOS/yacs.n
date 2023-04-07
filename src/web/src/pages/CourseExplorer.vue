@@ -73,11 +73,6 @@ export default {
   methods: {
     generateRequirementsText,
   },
-  watch: {
-            '$route': function (to, from) {
-                this.init()
-            }
-        },
   computed: {
     ...mapState(["isLoadingCourses"]),
     ...mapGetters([COURSES]),
