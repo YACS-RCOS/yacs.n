@@ -887,10 +887,6 @@ button:focus {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
-.burger-button:hover {
-  transform: translate(10px, 0px);
-}
-
 #burger.active .burger-button {
   transform: rotateY(-540deg);
 }
