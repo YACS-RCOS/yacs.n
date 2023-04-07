@@ -139,6 +139,7 @@ import { mapGetters } from "vuex";
 import DegreePicker from "@/components/DegreePicker";
 import router from "@/routes";
 import { modifyUser } from "@/services/UserService";
+import {getStudentCourses} from "@/services/YacsService";
 
 export default {
   name: "User",
@@ -168,6 +169,7 @@ export default {
       router.push("/");
     }
     this.onReset();
+    getStudentCourses().then(response => {console.log(response)})
   },
   computed: {
     ...mapGetters({
