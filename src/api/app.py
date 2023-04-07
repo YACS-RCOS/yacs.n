@@ -319,7 +319,7 @@ async def get_professor_info_by_email(email:str):
     professor_email, error = professor_info.get_professor_info_by_email(email)
     return professor_email if not error else Response(content=error, status_code=500)
 
-@app.post('/api/professor/add/single/{msg}')
+@app.post('/api/professor/add/{msg}')
 async def add_professor(msg:str):
     info = msg.split(",")
 
