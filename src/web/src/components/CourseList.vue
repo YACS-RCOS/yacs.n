@@ -239,18 +239,22 @@ export default {
 
 <style scoped lang="scss">
 .add-schedule {
-  background-color: #ffffff; /* Green */
+  background-color: #ffffff; 
   border-style: solid ;
   border-color: rgb(0, 0, 0, 0.05);
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
+  padding: 18px 20px;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 10px 0;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.add-schedule button {
+  background-color: #ffffff; 
+  border-style: solid ;
+  border-color: rgb(0, 0, 0, 0.05);
 }
 
 #scroll-box {
@@ -311,8 +315,5 @@ export default {
     margin-bottom: 0;
   }
 }
-.Location-row {
-  display: flex;
-  flex-direction: column;
-}
+
 </style>
