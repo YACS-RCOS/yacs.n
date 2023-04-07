@@ -273,30 +273,30 @@
   justify-content: center;
   margin: 5px;
   border-radius: 5px;
-  background-color: $light-box-color;
-  color: $light-text-color;
+  // background-color: $light-box-color;
+  // color: $light-text-color;
 }
 
 // Define the style rules for the button grid in dark mode
-.dark-mode {
-  .grid-box {
-    background-color: $dark-box-color;
-    color: $dark-text-color;
-  }
+// .dark-mode {
+//   .grid-box {
+//     background-color: $dark-box-color;
+//     color: $dark-text-color;
+//   }
 
-  button {
-    color: $dark-text-color;
-  }
-}
+//   button {
+//     color: $dark-text-color;
+//   }
+// }
 
 // Add a class to the body tag to toggle the dark mode
-body.dark-mode {
-  background-color: $dark-bg-color;
+// body.dark-mode {
+//   background-color: $dark-bg-color;
   
-  .grid-row {
-    border-bottom: 1px solid $dark-box-color;
-  }
-}
+//   .grid-row {
+//     border-bottom: 1px solid $dark-box-color;
+//   }
+// }
 
 }
 
@@ -305,6 +305,6 @@ NOTE: Should Be Using var(--dark-primary),
 But For Some Reason, When Exporting bColor
 => Not Rendering The Background Image Color To The Correct Color.
 */
-:export {
-  bColor: #22252e;
-}
+// :export {
+//   bColor: #22252e;
+// }

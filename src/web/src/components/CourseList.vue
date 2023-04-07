@@ -36,9 +36,10 @@
         <!-- <div class="course-filter"
         :class="{ 'time-filter' : course.selected}"> -->
         <div>
-          <button @click="showGrid = true">Show Grid</button>
+          <button @click="showGrid = true">Time Filter</button>
+          <button @click="showGrid = false">Close Filter</button>
           <div v-if="showGrid">
-            <button @click="showGrid = false">Close Grid</button>
+            <!-- <button @click="showGrid = false">Close Filter</button> -->
             <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
               <div v-for="(box, boxIndex) in row" :key="boxIndex"
                   class="grid-box"
@@ -142,68 +143,75 @@ export default {
       showGrid: false,
       //grid is the time filter box check which box is clicked
       grid: [
+        // [
+        //   { label: '0:00-0:59', value: true, color: 'white'},
+        //   { label: '0:00-0:59', value: true, color: 'white'},
+        //   { label: '0:00-0:59', value: true, color: 'white'},
+        //   { label: '0:00-0:59', value: true, color: 'white'},
+        //   { label: '0:00-0:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '1:00-1:59', value: true, color: 'white'},
+        //   { label: '1:00-1:59', value: true, color: 'white'},
+        //   { label: '1:00-1:59', value: true, color: 'white'},
+        //   { label: '1:00-1:59', value: true, color: 'white'},
+        //   { label: '1:00-1:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '2:00-2:59', value: true, color: 'white'},
+        //   { label: '2:00-2:59', value: true, color: 'white'},
+        //   { label: '2:00-2:59', value: true, color: 'white'},
+        //   { label: '2:00-2:59', value: true, color: 'white'},
+        //   { label: '2:00-2:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '3:00-3:59', value: true, color: 'white'},
+        //   { label: '3:00-3:59', value: true, color: 'white'},
+        //   { label: '3:00-3:59', value: true, color: 'white'},
+        //   { label: '3:00-3:59', value: true, color: 'white'},
+        //   { label: '3:00-3:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '4:00-4:59', value: true, color: 'white'},
+        //   { label: '4:00-4:59', value: true, color: 'white'},
+        //   { label: '4:00-4:59', value: true, color: 'white'},
+        //   { label: '4:00-4:59', value: true, color: 'white'},
+        //   { label: '4:00-4:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '5:00-5:59', value: true, color: 'white'},
+        //   { label: '5:00-5:59', value: true, color: 'white'},
+        //   { label: '5:00-5:59', value: true, color: 'white'},
+        //   { label: '5:00-5:59', value: true, color: 'white'},
+        //   { label: '5:00-5:59', value: true, color: 'white'},
+        // ],
+        // [
+        //   { label: '6:00-6:59', value: true, color: 'white'},
+        //   { label: '6:00-6:59', value: true, color: 'white'},
+        //   { label: '6:00-6:59', value: true, color: 'white'},
+        //   { label: '6:00-6:59', value: true, color: 'white'},
+        //   { label: '6:00-6:59', value: true, color: 'white'},
+        // ],
         [
-          { label: '0:00-0:59', value: true, color: 'white'},
-          { label: '0:00-0:59', value: true, color: 'white'},
-          { label: '0:00-0:59', value: true, color: 'white'},
-          { label: '0:00-0:59', value: true, color: 'white'},
-          { label: '0:00-0:59', value: true, color: 'white'},
+          { label: ' 7:00-7:59', value: true, color: 'white'},
+          { label: ' 7:00-7:59', value: true, color: 'white'},
+          { label: ' 7:00-7:59', value: true, color: 'white'},
+          { label: ' 7:00-7:59', value: true, color: 'white'},
+          { label: ' 7:00-7:59', value: true, color: 'white'},
         ],
         [
-          { label: '1:00-1:59', value: true, color: 'white'},
-          { label: '1:00-1:59', value: true, color: 'white'},
-          { label: '1:00-1:59', value: true, color: 'white'},
-          { label: '1:00-1:59', value: true, color: 'white'},
-          { label: '1:00-1:59', value: true, color: 'white'},
+          { label: ' 8:00-8:59', value: true, color: 'white'},
+          { label: ' 8:00-8:59', value: true, color: 'white'},
+          { label: ' 8:00-8:59', value: true, color: 'white'},
+          { label: ' 8:00-8:59', value: true, color: 'white'},
+          { label: ' 8:00-8:59', value: true, color: 'white'},
         ],
         [
-          { label: '2:00-2:59', value: true, color: 'white'},
-          { label: '2:00-2:59', value: true, color: 'white'},
-          { label: '2:00-2:59', value: true, color: 'white'},
-          { label: '2:00-2:59', value: true, color: 'white'},
-          { label: '2:00-2:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '3:00-3:59', value: true, color: 'white'},
-          { label: '3:00-3:59', value: true, color: 'white'},
-          { label: '3:00-3:59', value: true, color: 'white'},
-          { label: '3:00-3:59', value: true, color: 'white'},
-          { label: '3:00-3:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '4:00-4:59', value: true, color: 'white'},
-          { label: '4:00-4:59', value: true, color: 'white'},
-          { label: '4:00-4:59', value: true, color: 'white'},
-          { label: '4:00-4:59', value: true, color: 'white'},
-          { label: '4:00-4:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '5:00-5:59', value: true, color: 'white'},
-          { label: '5:00-5:59', value: true, color: 'white'},
-          { label: '5:00-5:59', value: true, color: 'white'},
-          { label: '5:00-5:59', value: true, color: 'white'},
-          { label: '5:00-5:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '6:00-6:59', value: true, color: 'white'},
-          { label: '6:00-6:59', value: true, color: 'white'},
-          { label: '6:00-6:59', value: true, color: 'white'},
-          { label: '6:00-6:59', value: true, color: 'white'},
-          { label: '6:00-6:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '7:00-7:59', value: true, color: 'white'},
-          { label: '7:00-7:59', value: true, color: 'white'},
-          { label: '7:00-7:59', value: true, color: 'white'},
-          { label: '7:00-7:59', value: true, color: 'white'},
-          { label: '7:00-7:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '9:00-9:59', value: true, color: 'white'},
-          { label: '9:00-9:59', value: true, color: 'white'},
-          { label: '9:00-9:59', value: true, color: 'white'},
-          { label: '9:00-9:59', value: true, color: 'white'},
-          { label: '9:00-9:59', value: true, color: 'white'},
+          { label: ' 9:00-9:59', value: true, color: 'white'},
+          { label: ' 9:00-9:59', value: true, color: 'white'},
+          { label: ' 9:00-9:59', value: true, color: 'white'},
+          { label: ' 9:00-9:59', value: true, color: 'white'},
+          { label: ' 9:00-9:59', value: true, color: 'white'},
         ],
         [
           { label: '10:00-10:59', value: true, color: 'white'},          
@@ -296,13 +304,13 @@ export default {
           { label: '22:00-22:59', value: true, color: 'white'},
           { label: '22:00-22:59', value: true, color: 'white'},
         ],
-        [
-          { label: '23:00-23:59', value: true, color: 'white'},
-          { label: '23:00-23:59', value: true, color: 'white'},
-          { label: '23:00-23:59', value: true, color: 'white'},
-          { label: '23:00-23:59', value: true, color: 'white'},
-          { label: '23:00-23:59', value: true, color: 'white'},
-        ]
+        // [
+        //   { label: '23:00-23:59', value: true, color: 'white'},
+        //   { label: '23:00-23:59', value: true, color: 'white'},
+        //   { label: '23:00-23:59', value: true, color: 'white'},
+        //   { label: '23:00-23:59', value: true, color: 'white'},
+        //   { label: '23:00-23:59', value: true, color: 'white'},
+        // ]
       ],
     };
   },
@@ -327,10 +335,10 @@ export default {
     //time filter
     handleBoxClick(row, col) {
       this.grid[row][col].value = !this.grid[row][col].value
-      if(this.grid[row][col].color == 'yellow'){
+      if(this.grid[row][col].color == "lightgreen"){
         this.grid[row][col].color = 'white';
       }else{
-        this.grid[row][col].color = 'yellow';
+        this.grid[row][col].color = 'lightgreen';
       }
     },
   },
@@ -405,6 +413,10 @@ export default {
             if(st==null || en==null){break;}
             let start = parseInt(st.substring(0, 2));
             let end = parseInt(en.substring(0, 2));
+            start -= 7;
+            end -=7;
+            console.log("start time:" + start);
+            console.log(end);
             for( let i=start; i<=end; i++){
               if(this.grid[i][day].value == false){
                 Avaliable = false;
@@ -460,19 +472,22 @@ export default {
 .grid-row {
   display: flex;
   flex-direction: row;
+  padding:0px;
 }
 
 .grid-box {
   width: 90%;
-  height: 50px;
+  height: 20px;
+  margin-right: 0px;
   border: 1px solid black;
-  border-radius: 7px;
+  text-size-adjust: 8px;
   font-size: inherit;
-  margin: 5px;
+  margin: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
 }
 
 </style>
