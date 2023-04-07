@@ -22,6 +22,7 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+
         <b-col>
           <b-form-group label="Filter Department" for="department">
             <b-form-select
@@ -29,8 +30,18 @@
               :options="departmentOptions"
             ></b-form-select>
           </b-form-group>
+
+          <b-form-group label="Filter Credits">
+            <b-row>
+              <div class="form-group form-check" v-for="item in Items" v-bind:key="item.id">
+                  <input type="checkbox"  v-model="user.CreditsCollection" :id="item.name" :value="item.id">
+                  <label class="form-check-label" :for="item.id"> {{ item.name }} </label>
+              </div>
+            </b-row>
+          </b-form-group>
         </b-col>
       </b-row>
+      
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -115,8 +126,18 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
+      selectedCredits: null,
       courseList: null,
       debounceTime: 300,
+      Items: [
+                {name: '1 Credit ', id: 1}, 
+                {name: '2 Credits',id: 2}, 
+                {name: '3 Credits',id: 3}, 
+                {name: '4 Credits',id: 4}
+            ],        
+      user: {
+          CreditsCollection: []
+      }
     };
   },
   created() {
@@ -153,6 +174,8 @@ export default {
       );
     },
 
+
+
     subsemesterOptions() {
       let options = [{ text: "All", value: null }];
       options.push(
@@ -165,6 +188,12 @@ export default {
       // eslint-disable-next-line
       this.selectedSubsemester = options[0].value;
       return options;
+    },
+    
+    creditsOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.credits.map(({ credit }) => credit)
+      )
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
@@ -179,12 +208,14 @@ export default {
         (course) =>
           (!this.selectedDepartment ||
             course.department === this.selectedDepartment) &&
+          (this.user.CreditsCollection.length == 0 ||
+          course.min_credits == course.max_credits &&
+            this.user.CreditsCollection.includes(course.min_credits)) &&
           (!this.selectedSubsemester ||
             (this.selectedSubsemester.date_start.getTime() ===
               course.date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime()))
-      );
+                course.date_end.getTime())));
 
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
