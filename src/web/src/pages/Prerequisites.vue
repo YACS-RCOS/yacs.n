@@ -1,7 +1,49 @@
 <!--
   look at newCourse Scheduler
 -->
+
 <template>
+  <b-container class="py-3 h-100 main-body">
+    
+    <b-row>
+      <p>Please enter your Course Code: {{ message }}</p>
+    </b-row>
+    
+    <b-row>
+	    <input v-model="message" placeholder="Enter the course code" hint = "ex. CSCI-1200" />
+      <b-col>
+        <button v-on:click="submit()">Submit Prerequisites</button>
+      </b-col>
+    </b-row>
+    
+    
+  </b-container>
+  
+</template>
+
+
+
+<script>
+  export default {
+    data() {
+      return {
+        message: ''
+      }
+    },
+    methods: {
+      submit() {
+        
+        this.$emit('', this.message)
+      }
+    }
+  }
+</script>
+
+
+
+
+
+<!-- <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100">
       <b-col md="4" class="d-flex flex-column">
@@ -59,7 +101,7 @@ export default{
   },
 };
 </script>
-
+ -->
 
 
 
