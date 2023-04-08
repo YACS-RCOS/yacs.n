@@ -103,7 +103,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4",
       "Course: MANE 4060 - Aerospace Structures and Materials Credit Hours: 4",
@@ -171,7 +171,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective Credit Hours: 4",
       "Course: Mathematics Elective Credit Hours: 4",
       "Course: Elective Credit Hours: 4",
@@ -257,7 +257,7 @@
     ],
     "Y4": "Fourth Year",
     "Y4S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective Credit Hours: 4",
       "Course: HASS Elective Credit Hours: 4",
       "Course: Science Elective Credit Hours: 4",
@@ -311,7 +311,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Neuroscience Elective Credit Hours: 4",
       "Course: Advanced Biology Laboratory Option Credit Hours: 6",
       "Course: Free Elective Credit Hours: 2",
@@ -378,7 +378,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4"
     ],
     "Y3S2": [
@@ -438,7 +438,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective - Credit Hours:  4",
       "Course: Free Elective  - Credit Hours: 3",
       "Course: BMED 4200 - Modeling of Biomedical Systems Credit Hours: 3",
@@ -480,8 +480,7 @@
       "Course: BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1",
       "Course: CHEM 1110 - Chemistry I with Advanced Lab Credit Hours: 4",
       "Course: MATH 1010 - Calculus I Credit Hours: 4",
-      "Course: IHSS 1200 - Principles of Economics Credit Hours: 4",
-      "Course: [See Footnote 1]"
+      "Course: IHSS 1200 - Principles of Economics Credit Hours: 4"
     ],
     "Y1S2": [
       "Spring",
@@ -501,14 +500,14 @@
     ],
     "Y2S2": [
       "Spring",
-      "Course: Biotech and Health Economics Concentration Course #1 Credit Hours: 4 [See Footnote 2]",
+      "Course: Biotech and Health Economics Concentration Course #1 Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: PHYS 1100 - Physics I Credit Hours: 4",
       "Course: ECON 4270 - Behavioral Economics Credit Hours: 4"
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: ECON 4570 - Econometrics Credit Hours: 4",
@@ -516,7 +515,7 @@
     ],
     "Y3S2": [
       "Spring",
-      "Course: Biotech and Health Economics Concentration Course #2 Credit Hours: 4 [See Footnote 2]",
+      "Course: Biotech and Health Economics Concentration Course #2 Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: ECON 4290 - Economics of Biotech and Medical Innovations Credit Hours: 4"
@@ -524,14 +523,14 @@
     "Y4": "Fourth Year",
     "Y4S1": [
       "Fall",
-      "Course: Biotech and Health Economics Concentration Course #3 Credit Hours: 4 [See Footnote 2]",
+      "Course: Biotech and Health Economics Concentration Course #3 Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: ECON 4940 - Readings in Economics Credit Hours: 4"
     ],
     "Y4S2": [
       "Spring",
-      "Course: Biotech and Health Economics Concentration Course #4 Credit Hours: 4 [See Footnote 2]",
+      "Course: Biotech and Health Economics Concentration Course #4 Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 2",
       "Course: BCBP 4710 - Biochemistry Laboratory Credit Hours: 6"
@@ -576,7 +575,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
@@ -645,7 +644,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: MGMT 2320 - Managerial Finance Credit Hours: 4",
       "Course: MGMT 4140 - Computer Information Systems Credit Hours: 4",
       "Course: MGMT 4850 - Organizational Behavior in High Performance Organizations Credit Hours: 4",
@@ -708,7 +707,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: MGMT 2320 - Managerial Finance Credit Hours: 4",
       "Course: MGMT 4140 - Computer Information Systems Credit Hours: 4",
@@ -775,7 +774,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective Credit Hours: 4",
       "Course: Free Elective I Credit Hours: 4",
       "Course: CHME 2050 - Introduction to Computational Chemical Engineering Credit Hours: 3",
@@ -847,7 +846,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: CHEM 4010 - Inorganic Chemistry II Credit Hours: 3",
       "Course: CHEM 4410 - Macroscopic Physical Chemistry Credit Hours: 3",
@@ -982,7 +981,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Elective Credit Hours 4",
       "Course: BIOL 1010 - Introduction to Biology Credit Hours: 3",
       "Course: BIOL 1015 - Introduction to Biology Laboratory Credit Hours: 1",
@@ -1052,7 +1051,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective Credit Hours: 4",
       "Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4",
       "Course: ENGR 4760 - Engineering Economics Credit Hours: 3",
@@ -1106,8 +1105,7 @@
       "Course: Free Elective Credit Hours: 4",
       "Course: CSCI 2200 - Foundations of Computer Science Credit Hours: 4",
       "Course: COGS 2340 - Introduction to Linguistics Credit Hours: 4",
-      "Course: PHIL 2140 - Introduction to Logic Credit Hours: 4",
-      "Course: [See Footnote 1]"
+      "Course: PHIL 2140 - Introduction to Logic Credit Hours: 4"
     ],
     "Y2S2": [
       "Spring",
@@ -1118,7 +1116,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Cognitive Science Elective Credit hours: 4 (See list of approved electives below)",
       "Course: Free Elective Credit Hours: 4",
       "Course: PSYC 2310 - Research Methods and Statistics I Credit Hours: 4"
@@ -1175,7 +1173,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Major Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4"
@@ -1237,7 +1235,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 3-4",
       "Course: ECSE 2660 - Computer Architecture, Networks, and Operating Systems Credit Hours: 4",
@@ -1305,7 +1303,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Computer Science Option/Capstone or Free Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
@@ -1370,7 +1368,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: STS Advanced Option Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Complementary Area of Study Credit Hours: 4",
@@ -1436,7 +1434,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: PDI Studio Advanced Option Credit Hours: 4",
       "Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4",
       "Course: MANE 2720 - Fluid Mechanics Credit Hours: 3",
@@ -1502,7 +1500,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Science Core Elective Credit Hours: 4 (if Statistics Option did not count toward the Science Core)",
       "or Free Elective Credit Hours 4 (if Statistics Option did count toward the Science Core)",
@@ -1566,7 +1564,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 3-4",
       "Course: ECSE 2110 - Electrical Energy Systems Credit Hours: 3",
@@ -1634,7 +1632,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4"
@@ -1735,7 +1733,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective I Credit Hours: 4",
       "Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4",
@@ -1802,7 +1800,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Electives  Credit Hours: 8",
       "Course: Track Course or Free Elective  Credit Hours: 4",
       "Course: ERTH 4190 - Environmental Measurements Credit Hours: 4"
@@ -1880,7 +1878,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
@@ -1946,7 +1944,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Elective Credit Hours: 8 credits",
       "Course: Free Elective: 4 credits",
       "Course: ERTH 4190 - Environmental Measurements Credit Hours: 4"
@@ -2008,7 +2006,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 8",
       "Course: Free Elective Credit Hours: 4",
       "Course: ERTH 4190 - Environmental Measurements Credit Hours: 4"
@@ -2071,7 +2069,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective IV Credits Hours: 4",
       "Course: ENGR 4760 - Engineering Economics Credit Hours: 3",
       "Course: ENGR 2050 - Introduction to Engineering Design Credit Hours: 4",
@@ -2136,7 +2134,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Focus Track Course Credit Hours: 4",
       "Course: Focus Track Course Credit Hours: 4",
       "Course: Life Science Elective: Credit Hours: 4",
@@ -2206,7 +2204,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Restricted Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3",
@@ -2274,7 +2272,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: MATH Option Credit Hours: 4",
       "Course: Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
@@ -2339,7 +2337,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: ENGR 2090 - Engineering Dynamics Credit Hours: 4",
       "Course: MANE 2720 - Fluid Mechanics Credit Hours: 3",
@@ -2415,7 +2413,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Science Core Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
@@ -2488,7 +2486,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: SoE 2…. Engineering Design Elective  Credit Hours: 4",
       "Course: ENGR 2600 - Modeling and Analysis of Uncertainty Credit Hours: 3",
@@ -2554,7 +2552,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Philosophy Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Science Core Elective Credit Hours: 4"
@@ -2672,7 +2670,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: HASS Core Elective Credit Hours: 4",
       "Course: Mathematics Elective Credit Hours: 4",
       "Course: Elective Credit Hours: 4",
@@ -2736,7 +2734,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Free Elective Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4",
       "Course: HASS Core Elective Credit Hours: 4"
@@ -2804,7 +2802,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: Advanced STS Course Credit Hours: 4",
       "Course: Advanced STS Course Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4"
@@ -2868,7 +2866,7 @@
     ],
     "Y3": "Third Year",
     "Y3S1": [
-      "The Arch Semester",
+      "Summer Arch",
       "Course: SUST Advanced Option Credit Hours: 4",
       "Course: SUST Advanced Option Credit Hours: 4",
       "Course: Free Elective Credit Hours: 4"
