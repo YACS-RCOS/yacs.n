@@ -50,19 +50,13 @@
       //works  
       getProfName(){
       console.log("get_professor_name");
-        this.result = get_professor_name(this.email);
+        this.result = get_professor_name_by_email(this.email);
         console.log(this.result)
       },
       //works
       getProfDepartment(){
         console.log("get_professor_from_department");
         this.result = get_professor_from_department(this.department);
-        console.log(this.result)
-      },
-      //works
-      getProfName(){
-        console.log("get_professor_name");
-        this.result = get_professor_name(this.email);
         console.log(this.result)
       },
       //works
@@ -77,8 +71,8 @@
         this.result = get_professor_phone_number_by_email(this.email);
         console.log(this.result)
       },
-      getProfByRcs(){
       //works
+      getProfByRcs(){
         console.log("get_professor_info_by_rcs");
         this.result = get_professor_info_by_rcs(this.rcs);
         console.log(this.result)
@@ -91,7 +85,7 @@
       },
       removeProf(){ 
         console.log("remove_professor");
-        this.result = remove_professor(this.email);
+        this.result = remove_professor_by_email(this.email);
         console.log(this.result)
       },
       //works

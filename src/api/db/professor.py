@@ -42,17 +42,8 @@ class Professor:
             }
             error = self.db_conn.execute(sql, params, False)
         else:
-            sql =   """
-                    DELETE FROM 
-                        professor
-                    WHERE
-                        email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-            error = self.db_conn.execute(sql, params, True)
-        return (True, None) if not error else (False, error)
+            return (False, "email cant be none")
+        return (True, None) 
 
     # if you expect the SQL statement to return more than one row of data, you should pass True as the value for multi.
     def get_professor_info_by_email(self,email):
@@ -104,7 +95,7 @@ class Professor:
             params = {
                 "Email": email
             }
-        rcs, error = self.db_conn.execute(sql , [email], True)
+        rcs, error = self.db_conn.execute(sql , params, True)
         return rcs(None) if not error else(False, error)
 
     def get_office_hours_by_email(self,email):

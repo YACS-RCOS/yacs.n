@@ -322,7 +322,6 @@ async def get_professor_info_by_email(email:str):
 @app.post('/api/professor/add/{msg}')
 async def add_professor(msg:str):
     info = msg.split(",")
-
     #msg should be first name, last name, phone number, email, dep, , office , classes,  office_hours time, rcs
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
     info[5], info[6] ,info[7], info[8])
@@ -334,8 +333,8 @@ async def add_test_professor():
         "lally 300", "52995", "3:00pm", "test?")
     return professor if not error else Response(content = error, status_code = 500)
 
-@app.delete('/api/professor/remove')
-async def remove_professor(request: Request, email:str):
+@app.delete('/api/professor/remove/{email}')
+async def remove_professor(email:str):
     print(email)
-    professor, error = professor_info.remove_professor_by_email(email)
-    return professor if not error else Response(error, status_code=500)
+    professor, error = professor_info.remove_professor(email)
+    return professor if not error else Response(str(error), status_code=500)
