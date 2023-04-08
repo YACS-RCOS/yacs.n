@@ -29,7 +29,7 @@ class Professor:
         resp, error = self.db_conn.execute(sql, params, False)
         return (True, None) if not error else (False, error)
 
-    def remove_professor_by_email(self, email):
+    def remove_professor(self, email):
         if email is not None:
             sql =   """
                     DELETE FROM 

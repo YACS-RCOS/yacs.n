@@ -24,7 +24,7 @@
   </template>
   
   <script>
-  import { getProfessors,get_professor_name,get_professor_from_department,get_office_hours,get_professor_phone_number_by_email,get_professor_info_by_rcs, get_professor_info_by_email} from "@/services/YacsService";
+  import { getProfessors,get_professor_name_by_email,get_professor_from_department,get_office_hours,get_professor_phone_number_by_email,get_professor_info_by_rcs, get_professor_info_by_email} from "@/services/YacsService";
   import { remove_professor,addProfessors,addProfessorsTest } from "@/services/AdminService";
 
 
@@ -85,7 +85,7 @@
       },
       removeProf(){ 
         console.log("remove_professor");
-        this.result = remove_professor_by_email(this.email);
+        this.result = remove_professor(this.email);
         console.log(this.result)
       },
       //works

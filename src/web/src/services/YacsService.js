@@ -152,7 +152,7 @@ export const getStudentCourses = () =>
 export const getProfessors = () =>
   client.get("/professor").then((res) => res.data);
 
-export const get_professor_name = (email) =>
+export const get_professor_name_by_email = (email) =>
   client.get("/professor/name/" + email).then((res) => res.data);
 
 export const get_professor_from_department = (department) =>

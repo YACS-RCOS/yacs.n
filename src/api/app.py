@@ -277,7 +277,7 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.get('/api/professor/name/{email}')
-async def get_professor_name(email: str):
+async def get_professor_name_by_email(email: str):
     # searches professor's first and last name by email
     professorName, error = professor_info.get_professor_info_by_email(email)
     # Return the data as a JSON response
