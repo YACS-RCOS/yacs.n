@@ -32,8 +32,8 @@
     },
     methods: {
       submit() {
-        
         this.$emit('', this.message)
+        this.message = ''
       }
     }
   }
