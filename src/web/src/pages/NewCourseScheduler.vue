@@ -504,7 +504,7 @@ export default {
           Object.values(this.selectedCourses)
         );
         if (!result.length) {
-          throw new Error("conflict!");
+          throw new Error("conflict!222");
         }
         this.possibilities = result;
 
@@ -523,7 +523,7 @@ export default {
           {
             sections: [],
             time: [0, 0, 0, 0, 0],
-            conflict: e.message === "conflict!",
+            conflict: e.message === "conflict!333",
           },
         ];
       }
@@ -537,14 +537,18 @@ export default {
             time: [0, 0, 0, 0, 0],
           },
         ];
-      const popped = courses.pop();
+      var popped = courses.pop();
+      var x = popped.sections.filter((s) => s.selected);
+      console.log(courses)
+      if(x.length === 0)
+        console.log("小夫我进来拉")
+        popped = courses.pop();
+        x = popped.sections.filter((s) => s.selected);
       let ret = this.generateSchedule(courses);
-
-      if (ret.length === 0) throw new Error("conflict!");
+      if (ret.length === 0) throw new Error("conflict!111");
       return ret
-        .map((schedule) => {
-          const x = popped.sections.filter((s) => s.selected);
-          if (!x.length) throw new Error("no selection!");
+        .map((schedule) => {          
+          //if (!x.length) throw new Error("no selection!");
           return x
             .map((section) => {
               if (noConflict(schedule, section)) {
