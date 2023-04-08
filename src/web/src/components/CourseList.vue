@@ -130,29 +130,28 @@ export default {
     },
     /* wrapper for querying with search */
     // todo: get courses should be changed
-    updateCourseList() {
-      getCourses(this.selectedSemester, this.textSearch, false).then(
+    //text parameter comes from watch
+    updateCourseList(text) {
+      getCourses(this.selectedSemester, text, false).then(
         (course_list) => {
           this.courseList = course_list;
         }
       );
     },
-    findCourse(filtered, search){
-      var found;
-      console.log("INSIDE FUNC SEARCH: "+search);
-      for(let i=0; i<filtered.length; i++){
-        console.log("course: "+filtered[i].name);
-        if(filtered[i].name.length === search.length){
-          found = search;
-        }
-      }
-      return found;
-    },
+    // findCourse(courses){
+    //   const temp = [];
+    //   for(let i=0; i<courses.length; i++){
+    //     if()
+    //   }
+    // }
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
-      this.updateCourseList();
+      //store in temp to conserve textSearch in input box on screen but removes extra characters for comparing
+      const tempText = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, " ");
+      console.log("WATCH: "+this.textSearch);
+      this.updateCourseList(tempText);
     },
   },
   computed: {
@@ -178,13 +177,12 @@ export default {
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
-    filterCourses() {
+    filterCourses: function () {
       const courses =
-        this.courseList !== null
-          ? this.courseList
-          : this.$store.getters.courses;
+          this.courseList !== null
+              ? this.courseList
+              : this.$store.getters.courses;
 
-      // filter by selected department
       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
@@ -195,52 +193,27 @@ export default {
               this.selectedSubsemester.date_end.getTime() ===
                 course.date_end.getTime()))
       );
-      console.log("Filtered size");
-      console.log(filtered);
-      var tempSEARCH = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`]+/g, "");
-      // var department = tempSEARCH.substring(0,4).toUpperCase();
-      // var level2 = tempSEARCH.substring(4,8);
-      // var level = parseInt(level2);
-      console.log("\nFULL: "+tempSEARCH+" "+typeof tempSEARCH);
-      // console.log(department+" "+typeof department);
-      // console.log(level+" "+typeof level);
-      // var SEARCH = department+" "+level;
-      // console.log(SEARCH+" "+typeof SEARCH);
+
+      // const search = filtered.find(
+      //     (course) =>
+      //         (this.textSearch.toUpperCase().search(course.full_title) !== -1) ||
+      //       (this.textSearch.toUpperCase().search(course.title) !== -1) ||
+      //       (this.textSearch.toUpperCase().search(course.department) !== -1)
+      // );
+
       //returns exact match, if not found, then department filtered list
-      //REAL
-      // const find = filtered.find(
-      //   (course) =>
-      //     (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
-      //       (course.title.toUpperCase() === this.textSearch.toUpperCase())
-      // );
-      console.log("courses");
-      console.log(courses);
-      //full_title= "Computer Organization"
-      //name= "CSCI-2500"
-      //title= "COMPUTER ORGANIZATION"
-      //department= "CSCI"
-      //level= 2500
-      //course.department.toUpperCase().toString() === department.toString() && course.level.toString() === level.toString()))
-      // const find = filtered.find(
-      //   (course) =>
-      //     (course.full_title && course.full_title.toUpperCase() === tempSEARCH.toUpperCase()) ||
-      //     (course.title.toUpperCase() === tempSEARCH.toUpperCase()) ||
-      //     (course.name === tempSEARCH.toUpperCase())
-      // );
+      const find = filtered.find(
+        (course) =>
+          (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
+            (course.title.toUpperCase() === this.textSearch.toUpperCase())
+      );
 
-      var result = this.findCourse(filtered, tempSEARCH);
-
-      console.log("result: "+result);
-
-      // console.log("FIND SIZE: "+ typeof find);
-      // if (find) {
-      //   console.log("FOUND")
-      //   return [find];
-      // }
-      // else {
-        console.log("FILTERED")
+      if (find) {
+        return [find];
+      }
+      else {
         return filtered;
-      //}
+      }
     },
   },
 };
