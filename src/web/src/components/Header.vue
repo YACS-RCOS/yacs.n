@@ -6,6 +6,7 @@
     toggleable="md"
     type="primary"
     variant="light"
+    fixed="top" 
   >
     <b-navbar-brand
       class="align-middle text-dark"
