@@ -174,7 +174,11 @@ export default {
           ? this.courseList
           : this.$store.getters.courses;
 
-      // filter by selected department
+      const sanitizedSearch = this.textSearch
+        .toUpperCase()
+        .replace(/-/g, "")
+        .replace(/\s+/g, "");
+
       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
@@ -186,13 +190,21 @@ export default {
                 course.date_end.getTime()))
       );
 
-      // returns exact match, if not found, then department filtered list
       const find = filtered.find(
-        (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
+        (course) => {
+          const sanitizedFullTitle = course.full_title
+            ? course.full_title.toUpperCase().replace(/-/g, "").replace(/\s+/g, "")
+            : "";
+          const sanitizedTitle = course.title
+            .toUpperCase()
+            .replace(/-/g, "")
+            .replace(/\s+/g, ""); 
+
+          return (
+            sanitizedFullTitle === sanitizedSearch ||
+            sanitizedTitle === sanitizedSearch
+          );
+        }
       );
 
       if (find) return [find];
