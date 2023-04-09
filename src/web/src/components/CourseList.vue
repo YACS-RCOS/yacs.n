@@ -137,6 +137,15 @@ export default {
         }
       );
     },
+    normalizeSearchText(searchText) {
+    // Remove hyphens
+    const noHyphenText = searchText.replace(/-/g, "");
+
+    // Add space between department and number
+    const normalizedText = noHyphenText.replace(/([a-zA-Z])(\d)/, "$1 $2");
+
+    return normalizedText.toUpperCase();
+    },
   },
   watch: {
     /* This value gets debounced */
@@ -174,11 +183,9 @@ export default {
           ? this.courseList
           : this.$store.getters.courses;
 
-      const sanitizedSearch = this.textSearch
-        .toUpperCase()
-        .replace(/-/g, "")
-        .replace(/\s+/g, "");
+      const normalizedSearchText = this.normalizeSearchText(this.textSearch);
 
+      // filter by selected department
       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
@@ -190,21 +197,13 @@ export default {
                 course.date_end.getTime()))
       );
 
+      // returns exact match, if not found, then department filtered list
       const find = filtered.find(
-        (course) => {
-          const sanitizedFullTitle = course.full_title
-            ? course.full_title.toUpperCase().replace(/-/g, "").replace(/\s+/g, "")
-            : "";
-          const sanitizedTitle = course.title
-            .toUpperCase()
-            .replace(/-/g, "")
-            .replace(/\s+/g, ""); 
-
-          return (
-            sanitizedFullTitle === sanitizedSearch ||
-            sanitizedTitle === sanitizedSearch
-          );
-        }
+        (course) =>
+          (course.full_title &&
+            course.full_title.toUpperCase() ===
+              normalizedSearchText) ||
+          course.title.toUpperCase() === normalizedSearchText
       );
 
       if (find) return [find];
