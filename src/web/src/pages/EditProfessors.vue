@@ -19,6 +19,7 @@
         <button @click="removeProf()">removeProf</button>
         <button @click="addProf()">addProf</button>
         <button @click="addProfTest()">addProfTest</button>
+        <button @click="addBulkProf()">addBulkProf</button>
       </section>
     </b-container>
   </template>
@@ -98,6 +99,9 @@
         console.log("addProfessorsTest");
         this.result = addProfessorsTest();
         console.log(this.result)
+      },
+      addBulkProf(){
+        console.log("addBulkProf");
       }
     }
   };

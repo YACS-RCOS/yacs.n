@@ -1,3 +1,12 @@
+import csv
+from psycopg2.extras import RealDictCursor
+
+# https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
+if __name__ == "__main__":
+    import connection
+else:
+    from . import connection
+
 class Professor:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
@@ -29,6 +38,15 @@ class Professor:
         resp, error = self.db_conn.execute(sql, params, False)
         return (True, None) if not error else (False, error)
 
+    # def add_bulk_professor(self, csv_text):
+    #     conn = self.db.get_connection()
+    #     reader = csv.DictReader(csv_text)
+    #     # for each course entry insert sections and course sessions
+    #     with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+    #         for row in reader:
+    #            try:
+    #             return
+
     def remove_professor(self, email):
         if email is not None:
             sql =   """
@@ -44,6 +62,16 @@ class Professor:
         else:
             return (False, "email cant be none")
         return (True, None) 
+
+    def bulk_delete(self,professors):
+        for professor in professors:
+            _, error = self.remove_professor(professor)
+            if error:
+                print(error)
+                return error
+        # on success, invalidate cache
+        self.clear_cache()
+        return None
 
     # if you expect the SQL statement to return more than one row of data, you should pass True as the value for multi.
     def get_professor_info_by_email(self,email):
@@ -154,3 +182,8 @@ class Professor:
         }
         department, error = self.db_conn.execute(sql, params, True)
         return (department, None) if not error else (False, error)
+
+if __name__ == "__main__":
+    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
+    courses = Professor(connection.db)
+    courses.populate_from_csv(csv_text)
