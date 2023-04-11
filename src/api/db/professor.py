@@ -1,5 +1,6 @@
 import csv
 from psycopg2.extras import RealDictCursor
+import asyncio
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -38,14 +39,53 @@ class Professor:
             else:
                 return (False, "email cant be none")
 
-    # def add_bulk_professor(self, csv_text):
-    #     conn = self.db.get_connection()
-    #     reader = csv.DictReader(csv_text)
-    #     # for each course entry insert sections and course sessions
-    #     with conn.cursor(cursor_factory=RealDictCursor) as transaction:
-    #         for row in reader:
-    #            try:
-    #             return
+    def add_bulk_professor(self, csv_text):
+        conn = self.db.get_connection()
+        reader = csv.DictReader(csv_text)
+        # for each course entry insert sections and course sessions
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            for row in reader:
+                try:
+                    #professors
+                    transaction.execute(
+                        """
+                        INSERT INTO
+                            profssor(
+                                name,
+                                title,
+                                email,
+                                phone_number,
+                                department,
+                                portfolio_page
+                            )
+                        VALUES (
+                            NULLIF(%(Name)s, ''),
+                            NULLIF(%(Title)s, ''),
+                            %(Email)s,
+                            NULLIF(%(Phone_number)s, ''),
+                            NULLIF(%(Department)s, ''),
+                            NULLIF(%(Portfolio_page)s, '')
+                        )
+                        ON CONFLICT DO NOTHING;
+                        """,
+                        {
+                            "Name": row['professor_name'],
+                            "Title": row['professor_title'],
+                            "Email": row['professor_email'],
+                            "Phone_number": row['professor_phone_number'],
+                            "Department": row['professor_department'],
+                            "Portfolio_page": row['professor_portfolio_page'],
+                        }
+                    )
+                except Exception as e:
+                    print(e)
+                    conn.rollback()
+                    return (False, e)
+        conn.commit()
+        # invalidate cache so we can get new classes
+        self.clear_cache()
+        return (True, None)
+
 
     def remove_professor(self, email):
         if email is not None:
@@ -59,6 +99,17 @@ class Professor:
         else:
             return (False, "email cant be none")
         return (True, None)
+
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
 
     def bulk_delete(self,professors):
         for professor in professors:
