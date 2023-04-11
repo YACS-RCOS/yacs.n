@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        semester: [spring-2022, summer-2023, fall-2023]
+        semester: [spring-2022, summer-2022, fall-2022]
 
     steps:
       - name: Checkout repository
@@ -39,13 +39,13 @@ jobs:
         run: |
           python3 combine.py spring.csv fall.csv summer.csv
         working-directory: rpi_data
-        if: matrix.semester == 'fall-2023' # Only merge for fall semester
+        if: matrix.semester == 'fall-2022' # Only merge for fall semester
 
       - name: Update prod
         run: |
           curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $AUTH_ARGS $API_ENDPOINT
         env:
-          FILE_NAME: ${{ matrix.semester == 'fall-2023' && 'merged.csv' || matrix.semester + '.csv' }}
+          FILE_NAME: ${{ matrix.semester == 'fall-2022' && 'merged.csv' || matrix.semester + '.csv' }}
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}
           API_ENDPOINT: ${{ secrets.UPDATE_API_ENDPOINT }}
         working-directory: rpi_data

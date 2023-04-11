@@ -4,9 +4,9 @@ import sys
 # USUAGE python3 combine.py spring.csv fall.csv summer.csv
 
 # load the three CSV files
-spring_df = pd.read_csv(sys.argv[0])
-fall_df = pd.read_csv(sys.argv[1])
-summer_df = pd.read_csv(sys.argv[2])
+spring_df = "spring-2022.csv"
+fall_df = "fall-2022.csv"
+summer_df = "summer-2022.csv"
 
 # merge the dataframes and remove duplicates based on course_name and course_instructor columns
 merged_df = pd.concat([spring_df, fall_df, summer_df]).reset_index(drop=True)
