@@ -677,24 +677,42 @@ export default {
               prerequisites.push( link );
             }
             */
-          const regex_and = "and"
-          while (precoreqtext.search(regex_and) != -1) {
+          const regex_and = "and "
+          const regex_colon = ": "
+          while ( precoreqtext.search(regex_and) != -1 || precoreqtext.search(regex_colon) != -1 ) {
+            let index_colon = precoreqtext.search(regex_colon);
+            let course = precoreqtext.slice(0, index_colon);
+            prerequisites.push(course)
+            precoreqtext = precoreqtext.slice(index_colon + 1)
+            
             let index = precoreqtext.search(regex_and);
-            let course = precoreqtext.slice(0, index);
+            course = precoreqtext.slice(0, index);
             prerequisites.push(course)
             precoreqtext = precoreqtext.slice(index + 3)
           }
-          const regex_or = "or"
-          precoreqtext = array[i].raw_precoreqs;
-          while (precoreqtext.search(regex_or) != -1) {
-            let index = precoreqtext.search(regex_or);
-            let course = precoreqtext.slice(0, index);
-            prerequisites.push(course)
-            precoreqtext = precoreqtext.slice(index + 2)
+          prerequisites.push(precoreqtext)
+          var final_prerequisites = []
+          const regex = /([A-Z]){4}( )([0-9]){4}/g;
+          for(let j = 0; j < prerequisites.length; j+=1)
+          {
+            if(prerequisites[j] === "Prerequisites" ||
+            prerequisites[j] === "Prerequisite" ||
+            prerequisites[j].search(regex) == -1){
+              continue
+            }
+            const regex_or = "aasdlfasjklkasjdfl;aksjfac "
+            precoreqtext = prerequisites[j];
+            while (precoreqtext.search(regex_or) != -1) {
+              let index = precoreqtext.search(regex_or);
+              let course = precoreqtext.slice(0, index);
+              final_prerequisites.push(course)
+              precoreqtext = precoreqtext.slice(index + 2)
+            }
+            final_prerequisites.push(precoreqtext)
           }
         }
       }
-      return prerequisites
+      return final_prerequisites
     },
 
     scheduleDisplayMessage() {
