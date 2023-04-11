@@ -89,16 +89,16 @@
 
 <script>
 import "@/typedef";
-import { mapState } from "vuex";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {mapState} from "vuex";
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
-import { DAY_SHORTNAMES } from "@/utils";
+import {DAY_SHORTNAMES} from "@/utils";
 
-import { getDepartments, getCourses } from "@/services/YacsService";
+import {getCourses, getDepartments} from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
-import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
+import {DynamicScroller, DynamicScrollerItem} from "vue-virtual-scroller";
 
 export default {
   name: "CourseList",
@@ -116,7 +116,6 @@ export default {
       selectedDepartment: null,
       courseList: null,
       debounceTime: 300,
-      myList: null,
     };
   },
   created() {
@@ -137,49 +136,27 @@ export default {
           this.courseList = course_list;
         }
       )},
-    // testList(text) {
-    //   getCourses(this.selectedSemester, text, false).then(
-    //     (course_list) => {
-    //       this.myList = course_list;
-    //     }
-    //   );
-    //},
-   //  findCourse(){
-   //    this.testList("");
-   //    // const temp = [];
-   //    const text = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
-   //    //console.log("len: "+this.myList);
-   //    // for(let i=0; i<this.myList.length; i++){
-   //    //   const title = this.myList[i].title;
-   //    //   const title2= title.trim().replace(" ", "");
-   //      //const full_title = courses[i].full_title.trim().replace(" ", "");
-   //      //||
-   //      //this.textSearch.toUpperCase().search(full_title.toUpperCase()) !== -1
-   //    //   if(text.toUpperCase().search(title2.toUpperCase()) !== -1 ){
-   //    //     temp.push(this.myList[i]);
-   //    //   }
-   //    // }
-   //    // console.log("temp: "+temp);
-   //    // return temp;
-   //
-   //    const temp = this.myList.find(
-   //        (course) =>
-   //            (text.toUpperCase().search(course.title.trim().replace(" ", "").toUpperCase()) !== -1)
-   //    );
-   //    return temp;
-   // }
+    checkFunction(title, textSearch){
+      const temp = title.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
+      if(textSearch === temp){
+        return true;
+      }
+      return false;
+    },
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
       //store in temp to conserve textSearch in input box on screen but removes extra characters for comparing
       const tempText = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, " ");
-      console.log("WATCH: "+this.textSearch);
       this.updateCourseList(tempText);
     },
   },
   computed: {
     ...mapState(["selectedSemester", "subsemesters", "departments"]),
+    fullList(){
+      return this.$store.getters.courses;
+    },
     departmentOptions() {
       return [{ text: "All", value: null }].concat(
         ...this.departments.map(({ department }) => department)
@@ -207,6 +184,11 @@ export default {
               ? this.courseList
               : this.$store.getters.courses;
 
+      console.log(courses);
+
+      // const fullList = this.$store.getters.courses;
+      // console.log("full"+fullList);
+
       const filtered = courses.filter(
         (course) =>
           (!this.selectedDepartment ||
@@ -218,24 +200,26 @@ export default {
                 course.date_end.getTime()))
       );
 
-      // const search = filtered.find(
-      //     (course) =>
-      //         (this.textSearch.toUpperCase().search(course.full_title) !== -1) ||
-      //       (this.textSearch.toUpperCase().search(course.title) !== -1) ||
-      //       (this.textSearch.toUpperCase().search(course.department) !== -1)
-      // );
-
-      // const findCourse = this.findCourse();
-      // console.log(findCourse);
-
       //returns exact match, if not found, then department filtered list
+      console.log("filtered size: "+filtered);
       const find = filtered.find(
         (course) =>
           (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
             (course.title.toUpperCase() === this.textSearch.toUpperCase())
       );
 
-      if (find) {
+      //const full = this.fullList;
+      const test = this.fullList.find(
+          (course) =>
+              (this.checkFunction(course.title.toUpperCase(), this.textSearch.trim().toUpperCase()))
+      );
+      console.log("test" + test);
+
+      if(test !== undefined) {
+        //console.log(" " + test[0].level);
+        return [test];
+      }
+      else if (find) {
         return [find];
       }
       else {
