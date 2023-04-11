@@ -23,6 +23,9 @@ var router = new VueRouter({
           component: CourseSchedulerPage,
           name: "CourseScheduler",
           props: true,
+          meta: {
+            keepAlive: true 
+          }
         },
         {
           path: "/explore",
