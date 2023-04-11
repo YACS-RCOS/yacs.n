@@ -15,4 +15,4 @@ class Professor(Base):
     office_room = Column(VARCHAR(length=255), nullable=True)
     classes = Column(VARCHAR(length=255), ForeignKey("course.crn")) 
     office_hours_time = Column(VARCHAR(length=255), nullable=True)
-    rcs = Column(VARCHAR(length=255))
+    rcs = Column(VARCHAR(length=255), nullable = True)
