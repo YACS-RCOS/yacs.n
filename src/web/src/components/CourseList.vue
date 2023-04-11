@@ -6,7 +6,6 @@
           id="search"
           v-model="textSearch"
           :debounce="debounceTime"
-          trim
           placeholder="Intro to College - COLG 1030"
           list="list-id"
         ></b-form-input>
@@ -117,6 +116,7 @@ export default {
       selectedDepartment: null,
       courseList: null,
       debounceTime: 300,
+      myList: null,
     };
   },
   created() {
@@ -136,14 +136,38 @@ export default {
         (course_list) => {
           this.courseList = course_list;
         }
-      );
-    },
-    // findCourse(courses){
-    //   const temp = [];
-    //   for(let i=0; i<courses.length; i++){
-    //     if()
-    //   }
-    // }
+      )},
+    // testList(text) {
+    //   getCourses(this.selectedSemester, text, false).then(
+    //     (course_list) => {
+    //       this.myList = course_list;
+    //     }
+    //   );
+    //},
+   //  findCourse(){
+   //    this.testList("");
+   //    // const temp = [];
+   //    const text = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
+   //    //console.log("len: "+this.myList);
+   //    // for(let i=0; i<this.myList.length; i++){
+   //    //   const title = this.myList[i].title;
+   //    //   const title2= title.trim().replace(" ", "");
+   //      //const full_title = courses[i].full_title.trim().replace(" ", "");
+   //      //||
+   //      //this.textSearch.toUpperCase().search(full_title.toUpperCase()) !== -1
+   //    //   if(text.toUpperCase().search(title2.toUpperCase()) !== -1 ){
+   //    //     temp.push(this.myList[i]);
+   //    //   }
+   //    // }
+   //    // console.log("temp: "+temp);
+   //    // return temp;
+   //
+   //    const temp = this.myList.find(
+   //        (course) =>
+   //            (text.toUpperCase().search(course.title.trim().replace(" ", "").toUpperCase()) !== -1)
+   //    );
+   //    return temp;
+   // }
   },
   watch: {
     /* This value gets debounced */
@@ -200,6 +224,9 @@ export default {
       //       (this.textSearch.toUpperCase().search(course.title) !== -1) ||
       //       (this.textSearch.toUpperCase().search(course.department) !== -1)
       // );
+
+      // const findCourse = this.findCourse();
+      // console.log(findCourse);
 
       //returns exact match, if not found, then department filtered list
       const find = filtered.find(
