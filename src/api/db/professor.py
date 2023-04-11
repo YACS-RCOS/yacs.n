@@ -11,20 +11,20 @@ class Professor:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
-    
+
     def add_professor(self, first_name, last_name, phone, email, dep, office, 
         classes, office_time, rcs):
-        if email is not None:
-            sql = 	"""
-                        INSERT INTO
-                            professor (first_name, last_name, phone_number, email,
-                            department, office_room, classes, office_hours_time, rcs)
-                        VALUES
-                            (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
-                            %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s)
-                        ON CONFLICT DO NOTHING;
-                    """
-            params = {
+            if email is not None:
+                return self.db_conn.execute("""
+            INSERT INTO 
+                professor (first_name, last_name, phone_number, email, 
+                department, office_room, classes, office_hours_time, rcs)
+            VALUES 
+                   (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
+                   %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s)
+            ON CONFLICT DO NOTHING
+            ;
+        """, {
                 "First_name": first_name,
                 "Last_name": last_name,
                 "Phone_number": phone,
@@ -34,9 +34,9 @@ class Professor:
                 "Classes": classes, 
                 "Office_time": office_time,
                 "Rcs_id": rcs
-            }
-        resp, error = self.db_conn.execute(sql, params, False)
-        return (True, None) if not error else (False, error)
+        }, False)
+            else:
+                return (False, "email cant be none")
 
     # def add_bulk_professor(self, csv_text):
     #     conn = self.db.get_connection()
@@ -49,19 +49,16 @@ class Professor:
 
     def remove_professor(self, email):
         if email is not None:
-            sql =   """
-                    DELETE FROM 
-                        professor
-                    WHERE
-                        email = %(Email)s 
-                    """
-            params = {
-                "Email": email
-            }
-            error = self.db_conn.execute(sql, params, False)
+            sql = """
+                DELETE FROM 
+                    professor
+                WHERE
+                    email = '{email}'
+                """
+            error = self.db_conn.execute(sql, None, False)
         else:
             return (False, "email cant be none")
-        return (True, None) 
+        return (True, None)
 
     def bulk_delete(self,professors):
         for professor in professors:
@@ -74,73 +71,60 @@ class Professor:
         return None
 
     # if you expect the SQL statement to return more than one row of data, you should pass True as the value for multi.
-    def get_professor_info_by_email(self,email):
+    def get_professor_info_by_email(self, email):
         if email is not None:
-            sql =   """ 
-                        select
-                            *
-                        from
-                            professor
-                        where
-                            email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-        info, error = self.db_conn.execute(sql, params, True)
+            sql = """
+                    select
+                        *
+                    from
+                        professor
+                    where
+                        email = '%s'
+                    """ % email
+        info, error = self.db_conn.execute(sql, None, True)
         return (info, None) if not error else (False, error)
 
-    def get_professor_name_by_email(self,email):
+    def get_professor_phone_number_by_email(self, email):
         if email is not None:
-            sql =   """ 
-                        select
-                            first_name, 
-                            last_name, 
-                        from
-                            professor
-                        where
-                            email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-        name, error = self.db_conn.execute(sql, params, True)
-        return (name, None) if not error else (False, error)
+            sql = """
+                    select
+                        phone_number
+                    from
+                        professor
+                    where
+                        email = '%s'
+                    """ % email
+        phone_number, error = self.db_conn.execute(sql, None, True)
+        return (phone_number, None) if not error else (False, error)
     
     def get_professor_info_by_rcs(self,rcs):
         return self.get_professor_info_by_email(rcs+"@rpi.edu")
 
     def get_professor_rcs_by_email(self,email):
         if email is not None:
-            sql =   """
-                        select
-                            rcs
-                        from 
-                            professor
-                        where 
-                            email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-        rcs, error = self.db_conn.execute(sql , params, True)
-        return rcs(None) if not error else(False, error)
+            sql = """
+                    select
+                        rcs
+                    from
+                        professor
+                    where
+                        email = '%s'
+                    """ % email
+        rcs, error = self.db_conn.execute(sql, None, True)
+        return (rcs, None) if not error else (False, error)
 
     def get_office_hours_by_email(self,email):
         if email is not None:
-            sql =   """
-                        select 
-                            office_room
-                            office_hours_time
-                        from 
-                            professor
-                        where 
-                            email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-        office_hours, error = self.db_conn.execute(sql, params, True)
+            sql = """
+                    select
+                        office_room
+                        office_hours_time
+                    from
+                        professor
+                    where
+                        email = '%s'
+                    """ % email
+        office_hours, error = self.db_conn.execute(sql, None, True)
         return (office_hours,error) if not error else (False,error)
 
     #return as a json
@@ -152,35 +136,43 @@ class Professor:
     #gets prfoessors' phone number by their email
     def get_professor_phone_number_by_email(self, email):
         if email is not None:
-            sql = """ 
+            sql = """
                     select
                         phone_number
                     from
                         professor
                     where
-                        email = %(Email)s
-                    """
-            params = {
-                "Email": email
-            }
-            phone_number, error = self.db_conn.execute(sql, params, True)
+                        email = '%s'
+                    """ % email
+            phone_number, error = self.db_conn.execute(sql, None, True)
             return (phone_number, None) if not error else (False, error)
+
+    def get_professor_name_by_email(self, email):
+        if email is not None:
+            sql = """
+                    select
+                        first_name
+                        last_name
+                    from
+                        professor
+                    where
+                        email = '%s'
+                    """ % email
+            name, error = self.db_conn.execute(sql, None, True)
+            return (name, None) if not error else (False, error)
 
 
     #seraches professors who are in a certain department
     def get_professors_by_department(self,department): 
-        sql =   """
-                    select
-                        * 
-                    from
-                        professor
-                    where
-                        department = %(Department)s
-                """
-        params = {
-            "Department": department
-        }
-        department, error = self.db_conn.execute(sql, params, True)
+        sql = """
+                select
+                    *
+                from
+                    professor
+                where
+            department = '%s'
+        """ % department
+        department, error = self.db_conn.execute(sql, None, True)
         return (department, None) if not error else (False, error)
 
 if __name__ == "__main__":

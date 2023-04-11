@@ -1,25 +1,39 @@
 <template>
     <b-container class="mt-3">
       <section id="edits">
-        <h2>Professor Edits</h2>
-        <p>email: <input v-model="email"> </p>
-        <p>crn: <input v-model="rcs"> </p>
-        <p>department: <input v-model="department"> </p>
-        <p>addMsg: <input v-model="addMsg"> </p>
-        <p>
-          return value: {{this.result}}
-        </p>
-        <button @click="getProf()">getProf </button>
-        <button @click="getProfName()">getProfName</button>
-        <button @click="getProfDepartment()">getProfDepartment</button>
-        <button @click="getOfficeHours()">getProfOfficeHours</button>
-        <button @click="getProfNumberByEmail()">getProfNumberByEmail</button>
-        <button @click="getProfByRcs()">getProfByRcs</button>
-        <button @click="getProfByEmail()">getProfByEmail</button>
-        <button @click="removeProf()">removeProf</button>
-        <button @click="addProf()">addProf</button>
-        <button @click="addProfTest()">addProfTest</button>
-        <button @click="addBulkProf()">addBulkProf</button>
+          <h2>Professor Testing</h2>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input v-model="email" type="email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="rcs">RCS:</label>
+          <input v-model="rcs" type="text" class="form-control" id="rcs" placeholder="Enter RCS">
+        </div>
+        <div class="form-group">
+          <label for="department">Department:</label>
+          <input v-model="department" type="text" class="form-control" id="department" placeholder="Enter department">
+        </div>
+        <div class="form-group">
+          <label for="addMsg">Add message:</label>
+          <input v-model="addMsg" type="text" class="form-control" id="addMsg" placeholder="Enter message">
+        </div>
+        <div class="form-group">
+          <label for="result">Result:</label>
+          <p id="result">{{ this.result }}</p>
+        </div>
+        <button @click="getProf()" class="btn btn-primary">Get Prof</button>
+        <button @click="getProfName()" class="btn btn-primary">Get Prof Name</button>
+        <button @click="getProfDepartment()" class="btn btn-primary">Get Prof Department</button>
+        <button @click="getOfficeHours()" class="btn btn-primary">Get Prof Office Hours</button>
+        <button @click="getProfNumberByEmail()" class="btn btn-primary">Get Prof Number By Email</button>
+        <button @click="get_professor_info_by_rcs()" class="btn btn-primary">Get Prof By Rcs</button>
+        <button @click="getProfByEmail()" class="btn btn-primary">Get Prof By Email</button>
+        <button @click="addProf()" class="btn btn-success">Add Prof</button>
+        <button @click="addProfTest()" class="btn btn-success">Add Prof Test</button>
+        <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button>
+        <button @click="removeProf()" class="btn btn-danger">Remove Prof</button>
+        <button @click="BulkDelete()" class="btn btn-danger">Bulk Delete</button>
       </section>
     </b-container>
   </template>
@@ -73,7 +87,7 @@
         console.log(this.result)
       },
       //works
-      getProfByRcs(){
+      get_professor_info_by_rcs(){
         console.log("get_professor_info_by_rcs");
         this.result = get_professor_info_by_rcs(this.rcs);
         console.log(this.result)
@@ -84,6 +98,7 @@
         this.result = get_professor_info_by_email(this.email);
         console.log(this.result)
       },
+      //works
       removeProf(){ 
         console.log("remove_professor");
         this.result = remove_professor(this.email);
@@ -95,13 +110,17 @@
         this.result = addProfessors(this.addMsg);
         console.log(this.result)
       },
+      //works
       addProfTest(){
         console.log("addProfessorsTest");
         this.result = addProfessorsTest();
         console.log(this.result)
       },
-      addBulkProf(){
-        console.log("addBulkProf");
+      BulkAdd(){
+        console.log("BulkAdd");
+      },
+      BulkDelete(){
+        console.log("BulkDelete");
       }
     }
   };
@@ -111,7 +130,22 @@
   $danger: #dc3545;
   $success: #28a745;
   $primary: #007bff;
-  
+
+  .btn-primary {
+  border-radius: 0;
+  padding: 10px 20px;
+  }
+
+  .btn-danger {
+  border-radius: 0;
+  padding: 10px 20px;
+  }
+
+  .btn-success {
+  border-radius: 0;
+  padding: 10px 20px;
+  }
+
   .success {
     animation: success ease-in-out 2s;
   }
