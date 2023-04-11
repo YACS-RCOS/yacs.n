@@ -96,6 +96,7 @@ export default {
     }
   }
   .event-text::-webkit-scrollbar {
+    background: var(--sb-track-color);
     width: 8px;
   }
 
@@ -104,6 +105,7 @@ export default {
   }
 
   .event-text::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.7);
     background: var(--sb-thumb-color);
     border-radius: 10vw;
   }
