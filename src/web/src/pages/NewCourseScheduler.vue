@@ -539,16 +539,23 @@ export default {
         ];
       var popped = courses.pop();
       var x = popped.sections.filter((s) => s.selected);
-      console.log(courses)
+      //if this is the last course in list and diselect all sections
+      if(x.length === 0 & courses.length === 0)
+        return [
+            {
+              sections: [],
+              time: [0, 0, 0, 0, 0],
+            },
+          ];
+      //else if diselect all sections
       if(x.length === 0)
-        console.log("小夫我进来拉")
+        //console.log("小夫我进来拉")
         popped = courses.pop();
-        x = popped.sections.filter((s) => s.selected);
       let ret = this.generateSchedule(courses);
       if (ret.length === 0) throw new Error("conflict!111");
       return ret
-        .map((schedule) => {          
-          //if (!x.length) throw new Error("no selection!");
+        .map((schedule) => {  
+          x = popped.sections.filter((s) => s.selected);
           return x
             .map((section) => {
               if (noConflict(schedule, section)) {
