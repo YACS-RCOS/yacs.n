@@ -1,149 +1,94 @@
-<!--
-  look at newCourse Scheduler
--->
 
 <template>
-  <b-container class="py-3 h-100 main-body">
+  <div>
+    <header style = "color:deepskyblue;">
+      <h2>Enter Prerequisite Course Code</h2>
+    </header>
     
-    <b-row>
-      <p>Please enter your Course Code: {{ message }}</p>
-    </b-row>
+    <label for="department">Department code</label>
+    <input id = "department" v-model="department" type="text" maxlength="4">
+
+    <!-- bug with length of number -->
+    <input v-model="courseID" type="number" max="9999">
     
-    <b-row>
-	    <input v-model="message" placeholder="Enter the course code" hint = "ex. CSCI-1200" />
-      <b-col>
-        <button v-on:click="submit()">Submit Prerequisites</button>
-      </b-col>
-    </b-row>
+    <button @click = "addCourse">Submit</button>
+    <button @click = "removePrereq">Erase</button>
+    <h3>Click on any prerequisite to delete them</h3>
     
-    
-  </b-container>
-  
+    <ul>
+      <li v-for="(course, index) in Plist" :key="index" v-on:click = "deleteCourse(index)">{{ course }}</li>
+    </ul>
+  </div>
 </template>
 
-
-
 <script>
-  export default {
-    data() {
-      return {
-        message: ''
+
+
+export default {
+  data() {
+    const Plist = localStorage.getItem('Plist');
+    
+    if (Plist) {
+        this.Plist = Plist.split(",");
+      } else {
+        this.Plist = [];
+      }
+    return {
+      combination: '',
+      department: '',
+      courseID: '',
+      this:Plist,
+    };
+  },
+  methods: {
+    addCourse() {
+      if (this.courseID.trim() !== '' && this.department.trim() !== '') {
+        this.department = this.department.toUpperCase();
+        this.combination  = this.department + "-" + this.courseID;
+        this.Plist.push(this.combination);
+        this.courseID = '';
+        this.department = '';
       }
     },
-    methods: {
-      submit() {
-        this.$emit('', this.message)
-        this.message = ''
+    removePrereq(){
+      if (this.courseID.trim() !== '' && this.department.trim() !== '') {
+        this.department = this.department.toUpperCase();
+        this.combination  = this.department + '-' + this.courseID;
+        this.Plist.splice(this.combination);
+        this.courseID = '';
+        this.department = '';
       }
+    },
+    deleteCourse(index) {
+      if(this.courseID.trim() == '' || this.department.trim() == ''){
+        this.combination = this.Plist[index];
+        this.Plist.splice(index,1);
+        this.courseID = '';
+        this.department = 'x';
+        this.department = '';
+      }
+      
     }
-  }
-</script>
-
-
-
-
-
-<!-- <template>
-  <b-container fluid class="py-3 h-100 main-body">
-    <b-row class="h-100">
-      <b-col md="4" class="d-flex flex-column">
-        <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-          <b-tab
-            title = Prerequisites
-            active
-            class="flex-grow-1 w-100"
-            data-cy="course-search-tab"
-          >
-
-            <b-card-text class="d-flex flex-grow-1 w-100">
-              <CenterSpinner
-                v-if="loading"
-                class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                :height="60"
-                :fontSize="1"
-                loadingMessage="Prerequisites"
-                :topSpacing="0"
-              />
-
-              <CourseList
-                v-if="!loading"
-                @addCourse="addCourse"
-                @removeCourse="removeCourse"
-                @showCourseInfo="showCourseInfo"
-                class="w-100"
-              />
-
-              
-            </b-card-text>
-        </b-tab>
-        </b-tabs>
-      </b-col>
-      <div class = "col-md-10">
-        
-      </div>
-    </b-row>
-  </b-container>
-</template>
-
-
-<script>
-import CourseListComponent from "@/components/CourseList";
-import CenterSpinnerComponent from "../components/CenterSpinner";
-// import SelectedCoursesComponent from "@/components/SelectedCourses";
-export default{
-  name: "MainPage",
-  // mixins: [NotificationsMixin],
-  components: {
-    // Schedule: ScheduleComponent,
-    // SelectedCourses: SelectedCoursesComponent,
-    CourseList: CourseListComponent,
-    CenterSpinner: CenterSpinnerComponent,
+  },
+  watch: {
+    Plist: {
+      handler() {
+        localStorage.setItem('Plist', this.Plist.join(','));
+      },
+      deep: true,
+    },
   },
 };
 </script>
- -->
-
-
-
-
-
-<!-- 
-<template>
-  <p class = "Prerequisites"> Prerequisites {{ Prerequisites }}</p>
-  <b-tab
-    title = "Department"
-    active
-  >
-  <CourseList
-                  v-if="!loading"
-                  @addCourse="addCourse"
-                  @removeCourse="removeCourse"
-                  @showCourseInfo="showCourseInfo"
-                  class="w-100"
-                />
-</template>
-
-<script>
-import CourseListComponent from "@/components/CourseList";
-export default {
-    name:"Prerequisites",
-    components : {
-      CourseList: CourseListComponent,
-    },
-    data() {
-    return {
-      Prerequisites: 'Select your classes from the menu below'
-    }
-  }
-};
-</script>
-
 <style>
-.Prerequisites{
-    color: blue;
-  
+input {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+button {
+  margin-left: 30px;
+  margin-right: 10px;
 }
 
-</style> 
 
- -->
+</style>
