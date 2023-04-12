@@ -319,12 +319,19 @@ async def get_professor_info_by_email(email:str):
     professor_email, error = professor_info.get_professor_info_by_email(email)
     return professor_email if not error else Response(content=error, status_code=500)
 
+#@app.delete('/api/user/course')
+# async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+#     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+#     return Response(status_code=200) if not error else Response(error, status_code=500)
+
 @app.post('/api/professor/add/{msg}')
 async def add_professor(msg:str):
-    info = msg.split("!")
+    info = msg.split(",")
     #msg should be name, title , email ,phone number, dep, portfolio page, rcs
-    rcs = info[2].split("@")
-    id = rcs[0]
+    # rcs = info[2].split("@")
+    # id = rcs[0]
     # print("name", info[0])
     # print("title", info[1])
     # print("email", info[2])
@@ -333,7 +340,7 @@ async def add_professor(msg:str):
     # print("portfolio_page", info[5])
     # print("rcs", id)
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
-    info[5], id)
+    info[5], info[6], info[7], info[8])
     return professor if not error else Response(error, status_code=500)
 
 @app.post('/api/professor/add/test')
@@ -341,13 +348,6 @@ async def add_test_professor():
     professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI", 
         "lally 300", "52995")
     return professor if not error else Response(content = error, status_code = 500)
-
-# @app.delete('/api/user/course')
-# async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
-#     if 'user' not in request.session:
-#         return Response("Not authorized", status_code=403)
-#     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
-#     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.delete('/api/professor/remove/{email}')
 async def remove_professor(email:str):

@@ -13,25 +13,30 @@ class Professor:
         self.db_conn = db_conn
         self.cache = cache
 
-    def add_professor(self, name, title, email, phone, dep, portfolio_page, rcs):
+    def add_professor(self, first_name, last_name, email, phone, dep, office, 
+        classes, office_time, rcs):
             if email is not None:
                 return self.db_conn.execute("""
             INSERT INTO 
-                professor (name, title, email, phone, department, portfolio_page, rcs)
+                professor (first_name, last_name, phone_number, email, 
+                department, office_room, classes, office_hours_time, rcs)
             VALUES 
-                   (%(Name)s, %(Title)s, %(Email)s, %(Phone_number)s,
-                   %(Dep)s, %(Portfolio_page)s, %(Rcs)s)
+                   (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
+                   %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s)
             ON CONFLICT DO NOTHING
             ;
         """, {
-                "Name": name,
-                "Title": title, 
-                "Email": email,
+                "First_name": first_name,
+                "Last_name": last_name,
+                "Email": email, 
                 "Phone_number": phone,
-                "Dep": dep,
-                "Portfolio_page": portfolio_page,
-                "Rcs": rcs,
-        }, False)
+                "Dep": dep, 
+                "Office_room": office, 
+                "Classes": classes,
+                "Office_time": office_time,
+                "Rcs_id": rcs
+            }
+        , False)
             else:
                 return (False, "email cant be none")
 
@@ -198,7 +203,8 @@ class Professor:
         if email is not None:
             sql = """
                     select
-                        name
+                        first_name,
+                        last_name
                     from
                         professor
                     where
