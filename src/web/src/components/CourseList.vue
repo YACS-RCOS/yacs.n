@@ -130,26 +130,38 @@ export default {
     /* wrapper for querying with search */
     // todo: get courses should be changed
     //text parameter comes from watch
-    updateCourseList(text) {
-      getCourses(this.selectedSemester, text, false).then(
+    updateCourseList() {
+      getCourses(this.selectedSemester, this.textSearch, false).then(
         (course_list) => {
           this.courseList = course_list;
         }
       )},
-    checkFunction(title, textSearch){
-      const temp = title.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
-      if(textSearch === temp){
+    checkFunction(courseInput, textSearch){
+      const text = textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "").toUpperCase();
+      const input = courseInput.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
+      if(input.includes(text)){
         return true;
       }
       return false;
+    },
+    filterSection(courses){
+      return courses.filter(
+          (course) =>
+              (!this.selectedDepartment ||
+                  course.department === this.selectedDepartment) &&
+              (!this.selectedSubsemester ||
+                  (this.selectedSubsemester.date_start.getTime() ===
+                      course.date_start.getTime() &&
+                      this.selectedSubsemester.date_end.getTime() ===
+                      course.date_end.getTime()))
+      );
     },
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
       //store in temp to conserve textSearch in input box on screen but removes extra characters for comparing
-      const tempText = this.textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, " ");
-      this.updateCourseList(tempText);
+      this.updateCourseList();
     },
   },
   computed: {
@@ -184,46 +196,27 @@ export default {
               ? this.courseList
               : this.$store.getters.courses;
 
-      console.log(courses);
-
-      // const fullList = this.$store.getters.courses;
-      // console.log("full"+fullList);
-
-      const filtered = courses.filter(
-        (course) =>
-          (!this.selectedDepartment ||
-            course.department === this.selectedDepartment) &&
-          (!this.selectedSubsemester ||
-            (this.selectedSubsemester.date_start.getTime() ===
-              course.date_start.getTime() &&
-              this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime()))
-      );
+      const filtered = this.filterSection(courses);
 
       //returns exact match, if not found, then department filtered list
-      console.log("filtered size: "+filtered);
       const find = filtered.find(
         (course) =>
           (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
             (course.title.toUpperCase() === this.textSearch.toUpperCase())
       );
 
-      //const full = this.fullList;
-      const test = this.fullList.find(
+      const fullListFiltered = this.filterSection(this.fullList);
+      const containString = fullListFiltered.filter(
           (course) =>
-              (this.checkFunction(course.title.toUpperCase(), this.textSearch.trim().toUpperCase()))
+              (this.checkFunction(course.title, this.textSearch)) ||
+              (this.checkFunction(course.department+course.level, this.textSearch))
       );
-      console.log("test" + test);
 
-      if(test !== undefined) {
-        //console.log(" " + test[0].level);
-        return [test];
-      }
-      else if (find) {
+      if (find) {
         return [find];
       }
       else {
-        return filtered;
+          return containString
       }
     },
   },
