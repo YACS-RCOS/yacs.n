@@ -137,7 +137,7 @@ export default {
         }
       )},
     checkFunction(courseInput, textSearch){
-      const text = textSearch.trim().replace(/[!+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "").toUpperCase();
+      const text = textSearch.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "").toUpperCase();
       const input = courseInput.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
       if(input.includes(text)){
         return true;
