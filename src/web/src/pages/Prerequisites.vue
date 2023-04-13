@@ -6,14 +6,14 @@
     </header>
     
     <label for="department">Department code</label>
-    <input id = "department" v-model="department" type="text" maxlength="4">
+    <input id = "department" v-model="department" type="text" maxlength="4"/>
 
     <!-- bug with length of number -->
-    <input v-model="courseID" type="number" max="9999">
+    <input v-model="courseID" type="number" max="9999"/>
     
     <button @click = "addCourse">Submit</button>
-    <button @click = "removePrereq">Erase</button>
-    <h3>Click on any prerequisite to delete them</h3>
+    <button @click = "removePrereq">Undo</button>
+    <span class = "info">Click on any prerequisite to delete them</span>
     
     <ul>
       <li v-for="(course, index) in Plist" :key="index" v-on:click = "deleteCourse(index)">{{ course }}</li>
@@ -36,7 +36,7 @@ export default {
     return {
       combination: '',
       department: '',
-      courseID: '',
+      courseID: null,
       this:Plist,
     };
   },
@@ -44,6 +44,10 @@ export default {
     addCourse() {
       if (this.courseID.trim() !== '' && this.department.trim() !== '') {
         this.department = this.department.toUpperCase();
+        if(this.courseID > 9999) {
+          const temper = this.courseID.toString().splice(0,4);
+          this.courseID = parseInt(temper);
+        }
         this.combination  = this.department + "-" + this.courseID;
         this.Plist.push(this.combination);
         this.courseID = '';
@@ -51,13 +55,12 @@ export default {
       }
     },
     removePrereq(){
-      if (this.courseID.trim() !== '' && this.department.trim() !== '') {
-        this.department = this.department.toUpperCase();
-        this.combination  = this.department + '-' + this.courseID;
-        this.Plist.splice(this.combination);
-        this.courseID = '';
-        this.department = '';
-      }
+      
+      this.Plist.pop();
+      this.courseID = '';
+      this.department = 'x';
+      this.department = '';
+      
     },
     deleteCourse(index) {
       if(this.courseID.trim() == '' || this.department.trim() == ''){
@@ -89,6 +92,8 @@ button {
   margin-left: 30px;
   margin-right: 10px;
 }
-
+.info {
+  display: block;
+}
 
 </style>
