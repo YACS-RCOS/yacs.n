@@ -6,7 +6,7 @@
     :style="data.style"
     :id="props.crn + props.day + props.startTime"
   >
-    <a :href="$options.getExploreCourseLink(props.name)">
+    <a :href="$options.getExploreCourseLink(props.name)" class="course-link">
       <div class="event-text">
         <span data-cy="title">{{ props.title }}</span>
         <br />
@@ -86,6 +86,16 @@ export default {
     span[data-cy="title"] {
       color: #000;
       font-size: 105%;
+    }
+  }
+
+  .course-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
     }
   }
 }
