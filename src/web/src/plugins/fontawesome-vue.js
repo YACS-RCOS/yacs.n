@@ -11,8 +11,9 @@ import {
   faList,
   faBars,
   faSearch,
+  faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPaperPlane, faMoon, faCalendar, faList, faBars, faSearch);
+library.add(faPaperPlane, faMoon, faCalendar, faList, faBars, faSearch, faAddressBook);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

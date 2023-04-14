@@ -51,7 +51,7 @@
           Pathways
         </b-nav-item>
         <b-nav-item :to="{ name: 'Professors' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="address-book" />
           Professors
         </b-nav-item>
       </b-navbar-nav>
