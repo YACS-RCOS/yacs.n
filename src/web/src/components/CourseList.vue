@@ -35,20 +35,12 @@
         <!-- > time filter -->
         <!-- <div class="course-filter"
         :class="{ 'time-filter' : course.selected}"> -->
-<<<<<<< HEAD
         <div>
-          <button @click="showGrid = true">Time Filter</button>
-          <button @click="showGrid = false">Close Filter</button>
+          <button class="show-grid-button" @click="showGrid = true">Open Time Filter</button>
           <div v-if="showGrid">
-            <!-- <button @click="showGrid = false">Close Filter</button> -->
+            <button class="close-grid-button" @click="showGrid = false">Collapse</button>
+            <p></p>
             <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
-=======
-        <div class='badge-light'>
-          <button @click="showGrid = true" class='badge-light'>Show Grid</button>
-          <div v-if="showGrid">
-            <button @click="showGrid = false" class='badge-light'>Close Grid</button>
-            <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row badge-light">
->>>>>>> a3c4e1c84870d2f4e673b25f92b93caf7b158cf2
               <div v-for="(box, boxIndex) in row" :key="boxIndex"
                   class="grid-box badge-light"
                   :style="{ backgroundColor: box.color }"
@@ -143,182 +135,123 @@ export default {
       textSearch: "",
       selectedSubsemester: null,
       selectedDepartment: null,
-      // begintime: null,
-      // endtime: null,
-      // dayWeek: null,
       courseList: null,
       debounceTime: 300,
       showGrid: false,
       //grid is the time filter box check which box is clicked
       grid: [
-        // [
-        //   { label: '0:00-0:59', value: true, color: 'white'},
-        //   { label: '0:00-0:59', value: true, color: 'white'},
-        //   { label: '0:00-0:59', value: true, color: 'white'},
-        //   { label: '0:00-0:59', value: true, color: 'white'},
-        //   { label: '0:00-0:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '1:00-1:59', value: true, color: 'white'},
-        //   { label: '1:00-1:59', value: true, color: 'white'},
-        //   { label: '1:00-1:59', value: true, color: 'white'},
-        //   { label: '1:00-1:59', value: true, color: 'white'},
-        //   { label: '1:00-1:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '2:00-2:59', value: true, color: 'white'},
-        //   { label: '2:00-2:59', value: true, color: 'white'},
-        //   { label: '2:00-2:59', value: true, color: 'white'},
-        //   { label: '2:00-2:59', value: true, color: 'white'},
-        //   { label: '2:00-2:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '3:00-3:59', value: true, color: 'white'},
-        //   { label: '3:00-3:59', value: true, color: 'white'},
-        //   { label: '3:00-3:59', value: true, color: 'white'},
-        //   { label: '3:00-3:59', value: true, color: 'white'},
-        //   { label: '3:00-3:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '4:00-4:59', value: true, color: 'white'},
-        //   { label: '4:00-4:59', value: true, color: 'white'},
-        //   { label: '4:00-4:59', value: true, color: 'white'},
-        //   { label: '4:00-4:59', value: true, color: 'white'},
-        //   { label: '4:00-4:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '5:00-5:59', value: true, color: 'white'},
-        //   { label: '5:00-5:59', value: true, color: 'white'},
-        //   { label: '5:00-5:59', value: true, color: 'white'},
-        //   { label: '5:00-5:59', value: true, color: 'white'},
-        //   { label: '5:00-5:59', value: true, color: 'white'},
-        // ],
-        // [
-        //   { label: '6:00-6:59', value: true, color: 'white'},
-        //   { label: '6:00-6:59', value: true, color: 'white'},
-        //   { label: '6:00-6:59', value: true, color: 'white'},
-        //   { label: '6:00-6:59', value: true, color: 'white'},
-        //   { label: '6:00-6:59', value: true, color: 'white'},
-        // ],
-        [
-          { label: ' 7:00-7:59', value: true, color: 'white'},
-          { label: ' 7:00-7:59', value: true, color: 'white'},
-          { label: ' 7:00-7:59', value: true, color: 'white'},
-          { label: ' 7:00-7:59', value: true, color: 'white'},
-          { label: ' 7:00-7:59', value: true, color: 'white'},
-        ],
-        [
-          { label: ' 8:00-8:59', value: true, color: 'white'},
-          { label: ' 8:00-8:59', value: true, color: 'white'},
-          { label: ' 8:00-8:59', value: true, color: 'white'},
-          { label: ' 8:00-8:59', value: true, color: 'white'},
-          { label: ' 8:00-8:59', value: true, color: 'white'},
-        ],
-        [
-          { label: ' 9:00-9:59', value: true, color: 'white'},
-          { label: ' 9:00-9:59', value: true, color: 'white'},
-          { label: ' 9:00-9:59', value: true, color: 'white'},
-          { label: ' 9:00-9:59', value: true, color: 'white'},
-          { label: ' 9:00-9:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '10:00-10:59', value: true, color: 'white'},          
-          { label: '10:00-10:59', value: true, color: 'white'},
-          { label: '10:00-10:59', value: true, color: 'white'},
-          { label: '10:00-10:59', value: true, color: 'white'},
-          { label: '10:00-10:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '11:00-11:59', value: true, color: 'white'},
-          { label: '11:00-11:59', value: true, color: 'white'},
-          { label: '11:00-11:59', value: true, color: 'white'},
-          { label: '11:00-11:59', value: true, color: 'white'},
-          { label: '11:00-11:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '12:00-12:59', value: true, color: 'white'},
-          { label: '12:00-12:59', value: true, color: 'white'},
-          { label: '12:00-12:59', value: true, color: 'white'},
-          { label: '12:00-12:59', value: true, color: 'white'},
-          { label: '12:00-12:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '13:00-13:59', value: true, color: 'white'},
-          { label: '13:00-13:59', value: true, color: 'white'},
-          { label: '13:00-13:59', value: true, color: 'white'},
-          { label: '13:00-13:59', value: true, color: 'white'},
-          { label: '13:00-13:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '14:00-14:59', value: true, color: 'white'},
-          { label: '14:00-14:59', value: true, color: 'white'},
-          { label: '14:00-14:59', value: true, color: 'white'},
-          { label: '14:00-14:59', value: true, color: 'white'},
-          { label: '14:00-14:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '15:00-15:59', value: true, color: 'white'},
-          { label: '15:00-15:59', value: true, color: 'white'},
-          { label: '15:00-15:59', value: true, color: 'white'},
-          { label: '15:00-15:59', value: true, color: 'white'},
-          { label: '15:00-15:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '16:00-16:59', value: true, color: 'white'},
-          { label: '16:00-16:59', value: true, color: 'white'},
-          { label: '16:00-16:59', value: true, color: 'white'},
-          { label: '16:00-16:59', value: true, color: 'white'},
-          { label: '16:00-16:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '17:00-17:59', value: true, color: 'white'},
-          { label: '17:00-17:59', value: true, color: 'white'},
-          { label: '17:00-17:59', value: true, color: 'white'},
-          { label: '17:00-17:59', value: true, color: 'white'},
-          { label: '17:00-17:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '18:00-18:59', value: true, color: 'white'},
-          { label: '18:00-18:59', value: true, color: 'white'},
-          { label: '18:00-18:59', value: true, color: 'white'},
-          { label: '18:00-18:59', value: true, color: 'white'},
-          { label: '18:00-18:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '19:00-19:59', value: true, color: 'white'},
-          { label: '19:00-19:59', value: true, color: 'white'},
-          { label: '19:00-19:59', value: true, color: 'white'},
-          { label: '19:00-19:59', value: true, color: 'white'},
-          { label: '19:00-19:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '20:00-20:59', value: true, color: 'white'},
-          { label: '20:00-20:59', value: true, color: 'white'},
-          { label: '20:00-20:59', value: true, color: 'white'},
-          { label: '20:00-20:59', value: true, color: 'white'},
-          { label: '20:00-20:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '21:00-21:59', value: true, color: 'white'},
-          { label: '21:00-21:59', value: true, color: 'white'},
-          { label: '21:00-21:59', value: true, color: 'white'},
-          { label: '21:00-21:59', value: true, color: 'white'},
-          { label: '21:00-21:59', value: true, color: 'white'},
-        ],
-        [
-          { label: '22:00-22:59', value: true, color: 'white'},
-          { label: '22:00-22:59', value: true, color: 'white'},
-          { label: '22:00-22:59', value: true, color: 'white'},
-          { label: '22:00-22:59', value: true, color: 'white'},
-          { label: '22:00-22:59', value: true, color: 'white'},
-        ],
-        // [
-        //   { label: '23:00-23:59', value: true, color: 'white'},
-        //   { label: '23:00-23:59', value: true, color: 'white'},
-        //   { label: '23:00-23:59', value: true, color: 'white'},
-        //   { label: '23:00-23:59', value: true, color: 'white'},
-        //   { label: '23:00-23:59', value: true, color: 'white'},
-        // ]
+      [
+        { label: ' 7:00-7:59', value: true, color: 'white'},
+        { label: ' 7:00-7:59', value: true, color: 'white'},
+        { label: ' 7:00-7:59', value: true, color: 'white'},
+        { label: ' 7:00-7:59', value: true, color: 'white'},
+        { label: ' 7:00-7:59', value: true, color: 'white'},
+      ],
+      [
+        { label: ' 8:00-8:59', value: true, color: 'white'},
+        { label: ' 8:00-8:59', value: true, color: 'white'},
+        { label: ' 8:00-8:59', value: true, color: 'white'},
+        { label: ' 8:00-8:59', value: true, color: 'white'},
+        { label: ' 8:00-8:59', value: true, color: 'white'},
+      ],
+      [
+        { label: ' 9:00-9:59', value: true, color: 'white'},
+        { label: ' 9:00-9:59', value: true, color: 'white'},
+        { label: ' 9:00-9:59', value: true, color: 'white'},
+        { label: ' 9:00-9:59', value: true, color: 'white'},
+        { label: ' 9:00-9:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '10:00-10:59', value: true, color: 'white'},          
+        { label: '10:00-10:59', value: true, color: 'white'},
+        { label: '10:00-10:59', value: true, color: 'white'},
+        { label: '10:00-10:59', value: true, color: 'white'},
+        { label: '10:00-10:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '11:00-11:59', value: true, color: 'white'},
+        { label: '11:00-11:59', value: true, color: 'white'},
+        { label: '11:00-11:59', value: true, color: 'white'},
+        { label: '11:00-11:59', value: true, color: 'white'},
+        { label: '11:00-11:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '12:00-12:59', value: true, color: 'white'},
+        { label: '12:00-12:59', value: true, color: 'white'},
+        { label: '12:00-12:59', value: true, color: 'white'},
+        { label: '12:00-12:59', value: true, color: 'white'},
+        { label: '12:00-12:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '13:00-13:59', value: true, color: 'white'},
+        { label: '13:00-13:59', value: true, color: 'white'},
+        { label: '13:00-13:59', value: true, color: 'white'},
+        { label: '13:00-13:59', value: true, color: 'white'},
+        { label: '13:00-13:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '14:00-14:59', value: true, color: 'white'},
+        { label: '14:00-14:59', value: true, color: 'white'},
+        { label: '14:00-14:59', value: true, color: 'white'},
+        { label: '14:00-14:59', value: true, color: 'white'},
+        { label: '14:00-14:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '15:00-15:59', value: true, color: 'white'},
+        { label: '15:00-15:59', value: true, color: 'white'},
+        { label: '15:00-15:59', value: true, color: 'white'},
+        { label: '15:00-15:59', value: true, color: 'white'},
+        { label: '15:00-15:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '16:00-16:59', value: true, color: 'white'},
+        { label: '16:00-16:59', value: true, color: 'white'},
+        { label: '16:00-16:59', value: true, color: 'white'},
+        { label: '16:00-16:59', value: true, color: 'white'},
+        { label: '16:00-16:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '17:00-17:59', value: true, color: 'white'},
+        { label: '17:00-17:59', value: true, color: 'white'},
+        { label: '17:00-17:59', value: true, color: 'white'},
+        { label: '17:00-17:59', value: true, color: 'white'},
+        { label: '17:00-17:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '18:00-18:59', value: true, color: 'white'},
+        { label: '18:00-18:59', value: true, color: 'white'},
+        { label: '18:00-18:59', value: true, color: 'white'},
+        { label: '18:00-18:59', value: true, color: 'white'},
+        { label: '18:00-18:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '19:00-19:59', value: true, color: 'white'},
+        { label: '19:00-19:59', value: true, color: 'white'},
+        { label: '19:00-19:59', value: true, color: 'white'},
+        { label: '19:00-19:59', value: true, color: 'white'},
+        { label: '19:00-19:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '20:00-20:59', value: true, color: 'white'},
+        { label: '20:00-20:59', value: true, color: 'white'},
+        { label: '20:00-20:59', value: true, color: 'white'},
+        { label: '20:00-20:59', value: true, color: 'white'},
+        { label: '20:00-20:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '21:00-21:59', value: true, color: 'white'},
+        { label: '21:00-21:59', value: true, color: 'white'},
+        { label: '21:00-21:59', value: true, color: 'white'},
+        { label: '21:00-21:59', value: true, color: 'white'},
+        { label: '21:00-21:59', value: true, color: 'white'},
+      ],
+      [
+        { label: '22:00-22:59', value: true, color: 'white'},
+        { label: '22:00-22:59', value: true, color: 'white'},
+        { label: '22:00-22:59', value: true, color: 'white'},
+        { label: '22:00-22:59', value: true, color: 'white'},
+        { label: '22:00-22:59', value: true, color: 'white'},
+      ],
       ],
     };
   },
@@ -423,8 +356,6 @@ export default {
             let end = parseInt(en.substring(0, 2));
             start -= 7;
             end -=7;
-            console.log("start time:" + start);
-            console.log(end);
             for( let i=start; i<=end; i++){
               if(this.grid[i][day].value == false){
                 Avaliable = false;
@@ -484,18 +415,63 @@ export default {
 }
 
 .grid-box {
-  width: 90%;
-  height: 20px;
+  width: 6vw;//90
+  height: 4vh;
   margin-right: 0px;
   border: 1px solid black;
+  text-align: center;
   text-size-adjust: 8px;
-  font-size: inherit;
   margin: 0px;
-  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
+  display: block;
+  /*height: calc(1.5em + 0.75rem + 2px);*/
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
+.show-grid-button{
+  text-align: center;
+  display: block;
+  height: 4vh;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  width: 10vw;
+}
+
+.show-grid-button:active{
+  background-color: lightgreen;
+}
+
+.close-grid-button{
+  text-align: center;
+  display: block;
+  height: 4vh;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  width: 10vw;
+}
+
+.close-grid-button:active{
+  background-color: lightgreen;
+}
 </style>
