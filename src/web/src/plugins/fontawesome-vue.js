@@ -10,9 +10,8 @@ import {
   faCalendar,
   faList,
   faBars,
-  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPaperPlane, faMoon, faCalendar, faList, faBars, faSearch);
+library.add(faPaperPlane, faMoon, faCalendar, faList, faBars);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

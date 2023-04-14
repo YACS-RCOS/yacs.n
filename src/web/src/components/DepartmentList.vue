@@ -15,7 +15,7 @@
               params: { subject: major },
             }"
           >
-            <b class="majorShort">{{ major }}</b>
+            <b>{{ major }}</b>
             - {{ getLongName(major) }}
           </b-button>
         </div>
@@ -68,9 +68,5 @@ export default {
 .major-button:hover {
   //important because when you click the color changes and thats annoying
   background: rgba(108, 90, 90, 0.15) !important;
-}
-
-.majorShort {
-  color: #3395ff;
 }
 </style>
