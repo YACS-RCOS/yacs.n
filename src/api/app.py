@@ -339,6 +339,7 @@ async def add_professor(msg:str):
     # print("dep", info[4])
     # print("portfolio_page", info[5])
     # print("rcs", id)
+    
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
     info[5], info[6], info[7], info[8])
     return professor if not error else Response(error, status_code=500)
