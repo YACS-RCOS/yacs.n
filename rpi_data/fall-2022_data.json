@@ -72,6 +72,11 @@
         ],
         "corequisites": null
     },
+    "ARCH2850": {
+        "description": "This studio considers the design of architectural form and space from the perspective of how the many factors of environmental and ecological forces give shape to them. The studio will employ architectural design projects as a means to explore these issues qualitatively and quantitatively. This course is required of all architecture undergraduates in the B.S. in Building Sciences program.",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "ARCH2860": {
         "description": "This studio continues the work of the Building Performance Studio 2 to consider in greater depth and detail the design of architectural form and space from the perspective of how the many factors of environmental and ecological forces give shape to them. The studio will employ architectural design projects as a means to explore these issues qualitatively and quantitatively. This course is required of all architecture undergraduates in the B.S. in Building Sciences program.",
         "prerequisites": null,
@@ -97,7 +102,7 @@
         "corequisites": null
     },
     "ARCH4200": {
-        "description": "A graphic portfolio of architectural design work is a living document representing the diversity, competence, and growth of abilities throughout an architect\u2019s career. It is an essential and required document for securing employment and advancement in any architectural field from professional practice to academics. This course introduces students into the design and development of their portfolios that include work from every level of their education and professional experience. The immediate concern of this course is for students who are preparing for their ARCH AWAY experience to be able to demonstrate to potential employers the full spectrum of their architectural design capabilities with graphic clarity and compositional proficiency.*",
+        "description": "",
         "prerequisites": [
             "ARCH-2830"
         ],
@@ -242,17 +247,22 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ARCH4964": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ARCH4965": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
     },
+    "ARCH4966": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "ARCH4967": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARCH4968": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -263,46 +273,6 @@
         "corequisites": null
     },
     "ARCH4970": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4971": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4972": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4973": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4974": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4975": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4977": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4978": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARCH4979": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -326,6 +296,11 @@
     },
     "ARCH5160": {
         "description": "This course focuses upon contemporary means of producing and communicating architectural ideas. Students will use digital methodologies through all phases of a project as well as advanced representation and digital fabrication techniques. The use of digital modeling as a sketch and iterative tool will be emphasized. Tools taught in Digital Constructs 1 will support softwares taught in Digital Constructs 2. This course is required of all first-year architecture graduate students in the M.Arch. program. Coordination of the relationship of course content to Graduate Architecture Design 1 will be between the Digital Constructs 1 faculty instructor and the architectural design studio coordinator and faculty.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARCH5200": {
+        "description": "This studio focuses on the relationship between building and landscape in terms of conceptual, pragmatic, ideological, aesthetic, and functional issues. As such, it endeavors to examine critically the disciplinary boundary between building and landscape. It also critically assesses the connections and inherent complexities between an institutional situation, workplace activity, and residential inhabitation in order to explore questions of publicness and privacy. This studio also addresses the tectonic dimensions of construction and structure in architectural design.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -364,6 +339,13 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "ARCH6610": {
+        "description": "This is a design-based studio that focuses on the integration of structural, technical, detail, zoning, and code-related issues with respect to the design of a moderate to large-scale building of civic importance. Such building types are (but not limited to) libraries, theaters, city halls, judicial buildings, educational buildings, etc. An important focus of the design project will be the relationship of the building to its urban context. An essential part of the design will involve programming of the building as well as responding to numerous learning outcomes defined by the NAAB (the accrediting agency for professional architecture programs) for a comprehensive design project. This course is required of all architecture students in the M.Arch. program.",
+        "prerequisites": [
+            "ARCH-5210"
+        ],
+        "corequisites": null
+    },
     "ARCH6630": {
         "description": "This design studio will explore various concerns that relate architecture to environmental and ecological concerns. It will address human intervention at multiple and diverse scales within the natural world in order to understand their social, technical, aesthetic, conceptual, and philosophical implications for architectural design. Throughout the semester, the evolution of student design proposals will coordinate with the environmental and ecological issues that are presented in the supporting courses at CASE that are taken simultaneously with this studio. B.Arch. students can only register for the 4000 level of this course and M.Arch. students must register only for the 6000 level of this course.",
         "prerequisites": null,
@@ -399,6 +381,13 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "ARCH6920": {
+        "description": "This seminar builds upon Doctoral Seminar 1 by cultivating a disciplinary-specific approach to the development of research problem definition and research methods. The topics considered will be drawn from and situated within the various fields of study that support doctoral study in architectural sciences, as well as from research activities in related fields in engineering, science, and the humanities. Case studies of prototypical architectural science research will evaluate current practice, identifying state of knowledge with the field and the resources and settings necessary to support the research activity.",
+        "prerequisites": [
+            "ARCH-6910"
+        ],
+        "corequisites": null
+    },
     "ARCH6960": {
         "description": "Experimental courses tried out in one or two terms as the general program requires.",
         "prerequisites": null,
@@ -419,7 +408,17 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "ARCH6966": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "ARCH6967": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARCH6968": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -446,11 +445,6 @@
     },
     "ARTS1030": {
         "description": "This is a hands-on introduction to film making. Students study a selection of great films; and learn how to make movies using lightweight field production equipment. Throughout the course students produce a variety of short videos in different genres, and develop their critical capacity for analyzing cinema and other forms of motion picture storytelling. The class ends with a mini film festival where everyone presents their work.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS1040": {
-        "description": "This course combines an introduction to traditional visual arts and digital media and serves as a foundation for work in game design and interactive art. Using studio projects that incorporate physical media, digital imaging and computer code, students develop their formal vocabulary, observational skills, and their understanding of issues in visual and interactive arts.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -498,11 +492,6 @@
         ],
         "corequisites": null
     },
-    "ARTS2080": {
-        "description": "This ensemble explores a variety of contemporary non-idiomatic group improvisational practices. Non-idiomatic improvisation is spontaneous music that does not attempt to replicate or realize a particular historical style (such as swing or bebop jazz), but rather emphasizes the unique creative input of the performers to create original music. Among the techniques explored will be conduction, musical games, graphic and text scores, and cell-structure improvisation. Students will also be coached in techniques to expand and develop musical ideas individually and as a framework for group improvisation. No prior experience with improvisation is required, and participants from any musical background, including electronic and computer music, are encouraged to join. Repertoire and practices will be tailored to the make-up of the group.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ARTS2200": {
         "description": "Intermediate Drawing focuses on the exploration of the possibilities of visual translation using a variety of media and techniques.",
         "prerequisites": [
@@ -542,18 +531,8 @@
         ],
         "corequisites": null
     },
-    "ARTS2510": {
-        "description": "Since its emergence over a century ago, the energy, vitality, and challenging nature of jazz have had a significant impact on music throughout the world. The question of \u201cwhat is jazz\u201d remains a lively and contentious discussion to this day. This course charts the emergence, evolution, and expanded influence of jazz and jazz-inspired music, as well as the many controversial musical, social, and philosophical questions it continues to provoke. Through listening, analysis, discussion, writing, and creative projects, students will develop a greater appreciation and understanding of improvised music in a great variety of contexts, and the crucial role American jazz played in revitalizing improvisational practice throughout the 20th and 21st Centuries. No musical background is required.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS2540": {
-        "description": "This course will survey the history and theory of the diverse artistic practices of the twentieth century in relation to the development of the mass media and new technologies. Topics will include the Bauhaus, Surrealism, Pop Art, and Postmodernism and will span a spectrum of media from the more traditional, such as painting and photography, to electronic and new media, such as video and digital arts.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS2610": {
-        "description": "Students will explore the artistic role of music and sound in gaming by building their own interactive sound and music-rich games and 2D/3D rendered environments. Within the context of their own creative game projects, students will learn the basics of designing sound and composing music for interactive game spaces. Using workflow programming languages and software tools, students will program basic gaming interactions, link them to interactive audio software, and create musical gaming experiences.",
+    "ARTS2520": {
+        "description": "From \u201craves\u201d to symphony hall, Indian film music to Tibetan chant, monster truck rallies to a mother\u2019s lullaby, musical soundscapes surround us through all aspects of our daily lives. This course focuses on the study of music in or as culture. The exploration of music in human life will be comparative, using case studies from diverse world traditions and examining topics such as: ritual, media and technology, ethnicity/identity, music and dance, and musical transmission.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -572,22 +551,17 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ARTS2962": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS2963": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ARTS4070": {
         "description": "An intermediate hands-on studio course in 3D computer animation, acting, dialog, cinematography, and story building.",
         "prerequisites": [
             "ARTS-2230",
             "ARTS-2230"
         ],
+        "corequisites": null
+    },
+    "ARTS4120": {
+        "description": "Biopunk: Arts Lab Practice is a studio, lab and lecture class introducing students to bioart, and microbial life and resilient ecological practices. We use punk, queer and biological laboratory techniques to creatively produce science, design and art works. Students will be required to complete readings, experiment, and create their own visions of a speculative biofuture. Emphasis will be on the history and contemporary investigations of the microbiome and how to culturally explore these scenarios of how we live amongst multiple diverse communities and species.",
+        "prerequisites": null,
         "corequisites": null
     },
     "ARTS4210": {
@@ -604,17 +578,17 @@
         ],
         "corequisites": null
     },
-    "ARTS4260": {
-        "description": "Life Drawing and Anatomy for Artists is an advanced drawing class that will focus on drawing the human figure. Students will work from live models to refine their drawing skills; clay models from anatomical texts will be made to develop a working knowledge of anatomy for artists. Gesture, proportion, and expression of the human figure will be emphasized; general concepts of design and composition will also be presented.",
-        "prerequisites": [
-            "ARTS-1200"
-        ],
-        "corequisites": null
-    },
     "ARTS4280": {
         "description": "In 3D Animation, the technical director (or \u201cTD\u201d) covers roles including character rigging, lighting setup, custom tools, and other parts of the pipeline that involve the technical work needed to support artistic creativity.  In this course we will focus on rigging, covering basic and intermediate rigging techniques for characters in Maya including bipeds, facial rigs, motion capture and game engine pipelines and basic scripting in MEL and Python.  We will emphasize an animator-friendly approach to rig design, utilizing both the technical capabilities of Maya and good UI and UX principles to produce rigs that are both powerful and easy to use.",
         "prerequisites": [
             "ARTS-2230"
+        ],
+        "corequisites": null
+    },
+    "ARTS4380": {
+        "description": "The second in a two-course sequence combining music theory, aural skills, and engaged listening practices applicable to a broad range of musical styles, with an emphasis on creative practice. This course covers chromatic, extended, and contemporary tonal harmony and its interrelationship with form. Musicianship exercises include advanced chord identification, rhythm exercises, dictation, and improvisation. Engaged listening practices include responsive listening, reading, and written exercises as well as in-class discussion. Weekly assignments include composition, analysis, and performance.",
+        "prerequisites": [
+            "ARTS-2380"
         ],
         "corequisites": null
     },
@@ -623,6 +597,11 @@
         "prerequisites": [
             "ARTS-4380"
         ],
+        "corequisites": null
+    },
+    "ARTS4500": {
+        "description": "This course illuminates specific musical works and performances in depth, drawn from a range of periods, cultures, and genres by analyzing them in their historical, cultural, technological, and critical context. The emphasis is on music since 1900 and sample topics might include Remix in Digital Culture, Music in Protest and Social Justice, Gender and Sexuality in Music, Music and the Moving Image, and Sounding Identity, among others",
+        "prerequisites": null,
         "corequisites": null
     },
     "ARTS4560": {
@@ -635,8 +614,13 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ARTS4960": {
-        "description": "Experimental courses offered for one or two semesters.",
+    "ARTS6050": {
+        "description": "The course is designed to help students continue to develop as media-makers/filmmakers. Students will work on short video projects that are shot in the studio and in the field. Studio experimentations, including projection work, multi-camera production, generating ideas, and realizing a well-developed final project. Students write their own scripts, learn new technical skills and direct videos.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS6120": {
+        "description": "Biopunk: Arts Lab Practice is a studio, lab and lecture class introducing students to bioart, and microbial life and resilient ecological practices. We use punk, queer and biological laboratory techniques to creatively produce science, design and art works. Students will be required to complete readings, experiment, and create their own visions of a speculative biofuture. Emphasis will be on the history and contemporary investigations of the microbiome and how to culturally explore these scenarios of how we live amongst multiple diverse communities and species.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -664,6 +648,11 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "ARTS6962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "ARTS9990": {
         "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester, until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library.",
         "prerequisites": null,
@@ -672,8 +661,7 @@
     "ASTR2050": {
         "description": "Astronomy for students with a background of college mathematics and physics. Topics include: astrophysical concepts, solar system basics, stellar astronomy and the interstellar medium, the Milky Way system, galaxies, quasars, and cosmology.",
         "prerequisites": [
-            "PHYS-1200",
-            "PHYS-1250"
+            "PHYS-1200"
         ],
         "corequisites": null
     },
@@ -694,11 +682,6 @@
     },
     "ASTR6970": {
         "description": "Active participation in a semester-long project, under the supervision of a faculty adviser. A Professional Project often serves as a culminating experience for a Professional Master\u2019s program but, with departmental or school approval, can be used to fulfill other program requirements. With approval, students may register for more than one Professional Project. Professional Projects must result in documentation established by each department or school, but are not submitted to the Office of Graduate Education and are not archived in the library. Grades of A, B, C, or F are assigned by the faculty adviser at the end of the semester. If not completed on time, a formal Incomplete grade may be assigned by the faculty adviser, listing the work remaining to be completed and the time limit for completing this work.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "BCBP4240": {
-        "description": "This is an in-depth study of current papers within the broad field of Circadian Biology. Students will read and critique recent primary literature, present current research articles, and lead discussions on new findings in the field.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -741,6 +724,11 @@
         ],
         "corequisites": null
     },
+    "BCBP4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "BCBP4969": {
         "description": "",
         "prerequisites": null,
@@ -748,11 +736,6 @@
     },
     "BCBP4990": {
         "description": "Independent laboratory research, on or off campus, supervised by a faculty member, culminating in a written thesis; or literature research culminating in the writing of a review article. The thesis research must also be presented in the form of a poster presentation or a talk. This is a communication-intensive course.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "BCBP6240": {
-        "description": "This is an in-depth study of current papers within the broad field of Circadian Biology. Students will read and critique recent primary literature, present current research articles, and lead discussions on new findings in the field.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -778,6 +761,11 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "BCBP6961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "BCBP6962": {
         "description": "",
         "prerequisites": null,
@@ -795,11 +783,10 @@
     },
     "BIOL1010": {
         "description": "Introduction to biological systems. Discussion of problems associated with biological organization, scaling, and hierarchy. Major topics covered include evolution, genetics and medicine, and ecology. The course considers the biological components of various environmental, social, and individual problems. Course is taught using both traditional and research-based pedagogical methods.",
-        "prerequisites": [
-            "BIOL-1015",
-            "BIOL-1016"
-        ],
-        "corequisites": null
+        "prerequisites": null,
+        "corequisites": [
+            "BIOL-1015"
+        ]
     },
     "BIOL1015": {
         "description": "The goal of this laboratory course is to learn about biology through hands-on, project-based lab activities that engage students in actual biology experiments and procedures - learning biology by actually doing biology.",
@@ -808,17 +795,11 @@
             "BIOL-1010"
         ]
     },
-    "BIOL1016": {
-        "description": "The goal of this laboratory course is to learn about biology through computational data analysis. Students will be introduced to a wide variety of real-world biological data sets. Students will learn how to manage, visualize, analyze, and interpret biological data. This class culminates in a collaborative research project. Students enrolled in a major other than biology and students with an interest in computational biology are particularly encouraged to register for this course.",
-        "prerequisites": null,
-        "corequisites": [
-            "BIOL-1010"
-        ]
-    },
     "BIOL2120": {
         "description": "Structural and functional relationships of cells are discussed with regard to similarities among all living organisms. Introduction to cellular biochemistry, metabolism and energy flow, cellular and Mendelian genetics, and the chemical basis of heredity.",
         "prerequisites": [
-            "BIOL-1010"
+            "BIOL-1010",
+            "BIOL-1015"
         ],
         "corequisites": [
             "BIOL-2125"
@@ -827,7 +808,8 @@
     "BIOL2125": {
         "description": "The goal of this course is to gain practical experience with cellular and molecular biology through hands-on experimental techniques. The laboratory exercises are designed to illustrate current concepts in cellular and molecular biology.",
         "prerequisites": [
-            "BIOL-1010"
+            "BIOL-1010",
+            "BIOL-1015"
         ],
         "corequisites": [
             "BIOL-2120"
@@ -857,13 +839,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "BIOL4140": {
-        "description": "This course is an in-depth study of current research within the broad field of cytoskeletal biology. Students will read, interpret, and critique recent primary literature, present new findings, lead discussions, and identify rising questions in the field.",
-        "prerequisites": [
-            "BIOL-4260"
-        ],
-        "corequisites": null
-    },
     "BIOL4200": {
         "description": "An introduction to the concepts and techniques of modern statistics. Computer-based, in-class sessions will emphasize hands-on application of statistical techniques using data and examples drawn from the biological and medical sciences. Pre-class, online exercises will prepare students for in-depth classroom explorations. Topics covered will include sampling, regression, analysis of variance, and factor analysis, MANOVA, maximum likelihood methods, discriminant analysis, time series analysis, and forecasting. The final project requires analysis of a major research-related data set and write-up of results in the format of a scientific paper.",
         "prerequisites": [
@@ -877,11 +852,6 @@
         "prerequisites": [
             "BIOL-4200"
         ],
-        "corequisites": null
-    },
-    "BIOL4240": {
-        "description": "This is an in-depth study of current papers within the broad field of Circadian Biology. Students will read and critique recent primary literature, present current research articles, and lead discussions on new findings in the field.",
-        "prerequisites": null,
         "corequisites": null
     },
     "BIOL4260": {
@@ -968,14 +938,9 @@
         ],
         "corequisites": null
     },
-    "BIOL4880": {
-        "description": "This 4-credit course will explore global environmental cycles, patterns, and changes. It will discuss elemental cycles of phosphorus, nitrogen, and carbon, and pollutants such as mercury, lead, and CFCs, and how changes in these cycles influence organisms and ecosystems. Also discussed will be large-scale biotic processes and theory about ecosystem dynamics. Major environmental issues such as acid rain, eutrophication, climate change, and land use conversation will also be discussed.",
-        "prerequisites": [
-            "BIOL-1010",
-            "BIOL-1015",
-            "BIOL-2120",
-            "BIOL-2125"
-        ],
+    "BIOL4961": {
+        "description": "This interdisciplinary course examines the human ecology of the global human overpopulation problem. Pollution, resource depletion, extinctions and carrying capacity are explored, as well as political, psychological, cultural, and technological adaptations. Feedback mechanisms will be proposed and discussed. Students will engage in structured debate and group discussion.",
+        "prerequisites": null,
         "corequisites": null
     },
     "BIOL4969": {
@@ -1000,20 +965,8 @@
         ],
         "corequisites": null
     },
-    "BIOL6140": {
-        "description": "This course is an in-depth study of current research within the broad field of cytoskeletal biology. Students will read, interpret, and critique recent primary literature, present new findings, lead discussions, and identify rising questions in the field.",
-        "prerequisites": [
-            "BIOL-4260"
-        ],
-        "corequisites": null
-    },
     "BIOL6220": {
         "description": "This course is designed to create an applied learning environment to introduce students to large scale datasets in the environmental field and learn advanced techniques for analyzing them. Students will learn multivariate data exploration techniques, evaluate the quality of large datasets, and analyze the data using machine learning techniques. Specifically students will propose, develop, and finalize projects where they will apply machine learning approaches to datasets to understand complex environmental biology processes. Along with these topics, students will learn to critically read current scientific literature relevant to their projects.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "BIOL6240": {
-        "description": "This is an in-depth study of current papers within the broad field of Circadian Biology. Students will read and critique recent primary literature, present current research articles, and lead discussions on new findings in the field.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1049,13 +1002,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "BIOL6880": {
-        "description": "This 4-credit course will explore global environmental cycles, patterns, and changes. It will cover elemental cycles of phosphorus, nitrogen, and carbon, and pollutants such as mercury, lead, and CFCs, and how changes in these cycles influence organisms and ecosystems. Also discussed will be large-scale biotic processes and theory about ecosystem dynamics. Major environmental issues such as acid rain, eutrophication, climate change, and land use conversation will also be discussed.",
-        "prerequisites": [
-            "BIOL-4850"
-        ],
-        "corequisites": null
-    },
     "BIOL6900": {
         "description": "Weekly discussion of selected topics in biology by graduate students and staff.",
         "prerequisites": null,
@@ -1066,12 +1012,27 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "BIOL6960": {
+        "description": "This is an in-depth study of current papers within the broad field of cytoskeletal research. Students will read and critique primary papers, present current research articles, and lead critical discussions.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL6961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "BIOL6962": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL6965": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL6966": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -1288,7 +1249,7 @@
         "corequisites": null
     },
     "CHEM1100": {
-        "description": "Principles of chemistry, with particular focus on atomic and molecular structure and bonding, periodicity, basic thermodynamic principles, introduction to acid-base chemistry and elementary chemical equilibrium, and introduction to organic chemistry. The course includes a laboratory component which compliments the lecture by offering students experimental experience and hands on applications to theory. Students cannot get credit for both this course and CHEM 1110.",
+        "description": "Principles of chemistry, with particular focus on atomic and molecular structure and bonding, periodicity, basic thermodynamic principles, introduction to acid-base chemistry and elementary chemical equilibrium, and introduction to organic chemistry. Students cannot get credit for both this course and CHEM 1110.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1445,13 +1406,18 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CHEM4965": {
-        "description": "",
+    "CHEM4990": {
+        "description": "A two-semester spring-fall or fall-spring course dealing with an advanced level independent research project supervised by a faculty member and requiring the presentation of a thesis. First term registration is limited to second semester juniors and first semester seniors. The grade for the first semester will be listed as \u201cin progress.\u201d",
         "prerequisites": null,
         "corequisites": null
     },
-    "CHEM6020": {
-        "description": "This advanced graduate level course will focus on the structure, bonding, and reactivity of transition metal coordination compounds. The course will cover group theory, ligand field theory, substitution reactions, photochemistry, catalysis, and redox reactions. Examples from the literature will be included to highlight the current research trends and applications of coordination compounds.",
+    "CHEM6210": {
+        "description": "An introduction to the organic chemical literature. A consideration of reactions of synthetic importance to the organic chemist with emphasis on the influence of structure on the behavior of organic molecules.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM6540": {
+        "description": "The chief objectives of this course are to build knowledge and practical understanding of electrochemistry. The course will cover the basics of electrode processes and how thermodynamics, electron-transfer kinetics and mass transport control electrochemical reactions. It will also cover how to design electrochemical experiments to solve problems in chemical analysis. Students will learn about ways in which electrochemical methods are used to solve problems in energy and the environment, and how to evaluate the resulting data.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1461,7 +1427,7 @@
         "corequisites": null
     },
     "CHEM6750": {
-        "description": "This course describes how enzymes in cells and immobilized within matrices are valuable tools to prepare natural and non-natural molecules used in a wide range of applications such as commodity chemicals, sweeteners, polymers, nutraceuticals, drugs, tissue engineering matrices, surfactants, antimicrobials, coatings, and advanced materials. Furthermore, biocatalysis has become a primary tool to develop sustainable pathways for chemical manufacturing. Students are introduced to basic biochemical principles of enzymes and whole cell systems. Lectures on free enzymes discuss their catalytic mechanism(s), approaches to enable their practical use under non-aqueous conditions (e.g., immobilization on solid supports), effects of reaction media polarity and water content.  The importance of protein and metabolic engineering to developing practical biocatalysts is discussed. Integrated within the course are discussions of green chemistry and sustainability.",
+        "description": "This course provides an introduction to the field of biocatalysis that includes both free enzyme and whole cell processes. Lectures on free enzymes will discuss their catalytic mechanism(s), immobilization and use in aqueous and organic media. Lectures on biocatalytic transformations by whole cells will discuss metabolic pathways to products, fermentation processes, and whole cell immobilization. Integrated within the course will be discussions of the relative merits of biocatalysis vs. chemical catalysis for chemical conversions as well as examples of current uses of biocatalytic processes by industry. ",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1480,7 +1446,7 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CHEM6965": {
+    "CHEM6966": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -1510,20 +1476,6 @@
         "prerequisites": [
             "CHME-1100",
             "ENGR-1100"
-        ],
-        "corequisites": null
-    },
-    "CHME2050": {
-        "description": "This course introduces common computational techniques that are used in Chemical Engineering. Topics include solving algebraic equations, data analysis, numerical differentiation and integration, and numerical solutions of differential equations applied to chemical engineering problems. Multiple numerical approaches will be used, including an introduction to computer programming.",
-        "prerequisites": [
-            "MATH-2400"
-        ],
-        "corequisites": null
-    },
-    "CHME2100": {
-        "description": "This is a course designed to supplement RPI\u2019s personal lab safety courses and covers the safety protocols and practices associated with chemical process plants.  It is designed to provide information necessary for an ABET accredited degree and to assist students in finding an internship and a job. The course uses material offered on-line by the American Institute of Chemical Engineers.  It is part of the Safety and Chemical Engineering (SAChE) Certificate program offered by the society and provides continuing education credits for working engineers.",
-        "prerequisites": [
-            "CHME-2020"
         ],
         "corequisites": null
     },
@@ -1597,12 +1549,17 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CHME4965": {
+    "CHME4966": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHME4967": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME4968": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -1642,7 +1599,12 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CHME6965": {
+    "CHME6966": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME6968": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -1664,11 +1626,6 @@
     },
     "CIVL1200": {
         "description": "An introduction to the elements of computer aided design for civil and environmental engineers using AutoCAD Civil 3D. Students will be introduced to basic AutoCAD drafting techniques as well as learn the key features of Civil 3D that aid site development design and analysis. Topics covered will include general AutoCAD techniques, existing conditions development and analysis using field collected survey data and GIS information, pipe network design, grading design, and roadway corridor layout.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CIVL2040": {
-        "description": "Contract essentials; types of contracts for construction and for engineering services. Bidding procedure, surety bonds, insurance, litigation. Standard contract documents, the compilation of specifications. Engineering ethical principles and codes.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1732,24 +1689,26 @@
             "CIVL-6340"
         ]
     },
+    "CIVL4963": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "CIVL6170": {
         "description": "This course provides an introduction to the mechanics of solids from a continuum perspective. Topics covered in this course include: vector and tensor analysis, coordinate systems and calculus in curvilinear coordinate systems, kinematics (motion, deformation and strain), stress and momentum balance, energy principles and balance laws, linear isotropic and anisotropic elasticity, thermoelasticity, method of solutions for 2-D and 3-D linear elastic boundary value problems, applications to simple structures.",
         "prerequisites": null,
         "corequisites": null
     },
-    "CIVL6220": {
-        "description": "To provide the students with a broad understanding of cutting edge methodologies in transportation modeling and economics not thoroughly covered in other courses and emerging issues pertaining to transportation research and practice.",
+    "CIVL6240": {
+        "description": "The course discusses Intelligent Transportation Systems (ITS) technologies and their application areas. ITS technologies. ITS Architecture. ITS applications. A number of outside speakers will complement the lectures. The students are expected to give at least two technical presentations and write a final paper on an ITS topic of their choosing.",
         "prerequisites": null,
         "corequisites": null
     },
-    "CIVL6230": {
-        "description": "Review of economic concepts and their application to transportation. Economic basis of transportation demand. Estimation of aggregate and disaggregate demand functions. Value of time. Supply functions. Cost functions, production functions. Transportation externalities. Valuation techniques. Cost/benefit analysis and multi-criteria approaches.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CIVL6300": {
-        "description": "This graduate level course will introduce a number of econometric models to analyze transportation data, ranging from count of crash occurrence to household trip frequency. Students will learn to specify, estimate, and interpret models to study various transportation issues.",
-        "prerequisites": null,
+    "CIVL6290": {
+        "description": "Background and socio-economic aspects of freight transportation. Freight policy and planning objectives. Distribution system and participating agents. Behavior of freight agents. Short-medium term operational improvements: Land use and traffic related. Short-medium term operational improvements: System level strategies. System perspective of freight activity. Strategic freight transportation planning and freight demand modeling.",
+        "prerequisites": [
+            "CIVL-6250"
+        ],
         "corequisites": null
     },
     "CIVL6310": {
@@ -1766,10 +1725,18 @@
         ],
         "corequisites": null
     },
-    "CIVL6350": {
-        "description": "The goal of this course is to develop a general familiarity with the structural design of masonry elements and structures. This includes exposure to the historical development of design specifications as well as specific design procedures unique to this material.",
+    "CIVL6360": {
+        "description": "The goal of this course is to develop a general familiarity with the structural design of wood elements and structures. This includes exposure to the historical development of design specifications as well as specific design procedures unique to this material.",
         "prerequisites": [
+            "CIVL-4070",
             "CIVL-4080"
+        ],
+        "corequisites": null
+    },
+    "CIVL6390": {
+        "description": "This course will develop understanding and integrate skills across the fields of fluid mechanics, meteorology, climatology, bluff-body aerodynamics, structural dynamics, code provisions for design, wind tunnel testing, and damage documentation.",
+        "prerequisites": [
+            "ENVE-4310"
         ],
         "corequisites": null
     },
@@ -1800,8 +1767,8 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CIVL6960": {
-        "description": "Credit Hours: 3",
+    "CIVL6961": {
+        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1838,24 +1805,29 @@
         ],
         "corequisites": null
     },
-    "COGS4340": {
-        "description": "This course will explore how linguistics, the scientific study of the properties of human language and languages, can be applied to the development of intelligent agents that can fluently and meaningfully communicate with people in natural language. It will focus on linguistic phenomena that have so far been particularly resistant to effective machine processing, such as lexical ambiguity resolution, reference resolution, ellipsis, indirect speech acts, implicature, and non-literal language (e.g., metaphor and irony).",
+    "COGS4360": {
+        "description": "This course is an introduction to the role of physiological mechanisms in behavioral processes. There will be detailed examination and discussion of the involvement of biological systems in feeding and drinking, sexual behavior, sleep and arousal, learning and memory, psychopathology and psychopharmacology.",
+        "prerequisites": [
+            "PSYC-1200",
+            "PHIL-2120",
+            "PSYC-2120",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "COGS4560": {
+        "description": "This course will explore the different strategies used by different languages to fulfill the same needs of human communication. A sampling of topics: quickly learning the basics of a new language using linguistic principles; cross-linguistic knowledge elicitation and engineering;  principles of generative grammar; space, time, agency, and other linguistic phenomena viewed cross-linguistically.",
         "prerequisites": [
             "COGS-2340"
         ],
         "corequisites": null
     },
-    "COGS4420": {
-        "description": "This course introduces students to basic concepts and methods of artificial intelligence and their applications in computer games. The topics include decision making, movement, path finding, and AI for human-like characters. This course will take the form of a combination of lectures, presentations by students, class discussions, and independent study.",
+    "COGS4640": {
+        "description": "This course introduces various computational approaches for creating intelligent conversational agents. This course will take the form of a combination of lectures, presentations by students, class discussions, and independent study.",
         "prerequisites": [
-            "GSAS-2540",
+            "CSCI-1200",
             "CSCI-2300"
         ],
-        "corequisites": null
-    },
-    "COGS4961": {
-        "description": "",
-        "prerequisites": null,
         "corequisites": null
     },
     "COGS4962": {
@@ -1863,13 +1835,18 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "COGS6340": {
-        "description": "This course will explore how linguistics, the scientific study of the properties of human language and languages, can be applied to the development of intelligent agents that can fluently and meaningfully communicate with people in natural language. It will focus on linguistic phenomena that have so far been particularly resistant to effective machine processing, such as lexical ambiguity resolution, reference resolution, ellipsis, indirect speech acts, implicature, and non-literal language (e.g., metaphor and irony).",
+    "COGS6560": {
+        "description": "This course will explore the different strategies used by different languages to fulfill the same needs of human communication. A sampling of topics: quickly learning the basics of a new language using linguistic principles; cross-linguistic knowledge elicitation and engineering; principles of generative grammar; space, time, agency, and other linguistic phenomena viewed cross-linguistically.",
         "prerequisites": null,
         "corequisites": null
     },
-    "COGS6960": {
-        "description": "An advanced course concerned with selected topics in cognitive science.",
+    "COGS6640": {
+        "description": "This course introduces various computational approaches for creating intelligent conversational agents. This course will take the form of a combination of lectures, presentations by students, class discussions, and independent study.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS6780": {
+        "description": "This course will serve as a seminar for advanced students of linguistics. The material to be covered will be selected collaboratively by the instructor and each cohort of students. Students, who ideally will have taken at least two linguistics-oriented courses previously, will be guided in pursuing topics that they have found particularly compelling in previous courses.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1918,8 +1895,8 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "COMM1961": {
-        "description": "",
+    "COMM2410": {
+        "description": "This course helps students understand the meaning and emotional complexity of visual images in their culture. Students examine photographic imagery through three perspectives. The first\u2014formal\u2014addresses the design components of the image, such as vantage point and contrast. The second\u2014psychodynamic\u2014concerns the emotional dynamics of viewing. The third\u2014social political\u2014 explores photographs as instruments for preserving or challenging cultural values. No technical knowledge of photography is needed.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -1933,28 +1910,14 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "COMM2750": {
-        "description": "This course engages students in a critical examination of television and its historical and present status as a dominant popular culture medium. Television in this context is broadly understood as an evolving medium for motion pictures in the age of technological convergence. Using a variety of analytical and theoretical approaches, we\u2019ll consider the significant influence television has on individual, social, and cultural experiences\u2014addressing questions of representation, identity, economics, and ideology. The class uses a collaborative learning process, allowing students to influence the content and emphasis of the class and there by reflecting the democratic nature of popular culture media.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM4288": {
-        "description": "This course is designed to provide students with a comprehensive overview of major theories, research, and practice in health communication. Upon completing this course, students will have a broad understanding of health communication and specialized knowledge in an area of interest: patient-provider communication, health-information seeking, media/health literacy and health disparities, and health communication campaigns.",
-        "prerequisites": [
-            "COMM-2520",
-            "COMM-2660",
-            "WRIT-1110",
-            "WRIT-2110"
-        ],
-        "corequisites": null
-    },
     "COMM4320": {
         "description": "This studio course explores new directions in art and design that include visual poetry (visual expression in which they shape an arrangement of text, images, symbols to convey the message) and interactive narrative. Visual poetics and narrative appear in advertisement, music videos, and other forms of communication. Students will experiment with these forms of communication and learn how these concepts apply in artistic and commercial contexts. The class format includes lectures, discussions, and studio work.",
         "prerequisites": [
             "ARCH-2520",
             "ARTS-1020",
             "COMM-2660",
-            "COMM-2570"
+            "COMM-2570",
+            "GSAS-1040"
         ],
         "corequisites": null
     },
@@ -1966,43 +1929,13 @@
         ],
         "corequisites": null
     },
-    "COMM4540": {
-        "description": "Humans inhabit a culture of visual images. Images bombard them on television, the Internet, and in films; they surround everyone as architecture and fashion; they provide essential resource data in science, engineering, and business. This course will help students better understand how images communicate information, arouse emotions, and shape values. Students will primarily do readings in cultural history/theory with some viewing of films.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM4580": {
-        "description": "An examination of the cultural impact of advertising in various media: TV, radio, print, and the Web. How does advertising inform human experience and identity? How has it shaped the culture? Who pays for it and why? Note: This is not a How-To course. The focus is critical analysis, not acquiring skills for producing advertising.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "COMM4930": {
         "description": "Designed for first-semester senior Communication, Media, and Design majors, Pro-Seminar is the capstone course for the development of the Senior Project.  Students will create a professional portfolio piece that showcases their work in the diverse disciplines of communication and media",
         "prerequisites": null,
         "corequisites": null
     },
-    "COMM4960": {
-        "description": "Experimental courses tried out in one or two terms.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM4961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM4970": {
-        "description": "This course is a hands-on investigation into communicating effectively using motion graphics. Students will learn the art of communicating in a time-based medium using typography, graphics, photos, illustrations, video, and audio. Investigations include logo and brand animations, title sequences, graphic and typographic narratives, and researching, interpreting, and animating data to communicate real-world problems.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "COMM6420": {
         "description": "This course will consider methods for gathering users\u2019 requirements for product functions and information, ways to test products and information for usability and suitability, and procedures for incorporating the results learned through testing. Students will design and conduct usability tests on products, documents, and interfaces of interest.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM6961": {
-        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2064,17 +1997,10 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CSCI4100": {
-        "description": "Introduction to the theory, algorithms, and applications of machine learning (supervised, reinforcement, and unsupervised) from data: What is learning? Is learning feasible? How can we do it? How can we do it well? The course offers a mix of theory, technique, and application with additional selected topics chosen from Pattern Recognition, Decision Trees, Neural Networks, RBF\u2019s, Bayesian Learning, PAC Learning, Support Vector Machines, Gaussian processes, and Hidden Markov Models.",
+    "CSCI4120": {
+        "description": "Introduction to the computational and mathematical techniques for practical financial applications. The course will emphasize the algorithmic side of finance. Topics will be selected from pricing (options and derivatives), trading, risk-evaluation, selfish agents, sequential decisions, and portfolio optimization. Examples of the mathematical and algorithmic techniques covered are martingale measures, risk-neutral pricing and Monte Carlo, dynamic programing, and stochastic processes.",
         "prerequisites": [
             "CSCI-2300"
-        ],
-        "corequisites": null
-    },
-    "CSCI4220": {
-        "description": "Programming with an overview of the principles of computer networks, including a detailed look at the OSI reference model and various popular network protocol suites. Concentration on Unix interprocess communication (IPC), network programming using TCP and UDP, as well as client-side and mobile programming. Programming projects are required.",
-        "prerequisites": [
-            "CSCI-4210"
         ],
         "corequisites": null
     },
@@ -2094,10 +2020,25 @@
         ],
         "corequisites": null
     },
+    "CSCI4340": {
+        "description": "This course provides an introduction to ontologies, their uses, and an overview of their application in semantically enabled systems. Ontologies encode term meanings and are used to improve communication and enable computer programs to function more effectively. Class participants learn how to use ontologies in Web-based applications and evaluate ontologies for reuse. Participants read relevant papers, learn how to critically review ontology papers and ontologies, and participate in group project(s) designing, using, and evaluating ontologies.",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
+        "corequisites": null
+    },
     "CSCI4350": {
         "description": "Data science is advancing the inductive conduct of science and is driven by the greater volumes, complexity, and heterogeneity of data being made available over the Internet. It combines aspects of data management, library science, computer science, and physical science. It is changing the way all of these disciplines do both their individual and collaborative work. Key methodologies in application areas based on real research experience are taught.",
         "prerequisites": [
             "CSCI-1200"
+        ],
+        "corequisites": null
+    },
+    "CSCI4370": {
+        "description": "Data and Society provides a broad overview of how society is leveraging and responding to the social, organizational, policy, and technical opportunities and challenges of a data-driven world. Course themes focus on various aspects of the data ecosystem, data and innovation, and data and the broader community. Assignments build writing, presentation, and critical thinking, and assessment skills, all of which are important for professional success. This is a communication-intensive course.",
+        "prerequisites": [
+            "CSCI-2300",
+            "CSCI-2600"
         ],
         "corequisites": null
     },
@@ -2140,14 +2081,6 @@
         ],
         "corequisites": null
     },
-    "CSCI4560": {
-        "description": "We will study theoretical and practical solutions to computational geometry problems found in computer graphics, visualization, vision, robotics, engineering, manufacturing, and geographic information systems.  Topics include convex hulls, half-planes, Voronoi diagrams, Delaunay triangulations, binary space partitions, motion planning, visibility, and meshes. Course activities include programming assignments, written homework with proofs of computational complexity, and a term project with presentation.",
-        "prerequisites": [
-            "CSCI-2300",
-            "CSCI-2600"
-        ],
-        "corequisites": null
-    },
     "CSCI4600": {
         "description": "The world at-large is confronted with increasingly larger and complex sets of structured/unstructured information; from cyber and human sources. Traditional enterprises are moving toward analytics-driven approaches for core business functions. Data and information analytics extends analysis (descriptive models of data) by using data mining and machine learning methods, with optimization and validation, to recommend action or guide and communicate decision-making. Thus, analytics is an entire methodology rather than individual analyses or analysis steps.",
         "prerequisites": [
@@ -2187,32 +2120,12 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CSCI4965": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI4966": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "CSCI4967": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
     },
-    "CSCI4968": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "CSCI4969": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI4970": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -2227,19 +2140,21 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "CSCI4974": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI6100": {
-        "description": "Introduction to the theory, algorithms, and applications of machine learning (supervised, reinforcement, and unsupervised) from data: What is learning? Is learning feasible? How can it be done? How can it be done well? The course offers a mix of theory, technique, and application with additional selected topics chosen from Pattern Recognition, Decision Trees, Neural Networks, RBF\u2019s, Bayesian Learning, PAC Learning, Support Vector Machines, Gaussian processes, and Hidden Markov Models.",
+    "CSCI6120": {
+        "description": "Introduction to the computational and mathematical techniques for practical financial applications. The course will emphasize the algorithmic side of finance. Topics will be selected from pricing (options and derivatives), trading, risk-evaluation, selfish agents, sequential decisions, and portfolio optimization. Examples of the mathematical and algorithmic techniques covered are martingale measures, risk-neutral pricing and Monte Carlo, dynamic programing, and stochastic processes. Students cannot receive credit for both CSCI 4120 and CSCI 6120.",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI6250": {
         "description": "This course will offer an introduction to network science and a review of current research in this area. Classes will interchangeably present chapters from the textbook and related current research. The emphasis will be on the mathematical background of network science: graphs and networks; random networks and various types of scale-free networks; network properties such as assortativity, mobility, robustness, social networks, and communities; and dynamics of spreading in networks.",
         "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI6340": {
+        "description": "This course provides an introduction to ontologies, their uses, and an overview of their application in semantically enabled systems. Ontologies encode term meanings and are used to improve communication and enable computer programs to function more effectively. Class participants learn how to use ontologies in web-based applications and evaluate ontologies for reuse. Participants read relevant papers, learn how to critically review ontology papers and ontologies, and participate in group project(s) designing, using, and evaluating ontologies.",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
         "corequisites": null
     },
     "CSCI6350": {
@@ -2249,6 +2164,11 @@
         ],
         "corequisites": null
     },
+    "CSCI6370": {
+        "description": "Data and Society provides a broad overview of how society is leveraging and responding to the social, organizational, policy, and technical opportunities and challenges of a data-driven world. Course themes focus on various aspects of the data ecosystem, data and innovation, and data and the broader community. Assignments build writing, presentation, and critical thinking and assessment skills, all of which are important for professional success. This is a communication-intensive course.",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "CSCI6390": {
         "description": "This course will provide an introductory survey of the main topics in data mining and knowledge discovery in databases (KDD), including: classification, clustering, association rules, sequence mining, similarity search, deviation detection, and so on. Emphasis will be on the algorithmic and system issues in KDD, as well as on applications such as Web mining, multimedia mining, bioinformatics, geographical information systems, etc.",
         "prerequisites": [
@@ -2256,16 +2176,18 @@
         ],
         "corequisites": null
     },
-    "CSCI6560": {
-        "description": "We will study theoretical and practical solutions to computational geometry problems found in computer graphics, visualization, vision, robotics, engineering, manufacturing, and geographic information systems.  Topics include convex hulls, half-planes, Voronoi diagrams, Delaunay triangulations, binary space partitions, motion planning, visibility, and meshes. Course activities include programming assignments, written homework with proofs of computational complexity, and a term project with presentation.",
-        "prerequisites": [
-            "CSCI-2300",
-            "CSCI-2600"
-        ],
-        "corequisites": null
-    },
     "CSCI6800": {
         "description": "Gaussian elimination, special linear systems (such as positive definite, banded, or sparse), introduction to parallel computing, iterative methods for linear systems (such as conjugate gradient and preconditioning), QR factorization and least squares problems, and eigenvalue problems.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI6900": {
+        "description": "Presentation of current developments in computer science. Reports by students.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI6960": {
+        "description": "Credit Hours: 1 to 3",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2280,26 +2202,6 @@
         "corequisites": null
     },
     "CSCI6963": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI6964": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI6965": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI6966": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "CSCI6968": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -2349,18 +2251,25 @@
         ],
         "corequisites": null
     },
-    "ECON2100": {
-        "description": "This course provides an introduction to economic data and analysis. There will be an emphasis on applications using data that pertain to various areas of economics, such as labor market, technology-related markets, economics of climate change, and healthcare sector. Students will learn basic statistical methods to analyze data and interpret current economic and policy issues.",
-        "prerequisites": [
-            "IHSS-1200",
-            "ECON-1200"
-        ],
+    "ECON2960": {
+        "description": "Selected topics in economics designed to acquaint students with modern economic problems and analysis in special areas beyond the introductory level.",
+        "prerequisites": null,
         "corequisites": null
     },
     "ECON4010": {
         "description": "We study foundational theory for a diverse set of topics including models of consumer choice and decision-making, decisions under uncertainty and risk, firm strategy, market structure, information asymmetries, market failure, and intellectual property rights. Using this theory, we examine real world policy applications in areas such as innovation policy, environmental policy, international trade regulations, contract design and insurance markets.",
         "prerequisites": [
             "ECON-2010"
+        ],
+        "corequisites": null
+    },
+    "ECON4110": {
+        "description": "Technological innovation is responsible for most economic growth and is crucial to deal with major societal concerns. This course examines the economics of innovation and new technologies. It shows how technologies are created and put to use, from basic science through invention and development to diffusion and practical use. Additional topics include R&D determinants, sources of innovation, product improvement, cost reduction, incentivizing and stimulating innovation, patents, evolution of innovation and technology, innovative competition in industry, and the national innovation environment.",
+        "prerequisites": [
+            "IHSS-1200",
+            "ECON-1200",
+            "MATH-1010",
+            "MATH-1500"
         ],
         "corequisites": null
     },
@@ -2389,34 +2298,6 @@
         ],
         "corequisites": null
     },
-    "ECON4210": {
-        "description": "The techniques necessary to appraise the economic desirability and private-sector impact of various public projects and policies are studied. Concepts such as discounting, capital rationing, project selection, shadow pricing, risk assessment, unpriced goods, and economic surplus are developed. Among the topics from which illustrative case studies are drawn are urban and transport planning, energy, water resources, government regulation, and the environment.",
-        "prerequisites": [
-            "ECON-1200",
-            "IHSS-1200",
-            "MATH-2010",
-            "MATH-2011",
-            "MATH-2012"
-        ],
-        "corequisites": null
-    },
-    "ECON4220": {
-        "description": "Game theory has been emerging as a branch of mathematical economics and applied to analyze situations where each decision-maker needs to think strategically about others\u2019 perspectives and actions in order to determine ones\u2019 own optimal choice. This course provides an introduction and presents selected topics in game theory. It will look into basic definitions and equilibrium concepts and develop a wide range of applications in Economics, Biology, sports, health care, and various fields. The goal of the lecture is to improve understanding of strategic interaction in economic, business, and social situations.",
-        "prerequisites": [
-            "MATH-2010",
-            "ECON-1200",
-            "IHSS-1200"
-        ],
-        "corequisites": null
-    },
-    "ECON4230": {
-        "description": "Develops a critical understanding of environmental issues and policy from an interdisciplinary economics perspective. Covers the economics of environmental quality including the links between the economy and the environment, the causes of environmental problems, evaluation of environmental projects and policies, and policies to address environmental issues with an emphasis on efficiency, equity, and sustainability, and the international dimensions of environmental issues.",
-        "prerequisites": [
-            "ECON-1200",
-            "IHSS-1200"
-        ],
-        "corequisites": null
-    },
     "ECON4270": {
         "description": "Integrates theory from psychology, neuroscience, and other social sciences into traditional economic models of human behavior. By relaxing the standard assumptions of perfect rationality and selfishness, more realistic modeling features such as loss aversion, present-bias, social norms, and habit formation improve economic analyses. These techniques are used to analyze individuals\u2019 health behaviors, health insurance markets, and healthcare policy.",
         "prerequisites": [
@@ -2441,16 +2322,6 @@
         ],
         "corequisites": null
     },
-    "ECON4290": {
-        "description": "Students will learn about markets related to healthcare, insurance, biopharmaceuticals, and medical devices. Examine economic issues, models and quantitative analysis related to firms\u2019 activities in areas such as innovation, R&D expenditures, patenting, pricing, mergers and acquisitions, and competition in markets. Examine the role played by health insurance systems. Study the economic implications of regulations, such as those by the U.S. FDA. Economic and policy aspects will be examined within the context of the U.S. healthcare sector, along with selected comparisons to European national healthcare systems.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ECON4320": {
-        "description": "An exploration of models of decision-making under alternative assumptions, expanding on \u201crational\u201d models of introductory economics. The course will discuss the assumptions of these standard models and their shortcomings. The shortcomings will be addressed through the exploration of limited attention and considerations of fairness, uncertainty, and strategic interaction. Applications in areas such as consumer and household finance, marketing, and public policy will be emphasized throughout.  Prerequisites/Corequisites: ECON 1200 or IHSS 1200.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ECON4330": {
         "description": "This course will examine a wide range of financial markets and institutions and the micro-and macroeconomic forces that relate to them. Topics include the use of derivative securities such as future, options, and swap agreements, and their roles in distributing financial risk. The course will be driven by textbook readings, supplemented by current news stories, articles from the financial press, and research articles.",
         "prerequisites": [
@@ -2460,14 +2331,6 @@
     },
     "ECON4360": {
         "description": "This course explores human motivation and behavior across different settings and experimental paradigms. The course familiarizes students with previous work in selected topics in behavioral and experimental economics such as charitable giving, individual decision making and preferences, health, scarcity, and worker motivation. It also prepares students to design, implement and analyze their own economics experiments.",
-        "prerequisites": [
-            "IHSS-1200",
-            "ECON-1200"
-        ],
-        "corequisites": null
-    },
-    "ECON4380": {
-        "description": "This course examines how the US labor market works, addressing topics of labor supply and labor demand, theories of wage determination, employment benefits and regulations, how wage differentials develop and evolve, and the growing role of technology, automation, and artificial intelligence. We will pay special attention to the effects of discrimination, using economic theory and empirical methods to help us understand how gender, racial, and sexual minority discrimination affect earnings and employment. We will also examine the effects of education and skills training on wages and employment prospects, focusing on the effects of training in Science, Technology, Engineering, and Mathematics (STEM).",
         "prerequisites": [
             "IHSS-1200",
             "ECON-1200"
@@ -2494,13 +2357,13 @@
         ],
         "corequisites": null
     },
-    "ECON4961": {
-        "description": "",
+    "ECON4960": {
+        "description": "Selected topics in economic analysis and problems to meet the special needs of upper-division students in various curricula throughout the Institute. This allows students to pursue more in-depth work in their areas of study.",
         "prerequisites": null,
         "corequisites": null
     },
-    "ECON6010": {
-        "description": "We study foundational theory for a diverse set of topics including models of consumer choice and decision-making, decisions under uncertainty and risk, firm strategy, market structure, information asymmetries, market failure, and intellectual property rights. Using this theory, we examine real world policy applications in areas such as innovation policy, environmental policy, international trade regulations, contract design and insurance markets.",
+    "ECON4961": {
+        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2509,6 +2372,11 @@
         "prerequisites": [
             "MATH-2010"
         ],
+        "corequisites": null
+    },
+    "ECON6110": {
+        "description": "Technological innovation is responsible for most economic growth and is crucial to deal with major societal concerns. This course examines the economics of innovation and new technologies. It shows how technologies are created and put to use, from basic science through invention and development to diffusion and practical use. Additional topics include R&D determinants, sources of innovation, product improvement, cost reduction, incentivizing and stimulating innovation, patents, evolution of innovation and technology, innovative competition in industry, and the national innovation environment.",
+        "prerequisites": null,
         "corequisites": null
     },
     "ECON6170": {
@@ -2521,33 +2389,23 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ECON6210": {
-        "description": "The techniques necessary to appraise the economic desirability and private-sector impact of various public projects and policies are studied. Concepts such as discounting, capital rationing, project selection, shadow pricing, risk assessment, unpriced goods, and economic surplus are developed. Among the topics from which illustrative case studies are drawn are urban and transport planning, energy, water resources, government regulation, and the environment. Suitable for graduate students in professional programs.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ECON6220": {
-        "description": "Game theory has been emerging as a branch of mathematical economics and applied to analyze situations where each decision-maker needs to think strategically about others\u2019 perspectives and actions in order to determine ones\u2019 own optimal choice. This course provides an introduction and presents selected topics in game theory. Students will look into basic definitions and equilibrium concepts and develop a wide range of applications in Economics, Biology, sports, health care, and various fields. The goal of the lecture is to improve understanding of strategic interaction in economic, business, and social situations.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ECON6270": {
         "description": "Integrates theory from psychology, neuroscience, and other social sciences into traditional economic models of human behavior. By relaxing the standard assumptions of perfect rationality and selfishness, more realistic modeling features such as loss aversion, present-bias, social norms, and habit formation improve economic analyses. These techniques are used to analyze individuals\u2019 health behaviors, health insurance markets, and healthcare policy.  When Offered: Fall and spring terms annually.",
         "prerequisites": null,
         "corequisites": null
     },
-    "ECON6290": {
-        "description": "Students will learn about markets related to healthcare, insurance, biopharmaceuticals, and medical devices. Examine economic issues, models and quantitative analysis related to firms\u2019 activities in areas such as innovation, R&D expenditures, patenting, pricing, mergers and acquisitions, and competition in markets. Examine the role played by health insurance systems. Study the economic implications of regulations, such as those by the U.S. FDA. Economic and policy aspects will be examined within the context of the U.S. healthcare sector, along with selected comparisons to European national healthcare systems.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ECON6320": {
-        "description": "An exploration of models of decision-making under alternative assumptions, expanding on \u201crational\u201d models of introductory economics. The course will discuss the assumptions of these standard models and their shortcomings. The shortcomings will be addressed through exploration of limited attention and considerations of fairness, uncertainty, and strategic interaction. Applications in areas such as consumer and household finance, marketing, and public policy will be emphasized throughout.",
+    "ECON6280": {
+        "description": "Examine advanced econometric and statistical methods for the analysis of high-dimensional data, otherwise known as \u201cBig Data.\u201d In this setting, detailed information for each unit of observation informs machine learning techniques such as classification and regression trees; rECandom forests; penalized regressions; and boosted estimation. These prediction methods are then utilized to improve causal modeling, with applications in the study of healthcare demand and supply modeling, and behavior of consumers and businesses.  When Offered: Fall and spring terms annually.",
         "prerequisites": null,
         "corequisites": null
     },
     "ECON6360": {
         "description": "This course explores human motivation and behavior across different settings and experimental paradigms. The course familiarizes students with previous work in selected topics in behavioral and experimental economics such as charitable giving, individual decision making and preferences, health, scarcity, and worker motivation. It also prepares students to design, implement and analyze their own economics experiments.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2587,6 +2445,15 @@
         "prerequisites": [
             "ECSE-2010",
             "MATH-2010",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "ECSE2110": {
+        "description": "This course introduces the major components of today\u2019s power system such as transformers, electric machines, and transmission lines. Renewable energy sources and systems are discussed, including wind and solar energy. Integration of energy sources with the grid is addressed.",
+        "prerequisites": [
+            "ECSE-2010",
             "PHYS-1200",
             "PHYS-1250"
         ],
@@ -2661,13 +2528,6 @@
         ],
         "corequisites": null
     },
-    "ECSE4110": {
-        "description": "AC steady-state analysis, three-phase networks, and complex power (brief review). Per-unit system. Practical transformer equivalent circuits. AC power transmission-lines: parameters; equivalent circuits; and steady-state operation. Power flow with transfer limits in balanced three-phase systems. Network power flow problem with solution by numerical methods. Symmetrical components: analysis including sequence networks for three-phase systems. Fault analysis.",
-        "prerequisites": [
-            "ECSE-2110"
-        ],
-        "corequisites": null
-    },
     "ECSE4120": {
         "description": "This course studies electromechanical interactions in lumped-parameter systems. These interactions describe the operation of electric machines, electromechanical actuators, and transducers. The fundamental laws of Faraday, Ampere, and Gauss are considered to develop physical models of magnetic circuits, including those which use permanent magnets. These models are then expanded to include equations of motion and the thermodynamics of electromechanical coupling. Applications include transformers, induction machines, synchronous machines, DC machines, and reluctance machines.",
         "prerequisites": [
@@ -2690,14 +2550,6 @@
         ],
         "corequisites": null
     },
-    "ECSE4320": {
-        "description": "Key design principles and techniques of modern computer hardware, including instruction-level, data-level, and thread-level parallelism in CPU and GPU, cache and memory hierarchy, DRAM and non-volatile memory technologies and solid-state drive, and heterogeneous and disaggregated computing architecture. Advanced infrastructure software design techniques and algorithms, including indexing data structure, transaction, storage model, and consistency and consensus. Course projects to gain advanced programming skills and deepen the understanding of modern computer hardware and software.",
-        "prerequisites": [
-            "ECSE-2660",
-            "CSCI-2500"
-        ],
-        "corequisites": null
-    },
     "ECSE4440": {
         "description": "Application of linear feedback theory to the design of large-scale, integrated control systems. Derivation of complex mathematical models of physical systems. Synthesis of appropriate control laws to provide stability. Simulation of complex control systems on digital computers.",
         "prerequisites": [
@@ -2712,6 +2564,14 @@
         "prerequisites": [
             "MATH-2400",
             "MATH-2010"
+        ],
+        "corequisites": null
+    },
+    "ECSE4520": {
+        "description": "An introduction to analog and digital communication signals and systems. Representation of analog and digital signals and their spectra. Baseband pulse and digital signaling, including PAM, PCM, DM, and DPCM. Bandlimited signaling without inter-symbol interference. Analog and digital bandpass signaling, including AM, FM, PM, OOK, PSK, FSK, MSK, QAM, and OFDM. Transmitter and receiver operations and systems. Performance in the presence of noise.",
+        "prerequisites": [
+            "ECSE-2410",
+            "ECSE-2500"
         ],
         "corequisites": null
     },
@@ -2733,6 +2593,13 @@
         ],
         "corequisites": null
     },
+    "ECSE4720": {
+        "description": "An introduction to theoretical and experimental solid-state physics. Wave mechanics in the perfect crystal. X-rays, electrons, and phonons. Electrical properties of metals and semiconductors. Qualitative treatment of lattice defects.",
+        "prerequisites": [
+            "PHYS-2220"
+        ],
+        "corequisites": null
+    },
     "ECSE4770": {
         "description": "Digital design methodologies including timing chain and counter based \u201chardwired\u201d microprogram design, modules, and modular design. The course bridges LSI and MSI design treating microprocessors, and I/O interfacing. Bus protocol standards, interrupts, direct memory access, priority arbitration, asynchronous timing, and overlap or double buffering. Specific examples of design include controllers for disks, cassettes, video systems, and stepping motors. Course includes a laboratory with access to FPGAs and microprocessors.",
         "prerequisites": [
@@ -2745,6 +2612,14 @@
         "prerequisites": [
             "ECSE-2350",
             "CSCI-1200"
+        ],
+        "corequisites": null
+    },
+    "ECSE4810": {
+        "description": "This course covers topics related to learning and inference with different types of Probabilistic Graphical Models (PGMs). It also demonstrates the application of PGMs to different fields. The course covers both directed and undirected graphical models, both parameter and structure learning, and both exact and approximated inference methods.",
+        "prerequisites": [
+            "ECSE-2500",
+            "ENGR-2600"
         ],
         "corequisites": null
     },
@@ -2763,12 +2638,7 @@
         ],
         "corequisites": null
     },
-    "ECSE4961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ECSE4963": {
+    "ECSE4962": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -2778,8 +2648,8 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ECSE6110": {
-        "description": "AC steady-state analysis, three-phase networks, and complex power (brief review). Per-unit system. Practical transformer equivalent circuits. AC power transmission-lines: parameters; equivalent circuits; and steady-state operation. Power flow with transfer limits in balanced three-phase systems. Network power flow problem with solution by numerical methods. Symmetrical components: analysis including sequence networks for three-phase systems. Fault analysis.",
+    "ECSE6220": {
+        "description": "Physical foundations underlying the operation of modern electronic and photonic solid-state devices. Quantum mechanical foundations are emphasized, including the postulates of quantum mechanics, wave-particle duality, uncertainty relation, the Kronig-Penney model, and perturbation theory. In addition, the course covers areas such as semiconductor statistics, doping, heterostructures, transport, and tunneling.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2788,25 +2658,9 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ECSE6320": {
-        "description": "Key design principles and techniques of modern computer hardware, including instruction-level, data-level, and thread-level parallelism in CPU and GPU, cache and memory hierarchy, DRAM and non-volatile memory technologies and solid-state drive, and heterogeneous and disaggregated computing architecture. Advanced infrastructure software design techniques and algorithms, including indexing data structure, transaction, storage model, and consistency and consensus. Course projects to gain advanced programming skills and deepen the understanding of modern computer hardware and software.",
-        "prerequisites": [
-            "ECSE-2660",
-            "CSCI-2500"
-        ],
-        "corequisites": null
-    },
     "ECSE6400": {
         "description": "Methods of analysis for continuous and discrete-time linear systems. Convolution, classical solution of dynamic equations, transforms, and matrices are reviewed. Emphasis is on the concept of state space. Linear spaces, concept of state, modes, controllability, observability, state transition matrix. State variable feedback, compensation, decoupling.",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "ECSE6440": {
-        "description": "The concepts, techniques, and tools related to optimal control for dynamical systems. Major topics include calculus of variation, minimum principle, dynamic programming, optimal estimation, and differential games. Both discrete time systems and continuous times are addressed. Particular consideration is given to linear time invariant systems in terms of linear quadratic regulator and Kalman filter.",
-        "prerequisites": [
-            "ECSE-6400",
-            "ECSE-6600"
-        ],
         "corequisites": null
     },
     "ECSE6470": {
@@ -2817,23 +2671,18 @@
         ],
         "corequisites": null
     },
-    "ECSE6510": {
-        "description": "Deterministic signal representations and analysis, introduction to random processes and spectral analysis, correlation function and power spectral density of stationary processes, noise mechanisms, the Gaussian and Poisson processes. Markov processes, the analysis of linear and nonlinear systems with random inputs, stochastic signal representations, orthogonal expansions, the Karhunen-Loeve series, channel characterization, introduction to signal detection, linear mean-square filtering, the orthogonality principle, optimum Wiener and Kalman filtering, modulation theory, and systems analysis.",
+    "ECSE6610": {
+        "description": "Structure of pattern classification problems. Mathematics of statistical decision theory: random vectors, multivariate probability functions, discriminants, parametric and nonparametric techniques, Bayesian and maximum likelihood estimation, feature selection, dimensionality reduction, whitening transformations. Adaptive methods and clustering. Five programming assignments and a term paper.",
         "prerequisites": null,
         "corequisites": null
     },
-    "ECSE6650": {
-        "description": "Image formation and visual perception. Images, line structures, and line drawings. Preprocessing, boundary detection, texture, and region growing. Image representation in terms of boundaries, regions, and shape. Three-dimensional structures and their projections. Analysis, manipulation, and classification of image data. Knowledge-based approaches to image understanding. Applications from fields of robot vision, biomedical-image analysis, and satellite and aerial image interpretation.",
+    "ECSE6810": {
+        "description": "This course covers topics related to learning and inference with different types of Probabilistic Graphical Models (PGMs). It also demonstrates the application of PGMs to different fields. The course covers both directed and undirected graphical models, both parameter and structure learning, and both exact and approximated inference methods.",
         "prerequisites": null,
         "corequisites": null
     },
     "ECSE6900": {
         "description": "Credit Hours: to be arranged",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ECSE6961": {
-        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2843,7 +2692,7 @@
         "corequisites": null
     },
     "ECSE6970": {
-        "description": "Active participation in a semester-long project, under the supervision of a faculty adviser. A Professional Project often serves as a culminating experience for a Professional Master\u2019s program but, with departmental or school approval, can be used to fulfill other program requirements. With approval, students may register for more than one Professional Project. Professional Projects must result in documentation established by each department or school, but are not submitted to the Office of Graduate Education and are not archived in the library. Grades of A, B, C, or F are assigned by the faculty adviser at the end of the semester. If not completed on time, a formal Incomplete grade may be assigned by the faculty adviser, listing the work remaining to be completed and the time limit for completing this work..",
+        "description": "Active participation in a semester-long project, under the supervision of a faculty adviser. A Professional Project often serves as a culminating experience for a Professional Master\u2019s program but, with departmental or school approval, can be used to fulfill other program requirements. With approval, students may register for more than one Professional Project. Professional Projects must result in documentation established by each department or school, but are not submitted to the Office of Graduate Education and are not archived in the library. Grades of A, B, C, or F are assigned by the faculty adviser at the end of the semester. If not completed on time, a formal Incomplete grade may be assigned by the faculty adviser, listing the work remaining to be completed and the time limit for completing this work.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -2900,14 +2749,21 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "ENGR2020": {
+        "description": "This design studio introduces students to the first semester-long design project. We introduce students to more formal engineering design methods. This includes problem formulation, structured ideation, rapid prototyping, evaluation, functional modeling, and iteration. Studio III will also continue to draw on social science methods of ethnographic observation, background research, stakeholder analysis, and also a critical deconstruction of engineering design methods in a way that builds agility in ways more appropriate for those in DIS. Development of individual skills in design development, presentation, and portfolio building are also emphasized.",
+        "prerequisites": [
+            "STSO-2610"
+        ],
+        "corequisites": null
+    },
     "ENGR2050": {
         "description": "A first course in engineering design which emphasizes creativity, teamwork, communication, and work across engineering disciplines. Students are introduced to the design process through a semester-long project which provides a design-build-test experience. Oral and written communication are important elements of the course. The course meets with ENGR 1010.",
         "prerequisites": [
             "ENGR-1100",
             "ECSE-1010",
-            "CIVL-1200",
             "ENGR-1200",
             "ENGR-1400",
+            "CIVL-1200",
             "PHYS-1200",
             "PHYS-1250"
         ],
@@ -3052,11 +2908,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ENVE6960": {
-        "description": "Credit Hours: 1 to 4",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ENVE6980": {
         "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
         "prerequisites": null,
@@ -3069,6 +2920,11 @@
     },
     "ENVE9990": {
         "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ERTH1030": {
+        "description": "The sciences of the natural world, focusing primarily upon physics and chemistry but including some discussion of relevant topics in astronomy and planetary science. Both classical and modern concepts are treated, at scales ranging from the atom to the universe, and an effort is made to instill an appreciation for the nature of science and the scientific method. Examples are used as appropriate to illustrate the value of science in our everyday lives. The course is designed for students in nontechnical fields; engineering and science majors will not be allowed to register. (Note: Natural Sciences II does qualify as a science distribution requirement for some science majors.)",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3096,22 +2952,9 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ERTH2200": {
-        "description": "This course is designed to introduce students to the basic data analysis and statistical methods necessary to conduct and understand environmental research.  Topics and methods covered in this course include experimental design, graphing and data presentation, descriptive statistics, comparison tests, correlation and regression, and other parametric and non-parametric statistical methods.  There is a strong emphasis on the application of these methods to datasets that describe current environmental problems and issues.",
-        "prerequisites": [
-            "CHEM-1100",
-            "ERTH-1100",
-            "PHYS-1100",
-            "BIOL-1010"
-        ],
-        "corequisites": null
-    },
     "ERTH2210": {
         "description": "Principles and methods of geologic mapping. Use of instruments. Selected field problems. Several field trips (usually on weekends) required. This is a communication-intensive course.",
-        "prerequisites": [
-            "ERTH-1100",
-            "ERTH-1200"
-        ],
+        "prerequisites": null,
         "corequisites": null
     },
     "ERTH2330": {
@@ -3130,6 +2973,14 @@
         ],
         "corequisites": null
     },
+    "ERTH4540": {
+        "description": "Origin, transformation, and fate of organic matter on Earth. This course is chemistry-focused and incorporates concepts from biology, geology, and ecology. This course emphasizes reactivity, transport, and storage mechanisms which control the distribution of organic matter in terrestrial and marine systems. Analytical techniques for characterizing organic matter and applications to carbon cycling in natural and perturbed environments are also discussed.",
+        "prerequisites": [
+            "CHEM-1100",
+            "ERTH-1200"
+        ],
+        "corequisites": null
+    },
     "ERTH4710": {
         "description": "Study of hydrologic, geologic, and other factors controlling groundwater flow, occurrence, development, chemistry, and contamination. Groundwater flow theory and aquifer test methods are introduced. Interactions between surface and subsurface hydrologic systems are covered. Some field trips are possible.",
         "prerequisites": [
@@ -3144,18 +2995,15 @@
         ],
         "corequisites": null
     },
+    "ERTH6560": {
+        "description": "Fundamentals of Isotope geochemistry as applied to biogeochemical systems in modern and ancient environments. This course covers the principles of both radiogenic and stable isotope distribution, decay, and transfer through Earth\u2019s exchangeable reservoirs.  The course will emphasize stable isotopes, equilibrium and kinetic isotope fractionation, distribution, isotope mass balance, and using these systems to track global biogeochemical cycles in the modern environment and in deep time.",
+        "prerequisites": [
+            "CHEM-1100"
+        ],
+        "corequisites": null
+    },
     "ERTH6710": {
-        "description": "Study of hydrologic and geologic and other factors controlling groundwater flow, occurrence, and development. Groundwater flow theory and aquifer test methods are introduced. Interactions between surface and subsurface hydrologic systems are covered. Applications to design of infiltration, remediation, and dewatering systems.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ERTH6940": {
-        "description": "Credit Hours: 1 to 4",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ERTH6960": {
-        "description": "Topics offered previously: geomagnetism, seismology, mineral equilibria; mineral structures; igneous minerals and rocks; sedimentary processes; marine geology; convergent plate margins; geoexploration; remote sensing applications; seismic stratigraphy; physical oceanography.",
+        "description": "An intensive study of hydrologic, geologic, and other factors controlling groundwater flow, occurrence, development, chemistry, and contamination. Groundwater flow theory and aquifer test methods are introduced. Interaction between surface and subsurface hydrologic systems are covered. Some field trips are possible. Students cannot receive credit for both this course and ERTH 4710.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3204,11 +3052,21 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "GSAS4240": {
-        "description": "This is the second course in the central track of the Writing concentration for GSAS students. In this project-intensive course, students will learn and practice basic, in-the-trenches writing and narrative development for games, including story outlines, cutscenes, scripted dialogue, systemic dialogue, and mission writing and design, across multiple game types and narrative genres.",
+    "GSAS4250": {
+        "description": "This project-based course introduces students to the tools and concepts used to create levels for games and simulations. It explores how various fields and theories (architecture, psychogeography, and theory of the D\u00e9rive, player psychology), influence the level design and alter or enhance the ludic concepts (flow and critical path, risks-rewards, tutoring, balance of difficulty, and storytelling). Level analysis will help students to recall these concepts. Students will demonstrate their understanding by designing three \u201cpaper\u201d maps (stealth, puzzle adventure, 3rd person) and implementing two developed levels (2D and 3D).",
         "prerequisites": [
+            "GSAS-4240"
+        ],
+        "corequisites": null
+    },
+    "GSAS4270": {
+        "description": "",
+        "prerequisites": [
+            "GSAS-1040",
+            "GSAS-1600",
+            "GSAS-2510",
             "GSAS-2520",
-            "WRIT-2330"
+            "GSAS-2540"
         ],
         "corequisites": null
     },
@@ -3228,13 +3086,16 @@
         ],
         "corequisites": null
     },
-    "GSAS4960": {
-        "description": "Credit Hours: 1 to 4",
-        "prerequisites": null,
+    "GSAS4550": {
+        "description": "This is a class on the composition of game engines, the substrate between hardware and scripting. Topics include entity/component systems, multithreading, event management, graphics and shader programming, rigid body dynamics, collision detection, multiplayer networking, audio, and other elements of modern game engines.",
+        "prerequisites": [
+            "CSCI-4530",
+            "ECSE-4750"
+        ],
         "corequisites": null
     },
-    "GSAS4961": {
-        "description": "",
+    "GSAS4960": {
+        "description": "Credit Hours: 1 to 4",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3255,11 +3116,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "GSAS6300": {
-        "description": "This multidisciplinary course provides theoretical and methodological orientation to critical games research, and seeks to address both the broad and pragmatic implications of the question, \u201cWhat does it mean to conduct research via games?\u201d Through a hybrid lecture-workshop class format, students will engage with methodological research techniques in the various disciplines that game design draws upon\u2013Visual Arts, Humanities and Media Studies, Social Science, and Computer Science\u2013as well as experiment with independent research design and proposal writing.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "GSAS6400": {
         "description": "A seminar course that focuses on the history and theory of alternative and socially-engaged design for interactive media. Students will read and discuss design history, art history, conceptual artistic practice, and new and emerging theories about digital, critical, and speculative design and the digital humanities. The course is designed to advance students\u2019 understanding of bodies of academic literature and theory that explore the hybridization of hermeneutic analysis and design and making practice.",
         "prerequisites": null,
@@ -3270,138 +3126,128 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "GSAS9990": {
+    "IENV4700": {
+        "description": "A course that focuses on the Hudson River Basin as an environmental microcosm and a vehicle through which to illustrate the natural science of river systems with particular attention to human influences. This interdisciplinary environmental science course is for environmentally oriented junior, senior, and graduate students.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1030": {
+        "description": "Television is considered a defining social, political and cultural feature of consumer culture. Television is morphing into something more expansive and diverse. In this course, we will study the impact of television and learn to make it. Through hands-on experience, students produce and direct their own multi-camera projects. Students work on technical and creative aspects of production. Students learn to operate studio gear including green screen, live switcher, cameras, audio, teleprompter, lights, etc.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1040": {
+        "description": "Documentary in the 21st Century: Identity Production is a production course investigating the course of documentary history leading to a focus on digital media representations today. This course will incorporate critical thinking with production.  With focus on aesthetic and formal considerations, students will be asked to produce a series of multimedia projects investigating their vision of themselves in the world.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1110": {
+        "description": "This course focuses on the social and ecological aspects of humans in the natural world. It emphasizes critical thinking about where humans come from and where they are going as a species. The course draws on historical perspectives and addresses contemporary issues such as climate change, national energy resources, and the local foods movement. The course includes readings as well as student projects, field trips, guest lectures, and \u201cethnographic\u201d assignments about this consumer society.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1140": {
+        "description": "This course is an introduction to the philosophy of mind and cognitive science. Students meet in small sections to have class discussions and debates about questions like: What are minds? Are minds physical or non-physical? Do humans have free will? Does reliance on technology turn humans into cyborgs? How close are humans to building an intelligent robot or machine? Do we want this to be a goal? Students will learn how make a philosophical argument, and how to express them in writing or through an oral presentation.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1150": {
+        "description": "The ability to sequence complete genomes has had a revolutionary impact on medicine, agriculture, our environment and the very idea of what it means to be \u201chuman\u201d. Genomic medicine will impact virtually everyone in the United States in the coming decades. As informed citizens, it is important that we have a working understanding of genomics and its implications for individuals and for society at large. These conversations are critical to ensure the ethical and accessible use of genomics and to allow us to make informed decisions on both personal and public-policy levels. This course will explore the science, ethics, and history of genetic research and genomics, using case studies to illustrate and personalize the issues at hand.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1170": {
+        "description": "This course is an exploration of the history of animation. We will begin with a look at precursors to the medium, its formation, and development, trace its development through both mainstream and experimental animation, to the current state of the medium across film, interactive media and other forms. The course will be based around screenings, readings, discussions and response and research papers.  When Offered: Spring term, annually",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1175": {
+        "description": "How do people maintain a sense of well-being in their lives? Each person\u2019s path to well-being in body and mind is unique\u2014arising from an awareness of our needs, goals and what each finds fulfilling. The theme of curiosity will be used to explore what makes people tick, what makes them feel balanced, stressed, or calm. This interdisciplinary course uses practice-based learning, in-class writing, lectures, creative play, and reading.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1180": {
+        "description": "Listening to each other, ourselves, and our surroundings can be a transformative experience that enhances well-being. In this course, a heightened awareness to sound will be developed through experiential exercises, creative projects, collaborations, readings, lectures, and discussion. The course introduces \u201cDeep Listening,\u201d a practice developed by pioneer composer and humanitarian Pauline Oliveros to enhance and expand listening abilities and to encourage creative work.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1200": {
+        "description": "This course is designed to introduce a wide variety of concepts and applications in the broad subject of economics, economics being the study of people\u2019s choices. Traditionally, these choices have been framed as how to best employ scarce resources to produce goods and services and distribute them for consumption. To describe these choices the cause will introduce the concepts of opportunity cost, demand and supply theory, and market structures. It will consider the role of government in making resource allocation choices. Students will also study important macroeconomic data such as gross domestic product, economic growth rates, inflation, and unemployment. Additionally, studied will be the role of money and banking in the economy and short-run events such as recessions and expansions. Overall, the course will provide the student with an encompassing view of how economic principles and concepts relate to the broader economy and society.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1240": {
+        "description": "Students in this course participate in a series of class debates, presenting and cross-examining the arguments of those who have a stake in various environmental controversies (about energy, toxic chemicals, consumption, etc.). Students also work in groups to design a proposal for a project to help solve an environmental problem. Throughout the course, students are encouraged to develop their own environmental values and ideas. This is a communication-intensive course.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1300": {
+        "description": "This course will investigate the emergence and transformations of the concept of race in the history and culture of the United States by analyzing films. Hollywood classics will be featured, and will also be contrasted with documentary and independent films. The course will focus on social and political contexts, as well as the film\u2019s critical reception and film form.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1492": {
+        "description": "Language is one of the most powerful forces in the human experience and shapes the production of social identities and cultural assumptions about the world.  This course examines the role that language plays in articulating, maintaining, and subverting power relations in society.  Topics include language ideology, politics, gender, race/ethnicity, linguistic engineering, language death and revitalization, and disinformation.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1560": {
+        "description": "A survey of the historical origins and cultural impact of several mass media, including television, film, radio, the Internet, and print media. The course aims to increase media literacy through analysis of specific media products as well as discussion of broad topics such as: advertising and commercialization; politics and censorship; gender, race, and social identity.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1562": {
+        "description": "Color is used every day to help us decode information, inform communications, influence our buying decisions, distinguish scientific properties, and impact our emotions and health. In this course, we\u2019ll study the impact of color and learn how to use it effectively. Through a series of creative hands-on graphic design projects, we will investigate color memory, relativity, and subjectivity, communicating with color, physiological and psychological responses to color, and color across cultures.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1570": {
+        "description": "This course investigates the relationship between warfare and technology in historical and present-day settings. It will also cover how military technology might evolve in the future. In addition to considering the ways in which technology has changed the practices of warfare, the course will examine the ethical, political, social and economic problems and developments that have arisen from the intersection of military and technological change.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1610": {
+        "description": "The first design studio in the Design, Innovation, and Society studio series introduces DIS majors to general design through a series of short projects. We learn the basic steps of design processes, from problem definition to concept ideation and selection, to quick low-resolution prototyping. The projects stress creative thinking and critical analysis, partnered with close discussions of how design and society intersect. This is a communication-intensive course.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1666": {
+        "description": "This course explores the role of religion in different cultures and in the everyday lives of people around the world. It will introduce students to key concepts, themes, and debates in social science. The role of religion and rituals will be examined through classic texts in anthropology, sociology, political science, and in ethnographic cases relating to different types of societies, from traditional to modern American cultures. It will begin with some basic theoretical issues before discussing contemporary issues such as the relations between nation and religion, violence and religion, climate change and religion, and \u201cmagical thinking\u201d in technology and science.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1700": {
+        "description": "A course designed for students to develop their own voice as a songwriter. The course surveys the methods of successful songwriters, highlighting aspects of melody, lyrics, harmonic progression, story-telling, audience, and social context. Students develop a portfolio of their own original songs and lyrics, presented weekly and performed in a studio or live setting at the end of the term.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1720": {
+        "description": "Music and Nature explores the intersections between music and nature from a variety of perspectives. Music will be approached as artistic expression as well as a form of knowledge that can heighten our sensitivity and awareness of the environment and natural processes. Music and Nature incorporates reading and writing assignments, individual and group creative projects.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1960": {
+        "description": "Credit Hours: 4",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1972": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS1973": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
     },
     "IHSS6570": {
         "description": "This seminar is an investigation of creative, theoretical, and historical research methods in the interdisciplinary arts. Students will be introduced to arts practice-based research discourses and will gain competence in writing and research techniques, conventions, and methods. This course is a requirement for all Arts Department doctoral students.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ILEA4400": {
-        "description": "Return to Previous",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1030": {
-        "description": "Television is considered a defining social, political and cultural feature of consumer culture. Television is morphing into something more expansive and diverse. In this course, we will study the impact of television and learn to make it. Through hands-on experience, students produce and direct their own multi-camera projects. Students work on technical and creative aspects of production. Students learn to operate studio gear including green screen, live switcher, cameras, audio, teleprompter, lights, etc.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1040": {
-        "description": "Documentary in the 21st Century: Identity Production is a production course investigating the course of documentary history leading to a focus on digital media representations today. This course will incorporate critical thinking with production.  With focus on aesthetic and formal considerations, students will be asked to produce a series of multimedia projects investigating their vision of themselves in the world.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1100": {
-        "description": "This course examines science and technology in their social, cultural, and political context. Readings are drawn from social sciences, fiction, and contemporary journalism. Case studies will include genetic testing, automation, vaccines, engineering education, AIDS activism, mental health, surveillance, and climate change. The class is designed to give students the freedom to develop and express their own ideas.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1110": {
-        "description": "This course focuses on the social and ecological aspects of humans in the natural world. It emphasizes critical thinking about where humans come from and where they are going as a species. The course draws on historical perspectives and addresses contemporary issues such as climate change, national energy resources, and the local foods movement. The course includes readings as well as student projects, field trips, guest lectures, and \u201cethnographic\u201d assignments about this consumer society.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1140": {
-        "description": "This course is an introduction to the philosophy of mind and cognitive science. Students meet in small sections to have class discussions and debates about questions like: What are minds? Are minds physical or non-physical? Do humans have free will? Does reliance on technology turn humans into cyborgs? How close are humans to building an intelligent robot or machine? Do we want this to be a goal? Students will learn how make a philosophical argument, and how to express them in writing or through an oral presentation.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1150": {
-        "description": "The ability to sequence complete genomes has had a revolutionary impact on medicine, agriculture, our environment and the very idea of what it means to be \u201chuman\u201d. Genomic medicine will impact virtually everyone in the United States in the coming decades. As informed citizens, it is important that we have a working understanding of genomics and its implications for individuals and for society at large. These conversations are critical to ensure the ethical and accessible use of genomics and to allow us to make informed decisions on both personal and public-policy levels. This course will explore the science, ethics, and history of genetic research and genomics, using case studies to illustrate and personalize the issues at hand.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1175": {
-        "description": "How do people maintain a sense of well-being in their lives? Each person\u2019s path to well-being in body and mind is unique\u2014arising from an awareness of our needs, goals and what each finds fulfilling. The theme of curiosity will be used to explore what makes people tick, what makes them feel balanced, stressed, or calm. This interdisciplinary course uses practice-based learning, in-class writing, lectures, creative play, and reading.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1180": {
-        "description": "Listening to each other, ourselves, and our surroundings can be a transformative experience that enhances well-being. In this course, a heightened awareness to sound will be developed through experiential exercises, creative projects, collaborations, readings, lectures, and discussion. The course introduces \u201cDeep Listening,\u201d a practice developed by pioneer composer and humanitarian Pauline Oliveros to enhance and expand listening abilities and to encourage creative work.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1200": {
-        "description": "This course is designed to introduce a wide variety of concepts and applications in the broad subject of economics, economics being the study of people\u2019s choices. Traditionally, these choices have been framed as how to best employ scarce resources to produce goods and services and distribute them for consumption. To describe these choices the cause will introduce the concepts of opportunity cost, demand and supply theory, and market structures. It will consider the role of government in making resource allocation choices. Students will also study important macroeconomic data such as gross domestic product, economic growth rates, inflation, and unemployment. Additionally, studied will be the role of money and banking in the economy and short-run events such as recessions and expansions. Overall, the course will provide the student with an encompassing view of how economic principles and concepts relate to the broader economy and society.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1240": {
-        "description": "Students in this course participate in a series of class debates, presenting and cross-examining the arguments of those who have a stake in various environmental controversies (about energy, toxic chemicals, consumption, etc.). Students also work in groups to design a proposal for a project to help solve an environmental problem. Throughout the course, students are encouraged to develop their own environmental values and ideas. This is a communication-intensive course.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1250": {
-        "description": "Climate Justice is the intersection of climate change and issues concerning social inequality. This course provides a historical overview of climate change science, including causes, impacts, responses and the latest findings. Students will investigate the ways in which climate change is entangled with issues of equity and social justice by critically investigating the structures of power and politics that cause particular populations to be disproportionally affected by environmental hazards and climate change.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1300": {
-        "description": "This course will investigate the emergence and transformations of the concept of race in the history and culture of the United States by analyzing films. Hollywood classics will be featured, and will also be contrasted with documentary and independent films. The course will focus on social and political contexts, as well as the film\u2019s critical reception and film form.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1350": {
-        "description": "This course examines the interconnections between values and law, seeking to understand how these affect and are affected by science and technology by examining such topics as computers and privacy, medical malpractice, abortion, and other legal conflicts surrounding new reproductive technologies, problems of expert witnesses, sexual harassment, patent infringement, auto safety litigation, and siting of hazardous facilities, among others.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1550": {
-        "description": "A study of novels and short stories exploring the cultural contexts, social impacts, and ethical implications of film, television, robotics, simulations, info/bio technologies, the World Wide Web, Internet privacy, social media, mass advertising and entertainment, and fake news. Discussions, reading quizzes, written essays, and oral presentations based on the readings.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1560": {
-        "description": "A survey of the historical origins and cultural impact of several mass media, including television, film, radio, the Internet, and print media. The course aims to increase media literacy through analysis of specific media products as well as discussion of broad topics such as: advertising and commercialization; politics and censorship; gender, race, and social identity.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1562": {
-        "description": "Color is used every day to help us decode information, inform communications, influence our buying decisions, distinguish scientific properties, and impact our emotions and health. In this course, we\u2019ll study the impact of color and learn how to use it effectively. Through a series of creative hands-on graphic design projects, we will investigate color memory, relativity, and subjectivity, communicating with color, physiological and psychological responses to color, and color across cultures.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1610": {
-        "description": "The first design studio in the Design, Innovation, and Society studio series introduces DIS majors to general design through a series of short projects. We learn the basic steps of design processes, from problem definition to concept ideation and selection, to quick low-resolution prototyping. The projects stress creative thinking and critical analysis, partnered with close discussions of how design and society intersect. This is a communication-intensive course.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1666": {
-        "description": "This course explores the role of religion in different cultures and in the everyday lives of people around the world. It will introduce students to key concepts, themes, and debates in social science. The role of religion and rituals will be examined through classic texts in anthropology, sociology, political science, and in ethnographic cases relating to different types of societies, from traditional to modern American cultures. It will begin with some basic theoretical issues before discussing contemporary issues such as the relations between nation and religion, violence and religion, climate change and religion, and \u201cmagical thinking\u201d in technology and science.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1700": {
-        "description": "A course designed for students to develop their own voice as a songwriter. The course surveys the methods of successful songwriters, highlighting aspects of melody, lyrics, harmonic progression, story-telling, audience, and social context. Students develop a portfolio of their own original songs and lyrics, presented weekly and performed in a studio or live setting at the end of the term.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1776": {
-        "description": "The term \u201cAmerican Dream\u201d is familiar, but what role, specifically, does the imaginative play in American literature and culture, past and present? This course focuses on the power of imagination to shape a nation through the analysis of fiction, poetry, film, essays, comics, advertising, and historical documents. We will use diverse social histories as a means to explore contemporary experience, focusing on the tension between American dreams and American realities.  Requirements include reading/viewing responses, student presentations, and a semester capstone assignment that allows students to choose between a textual or multimedia  project.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1960": {
-        "description": "A variable topic course that changes term by term, or yearly.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1961": {
-        "description": "Variable topics course in INQR.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1962": {
-        "description": "Variable topic course in HASS.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "INQR1973": {
-        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3428,11 +3274,6 @@
     },
     "ISCI4950": {
         "description": "Students will contact several faculty members prior to the start of the semester. They and the participating faculty will mutually agree about the general area of the research and the time commitment for the rotation. Expectations for the research experience will be specified, and mutually agreed to, by the start of the semester.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ISCI6510": {
-        "description": "Discussion of current issues and research relevant to astrobiology and origins of life through the view of earth sciences, chemistry, biology, and astrophysics.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3472,14 +3313,6 @@
         ],
         "corequisites": null
     },
-    "ISYE4250": {
-        "description": "An in-depth study of the major design issues in location and physical configuration of production and service facilities. The course emphasizes the use of mathematical models, computer modeling, and quantitative analysis as aids to the design process. Topics include plant layout and location, material handling, material flow analysis, and distribution systems. Major course concepts are developed through case studies and projects.",
-        "prerequisites": [
-            "ISYE-2210",
-            "ISYE-4140"
-        ],
-        "corequisites": null
-    },
     "ISYE4260": {
         "description": "This course introduces methods, tools, and technologies for describing human performance via various types of models, and supporting this performance via tools and advanced technologies. The course is hands-on, involving student projects that investigate human performance in challenging domains as well as direct engagement with technologies for decision support.",
         "prerequisites": [
@@ -3495,10 +3328,11 @@
         ],
         "corequisites": null
     },
-    "ISYE4290": {
-        "description": "Introduction to discrete-event simulation modeling and analysis techniques including; graphical simulation modeling approaches, animation techniques, modeling large-scale and complex systems, pseudo-random number and random variate generation, stochastic processes, input modeling (data collection, analysis, and fitting distribution), output analysis (initial bias and termination bias, variance reduction techniques), sensitivity analysis, design of experiments, interactive simulation-based decision-support systems.",
+    "ISYE4310": {
+        "description": "This course introduces students to past, current, and future issues in the ethics of information technology, and encourages students to develop their own standpoint from which to address the diverse range of ethical challenges faced in the information age. During the course, students will learn about a wide range of ethical theories, and then will apply these theories to address ethical dilemmas in creating models for decision support using an educational computer simulation.",
         "prerequisites": [
-            "ISYE-4140",
+            "ENGR-2600",
+            "CSCI-1010",
             "CSCI-1100"
         ],
         "corequisites": null
@@ -3512,22 +3346,12 @@
         ],
         "corequisites": null
     },
-    "ISYE4440": {
-        "description": "The study of the link between engineering, and management. Students will gain an in-depth understanding of the foundations of engineering management.  Topics covered include the concept of engineering management, its relationship to engineering, and its historical underpinnings, the traditional roles of management with particular emphasis on leadership skills to manage projects and processes, as well as the organizational and administrative abilities required to oversee the day-to-day operational performance of complex engineering. The ethical dimensions of the organization and the engineering community are also explored.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ISYE4600": {
         "description": "An introduction to commonly used methods of deterministic and stochastic operations research. Topics include linear programming, simplex algorithms, duality, linear networks, integer programming, dynamic programming, goa1 programming, location models, exact and heuristic solution procedures for integer and sequencing problems, queuing theory, Markov chains, multi-criteria decision making, and decision analysis. Students cannot get credit for both ISYE 4600 and ISYE 6610.",
         "prerequisites": [
             "ENGR-2600",
             "MATH-1020"
         ],
-        "corequisites": null
-    },
-    "ISYE4960": {
-        "description": "Credit Hours: 3",
-        "prerequisites": null,
         "corequisites": null
     },
     "ISYE6600": {
@@ -3540,11 +3364,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ISYE6620": {
-        "description": "A thorough development of a simulation language is stressed in order to progress through a series of increasingly sophisticated applications of computer simulation. Projects cover a wide range of topics: production systems, inventory, finance, transportation, and public systems. The course includes model development, statistical analysis of simulation input/output data, validation planning, and managing simulation projects.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ISYE6780": {
         "description": "Convex sets and functions, optimality conditions in nonlinear programming, Lagrangian duality, quadratic programming algorithms for nonlinear programming including Newton\u2019s method, quasi-Newton methods, conjugate gradient methods, together with proofs of convergence.",
         "prerequisites": null,
@@ -3552,16 +3371,6 @@
     },
     "ISYE6900": {
         "description": "A review of active ISYE doctoral research projects and activities. Students develop a research paper or proposal under the guidance of a selected faculty adviser and present research findings in class. It is anticipated that the research paper will lead to identification of the broad area of dissertation research. The proposal should be of a quality that can be submitted to an external funding agency.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ISYE6960": {
-        "description": "Credit Hours: 3",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ISYE6961": {
-        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3591,6 +3400,7 @@
     "ITWS4100": {
         "description": "Students work on collaborative projects to design innovative ITWS solutions which address a specific problem or area of need in the student\u2019s field. Students work to identify a problem and research viable solutions. They go on to propose, design, and prototype their ITWS solution learning best practices for ITWS project management, communication, and user-center design. This course serves as the culminating experience for the undergraduate ITWS program. Restricted to ITWS majors. This is a communication-intensive course.",
         "prerequisites": [
+            "ITWS-2210",
             "ITWS-4310"
         ],
         "corequisites": null
@@ -3600,6 +3410,11 @@
         "prerequisites": [
             "CSCI-2300"
         ],
+        "corequisites": null
+    },
+    "ITWS4300": {
+        "description": "Investigates business-related considerations in successfully commercializing new technology in a new venture or within an existing enterprise: market and customer analysis, beating the competition, planning and managing for profitability, high-tech marketing and sales, and business partnerships and acquisitions. Not a general management course; focuses explicitly on what is relevant for engineers and scientists working in a commercial environment. For junior/senior undergraduate or graduate students.",
+        "prerequisites": null,
         "corequisites": null
     },
     "ITWS4310": {
@@ -3619,11 +3434,6 @@
     },
     "ITWS4600": {
         "description": "The world at-large is confronted with increasingly larger and complex sets of structured/unstructured information; from cyber and human sources. Traditional enterprises are moving toward analytics-driven approaches for core business functions. Data and information analytics extends analysis (descriptive models of data) by using data mining and machine learning methods, with optimization and validation, to recommend action or guide and communicate decision-making. Thus, analytics is an entire methodology rather than individual analyses or analysis steps.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ITWS4960": {
-        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3659,16 +3469,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "ITWS6960": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ITWS6961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ITWS6980": {
         "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
         "prerequisites": null,
@@ -3677,6 +3477,13 @@
     "LANG1410": {
         "description": "This course assumes no previous knowledge of the subject. The course is designed to provide students with fundamental skills in listening, speaking, reading, and writing Mandarin Chinese. Oral and aural skills will be emphasized. Background on Chinese culture will be introduced as an element of the course. For entry level, non-native speakers only.",
         "prerequisites": null,
+        "corequisites": null
+    },
+    "LANG2410": {
+        "description": "This is a continuation of Chinese I, a course for the standard modern Chinese language (Mandarin). Students learn more Chinese characters and words, reach a total of nearly 500 characters and 650 words, and use more complicated grammatical structures, including some compliment phrases and topic-comment sentences. In sum, students will learn more in all four aspects\u2014listening, speaking, reading, and writing\u2014presented in Chinese I.",
+        "prerequisites": [
+            "LANG-1410"
+        ],
         "corequisites": null
     },
     "LANG4420": {
@@ -3693,28 +3500,8 @@
         ],
         "corequisites": null
     },
-    "LGHT4230": {
-        "description": "A design studio that explores the roles of light in architecture and its application by design. Students conceive, evaluate, and synthesize solutions that contribute to successful lighting and architectural design.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "LGHT4840": {
-        "description": "An introduction to lighting and human factors, including classical literature and contemporary studies and development of skills needed to conduct and evaluate human factors research.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "LGHT4960": {
-        "description": "Experimental courses tried out in one or two terms as the general program requires.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "LGHT6830": {
-        "description": "A comprehensive overview of the physics of light and its applications for lighting. The course uses a variety of instructional methodologies, including lectures, laboratory sessions, hands-on experimentation, and individual student projects and presentations to cover various areas of lighting study. Topics include geometric optics, physical optics, lighting calculations and measures, spectroradiometry, measurement techniques for advanced light sources, radiometry, and photometry.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "LGHT6980": {
-        "description": "Active participation in a master's-level project, under the supervision of a faculty adviser, leading to a master's project report. Grades S or U are assigned at the end of the semester.  If recommended by the adviser, the master's project may be accepted by the Office of Graduate Education to be archived in the library.",
+    "LGHT6966": {
+        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3723,18 +3510,13 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "LITR2150": {
-        "description": "Students explore the philosophical, political, and artistic grounds from which modern and contemporary literature arises and develop their own creative capacities in a project related to the course readings.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "LITR2410": {
         "description": "This course will engage you with film and motion pictures from a variety of reflexive, critical, and historical perspectives. While serving as an overview of analytical approaches to film, the course will be shaped to reflect your interests as a learning community, with the aim of transforming your relationship to motion pictures and developing within you a critical, thoughtful, and informed approach to the medium.",
         "prerequisites": null,
         "corequisites": null
     },
-    "LITR4230": {
-        "description": "A survey of major works by Irish authors writing in English, with a particular focus on the fiction and drama of the twentieth century. Authors will include: Oscar Wilde, Samuel Beckett, James Joyce, and W.B. Yeats.",
+    "LITR4150": {
+        "description": "An exploration of the ongoing dialogue between science/technology and literature through the reading of landmark works about science and fictional works that describe scientific ideas and methods. Topics include artificial intelligence, genetic engineering, and cyborgs.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -3761,8 +3543,7 @@
             "PHYS-1200",
             "PHYS-1250",
             "ENGR-1200",
-            "ENGR-1400",
-            "CIVL-1200"
+            "ENGR-1400"
         ],
         "corequisites": null
     },
@@ -3797,11 +3578,6 @@
         ],
         "corequisites": null
     },
-    "MANE2960": {
-        "description": "When Offered: Upon sufficient demand.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "MANE4030": {
         "description": "Introduction to the design of mechanical components and integrated assemblies. Loads, stresses, and strains. Failure phenomena and material selection. Mechanical components including shafts, couplings, bearings, gears, springs, clutches, brakes, screws and fasteners, and bonded joints.",
         "prerequisites": [
@@ -3828,6 +3604,7 @@
     "MANE4070": {
         "description": "Introduction to fixed-wing flight mechanics.  Lift generation, thin-airfoil, and wing theories.  Boundary layers and applications to wings.  One and two-dimensional compressible flow and applications to aircraft and rocket engines.",
         "prerequisites": [
+            "MANE-2710",
             "MANE-2720"
         ],
         "corequisites": null
@@ -3848,20 +3625,12 @@
         ],
         "corequisites": null
     },
-    "MANE4130": {
-        "description": "Aerodynamic analysis of multi-rotor aerial vehicles. Multi-rotor coordinates and controls for multi-copters. Multi-copter failure and recovery. Comparison of rotor speed and pitch control. Trim and performance analysis of different multirotor archetypes.",
+    "MANE4120": {
+        "description": "Aerodynamic analysis of rotocraft in hover, axial, and edgewise flight. Rotor blade flapping, and response to rotor pitch controls. Rotor hub loads and aircraft equilibrium procedures. Helicopter performance calculations. Effect of rotor design on rotor aerodynamic performance.",
         "prerequisites": [
-            "MANE-4070"
-        ],
-        "corequisites": null
-    },
-    "MANE4140": {
-        "description": "This is a course on introduction to computational fluid dynamics. This course provides knowledge necessary to model engineering applications consistent with energy and fluid dynamic physical laws. Discretization models include: overview of finite difference, finite element, and finite volume discretization approaches, physical problem classification, discretization techniques, and numerical guidelines. Applications include:  incompressible and compressible flows, laminar and turbulence flows, with introduction to computational fluid dynamics turbulence modeling, followed by boundary layer, and parabolized flow simplifications.",
-        "prerequisites": [
-            "MANE-2720",
+            "MATH-2400",
             "MATH-2010",
-            "MATH-2012",
-            "MATH-2011"
+            "ENGR-1100"
         ],
         "corequisites": null
     },
@@ -4004,11 +3773,6 @@
         ],
         "corequisites": null
     },
-    "MANE4610": {
-        "description": "Manufacturing theory, laboratory experimentation, and manufacturing systems design and development comprised of select modern manufacturing technologies. Technologies include robotics and automation, injection molding, computer numerically controlled (CNC) machining, metal forming, inspection, rapid prototyping, and advanced manufacturing topics. Student teams apply lessons to develop a proposal to produce a product requiring multiple coordinated manufacturing processes. Students prepare technical documentation for communicating key engineering and management aspects of the developed manufacturing system to a separate fabrication group",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "MANE4670": {
         "description": "Stress, strain, balance equations, elementary constitutive models. Elements of plasticity. Effect of temperature and deformation rate on mechanical behavior of engineering materials. Theory of dislocations. Deformation of metals and strengthening mechanisms. Creep behavior and viscoelastic models of material behavior.",
         "prerequisites": [
@@ -4068,7 +3832,7 @@
         ],
         "corequisites": null
     },
-    "MANE4963": {
+    "MANE4965": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -4078,23 +3842,14 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "MANE6070": {
-        "description": "Aerodynamic analysis of multi-rotor aerial vehicles. Multi-rotor coordinates and controls for multicopters. Multicopter failure and recovery. Comparison of rotor speed and pitch control. Trim and performance analysis of different multirotor archetypes.",
+    "MANE6060": {
+        "description": "Aerodynamic analysis of rotocraft in hover, axial, and edgewise flight. Rotor blade flapping, and response to rotor pitch controls. Rotor hub loads and aircraft equilibrium procedures. Helicopter performance calculations. Effect of rotor design on rotor aerodynamic performance.",
         "prerequisites": null,
         "corequisites": null
     },
     "MANE6120": {
         "description": "A survey of the fundamental issues necessary for the design, analysis, control, and implementation of robotic systems.  The mathematical description of robot manipulators in terms of kinematics and dynamics.  Hardware components of a typical robot arm.  Path following, control, and sensing. Examples of several currently available manipulators.",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "MANE6140": {
-        "description": "This is a course on introduction to computational fluid dynamics. This course provides knowledge necessary to model engineering applications consistent with energy and fluid dynamic physical laws. Discretization models include: overview of finite difference, finite element, and finite volume discretization approaches, physical problem classification, discretization techniques, and numerical guidelines. Applications include:  incompressible and compressible flows, laminar and turbulence flows, with introduction to computational fluid dynamics turbulence modeling, followed by boundary layer, and parabolized flow simplifications.",
-        "prerequisites": [
-            "MANE-2720",
-            "MATH-2011",
-            "MATH-2012"
-        ],
         "corequisites": null
     },
     "MANE6170": {
@@ -4122,8 +3877,8 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "MANE6530": {
-        "description": "Navier-Stokes equations, linear stability, vorticity and its origin, transition in wall-bounded and free-shear flows, statistics and Reynolds averaging, homogeneous turbulence, coherent structures, laboratory methods for study of turbulence, including turbulence measurements and turbulence modeling.",
+    "MANE6560": {
+        "description": "Graduate fluid mechanics course on classical and modern approaches to hydrodynamics. Topics cover three areas, (1) surface waves, (2) flow instability, and (3) vortex dynamics. Wave topics include linear dispersive and nondispersive waves, weakly nonlinear waves, and viscous effects, with special attention to surface tension phenomena. Flow instabilities include gravitational, capillary, thermal, centrifugal, and viscous instabilities. Topics in vortex dynamics include vortex laws and flow invariants, generation and decay of vorticity, and vortex-boundary interaction.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -4133,19 +3888,6 @@
             "MANE-4500",
             "ECSE-2410"
         ],
-        "corequisites": null
-    },
-    "MANE6620": {
-        "description": "The concepts, techniques, and tools related to optimal control for dynamical systems. Major topics include calculus of variation, minimum principle, dynamic programming, optimal estimation, and differential games. Both discrete time systems and continuous times are addressed. Particular consideration is given to linear time invariant systems in terms of linear quadratic regulator and Kalman filter.",
-        "prerequisites": [
-            "ECSE-6400",
-            "MANE-6600"
-        ],
-        "corequisites": null
-    },
-    "MANE6630": {
-        "description": "An introduction to the mathematics of conduction heat transfer. Applications of results illustrated by examples from furnace design, cooling of electric components, building design, heat exchanger design.",
-        "prerequisites": null,
         "corequisites": null
     },
     "MANE6660": {
@@ -4158,9 +3900,17 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "MANE6800": {
-        "description": "Examination of the basic elements that are used to integrate the design and manufacture of capital and consumer products; manufacturing information systems, CAD/CAM systems, and manufacturability considerations when integrating unit process operations.",
+    "MANE6730": {
+        "description": "A basic course in tribology that covers both the fundamental and applied aspects of the subject. Content includes viscometry, the Reynolds equation, thrust and journal bearings (including design), thermal effects, dynamic loading and instability of bearings, rolling contact bearings, dry bearings, and theories of wear. This course includes design principles and data and is basic to other courses offered in tribology.",
         "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE6760": {
+        "description": "This course covers finite element-based approaches to solve problems in fluid mechanics including the Navier-Stokes equations and its variants. Emphasis is placed on variational multiscale and stabilized methods. Experience in numerical methods and programming is assumed. Different transport equations are considered starting from an advection-diffusion equation. Issues concerning implementation are also discussed pertaining to the numerical formulation, stabilization parameter, time integrator, nonlinear equation iterator, finite element assembly, boundary conditions, and linear solver.",
+        "prerequisites": [
+            "MANE-6660",
+            "CIVL-6660"
+        ],
         "corequisites": null
     },
     "MANE6900": {
@@ -4169,16 +3919,6 @@
         "corequisites": null
     },
     "MANE6961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "MANE6962": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "MANE6963": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -4231,6 +3971,13 @@
         "description": "First-order differential equations, second-order linear equations, eigenvalues and eigenvectors of matrices, systems of first-order equations, stability and qualitative properties of nonlinear autonomous systems in the plane, Fourier series, separation of variables for partial differential equations.",
         "prerequisites": [
             "MATH-1020"
+        ],
+        "corequisites": null
+    },
+    "MATH4040": {
+        "description": "Topics include general topological spaces, connectedness, compactness, continuity, and product spaces. Additional topics may be chosen from identification spaces, homotopy, the fundamental group, covering maps, lifts, classification of surfaces, Baire category, dimension, and the Jordan curve theorem.",
+        "prerequisites": [
+            "MATH-4090"
         ],
         "corequisites": null
     },
@@ -4288,8 +4035,8 @@
         ],
         "corequisites": null
     },
-    "MATH4720": {
-        "description": "An introduction to mathematics used in biology, biophysics, biomedical engineering, and medicine. The mathematical topics covered are selected from calculus, linear algebra, differential equations, numerical methods, and Fourier analysis. The biological applications covered are selected from human physiology (heart, lung, brain), population models (microorganisms, cells, animals), and the diagnosis and treatment of disease (heart, cancer).",
+    "MATH4740": {
+        "description": "This course is designed to introduce students to mathematical and computational finance. Topics include a mathematical approach to risk analysis, portfolio selection theory, futures, options, and other derivative investment instruments. Finite difference and finite element methods for computing American option prices are discussed. A working knowledge of MAPLE or MATLAB is required to compute optimal portfolios.",
         "prerequisites": [
             "MATH-1020"
         ],
@@ -4302,21 +4049,6 @@
             "MATH-2010",
             "MATH-2011",
             "MATH-2012"
-        ],
-        "corequisites": null
-    },
-    "MATH4961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "MATH6220": {
-        "description": "A basic course in the concepts of linear functional analysis, including such topics as Banach and Hilbert spaces, L^p and l^p (sequence) spaces; weak, strong and weak* convergence; linear functionals; linear bounded, unbounded, closed, and compact operators; spectrum, resolvent, the spectral theorem for compact operators, Fredholm alternative; applications are to differential equations, integral equations and optimization.",
-        "prerequisites": [
-            "MATH-4100",
-            "MATH-4300",
-            "MATH-4200",
-            "MATH-4600"
         ],
         "corequisites": null
     },
@@ -4341,6 +4073,14 @@
         "description": "Computational methods for linear systems, Gaussian elimination, conditioning and stability, pivoting strategies, special linear systems (such as positive definite, banded, or sparse), QR factorization and least squares problem. Computational methods for eigenvalue problems and singular value decompositions. Iterative methods for linear systems (such as GMRES, conjugate gradient and preconditioning).",
         "prerequisites": [
             "MATH-4800"
+        ],
+        "corequisites": null
+    },
+    "MATH6820": {
+        "description": "Numerical methods and analysis for ODEs with applications from mechanics, optics, and chaotic dynamics. Numerical methods for dynamical systems include Runge-Kutta, multistep and extrapolation techniques, methods for conservative and Hamiltonian systems, methods for stiff differential equations and for differential-algebraic systems. Methods for boundary value problems include shooting and orthogonalization, finite difference and collocation techniques, and special methods for problems with boundary or shock layers.",
+        "prerequisites": [
+            "MATH-4800",
+            "CSCI-4800"
         ],
         "corequisites": null
     },
@@ -4411,6 +4151,16 @@
         ],
         "corequisites": null
     },
+    "MATP6960": {
+        "description": "Advanced methods and/or applications in optimization. Possible topics include stochastic programming, learning theory, cone programming, optimization of medical treatment, and network flows.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MATP6961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "MGMT1100": {
         "description": "This is a required first course for management majors and minors. In a case-based format, it emphasizes broad, basic principles of managerial functions and processes using an interdisciplinary approach to goal-oriented situations of private and public organizations.",
         "prerequisites": null,
@@ -4476,7 +4226,9 @@
     },
     "MGMT4110": {
         "description": "This course introduces the student to the operations function in services and manufacturing-oriented firms. Students develop an appreciation of the concepts, principles, and techniques used for decision making in the operations function. The course takes a managerial perspective.",
-        "prerequisites": null,
+        "prerequisites": [
+            "MGMT-2100"
+        ],
         "corequisites": null
     },
     "MGMT4140": {
@@ -4552,11 +4304,6 @@
         ],
         "corequisites": null
     },
-    "MGMT4600": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "MGMT4850": {
         "description": "This course provides an overview of basic processes in human behavior that influence the effectiveness of individuals, groups and organizations. Its focus is on understanding what happens during interpersonal interactions in work situations, and what can be done to make employees more effective. Topics covered include organizational socialization, motivation, decision-making, team dynamics, virtual teams, influence, and conflict management. Numerous exercises and case analyses are used in class to help provide students with insights into these processes.",
         "prerequisites": [
@@ -4581,7 +4328,17 @@
         ],
         "corequisites": null
     },
+    "MGMT4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "MGMT4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT4962": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -4696,11 +4453,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "MGMT6600": {
-        "description": "The world at-large is confronted with increasingly larger and complex sets of structured/unstructured information; from cyber and human sources. Traditional enterprises are moving toward analytics-driven approaches for core business functions. Data and information analytics extends analysis (descriptive models of data) by using data mining and machine learning methods, with optimization and validation, to recommend action or guide and communicate decision-making. Thus, analytics is an entire methodology rather than individual analyses or analysis steps.   When Offered:Fall term annually.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "MGMT6640": {
         "description": "Creativity is the starting point for technological entrepreneurship. Through interaction with faculty and guest speakers, students increase their understanding of the creative process and some of the tools that can be implemented to stimulate and/or manage individual and collective creativity. In addition, through application of these techniques in course activities, students explore and attempt to enhance their own creativity.",
         "prerequisites": null,
@@ -4720,11 +4472,6 @@
             "MGMT-7730",
             "MGMT-7740"
         ],
-        "corequisites": null
-    },
-    "MGMT6960": {
-        "description": "",
-        "prerequisites": null,
         "corequisites": null
     },
     "MGMT6961": {
@@ -4804,6 +4551,11 @@
         ],
         "corequisites": null
     },
+    "MTLE4960": {
+        "description": "Credit Hours: 3",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "MTLE6030": {
         "description": "Review of classical thermodynamics. Development of basic concepts of statistical thermodynamics. Application of both classical and statistical techniques to the determination of phase and chemical equilibrium in real systems.",
         "prerequisites": null,
@@ -4824,13 +4576,13 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "MTLE6500": {
-        "description": "This course introduces basic concepts used in the modeling of material properties. The course will include quantum mechanics, molecular dynamics, Monte Carlo and continuum level analysis, and multiscale methods as applied to the modeling of soft and hard matter. The methods are introduced in a computer laboratory environment. Open to graduates and qualified undergraduates.",
+    "MTLE6900": {
+        "description": "When Offered: Fall and spring terms annually.",
         "prerequisites": null,
         "corequisites": null
     },
-    "MTLE6900": {
-        "description": "When Offered: Fall and spring terms annually.",
+    "MTLE6960": {
+        "description": "Credit Hours: 3",
         "prerequisites": null,
         "corequisites": null
     },
@@ -4911,17 +4663,14 @@
         "corequisites": null
     },
     "PHYS1100": {
-        "description": "The first semester of a two-semester sequence of interactive courses. Topics include linear and angular kinematics and dynamics, work and energy, momentum and collisions, forces and fields, gravitation, oscillatory motion, waves, sound, and interference. This course includes a lab component that is intended to provide students with hand-on as well as data analysis experience",
+        "description": "The first semester of a two-semester sequence of interactive courses. Topics include linear and angular kinematics and dynamics, work and energy, momentum and collisions, forces and fields, gravitation, oscillatory motion, waves, sound, and interference.",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "PHYS1140": {
-        "description": "An introduction to modern physics with emphasis on special relativity; concepts in quantum mechanics; elementary particles and fundamental forces; and applications to nuclei and atoms.",
-        "prerequisites": null,
-        "corequisites": null
+        "corequisites": [
+            "PHYS-1960"
+        ]
     },
     "PHYS1200": {
-        "description": "The second semester of the two-semester sequence of interactive courses. Topics include electric and magnetic forces and fields, Gauss\u2019s Law, dc and ac circuits, Ampere\u2019s Law and Faraday\u2019s Law, electromagnetic radiation, physical optics, and quantum physics. This course includes a lab component that is intended to provide students with hand-on as well as data analysis experience",
+        "description": "The second semester of the two-semester sequence of interactive courses. Topics include electric and magnetic forces and fields, Gauss\u2019s Law, dc and ac circuits, Ampere\u2019s Law and Faraday\u2019s Law, electromagnetic radiation, physical optics, and quantum physics.",
         "prerequisites": [
             "PHYS-1100",
             "MATH-1020"
@@ -4931,11 +4680,11 @@
     "PHYS1250": {
         "description": "Introductory physics for students seeking a more intensive experience. Electricity and magnetism is discussed making use of multivariable differentiation and integration. AC and DC circuits. Electromagnetic waves, optics, and selected topics in modern physics. Laboratory exercises are carried out emphasizing measurement uncertainty and clear, concise reporting. Recommended for students intending to major in physics.",
         "prerequisites": [
-            "PHYS-1100",
-            "PHYS-1150",
-            "MATH-1020"
+            "PHYS-1100"
         ],
-        "corequisites": null
+        "corequisites": [
+            "MATH-1020"
+        ]
     },
     "PHYS1600": {
         "description": "Introduction to the scientific principles that dictate the structure and properties of engineering materials, including metals, ceramics, semiconductors, and polymers. Physical properties of materials (mechanical, electrical, thermal, optical) are discussed in terms of the underlying structure, spanning multiple length scales from atomic packing to micron scale defects in practical engineering materials. Throughout the course, the material behaviors are understood from the viewpoint of thermodynamics and kinetics.",
@@ -4957,6 +4706,13 @@
         "prerequisites": null,
         "corequisites": null
     },
+    "PHYS1962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": [
+            "PHYS-1150"
+        ]
+    },
     "PHYS2210": {
         "description": "Introduction to the formalism of Special Relativity, Schrodinger wave mechanics, and spin-1/2 particles. Solutions to Schrodinger\u2019s Equation in one, two, and three dimensions. One-electron atoms and quantum mechanical magnetic dipole moments.",
         "prerequisites": null,
@@ -4971,6 +4727,16 @@
     },
     "PHYS2960": {
         "description": "Credit Hours: 4",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2963": {
+        "description": "",
         "prerequisites": null,
         "corequisites": null
     },
@@ -4990,21 +4756,23 @@
         ],
         "corequisites": null
     },
-    "PHYS4620": {
-        "description": "Survey of the elementary particles and their interactions. Historical introduction and discussion of experimental apparatus and particle accelerators. Relativistic kinematics and incorporation into quantum field theory, including Feynman diagrams. Bound states and the quark model. Symmetries and their manifestation. Neutrino oscillations and gauge theories. Quantum electrodynamics, the electroweak interaction, quantum chromodynamics, and prospects for grand unification. A culminating experience project is required.",
+    "PHYS4330": {
+        "description": "Particle and rigid body dynamics using Newtonian, Lagrangian, and Hamiltonian methods. Motion of particle systems. Central force motion. Rotating coordinate systems. Rigid body motion using the inertia tensor and Euler angles. Coupled systems and normal coordinates. Introduction to continuum mechanics and the mechanics of deformable media. Introduction to Hamiltonian Mechanics, including proof and applications of Liouville\u2019s Theorem. Formalism of Special Relativity. Introduction to nonlinear dynamics and chaotic behavior.",
         "prerequisites": [
-            "PHYS-4100"
+            "PHYS-1200",
+            "PHYS-1250",
+            "MATH-2400",
+            "MATH-2010"
         ],
         "corequisites": null
     },
-    "PHYS4941": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "PHYS4960": {
-        "description": "Credits: 1 to 4",
-        "prerequisites": null,
+    "PHYS4420": {
+        "description": "The principles and physical applications of classical thermodynamics are developed. Basic concepts in classical and quantum statistical mechanics are introduced and their relations to thermodynamics are developed.",
+        "prerequisites": [
+            "PHYS-2210",
+            "MATH-2400",
+            "MATH-2010"
+        ],
         "corequisites": null
     },
     "PHYS4961": {
@@ -5037,17 +4805,7 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "PHYS6960": {
-        "description": "Credit Hours: Variable",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "PHYS6961": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "PHYS6962": {
         "description": "",
         "prerequisites": null,
         "corequisites": null
@@ -5070,6 +4828,16 @@
     "PSYC1200": {
         "description": "This course embraces the science of psychology.  The aim is for students to learn how using the scientific method provides important insights about mind, brain, and behavior.  This course integrates research on neuroscience throughout all the standard topics in an introductory course in psychology.  The course presents advances across all subfields of psychology.  In addition to standard exams, there are online assignments for each chapter and online laboratory experiences.",
         "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC2310": {
+        "description": "This course, the first in a two-course sequence, provides an introduction to basic methods of behavioral and social science research, including experimental, quasi-experimental, and non-experimental research designs, psychometric considerations (e.g., reliability, validity, control, importance, levels of measurement), approaches to data collection and analysis, and communication of results. Students will demonstrate their understanding of the topics covered by writing a detailed research proposal formatted according to American Psychological Association (APA) guidelines.  Students will also gain experience in using a selection of parametric (e.g., correlation, simple and multiple regression, ANOVA) and non-parametric (e.g., Chi-square, Mann-Whitney U, Wilcoxon T, Kruskal-Wallis, Friedman\u2019s ANOVA) statistical procedures. Data analysis will be carried out using R, an open-source programming language for statistical calculation and graphics, and R-Studio, an open-source integrated development environment for R.",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-2120",
+            "PSYC-2120",
+            "PHIL-2120"
+        ],
         "corequisites": null
     },
     "PSYC2730": {
@@ -5101,6 +4869,14 @@
         ],
         "corequisites": null
     },
+    "PSYC4360": {
+        "description": "This course is an introduction to the role of physiological mechanisms in behavioral processes. There will be detailed examination and discussion of the involvement of biological systems in feeding and drinking, sexual behavior, sleep and arousal, learning and memory, psychopathology and psychopharmacology.",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
     "PSYC4370": {
         "description": "The focus of this course is on the flow of information from sensory input to retrieval from long-term memory. Within this framework, topics such as mnemonics, pattern recognition, attention, computer simulation, reasoning, and the relationship between culture and thought are discussed.",
         "prerequisites": [
@@ -5113,6 +4889,16 @@
     },
     "PSYC4430": {
         "description": "Mindfulness involves giving particular attention to our moment-to-moment experiences in a way that emphasizes observing, rather than judging or evaluating. There is empirical evidence of the many health benefits of mindfulness meditation, including the potential to produce fundamental changes in brain structure and epigenetic change. In this class, participants will discuss the historical and psychological foundations of mindfulness and empirical findings supporting its positive effects. Students will participate in structured exercises. This course is a very hands-on approach to mindfulness. Students will be required to practice mindfulness and meditation and develop their mindful skills. ",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4500": {
+        "description": "This course is an exploration of the social and psychological effects of extensive use of pharmacological agents that are salient to daily behavior. There is an emphasis on the effects of addictive drugs such as alcohol, heroin, and cocaine.",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4720": {
+        "description": "The definition, history, major schools of thought, and models of the normal and abnormal personality are presented. Disorders are examined within the framework of D.S.M. and competing schools of thought. The description, etiology, treatment, including pharmacologic, and prevention of each of the disorders are considered. Illustrative cases are presented. Students write a paper on a topic, approved by the instructor, that focuses upon the impact of public policies on psychopathology.",
         "prerequisites": null,
         "corequisites": null
     },
@@ -5143,16 +4929,9 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "STSO1100": {
+    "STSO1110": {
         "description": "This course examines science and technology in their social, cultural, and political context. Readings are drawn from social sciences, fiction, and contemporary journalism. Case studies will include genetic testing, automation, vaccines, engineering education, AIDS activism, mental health, surveillance, and climate change. The class is designed to give students the freedom to develop and express their own ideas.",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "STSO2020": {
-        "description": "This design studio introduces students to the first semester-long design project. We introduce students to more formal engineering design methods. This includes problem formulation, structured ideation, rapid prototyping, evaluation, functional modeling, and iteration. Studio III will also continue to draw on social science methods of ethnographic observation, background research, stakeholder analysis, and also a critical deconstruction of engineering design methods in a way that builds agility in ways more appropriate for those in DIS. Development of individual skills in design development, presentation, and portfolio building are also emphasized.",
-        "prerequisites": [
-            "IHSS-2610"
-        ],
         "corequisites": null
     },
     "STSO2100": {
@@ -5215,26 +4994,6 @@
         ],
         "corequisites": null
     },
-    "STSO4440": {
-        "description": "This seminar surveys the history of mental health through discussion and analysis of secondary literature that explores central and key themes from the late eighteenth century up through recent history. Topics will include the history of mental health institutions and professions, the classification, diagnosis and treatment of mental illness, public health and policy, historical memory, the I.Q. controversy, the state, and race, class, and gender in the history of mental health.",
-        "prerequisites": [
-            "IHSS-1410",
-            "IHSS-1420",
-            "IHSS-1430",
-            "IHSS-1410",
-            "IHSS-1420",
-            "IHSS-1430",
-            "STSO-1110",
-            "STSO-2520",
-            "STSO-2500"
-        ],
-        "corequisites": null
-    },
-    "STSO4510": {
-        "description": "Discusses the growth of American technology and its place within the framework of American history as well as the interrelationship of American and foreign technological developments. This course stresses the cultural contexts of technological change. Topics covered include the Erie Canal, the American system of manufacturing, railroads, emergence of engineering professions, corporate R&D, household technology, the technology of modern warfare, and the electronics revolution.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "STSO4605": {
         "description": "Design for the Future: This course introduces students to design for the future by connecting critical readings to applied practices. Students are expected to participate in both individual and group research, including hands-on explorations of design ideas and problem spaces for re-thinking objects of the future. The specific methodologies, concepts, and topics will vary according to the expertise and research specialization of the faculty member teaching the course and may include themes such as the future of cities, climate futures, and designing for peace.  ",
         "prerequisites": [
@@ -5247,13 +5006,8 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "STSO6200": {
-        "description": "A broad survey of the field of science studies from the vantage point of various disciplinary and interdisciplinary perspectives that have contributed to the development of science studies. The texts, theories, and arguments that were important for the historical development of the field are covered, as well as contemporary issues. The seminar provides the resources and develops the skills needed for understanding, criticizing, constructing, and developing research in the field.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "STSO6961": {
-        "description": "Variable topic course in STSO.",
+    "STSO6010": {
+        "description": "This course is required for the M.S. in STS. Students are introduced to the literature and current issues in the interdisciplinary field of Science and Technology Studies. ",
         "prerequisites": null,
         "corequisites": null
     },
@@ -5367,11 +5121,6 @@
         "prerequisites": null,
         "corequisites": null
     },
-    "WRIT2110": {
-        "description": "This course is designed to assist students in becoming more self-possessed and versatile writers. The course offers instruction in linguistic, rhetorical, and sociocultural concepts through its overarching focus on language: how it works, where it falls short, and how to harness it for specific purposes. Critical thinking and composing are conceptualized as processes, which includes the creation, development, organization, and revision of ideas and arguments. Students will complete a series of writing assignments in order to participate in contemporary debates occurring in both public and academic contexts.",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "WRIT2330": {
         "description": "A workshop course in reading and writing the literary short story and literary flash fiction; students must have a good command of written English and grammar. This course will focus on reading and analyzing exemplary short fiction and writing and revising original work. Students learn to develop plot, character, setting, point of view, style, and structure, and use revision strategies to re-invent and shape narratives. Peer reading and writing groups offer opportunities for shared response and critique.",
         "prerequisites": null,
@@ -5379,20 +5128,6 @@
     },
     "WRIT2340": {
         "description": "This course focuses on developing public speaking skills and critical listening abilities. Guided by rhetorical theory, theories of persuasion, and argumentation theory, students prepare several oral presentations, engage in extemporaneous speaking exercises, and criticize other performances.",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "WRIT4550": {
-        "description": "Make things happen: start a business, raise funds, solicit work, support research, win a place on a conference program, take initiative, change the way things are done around here. This course will teach students how to write proposals that persuade. Students will learn to turn situations into occasions for proposing, write a variety of proposals, locate Request for Proposals, develop a work plan for feasible projects that come in on-time and on-budget, use networks to strengthen proposals, detail a budget, and edit for clarity and grace.",
-        "prerequisites": [
-            "WRIT-1110",
-            "WRIT-2110",
-            "COMM-2520"
-        ],
-        "corequisites": null
-    },
-    "WRIT6550": {
-        "description": "This course provides strategies for how to find funding, write persuasive narratives, develop budgets, and leverage academic or professional networks to craft competitive proposals. Here you will learn how to seek opportunities for developing proposals to support projects in your field of interest.",
         "prerequisites": null,
         "corequisites": null
     }

@@ -1,0 +1,1241 @@
+{
+    "ADMN1824": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6600": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6800": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2560": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2750": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ASTR2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BCBP4760": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010",
+            "BIOL-2120"
+        ],
+        "corequisites": null
+    },
+    "BCBP6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BCBP9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL4200": {
+        "description": "",
+        "prerequisites": [
+            "BIOL-1010",
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "BIOL4720": {
+        "description": "",
+        "prerequisites": [
+            "BIOL-2120",
+            "BIOL-4620"
+        ],
+        "corequisites": null
+    },
+    "BIOL4740": {
+        "description": "",
+        "prerequisites": [
+            "BIOL-2120",
+            "BIOL-2500"
+        ],
+        "corequisites": null
+    },
+    "BIOL4760": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010"
+        ],
+        "corequisites": null
+    },
+    "BIOL6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BMED2050": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "BMED2100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BMED2300": {
+        "description": "",
+        "prerequisites": [
+            "PHYS-1200"
+        ],
+        "corequisites": null
+    },
+    "BMED2540": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "BMED4010": {
+        "description": "",
+        "prerequisites": [
+            "BMED-2100",
+            "BMED-2300",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "BMED4200": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2010",
+            "PHYS-1200",
+            "PHYS-1250",
+            "BMED-2050"
+        ],
+        "corequisites": null
+    },
+    "BMED4250": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100",
+            "PHYS-1100",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHEM2930": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM4010": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2030"
+        ],
+        "corequisites": null
+    },
+    "CHEM4410": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHEM4440": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-1200",
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "CHEM4530": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM4760": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010",
+            "BIOL-2120"
+        ],
+        "corequisites": null
+    },
+    "CHME2050": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHME2100": {
+        "description": "",
+        "prerequisites": [
+            "CHME-2020"
+        ],
+        "corequisites": null
+    },
+    "CHME4020": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400",
+            "CHME-4010"
+        ],
+        "corequisites": null
+    },
+    "CHME4963": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME4965": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME4966": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CIVL6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CIVL9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS4360": {
+        "description": "",
+        "prerequisites": [
+            "PSYC-1200",
+            "PHIL-2120",
+            "PSYC-2120",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "COGS4600": {
+        "description": "",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-4330",
+            "PSYC-4330",
+            "PHIL-2120",
+            "PSYC-2120",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "COGS4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI1100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI2600": {
+        "description": "",
+        "prerequisites": [
+            "CSCI-1200",
+            "CSCI-2200"
+        ],
+        "corequisites": null
+    },
+    "CSCI2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI4210": {
+        "description": "",
+        "prerequisites": [
+            "CSCI-2300",
+            "CSCI-2500",
+            "ECSE-2660"
+        ],
+        "corequisites": null
+    },
+    "CSCI4380": {
+        "description": "",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
+        "corequisites": null
+    },
+    "CSCI4440": {
+        "description": "",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
+        "corequisites": null
+    },
+    "CSCI4800": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "CSCI6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON2010": {
+        "description": "",
+        "prerequisites": [
+            "ECON-1200",
+            "IHSS-1200",
+            "IHSS-1975",
+            "MATH-1010",
+            "MATH-1500"
+        ],
+        "corequisites": null
+    },
+    "ECON4130": {
+        "description": "",
+        "prerequisites": [
+            "ECON-1200",
+            "IHSS-1200"
+        ],
+        "corequisites": null
+    },
+    "ECSE2010": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ECSE2110": {
+        "description": "",
+        "prerequisites": [
+            "ECSE-2010",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "ECSE2410": {
+        "description": "",
+        "prerequisites": [
+            "ECSE-2010"
+        ],
+        "corequisites": null
+    },
+    "ECSE2500": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ECSE2660": {
+        "description": "",
+        "prerequisites": [
+            "ECSE-2610"
+        ],
+        "corequisites": null
+    },
+    "ECSE2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR2050": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "CIVL-1200",
+            "ENGR-1200",
+            "ENGR-1400",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "ENGR2090": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "PHYS-1100",
+            "PHYS-1150",
+            "MATH-2400",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ENGR2300": {
+        "description": "",
+        "prerequisites": [
+            "PHYS-1200",
+            "PHYS-1250",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    },
+    "ENGR2530": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "ENGR2600": {
+        "description": "",
+        "prerequisites": [
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "ENGR4760": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENVE4370": {
+        "description": "",
+        "prerequisites": [
+            "CIVL-2060"
+        ],
+        "corequisites": null
+    },
+    "ENVE9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ERTH1010": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS1040": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS2560": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS2961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISCI9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4140": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-2600"
+        ],
+        "corequisites": null
+    },
+    "ISYE4240": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4600": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-2600",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    },
+    "ISYE6610": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LGHT6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE2220": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "PHYS-1200",
+            "PHYS-1250",
+            "ENGR-1200",
+            "ENGR-1400",
+            "CIVL-1200"
+        ],
+        "corequisites": null
+    },
+    "MANE2720": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1100",
+            "PHYS-1100",
+            "PHYS-1150",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "MANE4030": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400",
+            "ENGR-2530",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "MANE4060": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-2530"
+        ],
+        "corequisites": null
+    },
+    "MANE4070": {
+        "description": "",
+        "prerequisites": [
+            "MANE-2720"
+        ],
+        "corequisites": null
+    },
+    "MANE4240": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-2530",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "MANE4500": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "MANE4730": {
+        "description": "",
+        "prerequisites": [
+            "MANE-2710"
+        ],
+        "corequisites": null
+    },
+    "MANE4880": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MATH4090": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2010"
+        ],
+        "corequisites": null
+    },
+    "MATH4100": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2010",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH4300": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MATH4600": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH4800": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2400",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT1100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT2320": {
+        "description": "",
+        "prerequisites": [
+            "MGMT-2300"
+        ],
+        "corequisites": null
+    },
+    "MGMT4140": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT4850": {
+        "description": "",
+        "prerequisites": [
+            "MGMT-1100"
+        ],
+        "corequisites": null
+    },
+    "MGMT9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE2500": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE4250": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-1600",
+            "MTLE-2100"
+        ],
+        "corequisites": [
+            "MTLE-2500"
+        ]
+    },
+    "MTLE6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE6990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE9990": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2350": {
+        "description": "",
+        "prerequisites": [
+            "PHYS-2210"
+        ],
+        "corequisites": null
+    },
+    "PHYS2962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS4962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4360": {
+        "description": "",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "PSYC4600": {
+        "description": "",
+        "prerequisites": [
+            "COGS-4330",
+            "PSYC-4330",
+            "PSYC-4360",
+            "COGS-4360",
+            "PSYC-4370"
+        ],
+        "corequisites": null
+    },
+    "PSYC4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4600": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT1110": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2180": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2700": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS4560": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1010": {
+        "description": "",
+        "prerequisites": [
+            "BIOL-1015",
+            "BIOL-1016"
+        ],
+        "corequisites": null
+    },
+    "BIOL1015": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": [
+            "BIOL-1010"
+        ]
+    },
+    "BIOL4320": {
+        "description": "",
+        "prerequisites": [
+            "BIOL-2500"
+        ],
+        "corequisites": null
+    },
+    "CHEM1100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM2230": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM2250": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "CHEM4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM1960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2520": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2660": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4880": {
+        "description": "",
+        "prerequisites": [
+            "CSCI-1010",
+            "CSCI-1100",
+            "CSCI-1200"
+        ],
+        "corequisites": null
+    },
+    "COMM4963": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM6880": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON2020": {
+        "description": "",
+        "prerequisites": [
+            "IHSS-1200",
+            "MATH-1010",
+            "MATH-1500"
+        ],
+        "corequisites": null
+    },
+    "ECON4190": {
+        "description": "",
+        "prerequisites": [
+            "ECON-1200"
+        ],
+        "corequisites": null
+    },
+    "ECON4230": {
+        "description": "",
+        "prerequisites": [
+            "ECON-1200",
+            "IHSS-1200"
+        ],
+        "corequisites": null
+    },
+    "ENGR1100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1200": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1600": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "ENGR4010": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LANG1410": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LANG4961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE4080": {
+        "description": "",
+        "prerequisites": [
+            "MANE-2710",
+            "MANE-2720"
+        ],
+        "corequisites": null
+    },
+    "MANE4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL2140": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4240": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4500": {
+        "description": "",
+        "prerequisites": [
+            "STSO-2500",
+            "STSO-2510",
+            "STSO-2520",
+            "STSO-2700",
+            "IHSS-1110",
+            "IHSS-1150",
+            "PHIL-1110",
+            "PHIL-4240"
+        ],
+        "corequisites": null
+    },
+    "PHYS1100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS6980": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4430": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4730": {
+        "description": "",
+        "prerequisites": [
+            "PSYC-1200"
+        ],
+        "corequisites": null
+    },
+    "STSO2520": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4100": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4250": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT2340": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT2960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1961": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM1200": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "CHEM2240": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2230",
+            "CHEM-2260"
+        ],
+        "corequisites": null
+    },
+    "CHEM2260": {
+        "description": "",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM4962": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS2120": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2440": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4535": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON4570": {
+        "description": "",
+        "prerequisites": [
+            "MATH-2010",
+            "ENGR-2600",
+            "MGMT-2100",
+            "MATP-4600",
+            "PSYC-2310",
+            "BIOL-4200"
+        ],
+        "corequisites": null
+    },
+    "ECON4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6970": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1300": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ERTH4190": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4310": {
+        "description": "",
+        "prerequisites": [
+            "ENGR-2600",
+            "CSCI-1010",
+            "CSCI-1100"
+        ],
+        "corequisites": null
+    },
+    "LANG4960": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LITR2110": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4130": {
+        "description": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS1200": {
+        "description": "",
+        "prerequisites": [
+            "PHYS-1100",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    }
+}
