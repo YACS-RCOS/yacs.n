@@ -24,7 +24,7 @@
       </b-row>
       <h5>Instructors:</h5>
       <ul>
-        <li v-for="item in instructorList" :key="item.id">
+        <li v-for="item in getIns" :key="item.id">
       <template v-if="item in professorbylastname">
         <span>{{ professorbylastname[item].Name }} --- {{ professorbylastname[item].Email }}</span>
       </template>
@@ -141,33 +141,13 @@ export default {
           text: this.$route.params.course,
         },
       ],
-      instructorList:[],
       professorbylastname:professorbylastname,
       professorbyfirstname:professorbyfirstname,
       professorbylastname1:professorbylastname1,
       professorbyfirstname1:professorbyfirstname1,
     };
   },
-  mounted(){
-    //Creat a set to store professor names.
-    const instructors = new Set();
-    //Use the loop to get professor name of each session
-    this.courseObj.sections.forEach(section => {
-      section.sessions.forEach(session => {
-        //Some sessions may have mult professor just split them
-        const instructorArr1 = session.instructor.split(" ");
-        const instructorArr = instructorArr1[0].split("/")
-        instructorArr.forEach(instructor =>{
-          //Remove duplicate items, and some strange names
-          if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
-          instructors.add(instructor.trim());
-        }
-        });
-      });
-    });
-    //Change set to array
-    this.instructorList = Array.from(instructors);
-  },
+
   methods: {
     generateRequirementsText,
     addCourse() {
@@ -302,6 +282,28 @@ export default {
         credits = this.courseObj.min_credits;
       }
       return credits;
+    },
+    getIns(){
+      var instructorList = [];
+      //Creat a set to store professor names.
+    const instructors = new Set();
+    //Use the loop to get professor name of each session
+    this.courseObj.sections.forEach(section => {
+      section.sessions.forEach(session => {
+        //Some sessions may have mult professor just split them
+        const instructorArr1 = session.instructor.split(" ");
+        const instructorArr = instructorArr1[0].split("/")
+        instructorArr.forEach(instructor =>{
+          //Remove duplicate items, and some strange names
+          if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
+          instructors.add(instructor.trim());
+        }
+        });
+      });
+    });
+    //Change set to array
+    instructorList = Array.from(instructors);
+    return instructorList;
     },
   },
   metaInfo() {
