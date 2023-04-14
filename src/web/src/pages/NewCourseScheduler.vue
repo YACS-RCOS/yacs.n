@@ -253,6 +253,9 @@ const addSection = (p, section) => {
   };
 };
 export default {
+  mounted() {
+    this.$router.replace({ name: "CourseScheduler", params: { reload: true } });
+  },
   name: "MainPage",
   mixins: [NotificationsMixin],
   components: {

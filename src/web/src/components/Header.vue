@@ -38,7 +38,7 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first"  @click.native="redirectToSchedule">
+        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
@@ -118,6 +118,16 @@ import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
 // import router from "@/routes";
 export default {
+  watch: {
+    $route(to) {
+      if (to.name === "CourseScheduler" && to.params.reload) {
+      
+        this.$children[0].$children.forEach((component) => {
+          component.$forceUpdate();
+        });
+      }
+    },
+  },
   name: "Header",
   components: {
     LoginForm: LoginComponent,
