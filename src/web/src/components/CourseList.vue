@@ -6,7 +6,6 @@
           id="search"
           v-model="textSearch"
           :debounce="debounceTime"
-          trim
           placeholder="Intro to College - COLG 1030"
           list="list-id"
         ></b-form-input>
@@ -90,16 +89,16 @@
 
 <script>
 import "@/typedef";
-import { mapState } from "vuex";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {mapState} from "vuex";
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
-import { DAY_SHORTNAMES } from "@/utils";
+import {DAY_SHORTNAMES} from "@/utils";
 
-import { getDepartments, getCourses } from "@/services/YacsService";
+import {getCourses, getDepartments} from "@/services/YacsService";
 
 import CourseListingComponent from "@/components/CourseListing";
 
-import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
+import {DynamicScroller, DynamicScrollerItem} from "vue-virtual-scroller";
 
 export default {
   name: "CourseList",
@@ -130,23 +129,46 @@ export default {
     },
     /* wrapper for querying with search */
     // todo: get courses should be changed
+    //text parameter comes from watch
     updateCourseList() {
       getCourses(this.selectedSemester, this.textSearch, false).then(
         (course_list) => {
           this.courseList = course_list;
         }
+      )},
+    checkFunction(courseInput, textSearch){
+      const text = textSearch.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "").toUpperCase();
+      const input = courseInput.trim().replace(/[ !+=_;:'?.>,<|)(*&^%$#@~`-]+/g, "");
+      if(input.includes(text)){
+        return true;
+      }
+      return false;
+    },
+    filterSection(courses){
+      return courses.filter(
+          (course) =>
+              (!this.selectedDepartment ||
+                  course.department === this.selectedDepartment) &&
+              (!this.selectedSubsemester ||
+                  (this.selectedSubsemester.date_start.getTime() ===
+                      course.date_start.getTime() &&
+                      this.selectedSubsemester.date_end.getTime() ===
+                      course.date_end.getTime()))
       );
     },
   },
   watch: {
     /* This value gets debounced */
     textSearch: function () {
+      //store in temp to conserve textSearch in input box on screen but removes extra characters for comparing
       this.updateCourseList();
     },
   },
   computed: {
     ...mapState(["selectedSemester", "subsemesters", "departments"]),
-
+    fullList(){
+      return this.$store.getters.courses;
+    },
     departmentOptions() {
       return [{ text: "All", value: null }].concat(
         ...this.departments.map(({ department }) => department)
@@ -168,35 +190,34 @@ export default {
     },
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
-    filterCourses() {
+    filterCourses: function () {
       const courses =
-        this.courseList !== null
-          ? this.courseList
-          : this.$store.getters.courses;
+          this.courseList !== null
+              ? this.courseList
+              : this.$store.getters.courses;
 
-      // filter by selected department
-      const filtered = courses.filter(
-        (course) =>
-          (!this.selectedDepartment ||
-            course.department === this.selectedDepartment) &&
-          (!this.selectedSubsemester ||
-            (this.selectedSubsemester.date_start.getTime() ===
-              course.date_start.getTime() &&
-              this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime()))
-      );
+      const filtered = this.filterSection(courses);
 
-      // returns exact match, if not found, then department filtered list
+      //returns exact match, if not found, then department filtered list
       const find = filtered.find(
         (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() ===
-              this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
+          (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||
+            (course.title.toUpperCase() === this.textSearch.toUpperCase())
       );
 
-      if (find) return [find];
-      else return filtered;
+      const fullListFiltered = this.filterSection(this.fullList);
+      const containString = fullListFiltered.filter(
+          (course) =>
+              (this.checkFunction(course.title, this.textSearch)) ||
+              (this.checkFunction(course.department+course.level, this.textSearch))
+      );
+
+      if (find) {
+        return [find];
+      }
+      else {
+          return containString
+      }
     },
   },
 };
