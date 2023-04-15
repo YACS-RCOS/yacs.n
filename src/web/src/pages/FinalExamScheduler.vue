@@ -83,3 +83,17 @@ export default {
   },
 };
 </script>
+
+<style>
+.pathway-button {
+  display: inline-block;
+  background: white;
+  border-style: none;
+  text-align: justify;
+  width: 95%;
+}
+
+.pathway-button:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
+}
+</style>
