@@ -191,7 +191,8 @@ export default {
         (course) =>
           (course.full_title &&
             //course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||  course.title.toUpperCase() === this.textSearch.toUpperCase()
-            course.full_title.includes(this.textSearch.toUpperCase()) || course.title.includes(this.textSearch.toUpperCase()) )
+            //course.full_title.includes(this.textSearch.toUpperCase()) ) || course.title.includes(this.textSearch.toUpperCase()) 
+            course.full_title.toUpperCase() === this.textSearch.toUpperCase() || course.title.includes(this.textSearch.toUpperCase()) 
       );
 
       if (find) return [find];
