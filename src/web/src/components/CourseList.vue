@@ -170,7 +170,7 @@ export default {
       str = str.replace(/[^0-9a-z]/gi, '');
       str = str.toUpperCase();
       return str;
-    }
+    },
     comparestr(str1, str2) {
       const strlen = Math.min(str1.length, str2.length);
       let diff = 0;
