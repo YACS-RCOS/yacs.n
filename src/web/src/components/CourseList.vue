@@ -171,6 +171,22 @@ export default {
       str = str.toUpperCase();
       return str;
     }
+    comparestr(str1, str2) {
+      const strlen = Math.min(str1.length, str2.length);
+      let diff = 0;
+      for (let i = 0; i < strlen; i++) {
+        if (str1[i] !== str2[i]) {
+          diff++;
+        }
+      }
+      const simi = 1 - diff / strlen;
+      if(simi > 0.3){
+        return true;
+      }else{
+        return false;
+      }
+    },
+
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -194,8 +210,7 @@ export default {
       // returns exact match, if not found, then department filtered list
       const find = filtered.find(
         (course) =>
-          (course.full_title &&
-            course.full_title.toUpperCase() === this.textSearch.toUpperCase()) 
+          (course.full_title && course.full_title.toUpperCase() === this.textSearch.toUpperCase()) 
             ||  course.title.toUpperCase() === this.textSearch.toUpperCase()
              || course.name.toUpperCase().includes(this.textSearch.toUpperCase())
             //course.full_title.includes(this.textSearch.toUpperCase()) ) || course.title.includes(this.textSearch.toUpperCase()) 
