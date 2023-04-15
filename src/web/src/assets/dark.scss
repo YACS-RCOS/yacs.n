@@ -266,45 +266,62 @@
 }
 
 .grid-box {
-  width: 50px;
-  height: 50px;
-  display: flex;
+  width: 6vw;
+  height: 4vh;
+  margin-right: 0px;
+  text-align: center;
+  text-size-adjust: 8px;
+  margin: 0px;
   align-items: center;
   justify-content: center;
-  margin: 5px;
-  border-radius: 5px;
-  // background-color: $light-box-color;
-  // color: $light-text-color;
+  cursor: pointer;
+  display: block;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border-radius: 0.25rem;
+  color: var(--dark-text-primary) !important;
+  background-color: var(--dark-primary) !important;
+  border: 1px solid var(--dark-border-primary)
 }
 
-// Define the style rules for the button grid in dark mode
-// .dark-mode {
-//   .grid-box {
-//     background-color: $dark-box-color;
-//     color: $dark-text-color;
-//   }
-
-//   button {
-//     color: $dark-text-color;
-//   }
-// }
-
-// Add a class to the body tag to toggle the dark mode
-// body.dark-mode {
-//   background-color: $dark-bg-color;
-  
-//   .grid-row {
-//     border-bottom: 1px solid $dark-box-color;
-//   }
-// }
-
+.show-grid-button{
+  text-align: center;
+  display: block;
+  height: 4vh;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border-radius: 0.25rem;
+  width: 10vw;
+  color: var(--dark-text-primary) !important;
+  background-color: var(--dark-primary) !important;
+  border: 1px solid var(--dark-border-primary)
 }
 
-/*
-NOTE: Should Be Using var(--dark-primary),
-But For Some Reason, When Exporting bColor
-=> Not Rendering The Background Image Color To The Correct Color.
-*/
-// :export {
-//   bColor: #22252e;
-// }
+.show-grid-button:active{
+  background-color: skyblue;
+}
+
+.close-grid-button{
+  text-align: center;
+  display: block;
+  height: 4vh;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border-radius: 0.25rem;
+  width: 10vw;
+  color: var(--dark-text-primary) !important;
+  background-color: var(--dark-primary) !important;
+  border: 1px solid var(--dark-border-primary)
+}
+
+.close-grid-button:active{
+  background-color: skyblue;
+}
+
+}

@@ -415,7 +415,7 @@ export default {
 }
 
 .grid-box {
-  width: 6vw;//90
+  width: 6vw;
   height: 4vh;
   margin-right: 0px;
   border: 1px solid black;
@@ -426,7 +426,6 @@ export default {
   justify-content: center;
   cursor: pointer;
   display: block;
-  /*height: calc(1.5em + 0.75rem + 2px);*/
   font-size: 1vw;
   font-weight: 400;
   line-height: 1.5;
