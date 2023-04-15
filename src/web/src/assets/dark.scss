@@ -19,6 +19,7 @@
   --dark-border-primary: hsl(0, 0%, 38%);
   --dark-blue-primary: hsl(211, 100%, 60%);
   --dark-blue-secondary: hsl(211, 79%, 53%);
+  --grid-box-active-bg-color: lightgreen;
 }
 /* use !important to make sure components are overridden */
 .dark {
@@ -28,11 +29,6 @@
   .navbar {
     background-color: var(--dark-primary) !important;
   }
-
-  // .grid-row{
-  //   background-color: var(--dark-primary) !important;
-  //   color: var(--dark-text-primary) !important;
-  // }
 
   .py-3 {
     background-color: var(--dark-primary) !important;
@@ -55,10 +51,6 @@
     background: var(--dark-secondary) !important;
   }
 
-  // .time-filter{
-  //   background-color: var(--dark-primary) !important;
-  //   color: var(--dark-text-primary) !important;
-  // }
   .bg-light {
     background-color: var(--dark-secondary) !important;
   }
@@ -283,7 +275,11 @@
   border-radius: 0.25rem;
   color: var(--dark-text-primary) !important;
   background-color: var(--dark-primary) !important;
-  border: 1px solid var(--dark-border-primary)
+  border: 1px solid var(--dark-border-primary);
+}
+
+.grid-box:active{
+  background-color: var(--grid-box-active-bg-color) !important;
 }
 
 .show-grid-button{
@@ -298,12 +294,13 @@
   width: 10vw;
   color: var(--dark-text-primary) !important;
   background-color: var(--dark-primary) !important;
-  border: 1px solid var(--dark-border-primary)
+  border: 1px solid var(--dark-border-primary);
+
+  &:active {
+    background-color: orange !important;
+  }
 }
 
-.show-grid-button:active{
-  background-color: skyblue;
-}
 
 .close-grid-button{
   text-align: center;
@@ -317,11 +314,11 @@
   width: 10vw;
   color: var(--dark-text-primary) !important;
   background-color: var(--dark-primary) !important;
-  border: 1px solid var(--dark-border-primary)
-}
+  border: 1px solid var(--dark-border-primary);
 
-.close-grid-button:active{
-  background-color: skyblue;
+  &:active {
+    background-color: orange !important;
+  }
 }
 
 }
