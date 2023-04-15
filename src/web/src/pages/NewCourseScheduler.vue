@@ -529,6 +529,26 @@ export default {
       }
     },
     generateSchedule(c) {
+      console.log(this.courses);
+      const start_time=new Set();
+      const end_time=new Set();
+      for(let x = this.courses.length-1; x>=0; x--){
+        let cs = this.courses[x]["sections"];
+        //console.log(cs);
+        for(let y = cs.length-1; y>=0; y--){
+          let start_d=cs[y]["date_start"];
+          let end_d=cs[y]["date_end"];
+          //console.log(cs[y]["date_end"]);
+          console.log(start_time.has(start_d));
+          if(!start_time.has(start_d)){
+            start_time.add(start_d);
+          }
+          if(!end_time.has(end_d)){
+            end_time.add(end_d);
+          }
+        }
+      }
+      //console.log(start_time);
       let courses = JSON.parse(JSON.stringify(c));
       if (courses.length === 0)
         return [
