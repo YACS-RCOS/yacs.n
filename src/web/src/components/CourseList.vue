@@ -166,6 +166,11 @@ export default {
       this.selectedSubsemester = options[0].value;
       return options;
     },
+    name_extract(str) {
+      str = str.replace(/[^0-9a-z]/gi, '');
+      str = str.toUpperCase();
+      return str;
+    }
     // returns exact match if possible.
     // if no exact match exists, returns similar options.
     filterCourses() {
@@ -190,12 +195,14 @@ export default {
       const find = filtered.find(
         (course) =>
           (course.full_title &&
-            //course.full_title.toUpperCase() === this.textSearch.toUpperCase()) ||  course.title.toUpperCase() === this.textSearch.toUpperCase()
+            course.full_title.toUpperCase() === this.textSearch.toUpperCase()) 
+            ||  course.title.toUpperCase() === this.textSearch.toUpperCase()
+             || course.name.toUpperCase().includes(this.textSearch.toUpperCase())
             //course.full_title.includes(this.textSearch.toUpperCase()) ) || course.title.includes(this.textSearch.toUpperCase()) 
             //course.full_title.toUpperCase() === this.textSearch.toUpperCase()) || course.title.includes(this.textSearch.toUpperCase()) 
-            (course.full_title.toUpperCase() === this.textSearch.toUpperCase()  ||  course.full_title.includes(this.textSearch.toUpperCase()) ) ) 
-            ||  course.title.toUpperCase() === this.textSearch.toUpperCase() ||  course.title.includes(this.textSearch.toUpperCase())
+            //(course.full_title.toUpperCase() === this.textSearch.toUpperCase()  ||  course.full_title.includes(this.textSearch.toUpperCase()) ) ) ||  course.title.toUpperCase() === this.textSearch.toUpperCase() ||  course.title.includes(this.textSearch.toUpperCase())
       );
+
 
       if (find) return [find];
       else return filtered;
