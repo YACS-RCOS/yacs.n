@@ -30,7 +30,90 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
+        
       </b-row>
+    </div>
+    <div class="add-schedule">
+      <button @click="showForm = true">Add a Event</button>
+
+      <div v-if="showForm">
+        <form>
+          <label for="name">Schedule Name:</label>
+          <input type="text" id="name" name="name">
+
+          <div class="form-row">
+          <label for="day">Day of the Week:</label>
+          <select id="day" name="day">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+          </div>
+          <label for="start">Start Time:</label>
+          <input type="time" id="start" name="start">
+
+          <label for="end">End Time:</label>
+          <input type="time" id="end" name="end">
+          <div class="Location-row">
+            <label for="location">Location:</label>
+          <input type="text" id="location" name="location">
+          </div>
+          <div>toggleSchedule()
+            <b data-cy="name">{{ Schedule Name }}</b>
+            ({{ readableDate(Start Time) }} -
+            {{ readableDate(End Time) }})
+            <br />
+            {{ Schedule Name }}
+            <br />
+          </div>
+          <button @click.stop="toggleCourse()" class="btn">Submit</button>
+        </form>
+      </div>
+      <b-collapse
+      v-if="loaded || !lazyLoadCollapse"
+      v-model="showCollapse"
+      :id="course.id"
+    >
+      <slot name="collapseContent" :schedule-event="scheduleEvent">
+        <b-list-group flush>
+          <b-list-group-item
+            @click.stop="toggleCourseSection()"
+            :style="{
+              'border-left': scheduleEvent
+                ? `4px solid ${getBorderColor(scheduleEvent)}`
+                : 'none',
+              'background-color': scheduleEvent
+                ? `${getBackgroundColor(scheduleEvent)} !important`
+                : $store.state.darkMode
+                ? 'var(--dark-primary)'
+                : 'white',
+              color: scheduleEvent
+                ? 'black'
+                : $store.state.darkMode
+                ? 'var(--dark-primary-text)'
+                : 'black',
+            }"
+          >
+            <span
+              v-for="courseSession in section.sessions"
+              :key="
+                day_of_week +
+                time_start
+              "
+            >
+              {{ DAY_SHORTNAMES[day_of_week + 1] }}:
+              {{ readableTime(time_start) }} -
+              {{ readableTime(time_end) }}
+              <br />
+            </span>
+          </b-list-group-item>
+        </b-list-group>
+      </slot>
+    </b-collapse>
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -91,6 +174,7 @@
 <script>
 import "@/typedef";
 import { mapState } from "vuex";
+import { DAY_SHORTNAMES, readableTime, readableDate } from "@/utils";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 import { DAY_SHORTNAMES } from "@/utils";
@@ -110,6 +194,7 @@ export default {
   },
   data() {
     return {
+      showForm: false,
       faInfoCircle,
       DAY_SHORTNAMES,
       textSearch: "",
@@ -125,6 +210,8 @@ export default {
     });
   },
   methods: {
+    readableTime,
+    readableDate,
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
@@ -136,6 +223,9 @@ export default {
           this.courseList = course_list;
         }
       );
+    },
+    toggleSchedule() {
+
     },
   },
   watch: {
@@ -203,6 +293,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.add-schedule {
+  background-color: #ffffff; 
+  border-style: solid ;
+  border-color: rgb(0, 0, 0, 0.05);
+  padding: 18px 20px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-schedule button {
+  background-color: #ffffff; 
+  border-style: solid ;
+  border-color: rgb(0, 0, 0, 0.05); 
+}
+
 #scroll-box {
   // overflow-y: scroll !important;
   // overflow-x: hidden;
@@ -232,4 +341,34 @@ export default {
   font-size: 17px;
   padding: 20px;
 }
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
+  margin-bottom: 0.5rem;
+}
+
+.form-row input {
+  margin-bottom: 1rem;
+}
+
+
+@media (min-width: 768px) {
+  .form-row {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .form-row label {
+    margin-right: 1rem;
+    margin-bottom: 0;
+  }
+
+  .form-row input {
+    margin-bottom: 0;
+  }
+}
+
 </style>
