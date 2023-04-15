@@ -82,16 +82,20 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         
         prerequisites = None
         corequisites = None
+        rawrequisites = ''
         for i in range(1,len(body)):
             if body[i].strip() == 'Prerequisites:':
                 rawprerequisites = parsePrerequisites(body[i+1].strip())
+                rawrequisites += body[i+1].strip()
                 if rawprerequisites != []:
                     prerequisites = rawprerequisites
             if body[i].strip() == 'Corequisites:':
                 rawcorequisites = parseCorequisites(body[i+1].strip())
+                rawrequisites += body[i+1].strip()
                 if rawcorequisites != []:
                     corequisites = rawcorequisites
         row[20] = description
+        row[20] = rawrequisites
         if prerequisites != None:
             row[23] = prerequisites
         if corequisites != None:
@@ -99,6 +103,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         shortName = department+courseNumber
         Data[shortName] = dict()
         Data[shortName]['description'] = description
+        Data[shortName]['rawrequisites'] = rawrequisites
         Data[shortName]['prerequisites'] = prerequisites
         Data[shortName]['corequisites'] = corequisites
     write_csv(filename,data)
