@@ -23,7 +23,7 @@
         <b-col class="mb-4">
           <br />
           <h6 class="mb-1 d-inline">Contact Info</h6>
-          <li>Phone: {{prof.Phone}}</li>
+          <!-- <li>Phone: {{prof.Phone}}</li> -->
           <li> Email: 
           <a v-bind:href="'mailto:' + prof.Email">{{prof.Email}}</a>
           </li>
