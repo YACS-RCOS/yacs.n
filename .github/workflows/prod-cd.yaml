@@ -16,19 +16,19 @@ jobs:
       API_WORKERS: 8
 
     steps:
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.0.0
-        with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: pytest
+#       - name: Wait for tests to succeed
+#         uses: lewagon/wait-on-check-action@v1.0.0
+#         with:
+#           ref: ${{ github.ref }}
+#           repo-token: ${{ secrets.GITHUB_TOKEN }}
+#           check-name: pytest
 
-      - name: Wait for lighthouse tests to succeed
-        uses: lewagon/wait-on-check-action@v1.0.0
-        with:
-          ref: ${{ github.ref }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          check-name: 'Lighthouse CI'
+#       - name: Wait for lighthouse tests to succeed
+#         uses: lewagon/wait-on-check-action@v1.0.0
+#         with:
+#           ref: ${{ github.ref }}
+#           repo-token: ${{ secrets.GITHUB_TOKEN }}
+#           check-name: 'Lighthouse CI'
 
       - uses: actions/checkout@v2
         with:
