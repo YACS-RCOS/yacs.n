@@ -30,7 +30,7 @@
     </div>
     <div v-if="degrees.length > 0" class="mx-auto w-75">
       <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showMajor != null" md="10">
+        <div class="block text-left" v-if="showMajor != null" md="40">
           <h3
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
@@ -66,11 +66,19 @@
                   <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
                     {{ course }}
                   </b>
-                  <li v-else
-                    v-on:click="goPage(course)"
-                    class="courseInPath">
-                      {{ course }}
-                  </li>
+                  <!-- draggable class="list-group" :list="list1" group="people">
+                    <b-button
+                      @click="displayCourse(course)"
+                      v-for="course in semester"
+                      :key="course"
+                    >{{ course.name }} | {{ course.creditHours }}</b-button>
+                  </draggable> -->
+                  <draggable class="list-group" :list="list1" group="people" v-else>
+                    <b-button
+                      @click="goPage(course)"
+                      class="courseInPath">{{ course }}
+                    </b-button>
+                  </draggable>
                 </div>
               </div>
             <br />
@@ -150,13 +158,13 @@
                   >
                     <div class="mt-1 mb-1 w-100">
                       <b-button
-                          @click="ShowMajor(major)"
+                          @dblclick="ShowMajor(major)"
                           squared
                           variant="light"
                           class="pathway-button m-0 ml-1"
                         >
-                      {{ major['Major'] }}
-                    </b-button>
+                        {{ major['Major'] }}
+                      </b-button>
                     </div>
                   </div>
                 </div>
@@ -179,10 +187,12 @@
 <script>
 import degrees_json from "./DegreeTemplates.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
+import draggable from "vuedraggable";
 
 export default {
   name: "DegreeTemplates",
   components: {
+    draggable,
     CenterSpinner: CenterSpinnerComponent,
   },
   data() {
