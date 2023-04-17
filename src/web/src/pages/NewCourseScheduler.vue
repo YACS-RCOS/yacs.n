@@ -398,7 +398,7 @@ export default {
       }
       this.loadedIndexCookie = 1;
     },
-    addCourse(course) {
+    addCourse(course, selectedSemester) {
       this.$set(this.selectedCourses, course.id, course);
       course.selected = true;
       if (this.isLoggedIn) {
@@ -409,25 +409,25 @@ export default {
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
+          .semester(selectedSemester)
           .addCourse(course)
           .save();
       }
       course.sections.forEach((section) =>
-        this.addCourseSection(course, section)
+        this.addCourseSection(course, section, selectedSemester)
       );
     },
-    addCourseSection(course, section) {
+    addCourseSection(course, section, selectedSemester) {
       section.selected = true;
       if (this.isLoggedIn) {
         addStudentCourse({
           name: course.name,
-          semester: this.selectedSemester,
+          semester: selectedSemester,
           cid: section.crn,
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
+          .semester(semester)
           .addCourseSection(course, section)
           .save();
       }
@@ -486,7 +486,7 @@ export default {
       if (course.selected) {
         this.removeCourse(course);
       } else {
-        this.addCourse(course);
+        this.addCourse(course,selectedSemester);
       }
     },
     getSchedules() {
