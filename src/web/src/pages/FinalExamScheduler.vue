@@ -13,17 +13,27 @@
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
             <b-button type="submit" variant="success" class="ml-3">Search</b-button>
           </b-form>
+          <b-card v-if="examDetails" class="mt-3">
+            <h5 class="card-title">Exam Details</h5>
+            <div v-for="exam in examDetails" :key="exam.id">
+              <div><strong>Course:</strong> {{ exam.course }}</div>
+              <div><strong>Section:</strong> {{ exam.section }}</div>
+              <div><strong>Room:</strong> {{ exam.room }}</div>
+              <div><strong>Time:</strong> {{ exam.time }}</div>
+              <hr v-if="exam !== examDetails[examDetails.length - 1]">
+            </div>
+          </b-card>
         </b-card>
       </b-col>
       <b-col md="7">
         <b-card>
           <b-calendar
             v-model="selectedDate"
-            @context="onContext"
             locale="en-US"
             :events="calendarEvents"
             event-color="success"
             event-variant="light"
+            class="custom-calendar"
           >
             <template #day-content="{ date, events }">
               <div class="day-content">
@@ -67,6 +77,7 @@ export default {
       selectedCourses: [null],
       courseOptions: [],
       calendarEvents: [],
+      examDetails: null,
     };
   },
   mounted() {
@@ -75,10 +86,20 @@ export default {
   },
   methods: {
     initCourseOptions() {
-      this.courseOptions = this.exams.map((exam) => ({
-        value: exam.CourseCode,
-        text: exam.Department + " - " + exam.CourseCode,
-      }));
+      const groupedCourses = this.exams.reduce((acc, exam) => {
+        const key = exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
+        if (!acc[key]) {
+          acc[key] = {
+            value: exam,
+            text: key,
+          };
+        } else if (exam.Section === "ALL SECTIONS") {
+          acc[key].value.Room += ", " + exam.Room;
+        }
+        return acc;
+      }, {});
+
+      this.courseOptions = Object.values(groupedCourses);
     },
     initCalendar() {
       const currentYear = new Date().getFullYear();
@@ -90,7 +111,7 @@ export default {
     searchExams() {
       this.calendarEvents = this.selectedCourses.flatMap((course) => {
         return this.exams
-          .filter((exam) => exam.CourseCode === course)
+          .filter((exam) => exam.CourseCode === course.CourseCode && exam.Section === course.Section)
           .map((exam) => ({
             date: new Date(exam.Day),
             title:
@@ -105,45 +126,13 @@ export default {
               exam.Hour,
           }));
       });
-    },
-    onContext(ctx) {
-      const date = new Date(ctx.date);
-      const examsOnDate = this.calendarEvents.filter((event) => {
-        const eventDate = new Date(event.date);
-        return (
-          eventDate.getDate() === date.getDate() &&
-          eventDate.getMonth() === date.getMonth() &&
-          eventDate.getFullYear() === date.getFullYear()
-        );
-      });
 
-      if (examsOnDate.length > 0) {
-        this.$bvModal.msgBoxOk(
-          examsOnDate
-            .map(
-              (exam) =>
-                `<strong>Course:</strong> ${exam.title.split(" ")[0]} ${
-                  exam.title.split(" ")[1]
-                }<br>
-                <strong>Section:</strong> ${exam.title.split(" ")[2]}<br>
-                <strong>Room:</strong> ${exam.title.split(" ")[3]}<br>
-                <strong>Time:</strong> ${exam.title.split(" ")[4]} ${
-                  exam.title.split(" ")[5]
-                }`
-            )
-            .join("<hr>"),
-          {
-            title: "Exam Details",
-            size: "md",
-            buttonSize: "md",
-            okVariant: "success",
-            headerClass: "p-2 border-bottom-0",
-            footerClass: "p-2 border-top-0",
-            centered: true,
-            html: true,
-          }
-        );
-      }
+      this.examDetails = this.selectedCourses.map((course) => ({
+        course: course.Department + " " + course.CourseCode,
+        section: course.Section,
+        room: course.Room,
+        time: course.Hour,
+      }));
     },
   },
 };
@@ -177,6 +166,26 @@ export default {
 }
 
 .event {
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-calendar .b-calendar-grid .row-cell {
+  height: 120px;
+}
+
+.custom-calendar .b-calendar-grid .row-cell button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.custom-calendar .b-calendar-grid .row-cell button small {
+  font-size: 0.8rem;
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
