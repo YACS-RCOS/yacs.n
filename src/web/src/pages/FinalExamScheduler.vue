@@ -1,40 +1,20 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <b-row class="justify-content-md-center">
-      <b-col md="8">
+    <b-row>
+      <b-col md="4">
         <b-card title="Final Exam Schedule">
-          <b-form @submit.prevent="generateFinalExamSchedule">
-            <b-form-group label="Term">
-              <b-form-select v-model="selectedTerm" :options="terms"></b-form-select>
+          <b-form @submit.prevent="searchExam">
+            <b-form-group label="Select a Course">
+              <b-form-select v-model="selectedCourse" :options="courseOptions"></b-form-select>
             </b-form-group>
-            <b-form-group label="Classes">
-              <div v-for="(classInfo, index) in classes" :key="index" class="mb-3">
-                <b-form-input-group>
-                  <b-form-input
-                    v-model="classInfo.dept"
-                    placeholder="Department"
-                    required
-                  ></b-form-input>
-                  <b-form-input
-                    v-model="classInfo.courseNumber"
-                    placeholder="Course #"
-                    required
-                  ></b-form-input>
-                  <b-form-input
-                    v-model="classInfo.section"
-                    placeholder="Section"
-                    required
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-button @click="removeClass(index)" variant="danger">Remove</b-button>
-                  </b-input-group-append>
-                </b-form-input-group>
-              </div>
-              <b-button @click="addClass" variant="primary">Add Class</b-button>
-            </b-form-group>
-            <b-button type="submit" variant="success">Generate Schedule</b-button>
+            <b-button type="submit" variant="success">Search</b-button>
           </b-form>
+        </b-card>
+      </b-col>
+      <b-col md="8">
+        <b-card>
+          <b-calendar v-model="selectedDate" @context="onContext" locale="en-US"></b-calendar>
         </b-card>
       </b-col>
     </b-row>
@@ -42,6 +22,8 @@
 </template>
 
 <script>
+import Finals from "./Finals.json";
+
 export default {
   name: "FinalExamSchedule",
   data() {
@@ -55,45 +37,69 @@ export default {
           text: "Final Exam Schedule",
         },
       ],
-      selectedTerm: "",
-      terms: ["Spring 2023", "Fall 2023", "Spring 2024"],
-      classes: [
-        {
-          dept: "",
-          courseNumber: "",
-          section: "",
-        },
-      ],
+      exams: Finals,
+      selectedDate: new Date(),
+      selectedCourse: null,
+      courseOptions: [],
     };
   },
+  mounted() {
+    this.initCourseOptions();
+    this.initCalendar();
+  },
   methods: {
-    addClass() {
-      this.classes.push({
-        dept: "",
-        courseNumber: "",
-        section: "",
+    initCourseOptions() {
+      this.courseOptions = this.exams.map((exam) => ({
+        value: exam.CourseCode,
+        text: exam.Department + " - " + exam.CourseCode,
+      }));
+    },
+    initCalendar() {
+      const firstExamDate = new Date(this.exams[0].Day);
+      this.selectedDate = firstExamDate;
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     },
-    removeClass(index) {
-      this.classes.splice(index, 1);
+    searchExam() {
+      this.selectedDate = new Date(
+        this.exams.find((exam) => exam.CourseCode === this.selectedCourse).Day
+      );
     },
-    generateFinalExamSchedule() {
+    onContext(ctx) {
+      const date = new Date(ctx.date);
+      const examsOnDate = this.exams.filter((exam) => {
+        const examDate = new Date(exam.Day);
+        return (
+          examDate.getDate() === date.getDate() &&
+          examDate.getMonth() === date.getMonth() &&
+          examDate.getFullYear() === date.getFullYear()
+        );
+      });
 
+      if (examsOnDate.length > 0) {
+        let examsList = "Exams on " + ctx.label + ":\n";
+        examsOnDate.forEach((exam) => {
+          examsList +=
+            exam.Department +
+            " " +
+            exam.CourseCode +
+            " " +
+            exam.Section +
+            " " +
+            exam.Room +
+            " " +
+            exam.Hour +
+            "\n";
+        });
+        alert(examsList);
+      }
     },
   },
 };
 </script>
-
-<style>
-.pathway-button {
-  display: inline-block;
-  background: white;
-  border-style: none;
-  text-align: justify;
-  width: 95%;
-}
-
-.pathway-button:hover {
-  background: rgba(108, 90, 90, 0.15) !important;
-}
-</style>
