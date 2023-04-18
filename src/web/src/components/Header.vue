@@ -42,6 +42,10 @@
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
+        <b-nav-item :to="{ name: 'FinalScheduler' }" class="first">
+          <font-awesome-icon icon="calendar" />
+          Final_Schedule
+        </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
           <font-awesome-icon icon="search" />
           Explore
