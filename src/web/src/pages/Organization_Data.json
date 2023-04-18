@@ -90,6 +90,21 @@
                 "Current Number of Members": [
                     "30"
                 ]
+            },
+            {                "Name": [                    "Soccer Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Soccer Club"                ],
+                "GBM time": [                    "Every Monday at the Field"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "25"                ]
+            },
+            {
+                "Name": [                    "Basketball Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Basketball Club"                ],
+                "GBM time": [                    "Every Friday at the Gym"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "30"                ]
             }
         ]
     },
@@ -157,6 +172,331 @@
                 "Current Number of Members": [
                     "30"
                 ]
+            }
+        ]
+    },
+    {
+        "Category Name": [
+            "Academic"
+        ],
+        "Organizations": [            
+            {                "Name": [                    "Biology Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Biology Club"                ],
+                "GBM time": [                    "Every Wednesday at Science Building"                ],
+                "Contact Info": [                    "Instagram"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "History Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the History Club"                ],
+                "GBM time": [                    "Every Thursday at Humanities Building"                ],
+                "Contact Info": [                    "Phone"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Hobby"        ],
+        "Organizations": [            
+            {                "Name": [                    "Chess Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Chess Club"                ],
+                "GBM time": [                    "Every Friday at the Student Center"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "10"                ]
+            },
+            {
+                "Name": [                    "Film Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Film Club"                ],
+                "GBM time": [                    "Every Tuesday at the Cinema"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "20"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Professional"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Accounting Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Accounting Club"                ],
+                "GBM time": [                    "Every Monday at Business Building"                ],
+                "Contact Info": [                    "LinkedIn"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Engineering Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Engineering Club"                ],
+                "GBM time": [                    "Every Wednesday at Engineering Building"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Community Service"        ],
+        "Organizations": [            
+            {                "Name": [                    "Habitat for Humanity"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are Habitat for Humanity"                ],
+                "GBM time": [                    "Every other Monday at the Community Center"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Rotary Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Rotary Club"                ],
+                "GBM time": [                    "Every Wednesday at the Rotary House"                ],
+                "Contact Info": [                    "Phone"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Religious"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Catholic Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Catholic Club"                ],
+                "GBM time": [                    "Every Sunday at the Church"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Hillel Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Hillel Club"                ],
+                "GBM time": [                    "Every Friday at the Synagogue"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Music"        ],
+        "Organizations": [            
+            {                "Name": [                    "Choir Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Choir Club"                ],
+                "GBM time": [                    "Every Monday at the Music Hall"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Jazz Band"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Jazz Band"                ],
+                "GBM time": [                    "Every Thursday at the Music Hall"                ],
+                "Contact Info": [                    "Instagram"                ],
+                "Current Number of Members": [                    "15"                ]
+            },
+            {                "Name": [                    "K-pop Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Choir Club"                ],
+                "GBM time": [                    "Every Tuesday at the Music Building"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Marching Band Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Marching Band Club"                ],
+                "GBM time": [                    "Every Wednesday at the Music Building"                ],
+                "Contact Info": [                    "Phone"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Art"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Art Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Art Club"                ],
+                "GBM time": [                    "Every Wednesday at the Art Building"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Nature Photography Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Photography Club"                ],
+                "GBM time": [                    "Every Friday at the Photography Studio"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "25"                ]
+            },
+            {                "Name": [                    "Drawing Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Drawing Club"                ],
+                "GBM time": [                    "Every Monday at the Art Studio"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "City Photography Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Photography Club"                ],
+                "GBM time": [                    "Every Wednesday at the Art Studio"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Media"        ],
+        "Organizations": [            
+            {                "Name": [                    "Newspaper Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Newspaper Club"                ],
+                "GBM time": [                    "Every Tuesday at the Newsroom"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Radio Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Radio Club"                ],
+                "GBM time": [                    "Every Wednesday at the Radio Station"                ],
+                "Contact Info": [                    "Phone"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Dance"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Ballet Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Ballet Club"                ],
+                "GBM time": [                    "Every Monday at the Dance Studio"                ],
+                "Contact Info": [                    "Instagram"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Hip Hop Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Hip Hop Club"                ],
+                "GBM time": [                    "Every Wednesday at the Dance Studio"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Technology"        ],
+        "Organizations": [            
+            {                "Name": [                    "Programming Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Programming Club"                ],
+                "GBM time": [                    "Every Thursday at the Computer Science Building"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Robotics Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Robotics Club"                ],
+                "GBM time": [                    "Every Wednesday at the Engineering Building"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Language"        ],
+        "Organizations": [                        
+            {                "Name": [                    "French Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the French Club"                ],
+                "GBM time": [                    "Every Monday at the Language Building"                ],
+                "Contact Info": [                    "Instagram"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "English Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the English Club"                ],
+                "GBM time": [                    "Every Wednesday at the Language Building"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Environmental"        ],
+        "Organizations": [            
+            {                "Name": [                    "Eco Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Eco Club"                ],
+                "GBM time": [                    "Every Tuesday at the Environmental Center"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Garden Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Garden Club"                ],
+                "GBM time": [                    "Every Wednesday at the Community Garden"                ],
+                "Contact Info": [                    "Phone"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Business"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Entrepreneurship Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Entrepreneurship Club"                ],
+                "GBM time": [                    "Every Monday at the Business School"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Investment Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Investment Club"                ],
+                "GBM time": [                    "Every Wednesday at the Business School"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "25"                ]
+            }
+        ]
+    },
+    {        "Category Name": [            "Politics"        ],
+        "Organizations": [            
+            {                "Name": [                    "Democracy Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Democracy Club"                ],
+                "GBM time": [                    "Every Tuesday at the Political Science Building"                ],
+                "Contact Info": [                    "Email"                ],
+                "Current Number of Members": [                    "20"                ]
+            },
+            {
+                "Name": [                    "Model UN Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Model UN Club"                ],
+                "GBM time": [                    "Every Wednesday at the Political Science Building"                ],
+                "Contact Info": [                    "Instagram"                ],
+                "Current Number of Members": [                    "15"                ]
+            }
+        ]
+    },
+    {
+        "Category Name": [            "Service"        ],
+        "Organizations": [                        
+            {                "Name": [                    "Volunteer Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Volunteer Club"                ],
+                "GBM time": [                    "Every Monday at the Community Center"                ],
+                "Contact Info": [                    "Discord"                ],
+                "Current Number of Members": [                    "30"                ]
+            },
+            {
+                "Name": [                    "Fundraising Club"                ],
+                "Active / Open for new member": [                    "Active / Open for new member"                ],
+                "Introduction": [                    "We are the Fundraising Club"                ],
+                "GBM time": [                    "Every Wednesday at the Fundraising Office"                ],
+                "Contact Info": [                    "Facebook"                ],
+                "Current Number of Members": [                    "25"                ]
             }
         ]
     }
