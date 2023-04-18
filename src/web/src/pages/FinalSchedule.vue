@@ -5,7 +5,7 @@
        
             <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
 
-                <div class="calculator-box">
+                <div class="final-box">
                     <h1>FINAL SCHEDULE GENERATOR</h1>
                     <div id="course-wrapper">
                     <form class="key-0">
@@ -86,7 +86,7 @@ export default {
     }
 
 
-    .calculator-box {
+    .final-box {
     width: 50%;
     height: auto;
     border:  rgba(108, 90, 90, 0.15);

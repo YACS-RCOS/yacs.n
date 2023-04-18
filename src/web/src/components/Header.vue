@@ -50,7 +50,12 @@
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
+        <b-nav-item :to="{ name: 'FinalSchedule' }">
+          <font-awesome-icon icon="calendar" />
+          FinalSchedule
+        </b-nav-item>
       </b-navbar-nav>
+
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px;">
