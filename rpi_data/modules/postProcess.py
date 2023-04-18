@@ -48,6 +48,19 @@ def parseCorequisites(rawCorequisites : str) -> str:
         retList.append(item.replace(' ','-'))
     return retList
 
+def parseRaw(raw : str) -> str:
+    if raw == "":
+        return ""
+    # May have Minimum Grade of C+/C-
+    # Can't find any now, could be issue in the future
+    raw = raw.replace("Undergraduate level  ","")
+    raw = raw.replace("Graduate level  ","")
+    raw = raw.replace("Minimum Grade of A","")
+    raw = raw.replace("Minimum Grade of B","")
+    raw = raw.replace("Minimum Grade of C","")
+    raw = raw.replace("Minimum Grade of D","")
+    return raw
+
 def readData(filename : str) -> dict:
     with open(filename, 'r', encoding='UTF-8') as infile:
         return json.load(infile)
