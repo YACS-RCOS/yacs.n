@@ -116,8 +116,6 @@ for program in programs:
                             
                         # print(el_data)
                         additional_list.append(el_data)
-                    
-                    print(additional_list)
 
 
                     program_dict[sem_key].append(additional_list) # use previous key
@@ -184,5 +182,7 @@ for program in programs:
 
 with open('degree_template.json', 'w', encoding='UTF-8') as f:
     json.dump(output_list, f, ensure_ascii=False, indent=4)
+
+
 
 
