@@ -275,11 +275,11 @@ export default {
     },
     //time filter
     handleBoxClick(row, col) {
-      this.grid[row][col].value = !this.grid[row][col].value
-      if(this.grid[row][col].color == "lightgreen"){
+      this.grid[row][col].value = !this.grid[row][col].value;
+      if(this.grid[row][col].color == "lightgreen !important"){
         this.grid[row][col].color = 'white';
       }else{
-        this.grid[row][col].color = 'lightgreen';
+        this.grid[row][col].color = 'lightgreen !important';
       }
     },
   },
@@ -434,6 +434,10 @@ export default {
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
+}
+
+.grid-box:active{
+  background-color: lightgreen !important;
 }
 
 .show-grid-button{
