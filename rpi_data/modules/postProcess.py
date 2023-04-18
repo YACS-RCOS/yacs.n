@@ -95,7 +95,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
                 if rawcorequisites != []:
                     corequisites = rawcorequisites
         row[20] = description
-        row[20] = rawrequisites
+        row[21] = rawrequisites
         if prerequisites != None:
             row[23] = prerequisites
         if corequisites != None:
@@ -103,7 +103,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         shortName = department+courseNumber
         Data[shortName] = dict()
         Data[shortName]['description'] = description
-        Data[shortName]['rawrequisites'] = rawrequisites
+        Data[shortName]['raw_precoreqs'] = rawrequisites
         Data[shortName]['prerequisites'] = prerequisites
         Data[shortName]['corequisites'] = corequisites
     write_csv(filename,data)
