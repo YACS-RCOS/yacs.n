@@ -20,41 +20,45 @@
               <div><strong>Section:</strong> {{ exam.section }}</div>
               <div><strong>Room:</strong> {{ exam.room }}</div>
               <div><strong>Time:</strong> {{ exam.time }}</div>
+              <div><strong>Date:</strong> {{ exam.day }}, {{ exam.dayOfWeek }}</div>
               <hr v-if="exam !== examDetails[examDetails.length - 1]">
             </div>
           </b-card>
         </b-card>
       </b-col>
       <b-col md="7">
-        <b-card>
-          <b-calendar
-            v-model="selectedDate"
-            locale="en-US"
-            :events="calendarEvents"
-            event-color="success"
-            event-variant="light"
-            class="custom-calendar"
-          >
-            <template #day-content="{ date, events }">
-              <div class="day-content">
-                <div>{{ date.getDate() }}</div>
-                <div class="day-events">
-                  <span
-                    v-for="event in events"
-                    :key="event.id"
-                    class="event"
-                  >
-                    {{ event.title.split(" ")[0] }} {{ event.title.split(" ")[1] }}
-                  </span>
+        <b-table-simple hover bordered class="calendar-table">
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th>Monday</b-th>
+              <b-th>Tuesday</b-th>
+              <b-th>Wednesday</b-th>
+              <b-th>Thursday</b-th>
+              <b-th>Friday</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="(week, weekIndex) in calendarWeeks" :key="'week-' + weekIndex">
+              <b-td v-for="(day, dayIndex) in week.days" :key="'day-' + weekIndex + '-' + dayIndex">
+                <div class="text-left">
+                  <strong>{{ formatDate(day.date) }}</strong>
                 </div>
-              </div>
-            </template>
-          </b-calendar>
-        </b-card>
+                <div v-if="day.exams.length">
+                  <ul>
+                    <li v-for="exam in day.exams" :key="exam.id">
+                      {{ exam.course }} <br> {{ exam.time }}
+                    </li>
+                  </ul>
+                </div>
+              </b-td>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
       </b-col>
     </b-row>
   </b-container>
 </template>
+
 
 <script>
 import Finals from "./Finals.json";
@@ -73,18 +77,60 @@ export default {
         },
       ],
       exams: Finals,
-      selectedDate: new Date(),
       selectedCourses: [null],
       courseOptions: [],
-      calendarEvents: [],
-      examDetails: null,
+      examDetails: [],
     };
   },
   mounted() {
     this.initCourseOptions();
-    this.initCalendar();
   },
+  computed: {
+    calendarWeeks() {
+      const startDate = new Date(2023, 3, 24); // April 24, 2023
+      const endDate = new Date(2023, 4, 5); // May 5, 2023
+      const weeks = [];
+
+      for (let currentDate = startDate; currentDate <= endDate;) {
+        const week = { days: [] };
+
+        for (let i = 0; i < 5; i++) {
+          week.days.push({
+            date: new Date(currentDate),
+            exams: this.getExamsForDate(currentDate),
+          });
+
+          currentDate.setDate(currentDate.getDate() + 1);
+
+          if (currentDate > endDate) {
+            break;
+          }
+        }
+
+        weeks.push(week);
+
+        if (currentDate.getDay() === 6) {
+          currentDate.setDate(currentDate.getDate() + 2);
+        }
+      }
+
+      return weeks;
+    },
+  },
+
   methods: {
+    formatDate(date) {
+      const month = date.toLocaleString('default', { month: 'short' });
+      const day = date.getDate();
+      return `${month} ${day}`;
+    },
+
+    getExamsForDate(date) {
+      return this.examDetails.filter((exam) => {
+        const examDate = new Date(exam.day);
+        return examDate.toDateString() === date.toDateString();
+      });
+    },
     initCourseOptions() {
       const groupedCourses = this.exams.reduce((acc, exam) => {
         const key = exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
@@ -101,38 +147,22 @@ export default {
 
       this.courseOptions = Object.values(groupedCourses);
     },
-    initCalendar() {
-      const currentYear = new Date().getFullYear();
-      this.selectedDate.setFullYear(currentYear);
-    },
     addCourse() {
       this.selectedCourses.push(null);
     },
     searchExams() {
-      this.calendarEvents = this.selectedCourses.flatMap((course) => {
+      this.examDetails = this.selectedCourses.flatMap((course) => {
         return this.exams
           .filter((exam) => exam.CourseCode === course.CourseCode && exam.Section === course.Section)
           .map((exam) => ({
-            date: new Date(exam.Day),
-            title:
-              exam.Department +
-              " " +
-              exam.CourseCode +
-              " " +
-              exam.Section +
-              " " +
-              exam.Room +
-              " " +
-              exam.Hour,
+            course: course.Department + " " + course.CourseCode,
+            section: course.Section,
+            room: exam.Room,
+            time: exam.Hour,
+            day: exam.Day,
+            dayOfWeek: new Date(exam.Day).toLocaleString('default', { weekday: 'long' })
           }));
       });
-
-      this.examDetails = this.selectedCourses.map((course) => ({
-        course: course.Department + " " + course.CourseCode,
-        section: course.Section,
-        room: course.Room,
-        time: course.Hour,
-      }));
     },
   },
 };
@@ -151,44 +181,19 @@ export default {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
-.day-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
+.text-left {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-
-.day-events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.8rem;
+  
+.calendar-table {
+  width: 100%;
 }
-
-.event {
-  margin-top: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.custom-calendar .b-calendar-grid .row-cell {
-  height: 120px;
-}
-
-.custom-calendar .b-calendar-grid .row-cell button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.custom-calendar .b-calendar-grid .row-cell button small {
-  font-size: 0.8rem;
-  margin-top: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  
+.calendar-table th,
+.calendar-table td {
+  width: 20%;
+  position: relative;
 }
 </style>
