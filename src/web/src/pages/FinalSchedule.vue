@@ -54,10 +54,24 @@ export default {
         
 
         addClass(){
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`);
+            const semester_name = `
+            <form class="add_new1 key-${this.counter}">
+                <input type="text" placeholder="Dept" class="dept key-${this.counter}" required>
+                <input type="text" placeholder="Course#" class="course key-${this.counter}" required>
+                <input type="number" placeholder="Section" class="section key-${this.counter}" required>
 
+            </form>
+            `;
+            addNew.innerHTML = semester_name;
+            document.getElementById("course-wrapper").appendChild(addNew);
+            this.counter++;
+     
         },
-        removeClass(){
-
+        removeClass() {
+            let mainForms = document.querySelectorAll("form.add_new");
+            mainForms[mainForms.length-1].remove();
         },
         generateSchedule(){
 
@@ -85,6 +99,20 @@ export default {
     margin-left: 6%;
     }
 
+    #dept-row {
+    font-size: 20px;
+    color: #aeb2b8;
+    font-weight: bolder;
+    margin-left: 14%;
+    }
+
+    #section-row {
+    font-size: 20px;
+    color: #aeb2b8;
+    font-weight: bolder;
+    margin-left: 8%;
+    }
+
 
     .final-box {
     width: 50%;
@@ -97,21 +125,21 @@ export default {
 
     /* On screens that are 1200px or less, set the width to 75% */
     @media screen and (max-width: 1200px) {
-    .calculator-box {
+    .final-box {
         width: 70%;
     }
     }
 
     /* On screens that are 950px or less, set the width to 75% */
     @media screen and (max-width: 950px) {
-    .calculator-box {
+    .final-box {
         width: 75%;
     }
     }
 
     /* On screens that are 600px or less, set the width to 90% */
     @media screen and (max-width: 600px) {
-    .calculator-box {
+    .final-box {
         width: 90%;
     }
     }

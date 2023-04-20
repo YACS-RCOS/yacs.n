@@ -6,6 +6,7 @@ const UploadCsvPage = () => import("./pages/UploadCsv");
 const EditSemestersPage = () => import("./pages/EditSemesters");
 const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
+const FinalSchedulePage = () => import("./pages/FinalSchedule");
 const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
@@ -39,6 +40,12 @@ var router = new VueRouter({
           path: "/pathway",
           component: PathwayPage,
           name: "Pathway",
+        },
+        {
+          path: "/FinalSchedule",
+          component: FinalSchedulePage,
+          name: "FinalSchedule",
+        
         },
         {
           path: "/explore/:subject",
