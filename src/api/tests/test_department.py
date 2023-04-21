@@ -1,7 +1,6 @@
 from fastapi.testclient import TestClient 
 import pytest
 
-@pytest.mark.testclient
 def test_department_success(upload, client: TestClient):
     assert upload.status_code == 200
 

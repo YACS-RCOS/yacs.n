@@ -1,6 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
+from tortoise import run_async
 import sys, os, inspect
+from typing import Generator
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -8,20 +10,34 @@ appdir = os.environ.get("TEST_APP_DIR", parentdir)
 sys.path.insert(0, appdir)
 
 from app import app
-from db.connection import db
-from tables.database_session import SessionLocal, DB_PASS
-from tables import Base
+from db.connection import database
+from models import UserAccount, UserSession, Course, CourseCorequisite, CoursePrerequisite, \
+    CourseSession, Event, SemesterInfo, SemesterDateRange
 
-### Create the database session and clear tables needed for testing
-session = SessionLocal()
+db = database()
+run_async(db.connect())
 
-for table in reversed(Base.metadata.sorted_tables):
-    session.execute(table.delete())
-session.commit()
+async def clear_tables():
+    await UserAccount.all().delete()
+    await UserSession.all().delete()
+    await Course.all().delete()
+    await CourseSession.all().delete()
+    await CourseCorequisite.all().delete()
+    await CoursePrerequisite.all().delete()
+    await Event.all().delete()
+    await SemesterDateRange.all().delete()
+    await SemesterInfo.all().delete()
+
+run_async(clear_tables())
 
 @pytest.fixture(scope="session")
 def client():
-    yield TestClient(app)
+    with TestClient(app) as c:
+        yield c
+
+@pytest.fixture(scope="module")
+def event_loop(client: TestClient) -> Generator:
+    yield client.task.get_loop()
 
 @pytest.fixture(scope="session")
 def upload(client):

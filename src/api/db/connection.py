@@ -1,5 +1,7 @@
-import psycopg2
-import psycopg2.extras
+from tortoise import Tortoise, run_async
+from tortoise.transactions import in_transaction
+from tortoise.exceptions import OperationalError
+from tortoise.contrib.fastapi import register_tortoise
 import os
 
 # connection details
@@ -10,42 +12,50 @@ DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
 class database():
-    def connect(self):
-        self.conn = psycopg2.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASS,
-            host=DB_HOST,
-            port=DB_PORT,
+    async def connect(self):
+        await Tortoise.init(
+            {
+                "connections": {
+                    "default": {
+                        "engine": "tortoise.backends.asyncpg",
+                        "credentials": {
+                            "host": DB_HOST,
+                            "port": DB_PORT,
+                            "user": DB_USER,
+                            "password": DB_PASS,
+                            "database": DB_NAME,
+                        },
+                    }
+                },
+                "apps": {"models": {"models": ["models"], "default_connection": "default"}},
+            },
         )
         print("[INFO] Database Connected")
+        await Tortoise.generate_schemas(safe=True)
 
-    def close(self):
-        self.conn.close()
+    async def close(self):
+        await Tortoise.close_connections()
 
-    def execute(self, sql, args, isSELECT=True):
-        cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    async def execute(self, sql, args, isSELECT=True):
         ret = None
         try:
-            if isSELECT:
-                cur.execute(sql, args)
-                ret = cur.fetchall()
-            else:
-                cur.execute(sql, args)
-                ret = 0
-                self.conn.commit()
+            async with in_transaction() as tconn:
+                if isSELECT:
+                    ret = await tconn.execute_query_dict(sql % args)
+                else:
+                    await tconn.execute_query_dict(sql % args)
+                    ret = 0
 
-        except psycopg2.Error as e:
+        except OperationalError as e:
             print("DATABASE ERROR: ", end="")
             print(e)
-            self.conn.rollback()
             return (ret, e)
 
         return (ret, None)
 
     def get_connection(self):
-        return self.conn
+        return Tortoise.get_connection()
 
-
-db = database()
-db.connect()
+if __name__ == "__main__":
+    db = database()
+    run_async(db.connect())

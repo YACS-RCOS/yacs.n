@@ -1,10 +1,12 @@
-class ClassInfo:
+from db.model import *
+import json
 
-    def __init__(self, db_conn):
-        self.db_conn = db_conn
-        self.interface_name = 'class-info'
+class ClassInfo(Model):
 
-    def get_classes_full(self, semester=None):
+    def __init__(self):
+        super().__init__()
+
+    async def get_classes_full(self, semester=None):
         if semester is not None:
           classes_by_semester_query = """
             select
@@ -68,7 +70,7 @@ class ClassInfo:
               c.level = section.level and
               c.crn = section.crn
             WHERE
-              c.semester = %s
+              c.semester = '%s'
             group by
               c.department,
               c.level,
@@ -86,7 +88,8 @@ class ClassInfo:
               c.department asc,
               c.level asc
           """
-          return self.db_conn.execute(classes_by_semester_query, [semester], True)
+          resp = await self.db.execute(classes_by_semester_query, (semester), True)
+          return self.convert_json_aggs(resp)
         all_classes_query = """
             select
               c.department,
@@ -165,22 +168,23 @@ class ClassInfo:
               c.department asc,
               c.level asc
         """
-        return self.db_conn.execute(all_classes_query, None, True)
+        resp = await self.db.execute(all_classes_query, (), True)
+        return self.convert_json_aggs(resp)
 
 
-    def get_departments(self):
-        return self.db_conn.execute("""
+    async def get_departments(self):
+        return await self.db.execute("""
             select
                 distinct(department)
             from
                 course
             order by
                 department asc
-        """, None, True)
+        """, (), True)
 
-    def get_subsemesters(self, semester=None):
+    async def get_subsemesters(self, semester=None):
       if semester is not None:
-        return self.db_conn.execute("""
+        return await self.db.execute("""
             select
               c.date_start,
               c.date_end,
@@ -189,7 +193,7 @@ class ClassInfo:
             from
               course c
             WHERE
-              c.semester = %s
+              c.semester = '%s'
             group by
               c.date_start,
               c.date_end,
@@ -197,8 +201,8 @@ class ClassInfo:
             order by
               c.date_start asc,
               c.date_end desc
-        """, [semester], True)
-      return self.db_conn.execute("""
+        """, (semester), True)
+      return await self.db.execute("""
             select
               c.date_start,
               c.date_end,
@@ -213,39 +217,39 @@ class ClassInfo:
             order by
               c.date_start asc,
               c.date_end desc
-        """, None, True)
+        """, (), True)
 
-    def get_semesters(self, includeHidden=False):
+    async def get_semesters(self, includeHidden=False):
       if includeHidden:
-        return self.db_conn.execute("""
+        return await self.db.execute("""
             select
               semester
             from
               semester_info
-        """, None, True)
-      return self.db_conn.execute("""
+        """, (), True)
+      return await self.db.execute("""
           select
             semester
           from
             semester_info
           where
             public = true::boolean
-      """, None, True)
+      """, (), True)
 
-    def get_all_semester_info(self):
-      return self.db_conn.execute("""
+    async def get_all_semester_info(self):
+      return await self.db.execute("""
             SELECT
               *
             FROM
               semester_info
             ;
-      """, None, True)
+      """, (), True)
 
-    def get_classes_by_search(self, semester=None, search=None):
+    async def get_classes_by_search(self, semester=None, search=None):
       if semester is not None:
         # # parse search string to a format recognized by to_tsquery
         # ts_search = None if search is None else search.strip().replace(' ', '|')
-        return self.db_conn.execute("""
+        resp = await self.db.execute("""
             WITH ts AS (
               SELECT
                 c.department,
@@ -281,7 +285,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery('%(search)s')) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -312,8 +316,8 @@ class ClassInfo:
                 c.level = section.level and
                 c.crn = section.crn
               WHERE
-                c.semester = %(semester)s
-                AND c.tsv @@ plainto_tsquery(%(search)s)
+                c.semester = '%(semester)s'
+                AND c.tsv @@ plainto_tsquery('%(search)s')
               GROUP BY
                 c.department,
                 c.level,
@@ -370,7 +374,7 @@ class ClassInfo:
               (
                 SELECT 
                   *,
-                  ts_rank_cd(course.tsv, plainto_tsquery(%(search)s)) AS ts_rank
+                  ts_rank_cd(course.tsv, plainto_tsquery('%(search)s')) AS ts_rank
                 FROM
                   course
               ) AS c
@@ -401,8 +405,8 @@ class ClassInfo:
                 c.level = section.level and
                 c.crn = section.crn
               WHERE
-                c.semester = %(semester)s
-                AND c.full_title ILIKE %(searchAny)s
+                c.semester = '%(semester)s'
+                AND c.full_title ILIKE '%(searchAny)s'
               GROUP BY
                 c.department,
                 c.level,
@@ -423,9 +427,21 @@ class ClassInfo:
             WHERE NOT EXISTS (
               SELECT * FROM ts
             )            
-        """, {
-          'search': search,#ts_search,
-          'searchAny': '%' + search + '%',
-          'semester': semester
-        }, True)
+          """, {
+            'search': search,#ts_search,
+            'searchAny': '%' + search + '%',
+            'semester': semester
+          }, True)
+        return self.convert_json_aggs(resp)
       return None
+
+    def convert_json_aggs(self, input):
+        if input[1] or type(input[0]) != list:
+            return input
+        for i in input[0]:
+            i['sections'] = json.loads(i['sections'])
+            if i['prerequisites']:
+                i['prerequisites'] = json.loads(i['prerequisites'])
+            if i['corequisites']:
+                i['corequisites'] = json.loads(i['corequisites'])
+        return input

@@ -4,7 +4,6 @@ import pytest
 #NOTE: Currently unable to test for non-public semesters access if
 #User is admin
 
-@pytest.mark.testclient
 def test_success(upload, client: TestClient):
     #Make sure the upload works
     assert upload.status_code == 200
@@ -14,7 +13,6 @@ def test_success(upload, client: TestClient):
     data = r.json()
     assert len(data) == 13
 
-@pytest.mark.testclient
 def test_wrong_semester(upload, client: TestClient):
     assert upload.status_code == 200
     params = {'semester' : 'RANDOM'}
@@ -22,7 +20,6 @@ def test_wrong_semester(upload, client: TestClient):
     assert r.status_code == 401
     assert (r.text == "Semester isn't available")
 
-@pytest.mark.testclient
 def test_no_args(upload, client: TestClient):
     assert upload.status_code == 200
     r = client.get("/api/class")
