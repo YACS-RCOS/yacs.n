@@ -646,64 +646,64 @@ export default {
 
     /**
      * Get the Prerequisites
+     * In this function, the code slice the row_precoreqs into several chunk of string by the key word "and "
+     * Then go over each chunk of string and check if it contains multiple available choice for certain required course
+     *                                                                                          eg: MATH 1010 or MATH 1020
+     * Sepecifically, the code will search for "or XXXX 0000"(XXXX as department 0000 as course code) in that chunk of string
+     * In this case, the code will save the whole chunk of string to keep the multiple available options
+     * Otherwise, the code will find the specific course in that chunk of string and save the course code only
+     * 
+     * *** THIS FUNCTION CONTAINS MULTIPLE LOOPS, PLZ OPTIMIZE IT IF YOU CAN ***
+     *         *** FOR NOW THIS IS THE BEST ALGORITHM I CAN THINK OF ***
      */
     getPrerequisites() {
+      // array to store the chunks of string sliced by key word "and "
       var prerequisites = []
+
+      // array to store the final output
       var final_prerequisites = []
-       let array = Object.values(this.selectedCourses)
-       for(let i = 0; i < array.length; i++){
+
+      // get the selectred courses
+      let array = Object.values(this.selectedCourses)
+
+      // loop through the raw_precoreqs
+      for(let i = 0; i < array.length; i++){
         if (array[i].raw_precoreqs){
 
           let precoreqtext = array[i].raw_precoreqs;
-          /*
-          const regex = /([A-Z]){4}( )([0-9]){4}/g;
-          while (precoreqtext.search(regex) != -1) {
-            let index = precoreqtext.search(regex);
-            let dept = precoreqtext.slice(index, index + 4);
-            let course_name = precoreqtext
-              .slice(index, index + 9)
-              .split(" ")
-              .join("-")
-            let link = '<a href="/explore/'.concat(
-              dept,
-              "/",
-              course_name,
-              '">',
-              course_name,
-              "</a>"
-            );
-            precoreqtext = precoreqtext.slice(index + 9);
-            if (!prerequisites.includes(link)){
-              prerequisites.push( link );
-            }
-            */
           const regex_and = "and "
-          const regex_colon = ": "
-          while ( precoreqtext.search(regex_and) != -1 || precoreqtext.search(regex_colon) != -1 ) {
-            let index_colon = precoreqtext.search(regex_colon);
-            let course = precoreqtext.slice(0, index_colon);
-            prerequisites.push(course)
-            precoreqtext = precoreqtext.slice(index_colon + 1)
-            
+          // find the key word "and " and slice the string by it, save them into prerequisites
+          while ( precoreqtext.search(regex_and) != -1) {
             let index = precoreqtext.search(regex_and);
-            course = precoreqtext.slice(0, index);
+            let course = precoreqtext.slice(0, index);
             prerequisites.push(course)
             precoreqtext = precoreqtext.slice(index + 3)
           }
           prerequisites.push(precoreqtext)
           
+          // format for course code (4 chars department + 4 digits course number)
           const regex = /([A-Z]){4}( )([0-9]){4}/g
+
+          // format for course with "or", specifically: "or XXXX 0000"
           const regex_or = /(or )([A-Z]){4}( )([0-9]){4}/g
+
+          // loop through the prerequisites where all the chunk of strings are stored at
           for(let j = 0; j < prerequisites.length; j+=1)
           {
-
+            // check if the chunk of string contains "or XXXX 0000"
+            // which, in this case, multiple options for one prerequisites course
             if(prerequisites[j].search(regex_or) != -1){
+              // check if it already exists in the final output of prerequisites
+              // if it is in there --- skip, 
+              //         otherwise --- store
               if(!final_prerequisites.includes(prerequisites[j])){
                 final_prerequisites.push(prerequisites[j])
               }
               continue
             }
             
+            // if it doesn't contains multiple optinos for one prerequisites course
+            // find the one course in this chunk of string, store it (or not in case of duplication)
             let precoreqtext = prerequisites[j];
             while (precoreqtext.search(regex) != -1) {
               let index = precoreqtext.search(regex);
@@ -716,11 +716,18 @@ export default {
           }
         }
       }
+      // sort function, 1.by length 2.by alphabets 3.by numbers
       function compare(a, b) {
         if (a.length < b.length)
           return -1;
         if (a.length > b.length)
           return 1;
+        else{
+          if (a < b)
+          return -1;
+          if (a > b)
+          return 1;
+        }
         return 0;
       }
       return final_prerequisites.sort(compare)
