@@ -649,7 +649,7 @@ export default {
      */
     getPrerequisites() {
       var prerequisites = []
-
+      var final_prerequisites = []
        let array = Object.values(this.selectedCourses)
        for(let i = 0; i < array.length; i++){
         if (array[i].raw_precoreqs){
@@ -691,28 +691,39 @@ export default {
             precoreqtext = precoreqtext.slice(index + 3)
           }
           prerequisites.push(precoreqtext)
-          var final_prerequisites = []
-          const regex = /([A-Z]){4}( )([0-9]){4}/g;
+          
+          const regex = /([A-Z]){4}( )([0-9]){4}/g
+          const regex_or = /(or )([A-Z]){4}( )([0-9]){4}/g
           for(let j = 0; j < prerequisites.length; j+=1)
           {
-            if(prerequisites[j] === "Prerequisites" ||
-            prerequisites[j] === "Prerequisite" ||
-            prerequisites[j].search(regex) == -1){
+
+            if(prerequisites[j].search(regex_or) != -1){
+              if(!final_prerequisites.includes(prerequisites[j])){
+                final_prerequisites.push(prerequisites[j])
+              }
               continue
             }
-            const regex_or = "aasdlfasjklkasjdfl;aksjfac "
-            precoreqtext = prerequisites[j];
-            while (precoreqtext.search(regex_or) != -1) {
-              let index = precoreqtext.search(regex_or);
-              let course = precoreqtext.slice(0, index);
-              final_prerequisites.push(course)
-              precoreqtext = precoreqtext.slice(index + 2)
+            
+            let precoreqtext = prerequisites[j];
+            while (precoreqtext.search(regex) != -1) {
+              let index = precoreqtext.search(regex);
+              let course = precoreqtext.slice(index, index + 9);
+              if(!final_prerequisites.includes(course)){
+                final_prerequisites.push(course)
+              }
+              precoreqtext = precoreqtext.slice(index + 9)
             }
-            final_prerequisites.push(precoreqtext)
           }
         }
       }
-      return final_prerequisites
+      function compare(a, b) {
+        if (a.length < b.length)
+          return -1;
+        if (a.length > b.length)
+          return 1;
+        return 0;
+      }
+      return final_prerequisites.sort(compare)
     },
 
     scheduleDisplayMessage() {
