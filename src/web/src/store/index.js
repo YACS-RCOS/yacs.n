@@ -5,6 +5,7 @@ import axios from "axios";
 import { getDefaultSemester } from "@/services/AdminService";
 import { getCourses } from "@/services/YacsService";
 import { readableDate, localToUTCDate } from "@/utils";
+// import { grid } from '@/components/CourseList.vue'
 
 import { userModule, USER_NAMESPACE } from "./modules/user";
 
@@ -37,6 +38,14 @@ export const SELECT_SEMESTER = "selectSemester";
 export const LOAD_SEMESTERS = "loadSemesters";
 export const LOAD_SUBSEMESTERS = "loadSubsemesters";
 export const LOAD_DEPARTMENTS = "loadDepartments";
+
+// export const GRID = "grid";
+
+// const myCourseList = new CourseList();
+// const CourseListString= JSON.stringify(myCourseList.grid);
+// localStorage.setItem['grid',CourseListString];
+// const CourseLocalStorage = localStorage.getItem('grid');
+// JSON.parse(CourseLocalStorage);
 
 const store = new Vuex.Store({
   state: {
@@ -121,6 +130,35 @@ const store = new Vuex.Store({
     [SET_SEMESTERS](state, semesters) {
       state.semesters = semesters;
     },
+  //   // select all buttons
+  //   const buttons = document.querySelectorAll('.grid-box');
+
+  //   // add click event listener to each button
+  //   buttons.forEach(button => {
+  //     button.addEventListener('click', () => {
+  //       // toggle the button color
+  //       button.classList.toggle('active');
+
+  //       // store the state in local storage
+  //       localStorage.setItem(button.id, button.classList.contains('active'));
+  //     });
+
+  //     // check if the button state is stored in local storage
+  //     const isActive = localStorage.getItem(button.id) === 'true';
+  //     if (isActive) {
+  //       button.classList.add('active');
+  //     }
+  //   });
+  // // select all buttons
+  //   const buttons = document.querySelectorAll('.grid-box button');
+
+  //   // check if the button state is stored in local storage
+  //   buttons.forEach(button => {
+  //     const isActive = localStorage.getItem(button.id) === 'true';
+  //     if (isActive) {
+  //       button.classList.add('active');
+  //     }
+  //   });
   },
   actions: {
     async [LOAD_COURSES]({ state, commit }) {
