@@ -1,56 +1,83 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
-    <b-row class="h-100">
-      <b-col md="4" class="d-flex flex-column">
-        <b-card no-body class="h-100">
-          <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-            <b-tab
-              title="Course Search"
-              active
-              class="flex-grow-1 w-100"
-              data-cy="course-search-tab"
-            >
-              <b-card-text class="d-flex flex-grow-1 w-100">
-                <CenterSpinner
-                  v-if="loading"
-                  class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                  :height="60"
-                  :fontSize="1"
-                  loadingMessage="Courses"
-                  :topSpacing="0"
-                />
+    <b-row class="h-100"> 
+      <div v-if = "isNavOpen" class="col-md-3">
+      </div>
+      <div :class= "[main]">
+        <!--This is a button, an animated one-->
+        <div id="burger"
+          :class="{ 'active' : isNavOpen }"
+          @click.prevent="toggleNav">
+          <slot>
+            <button type="button" class="burger-button"><!--v-if="!isNavOpen"-->
+              <span class="burger-bar burger-bar--1"></span>
+              <span class="burger-bar burger-bar--2"></span>
+              <span class="burger-bar burger-bar--3"></span>
+              <span class="burger-bar burger-bar--4"></span>
+              <span class="burger-bar burger-bar--5"></span>
+              <span class="burger-bar burger-bar--6"></span>
+            </button>
+          </slot>
+        </div>
+        <div class="sidebar">
+          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
+          <transition name="slide">
+            <div v-if="isNavOpen" class="sidebar-panel">
+                <div class="sidebar-panal-nav" style="height: 100%">
+                  <b-col class="d-flex flex-column" ref="sidebar" style="height: 100%; padding: 1px">
+                    <b-card no-body class="h-100">
+                      <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+                        <b-tab
+                          title="Course Search"
+                          active
+                          class="flex-grow-1 w-100"
+                          data-cy="course-search-tab"
+                        >
+                          <b-card-text class="d-flex flex-grow-1 w-100">
+                            <CenterSpinner
+                              v-if="loading"
+                              class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                              :height="60"
+                              :fontSize="1"
+                              loadingMessage="Courses"
+                              :topSpacing="0"
+                            />
 
-                <CourseList
-                  v-if="!loading"
-                  @addCourse="addCourse"
-                  @removeCourse="removeCourse"
-                  @showCourseInfo="showCourseInfo"
-                  class="w-100"
-                />
-              </b-card-text>
-            </b-tab>
-            <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-              <template v-slot:title>
-                <div class="text-center" data-cy="selected-courses-tab-header">
-                  Selected Courses
-                  <b-badge variant="light" data-cy="num-selected-courses">
-                    {{ numSelectedCourses }}
-                  </b-badge>
+                            <CourseList
+                              v-if="!loading"
+                              @addCourse="addCourse"
+                              @removeCourse="removeCourse"
+                              @showCourseInfo="showCourseInfo"
+                              class="w-100"
+                            />
+                          </b-card-text>
+                        </b-tab>
+                        <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                          <template v-slot:title>
+                            <div class="text-center" data-cy="selected-courses-tab-header">
+                              Selected Courses
+                              <b-badge variant="light" data-cy="num-selected-courses">
+                                {{ numSelectedCourses }}
+                              </b-badge>
+                            </div>
+                          </template>
+                          <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+                            <SelectedCourses
+                              :courses="selectedCourses"
+                              @removeCourse="removeCourse"
+                              @removeCourseSection="removeCourseSection"
+                              @addCourseSection="addCourseSection"
+                            />
+                          </b-card-text>
+                        </b-tab>
+                      </b-tabs>
+                    </b-card>
+                  </b-col>
                 </div>
-              </template>
-              <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
-                <SelectedCourses
-                  :courses="selectedCourses"
-                  @removeCourse="removeCourse"
-                  @removeCourseSection="removeCourseSection"
-                  @addCourseSection="addCourseSection"
-                />
-              </b-card-text>
-            </b-tab>
-          </b-tabs>
-        </b-card>
-      </b-col>
-      <div class="col-md-8">
+              <slot></slot>
+            </div>
+          </transition>
+        </div>
         <b-form-select
           v-if="
             !loading &&
@@ -62,7 +89,7 @@
           text-field="display_string"
           value-field="display_string"
         ></b-form-select>
-        <div id="allScheduleData">
+        <div id="allScheduleData" class="justify-content-right">
           <div>
             <b-row>
               <b-col class="m-2">
@@ -267,6 +294,9 @@ export default {
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
+      main: "col-md-9",
+
+      isNavOpen: true, //for sidebar open check
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
@@ -281,6 +311,14 @@ export default {
     };
   },
   methods: {
+    toggleNav(){
+      this.isNavOpen = !this.isNavOpen;
+      if(this.isNavOpen){
+        this.main = "col-md-9";
+      }else{
+        this.main = "col-md-12";
+      }
+    },
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
@@ -669,6 +707,18 @@ export default {
   }
 }
 
+.d-flex flex-column {
+  transition: 0.5s;
+  background-color: #111;
+}
+
+.sidebar {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  display: block;
+  transition: 0.3s;
+}
+
 .tab-content {
   display: flex;
   flex-grow: 1;
@@ -697,7 +747,152 @@ footer {
   margin: 0px !important;
 }
 
+sidebar-panel-nav {
+   color: #fff;
+   text-decoration: none;
+   font-size: 1.5rem;
+   display: block;
+   padding-bottom: 0.5em;
+}
+
 #export-ics-button {
   background: #3d4959 !important;
 }
+
+.slide-enter-active,
+.slide-leave-active
+{
+    transition: transform 0.2s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+    transform: translateX(-100%);
+    transition: all 150ms ease-in 0s
+}
+
+.sidebar-backdrop { //it is a background feature when the sidebar opens, left here for easier modification that possibly happen on future.
+    background-color: rgba(255, 255, 255, 0);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.sidebar-panel { // The actual view of sidebar back
+    overflow-y: auto;
+    background-color: #1eddff00;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 999;
+    margin: 60px 0px 0px;
+    width: 25%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* remove blue outline */
+button:focus {
+    outline: 0;
+}
+
+.burger-button {
+    position: relative;
+    height: 30px;
+    width: 32px;
+    display: block;
+    z-index: 999;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    pointer-events: all;
+    transition: transform .6s cubic-bezier(.165,.84,.44,1);
+}
+
+.burger-bar {
+    background-color: #239bca;
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    left: 6px;
+    height: 2px;
+    width: auto;
+    margin-top: -1px;
+    transition: transform .6s cubic-bezier(.165,.84,.44,1),opacity .3s cubic-bezier(.165,.84,.44,1),background-color .6s cubic-bezier(.165,.84,.44,1);
+}
+
+.burger-bar--1{
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-bar--2{
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-bar--3{
+  transform: scale(0.5) rotate(-45deg) translate(10px, 20px);
+}
+
+.burger-bar--4{
+  transform: scale(0.5) rotate(45deg) translate(10px, -20px);
+}
+
+.burger-bar--5{
+  transform: scale(0) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-bar--6{
+  transform: scale(0) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-button:hover .burger-bar--1 {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
+}
+
+.no-touchevents .burger-bar--1:hover {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
+}
+
+.burger-button:hover .burger-bar--2 {
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
+}
+
+.no-touchevents .burger-bar--2:hover {
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
+}
+
+.burger-button:hover .burger-bar--5 {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.no-touchevents .burger-bar--5:hover {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-button:hover .burger-bar--6 {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.no-touchevents .burger-bar--6:hover {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+#burger.active .burger-button {
+  transform: rotateY(-540deg);
+}
+
+#burger.active .burger-bar {
+  background-color: #32aad8;
+}
+
 </style>
