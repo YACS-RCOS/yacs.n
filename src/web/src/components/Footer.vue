@@ -58,6 +58,18 @@
               Cookie Policy
             </a>
           </b-col>
+          <b-col class="link-group">
+            <strong class="section-head">How to Post your Syllabus</strong>
+            <a
+              class="link"
+              href="https://github.com/YACS-RCOS/RPISyllabus"
+              target="_blank"
+              rel="noopener"
+            >
+              Upload Syllabus Here
+            </a>
+           
+          </b-col>
           <!-- This column is used for alignment in mobile -->
           <b-col class="d-block d-sm-none"></b-col>
         </b-row>
