@@ -539,6 +539,302 @@ export default {
         ];
       const popped = courses.pop();
       let ret = this.generateSchedule(courses);
+      if (ret.length === 0) throw new Error("conflict!");
+      return ret
+        .map((schedule) => {
+          const x = popped.sections.filter((s) => s.selected);
+          if (!x.length) throw new Error("no selection!");
+          return x
+            .map((section) => {
+              if (noConflict(schedule, section)) {
+                return addSection(schedule, section);
+              }
+              return undefined;
+            })
+            .filter((x) => !!x);
+        })
+        .flat();
+    },
+    changeSchedule(step) {
+      const l = this.possibilities.length;
+      if (l === 0) return;
+      const c = this.index + step;
+      if (c < 0) {
+        this.index = l - 1;
+        return;
+      }
+      if (c >= l) {
+        this.index = 0;
+        return;
+      }
+      this.index = c;
+    },
+
+    //from this to the end of method is prepare for the subsemester
+    updateIndexCookie() {
+      SelectedIndexCookie.load(this.$cookies)
+        .semester(this.selectedSemester)
+        .updateIndex(this.index)
+        .save();
+    },
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
+    },
+    generateRequirementsText,
+    exportScheduleToIcs() {
+      exportScheduleToIcs(Object.values(this.possibilities[this.index]));
+    },
+    exportScheduleToImage() {
+      exportScheduleToImage(
+        Object.values(this.selectedCourses),
+        this.selectedSemester,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
+    },
+    async loadStudentCourses() {
+      if (!this.courses.length) {
+        return;
+      }
+
+      this.scheduler = new SubSemesterScheduler();
+      // Filter out "full" subsemester
+      this.subsemesters
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 ||
+            !arr.every((o, oi) => oi == i || withinDuration(s, o))
+        )
+        .forEach((subsemester) => {
+          this.scheduler.addSubSemester(subsemester);
+        });
+
+      if (this.scheduler.scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      }
+
+      // Need to reset `selected` property on courses and sections,
+      // two sources of truth ugh
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.selected = false;
+
+        course.sections
+          .filter((section) => section.selected)
+          .forEach((section) => (section.selected = false));
+      });
+      this.selectedCourses = {};
+
+      if (this.isLoggedIn) {
+        var cids = await getStudentCourses();
+
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
+              });
+              sect.selected = true;
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+            }
+          }
+        });
+      } else {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+
+              this.$set(this.selectedCourses, course.id, course);
+              course.selected = true;
+
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
+
+                  section.selected = true;
+                }
+              );
+            });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
+        }
+      }
+
+      const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
+
+      try {
+        this.index = selectedIndexCookie.semester(
+          this.selectedSemester
+        ).selectedIndex;
+      } catch (err) {
+        // If there is an error here, it might mean the data was changed,
+        //  thus we need to reload the cookie
+        selectedIndexCookie.clear().save();
+      }
+      this.loadedIndexCookie = 1;
+    },
+    addCourse(course) {
+      this.$set(this.selectedCourses, course.id, course);
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
+      }
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
+    },
+    addCourseSection(course, section) {
+      section.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
+      }
+    },
+    removeCourse(course) {
+      this.$delete(this.selectedCourses, course.id);
+      course.selected = false;
+
+      course.sections.forEach((section) => this.removeCourseSection(section));
+
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: null,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
+      }
+    },
+    removeCourseSection(section) {
+      if (section.selected) {
+        section.selected = false;
+
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.selectedSemester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.selectedSemester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+    },
+
+    /**
+     * @param {Course} course
+     */
+    showCourseInfo(course) {
+      this.courseInfoModalCourse = course;
+      this.showCourseInfoModal = true;
+    },
+
+    /**
+     * Toggle course selected state
+     * Emits removeCourse and addCourse events
+     */
+    toggleCourse(course) {
+      if (course.selected) {
+        this.removeCourse(course);
+      } else {
+        this.addCourse(course);
+      }
+    },
+    getSchedules() {
+      const oldLength = this.possibilities.length;
+      try {
+        if (Object.values(this.selectedCourses).length === 0) {
+          this.possibilities = [
+            {
+              sections: [],
+              time: [0, 0, 0, 0, 0],
+            },
+          ];
+        }
+        const result = this.generateSchedule(
+          Object.values(this.selectedCourses)
+        );
+        if (!result.length) {
+          throw new Error("conflict!");
+        }
+        this.possibilities = result;
+
+        //Don't set this.index to 0 if just loaded cookie
+        if (this.loadedIndexCookie == 2) {
+          if (oldLength != this.possibilities.length) {
+            this.index = 0;
+            this.updateIndexCookie();
+          }
+        } else if (this.loadedIndexCookie == 1) {
+          this.loadedIndexCookie = 2;
+        }
+      } catch (e) {
+        console.log(e.message);
+        this.possibilities = [
+          {
+            sections: [],
+            time: [0, 0, 0, 0, 0],
+            conflict: e.message === "conflict!",
+          },
+        ];
+      }
+    },
+    generateSchedule(c) {
+      let courses = JSON.parse(JSON.stringify(c));
+      if (courses.length === 0)
+        return [
+          {
+            sections: [],
+            time: [0, 0, 0, 0, 0],
+          },
+        ];
+      const popped = courses.pop();
+      let ret = this.generateSchedule(courses);
 
       if (ret.length === 0) throw new Error("conflict!");
       return ret
@@ -587,6 +883,7 @@ export default {
     },
 
     selectedScheduleIndex() {
+      console.log(this.scheduler.schedulesu)
       return this.scheduler.scheduleSubsemesters.findIndex(
         (s) => s.display_string === this.selectedScheduleSubsemester
       );
