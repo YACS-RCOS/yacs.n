@@ -131,6 +131,7 @@
                       <font-awesome-icon :icon="exportIcon" />
                       Export To Image
                     </b-dropdown-item>
+                    
                   </b-dropdown>
                 </b-row>
               </b-col>

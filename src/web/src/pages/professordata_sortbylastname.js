@@ -563,6 +563,12 @@ export default{
   "phone": "518-276-2819",
   "location": ""
  },
+ "Goldsc":{
+    "name": "David Goldschmidt",
+    "email": "goldsd3@rpi.edu",
+    "phone": "518-276-2819",
+    "location": ""
+ },
  "Goodheart": {
   "name": "Matthew Goodheart",
   "email": "goodhm@rpi.edu",
