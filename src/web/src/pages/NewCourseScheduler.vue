@@ -577,25 +577,10 @@ export default {
         .updateIndex(this.index)
         .save();
     },
-    toggleColors() {
+    toggleColors_sub() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
-    generateRequirementsText,
-    exportScheduleToIcs() {
-      exportScheduleToIcs(Object.values(this.possibilities[this.index]));
-    },
-    exportScheduleToImage() {
-      exportScheduleToImage(
-        Object.values(this.selectedCourses),
-        this.selectedSemester,
-        {
-          bgcolor: this.$store.state.darkMode
-            ? allExportVariables.bColor
-            : "white",
-        }
-      );
-    },
-    async loadStudentCourses() {
+    async loadStudentCourses_sub() {
       if (!this.courses.length) {
         return;
       }
@@ -694,7 +679,7 @@ export default {
       }
       this.loadedIndexCookie = 1;
     },
-    addCourse(course) {
+    addCourse_sub(course) {
       this.$set(this.selectedCourses, course.id, course);
       course.selected = true;
       if (this.isLoggedIn) {
@@ -713,7 +698,7 @@ export default {
         this.addCourseSection(course, section)
       );
     },
-    addCourseSection(course, section) {
+    addCourseSection_sub(course, section) {
       section.selected = true;
       if (this.isLoggedIn) {
         addStudentCourse({
@@ -728,7 +713,7 @@ export default {
           .save();
       }
     },
-    removeCourse(course) {
+    removeCourse_sub(course) {
       this.$delete(this.selectedCourses, course.id);
       course.selected = false;
 
@@ -747,7 +732,7 @@ export default {
           .save();
       }
     },
-    removeCourseSection(section) {
+    removeCourseSection_sub(section) {
       if (section.selected) {
         section.selected = false;
 
@@ -769,7 +754,7 @@ export default {
     /**
      * @param {Course} course
      */
-    showCourseInfo(course) {
+    showCourseInfo_sub(course) {
       this.courseInfoModalCourse = course;
       this.showCourseInfoModal = true;
     },
@@ -778,14 +763,14 @@ export default {
      * Toggle course selected state
      * Emits removeCourse and addCourse events
      */
-    toggleCourse(course) {
+    toggleCourse_sub(course) {
       if (course.selected) {
         this.removeCourse(course);
       } else {
         this.addCourse(course);
       }
     },
-    getSchedules() {
+    getSchedules_sub() {
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
@@ -824,7 +809,7 @@ export default {
         ];
       }
     },
-    generateSchedule(c) {
+    generateSchedule_sub(c) {
       let courses = JSON.parse(JSON.stringify(c));
       if (courses.length === 0)
         return [
@@ -852,7 +837,7 @@ export default {
         })
         .flat();
     },
-    changeSchedule(step) {
+    changeSchedule_sub(step) {
       const l = this.possibilities.length;
       if (l === 0) return;
       const c = this.index + step;
@@ -866,7 +851,7 @@ export default {
       }
       this.index = c;
     },
-    updateIndexCookie() {
+    updateIndexCookie_sub() {
       SelectedIndexCookie.load(this.$cookies)
         .semester(this.selectedSemester)
         .updateIndex(this.index)
