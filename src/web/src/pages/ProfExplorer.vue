@@ -316,9 +316,9 @@ export default {
 
         // split into 2 arrays
         if (tmp["Professors"].length > 0) {
+        	count += tmp["Professors"].length + 0.2;
           if (count < half_length) {
             col1.push(tmp);
-            count += tmp["Professors"].length + 0.2;
           } else {
             col2.push(tmp);
           }
@@ -364,10 +364,6 @@ export default {
   align-content: center;
 }
 
-.categoryBox {
-  text-align: center;
-}
-
 .category-title {
   color: hsl(211, 100%, 60%);
   background: rgba(108, 90, 90, 0.15);
@@ -387,4 +383,9 @@ export default {
 .professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
+
+.h3 {
+	text-align: left;
+}
+
 </style>
