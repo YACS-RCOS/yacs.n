@@ -111,7 +111,7 @@
                         :options="departmentOptions"
                         class="h-120"
                       ></b-form-select>
-                    </b-form-group>
+                    </b-form-group>    
                   </div>
                   <div class="d-flex flex-column justify-content-center align-items-center w-30">
                     <p class="text-center">Number</p>
@@ -158,6 +158,28 @@
         </b-col>
         <div class="col-md-8">
             Final Schdule Generator
+
+            <template>
+              <table class="final-table">
+                <tr>
+                  <th>Monday</th>
+                  <th>Tuesday</th>
+                  <th>Wednesday</th>
+                  <th>Thursday</th>
+                  <th>Friday</th>
+                </tr>
+                <tr>
+                  <td>{{ Final_exam[0] }}</td>
+                  <td>{{ Final_exam[1] }}</td>
+                  <td>{{ Final_exam[2] }}</td>
+                  <td>{{ Final_exam[3] }}</td>
+                  <td>{{ Final_exam[4] }}</td>
+                </tr>
+              </table>
+            </template>
+   
+   
+
             <!-- <v-calendar
               :attributes="attributes"
               :events="events"
@@ -314,8 +336,10 @@ export default {
       ],
       minDate: new Date(2023, 3, 1),
       maxDate: new Date(2023, 4, 31),
+      Final_exam:  ["None", "None", "None", "None", "None"],
     };
   },
+  
   created() {
     getDepartments().then((departments) => {
       this.departmentOptions.push(...departments.map((d) => d.department));
@@ -335,9 +359,26 @@ export default {
 };
 </script>
 
+<style scoped>
+.final-table {
+  border-collapse: collapse;
+  border: 2px solid black;
+  width: 100%;
+}
+
+.final-table th,
+.final-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.final-table th {
+  font-weight: bold;
+  background-color: #ccc;
+}
 
 
 
 
-
-
+</style>
