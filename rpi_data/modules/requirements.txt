@@ -4,3 +4,6 @@ requests
 lxml
 regex
 pyyaml
+csv
+re
+os

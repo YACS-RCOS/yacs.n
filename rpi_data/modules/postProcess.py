@@ -1,6 +1,10 @@
 # GOAL: fix description and pre/co-requisites for courses
 # Target URL: https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202209&subj_code_in=CSCI&crse_numb_in=2500
-# TODO: remove \n \n in description
+# How to use:
+#   DATA_FILE=summer-2023_data.json ; The cache filename
+#   TARGET_FILE=summer-2023.csv     ; The file to prosses
+#   HAS_DATA=y                      ; y if has the cache file, n otherwise
+#   DEBUG=n                         ; y if need debug info, n otherwise
 
 import os
 import requests
@@ -162,13 +166,6 @@ def main() -> None:
     dataFilename = os.environ.get('DATA_FILE')
     hasData = os.environ.get('HAS_DATA')
     DEBUG = os.environ.get('DEBUG')
-
-    # # rpi_data/modules/fall-2023.csv
-    # filename = input("Input filename: ")
-    # # rpi_data/modules/data.json
-    # dataFilename = input("Input data filename: ")
-    # # y
-    # hasData = input("with data? (y/n): ").strip().lower()
 
     if hasData == 'y':
         WithData(filename, dataFilename)
