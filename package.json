@@ -13,5 +13,8 @@
   "devDependencies": {
     "cross-env": "^7.0.2",
     "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "v-calendar": "^2.4.1"
   }
 }

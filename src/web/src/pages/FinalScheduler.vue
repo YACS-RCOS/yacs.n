@@ -10,7 +10,109 @@
                 class="flex-grow-1 w-100"
                 data-cy="course-search-tab"
               >
-                Select term
+              <!-- <section class="d-flex flex-column w-30">
+                <section class="d-flex flex-row justify-content-center">
+                  <p class="me-3 text-center w-30">Dept</p>
+                  <p class="me-3 text-center w-30">Number</p>
+                  <p class="me-3 text-center w-30">Section</p>
+                </section>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+                <section class="d-flex flex-row justify-content-center">
+                  <input type="text" class="w-30 me-3">
+                  <input type="text" name="number" class="w-30 me-3">
+                  <input type="text" name="section" class="w-30 me-3">
+                </section>
+                <hr>
+              </section> -->
+              <section class="d-flex flex-column w-30">
+                <section class="d-flex flex-row justify-content-center">
+                  <div class="d-flex flex-column justify-content-center align-items-center w-30">
+                    <p class="text-center">Dept</p>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-center w-30">
+                    <p class="text-center">Number</p>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-center w-30">
+                    <p class="text-center">Section</p>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                    <hr>
+                    <input type="text" class="w-100 me-3">
+                  </div>
+                </section>
+                <hr>
+              </section>
+              
               </b-tab>
               <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
                 Form
@@ -19,7 +121,14 @@
           </b-card>
         </b-col>
         <div class="col-md-8">
-            Schedule
+            Final Schdule Generator
+            <!-- <v-calendar
+              :attributes="attributes"
+              :events="events"
+              :min-date="minDate"
+              :max-date="maxDate"
+              :first-day-of-week="1"
+            /> -->
           <!-- <b-form-select
             v-if="
               !loading &&
@@ -110,3 +219,89 @@
       </b-row>
     </b-container>
   </template>
+
+<script>
+// import VueCalendar from 'vue-calendar';
+// // const Vue = require('vue');
+// // Vue.use(VueCalendar);
+// const form = document.querySelector('form');
+// const deptData = [];
+// const numberData = [];
+// const sectionData = [];
+
+// form.addEventListener('submit', (event) => {
+//   event.preventDefault();
+
+//   const deptInputs = document.querySelectorAll('.w-30:first-child input');
+//   const numberInputs = document.querySelectorAll('.w-30:nth-child(2) input');
+//   const sectionInputs = document.querySelectorAll('.w-30:last-child input');
+
+//   for (let i = 0; i < deptInputs.length; i++) {
+//     const dept = deptInputs[i].value;
+//     const number = numberInputs[i].value;
+//     const section = sectionInputs[i].value;
+
+//     deptData.push(dept);
+//     numberData.push(number);
+//     sectionData.push(section);
+//   }
+
+//   console.log(deptData);
+//   console.log(numberData);
+//   console.log(sectionData);
+
+  // Do something else with the data, such as sending it to a server
+// });
+import { mapState } from "vuex";
+import { getDepartments } from "@/services/YacsService";
+export default {
+  data() {
+    return {
+      selectedDepartment: null,
+      attributes: [
+        {
+          key: 'start',
+          highlight: true,
+          backgroundColor: '#f9d6c1',
+        },
+      ],
+      events: [
+        {
+          start: new Date(2023, 3, 25),
+          end: new Date(2023, 3, 28),
+          title: 'Event 1',
+        },
+        {
+          start: new Date(2023, 3, 28),
+          title: 'Event 2',
+        },
+      ],
+      minDate: new Date(2023, 3, 1),
+      maxDate: new Date(2023, 4, 31),
+    };
+  },
+  created() {
+    getDepartments().then((departments) => {
+      this.departmentOptions.push(...departments.map((d) => d.department));
+    });
+  },
+  computed: {
+    ...mapState(["selectedSemester", "subsemesters", "departments"]),
+    fullList() {
+      return this.$store.getters.courses;
+    },
+    departmentOptions() {
+      return [{ text: "All", value: null }].concat(
+        ...this.departments.map(({ department }) => department)
+      );
+    },
+  }
+};
+</script>
+
+
+
+
+
+
+
