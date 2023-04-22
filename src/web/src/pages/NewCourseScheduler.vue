@@ -174,22 +174,23 @@
           )
         }}
       </span>
-      <!--test-->
-      <br>
-      <span v-for="courseSection in courseInfoModalCourse.sections" :key="courseSection.crn">
-        <br>
-        <p id = "section">Section {{ courseSection.crn }}</p>
-          <span v-for="session in courseSection.sessions" :key="session.crn">
-            <p id = "session"> {{ session.session_type}}: {{ session.time_start }} ~ {{ session.time_end }}</p>
-
-          </span>
-      </span>
-      <!--test-->
       <span v-if="courseInfoModalCourse.description">
         <br />
         <br />
         {{ courseInfoModalCourse.description }}
       </span>
+
+      <!--test-->
+      <br>
+      <span v-for="courseSection in courseInfoModalCourse.sections" :key="courseSection.crn">        
+        <br>
+        <p id = "section">CRN {{ courseSection.crn }}</p>
+        <span v-for="session in courseSection.sessions" :key="[session.day_of_week,session.time_start].toString()">
+          <p id = "session"> {{ convertDay(session.day_of_week) }}: {{ session.time_start }} ~ {{ session.time_end }} ({{ session.session_type}})</p>
+        </span>
+      </span>
+      <!--test-->
+
       <br />
       <br />
       <b-button
@@ -298,6 +299,17 @@ export default {
     generateRequirementsText,
     exportScheduleToIcs() {
       exportScheduleToIcs(Object.values(this.possibilities[this.index]));
+    },
+    convertDay(day_of_week){
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      return days[day_of_week];
+    },
+    conLog(thing){
+      console.log(thing);
+    },
+    sortSesstions(items){
+      items.sort((a, b)=> a.day_of_week - b.day_of_week);
+      return items;
     },
     exportScheduleToImage() {
       exportScheduleToImage(
