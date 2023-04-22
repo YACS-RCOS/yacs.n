@@ -27,43 +27,22 @@
         </b-card>
       </b-col>
       <b-col md="7">
-        <b-table-simple hover bordered class="calendar-table">
-          <b-thead head-variant="dark">
-            <b-tr>
-              <b-th>Monday</b-th>
-              <b-th>Tuesday</b-th>
-              <b-th>Wednesday</b-th>
-              <b-th>Thursday</b-th>
-              <b-th>Friday</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr v-for="(week, weekIndex) in calendarWeeks" :key="'week-' + weekIndex">
-              <b-td v-for="(day, dayIndex) in week.days" :key="'day-' + weekIndex + '-' + dayIndex">
-                <div class="text-left">
-                  <strong>{{ formatDate(day.date) }}</strong>
-                </div>
-                <div v-if="day.exams.length">
-                  <ul>
-                    <li v-for="exam in day.exams" :key="exam.id">
-                      {{ exam.course }} <br> {{ exam.time }}
-                    </li>
-                  </ul>
-                </div>
-              </b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <calendar :possibility="examDetails"></calendar>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 
+
 <script>
 import Finals from "./Finals.json";
+import Calendar from "./Calendar.vue";
 
 export default {
+  components: {
+    Calendar,
+  },
   name: "FinalExamSchedule",
   data() {
     return {
@@ -80,45 +59,31 @@ export default {
       selectedCourses: [null],
       courseOptions: [],
       examDetails: [],
+      calendarWeeks: [],
     };
   },
   mounted() {
     this.initCourseOptions();
   },
   computed: {
-    calendarWeeks() {
-      const startDate = new Date(2023, 3, 24); // April 24, 2023
-      const endDate = new Date(2023, 4, 5); // May 5, 2023
-      const weeks = [];
-
-      for (let currentDate = startDate; currentDate <= endDate;) {
-        const week = { days: [] };
-
-        for (let i = 0; i < 5; i++) {
-          week.days.push({
-            date: new Date(currentDate),
-            exams: this.getExamsForDate(currentDate),
-          });
-
-          currentDate.setDate(currentDate.getDate() + 1);
-
-          if (currentDate > endDate) {
-            break;
-          }
-        }
-
-        weeks.push(week);
-
-        if (currentDate.getDay() === 6) {
-          currentDate.setDate(currentDate.getDate() + 2);
-        }
-      }
-
-      return weeks;
-    },
   },
 
   methods: {
+    formatExamDateTime(day, time) {
+      const [start, end] = time.split("-");
+      const startDateTime = new Date(day);
+      const endDateTime = new Date(day);
+      const [startHour, startMinutes] = start.split(":");
+      const [endHour, endMinutes] = end.split(":");
+
+      startDateTime.setHours(parseInt(startHour));
+      startDateTime.setMinutes(parseInt(startMinutes));
+      endDateTime.setHours(parseInt(endHour));
+      endDateTime.setMinutes(parseInt(endMinutes));
+
+      return { startTime: startDateTime, endTime: endDateTime };
+    },
+
     formatDate(date) {
       const month = date.toLocaleString('default', { month: 'short' });
       const day = date.getDate();
@@ -154,16 +119,22 @@ export default {
       this.examDetails = this.selectedCourses.flatMap((course) => {
         return this.exams
           .filter((exam) => exam.CourseCode === course.CourseCode && exam.Section === course.Section)
-          .map((exam) => ({
-            course: course.Department + " " + course.CourseCode,
-            section: course.Section,
-            room: exam.Room,
-            time: exam.Hour,
-            day: exam.Day,
-            dayOfWeek: new Date(exam.Day).toLocaleString('default', { weekday: 'long' })
-          }));
+          .map((exam) => {
+            const { startTime, endTime } = this.formatExamDateTime(exam.Day, exam.Hour);
+            return {
+              course: course.Department + " " + course.CourseCode,
+              section: course.Section,
+              room: exam.Room,
+              time: exam.Hour,
+              day: exam.Day,
+              dayOfWeek: new Date(exam.Day).toLocaleString('default', { weekday: 'long' }),
+              time_start: startTime.toISOString(),
+              time_end: endTime.toISOString(),
+            };
+          });
       });
     },
+
   },
 };
 </script>
