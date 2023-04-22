@@ -39,15 +39,15 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
+        <b-nav-item @click="scrollToTop" :to="{ name: 'CourseScheduler' }" class="first">
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
-        <b-nav-item :to="{ name: 'CourseExplorer' }">
+        <b-nav-item @click="scrollToTop" :to="{ name: 'CourseExplorer' }">
           <font-awesome-icon icon="search" />
           Explore
         </b-nav-item>
-        <b-nav-item :to="{ name: 'Pathway' }">
+        <b-nav-item @click="scrollToTop" :to="{ name: 'Pathway' }">
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
@@ -171,6 +171,9 @@ export default {
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
       this.darkMode = null; //sets color mode
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
