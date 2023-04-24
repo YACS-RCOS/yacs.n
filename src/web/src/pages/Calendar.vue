@@ -7,18 +7,17 @@
     <div class="schedule-legend">
       <div
         class="hour-label"
-        v-for="(hour, index) of hours"
+        v-for="hour of hours"
         :key="hour"
         :style="{ height: hourHeight + '%' }"
       >
-        <div v-if="index != 0">{{ hour }}</div>
+        <div>{{ hour }}</div>
       </div>
     </div>
-
     <div class="schedule-grid">
       <div
         class="grid-day"
-        v-for="(day, index) of days"
+        v-for="day of days"
         :key="day.longname"
         :style="{ width: dayWidth + '%' }"
       >
@@ -28,43 +27,30 @@
           :key="k"
           class="section-overlay"
         >
+          <!-- Add the modified ScheduleEvent component here -->
           <ScheduleEvent
-            v-for="(session, j) in getSessionsOfDay(section, index)"
-            :key="j"
-            :day="session.day_of_week"
-            :startTime="session.time_start.split(':').slice(0, 2).join(':')"
-            :endTime="session.time_end.split(':').slice(0, 2).join(':')"
-            :crn="session.crn"
-            :section="session.section"
-            :semester="session.semester"
-            :name="section.department + ' ' + section.level"
-            :sessionType="mapSessionType(session.session_type)"
-            :instructor="
-              session.instructor == null
-                ? 'Instructor TBA'
-                : session.instructor.split('/').join(' and ')
-            "
-            :location="
-              session.location == null ? 'Location TBA' : session.location
-            "
-            :title="section.title"
+            v-for="exam in examDetails"
+            :key="exam.id"
+            :day="exam.dayOfWeek"
+            :startTime="exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')"
+            :endTime="exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')"
+            :section="exam.section"
+            :name="exam.course"
+            :location="exam.room"
+            :title="exam.course + ' - ' + exam.section"
             :style="{
               'margin-top':
                 'max(calc(' +
-                eventPosition(session) +
+                eventPosition(exam) +
                 'vh + 1px),' +
-                eventPosition(session, minHeight) +
+                eventPosition(exam, minHeight) +
                 1 +
                 'px)',
-              height: 'calc(' + eventHeight(session) + 'vh - 1px)',
-              'min-height': eventHeight(session, minHeight) - 1 + 'px',
-              backgroundColor: getBackgroundColor(
-                section.department + '-' + section.level
-              ),
-              borderColor: getBorderColor(
-                section.department + '-' + section.level
-              ),
-              color: getTextColor(section.department + '-' + section.level),
+              height: 'calc(' + eventHeight(exam) + 'vh - 1px)',
+              'min-height': eventHeight(exam, minHeight) - 1 + 'px',
+              backgroundColor: getEventColor(exam),
+              borderColor: getBorderColor(exam.course),
+              color: getTextColor(exam.course),
               width: 'calc(100% - 1px)',
             }"
           ></ScheduleEvent>
@@ -76,29 +62,6 @@
           :style="{ height: hourHeight + '%' }"
         ></div>
       </div>
-      <div
-        class="selected-exam"
-        v-for="(exam, index) in examDetails"
-        :key="index"
-        :style="{
-          'margin-top':
-            'max(calc(' +
-            eventPosition(exam.time_start, exam.time_end) +
-            'vh + 1px),' +
-            eventPosition(exam.time_start, exam.time_end, minHeight) +
-            1 +
-            'px)',
-          height: 'calc(' + eventHeight(exam.time_start, exam.time_end) + 'vh - 1px)',
-          'min-height': eventHeight(exam.time_start, exam.time_end, minHeight) - 1 + 'px',
-          backgroundColor: '#3a3',
-          borderColor: '#3a3',
-          color: '#fff',
-          width: 'calc(100% - 1px)',
-        }"
-      >
-        {{ exam.course }} {{ exam.section }} - {{ exam.room }}
-      </div>
-
     </div>
   </div>
 </template>
@@ -115,7 +78,7 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import ScheduleEventComponent from "@/components/ScheduleEvent";
+import ScheduleEventComponent from "./CalendarEvent.vue";
 
 
 export default {
@@ -152,6 +115,14 @@ export default {
     };
   },
   methods: {
+    getEventColor(session) {
+      if (session.department === "CSCI") {
+        return "#ff7f50";
+      } else if (session.department === "ARTS") {
+        return "#6495ed";
+      }
+      return "#3a3";
+    },
     getBackgroundColor,
     getBorderColor,
     getTextColor,

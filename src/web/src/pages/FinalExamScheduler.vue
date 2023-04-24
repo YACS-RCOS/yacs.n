@@ -27,13 +27,11 @@
         </b-card>
       </b-col>
       <b-col md="7">
-        <calendar :possibility="examDetails"></calendar>
+        <calendar :exam-details="examDetails"></calendar>
       </b-col>
     </b-row>
   </b-container>
 </template>
-
-
 
 <script>
 import Finals from "./Finals.json";
@@ -65,9 +63,6 @@ export default {
   mounted() {
     this.initCourseOptions();
   },
-  computed: {
-  },
-
   methods: {
     formatExamDateTime(day, time) {
       const [start, end] = time.split("-");
@@ -92,7 +87,7 @@ export default {
 
     getExamsForDate(date) {
       return this.examDetails.filter((exam) => {
-        const examDate = new Date(exam.day);
+                const examDate = new Date(exam.day);
         return examDate.toDateString() === date.toDateString();
       });
     },
@@ -133,8 +128,11 @@ export default {
             };
           });
       });
-    },
 
+
+      console.log(this.examDetails); // print examDetails to the console
+      
+    },
   },
 };
 </script>
