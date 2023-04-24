@@ -22,39 +22,32 @@
         :style="{ width: dayWidth + '%' }"
       >
         <div class="day-label">{{ day.longname }}</div>
-        <div
-          v-for="(section, k) in temp"
-          :key="k"
-          class="section-overlay"
-        >
-          <!-- Add the modified ScheduleEvent component here -->
-          <ScheduleEvent
-            v-for="exam in examDetails"
-            :key="exam.id"
-            :day="exam.dayOfWeek"
-            :startTime="exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')"
-            :endTime="exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')"
-            :section="exam.section"
-            :name="exam.course"
-            :location="exam.room"
-            :title="exam.course + ' - ' + exam.section"
-            :style="{
-              'margin-top':
-                'max(calc(' +
-                eventPosition(exam) +
-                'vh + 1px),' +
-                eventPosition(exam, minHeight) +
-                1 +
-                'px)',
-              height: 'calc(' + eventHeight(exam) + 'vh - 1px)',
-              'min-height': eventHeight(exam, minHeight) - 1 + 'px',
-              backgroundColor: getEventColor(exam),
-              borderColor: getBorderColor(exam.course),
-              color: getTextColor(exam.course),
-              width: 'calc(100% - 1px)',
-            }"
-          ></ScheduleEvent>
-        </div>
+        <ScheduleEvent
+          v-for="exam in filteredExams"
+          :key="exam.id"
+          :day="exam.dayOfWeek"
+          :startTime="exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')"
+          :endTime="exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')"
+          :section="exam.section"
+          :name="exam.course"
+          :location="exam.room"
+          :title="exam.course + ' - ' + exam.section"
+          :style="{
+            'margin-top':
+              'max(calc(' +
+              eventPosition(exam) +
+              'vh + 1px),' +
+              eventPosition(exam, minHeight) +
+              1 +
+              'px)',
+            height: 'calc(' + eventHeight(exam) + 'vh - 1px)',
+            'min-height': eventHeight(exam, minHeight) - 1 + 'px',
+            backgroundColor: getEventColor(exam),
+            borderColor: getBorderColor(exam.course),
+            color: getTextColor(exam.course),
+            width: 'calc(100% - 1px)',
+          }"
+        ></ScheduleEvent>
         <div
           class="grid-hour"
           v-for="hour of hours"
@@ -62,6 +55,7 @@
           :style="{ height: hourHeight + '%' }"
         ></div>
       </div>
+
     </div>
   </div>
 </template>
@@ -111,7 +105,6 @@ export default {
         STU: "Studio",
         null: "No Type",
       },
-      temp: this.possibility,
     };
   },
   methods: {
@@ -126,15 +119,28 @@ export default {
     getBackgroundColor,
     getBorderColor,
     getTextColor,
-    eventHeight(time_start, time_end, totalHeight = this.totalVHeight) {
-      const eventDuration = toMinutes(time_end) - toMinutes(time_start);
-      return totalHeight * (eventDuration / this.numMinutes);
+
+    eventPosition(exam, minHeight, totalHeight = this.totalVHeight) {
+      const dayIndex = this.days.findIndex(day => day.longname === exam.dayOfWeek);
+      const startMinutes = toMinutes(exam.startTime);
+      const dayStartMinutes = this.startTime + (dayIndex * this.numMinutes);
+      const minutesFromStartOfDay = startMinutes - dayStartMinutes;
+      const positionPercent = (minutesFromStartOfDay / this.numMinutes) * 100;
+      const positionPixels = (positionPercent / 100) * totalHeight;
+      const minHeightPixels = (minHeight / this.numMinutes) * totalHeight;
+      return Math.max(minHeightPixels + 1, positionPixels + 1); // add 1px for the border
     },
 
-    eventPosition(time_start, time_end, totalHeight = this.totalVHeight) {
-      const eventStart = toMinutes(time_start);
-      return totalHeight * ((eventStart - this.startTime) / this.numMinutes);
+    eventHeight(exam, minHeight, totalHeight = this.totalVHeight) {
+      const startMinutes = toMinutes(exam.startTime);
+      const endMinutes = toMinutes(exam.endTime);
+      const durationMinutes = endMinutes - startMinutes;
+      const durationPercent = (durationMinutes / this.numMinutes) * 100;
+      const durationPixels = (durationPercent / 100) * totalHeight;
+      const minHeightPixels = (minHeight / this.numMinutes) * totalHeight;
+      return Math.max(minHeightPixels - 1, durationPixels - 1); // subtract 1px for the border
     },
+
 
     getSessionsOfDay(section, day) {
       return section && section.sessions
@@ -147,7 +153,12 @@ export default {
     },
   },
   computed: {
-
+    filteredExams() {
+      return this.examDetails.filter((exam) => {
+        const day = this.days.find((day) => day.longname.includes(exam.dayOfWeek));
+        return day !== undefined;
+      });
+    },
     numDays() {
       return this.endDay - this.startDay + 1;
     },
