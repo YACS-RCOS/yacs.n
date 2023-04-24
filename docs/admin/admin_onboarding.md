@@ -6,11 +6,13 @@
 
 Direct SSH access to the server is available, use the username and password you were given to sign in like this:
 
-`ssh <username>`
+`ssh <username>`[^network]
 
 You will then be prompted for the password, type that in.
 
 You can use `btop` to check the server's status, including current disk and memory usage. If the Github Actions fail, it could be bacause of lack of storage space. Other troubleshooting can also be done from here.
+
+[^network]: You need to be connected to the RPI network (or on the VPN) in order to connect.
 
 # Github Actions
 
