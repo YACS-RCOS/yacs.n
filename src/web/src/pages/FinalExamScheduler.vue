@@ -122,7 +122,12 @@ export default {
               room: exam.Room,
               time: exam.Hour,
               day: exam.Day,
-              dayOfWeek: new Date(exam.Day).toLocaleString('default', { weekday: 'long' }),
+              dayOfWeek: (() => {
+                const dateObj = new Date(exam.Day);
+                const dayIndex = (dateObj.getDay() + 6) % 7; // Shift Sunday to the end of the week
+                const options = { weekday: 'long' };
+                return new Intl.DateTimeFormat('default', options).format(new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + dayIndex)));
+              })(),
               time_start: startTime.toISOString(),
               time_end: endTime.toISOString(),
             };
@@ -131,7 +136,7 @@ export default {
 
 
       console.log(this.examDetails); // print examDetails to the console
-      
+
     },
   },
 };
