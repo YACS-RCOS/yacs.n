@@ -49,7 +49,7 @@ class Professor:
 
 def add_bulk_professor(self):
     # Load the JSON data from a file
-    with open('professors.json') as file:
+    with open('Professors.json') as file:
         data = json.load(file)
 
     # Connect to the SQL database

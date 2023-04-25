@@ -56,61 +56,51 @@
       };
     },
     methods:{
-      //works
       getProf(){
         console.log("getProfessors");
         this.result = getProfessors();
         console.log(this.result)
       },
-      //works  
       getProfName(){
       console.log("get_professor_name");
         this.result = get_professor_name_by_email(this.email);
         console.log(this.result)
       },
-      //works
       getProfDepartment(){
         console.log("get_professor_from_department");
         this.result = get_professor_from_department(this.department);
         console.log(this.result)
       },
-      //works
       getOfficeHours(){
         console.log("get_office_hours");
         this.result = get_office_hours(this.email);
         console.log(this.result)
       },
-      //works
       getProfNumberByEmail(){
         console.log("get_professor_phone_number_by_email");
         this.result = get_professor_phone_number_by_email(this.email);
         console.log(this.result)
       },
-      //works
       get_professor_info_by_rcs(){
         console.log("get_professor_info_by_rcs");
         this.result = get_professor_info_by_rcs(this.rcs);
         console.log(this.result)
       },
-      //works
       getProfByEmail(){
         console.log("get_professor_info_by_email");
         this.result = get_professor_info_by_email(this.email);
         console.log(this.result)
       },
-      //works
       removeProf(){ 
         console.log("remove_professor");
         this.result = remove_professor(this.email);
         console.log(this.result)
       },
-      //works
       addProf(){
         console.log("addProfessors");
         this.result = addProfessors(this.addMsg);
         console.log(this.result)
       },
-      //works
       addProfTest(){
         console.log("addProfessorsTest");
         this.result = addProfessorsTest();
