@@ -274,6 +274,25 @@
             </div>
           </div> -->
         </div>
+        <div class="calendar">
+          <h2>May {{ year }}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(week, index) in weeks" :key="index">
+                <td v-for="(day, index) in week" :key="index">{{ day }}
+                  <!-- <ul>
+                    <li v-for="period in periods[index]" :key="period">{{ period }}</li>
+                  </ul> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </b-row>
     </b-container>
   </template>
@@ -314,6 +333,31 @@ import { mapState } from "vuex";
 import { getDepartments } from "@/services/YacsService";
 export default {
   data() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = 4; // May is the 5th month (0-indexed)
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeks = [[]];
+    let currentWeek = 0;
+
+    // const periods = [];
+
+    for (let i = 0; i < firstDay; i++) {
+      weeks[currentWeek].push('');
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      if (weeks[currentWeek].length === 7) {
+        currentWeek++;
+        weeks[currentWeek] = [];
+        // periods.push([]);
+      }
+      weeks[currentWeek].push(i);
+      // periods[currentWeek].push('8:00 AM - 12:00 PM', '1:00 PM - 5:00 PM');
+    }
     return {
       selectedDepartment: null,
       attributes: [
@@ -337,6 +381,10 @@ export default {
       minDate: new Date(2023, 3, 1),
       maxDate: new Date(2023, 4, 31),
       Final_exam:  ["None", "None", "None", "None", "None"],
+      year,
+      daysOfWeek,
+      weeks,
+      // periods,
     };
   },
   
@@ -375,10 +423,24 @@ export default {
 
 .final-table th {
   font-weight: bold;
-  background-color: #ccc;
+  background-color: blue;
+}
+.calendar {
+  font-family: Arial, sans-serif;
 }
 
+table {
+  border-collapse: collapse;
+}
 
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
 
+th {
+  background-color: blue;
+}
 
 </style>
