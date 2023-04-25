@@ -1,9 +1,13 @@
 <template>
-  <div
-    class="schedule"
-    :style="{ height: totalVHeight + 'vh', 'min-height': minHeight + 'px' }"
-    data-cy="schedule"
-  >
+  <div>
+    <div v-if="hasConflict" class="alert alert-danger">
+      Can't display because of course conflict!
+    </div>
+    <div
+      class="schedule"
+      :style="{ height: totalVHeight + 'vh', 'min-height': minHeight + 'px' }"
+      data-cy="schedule"
+    >
     <div class="schedule-legend">
       <div
         class="hour-label"
@@ -35,9 +39,13 @@
           :style="{
             'margin-top':eventPosition(exam.time) + 'px',
             'height': eventHeight(exam.time) + 'px',
-            backgroundColor: getEventColor(exam),
-            borderColor: getBorderColor(exam.course),
-            color: getTextColor(exam.course),
+            backgroundColor: getBackgroundColor(
+              getCourseDepartmentAndLevel(exam.course)
+            ),
+            borderColor: getBorderColor(
+              getCourseDepartmentAndLevel(exam.course)
+            ),
+            color: getTextColor(getCourseDepartmentAndLevel(exam.course)),
             width: 20 + '%',
           }"
         ></ScheduleEvent>
@@ -48,7 +56,7 @@
           :style="{ height: hourHeight + '%' }"
         ></div>
       </div>
-
+    </div>
     </div>
   </div>
 </template>
@@ -101,13 +109,9 @@ export default {
     };
   },
   methods: {
-    getEventColor(session) {
-      if (session.department === "CSCI") {
-        return "#ff7f50";
-      } else if (session.department === "ARTS") {
-        return "#6495ed";
-      }
-      return "#3a3";
+    getCourseDepartmentAndLevel(course) {
+      const [department, , level] = course.split(' ');
+      return department + '-' + level;
     },
     getBackgroundColor,
     getBorderColor,
@@ -148,8 +152,27 @@ export default {
     },
   },
   computed: {
+    hasConflict() {
+      const conflicts = new Set();
+      for (const exam1 of this.examDetails) {
+        for (const exam2 of this.examDetails) {
+          if (
+            exam1 !== exam2 &&
+            exam1.day === exam2.day &&
+            exam1.time === exam2.time
+          ) {
+            conflicts.add(exam1);
+            conflicts.add(exam2);
+          }
+        }
+      }
+      return conflicts.size > 0;
+    },
     filteredExams() {
       return (day) => {
+        if (this.hasConflict) {
+          return [];
+        }
         return this.examDetails.filter((exam) => {
           return exam.dayOfWeek === day.longname.split(' ')[0];
         });
@@ -216,8 +239,9 @@ $hourFontSize: 0.5em;
 .schedule {
   margin-top: 10px;
   margin-right: 15px;
-  position: relative; /* so the overlay will position properly */
+  position: relative; 
   margin-bottom: 15px;
+  margin-bottom: 50px;
 }
 
 .schedule-legend {
