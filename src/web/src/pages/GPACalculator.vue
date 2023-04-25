@@ -67,6 +67,39 @@
                 </b-card-text>
                 </b-tab>
 
+                
+                <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                <template v-slot:title>
+                    <div class="text-center" data-cy="selected-courses-tab-header">
+                    Grade Calculator
+                    </div>
+                </template>
+                <b-card-text class="w-100 d-flex flex-grow-1 flex-column">
+
+                    <div class="calculator-box">
+                        <h1>GRADE CALCULATOR</h1>
+                        <div id="grade-wrapper">
+                        <input class = "Assignment key-0" placeholder="Assignment/Exam" />
+                        <input class= "Percent key-0" placeholder="Grade(%)" />
+                        <input class = "Weight key-0" placeholder="Weight" />
+
+
+                        </div>
+
+                    <div class="btn">
+                    <button @click="addAssignment();">+ Add Row</button>
+                    <button @click="removeAssignment();">- Remove</button>
+                    <button @click="calcGrade();">Calculate Grade</button>
+                    <button @click = "clearFormTotal()">Clear Form</button>
+                    </div>
+                    <div class="lastp">
+                    <p id="grade">Your Grade is:</p>
+                    </div>
+                    </div>
+
+                </b-card-text>
+                </b-tab>
+
 
         </b-tabs>
     </b-container>
@@ -411,7 +444,68 @@ export default {
             });
         },
 
+        calcGrade(){
+            
+            const CGPAPARAGRAPH = document.getElementById("grade");
+            const PERCENTAGES = document.querySelectorAll("input.Percent");
+            const WEIGHTS = document.querySelectorAll("input.Weight");
 
+            const listOfGrades = [];
+            const listOfWeight = [];
+            let totalWeight = 0;
+
+            PERCENTAGES.forEach((e) => {
+                const unitValue = parseFloat(e.value);
+                listOfGrades.push(unitValue);
+            });
+            console.log(listOfGrades);
+
+            WEIGHTS.forEach((a) => {
+                const eachWeight = parseFloat(a.value);
+                totalWeight+=eachWeight
+                listOfWeight.push(eachWeight);
+            });
+            console.log(listOfWeight);
+
+
+            let totalEarnedUnits = 0;
+
+
+            for (let i = 0; i < listOfGrades.length; i++) {
+                totalEarnedUnits+=listOfGrades[i]*listOfWeight[i];
+
+            }
+
+            const GradeIncludingWeight = totalEarnedUnits / totalWeight;
+            console.log(GradeIncludingWeight);
+
+
+            if (GradeIncludingWeight >= 0){
+                CGPAPARAGRAPH.textContent = "Your Grade is " + GradeIncludingWeight.toFixed(2);
+            } else {
+                CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";
+            }
+        },
+
+        addAssignment(){
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new2", `key-${this.counter}`);
+            const semester_name = `
+            <form class="add_new2 key-${this.counter}">
+                <input type="text" placeholder="Assignment/Exam" class="Assignment key-${this.counter}" optional>
+                <input type="number" placeholder="Grade(%)" class="Percent key-${this.counter}" required>
+                <input type="number" placeholder="Weight" class="Weight key-${this.counter}" required>
+
+            </form>
+            `;
+            addNew.innerHTML = semester_name;
+            document.getElementById("grade-wrapper").appendChild(addNew);
+            this.counter++;
+        },
+        removeAssignment() {
+            let mainForms = document.querySelectorAll("form.add_new2");
+            mainForms[mainForms.length-1].remove();
+        },
      
 
 
