@@ -33,19 +33,12 @@
           :location="exam.room"
           :title="exam.course + ' - ' + exam.section"
           :style="{
-            'margin-top':
-              'max(calc(' +
-              eventPosition(exam.time) +
-              'vh + 1px),' +
-              eventPosition(exam.time, minHeight) +
-              1 +
-              'px)',
-            'height': eventHeight(exam) + 'vh',
-            'min-height': eventHeight(exam, minHeight) - 1 + 'px',
+            'margin-top':eventPosition(exam.time) + 'px',
+            'height': eventHeight(exam.time) + 'px',
             backgroundColor: getEventColor(exam),
             borderColor: getBorderColor(exam.course),
             color: getTextColor(exam.course),
-            width: 'calc(100% - 1px)',
+            width: 20 + '%',
           }"
         ></ScheduleEvent>
         <div
@@ -64,7 +57,7 @@
 <script>
 import "@/typedef";
 
-import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName, toMinutes } from "@/utils";
+import { DAY_LONGNAMES, DAY_SHORTNAMES, hourName } from "@/utils";
 
 import {
   getBackgroundColor,
@@ -128,20 +121,20 @@ export default {
       return hours24 * 60 + parseInt(minutes, 10);
     },
 
-    eventPosition(timeRange, totalHeight = this.totalVHeight) {
+    eventPosition(timeRange) {
       const timeString = timeRange.split("-")[0];
       const eventStart = this.timeToMinutes(timeString);
-      return totalHeight * ((eventStart - this.startTime) / this.numMinutes);
+      const timeOffSet = eventStart - (8 * 60);
+      return timeOffSet * 61/60;
     },
 
-    eventHeight(exam, minHeight, totalHeight = this.totalVHeight) {
-      const startMinutes = toMinutes(exam.startTime);
-      const endMinutes = toMinutes(exam.endTime);
-      const durationMinutes = endMinutes - startMinutes;
-      const durationPercent = (durationMinutes / this.numMinutes) * 100;
-      const durationPixels = (durationPercent / 100) * totalHeight;
-      const minHeightPixels = (minHeight / this.numMinutes) * totalHeight;
-      return Math.max(minHeightPixels - 1, durationPixels - 1); // subtract 1px for the border
+    eventHeight(timeRange) {
+      const timeStart = timeRange.split("-")[0];
+      const timeEnd = timeRange.split("-")[1];
+      const eventStart = this.timeToMinutes(timeStart);
+      const eventEnd = this.timeToMinutes(timeEnd);
+      const diff = eventEnd - eventStart;
+      return diff * 57/60;
     },
 
     getSessionsOfDay(section, day) {
