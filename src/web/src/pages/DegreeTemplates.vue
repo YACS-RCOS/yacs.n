@@ -1,8 +1,32 @@
+<!-- 
+
+Dev Documentation:
+  
+  Current Issues:
+    - Drag and Drop Bug: When dragging a and letting go while hovering over another course,
+      hovering over the courses are grouped together and both pop up when hovered over.
+    - Scrolling Bug: When dragging a course to the boundary of the browser, the background
+      page scrolls up and down before the modal that the template is inside of.
+      - Potential fix: have a redirect to a page rather than a modal similar to ExplorePage
+        with its different departments.
+
+  Prospective Features:
+    - Create a database connection to the YACS database and pull data from there
+    - Add a "+" button to add a course to a template
+    - Right click menu:
+      - Add a "Remove" button to remove a course from a template
+      - Add a "Move" button to move a course to a different semester
+    - Exportability of the template to a PDF or a CSV
+    - Add a "Save" button to save the template to the database/locally
+    - Add a "Load" button to load a template from the database/locally
+    - Course Conflict Detection (if a course is already in the template, it should be highlighted)
+-->
+
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
-    <!-- button to switch between alphabet order and category order -->
+    <!-- buttons to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
       <b-button
         @click="listAlphabet()"
@@ -28,9 +52,11 @@
         List by School
       </b-button>
     </div>
+
+    <!-- Course Template Modal -->
     <div v-if="degrees.length > 0" class="mx-auto w-100">
       <b-modal ref="my-modal" size="xl">
-        <div class="block text-left" v-if="showMajor != null" b-md="100">
+        <div class="block text-left" v-if="showMajor != null" b-md="90">
           <h2
             class="text-center"
             style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
@@ -42,7 +68,7 @@
                 <h4 style="color: #3395ff; margin-top: -10px;">
                   {{ "First Year: " }}
                 </h4>
-                <b-row bordered>
+                <b-row>
                   <b-col v-for="semester in [showMajor.Y1S1, showMajor.Y1S2]" :key="semester">
                     <div v-for="course in semester" :key="course">
                       <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
@@ -54,10 +80,10 @@
                       <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
                         {{ course }}
                       </b>
-                      <draggable v-modal="semester" class="list-group" :list="list1" group="people" v-else>
+                      <draggable v-modal="semester" class="list-group" :list="list1" group="people" :options="{preventOnFilter: true}" v-else>
                         <b-button
                           @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4;"
+                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                           class="courseInTemplate">{{ course }}
                         </b-button>
                       </draggable>
@@ -84,7 +110,7 @@
                       <draggable class="list-group" :list="list1" group="people" v-else >
                         <b-button
                           @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4;"
+                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                           class="courseInTemplate">{{ course }}
                         </b-button>
                       </draggable>
@@ -111,7 +137,7 @@
                       <draggable class="list-group" :list="list1" group="people" v-else >
                         <b-button
                           @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4;"
+                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                           class="courseInTemplate">{{ course }}
                         </b-button>
                       </draggable>
@@ -138,7 +164,7 @@
                       <draggable class="list-group" :list="list1" group="people" v-else >
                         <b-button
                           @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4;"
+                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                           class="courseInTemplate">{{ course }}
                         </b-button>
                       </draggable>
@@ -165,7 +191,7 @@
                       <draggable class="list-group" :list="list1" group="people" v-else >
                         <b-button
                           @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4;"
+                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                           class="courseInTemplate">{{ course }}
                         </b-button>
                       </draggable>
@@ -173,7 +199,7 @@
                   </b-col>
                 </b-row>
               </div>
-            <br />
+            <br/>
           </div>
         </div>
       </b-modal>
@@ -309,12 +335,9 @@ export default {
       templateModalClass: "template-modal-class",
     };
   },
+
   computed: {
-    /*
-      For categoryCols, we probably want to get some sort of dictionary containing each of the
-      Schools that contain majors and sort the displaying in this function.    
-    */
-    // splitted degrees into 2 arrays, one array = one column
+
     schoolCols(){
       let ret = [];
       let col1 = [];
@@ -330,10 +353,10 @@ export default {
       ret.push(col2);
       return ret;
     },
-    // split degrees to alphabet degrees, then splitted degrees into 2 arrays, one array = one column
+
     alphabetCols() {
       let alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-      let ret = [];
+      let page_columns = [];
       let col1 = [];
       let col2 = [];
 
@@ -351,9 +374,12 @@ export default {
           Degrees:[],
         };
 
+        // iterates through each degree and adds it to the dictionary if it starts with the current alphabet character
         for(var i = 0; i < this.degrees.length; i++){
           for(var j = 0; j < this.degrees[i]['Majors'].length; j++){
             var bool = 0;
+
+            // checks if the degree is already in the dictionary
             for(var k = 0; k < tmp['Degrees'].length; k++){
               if(tmp['Degrees'][k]['Major'] === this.degrees[i]['Majors'][j]['Major']){
                 bool = 1;
@@ -362,8 +388,12 @@ export default {
             if(bool === 1){
               break;
             }
+
+            // adds the degree to the dictionary if it starts with the current alphabet character
             if(this.degrees[i]['Majors'][j]['Major'].startsWith(alphabet[n])){
               var index = 0;
+
+              // finds the index to insert the degree at
               while(index < tmp["Degrees"].length){
                 if(this.degrees[i]['Majors'][j]['Major'] < tmp["Degrees"][index]["Major"]){
                   break;
@@ -375,6 +405,7 @@ export default {
           }
         }
 
+        // adds the dictionary to the column arrays
         if (tmp["Degrees"].length > 0){
           if(count < half_length){
             col1.push(tmp);
@@ -385,28 +416,31 @@ export default {
         }
       }
 
-      ret.push(col1);
-      ret.push(col2);
-      return ret;
+      page_columns.push(col1);
+      page_columns.push(col2);
+      return page_columns;
     },
   },
+
   methods: {
+
     listAlphabet() {
       this.cateShow = false;
       this.alphShow = true;
     },
+
     listCate() {
       this.cateShow = true;
       this.alphShow = false;
     },
-    // Display a pop-up window when a pathway is clicked
+
     ShowMajor(major) {
       console.log(this.$refs["my-modal"]);
       console.log(major);
       this.showMajor = major;
       this.$refs["my-modal"].show();
     },
-    // Go to the course page when a course inside the pop-up window is clicked
+
     printCourse(course){
       course;
     },
@@ -419,6 +453,10 @@ export default {
 
       var subject = "" + course[0] + course[1] + course[2] + course[3];
 
+
+      /* Elective handling:
+      Would be better if this wasn't hard coded, but there's no mapping of keywords to subjects (wip?)
+      */
       let c_lower = course.toLowerCase();
       if (c_lower.includes("math elective") || c_lower.includes("math option") || c_lower.includes("mathematics")){
         console.log("MATH elective");
@@ -490,12 +528,24 @@ export default {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
+.list-group:hover{
+  transform: scale(1.05);
+  box-shadow: 3px 3px 3px #c2c4c8;
+  z-index: 999;
+}
+
 .courseInTemplate {
   cursor: pointer;
   background-color: rgba(4, 68, 135, 0.2);
+  
 }
 
 .courseInTemplate:hover {
   background-color: rgba(39, 130, 230, 0.5);
+  border-radius: 3px;
+  border-color: #f0e4e4;
+  margin-top: 2px
 }
+
+
 </style>
