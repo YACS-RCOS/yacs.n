@@ -37,8 +37,8 @@
           :location="exam.room"
           :title="exam.course + ' - ' + exam.section"
           :style="{
-            'margin-top':eventPosition(exam.time) + 'px',
-            'height': eventHeight(exam.time) + 'px',
+            'margin-top':eventPosition(exam.time) + 'vh',
+            'height': eventHeight(exam.time) + '%',
             backgroundColor: getBackgroundColor(
               getCourseDepartmentAndLevel(exam.course)
             ),
@@ -129,7 +129,7 @@ export default {
       const timeString = timeRange.split("-")[0];
       const eventStart = this.timeToMinutes(timeString);
       const timeOffSet = eventStart - (8 * 60);
-      return timeOffSet * 61/60;
+      return timeOffSet * 80 / 14 / 60 ;
     },
 
     eventHeight(timeRange) {
@@ -138,7 +138,7 @@ export default {
       const eventStart = this.timeToMinutes(timeStart);
       const eventEnd = this.timeToMinutes(timeEnd);
       const diff = eventEnd - eventStart;
-      return diff * 57/60;
+      return diff * 7.14286 / 60;
     },
 
     getSessionsOfDay(section, day) {
@@ -291,7 +291,7 @@ $hourFontSize: 0.5em;
   border-right: none;
 }
 
-.section-overlay {
+.section- {
   position: absolute;
   width: 20%;
   height: 100%;
