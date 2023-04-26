@@ -1,14 +1,33 @@
+import { createVuetify } from 'vuetify'
+
+import colors from 'vuetify/lib/util/colors'
+
+export default createVuetify({
+  theme: {
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          primary: colors.grey.darken1, // #E53935
+          secondary: colors.grey.lighten4, // #FFCDD2
+          ...
+        }
+      },
+    },
+  },
+})
+
 <template>
   <b-navbar
     id="header"
-    class="bg-white"
+    class="bg-light"
     style="margin-bottom: 0 !important;"
     toggleable="md"
     type="primary"
-    variant="light"
+    variant=#6c757d
   >
     <b-navbar-brand
-      class="align-middle text-dark"
+      class="align-middle text-blue"
       :to="{ name: 'CourseScheduler' }"
     >
       YACS
@@ -49,6 +68,10 @@
         <b-nav-item :to="{ name: 'Pathway' }">
           <font-awesome-icon icon="list" />
           Pathways
+        </b-nav-item>
+        <b-nav-item :to="{name: 'Prerequisites'}">
+          <font-awesome-icon icon="list" />
+          Prerequisites
         </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
