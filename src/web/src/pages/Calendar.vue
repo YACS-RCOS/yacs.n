@@ -35,7 +35,8 @@
           :section="exam.section"
           :name="exam.course"
           :location="exam.room"
-          :title="exam.course + ' - ' + exam.section"
+          :time = "exam.time"
+          :title="exam.course"
           :style="{
             'margin-top':eventPosition(exam.time) + 'vh',
             'height': eventHeight(exam.time) + '%',
