@@ -51,7 +51,7 @@
           Pathways
         </b-nav-item>
         <b-nav-item :to="{ name: 'Finals' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="file-alt" />
           Finals
         </b-nav-item>
       </b-navbar-nav>

@@ -111,12 +111,13 @@ export default {
       this.selectedCourses.push(null);
     },
     searchExams() {
-      this.examDetails = this.selectedCourses.flatMap((course) => {
+      const examDetailsRaw = this.selectedCourses.flatMap((course) => {
         return this.exams
           .filter((exam) => exam.CourseCode === course.CourseCode && exam.Section === course.Section)
           .map((exam) => {
             const { startTime, endTime } = this.formatExamDateTime(exam.Day, exam.Hour);
             return {
+              id: course.Department + " " + course.CourseCode + " " + course.Section + " " + exam.Day,
               course: course.Department + " " + course.CourseCode,
               section: course.Section,
               room: exam.Room,
@@ -124,7 +125,7 @@ export default {
               day: exam.Day,
               dayOfWeek: (() => {
                 const dateObj = new Date(exam.Day);
-                const dayIndex = (dateObj.getDay() + 6) % 7; // Shift Sunday to the end of the week
+                const dayIndex = (dateObj.getDay() + 6) % 7; 
                 const options = { weekday: 'long' };
                 return new Intl.DateTimeFormat('default', options).format(new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + dayIndex)));
               })(),
@@ -134,10 +135,20 @@ export default {
           });
       });
 
+      const examDetailsGrouped = examDetailsRaw.reduce((acc, exam) => {
+        if (!acc[exam.id]) {
+          acc[exam.id] = exam;
+        } else {
+          acc[exam.id].room += ", " + exam.room;
+        }
+        return acc;
+      }, {});
 
-      console.log(this.examDetails); // print examDetails to the console
+      this.examDetails = Object.values(examDetailsGrouped);
 
+      console.log(this.examDetails);
     },
+
   },
 };
 </script>

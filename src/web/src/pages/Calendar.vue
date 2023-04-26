@@ -159,6 +159,7 @@ export default {
         for (const exam2 of this.examDetails) {
           if (
             exam1 !== exam2 &&
+            exam1.course !== exam2.course &&
             exam1.day === exam2.day &&
             exam1.time === exam2.time
           ) {
@@ -174,11 +175,47 @@ export default {
         if (this.hasConflict) {
           return [];
         }
-        return this.examDetails.filter((exam) => {
+        const examsWithoutDuplicates = [];
+        const seenExams = new Set();
+
+        for (const exam of this.examDetails.filter((exam) => {
           return exam.dayOfWeek === day.longname.split(' ')[0];
-        });
+        })) {
+          const identifier = exam.course + '-' + exam.time;
+
+          if (!seenExams.has(identifier)) {
+            seenExams.add(identifier);
+            examsWithoutDuplicates.push(exam);
+          } else {
+            const existingExam = examsWithoutDuplicates.find(e => e.course === exam.course && e.time === exam.time);
+            const existingRooms = existingExam.room.split(', ').concat(exam.room.split(', '));
+            const uniqueRooms = [...new Set(existingRooms)];
+            existingExam.room = uniqueRooms.join(', ');
+          }
+        }
+        return examsWithoutDuplicates;
       };
     },
+    uniqueExams() {
+      const examsWithoutDuplicates = [];
+      const seenExams = new Set();
+
+      for (const exam of this.examDetails) {
+        const identifier = exam.course + '-' + exam.time;
+
+        if (!seenExams.has(identifier)) {
+          seenExams.add(identifier);
+          examsWithoutDuplicates.push(exam);
+        } else {
+          const existingExam = examsWithoutDuplicates.find(e => e.course === exam.course && e.time === exam.time);
+          const existingRooms = existingExam.room.split(', ').concat(exam.room.split(', '));
+          const uniqueRooms = [...new Set(existingRooms)];
+          existingExam.room = uniqueRooms.join(', ');
+        }
+      }
+      return examsWithoutDuplicates;
+    },
+
     numDays() {
       return this.endDay - this.startDay + 1;
     },
@@ -197,7 +234,7 @@ export default {
 
     days() {
       const days = [];
-      const startDate = new Date(2023, 4, 1); // Adjust the starting date as needed (Year, Month - 1, Day)
+      const startDate = new Date(2023, 4, 1);
 
       for (let day = this.startDay; day <= this.endDay; ++day) {
         const currentDate = new Date(startDate);
