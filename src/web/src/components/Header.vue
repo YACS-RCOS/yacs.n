@@ -122,6 +122,16 @@ import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
 // import router from "@/routes";
 export default {
+  watch: {
+    $route(to) {
+      if (to.name === "CourseScheduler" && to.params.reload) {
+      
+        this.$children[0].$children.forEach((component) => {
+          component.$forceUpdate();
+        });
+      }
+    },
+  },
   name: "Header",
   components: {
     LoginForm: LoginComponent,
@@ -139,6 +149,7 @@ export default {
     }
   },
   methods: {
+
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
       //Sends message to user that device theme is no longer followed

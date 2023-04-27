@@ -22,14 +22,54 @@
           <p v-html="transformed" />
         </b-col>
       </b-row>
+      <h5>Instructors:</h5>
+      <ul>
+        <li v-for="item in getIns" :key="item.id">
+      <template v-if="item in professorbylastname">
+        <span>{{ professorbylastname[item].Name }} --- {{ professorbylastname[item].Email }}</span>
+      </template>
+      <template v-else-if="item in professorbyfirstname">
+        <span>{{ professorbyfirstname[item].Name }} --- {{ professorbyfirstname[item].Email }}</span>
+      </template>
+      <template v-else-if="item in professorbylastname1">
+        <span>{{ professorbylastname1[item].name }} --- {{ professorbylastname1[item].email }}</span>
+      </template>
+      <template v-else-if="item in professorbyfirstname1">
+        <span>{{ professorbyfirstname1[item].name }} --- {{ professorbyfirstname1[item].email }}</span>
+      </template>
+      <template v-else>
+        {{ item }}
+      </template>
+      </li> 
+      </ul>
+      
       <b-row>
         <b-col class="mb-4">
+
+          <CourseListing
+                :course="courseObj"
+                @addCourse="addCourse"
+                @removeCourse="removeCourse"
+                @removeCourseSection="removeCourseSection"
+                @addCourseSection="addCourseSection"
+                defaultAction="toggleCourse"
+                v-on="$listeners"
+                lazyLoadCollapse
+              >               
+              </CourseListing>
+          
+          <br />
+          Description
           <br />
           {{ courseObj.description }}
+          <br />
+          When offered: {{courseObj.frequency}} 
+          <br />
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
-      <!--      :to="'/explore/' + courseObj.department"-->
+      <div>
+        <CourseInfo :course="courseObj"/>
+      </div>
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -55,20 +95,34 @@
 </template>
 
 <script>
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CourseListingComponent from "@/components/CourseListing";
+import {
+  addStudentCourse,
+  removeStudentCourse,
+} from "@/services/YacsService";
+import CourseInfo from "../components/CourseInfo.vue";
+import professorbylastname from "./professorbylastname.js";
+import professorbyfirstname from "./professorbyfirstname.js";
+import professorbyfirstname1 from "./professordata_sortbyfirstname.js";
+import professorbylastname1 from "./professordata_sortbylastname.js";
 
 export default {
   components: {
+    CourseListing: CourseListingComponent,
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CourseInfo,
   },
   name: "CoursePage",
   data() {
     return {
+      coursePlaceHolder: this.courseObj,
       courseName: this.$route.params.course,
       breadcrumbNav: [
         {
@@ -87,19 +141,112 @@ export default {
           text: this.$route.params.course,
         },
       ],
+      professorbylastname:professorbylastname,
+      professorbyfirstname:professorbyfirstname,
+      professorbylastname1:professorbylastname1,
+      professorbyfirstname1:professorbyfirstname1,
     };
   },
+
   methods: {
     generateRequirementsText,
+    addCourse() {
+      const course = this.courseObj;
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourse(course)
+          .save();
+      }
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
+    },
+    addCourseSection(course, section) {
+      section.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourseSection(course, section)
+          .save();
+      }
+    },
+    removeCourse() {
+      const course = this.courseObj;
+      course.selected = false;
+      course.sections.forEach((section) => this.removeCourseSection(section));
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: null,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .removeCourse(course)
+          .save();
+      }
+      course.sections.forEach((section) =>
+        this.removeCourseSection(course, section)
+      );
+    },
+    removeCourseSection(section) {
+      if (section.selected) {
+        section.selected = false;
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.courseObj.semester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.courseObj.semester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+    },
+    toggle() {
+      if (!this.isActive) {
+        this.addCourse();
+        this.isActive = true;
+      } else {
+        this.removeCourse();
+        this.isActive = false;
+      }
+    },
+
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
     ...mapGetters([COURSES]),
     transformed() {
       let precoreqtext = this.courseObj.raw_precoreqs;
+      console.log(this.courseObj);
+      
+      // let idx;
+      // let idx2;
+
       if (precoreqtext === null) {
+        //console.log(this.courseObj.);
         return "No information on pre/corequisites";
       }
+      
       const regex = /([A-Z]){4}( )([0-9]){4}/g;
       while (precoreqtext.search(regex) != -1) {
         let index = precoreqtext.search(regex);
@@ -135,6 +282,28 @@ export default {
         credits = this.courseObj.min_credits;
       }
       return credits;
+    },
+    getIns(){
+      var instructorList = [];
+      //Creat a set to store professor names.
+    const instructors = new Set();
+    //Use the loop to get professor name of each session
+    this.courseObj.sections.forEach(section => {
+      section.sessions.forEach(session => {
+        //Some sessions may have mult professor just split them
+        const instructorArr1 = session.instructor.split(" ");
+        const instructorArr = instructorArr1[0].split("/")
+        instructorArr.forEach(instructor =>{
+          //Remove duplicate items, and some strange names
+          if (instructor.trim() && !instructor.includes("Staff") && instructor !== "B") {
+          instructors.add(instructor.trim());
+        }
+        });
+      });
+    });
+    //Change set to array
+    instructorList = Array.from(instructors);
+    return instructorList;
     },
   },
   metaInfo() {

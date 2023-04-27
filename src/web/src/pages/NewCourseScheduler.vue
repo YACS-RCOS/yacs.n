@@ -172,6 +172,7 @@
                       <font-awesome-icon :icon="exportIcon" />
                       Export To Image
                     </b-dropdown-item>
+                    
                   </b-dropdown>
                 </b-row>
               </b-col>
@@ -294,6 +295,10 @@ const addSection = (p, section) => {
   };
 };
 export default {
+  mounted() {
+    this.$router.replace({ name: "CourseScheduler", params: { reload: true } });
+    this.getSchedules();
+  },
   name: "MainPage",
   mixins: [NotificationsMixin],
   components: {

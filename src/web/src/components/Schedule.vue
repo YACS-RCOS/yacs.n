@@ -121,6 +121,9 @@ export default {
       temp: this.possibility,
     };
   },
+  activated() {
+    this.temp = this.possibility;
+  },
   methods: {
     getBackgroundColor,
     getBorderColor,
