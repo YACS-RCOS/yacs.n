@@ -63,142 +63,174 @@ Dev Documentation:
           >
             {{ showMajor.Major }}
           </h2>
-            <div v-for="(item, itemName) in showMajor" :key="itemName">
-              <div v-if="itemName === 'Y1'"> <!-- Year 1 -->
-                <h4 style="color: #3395ff; margin-top: -10px;">
-                  {{ "First Year: " }}
-                </h4>
-                <b-row>
-                  <b-col v-for="semester in [showMajor.Y1S1, showMajor.Y1S2]" :key="semester">
-                    <div v-for="course in semester" :key="course">
-                      <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <draggable v-modal="semester" class="list-group" :list="list1" group="people" :options="{preventOnFilter: true}" v-else>
-                        <b-button
-                          @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
-                          class="courseInTemplate">{{ course }}
-                        </b-button>
-                      </draggable>
-                    </div>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else-if="itemName === 'Y2'"> <!-- Year 2 -->
-                <h4 style="color: #3395ff; margin-top: -25px;">
-                  {{ "Second Year: " }}
-                </h4>
-                <b-row>
-                  <b-col v-for="semester in [showMajor.Y2S1, showMajor.Y2S2]" :key="semester">
-                    <div v-for="course in semester" :key="course">
-                      <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <draggable class="list-group" :list="list1" group="people" v-else >
-                        <b-button
-                          @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
-                          class="courseInTemplate">{{ course }}
-                        </b-button>
-                      </draggable>
-                    </div>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else-if="itemName === 'Y3'"><!-- Year 3 -->
-                <h4 style="color: #3395ff; margin-top: -25px;">
-                  {{ "Third Year: " }}
-                </h4>
-                <b-row>
-                  <b-col v-for="semester in [showMajor.Y3S1, showMajor.Y3S2]" :key="semester">
-                    <div v-for="course in semester" :key="course">
-                      <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <draggable class="list-group" :list="list1" group="people" v-else >
-                        <b-button
-                          @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
-                          class="courseInTemplate">{{ course }}
-                        </b-button>
-                      </draggable>
-                    </div>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else-if="itemName === 'Y4'"> <!-- Year 4 -->
-                <h4 style="color: #3395ff; margin-top: -25px;">
-                  {{ "Fourth Year: " }}
-                </h4>
-                <b-row>
-                  <b-col v-for="semester in [showMajor.Y4S1, showMajor.Y4S2]" :key="semester">
-                    <div v-for="course in semester" :key="course">
-                      <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <draggable class="list-group" :list="list1" group="people" v-else >
-                        <b-button
-                          @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
-                          class="courseInTemplate">{{ course }}
-                        </b-button>
-                      </draggable>
-                    </div>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else-if="itemName === 'Y5'"> <!-- Year 5 -->
-                <h4 style="color: #3395ff; margin-top: -25px;">
-                  {{ "Fifth Year: " }}
-                </h4>
-                <b-row>
-                  <b-col v-for="semester in [showMajor.Y5S1, showMajor.Y5S2]" :key="semester">
-                    <div v-for="course in semester" :key="course">
-                      <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
-                        {{ course }}
-                      </b>
-                      <draggable class="list-group" :list="list1" group="people" v-else >
-                        <b-button
-                          @click="goPage(course)"
-                          style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
-                          class="courseInTemplate">{{ course }}
-                        </b-button>
-                      </draggable>
-                    </div>
-                  </b-col>
-                </b-row>
-              </div>
+
+          <!-- Draggable dispenser and trash can -->
+          <b-row>
+            <b-col>
+              <b-button 
+                @click="addNewItem()"
+                style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+              >
+                Add new item
+              </b-button>
+              <b-row v-for="draggable_item in draggables_list" :key="draggable_item">
+                <draggable v-modal="semester" class="list-group" :list="list1" group="people" :options="{ preventOnFilter: true }">
+                  <b-button
+                    @click="goPage(draggable_item)"
+                    style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                    class="courseInTemplate">
+                      {{ draggable_item }}  
+                  </b-button>
+                </draggable>
+              </b-row>
+            </b-col>
+            <b-col>
+              <b-button
+                @click="trash()"
+                style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                class="courseInTemplate"
+              >
+                Trash
+              </b-button>
+            </b-col>
+          </b-row>
+
+          <div v-for="(item, itemName) in showMajor" :key="itemName">
+            <div v-if="itemName === 'Y1'"> <!-- Year 1 -->
+              <h4 style="color: #3395ff; margin-top: -10px;">
+                {{ "First Year: " }}
+              </h4>
+              <b-row>
+                <b-col v-for="semester in [showMajor.Y1S1, showMajor.Y1S2]" :key="semester">
+                  <div v-for="course in semester" :key="course">
+                    <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <draggable v-modal="semester" class="list-group" :list="list1" group="people" :options="{preventOnFilter: true}" v-else>
+                      <b-button
+                        @click="goPage(course)"
+                        style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                        class="courseInTemplate">{{ course }}
+                      </b-button>
+                    </draggable>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else-if="itemName === 'Y2'"> <!-- Year 2 -->
+              <h4 style="color: #3395ff; margin-top: -25px;">
+                {{ "Second Year: " }}
+              </h4>
+              <b-row>
+                <b-col v-for="semester in [showMajor.Y2S1, showMajor.Y2S2]" :key="semester">
+                  <div v-for="course in semester" :key="course">
+                    <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <draggable class="list-group" :list="list1" group="people" v-else >
+                      <b-button
+                        @click="goPage(course)"
+                        style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                        class="courseInTemplate">{{ course }}
+                      </b-button>
+                    </draggable>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else-if="itemName === 'Y3'"><!-- Year 3 -->
+              <h4 style="color: #3395ff; margin-top: -25px;">
+                {{ "Third Year: " }}
+              </h4>
+              <b-row>
+                <b-col v-for="semester in [showMajor.Y3S1, showMajor.Y3S2]" :key="semester">
+                  <div v-for="course in semester" :key="course">
+                    <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <draggable class="list-group" :list="list1" group="people" v-else >
+                      <b-button
+                        @click="goPage(course)"
+                        style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                        class="courseInTemplate">{{ course }}
+                      </b-button>
+                    </draggable>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else-if="itemName === 'Y4'"> <!-- Year 4 -->
+              <h4 style="color: #3395ff; margin-top: -25px;">
+                {{ "Fourth Year: " }}
+              </h4>
+              <b-row>
+                <b-col v-for="semester in [showMajor.Y4S1, showMajor.Y4S2]" :key="semester">
+                  <div v-for="course in semester" :key="course">
+                    <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <draggable class="list-group" :list="list1" group="people" v-else >
+                      <b-button
+                        @click="goPage(course)"
+                        style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                        class="courseInTemplate">{{ course }}
+                      </b-button>
+                    </draggable>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else-if="itemName === 'Y5'"> <!-- Year 5 -->
+              <h4 style="color: #3395ff; margin-top: -25px;">
+                {{ "Fifth Year: " }}
+              </h4>
+              <b-row>
+                <b-col v-for="semester in [showMajor.Y5S1, showMajor.Y5S2]" :key="semester">
+                  <div v-for="course in semester" :key="course">
+                    <b v-if=" course === 'Fall' " style="color: #3395ff; margin-top: -20px;" >
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'Spring' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <b v-else-if=" course === 'The Arch Semester' " style="color: #3395ff; margin-top: -20px;">
+                      {{ course }}
+                    </b>
+                    <draggable class="list-group" :list="list1" group="people" v-else >
+                      <b-button
+                        @click="goPage(course)"
+                        style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
+                        class="courseInTemplate">{{ course }}
+                      </b-button>
+                    </draggable>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
             <br/>
           </div>
         </div>
@@ -237,7 +269,7 @@ Dev Documentation:
                           @click="ShowMajor(major)"
                           squared
                           variant="light"
-                          class="pathway-button m-0 ml-1"
+                          class="template-button m-0 ml-1"
                         >
                       {{ major['Major'] }}
                     </b-button>
@@ -272,7 +304,7 @@ Dev Documentation:
               </b-row>
               <b-row>
                 <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
+                  <!-- LOOP Through the template Categories list -->
                   <div
                     v-for="major in schoolObj['Degrees']"
                     :key="major['Major']"
@@ -283,7 +315,7 @@ Dev Documentation:
                           @click="ShowMajor(major)"
                           squared
                           variant="light"
-                          class="pathway-button m-0 ml-1"
+                          class="template-button m-0 ml-1"
                         >
                           {{ major['Major'] }}
                         </b-button>
@@ -422,6 +454,12 @@ export default {
     },
   },
 
+  update:{
+    addNewItem() {
+      this.draggables_list.push({ name: 'New Item' });
+    },
+  },
+
   methods: {
 
     listAlphabet() {
@@ -452,7 +490,6 @@ export default {
       }
 
       var subject = "" + course[0] + course[1] + course[2] + course[3];
-
 
       /* Elective handling:
       Would be better if this wasn't hard coded, but there's no mapping of keywords to subjects (wip?)
@@ -516,7 +553,7 @@ export default {
   margin: auto;
 }
 
-.pathway-button {
+.template-button {
   display: inline-block;
   background: white;
   border-style: none;
@@ -524,7 +561,7 @@ export default {
   width: 95%;
 }
 
-.pathway-button:hover {
+.template-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
