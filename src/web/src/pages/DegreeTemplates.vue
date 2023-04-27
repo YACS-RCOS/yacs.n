@@ -117,6 +117,7 @@ Dev Documentation:
                         @click="goPage(course)"
                         style="background-color: #8ab4f8; color: white; border-radius: 3px; border-color: #f0e4e4; margin-top: 2px"
                         class="courseInTemplate">{{ course }}
+                        <!-- Create a right click action here for a menu display for each course -->
                       </b-button>
                     </draggable>
                   </div>
@@ -341,12 +342,14 @@ Dev Documentation:
 <script>
 import degrees_json from "./DegreeTemplates.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
+// import templateMenu from "../components/TemplateMenu.vue";
 import draggable from "vuedraggable";
 
 export default {
   name: "DegreeTemplates",
   components: {
     draggable,
+    // templateMenu: templateMenu,
     CenterSpinner: CenterSpinnerComponent,
   },
   data() {
@@ -367,7 +370,6 @@ export default {
       templateModalClass: "template-modal-class",
     };
   },
-
   computed: {
 
     schoolCols(){
@@ -583,6 +585,5 @@ export default {
   border-color: #f0e4e4;
   margin-top: 2px
 }
-
 
 </style>
