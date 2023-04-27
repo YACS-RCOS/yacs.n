@@ -8,60 +8,63 @@
       :style="{ height: totalVHeight + 'vh', 'min-height': minHeight + 'px' }"
       data-cy="schedule"
     >
-    <div class="schedule-legend">
-      <div
-        class="hour-label"
-        v-for="hour of hours"
-        :key="hour"
-        :style="{ height: hourHeight + '%' }"
-      >
-        <div>{{ hour }}</div>
-      </div>
-    </div>
-    <div class="schedule-grid">
-      <div
-        class="grid-day"
-        v-for="day of days"
-        :key="day.longname"
-        :style="{ width: dayWidth + '%' }"
-      >
-        <div class="day-label">{{ day.longname }}</div>
-        <ScheduleEvent
-          v-for="exam in filteredExams(day)"
-          :key="exam.id"
-          :day="exam.dayOfWeek"
-          :startTime="exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')"
-          :endTime="exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')"
-          :section="exam.section"
-          :name="exam.course"
-          :location="exam.room"
-          :time = "exam.time"
-          :title="exam.course"
-          :style="{
-            'margin-top':eventPosition(exam.time) + 'vh',
-            'height': eventHeight(exam.time) + '%',
-            backgroundColor: getBackgroundColor(
-              getCourseDepartmentAndLevel(exam.course)
-            ),
-            borderColor: getBorderColor(
-              getCourseDepartmentAndLevel(exam.course)
-            ),
-            color: getTextColor(getCourseDepartmentAndLevel(exam.course)),
-            width: 20 + '%',
-          }"
-        ></ScheduleEvent>
+      <div class="schedule-legend">
         <div
-          class="grid-hour"
+          class="hour-label"
           v-for="hour of hours"
           :key="hour"
           :style="{ height: hourHeight + '%' }"
-        ></div>
+        >
+          <div>{{ hour }}</div>
+        </div>
       </div>
-    </div>
+      <div class="schedule-grid">
+        <div
+          class="grid-day"
+          v-for="day of days"
+          :key="day.longname"
+          :style="{ width: dayWidth + '%' }"
+        >
+          <div class="day-label">{{ day.longname }}</div>
+          <ScheduleEvent
+            v-for="exam in filteredExams(day)"
+            :key="exam.id"
+            :day="exam.dayOfWeek"
+            :startTime="
+              exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')
+            "
+            :endTime="
+              exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')
+            "
+            :section="exam.section"
+            :name="exam.course"
+            :location="exam.room"
+            :time="exam.time"
+            :title="exam.course"
+            :style="{
+              'margin-top': eventPosition(exam.time) + 'vh',
+              height: eventHeight(exam.time) + '%',
+              backgroundColor: getBackgroundColor(
+                getCourseDepartmentAndLevel(exam.course)
+              ),
+              borderColor: getBorderColor(
+                getCourseDepartmentAndLevel(exam.course)
+              ),
+              color: getTextColor(getCourseDepartmentAndLevel(exam.course)),
+              width: 20 + '%',
+            }"
+          ></ScheduleEvent>
+          <div
+            class="grid-hour"
+            v-for="hour of hours"
+            :key="hour"
+            :style="{ height: hourHeight + '%' }"
+          ></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import "@/typedef";
@@ -75,7 +78,6 @@ import {
 } from "@/services/ColorService";
 
 import ScheduleEventComponent from "./CalendarEvent.vue";
-
 
 export default {
   name: "Schedule",
@@ -111,8 +113,8 @@ export default {
   },
   methods: {
     getCourseDepartmentAndLevel(course) {
-      const [department, , level] = course.split(' ');
-      return department + '-' + level;
+      const [department, , level] = course.split(" ");
+      return department + "-" + level;
     },
     getBackgroundColor,
     getBorderColor,
@@ -129,8 +131,8 @@ export default {
     eventPosition(timeRange) {
       const timeString = timeRange.split("-")[0];
       const eventStart = this.timeToMinutes(timeString);
-      const timeOffSet = eventStart - (8 * 60);
-      return timeOffSet * 80 / 14 / 60 ;
+      const timeOffSet = eventStart - 8 * 60;
+      return (timeOffSet * 80) / 14 / 60;
     },
 
     eventHeight(timeRange) {
@@ -139,7 +141,7 @@ export default {
       const eventStart = this.timeToMinutes(timeStart);
       const eventEnd = this.timeToMinutes(timeEnd);
       const diff = eventEnd - eventStart;
-      return diff * 7.14286 / 60;
+      return (diff * 7.14286) / 60;
     },
 
     getSessionsOfDay(section, day) {
@@ -179,18 +181,22 @@ export default {
         const seenExams = new Set();
 
         for (const exam of this.examDetails.filter((exam) => {
-          return exam.dayOfWeek === day.longname.split(' ')[0];
+          return exam.dayOfWeek === day.longname.split(" ")[0];
         })) {
-          const identifier = exam.course + '-' + exam.time;
+          const identifier = exam.course + "-" + exam.time;
 
           if (!seenExams.has(identifier)) {
             seenExams.add(identifier);
             examsWithoutDuplicates.push(exam);
           } else {
-            const existingExam = examsWithoutDuplicates.find(e => e.course === exam.course && e.time === exam.time);
-            const existingRooms = existingExam.room.split(', ').concat(exam.room.split(', '));
+            const existingExam = examsWithoutDuplicates.find(
+              (e) => e.course === exam.course && e.time === exam.time
+            );
+            const existingRooms = existingExam.room
+              .split(", ")
+              .concat(exam.room.split(", "));
             const uniqueRooms = [...new Set(existingRooms)];
-            existingExam.room = uniqueRooms.join(', ');
+            existingExam.room = uniqueRooms.join(", ");
           }
         }
         return examsWithoutDuplicates;
@@ -201,16 +207,20 @@ export default {
       const seenExams = new Set();
 
       for (const exam of this.examDetails) {
-        const identifier = exam.course + '-' + exam.time;
+        const identifier = exam.course + "-" + exam.time;
 
         if (!seenExams.has(identifier)) {
           seenExams.add(identifier);
           examsWithoutDuplicates.push(exam);
         } else {
-          const existingExam = examsWithoutDuplicates.find(e => e.course === exam.course && e.time === exam.time);
-          const existingRooms = existingExam.room.split(', ').concat(exam.room.split(', '));
+          const existingExam = examsWithoutDuplicates.find(
+            (e) => e.course === exam.course && e.time === exam.time
+          );
+          const existingRooms = existingExam.room
+            .split(", ")
+            .concat(exam.room.split(", "));
           const uniqueRooms = [...new Set(existingRooms)];
-          existingExam.room = uniqueRooms.join(', ');
+          existingExam.room = uniqueRooms.join(", ");
         }
       }
       return examsWithoutDuplicates;
@@ -252,7 +262,6 @@ export default {
       return days;
     },
 
-
     dayWidth() {
       return 100 / this.numDays;
     },
@@ -277,7 +286,7 @@ $hourFontSize: 0.5em;
 .schedule {
   margin-top: 10px;
   margin-right: 15px;
-  position: relative; 
+  position: relative;
   margin-bottom: 15px;
   margin-bottom: 50px;
 }

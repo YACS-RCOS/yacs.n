@@ -5,23 +5,47 @@
       <b-col md="5">
         <b-card title="Final Exam Schedule">
           <b-form @submit.prevent="searchExams">
-            <div v-for="(course, index) in selectedCourses" :key="index" class="mb-3">
+            <div
+              v-for="(course, index) in selectedCourses"
+              :key="index"
+              class="mb-3"
+            >
               <b-form-group :label="'Course ' + (index + 1)">
-                <b-form-select v-model="selectedCourses[index]" :options="courseOptions"></b-form-select>
+                <b-form-select
+                  v-model="selectedCourses[index]"
+                  :options="courseOptions"
+                ></b-form-select>
               </b-form-group>
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
-            <b-button type="submit" variant="success" class="ml-3">Search</b-button>
+            <b-button type="submit" variant="success" class="ml-3">
+              Search
+            </b-button>
           </b-form>
           <b-card v-if="examDetails" class="mt-3">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
-              <div><strong>Course:</strong> {{ exam.course }}</div>
-              <div><strong>Section:</strong> {{ exam.section }}</div>
-              <div><strong>Room:</strong> {{ exam.room }}</div>
-              <div><strong>Time:</strong> {{ exam.time }}</div>
-              <div><strong>Date:</strong> {{ exam.day }}, {{ exam.dayOfWeek }}</div>
-              <hr v-if="exam !== examDetails[examDetails.length - 1]">
+              <div>
+                <strong>Course:</strong>
+                {{ exam.course }}
+              </div>
+              <div>
+                <strong>Section:</strong>
+                {{ exam.section }}
+              </div>
+              <div>
+                <strong>Room:</strong>
+                {{ exam.room }}
+              </div>
+              <div>
+                <strong>Time:</strong>
+                {{ exam.time }}
+              </div>
+              <div>
+                <strong>Date:</strong>
+                {{ exam.day }}, {{ exam.dayOfWeek }}
+              </div>
+              <hr v-if="exam !== examDetails[examDetails.length - 1]" />
             </div>
           </b-card>
         </b-card>
@@ -80,20 +104,21 @@ export default {
     },
 
     formatDate(date) {
-      const month = date.toLocaleString('default', { month: 'short' });
+      const month = date.toLocaleString("default", { month: "short" });
       const day = date.getDate();
       return `${month} ${day}`;
     },
 
     getExamsForDate(date) {
       return this.examDetails.filter((exam) => {
-                const examDate = new Date(exam.day);
+        const examDate = new Date(exam.day);
         return examDate.toDateString() === date.toDateString();
       });
     },
     initCourseOptions() {
       const groupedCourses = this.exams.reduce((acc, exam) => {
-        const key = exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
+        const key =
+          exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
         if (!acc[key]) {
           acc[key] = {
             value: exam,
@@ -113,11 +138,25 @@ export default {
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
         return this.exams
-          .filter((exam) => exam.CourseCode === course.CourseCode && exam.Section === course.Section)
+          .filter(
+            (exam) =>
+              exam.CourseCode === course.CourseCode &&
+              exam.Section === course.Section
+          )
           .map((exam) => {
-            const { startTime, endTime } = this.formatExamDateTime(exam.Day, exam.Hour);
+            const { startTime, endTime } = this.formatExamDateTime(
+              exam.Day,
+              exam.Hour
+            );
             return {
-              id: course.Department + " " + course.CourseCode + " " + course.Section + " " + exam.Day,
+              id:
+                course.Department +
+                " " +
+                course.CourseCode +
+                " " +
+                course.Section +
+                " " +
+                exam.Day,
               course: course.Department + " " + course.CourseCode,
               section: course.Section,
               room: exam.Room,
@@ -125,9 +164,15 @@ export default {
               day: exam.Day,
               dayOfWeek: (() => {
                 const dateObj = new Date(exam.Day);
-                const dayIndex = (dateObj.getDay() + 6) % 7; 
-                const options = { weekday: 'long' };
-                return new Intl.DateTimeFormat('default', options).format(new Date(dateObj.setDate(dateObj.getDate() - dateObj.getDay() + dayIndex)));
+                const dayIndex = (dateObj.getDay() + 6) % 7;
+                const options = { weekday: "long" };
+                return new Intl.DateTimeFormat("default", options).format(
+                  new Date(
+                    dateObj.setDate(
+                      dateObj.getDate() - dateObj.getDay() + dayIndex
+                    )
+                  )
+                );
               })(),
               time_start: startTime.toISOString(),
               time_end: endTime.toISOString(),
@@ -148,7 +193,6 @@ export default {
 
       console.log(this.examDetails);
     },
-
   },
 };
 </script>
@@ -171,11 +215,11 @@ export default {
   top: 0;
   left: 0;
 }
-  
+
 .calendar-table {
   width: 100%;
 }
-  
+
 .calendar-table th,
 .calendar-table td {
   width: 20%;
