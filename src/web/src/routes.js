@@ -12,7 +12,6 @@ const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
 const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
 
-
 var router = new VueRouter({
   routes: [
     {
