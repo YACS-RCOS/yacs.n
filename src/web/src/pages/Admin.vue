@@ -21,7 +21,7 @@
     >
       Set Default Semester
     </a>
-      <a
+    <a
       v-b-modal.editProfessors
       class="text-primary d-block"
       style="cursor: pointer;"
