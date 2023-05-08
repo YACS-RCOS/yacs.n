@@ -41,6 +41,10 @@
     <b-modal id="editProfessors" title="Edit Professors" size="xl">
       <EditProfessors />
     </b-modal>
+    <b-modal id="csvModal" title="Import Professors via JSON" size="xl">
+      <UploadJson />
+    </b-modal>
+
 
     <!-- Footer of Admin Panel -->
     <br />
