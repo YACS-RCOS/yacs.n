@@ -4,7 +4,7 @@ from psycopg2.extras import RealDictCursor
 import asyncio
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from your_module import Professor, Base
+# from your_module import Professor, Base
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":

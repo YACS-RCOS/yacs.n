@@ -115,18 +115,18 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user_account.user_id'], ),
     sa.PrimaryKeyConstraint('user_id', 'semester', 'course_name', 'crn')
     )
-    op.create_table('professor',
-    sa.Column('email', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('first_name', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('last_name', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('phone_number', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('department', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('office_room', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('classes', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('office_hours_time', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('rcs', sa.VARCHAR(length=255), nullable=True),
-    sa.PrimaryKeyConstraint('email')
-    )
+    # op.create_table('professor',
+    # sa.Column('email', sa.VARCHAR(length=255), nullable=False),
+    # sa.Column('first_name', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('last_name', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('phone_number', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('department', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('office_room', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('classes', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('office_hours_time', sa.VARCHAR(length=255), nullable=True),
+    # sa.Column('rcs', sa.VARCHAR(length=255), nullable=True),
+    # sa.PrimaryKeyConstraint('email')
+    # )
     # ### end Alembic commands ###
 
 
@@ -144,5 +144,5 @@ def downgrade():
     op.drop_table('course_corequisite')
     op.drop_table('course')
     op.drop_table('admin_settings')
-    op.drop_table('professor')
+    #op.drop_table('professor')
     # ### end Alembic commands ###
