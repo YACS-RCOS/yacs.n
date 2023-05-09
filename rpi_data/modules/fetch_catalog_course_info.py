@@ -22,7 +22,7 @@ ACALOG_COURSE_FIELDS = {
     "level": "acalog-field-510",
     "full_name": "acalog-field-512",
     "description": "acalog-field-493",
-    "raw_precoreqs": "acalog-field-495",
+    "raw_precoreqs": "acalog-field-496", # Original 495
     "offer_frequency": "acalog-field-497",
     "cross_listed": "acalog-field-500",
     "graded": "acalog-field-502",
