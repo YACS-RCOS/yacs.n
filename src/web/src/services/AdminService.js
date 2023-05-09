@@ -7,6 +7,9 @@ const client = axios.create({
 export const uploadCsv = (formData) =>
   client.post("/bulkCourseUpload", formData);
 
+// export const uploadJSON = (formData) =>
+//   client.post("/bulkProfessorUpload". formData);
+
 export const mapDateRangeToSemesterPart = (formData) =>
   client.post("/mapDateRangeToSemesterPart", formData);
 
@@ -27,3 +30,4 @@ export const addProfessors = (msg) =>
 
 export const addProfessorsTest = () =>
   client.post("/professor/add/test").then((res) => res.data);
+
