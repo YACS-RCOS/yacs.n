@@ -153,6 +153,7 @@ async def uploadHandler(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
+    print("in process");
     if not file:
         return Response("No file received", 400)
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
@@ -182,9 +183,10 @@ async def uploadHandler(
 #Parses the data from the .json data files
 @app.post('/api/bulkProfessorUpload')
 async def uploadJson(
-        isPublicklyVisbile: str = Form(...),
-        file: UploadFile = File(...)):    
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):  
     #check to make sure user has sent a file
+    print("in process ");
     if not file:
         return Response("No file received", 400)
     #check that we receive json file
@@ -194,6 +196,7 @@ async def uploadJson(
     contents = await file.read()
     json_data = json.loads(contents)
     print(json_data)
+
     # update semester infos based on isPubliclyVisible, hiding semester if needed
     # professors = pd.read_json(json_data)
     # Populate DB from JSON
@@ -205,20 +208,6 @@ async def uploadJson(
     # else:
     #     print(error)
     #     return Response(error.__str__(), status_code=500)
-
-f = open('data.json')
-
-# returns JSON object as 
-# a dictionary
-data = json.load(f)
-
-# Iterating through the json
-# list
-for i in data['emp_details']:
-    print(i)
-
-# Closing file
-f.close()
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
@@ -396,22 +385,3 @@ async def remove_professor(email:str):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
-
-#Parses the data from the .csv data files
-@app.post('/api/bulkProfUpload')
-async def uploadHandler(file: UploadFile = File(...)):
-    # check for user files
-    if not file:
-        return Response("No file received", 400)
-    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
-        return Response("File must have csv extension", 400)
-    # get file
-    contents = await file.read()
-    csv_file = StringIO(contents.decode())
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    # Populate DB from CSV
-    if (isSuccess):
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
