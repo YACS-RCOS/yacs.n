@@ -195,19 +195,19 @@ async def uploadJson(
     #get file
     contents = await file.read()
     json_data = json.loads(contents)
-    print(json_data)
+    # print(json_data)
 
-    # update semester infos based on isPubliclyVisible, hiding semester if needed
-    # professors = pd.read_json(json_data)
+    # # update semester infos based on isPubliclyVisible, hiding semester if needed
+    # # professors = pd.read_json(json_data)
     # Populate DB from JSON
     #insert bulk_delete
-    # professors.bulk_delete(SOMETHNG)
-    # isSuccess, error = professors.populate_from_json(json_file)
-    # if (isSuccess):
-    #     return Response(status_code=200)
-    # else:
-    #     print(error)
-    #     return Response(error.__str__(), status_code=500)
+    professor_info.bulk_delete(json_data)
+    isSuccess, error = professor_info.populate_from_json(json_data)
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
