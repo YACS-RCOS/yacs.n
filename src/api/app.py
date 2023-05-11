@@ -179,6 +179,47 @@ async def uploadHandler(
         print(error)
         return Response(error.__str__(), status_code=500)
 
+#Parses the data from the .json data files
+@app.post('/api/bulkProfessorUpload')
+async def uploadJson(
+        isPublicklyVisbile: str = Form(...),
+        file: UploadFile = File(...)):    
+    #check to make sure user has sent a file
+    if not file:
+        return Response("No file received", 400)
+    #check that we receive json file
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have JSON extension", 400)
+    #get file
+    contents = await file.read()
+    json_data = json.loads(contents)
+    print(json_data)
+    # update semester infos based on isPubliclyVisible, hiding semester if needed
+    # professors = pd.read_json(json_data)
+    # Populate DB from JSON
+    #insert bulk_delete
+    # professors.bulk_delete(SOMETHNG)
+    # isSuccess, error = professors.populate_from_json(json_file)
+    # if (isSuccess):
+    #     return Response(status_code=200)
+    # else:
+    #     print(error)
+    #     return Response(error.__str__(), status_code=500)
+
+f = open('data.json')
+
+# returns JSON object as 
+# a dictionary
+data = json.load(f)
+
+# Iterating through the json
+# list
+for i in data['emp_details']:
+    print(i)
+
+# Closing file
+f.close()
+
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
      # This depends on date_start, date_end, and semester_part_name being
