@@ -153,6 +153,7 @@ async def uploadHandler(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
+    print("in process");
     if not file:
         return Response("No file received", 400)
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
@@ -173,6 +174,35 @@ async def uploadHandler(
     courses.bulk_delete(semesters=semesters)
     # Populate DB from CSV
     isSuccess, error = courses.populate_from_csv(csv_file)
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
+
+#Parses the data from the .json data files
+@app.post('/api/bulkProfessorUpload')
+async def uploadJson(
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):  
+    #check to make sure user has sent a file
+    print("in process ");
+    if not file:
+        return Response("No file received", 400)
+    #check that we receive json file
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have JSON extension", 400)
+    #get file
+    contents = await file.read()
+    json_data = json.loads(contents)
+    # print(json_data)
+
+    # # update semester infos based on isPubliclyVisible, hiding semester if needed
+    # # professors = pd.read_json(json_data)
+    # Populate DB from JSON
+    #insert bulk_delete
+    professor_info.bulk_delete(json_data)
+    isSuccess, error = professor_info.populate_from_json(json_data)
     if (isSuccess):
         return Response(status_code=200)
     else:

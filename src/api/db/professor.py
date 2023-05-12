@@ -45,79 +45,81 @@ class Professor:
             else:
                 return (False, "email cant be none")
 
+    def add_bulk_professor(self):
+        # Load the JSON data from a file
+        with open('Professors.json') as file:
+            data = json.load(file)
 
+        # Connect to the SQL database
+        conn = self.db.get_connection()
 
-def add_bulk_professor(self):
-    # Load the JSON data from a file
-    with open('Professors.json') as file:
-        data = json.load(file)
+        # Loop through each professor record in the JSON data
+        for record in data:
+            professor = Professor(email=record['Email'],
+                                first_name=record['Name'],
+                                phone_number=record['Phone'],
+                                department=record['Department'],
+                                office_room=record['Portfolio'],
+                                office_hours_time='',
+                                rcs='')
+            conn.add(professor)
 
-    # Connect to the SQL database
-    conn = self.db.get_connection()
+        # Commit the changes to the database
+        conn.commit()
+        self.clear_cache()
+        return (True,None)
 
-    # Loop through each professor record in the JSON data
-    for record in data:
-        professor = Professor(email=record['Email'],
-                            first_name=record['Name'],
-                            phone_number=record['Phone'],
-                            department=record['Department'],
-                            office_room=record['Portfolio'],
-                            office_hours_time='',
-                            rcs='')
-        conn.add(professor)
+    def populate_from_json(self, json):
+        # Connect to the database
+        conn = self.db.get_connection()
 
-    # Commit the changes to the database
-    conn.commit()
-    self.clear_cache()
-    return (True,None)
+        # Open JSON file
+        try:
+            with open(json, 'r') as file:
+                data = json.load(file)
 
-    # def add_bulk_professor(self, csv_text):
-    #     conn = self.db.get_connection()
-    #     reader = csv.DictReader(csv_text)
-    #     # for each course entry insert sections and course sessions
-    #     with conn.cursor(cursor_factory=RealDictCursor) as transaction:
-    #         for row in reader:
-    #             try:
-    #                 #professors
-    #                 transaction.execute(
-    #                     """
-    #                     INSERT INTO
-    #                         profssor(
-    #                             name,
-    #                             title,
-    #                             email,
-    #                             phone_number,
-    #                             department,
-    #                             portfolio_page
-    #                         )
-    #                     VALUES (
-    #                         NULLIF(%(Name)s, ''),
-    #                         NULLIF(%(Title)s, ''),
-    #                         %(Email)s,
-    #                         NULLIF(%(Phone_number)s, ''),
-    #                         NULLIF(%(Department)s, ''),
-    #                         NULLIF(%(Portfolio_page)s, '')
-    #                     )
-    #                     ON CONFLICT DO NOTHING;
-    #                     """,
-    #                     {
-    #                         "Name": row['professor_name'],
-    #                         "Title": row['professor_title'],
-    #                         "Email": row['professor_email'],
-    #                         "Phone_number": row['professor_phone_number'],
-    #                         "Department": row['professor_department'],
-    #                         "Portfolio_page": row['professor_portfolio_page'],
-    #                     }
-    #                 )
-    #             except Exception as e:
-    #                 print(e)
-    #                 conn.rollback()
-    #                 return (False, e)
-    #     conn.commit()
-    #     # invalidate cache so we can get new classes
-    #     self.clear_cache()
-    #     return (True, None)
+            with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+                for entry in data:
+                    try:
+                        # Professors
+                        transaction.execute(
+                            """
+                            INSERT INTO professor (
+                                name,
+                                title,
+                                email,
+                                department,
+                                portfolio_page
+                            )
+                            VALUES (
+                                NULLIF(%(Name)s, ''),
+                                NULLIF(%(Title)s, ''),
+                                %(Email)s,
+                                NULLIF(%(Department)s, ''),
+                                NULLIF(%(Portfolio_page)s, '')
+                            )
+                            ON CONFLICT DO NOTHING;
+                            """,
+                            {
+                                "Name": entry['Name'],
+                                "Title": entry['Title'],
+                                "Email": entry['Email'],
+                                "Department": entry['Department'],
+                                "Portfolio_page": entry['Portfolio']
+                            }
+                        )
+                    except Exception as e:
+                        print(e)
+                        conn.rollback()
+                        return (False, e)
 
+            conn.commit()
+            # Invalidate cache so we can get new classes
+            self.clear_cache()
+            return (True, None)
+
+        except FileNotFoundError:
+            return (False, "File not found: {}".format(json))
 
     def remove_professor(self, email):
         if email is not None:
