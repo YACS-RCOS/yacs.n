@@ -186,7 +186,7 @@ async def uploadJson(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):  
     #check to make sure user has sent a file
-    print("in process ");
+    print("in process ")
     if not file:
         return Response("No file received", 400)
     #check that we receive json file
@@ -195,14 +195,15 @@ async def uploadJson(
     #get file
     contents = await file.read()
     json_data = json.loads(contents)
-    # print(json_data)
+    print(json_data)
 
     # # update semester infos based on isPubliclyVisible, hiding semester if needed
     # # professors = pd.read_json(json_data)
     # Populate DB from JSON
     #insert bulk_delete
     professor_info.bulk_delete(json_data)
-    isSuccess, error = professor_info.populate_from_json(json_data)
+    json_data_string = json.dumps(json_data)
+    isSuccess, error = professor_info.populate_from_json(json_data_string)
     if (isSuccess):
         return Response(status_code=200)
     else:

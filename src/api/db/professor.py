@@ -1,4 +1,3 @@
-import csv
 import json
 from psycopg2.extras import RealDictCursor
 import asyncio
@@ -69,16 +68,15 @@ class Professor:
         self.clear_cache()
         return (True,None)
 
-    def populate_from_json(self, json):
+    def populate_from_json(self, json_data):
         # Connect to the database
-        conn = self.db.get_connection()
+        conn = self.db_conn.get_connection()
 
-        # Open JSON file
-        try:
-            with open(json, 'r') as file:
-                data = json.load(file)
+        # Read JSON data
+        data = json.loads(json_data)
 
-            with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            try:
                 for entry in data:
                     try:
                         # Professors
@@ -113,13 +111,14 @@ class Professor:
                         conn.rollback()
                         return (False, e)
 
-            conn.commit()
-            # Invalidate cache so we can get new classes
-            self.clear_cache()
-            return (True, None)
+            except ValueError as ve:
+                return (False, "Invalid JSON data: {}".format(ve))
 
-        except FileNotFoundError:
-            return (False, "File not found: {}".format(json))
+        conn.commit()
+        # Invalidate cache so we can get new classes
+        self.clear_cache()
+        return (True, None)
+
 
     def remove_professor(self, email):
         if email is not None:
