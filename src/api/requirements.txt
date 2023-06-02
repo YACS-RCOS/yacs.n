@@ -8,3 +8,4 @@ uvicorn==0.14.0
 python-multipart==0.0.5
 fastapi-cache2==0.1.8
 itsdangerous==2.0.1
+sqlalchemy==1.4.2

@@ -38,28 +38,45 @@
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item :to="{ name: 'CourseScheduler' }">
+        <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
           <font-awesome-icon icon="calendar" />
           Schedule
         </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="search" />
           Explore
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
+        <b-nav-item :to="{ name: 'Finals' }">
+          <font-awesome-icon icon="file-alt" />
+          Finals
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
-
-        <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
-          <b-dropdown-item :class="this.darkMode===false ? 'drop-down-item' : '' " @click="toggle_style(false)">Light Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.darkMode===true ? 'drop-down-item' : '' " @click="toggle_style(true)">Dark Mode</b-dropdown-item>
-          <b-dropdown-item :class="this.darkMode===null ? 'drop-down-item' : '' " @click="toggle_device">Follow Device Theme</b-dropdown-item>
+        <b-nav-dropdown text="Color Mode" style="padding-right: 5px;">
+          <b-dropdown-item
+            :class="this.darkMode === false ? 'drop-down-item' : ''"
+            @click="toggle_style(false)"
+          >
+            Light Mode
+          </b-dropdown-item>
+          <b-dropdown-item
+            :class="this.darkMode === true ? 'drop-down-item' : ''"
+            @click="toggle_style(true)"
+          >
+            Dark Mode
+          </b-dropdown-item>
+          <b-dropdown-item
+            :class="this.darkMode === null ? 'drop-down-item' : ''"
+            @click="toggle_device"
+          >
+            Follow Device Theme
+          </b-dropdown-item>
         </b-nav-dropdown>
-
         <b-nav-item-dropdown right v-if="isLoggedIn">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>Hi, {{ user.name }}</template>
@@ -103,6 +120,7 @@ import {
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
 import { userTypes } from "../store/modules/user";
+// import router from "@/routes";
 export default {
   name: "Header",
   components: {
@@ -115,43 +133,47 @@ export default {
     };
   },
   mounted() {
-      if(this.$cookies.get(COOKIE_DARK_MODE) === null) {
-        this.darkMode = null;
-        this.notify = true;
-      }
+    if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
+      this.darkMode = null;
+      this.notify = true;
+    }
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
     toggle_style(mode) {
       //Sends message to user that device theme is no longer followed
-      if(this.notify){
-          this.unFollowDeviceTheme();
-          this.notify=false;
-        }
+      if (this.notify) {
+        this.unFollowDeviceTheme();
+        this.notify = false;
+      }
 
       //determines the default theme of user (either light or dark)
-      const deviceTheme= window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
+        .matches;
 
       //if the button mode user pressed is opposite of the current color, then toggle
       // OR if the user was previously following their device theme and button pressed isn't their device theme, toggle
-      if((mode===false && this.darkMode === true) || (mode===true && this.darkMode === false)
-        || this.darkMode == null && mode!== deviceTheme) {
+      if (
+        (mode === false && this.darkMode === true) ||
+        (mode === true && this.darkMode === false) ||
+        (this.darkMode == null && mode !== deviceTheme)
+      ) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
-      }
-      else { // if user was following device theme and pressed the same button color, make the cookie with curr color
+      } else {
+        // if user was following device theme and pressed the same button color, make the cookie with curr color
         this.$store.commit(SAVE_DARK_MODE);
       }
 
-      this.darkMode= this.$store.getters.darkModeState; //resets to match current color mode
+      this.darkMode = this.$store.getters.darkModeState; //resets to match current color mode
     },
     toggle_device() {
-      this.followDeviceTheme();//sends user message
-      this.notify=true;
+      this.followDeviceTheme(); //sends user message
+      this.notify = true;
 
       this.$store.commit(RESET_DARK_MODE);
       this.$store.commit(TOGGLE_DARK_MODE);
-      this.darkMode= null;//sets color mode
+      this.darkMode = null; //sets color mode
     },
     onLogIn() {
       this.$refs["login-modal"].hide();
@@ -170,16 +192,13 @@ export default {
       }
     },
     unFollowDeviceTheme() {
-      this.$bvToast.toast(
-        `No Longer Following Device Theme`,
-        {
-          title: "Color Scheme Changed",
-          autoHideDelay: 2000,
-          noHoverPause: true,
-          variant: "danger",
-          toaster:  'b-toaster-top-center',
-        }
-      );
+      this.$bvToast.toast(`No Longer Following Device Theme`, {
+        title: "Color Scheme Changed",
+        autoHideDelay: 2000,
+        noHoverPause: true,
+        variant: "danger",
+        toaster: "b-toaster-top-center",
+      });
     },
     followDeviceTheme() {
       this.$bvToast.toast(`Now Following Device Theme`, {
@@ -187,7 +206,7 @@ export default {
         autoHideDelay: 2000,
         noHoverPause: true,
         variant: "success",
-        toaster:  'b-toaster-top-center'
+        toaster: "b-toaster-top-center",
       });
     },
   },
@@ -235,11 +254,23 @@ export default {
     justify-content: center;
   }
 }
-//no idea why but need to manually set this for it to show up
+//highlight current page in the navbar using class built into vue router
+.nav-item:not(.first) .router-link-active {
+  border-radius: 5px;
+  padding: calc(8px - 0.2em);
+  border: 0.2em solid var(--dark-blue-secondary);
+}
+
+.nav-item.first .router-link-exact-active {
+  border-radius: 5px;
+  padding: calc(8px - 0.2em);
+  border: 0.2em solid var(--dark-blue-secondary);
+}
+// no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
 }
-.drop-down-item{
+.drop-down-item {
   background: hsl(211, 100%, 60%) !important;
 }
 </style>
