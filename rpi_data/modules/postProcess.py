@@ -12,7 +12,7 @@ import json
 from bs4 import BeautifulSoup
 import csv
 import re
-
+#maybe use a cache similiar ot how professor used it to speed up runtime (add on to it)
 baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
 subj_code_in={department}&crse_numb_in={courseNumber}'
 
@@ -86,6 +86,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
     for row in data:
         department = row[11]
         courseNumber = row[16]
+        #needs department and courseNumber!!!
         link = getCourseLink(semester, department, courseNumber)
         if DEBUG == 'y':
             print(link)
@@ -101,6 +102,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         corequisites = None
         rawrequisites = ''
         for i in range(1,len(body)):
+            #do print staeemtns here to help debug for new web scraper
             if body[i].strip() == 'Prerequisites:':
                 rawprerequisites = parsePrerequisites(body[i+1].strip())
                 rawrequisites += body[i+1].strip()
@@ -119,6 +121,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
             row[24] = corequisites
         shortName = department+courseNumber
         Data[shortName] = dict()
+        #add more for this to cache it faster
         Data[shortName]['description'] = description
         Data[shortName]['raw_precoreqs'] = rawrequisites
         Data[shortName]['prerequisites'] = prerequisites
