@@ -6,18 +6,31 @@
         <b-card title="Final Exam Schedule">
           <b-form @submit.prevent="searchExams">
             <div
-              v-for="(course, index) in selectedCourses"
-              :key="index"
-              class="mb-3"
+                v-for="(course, index) in selectedCourses"
+                :key="index"
+                class="mb-3"
             >
               <b-form-group :label="'Course ' + (index + 1)">
                 <b-form-select
-                  v-model="selectedCourses[index]"
-                  :options="courseOptions"
+                    v-model="selectedCourses[index]"
+                    :options="courseOptions"
                 ></b-form-select>
               </b-form-group>
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
+
+              <b-button @click="deleteCourse" variant="danger" class="ml-3">Delete</b-button>
+
+              <b-modal ref="delete-modal" hide-footer title="Deleting Courses">
+
+                <div class="d-block text-center">
+                  <h3>Are you sure you want to delete this course?</h3>
+                </div>
+
+                <b-button class="mt-3" variant="outline-danger" block @click="closeModal">Close Me</b-button>
+
+              </b-modal>
+
             <b-button type="submit" variant="success" class="ml-3">
               Search
             </b-button>
@@ -45,7 +58,7 @@
                 <strong>Date:</strong>
                 {{ exam.day }}, {{ exam.dayOfWeek }}
               </div>
-              <hr v-if="exam !== examDetails[examDetails.length - 1]" />
+              <hr v-if="exam !== examDetails[examDetails.length - 1]"/>
             </div>
           </b-card>
         </b-card>
@@ -100,11 +113,11 @@ export default {
       endDateTime.setHours(parseInt(endHour));
       endDateTime.setMinutes(parseInt(endMinutes));
 
-      return { startTime: startDateTime, endTime: endDateTime };
+      return {startTime: startDateTime, endTime: endDateTime};
     },
 
     formatDate(date) {
-      const month = date.toLocaleString("default", { month: "short" });
+      const month = date.toLocaleString("default", {month: "short"});
       const day = date.getDate();
       return `${month} ${day}`;
     },
@@ -118,7 +131,7 @@ export default {
     initCourseOptions() {
       const groupedCourses = this.exams.reduce((acc, exam) => {
         const key =
-          exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
+            exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
         if (!acc[key]) {
           acc[key] = {
             value: exam,
@@ -135,49 +148,55 @@ export default {
     addCourse() {
       this.selectedCourses.push(null);
     },
+    deleteCourse() {
+      this.$refs['delete-modal'].show();
+    },
+    closeModal() {
+        this.$refs['delete-modal'].hide()
+    },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
         return this.exams
-          .filter(
-            (exam) =>
-              exam.CourseCode === course.CourseCode &&
-              exam.Section === course.Section
-          )
-          .map((exam) => {
-            const { startTime, endTime } = this.formatExamDateTime(
-              exam.Day,
-              exam.Hour
-            );
-            return {
-              id:
-                course.Department +
-                " " +
-                course.CourseCode +
-                " " +
-                course.Section +
-                " " +
-                exam.Day,
-              course: course.Department + " " + course.CourseCode,
-              section: course.Section,
-              room: exam.Room,
-              time: exam.Hour,
-              day: exam.Day,
-              dayOfWeek: (() => {
-                const dateObj = new Date(exam.Day);
-                const dayIndex = (dateObj.getDay() + 6) % 7;
-                const options = { weekday: "long" };
-                return new Intl.DateTimeFormat("default", options).format(
-                  new Date(
-                    dateObj.setDate(
-                      dateObj.getDate() - dateObj.getDay() + dayIndex
-                    )
-                  )
-                );
-              })(),
-              time_start: startTime.toISOString(),
-              time_end: endTime.toISOString(),
-            };
-          });
+            .filter(
+                (exam) =>
+                    exam.CourseCode === course.CourseCode &&
+                    exam.Section === course.Section
+            )
+            .map((exam) => {
+              const {startTime, endTime} = this.formatExamDateTime(
+                  exam.Day,
+                  exam.Hour
+              );
+              return {
+                id:
+                    course.Department +
+                    " " +
+                    course.CourseCode +
+                    " " +
+                    course.Section +
+                    " " +
+                    exam.Day,
+                course: course.Department + " " + course.CourseCode,
+                section: course.Section,
+                room: exam.Room,
+                time: exam.Hour,
+                day: exam.Day,
+                dayOfWeek: (() => {
+                  const dateObj = new Date(exam.Day);
+                  const dayIndex = (dateObj.getDay() + 6) % 7;
+                  const options = {weekday: "long"};
+                  return new Intl.DateTimeFormat("default", options).format(
+                      new Date(
+                          dateObj.setDate(
+                              dateObj.getDate() - dateObj.getDay() + dayIndex
+                          )
+                      )
+                  );
+                })(),
+                time_start: startTime.toISOString(),
+                time_end: endTime.toISOString(),
+              };
+            });
       });
 
       const examDetailsGrouped = examDetailsRaw.reduce((acc, exam) => {
