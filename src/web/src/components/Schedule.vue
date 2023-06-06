@@ -50,12 +50,9 @@
             :title="section.title"
             :style="{
               'margin-top':
-                'max(calc(' +
+                'calc(' +
                 eventPosition(session) +
-                'vh + 1px),' +
-                eventPosition(session, minHeight) +
-                1 +
-                'px)',
+                'vh + 1px)',
               height: 'calc(' + eventHeight(session) + 'vh - 1px)',
               'min-height': eventHeight(session, minHeight) - 1 + 'px',
               backgroundColor: getBackgroundColor(
