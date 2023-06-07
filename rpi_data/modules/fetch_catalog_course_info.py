@@ -22,7 +22,7 @@ ACALOG_COURSE_FIELDS = {
     "level": "acalog-field-510",
     "full_name": "acalog-field-512",
     "description": "acalog-field-493",
-    "raw_precoreqs": "acalog-field-495",
+    "raw_precoreqs": "acalog-field-496", # Original 495
     "offer_frequency": "acalog-field-497",
     "cross_listed": "acalog-field-500",
     "graded": "acalog-field-502",
@@ -105,6 +105,7 @@ def dwrite_utf8_file(text, name):
 class acalog_client():
     def __init__(self, api_key):
         self.search_endpoint = "http://rpi.apis.acalog.com/v2/search/courses"
+        #broken (needs to be shrunk)
         self.course_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses"
         self.catalog_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&method=getCatalogs"
         self.api_key = api_key
@@ -147,6 +148,8 @@ class acalog_client():
             # Can only have one prolog per XML document in order for it to be well-formed.
             # Can also only have one root.
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
+            print(prolog_and_root_ele_regex)
+            exit()
             if (match is None):
                 raise Error("XML document is missing prolog and root. Invalid.")
             # For some reason, the response is sometimes missing the XML prolog. Not sure how it's possible, but give default in that case.
@@ -170,6 +173,8 @@ class acalog_client():
         thread_jobs = []
         for id_chunk in id_chunks:
             query_param_chunk = "&".join(id_chunk)
+            #arugement too big (query_param_chunk) and results in crash
+            #have another for loop and split teh workload into two seperate requests
             fetch_course_details_job = threading.Thread(target=self._get_course_details, args=[query_param_chunk], daemon=False)
             thread_jobs.append(fetch_course_details_job)
             fetch_course_details_job.start()
