@@ -15,21 +15,27 @@
                     v-model="selectedCourses[index]"
                     :options="courseOptions"
                 ></b-form-select>
+                <b-button @click="$bvModal.show('delete-modal-id')" variant="danger" class="ml-3">Delete</b-button>
+                <b-modal id="delete-modal-id" hide-footer title="Delete Course"
+                         @close="$bvModal.hide('delete-modal-id')"
+                         @keydown.esc="$bvModal.hide('delete-modal-id')">
+
+                  <div class="d-block text-center">
+                    <h3>Are you sure you want to delete course {{ index + 1 }}?</h3>
+                  </div>
+
+                  <b-button class="mt-3" variant="outline-success" block @click="$bvModal.hide('delete-modal-id')">
+                    Confirm
+                  </b-button>
+                  <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('delete-modal-id')">
+                    Cancel
+                  </b-button>
+
+                </b-modal>
               </b-form-group>
+
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
-
-              <b-button @click="deleteCourse" variant="danger" class="ml-3">Delete</b-button>
-
-              <b-modal ref="delete-modal" hide-footer title="Deleting Courses">
-
-                <div class="d-block text-center">
-                  <h3>Are you sure you want to delete this course?</h3>
-                </div>
-
-                <b-button class="mt-3" variant="outline-danger" block @click="closeModal">Close Me</b-button>
-
-              </b-modal>
 
             <b-button type="submit" variant="success" class="ml-3">
               Search
@@ -147,12 +153,6 @@ export default {
     },
     addCourse() {
       this.selectedCourses.push(null);
-    },
-    deleteCourse() {
-      this.$refs['delete-modal'].show();
-    },
-    closeModal() {
-        this.$refs['delete-modal'].hide()
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
