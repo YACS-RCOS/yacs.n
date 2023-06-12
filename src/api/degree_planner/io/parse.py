@@ -93,6 +93,9 @@ class parsing():
                     if property_name == 'replacement':
                         template.replacement = property_value
 
+                    if property_name == 'requires':
+                        template.courses_required = property_value
+
                     # attributes for template course
                     elif property_name == 'attributes':
                         template.specifications.extend(property_value)

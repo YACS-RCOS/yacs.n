@@ -5,8 +5,12 @@
             <div class="column">
                 <h1>Requirements</h1>
                 <div class="text-block" v-for="(item, index) in requirements" :key="index">
-                    <h3>{{ item.head }}</h3>
-                    <p>{{ item.text }}</p>
+                    <h3>{{ item.name }}</h3>
+                    <h6>specifications: {{ item.specifications }}</h6>
+                    <h6>{{ item.actual_count }} / {{ item.required_count }}</h6>
+                    <li v-for="course in item.fulfillment_set" :key="course">
+                        {{ course }}
+                    </li>
                 </div>
             </div>
             <div class="column">

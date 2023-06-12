@@ -85,15 +85,14 @@ async def get_dp_userfulfillment(userid:str, schedule_name:str):
     if user.get_schedule(schedule_name) is None:
         return Response(content="user schedule not found")
     
-    fulfillment = planner.fulfillment(user, schedule_name)
+    fulfillments = planner.fulfillment(user, schedule_name)
     io = planner.default_io
-    fulfillment = io.print_fulfillment(fulfillment, as_dict=True)
+    formatted_fulfillments = []
 
-    formatted_fulfillment = []
-    for k, v in fulfillment.items():
-        formatted_fulfillment.append({"head":k, "text":v})
+    for fulfillment in fulfillments.values():
+        formatted_fulfillments.append(io.format_fulfillment(fulfillment))
 
-    return formatted_fulfillment
+    return formatted_fulfillments
 
 
 @app.get('/api/dp/users/{userid}/recommend/{schedule_name}')

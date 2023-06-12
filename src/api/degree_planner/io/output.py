@@ -180,6 +180,20 @@ class Output():
     ######################################
 
     @staticmethod
+    def format_fulfillment(fulfillment) -> list:
+        
+        formatted = dict()
+        formatted.update({'name':fulfillment.template.name})
+        formatted.update({'replacement':fulfillment.template.replacement})
+        formatted.update({'required_count':fulfillment.get_required_count()})
+        formatted.update({'actual_count':fulfillment.get_actual_count()})
+        formatted.update({'specifications':fulfillment.template.specifications})
+        fulfillment_set = [course.name for course in fulfillment.get_fulfillment_set()]
+        formatted.update({'fulfillment_set':fulfillment_set})
+
+        return formatted
+
+    @staticmethod
     def print_fulfillment(all_fulfillment:dict, as_dict=False) -> str:
         '''
         Print fulfillment dictionary in a neat string format
