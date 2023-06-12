@@ -11,6 +11,7 @@ const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
 const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
+const DegreePlanner = () => import("./pages/DegreePlanner");
 
 var router = new VueRouter({
   routes: [
@@ -24,6 +25,11 @@ var router = new VueRouter({
           component: CourseSchedulerPage,
           name: "CourseScheduler",
           props: true,
+        },
+        {
+          path: "/degreeplanner",
+          component: DegreePlanner,
+          name: "DegreePlanner",
         },
         {
           path: "/explore",
