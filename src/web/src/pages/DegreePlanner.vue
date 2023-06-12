@@ -24,23 +24,28 @@
   export default {
     data() {
       return {
-        requirements: [
-            {"head": "req1",
-            "text": "jwefo ajweif aojewfji aowei jfaoiwe jfoawe jfioawj efoiawejfoiaj ewofi ajewf haiewuo fhaioewuhf oiahue foaiuwehfoiauewhofau wfioa wehofi uahewoifu ahweoifu ahoewifu haoewiu fhaoiewu fhoaiue fhoaiu ewaiowue aoiuwefhoaiuwe aiouew fho"}, 
-            {"head": "req2",
-            "text": "requirement 2"},
-            {"head": "req3",
-            "text": "requirement 3"},
-            {"head": "req4",
-            "text": "requirement 4"}],
-        recommendations: [
-            {"head": "recommend1",
-            "text": "recommendation 1"},
-            {"head": "recommend2",
-            "text": "recommendation 2"},
-            {"head": "recommend3",
-            "text": "recommendation 3"}]
+        requirements: [],
+        recommendations: []
       };
+    },
+    async created() {
+        let userid = 'testuser'
+        let degree = 'computer science'
+        let schedule_name = 'schedule1'
+        let courses = {'data structures':1, 'int algorithm':2, '4100 csci':3, 'data science 4350 csci':3, 'adv com graph 4530': 4, 'graph theory 4260': 4}
+
+        await fetch('/api/dp/newuser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userid, degree, schedule_name, courses}),
+        });
+        const response1 = await fetch('/api/dp/users/testuser/fulfillment/schedule1');
+        this.requirements = await response1.json();
+
+        const response2 = await fetch('/api/dp/users/testuser/recommend/schedule1');
+        this.recommendations = await response2.json();
     },
   };
 </script>

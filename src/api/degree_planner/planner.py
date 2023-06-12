@@ -61,7 +61,7 @@ class Planner():
 
         self.default_io = io
         if self.default_io is None:
-            self.default_io = Output(Output.OUT.CONSOLE, signature='INPUT HANDLER', auto_clear=True)
+            self.default_io = Output(Output.OUT.INFO, signature='INPUT HANDLER', auto_clear=True)
 
         # configurable flags
         self.ENABLE_TENSORFLOW = enable_tensorflow
@@ -164,6 +164,38 @@ class Planner():
             description = f'{repr(course)}: {course.description}'
             return description
         return None
+    
+    
+    def fulfillment(self, user:User, schedule_name, io=None):
+        if io is None:
+            io = self.default_io
+
+        schedule = user.get_schedule(schedule_name)
+
+        if schedule is None:
+            io.print(f"no schedule named {schedule_name} for user {user}")
+            return f"no schedule named {schedule_name} for user {user}"
+
+        if schedule.degree is None:
+            io.print(f"no degree set for user {user}")
+            return f"no degree set for user '{user.username}'"
+
+        fulfillment = schedule.degree.fulfillment(schedule.courses())
+        return fulfillment
+    
+
+    def recommend(self, user:User, schedule_name, io=None):
+        if io is None:
+            io = self.default_io
+
+        schedule = user.get_schedule(schedule_name)
+
+        if schedule.degree is None:
+            io.print(f"no degree specified")
+            return f"no degree specified"
+
+        recommendation = schedule.degree.recommend(schedule.courses())
+        return recommendation
 
 
     def add_course(self, user:User, semester, course_name:str, io:Output=None):

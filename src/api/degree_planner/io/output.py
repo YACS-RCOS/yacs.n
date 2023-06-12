@@ -184,6 +184,11 @@ class Output():
         '''
         Print fulfillment dictionary in a neat string format
         '''
+        if isinstance(all_fulfillment, str):
+            if as_dict:
+                return {'error':all_fulfillment}
+            return all_fulfillment
+
         printout = ''
         if as_dict:
             printout = dict()
@@ -206,10 +211,26 @@ class Output():
         return printout
 
     @staticmethod
-    def print_recommendation(recommendation:dict) -> str:
+    def print_recommendation(recommendation:dict, as_dict=False) -> str:
         '''
         Print recommendation dictionary in a neat string format
         '''
+        if isinstance(recommendation, str):
+            if as_dict:
+                return {'error':recommendation}
+            return recommendation
+        
+        if as_dict:
+            printout = dict()
+            templates = list(recommendation.keys())
+            templates.sort()
+            templates.reverse()
+            for template in templates:
+                for generated_template, fulfillment_courses in recommendation.get(template).items():
+                    printout.update({f"Template '{generated_template.name}' Recommendation":f"specifications: {generated_template.specifications}" + \
+                    f"fulfillment courses: {[str(e) for e in fulfillment_courses]}"})
+            return printout
+
         printout = ''
         templates = list(recommendation.keys())
         templates.sort()

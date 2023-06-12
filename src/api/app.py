@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Body
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
+from typing import Dict
 
 from api_models import *
 import db.connection as connection
@@ -17,6 +18,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+from degree_planner.planner import User, Planner
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -50,10 +52,69 @@ semester_info = SemesterInfo.semester_info(db_conn)
 professor_info =  All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
+planner = Planner(enable_tensorflow=False, prompting=False)
+planner.import_data()
+planner_users = dict()
+
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
         return True
     return False
+
+@app.post('/api/dp/newuser')
+async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
+    user = User(userid)
+
+    query = ''
+    for course, semester in courses.items():
+        query += f'add, {semester}, {course},'
+    planner.user_input(user, f'schedule, {schedule_name}')
+    planner.user_input(user, query)
+    planner.user_input(user, f'degree, {degree}')
+
+    planner_users.update({userid:user})
+    return Response(content="added user successfully", status_code=200)
+    
+
+@app.get('/api/dp/users/{userid}/fulfillment/{schedule_name}')
+async def get_dp_userfulfillment(userid:str, schedule_name:str):
+    user = planner_users.get(userid, None)
+    if user is None:
+        return Response(content="user not found")
+    
+    if user.get_schedule(schedule_name) is None:
+        return Response(content="user schedule not found")
+    
+    fulfillment = planner.fulfillment(user, schedule_name)
+    io = planner.default_io
+    fulfillment = io.print_fulfillment(fulfillment, as_dict=True)
+
+    formatted_fulfillment = []
+    for k, v in fulfillment.items():
+        formatted_fulfillment.append({"head":k, "text":v})
+
+    return formatted_fulfillment
+
+
+@app.get('/api/dp/users/{userid}/recommend/{schedule_name}')
+async def get_dp_recommendations(userid:str, schedule_name:str):
+    user = planner_users.get(userid, None)
+    if user is None:
+        return Response(content="user not found")
+    
+    if user.get_schedule(schedule_name) is None:
+        return Response(content="user schedule not found")
+    
+    recommendation = planner.recommend(user, schedule_name)
+    io = planner.default_io
+    recommendation = io.print_recommendation(recommendation, as_dict=True)
+    
+    formatted_recommendation = []
+    for k, v in recommendation.items():
+        formatted_recommendation.append({"head":k, "text":v})
+
+    return formatted_recommendation
+    
 
 @app.get('/')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
