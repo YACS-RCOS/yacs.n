@@ -180,18 +180,23 @@ class Output():
     ######################################
 
     @staticmethod
-    def format_fulfillment(fulfillment) -> list:
+    def format_fulfillments(fulfillments) -> list:
         
-        formatted = dict()
-        formatted.update({'name':fulfillment.template.name})
-        formatted.update({'replacement':fulfillment.template.replacement})
-        formatted.update({'required_count':fulfillment.get_required_count()})
-        formatted.update({'actual_count':fulfillment.get_actual_count()})
-        formatted.update({'specifications':fulfillment.template.specifications})
-        fulfillment_set = [course.name for course in fulfillment.get_fulfillment_set()]
-        formatted.update({'fulfillment_set':fulfillment_set})
+        formatted_fulfillments = list()
+        
+        for fulfillment in fulfillments.values():
+            formatted = dict()
+            formatted.update({'name':fulfillment.template.name})
+            formatted.update({'replacement':fulfillment.template.replacement})
+            formatted.update({'required_count':fulfillment.get_required_count()})
+            formatted.update({'actual_count':fulfillment.get_actual_count()})
+            formatted.update({'specifications':fulfillment.template.specifications})
+            fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
+            formatted.update({'fulfillment_set':fulfillment_set})
 
-        return formatted
+            formatted_fulfillments.append(formatted)
+        
+        return formatted_fulfillments
 
     @staticmethod
     def print_fulfillment(all_fulfillment:dict, as_dict=False) -> str:
@@ -223,6 +228,27 @@ class Output():
                     simplified_fulfillment_set.add(course.get_unique_name())
                 printout += f"    fulfillment set: {simplified_fulfillment_set}\n"
         return printout
+    
+    @staticmethod
+    def format_recommendations(recommendation:dict) -> list:
+
+        formatted_recommendations = list()
+
+        templates = list(recommendation.keys())
+        templates.sort()
+        templates.reverse()
+        for template in templates:
+            for generated_template, fulfillment_courses in recommendation.get(template).items():
+                formatted = dict()
+                formatted.update({'name':generated_template.name})
+                formatted.update({'specifications':generated_template.specifications})
+                fulfillment_set = [str(e) for e in fulfillment_courses]
+                del fulfillment_set[5:]
+                formatted.update({'fulfillment_set':fulfillment_set})
+                formatted_recommendations.append(formatted)
+
+        return formatted_recommendations
+
 
     @staticmethod
     def print_recommendation(recommendation:dict, as_dict=False) -> str:
@@ -241,7 +267,7 @@ class Output():
             templates.reverse()
             for template in templates:
                 for generated_template, fulfillment_courses in recommendation.get(template).items():
-                    printout.update({f"Template '{generated_template.name}' Recommendation":f"specifications: {generated_template.specifications}" + \
+                    printout.update({f"{generated_template.name}":f"specifications: {generated_template.specifications}" + \
                     f"fulfillment courses: {[str(e) for e in fulfillment_courses]}"})
             return printout
 

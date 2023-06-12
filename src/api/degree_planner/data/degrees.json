@@ -1,81 +1,81 @@
 {
     "computer science": {
-        "core - Data Structures": {
+        "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
             "attributes":["unique_name.csci 1200 data structures"]
         },
-        "core - FOCS": {
+        "Core - FOCS": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.csci & course_id.2200"]
         },
-        "core - Computer Organization": {
+        "Core - Computer Organization": {
             "requires": 1,
             "replacement": false,
             "attributes":["unique_name.csci 2500 computer organization | unique_name.ecse 2660 computer architecture networks and operating systems"]
         },
-        "core - Algorithms": {
+        "Core - Algorithms": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.csci", "course_id.2300"]
         },
-        "core - Principles of Software": {
+        "Core - Principles of Software": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.csci", "course_id.2600"]
         },
-        "core - Programming Languages": {
+        "Core - Programming Languages": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.csci", "course_id.4430"]
         },
-        "core - Operating Systems": {
+        "Core - Operating Systems": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.csci", "course_id.4210"]
         },
-        "intensity": {
+        "Intensity": {
             "requires": 4,
             "replacement": true,
             "attributes":["level.4+", "subject.csci"]
         },
-        "concentration": {
+        "Concentration": {
             "requires": 3,
             "replacement": true,
             "attributes":["level.4+", "concentration.*"]
         },
-        "math - calculus 2": {
+        "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.math", "course_id.1020"]
         },
-        "math - electives": {
+        "Math - Electives": {
             "requires": 2,
             "replacement": true,
             "attributes":["subject.math", "level.2+"]
         },
-        "physics - physics II": {
+        "Physics - Physics II": {
             "requires": 1,
             "replacement": false,
             "attributes":["subject.phys", "course_id.1200 | course_id.1250"]
         },
-        "science - electives": {
+        "Science - Electives": {
             "requires": 1,
             "replacement": true,
             "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & subject.* & level.*"]
         },
-        "hass elective - level 4": {
+        "HASS Elective - level 4": {
             "requires": 1,
             "replacement": true,
             "attributes":["level.4+", "subject.arts | subject.gsas"]
         },
-        "hass elective - level 4 or 2": {
+        "HASS Elective - level 4 or 2": {
             "requires": 2,
             "replacement": true,
             "attributes":["level.2+", "subject.arts | subject.gsas"]
         },
-        "hass elective pathway": {
+        "HASS Pathway": {
             "requires": 3,
             "replacement": true,
             "attributes":["subject.arts"]

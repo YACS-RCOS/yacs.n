@@ -501,7 +501,7 @@ class Degree():
 
         for best_template, best_fulfillment in best_fulfillments.items():
             original_specification = best_template.original_specifications
-            best_template_original = Template(best_template.name + ' original', specifications=original_specification, replacement=best_template.replacement, courses_required=1)
+            best_template_original = Template(best_template.name, specifications=original_specification, replacement=best_template.replacement, courses_required=1)
             matches = best_template_original.get_course_match(self.catalog.courses())
 
             status = matches[0]
@@ -522,7 +522,7 @@ class Degree():
 
             original_specification = best_template.original_specifications
             # remaking the original template
-            best_template_original = Template(f'{best_template.name} original', specifications=original_specification, replacement=best_template.replacement, courses_required=1)
+            best_template_original = Template(f'{best_template.name}', specifications=original_specification, replacement=best_template.replacement, courses_required=1)
 
             # here we receive the list of fulfillment sets from get course match
             matches = best_template_original.get_course_match(self.catalog.courses())

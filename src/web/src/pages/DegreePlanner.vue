@@ -11,13 +11,12 @@
                     <li v-for="course in item.fulfillment_set" :key="course">
                         {{ course }}
                     </li>
-                </div>
-            </div>
-            <div class="column">
-                <h1>Recommendations</h1>
-                <div class="text-block" v-for="(item, index) in recommendations" :key="index">
-                    <h3>{{ item.head }}</h3>
-                    <p>{{ item.text }}</p>
+                    <br>
+                    <h4>Recommendations:</h4>
+                    <h6>specifications: {{ recommendations[item.name].specifications }}</h6>
+                    <li v-for="course in recommendations[item.name].fulfillment_set" :key="course">
+                        {{ course }}
+                    </li>
                 </div>
             </div>
         </div>
@@ -29,7 +28,7 @@
     data() {
       return {
         requirements: [],
-        recommendations: []
+        recommendations: {}
       };
     },
     async created() {
@@ -63,20 +62,26 @@
     align-items: flex-start;
   }
   .column {
-    flex: 1;
+    flex: 0;
     margin: 30px;
   }
   .text-block {
-    border: 2px solid #000;
-    padding: 20px;
-    width: 40vw;
-    max-width: 600px;
+    border: 12px solid #43494f;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 15px;
+    min-width:400px;
+    width: 50vw;
+    max-width: 800px;
     min-height: 160px;
     align-items: center;
     font-size: 1.2em;
   }
   .text-block h3 {
     color:cornflowerblue;
+  }
+  .text-block h6 {
+    color:lightslategray;
   }
   .column h1 {
     text-align: center;

@@ -87,10 +87,8 @@ async def get_dp_userfulfillment(userid:str, schedule_name:str):
     
     fulfillments = planner.fulfillment(user, schedule_name)
     io = planner.default_io
-    formatted_fulfillments = []
 
-    for fulfillment in fulfillments.values():
-        formatted_fulfillments.append(io.format_fulfillment(fulfillment))
+    formatted_fulfillments = io.format_fulfillments(fulfillments)
 
     return formatted_fulfillments
 
@@ -106,13 +104,14 @@ async def get_dp_recommendations(userid:str, schedule_name:str):
     
     recommendation = planner.recommend(user, schedule_name)
     io = planner.default_io
-    recommendation = io.print_recommendation(recommendation, as_dict=True)
-    
-    formatted_recommendation = []
-    for k, v in recommendation.items():
-        formatted_recommendation.append({"head":k, "text":v})
+    formatted_recommendations = io.format_recommendations(recommendation)
 
-    return formatted_recommendation
+    dict_recommendations = dict()
+
+    for recommendation in formatted_recommendations:
+        dict_recommendations.update({recommendation['name']:recommendation})
+    
+    return dict_recommendations
     
 
 @app.get('/')
