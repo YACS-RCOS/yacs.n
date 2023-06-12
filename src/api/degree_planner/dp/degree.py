@@ -537,8 +537,14 @@ class Degree():
                 self.io.debug(f'max match for template {best_template_original}: \n{matches}\n')
                 # remove the courses already taken
                 recommended_courses = matched_fulfillment.get_fulfillment_set()
+                
+                fulfilled_courses = 0
                 for course in best_fulfillment.get_fulfillment_set():
                     recommended_courses.discard(course)
+                    fulfilled_courses += 1
+
+                matched_fulfillment.get_template().courses_fulfilled = fulfilled_courses
+                matched_fulfillment.get_template().importance = fulfilled_courses
 
                 course_R_bindings = num_bindings(max_fulfillments, recommended_courses, Bind_Type.R)
                 course_relevances = self.catalog.recommender.embedded_relevance(taken_courses, recommended_courses, custom_tags)

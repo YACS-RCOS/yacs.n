@@ -38,12 +38,12 @@
         "Intensity": {
             "requires": 4,
             "replacement": true,
-            "attributes":["level.4+", "subject.csci"]
+            "attributes":["level.4", "subject.csci"]
         },
         "Concentration": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4+", "concentration.*"]
+            "attributes":["level.4", "concentration.*"]
         },
         "Math - Calculus 2": {
             "requires": 1,
@@ -53,7 +53,7 @@
         "Math - Electives": {
             "requires": 2,
             "replacement": true,
-            "attributes":["subject.math", "level.2+"]
+            "attributes":["subject.math", "level.2+", "level.4-"]
         },
         "Physics - Physics II": {
             "requires": 1,
@@ -63,22 +63,22 @@
         "Science - Electives": {
             "requires": 1,
             "replacement": true,
-            "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & subject.* & level.*"]
+            "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & subject.*", "level.4-"]
         },
         "HASS Elective - level 4": {
             "requires": 1,
             "replacement": true,
-            "attributes":["level.4+", "subject.arts | subject.gsas"]
+            "attributes":["level.4", "subject.arts | subject.gsas"]
         },
         "HASS Elective - level 4 or 2": {
             "requires": 2,
             "replacement": true,
-            "attributes":["level.2+", "subject.arts | subject.gsas"]
+            "attributes":["level.2+", "level.4-", "subject.arts | subject.gsas"]
         },
         "HASS Pathway": {
             "requires": 3,
             "replacement": true,
-            "attributes":["subject.arts"]
+            "attributes":["level.4-", "subject.arts"]
         }
     }
 

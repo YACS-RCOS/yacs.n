@@ -26,6 +26,8 @@ class Template():
         self.original_specifications = None # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.courses_required = courses_required
 
+        self.courses_fulfilled = 0
+
         self.replacement = replacement
         self.importance = 0 # used internally by degree, higher the number the more important it is
 

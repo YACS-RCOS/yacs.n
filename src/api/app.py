@@ -19,6 +19,7 @@ import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
 from degree_planner.planner import User, Planner
+from degree_planner.math.sorting import sorting
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -109,7 +110,10 @@ async def get_dp_recommendations(userid:str, schedule_name:str):
     dict_recommendations = dict()
 
     for recommendation in formatted_recommendations:
-        dict_recommendations.update({recommendation['name']:recommendation})
+        curr_list = dict_recommendations.get(recommendation['name'], [])
+        curr_list.append(recommendation)
+        curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
+        dict_recommendations.update({recommendation['name']:curr_list})
     
     return dict_recommendations
     

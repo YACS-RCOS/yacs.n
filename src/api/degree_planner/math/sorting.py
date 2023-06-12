@@ -19,6 +19,24 @@ class sorting():
             sorted_list.append(key)
 
         return sorted_list
+    
+
+    @staticmethod
+    def list_of_dictionary_sort(list_of_dictionaries:list, sort_by_key) -> list:
+        # first, create a dictionary of the indexes and sort by values
+        dict_and_key = dict()
+
+        i = 0
+        for dictionary in list_of_dictionaries:
+            dict_and_key.update({i:dictionary[sort_by_key]})
+            i += 1
+        
+        rearranged_order = sorting.dictionary_sort(dict_and_key)
+        new_list = []
+        for index in rearranged_order:
+            new_list.append(list_of_dictionaries[index])
+
+        return new_list
 
 
     @staticmethod

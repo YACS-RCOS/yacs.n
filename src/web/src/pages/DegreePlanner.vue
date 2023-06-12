@@ -13,10 +13,12 @@
                     </li>
                     <br>
                     <h4>Recommendations:</h4>
-                    <h6>specifications: {{ recommendations[item.name].specifications }}</h6>
-                    <li v-for="course in recommendations[item.name].fulfillment_set" :key="course">
-                        {{ course }}
-                    </li>
+                    <div class="recommendations" v-for="recommendation in recommendations[item.name]" :key="recommendation">
+                        <h6>specifications: {{ recommendation.specifications }}</h6>
+                        <li v-for="course in recommendation.fulfillment_set" :key="course">
+                            {{ course }}
+                        </li>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,16 +68,16 @@
     margin: 30px;
   }
   .text-block {
-    border: 12px solid #43494f;
+    border: 10px solid #43494f;
     border-radius: 20px;
-    padding: 30px;
-    margin: 15px;
+    padding: 20px;
+    margin: 12px;
     min-width:400px;
     width: 50vw;
     max-width: 800px;
-    min-height: 160px;
+    min-height: 100px;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 1em;
   }
   .text-block h3 {
     color:cornflowerblue;

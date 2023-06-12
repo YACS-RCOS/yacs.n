@@ -242,6 +242,7 @@ class Output():
                 formatted = dict()
                 formatted.update({'name':generated_template.name})
                 formatted.update({'specifications':generated_template.specifications})
+                formatted.update({'courses_fulfilled':generated_template.courses_fulfilled})
                 fulfillment_set = [str(e) for e in fulfillment_courses]
                 del fulfillment_set[5:]
                 formatted.update({'fulfillment_set':fulfillment_set})
