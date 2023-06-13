@@ -104,6 +104,25 @@
             <LoginForm @submit="onLogIn()" />
           </b-modal>
         </template>
+
+        <b-button
+            id="settings-button"
+            v-b-modal.settings-modal
+            size="sm"
+            variant="secondary"
+            class="mr-md-2"
+          >
+          <font-awesome-icon icon="file-alt" />
+          </b-button>
+
+          <b-modal
+            id="settings-modal"
+            ref="settings-modal"
+            hide-footer
+            title="Settings"
+          >
+          </b-modal>
+
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -119,12 +138,14 @@ import {
 } from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
+import SettingsComponent from "@/components/Settings";
 import { userTypes } from "../store/modules/user";
 // import router from "@/routes";
 export default {
   name: "Header",
   components: {
     LoginForm: LoginComponent,
+    Settings: SettingsComponent,
   },
   data() {
     return {
