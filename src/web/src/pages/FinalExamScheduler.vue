@@ -15,13 +15,28 @@
                     v-model="selectedCourses[index]"
                     :options="courseOptions"
                 ></b-form-select>
-                <b-button @click="$bvModal.show('delete-modal-id')" variant="danger" class="ml-3">Delete</b-button>
+
+              </b-form-group>
+
+            </div>
+            <b-button @click="addCourse" variant="primary">Add Course</b-button>
+
+            <b-button type="submit" variant="success" class="ml-3">
+              Search
+            </b-button>
+
+            <b-button :disabled="this.emptyCourses===false" @click="$bvModal.show('delete-modal-id')" variant="danger" class="ml-3">Delete</b-button>
                 <b-modal id="delete-modal-id" hide-footer title="Delete Course"
                          @close="$bvModal.hide('delete-modal-id')"
                          @keydown.esc="$bvModal.hide('delete-modal-id')">
 
                   <div class="d-block text-center">
-                    <h3>Are you sure you want to delete course {{ index + 1 }}?</h3>
+                    <h3>Select the Courses you wish to delete.</h3>
+                  </div>
+                  <div>
+                    <div v-for="(course, index) in selectedCourses" :key="index">
+                      <b-form-checkbox  v-if="course!=null" type="radio">{{ selectedCourses[index].CourseCode + " - " + selectedCourses[index].Section}}</b-form-checkbox>
+                    </div>
                   </div>
 
                   <b-button class="mt-3" variant="outline-success" block @click="$bvModal.hide('delete-modal-id')">
@@ -32,14 +47,7 @@
                   </b-button>
 
                 </b-modal>
-              </b-form-group>
 
-            </div>
-            <b-button @click="addCourse" variant="primary">Add Course</b-button>
-
-            <b-button type="submit" variant="success" class="ml-3">
-              Search
-            </b-button>
           </b-form>
           <b-card v-if="examDetails" class="mt-3">
             <h5 class="card-title">Exam Details</h5>
@@ -98,6 +106,7 @@ export default {
       ],
       exams: Finals,
       selectedCourses: [null],
+      emptyCourses:false,
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
@@ -153,6 +162,7 @@ export default {
     },
     addCourse() {
       this.selectedCourses.push(null);
+      this.emptyCourses=true;
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
