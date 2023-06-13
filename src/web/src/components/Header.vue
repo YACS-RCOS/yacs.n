@@ -91,10 +91,9 @@
             id="settings-button"
             v-b-modal.settings-modal
             size="sm"
-            variant="secondary"
             class="mr-md-2"
           >
-          <font-awesome-icon icon="file-alt" />
+          <font-awesome-icon icon="wrench" />
           </b-button>
 
           <b-modal
