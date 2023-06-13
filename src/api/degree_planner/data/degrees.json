@@ -3,7 +3,7 @@
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
-            "attributes":["unique_name.csci 1200 data structures"]
+            "attributes":["subject.csci & course_id.1200"]
         },
         "Core - FOCS": {
             "requires": 1,
@@ -13,27 +13,27 @@
         "Core - Computer Organization": {
             "requires": 1,
             "replacement": false,
-            "attributes":["unique_name.csci 2500 computer organization | unique_name.ecse 2660 computer architecture networks and operating systems"]
+            "attributes":["subject.csci & course_id.2500 | subject.ecse & course_id.2660"]
         },
         "Core - Algorithms": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci", "course_id.2300"]
+            "attributes":["subject.csci & course_id.2300"]
         },
         "Core - Principles of Software": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci", "course_id.2600"]
+            "attributes":["subject.csci & course_id.2600"]
         },
         "Core - Programming Languages": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci", "course_id.4430"]
+            "attributes":["subject.csci & course_id.4430"]
         },
         "Core - Operating Systems": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci", "course_id.4210"]
+            "attributes":["subject.csci & course_id.4210"]
         },
         "Intensity": {
             "requires": 4,
@@ -48,7 +48,7 @@
         "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.math", "course_id.1020"]
+            "attributes":["subject.math & course_id.1020"]
         },
         "Math - Electives": {
             "requires": 2,
@@ -58,12 +58,12 @@
         "Physics - Physics II": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.phys", "course_id.1200 | course_id.1250"]
+            "attributes":["subject.phys & (course_id.1200 | course_id.1250)"]
         },
         "Science - Electives": {
             "requires": 1,
             "replacement": true,
-            "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & subject.*", "level.4-"]
+            "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr)", "level.4-"]
         },
         "HASS Elective - level 4": {
             "requires": 1,
