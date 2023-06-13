@@ -55,29 +55,11 @@
           Finals
         </b-nav-item>
       </b-navbar-nav>
-      <!-- If user has logged in -->
+      
       <b-navbar-nav class="ml-auto">
-        <b-nav-dropdown text="Color Mode" style="padding-right: 5px;">
-          <b-dropdown-item
-            :class="this.darkMode === false ? 'drop-down-item' : ''"
-            @click="toggle_style(false)"
-          >
-            Light Mode
-          </b-dropdown-item>
-          <b-dropdown-item
-            :class="this.darkMode === true ? 'drop-down-item' : ''"
-            @click="toggle_style(true)"
-          >
-            Dark Mode
-          </b-dropdown-item>
-          <b-dropdown-item
-            :class="this.darkMode === null ? 'drop-down-item' : ''"
-            @click="toggle_device"
-          >
-            Follow Device Theme
-          </b-dropdown-item>
-        </b-nav-dropdown>
+
         <b-nav-item-dropdown right v-if="isLoggedIn">
+          <!-- If user has logged in -->
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>Hi, {{ user.name }}</template>
           <b-dropdown-item @click="logOut">Sign Out</b-dropdown-item>
@@ -121,6 +103,7 @@
             hide-footer
             title="Settings"
           >
+          <Settings/>
           </b-modal>
 
       </b-navbar-nav>
@@ -161,41 +144,6 @@ export default {
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
-    toggle_style(mode) {
-      //Sends message to user that device theme is no longer followed
-      if (this.notify) {
-        this.unFollowDeviceTheme();
-        this.notify = false;
-      }
-
-      //determines the default theme of user (either light or dark)
-      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches;
-
-      //if the button mode user pressed is opposite of the current color, then toggle
-      // OR if the user was previously following their device theme and button pressed isn't their device theme, toggle
-      if (
-        (mode === false && this.darkMode === true) ||
-        (mode === true && this.darkMode === false) ||
-        (this.darkMode == null && mode !== deviceTheme)
-      ) {
-        this.$store.commit(TOGGLE_DARK_MODE);
-        this.$store.commit(SAVE_DARK_MODE);
-      } else {
-        // if user was following device theme and pressed the same button color, make the cookie with curr color
-        this.$store.commit(SAVE_DARK_MODE);
-      }
-
-      this.darkMode = this.$store.getters.darkModeState; //resets to match current color mode
-    },
-    toggle_device() {
-      this.followDeviceTheme(); //sends user message
-      this.notify = true;
-
-      this.$store.commit(RESET_DARK_MODE);
-      this.$store.commit(TOGGLE_DARK_MODE);
-      this.darkMode = null; //sets color mode
-    },
     onLogIn() {
       this.$refs["login-modal"].hide();
     },
@@ -211,24 +159,6 @@ export default {
           variant: "danger",
         });
       }
-    },
-    unFollowDeviceTheme() {
-      this.$bvToast.toast(`No Longer Following Device Theme`, {
-        title: "Color Scheme Changed",
-        autoHideDelay: 2000,
-        noHoverPause: true,
-        variant: "danger",
-        toaster: "b-toaster-top-center",
-      });
-    },
-    followDeviceTheme() {
-      this.$bvToast.toast(`Now Following Device Theme`, {
-        title: "Color Scheme Changed",
-        autoHideDelay: 2000,
-        noHoverPause: true,
-        variant: "success",
-        toaster: "b-toaster-top-center",
-      });
     },
   },
   computed: {
