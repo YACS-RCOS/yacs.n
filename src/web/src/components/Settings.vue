@@ -1,38 +1,55 @@
 <template>
+<b-col>
+  <b-row>
+    <b-dropdown text="Color Mode" style="padding-right: 5px;">
+      <b-dropdown-item
+        :class="this.darkMode === false ? 'drop-down-item' : ''"
+        @click="toggle_style(false)"
+      >
+        Light Mode
+      </b-dropdown-item>
+      <b-dropdown-item
+        :class="this.darkMode === true ? 'drop-down-item' : ''"
+        @click="toggle_style(true)"
+      >
+        Dark Mode
+      </b-dropdown-item>
+      <b-dropdown-item
+        :class="this.darkMode === null ? 'drop-down-item' : ''"
+        @click="toggle_device"
+      >
+        Follow Device Theme
+      </b-dropdown-item>
+    </b-dropdown>
 
-  <b-dropdown text="Color Mode" style="padding-right: 5px;">
-    <b-dropdown-item
-      :class="this.darkMode === false ? 'drop-down-item' : ''"
-      @click="toggle_style(false)"
-    >
-      Light Mode
-    </b-dropdown-item>
-    <b-dropdown-item
-      :class="this.darkMode === true ? 'drop-down-item' : ''"
-      @click="toggle_style(true)"
-    >
-      Dark Mode
-    </b-dropdown-item>
-    <b-dropdown-item
-      :class="this.darkMode === null ? 'drop-down-item' : ''"
-      @click="toggle_device"
-    >
-      Follow Device Theme
-    </b-dropdown-item>
-  </b-dropdown>
+  </b-row>
 
+  <b-row>
+    <b-form-checkbox
+      class="mt-2"
+      size="sm"
+      :checked="$store.state.colorBlindAssist"
+      @change="toggleColors()"
+      switch
+    >
+      Color Blind Assistance
+    </b-form-checkbox>
+  </b-row>
+</b-col>
 </template>
 
 
 <script>
+
+import { mapGetters, mapState } from "vuex";
 
 import {
   COOKIE_DARK_MODE,
   TOGGLE_DARK_MODE,
   SAVE_DARK_MODE,
   RESET_DARK_MODE,
+  TOGGLE_COLOR_BLIND_ASSIST,
 } from "@/store";
-// import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Settings",
@@ -40,6 +57,7 @@ export default {
     return {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
       notify: false,
+      // colorBlindAssist: this.$store.getters.colorBlindAssistState,
     };
   },
   mounted() {
@@ -101,6 +119,9 @@ export default {
         variant: "success",
         toaster: "b-toaster-top-center",
       });
+    },
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
   }
 };
