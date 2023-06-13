@@ -1,8 +1,8 @@
 import json
 from psycopg2.extras import RealDictCursor
 import asyncio
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import sessionmaker
 # from your_module import Professor, Base
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
@@ -12,6 +12,7 @@ else:
     from . import connection
 
 class Professor:
+    
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
@@ -110,7 +111,7 @@ class Professor:
                         print(e)
                         conn.rollback()
                         return (False, e)
-
+            #except statement
             except ValueError as ve:
                 return (False, "Invalid JSON data: {}".format(ve))
 
@@ -119,7 +120,7 @@ class Professor:
         self.clear_cache()
         return (True, None)
 
-
+    #removes professor if it exists
     def remove_professor(self, email):
         if email is not None:
             sql = """
