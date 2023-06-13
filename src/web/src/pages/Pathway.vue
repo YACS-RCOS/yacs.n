@@ -30,7 +30,7 @@
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
-      <b-modal ref="my-modal">
+      <b-modal ref="my-modal" class="modal-dialog modal-lg">
         <div class="block text-left" v-if="showPath != null" md="10">
           <h3
             class="text-center"
