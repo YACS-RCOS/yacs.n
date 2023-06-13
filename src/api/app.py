@@ -64,7 +64,11 @@ def is_admin_user(session):
 
 @app.post('/api/dp/newuser')
 async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
-    user = User(userid)
+    if planner_users.get(userid, None) is None:
+        user = User(userid)
+        planner_users.update({userid:user})
+    else:
+        user = planner_users.get(userid)
 
     query = ''
     for course, semester in courses.items():
@@ -73,8 +77,18 @@ async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_n
     planner.user_input(user, query)
     planner.user_input(user, f'degree, {degree}')
 
-    planner_users.update({userid:user})
     return Response(content="added user successfully", status_code=200)
+
+
+@app.post('/api/dp/users/command')
+async def dp_command(userid:str = Body(...), command:str = Body(...)):
+    user = planner_users.get(userid, None)
+    if user is None:
+        return Response(content="user not found")
+
+    planner.user_input(user, command)
+    print(f'user {user} ran command {command}')
+    return Response(content='ran command successfully', status_code=200)
     
 
 @app.get('/api/dp/users/{userid}/fulfillment/{schedule_name}')

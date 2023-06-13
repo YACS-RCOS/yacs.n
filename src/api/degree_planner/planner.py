@@ -259,7 +259,7 @@ class Planner():
         semester = int(semester)
         this_semester_courses = user.get_active_schedule().get_semester(semester)
 
-        matched_course_names = self.catalog.search(course_name, this_semester_courses)
+        matched_course_names = self.catalog.search(course_name)
 
         if len(matched_course_names) == 0:
             io.print(f"Course {course_name} not found")

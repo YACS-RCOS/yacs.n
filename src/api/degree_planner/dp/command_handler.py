@@ -66,11 +66,13 @@ class command_handler():
         be entered again.
         """
         io.debug(f'user {user.username} entered command loop')
+
         while(not user.command_queue.empty() or User.Flag.CMD_PAUSED in user.flag):
             if User.Flag.CMD_PAUSED in user.flag:
                 command:Command = user.command_paused
             else:
                 command:Command = user.command_queue.get()
+                io.warn(f'RECEIVED COMMAND FROM USER {user}: {command}')
                 io.debug(f'user {user.username} fetched command {command}')
 
             if command.command == Command.CMD.IMPORT:

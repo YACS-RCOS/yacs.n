@@ -4,6 +4,11 @@
             <h1>Degree Planner</h1>
             <h2>Requirements</h2>
         </div>
+
+        <div>
+            <input class="text-input" v-model="textInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
+        </div>
+
         <div class="container">
             <div class="text-block" v-for="(item, index) in requirements" :key="index">
                 <h3>{{ item.name }}</h3>
@@ -42,11 +47,46 @@
         recommendations: {}
       };
     },
+    methods: {
+        async dp_command() {
+            let userid = 'testuser'
+            let command = this.textInput
+
+            await fetch('/api/dp/users/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userid, command}),
+            });
+            this.textInput = ""
+            this.fetch_data()
+        },
+        async fetch_data() {
+            let userid = 'testuser'
+            let degree = 'computer science'
+            let schedule_name = 'schedule1'
+            let courses = {}
+
+            await fetch('/api/dp/newuser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userid, degree, schedule_name, courses}),
+            });
+            const response1 = await fetch('/api/dp/users/testuser/fulfillment/schedule1');
+            this.requirements = await response1.json();
+
+            const response2 = await fetch('/api/dp/users/testuser/recommend/schedule1');
+            this.recommendations = await response2.json();
+        },
+    },
     async created() {
         let userid = 'testuser'
         let degree = 'computer science'
         let schedule_name = 'schedule1'
-        let courses = {'data structures':1, 'int algorithm':2, '4100 csci':3, 'data science 4350 csci':3, 'adv com graph 4530': 4, 'graph theory 4260': 4}
+        let courses = {}
 
         await fetch('/api/dp/newuser', {
             method: 'POST',
@@ -73,6 +113,19 @@
   .column {
     flex: 0;
     margin: 20px;
+  }
+  .text-input{
+    border:2px solid #21242b;
+    border-radius:5px;
+    width:150px;
+    padding:5px;
+    background-color:#393b40;
+    position:fixed;
+  }
+  .text-input:focus{
+    width:300px;
+    border:4px;
+    background-color:#3f4146;
   }
   .text-block {
     border: 8px solid #43494f;
