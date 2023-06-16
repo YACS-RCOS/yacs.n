@@ -51,6 +51,7 @@
         </b-col>
       </b-row>
     </div>
+    <button onclick="window.location.href='https://github.com/YACS-RCOS/RPISyllabus/blob/main/COGS/COGS-6420.pdf';">syllabus</button>
   </b-container>
 </template>
 
