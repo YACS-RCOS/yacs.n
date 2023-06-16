@@ -54,8 +54,8 @@
           <font-awesome-icon icon="file-alt" />
           Finals
         </b-nav-item>
-        <b-nav-item :to="{ name: 'GPACalculator' }">
-          <font-awesome-icon icon="file-alt" />
+        <b-nav-item :to="{ name: 'Testing' }">
+          <font-awesome-icon icon="calculator" />
           Calculate GPA
         </b-nav-item>
       </b-navbar-nav>

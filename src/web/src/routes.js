@@ -7,6 +7,7 @@ const EditSemestersPage = () => import("./pages/EditSemesters");
 const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
 const GPACalculatorPage = () => import("./pages/GPACalculator");
+const TestingPage = () =>import("./pages/Testing")
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
@@ -33,8 +34,8 @@ var router = new VueRouter({
         },
         {
           path: "/GPACalc",
-          component: GPACalculatorPage,
-          name: "GPACalculator"
+          component: TestingPage,
+          name: "Testing"
         },
         {
           path: "/pathway",

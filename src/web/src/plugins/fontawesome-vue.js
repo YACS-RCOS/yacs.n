@@ -12,6 +12,7 @@ import {
   faBars,
   faSearch,
   faFileAlt,
+  faCalculator
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -21,7 +22,8 @@ library.add(
   faList,
   faBars,
   faSearch,
-  faFileAlt
+  faFileAlt,
+  faCalculator
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
