@@ -28,6 +28,14 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
+      <b-row>
+        <b-col class="mb-4">
+          <br />
+          <button @click="openSyllabus">syllabus</button>
+        </b-col>
+      </b-row>
+
+
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
@@ -51,7 +59,6 @@
         </b-col>
       </b-row>
     </div>
-    <button onclick="window.location.href='https://github.com/YACS-RCOS/RPISyllabus/blob/main/COGS/COGS-6420.pdf';">syllabus</button>
   </b-container>
 </template>
 
@@ -92,6 +99,11 @@ export default {
   },
   methods: {
     generateRequirementsText,
+
+    openSyllabus() {
+      const syllabusURL = `https://github.com/YACS-RCOS/RPISyllabus/blob/main/${this.courseObj.department}/${this.courseName}.pdf`;
+      window.location.href = syllabusURL;
+    }
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
@@ -166,5 +178,7 @@ export default {
           ],
     };
   },
+
+ 
 };
 </script>
