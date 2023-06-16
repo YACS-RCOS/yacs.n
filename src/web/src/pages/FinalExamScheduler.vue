@@ -17,7 +17,7 @@
                 ></b-form-select>
               </b-form-group>
             </div>
-            <b-button @click="addCourse" variant="primary">Add Course</b-button>
+            <b-button @click="addCourse" variant="primary">ADDDDDDDDD Course</b-button>
             <b-button type="submit" variant="success" class="ml-3">
               Search
             </b-button>
