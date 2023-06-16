@@ -142,17 +142,21 @@ class acalog_client():
 
     def _get_course_details(self, id_params):
         course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
+        
+        #ERROR: ACCESSING THIS LINK RESULTS IN 403 FORBIDDEN ERROR 
+        print(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}")
+
         with self._lock:
             # https://stackoverflow.com/questions/39119165/xml-what-does-that-question-mark-mean
             # Can only have one prolog per XML document in order for it to be well-formed.
             # Can also only have one root.
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
             if (match is None):
-                raise Error("XML document is missing prolog and root. Invalid.")
+                raise ValueError("XML document is missing prolog and root. Invalid.")
             # For some reason, the response is sometimes missing the XML prolog. Not sure how it's possible, but give default in that case.
             self._xml_prolog = match.group("prolog") if match.group("prolog") is not None else '<?xml version="1.0"?>'
             if match.group("root") is None:
-                raise Error("XML document is missing root element. Invalid.")
+                raise ValueError("XML document is missing root element. Invalid.")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
 
