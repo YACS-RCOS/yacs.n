@@ -165,9 +165,14 @@ class template_parsing():
 
     ###################################################################################################
     #
-    # CONTEXT FREE GRAMMAR PARSING (thanks programming languages I do not miss you)
+    # CONTEXT FREE PARSING
     #
     ###################################################################################################
+
+    '''
+    determines whether a course fulfills a template attribute. If it's a conditional fulfillment, then 
+    also returns the condition (return type is (bool, dict))
+    '''
 
     @staticmethod
     def course_fulfills_template(template:Template, course:Course):
