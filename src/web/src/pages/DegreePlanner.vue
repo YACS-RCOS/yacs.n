@@ -76,7 +76,15 @@
                 },
                 body: JSON.stringify({userid, degree, schedule_name, courses}),
             });
-            const response1 = await fetch('/api/dp/users/testuser/fulfillment/schedule1');
+
+            
+            const response1 = await fetch('/api/dp/fulfillment/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userid, degree, schedule_name, courses}),
+            });
             this.requirements = await response1.json();
 
             const response2 = await fetch('/api/dp/users/testuser/recommend/schedule1');
