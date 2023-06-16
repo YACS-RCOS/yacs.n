@@ -17,7 +17,6 @@
                 ></b-form-select>
 
               </b-form-group>
-
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
 
@@ -33,13 +32,16 @@
                   <div class="d-block text-center">
                     <h3>Select the Courses you wish to delete.</h3>
                   </div>
-                  <div>
-                    <div v-for="(course, index) in selectedCourses" :key="index">
-                      <b-form-checkbox  v-if="course!=null" type="radio">{{ selectedCourses[index].CourseCode + " - " + selectedCourses[index].Section}}</b-form-checkbox>
-                    </div>
-                  </div>
 
-                  <b-button class="mt-3" variant="outline-success" block @click="$bvModal.hide('delete-modal-id')">
+                  <b-form-group>
+                    <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
+                      <b-form-checkbox v-if="course!=null" type="radio" :value="course.CourseCode">
+                        {{selectedCourses[index].CourseCode + " - " + selectedCourses[index].Section}}
+                      </b-form-checkbox>
+                    </b-form-checkbox-group>
+                  </b-form-group>
+
+                  <b-button class="mt-3" variant="outline-success" block @click="$bvModal.hide('delete-modal-id'); deleteCourses()">
                     Confirm
                   </b-button>
                   <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('delete-modal-id')">
@@ -105,6 +107,7 @@ export default {
         },
       ],
       exams: Finals,
+      selectToDelete: [],
       selectedCourses: [null],
       emptyCourses:false,
       courseOptions: [],
@@ -221,6 +224,30 @@ export default {
       this.examDetails = Object.values(examDetailsGrouped);
 
       console.log(this.examDetails);
+    },
+    deleteCourses(){
+        console.log("reached Delete FUNC");
+        console.log("BEFORE");
+        console.log("DELETE ARR: ",this.selectToDelete);
+        console.log("COURSES ARR: ",this.selectedCourses);
+        console.log("COURSE OP");
+
+        for(let i = 0; i < this.selectToDelete.length; i++){
+          let index = this.selectToDelete.indexOf(this.selectToDelete[i]);
+          this.selectedCourses.splice(index, 1);
+        }
+
+        for(let i = 0; i < this.selectToDelete.length; i++) {
+          this.selectToDelete.splice(i, 1);
+        }
+
+        if(this.selectedCourses.length===0){
+          this.selectedCourses = null;
+        }
+
+        console.log("AFTER");
+        console.log("DELETE ARR: ",this.selectToDelete);
+        console.log("COURSES ARR: ",this.selectedCourses);
     },
   },
 };
