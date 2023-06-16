@@ -12,7 +12,8 @@ import json
 from bs4 import BeautifulSoup
 import csv
 import re
-#maybe use a cache similiar ot how professor used it to speed up runtime (add on to it)
+
+#maybe use a cache similiar to how professor used it to speed up runtime (add on to it)
 baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
 subj_code_in={department}&crse_numb_in={courseNumber}'
 
@@ -20,6 +21,13 @@ subj_code_in={department}&crse_numb_in={courseNumber}'
 def read_csv(file_name : str = 'fall-2023.csv') -> list:
     with open(file_name, 'r', encoding='UTF-8') as csv_file:
         csv_reader = csv.reader(csv_file)
+        # line_count = 0
+        # for row in csv_reader2:
+        #     print("row " + str(line_count) + " is: ")
+        #     print(row)
+        #     line_count += 1
+        # print(f'Processed {line_count} lines.')
+
         csv_reader = list(csv_reader)
         csv_reader.pop(0)
         return csv_reader
@@ -83,6 +91,7 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
     semester = parseSemester(filename)
     Data = dict()
 
+    # print(data)
     for row in data:
         department = row[11]
         courseNumber = row[16]
