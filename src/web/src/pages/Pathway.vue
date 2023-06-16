@@ -40,18 +40,33 @@
           </h3>
           <br />
           <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
-              {{ itemName + ": " }}
-            </h4>
-            <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
-            >
-              {{ course }}
-            </li>
-            <br />
+            <div v-if="itemName != 'Name'">
+              <h4 style="color: #3395ff; margin-top: -20px;">
+                {{ itemName + ": " }}
+              </h4>
+                <div v-if="itemName == 'Compatible minor(s)'" >
+                  <li
+                    v-for="course in item"
+                    :key="course"
+                    v-on:click="goPage(course)"
+                    class="courseInPath"
+                    style="pointer-events: none;"
+                  >
+                    {{ course }}
+                  </li>
+                </div>
+                <div v-else >
+                  <li
+                    v-for="course in item"
+                    :key="course"
+                    v-on:click="goPage(course)"
+                    class="courseInPath"
+                  >
+                    {{ course }}
+                  </li>
+                </div>
+              <br />
+            </div>
           </div>
         </div>
       </b-modal>
