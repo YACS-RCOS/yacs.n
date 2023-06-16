@@ -1,0 +1,42 @@
+Improvements that can be made 
+
+- gpa calculator
+- search bar on explore page	
+- links on course pages to syllabus and more course info
+- 
+
+Bugs found
+- there are no pre reqs on summer courses
+
+
+What I learned about Vue
+
+- Vue.js is a progressive JavaScript framework used for building user interfaces.
+
+- It follows a component-based architecture, where the application is composed of reusable and self-contained components.
+
+- It uses a virtual DOM (Document Object Model) for efficient rendering and updating of the user interface.
+
+- The framework provides declarative rendering, allowing developers to describe the desired state of the UI, and Vue takes care of updating it accordingly.
+
+- Vue.js offers a simple and intuitive template syntax that allows binding data to the HTML, as well as adding conditional rendering and iterating over lists.
+
+- Vue uses directives to extend HTML with additional functionalities, such as `v-if`, `v-for`, and `v-bind`.
+
+- Vue.js provides reactive data binding, meaning that changes in the data are automatically reflected in the UI and vice versa.
+
+- The framework includes computed properties, which are functions that derive new data based on existing data, ensuring efficient reactivity.
+
+- Vue.js offers lifecycle hooks, such as `created`, `mounted`, and `destroyed`, which allow developers to execute code at specific stages of a component's lifecycle.
+
+- Vue Router is a companion library for Vue.js that enables building single-page applications with client-side routing.
+
+- Vuex is the state management library for Vue.js, allowing centralized management of application state and ensuring data consistency across components.
+
+- It has a vibrant and active community, with a rich ecosystem of plugins and libraries that can be easily integrated into Vue applications.
+
+- Vue.js provides extensive debugging tools, including the Vue Devtools browser extension, which helps inspect and debug Vue components and their state.
+
+- The framework supports server-side rendering (SSR), which improves initial load times and search engine optimization (SEO).
+
+- Vue.js has good documentation and learning resources, making it accessible for beginners to get started and progress with their learning journey.
