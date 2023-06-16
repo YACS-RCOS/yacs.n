@@ -1,7 +1,9 @@
 <template>
-<b-col>
-  <b-row>
-    <b-dropdown text="Color Mode" style="padding-right: 5px;">
+  <b-row
+  align-v="center"
+  align-h="around"
+  >
+    <b-dropdown text="Color Mode" size = "lg" style="padding-right: 5px;">
       <b-dropdown-item
         :class="this.darkMode === false ? 'drop-down-item' : ''"
         @click="toggle_style(false)"
@@ -22,26 +24,20 @@
       </b-dropdown-item>
     </b-dropdown>
 
-  </b-row>
-
-  <b-row>
     <b-form-checkbox
-      class="mt-2"
-      size="sm"
       :checked="$store.state.colorBlindAssist"
       @change="toggleColors()"
       switch
     >
       Color Blind Assistance
     </b-form-checkbox>
+
   </b-row>
-</b-col>
+
 </template>
 
 
 <script>
-
-import { mapGetters, mapState } from "vuex";
 
 import {
   COOKIE_DARK_MODE,
