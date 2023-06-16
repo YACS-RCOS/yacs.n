@@ -178,7 +178,10 @@ class command_handler():
                 else:
                     io.store(f"{schedule.name} Fulfillment")
                     io.store(f"  taken courses: {[str(e) for e in schedule.courses()]}")
-                    fulfillment = schedule.degree.fulfillment(schedule.courses())
+                    
+                    attributes_to_replace = command.arguments
+
+                    fulfillment = planner.fulfillment(user, schedule.name, io, attributes_to_replace)
                     io.store(Output.print_fulfillment(fulfillment))
                     io.view_cache()
                 user.command_queue.task_done()

@@ -166,7 +166,7 @@ class Planner():
         return None
     
     
-    def fulfillment(self, user:User, schedule_name, io=None):
+    def fulfillment(self, user:User, schedule_name, io=None, attributes_to_replace=None):
         if io is None:
             io = self.default_io
 
@@ -179,8 +179,9 @@ class Planner():
         if schedule.degree is None:
             io.print(f"no degree set for user {user}")
             return f"no degree set for user '{user.username}'"
+        
 
-        fulfillment = schedule.degree.fulfillment(schedule.courses())
+        fulfillment = schedule.degree.fulfillment(schedule.courses(), attributes_to_replace=attributes_to_replace)
         return fulfillment
     
 

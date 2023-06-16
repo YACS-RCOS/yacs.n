@@ -37,6 +37,23 @@ class Template():
     def remove_specification(self, attr):
         self.specifications.remove(attr, None)
 
+    def replace_specifications(self, old_attr_head, new_attr):
+        for i in range(0, len(self.specifications)):
+            specification = self.specifications[i]
+            print('old specification: ' + specification)
+            specification = specification + ' '
+            search_begin_index = 0
+            while specification.find(old_attr_head, search_begin_index, -1) != -1:
+                begin_index = specification.find(old_attr_head)
+                end_index = specification.find(' ', begin_index + 1, -1)
+                if end_index != -1:
+                    end_index +=1
+                search_begin_index = end_index
+                specification = specification[:begin_index] + new_attr + specification[end_index:]
+            print('new specification: ' + specification)
+            self.specifications[i] = specification
+
+
     def get_required_count(self):
         return self.courses_required
     

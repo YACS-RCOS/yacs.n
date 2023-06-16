@@ -48,8 +48,9 @@ class Attributes():
             self.remove_attribute(attribute)
 
     def replace_attribute(self, head:str, body:str):
-        self.remove_attributes_by_head(head)
-        self.add_attribute(f'{head}.{body}')
+        if len(self.get_attributes_by_head(head)) > 0:
+            self.remove_attributes_by_head(head)
+            self.add_attribute(f'{head}.{body}')
 
     def get_attributes_ge(self, attr):
         bodies_of_head_matches = self.get_attributes_body_by_head(no_tail(attr))
