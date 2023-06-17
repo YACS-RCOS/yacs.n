@@ -193,6 +193,7 @@ class Output():
             formatted.update({'specifications':fulfillment.template.specifications})
             fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
             formatted.update({'fulfillment_set':fulfillment_set})
+            formatted.update({'alternatives':fulfillment.template.wildcard_choices})
 
             formatted_fulfillments.append(formatted)
         

@@ -91,25 +91,24 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
     return Response(content='ran command successfully', status_code=200)
     
 
-@app.get('/api/dp/users/{userid}/fulfillment/{schedule_name}')
-async def get_dp_userfulfillment(userid:str, schedule_name:str):
+@app.post('/api/dp/fulfillment')
+async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(...), attributes_replacement:list = Body(...)):
+    io = planner.default_io
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
     
     if user.get_schedule(schedule_name) is None:
         return Response(content="user schedule not found")
-    
-    fulfillments = planner.fulfillment(user, schedule_name)
-    io = planner.default_io
-
+    fulfillments = planner.fulfillment(user, schedule_name, attributes_to_replace=attributes_replacement)
     formatted_fulfillments = io.format_fulfillments(fulfillments)
 
     return formatted_fulfillments
 
 
-@app.get('/api/dp/users/{userid}/recommend/{schedule_name}')
-async def get_dp_recommendations(userid:str, schedule_name:str):
+@app.post('/api/dp/recommend')
+async def get_dp_recommendations(userid:str = Body(...), schedule_name:str = Body(...)):
+    io = planner.default_io
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
@@ -118,7 +117,6 @@ async def get_dp_recommendations(userid:str, schedule_name:str):
         return Response(content="user schedule not found")
     
     recommendation = planner.recommend(user, schedule_name)
-    io = planner.default_io
     formatted_recommendations = io.format_recommendations(recommendation)
 
     dict_recommendations = dict()

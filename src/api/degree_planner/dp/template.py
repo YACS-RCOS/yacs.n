@@ -25,6 +25,7 @@ class Template():
         self.specifications = specifications # details the attributes courses must have to fulfill this template
         self.original_specifications = None # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.courses_required = courses_required
+        self.wildcard_choices = list()
 
         self.courses_fulfilled = 0
 
@@ -116,6 +117,10 @@ class Template():
         if not len(all_conditions):
             return fulfillment_sets
         wildcard_attr, wildcard_choices = all_conditions.popitem()
+        self.wildcard_choices = list(wildcard_choices)
+        if len(wildcard_choices):
+            print(f'wildcard_attr: {wildcard_attr}')
+            self.wildcard_choices.insert(0, wildcard_attr)
 
         for choice in wildcard_choices:
             # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
