@@ -141,6 +141,7 @@ class acalog_client():
         return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={self.catalog_id}&options[limit]=0").content
 
     def _get_course_details(self, id_params):
+        #CUT THIS URL IN HALF and try python 3
         course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
         
         #ERROR: ACCESSING THIS LINK RESULTS IN 403 FORBIDDEN ERROR 

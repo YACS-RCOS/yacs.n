@@ -1,5 +1,6 @@
 # GOAL: fix description and pre/co-requisites for courses
 # Target URL: https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202209&subj_code_in=CSCI&crse_numb_in=2500
+# SCRAPES COOURSE DESCRIPT FORM THIS FILE
 # How to use:
 #   DATA_FILE=summer-2023_data.json ; The cache filename
 #   TARGET_FILE=summer-2023.csv     ; The file to prosses
@@ -14,6 +15,7 @@ import csv
 import re
 
 #maybe use a cache similiar to how professor used it to speed up runtime (add on to it)
+#plug in semester here
 baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
 subj_code_in={department}&crse_numb_in={courseNumber}'
 
