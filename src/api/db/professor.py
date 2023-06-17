@@ -17,33 +17,27 @@ class Professor:
         self.db_conn = db_conn
         self.cache = cache
 
-    def add_professor(self, first_name, last_name, email, phone, dep, office, 
-        classes, office_time, rcs):
-            if email is not None:
-                print(email)
-                return self.db_conn.execute("""
-            INSERT INTO 
-                professor (first_name, last_name, email, phone_number, 
-                department, office_room, classes, office_hours_time, rcs)
-            VALUES 
-                   (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
-                   %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s)
-            ON CONFLICT DO NOTHING
-            ;
-        """, {
-                "First_name": first_name,
-                "Last_name": last_name,
-                "Email": email, 
-                "Phone_number": phone,
-                "Dep": dep, 
-                "Office_room": office, 
-                "Classes": classes,
-                "Office_time": office_time,
-                "Rcs_id": rcs
-            }
-        , False)
-            else:
-                return (False, "email cant be none")
+    def add_professor(self, name, title, email, phone, dep, portfolio, profile_page):
+        if email is not None:
+            return self.db_conn.execute("""
+                INSERT INTO professor (name, title, email, phone_number, department,
+                                    portfolio_page, profile_page)
+                VALUES (%(name)s, %(title)s, %(email)s, %(phone_number)s, %(department)s,
+                        %(portfolio_page)s, %(profile_page)s)
+                ON CONFLICT DO NOTHING;
+            """, {
+                "name": name,
+                "title": title,
+                "email": email,
+                "phone_number": phone,
+                "department": dep,
+                "portfolio_page": portfolio,
+                "profile_page": profile_page,
+            })
+        else:
+            return False, "Email cannot be None."
+
+
 
     def add_bulk_professor(self):
         # Load the JSON data from a file
@@ -84,18 +78,20 @@ class Professor:
                         transaction.execute(
                             """
                             INSERT INTO professor (
-                                name,
-                                title,
-                                email,
-                                department,
-                                portfolio_page
+                                "Name",
+                                "Title",
+                                "Email",
+                                "Department",
+                                "Portfolio_page",
+                                "Profile_page"
                             )
                             VALUES (
                                 NULLIF(%(Name)s, ''),
                                 NULLIF(%(Title)s, ''),
                                 %(Email)s,
                                 NULLIF(%(Department)s, ''),
-                                NULLIF(%(Portfolio_page)s, '')
+                                NULLIF(%(Portfolio_page)s, ''),
+                                NULLIF(%(Profile_page)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -104,21 +100,21 @@ class Professor:
                                 "Title": entry['Title'],
                                 "Email": entry['Email'],
                                 "Department": entry['Department'],
-                                "Portfolio_page": entry['Portfolio']
+                                "Portfolio_page": entry['Portfolio'],
+                                "Profile_page": entry['Profile Page']
                             }
                         )
                     except Exception as e:
                         print(e)
                         conn.rollback()
                         return (False, e)
-            #except statement
             except ValueError as ve:
                 return (False, "Invalid JSON data: {}".format(ve))
 
-        conn.commit()
-        # Invalidate cache so we can get new classes
-        self.clear_cache()
-        return (True, None)
+            conn.commit()
+            # Invalidate cache so we can get new classes
+            self.clear_cache()
+            return (True, None)
 
     #removes professor if it exists
     def remove_professor(self, email):

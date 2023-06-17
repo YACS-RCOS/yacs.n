@@ -180,35 +180,48 @@ async def uploadHandler(
         print(error)
         return Response(error.__str__(), status_code=500)
 
-#Parses the data from the .json data files
 @app.post('/api/bulkProfessorUpload')
-async def uploadJson(
+async def uploadJSON(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):  
-    #check to make sure user has sent a file
-    print("in process ")
+    # Check to make sure the user has sent a file
+    print("in process")
     if not file:
         return Response("No file received", 400)
-    #check that we receive json file
+    
+    # Check that we receive a JSON file
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
         return Response("File must have JSON extension", 400)
-    #get file
+    
+    # Get file contents
     contents = await file.read()
-    json_data = json.loads(contents)
+    
+    # Load JSON data
+    json_data = json.loads(contents.decode('utf-8'))
     print(json_data)
 
-    # # update semester infos based on isPubliclyVisible, hiding semester if needed
-    # # professors = pd.read_json(json_data)
+    # Update semester infos based on isPubliclyVisible, hiding semester if needed
+    # professors = pd.read_json(json_data)
+    
     # Populate DB from JSON
-    #insert bulk_delete
     professor_info.bulk_delete(json_data)
+    
+    print("TESTING")
+    print("START DUMPING")
+    # Convert json_data to JSON string
     json_data_string = json.dumps(json_data)
+    print("this is json_data_string", json_data_string)
+    # Call populate_from_json method
     isSuccess, error = professor_info.populate_from_json(json_data_string)
-    if (isSuccess):
+    print("SUCCESS DOES IT WORK?:",isSuccess, )
+    if isSuccess:
+        print("SUCCESS")
         return Response(status_code=200)
     else:
+        print("NOT WORKING")
         print(error)
         return Response(error.__str__(), status_code=500)
+
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
@@ -387,21 +400,21 @@ async def remove_professor(email:str):
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
 
-#Parses the data from the .csv data files
-@app.post('/api/bulkProfUpload')
-async def uploadHandler(file: UploadFile = File(...)):
-    # check for user files
-    if not file:
-        return Response("No file received", 400)
-    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
-        return Response("File must have csv extension", 400)
-    # get file
-    contents = await file.read()
-    csv_file = StringIO(contents.decode())
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    # Populate DB from CSV
-    if (isSuccess):
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+# #Parses the data from the .csv data files
+# @app.post('/api/bulkProfUpload')
+# async def uploadHandler(file: UploadFile = File(...)):
+#     # check for user files
+#     if not file:
+#         return Response("No file received", 400)
+#     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
+#         return Response("File must have csv extension", 400)
+#     # get file
+#     contents = await file.read()
+#     csv_file = StringIO(contents.decode())
+#     isSuccess, error = courses.populate_from_csv(csv_file)
+#     # Populate DB from CSV
+#     if (isSuccess):
+#         return Response(status_code=200)
+#     else:
+#         print(error)
+#         return Response(error.__str__(), status_code=500)

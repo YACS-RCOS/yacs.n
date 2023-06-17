@@ -83,7 +83,7 @@ export default {
               );
             });
         } else {
-          this.$bvToast.toast(`Must upload a CSV file`, {
+          this.$bvToast.toast(`Must upload a JSON file`, {
             title: "Validation Error",
             variant: "danger",
             noAutoHide: false,
