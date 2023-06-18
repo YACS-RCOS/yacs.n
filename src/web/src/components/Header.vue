@@ -54,6 +54,10 @@
           <font-awesome-icon icon="file-alt" />
           Finals
         </b-nav-item>
+        <b-nav-item :to="{ name: 'FAQs' }">
+          <font-awesome-icon icon="file-alt" />
+          FAQs
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
