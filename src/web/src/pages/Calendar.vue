@@ -318,7 +318,7 @@ $hourFontSize: 0.5em;
   margin: 0 auto;
   margin-bottom: 3px;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 0.8vw;
   font-variant: small-caps;
 }
 
