@@ -22,7 +22,7 @@
               Search
             </b-button>
           </b-form>
-          <b-card v-if="examDetails" class="mt-3">
+          <b-card v-if="examDetails" class="mt-3 border-0">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
               <div>
