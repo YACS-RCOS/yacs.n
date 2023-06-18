@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-row class="justify-content-md-center">
       <b-col md="5">
-        <b-card title="Final Exam Schedule">
+        <b-card title="Final Exam Schedule" class="card border-0">
           <b-form @submit.prevent="searchExams">
             <div
               v-for="(course, index) in selectedCourses"
