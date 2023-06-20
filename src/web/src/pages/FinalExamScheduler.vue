@@ -16,6 +16,8 @@
                     :options="courseOptions"
                 ></b-form-select>
 
+<!--                <b-button variant="danger" class="ml-3">Delete</b-button>   class="flex-grow-1"-->
+
               </b-form-group>
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
@@ -35,8 +37,8 @@
 
                   <b-form-group>
                     <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
-                      <b-form-checkbox v-if="course!=null" type="radio" :value="course">
-                        {{selectedCourses[index].CourseCode + " - " + selectedCourses[index].Section}}
+                      <b-form-checkbox v-if="index!==0" type="radio" :value="course || index">
+                        {{(course ? (course.CourseCode + " - " + course.Section) : 'No Course Selected') }}
                       </b-form-checkbox>
                     </b-form-checkbox-group>
                   </b-form-group>
