@@ -126,19 +126,6 @@
                   <!-- This is where the two courses that are conflicting should be displayed.
                         If scheduleDisplayMessage === 3, then pop up message should show up 
                         right away with the two conflicting courses. -->
-                        
-                  <!--<div class="popup" @click="closePopup">
-                    <div class="popup-content">
-                      <h2>
-                        Conflicting courses
-                      </h2>
-                      <p>
-                        The two courses course 1 and conflict with each other. 
-                      </p>
-                    </div>
-                  </div> -->
-                
-
                   
                 </span>
                 <span v-else>
@@ -647,12 +634,6 @@ export default {
         .updateIndex(this.index)
         .save();
     },
-    // mounted() {
-    //   // Automatically show pop up after delay when there's a conflict
-    //   setTimeOut(() => {
-    //     this.showPopup = true;
-    //   }, 3000);
-    // },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
