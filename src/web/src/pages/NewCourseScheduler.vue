@@ -126,16 +126,18 @@
                   <!-- This is where the two courses that are conflicting should be displayed.
                         If scheduleDisplayMessage === 3, then pop up message should show up 
                         right away with the two conflicting courses. -->
-                  <div class="popup" @click="closePopup">
+                        
+                  <!--<div class="popup" @click="closePopup">
                     <div class="popup-content">
                       <h2>
                         Conflicting courses
                       </h2>
                       <p>
-                        The two courses <!-- course 1 and 2 --> conflict with each other. 
+                        The two courses course 1 and conflict with each other. 
                       </p>
                     </div>
-                  </div>
+                  </div> -->
+                
 
                   
                 </span>
@@ -293,7 +295,6 @@ import {
 } from "@/utils";
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import Admin from './Admin.vue';
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
@@ -316,8 +317,7 @@ export default {
     Schedule: ScheduleComponent,
     SelectedCourses: SelectedCoursesComponent,
     CourseList: CourseListComponent,
-    CenterSpinner: CenterSpinnerComponent
-    Admin,
+    CenterSpinner: CenterSpinnerComponent,
   },
   data() {
     return {
@@ -647,12 +647,12 @@ export default {
         .updateIndex(this.index)
         .save();
     },
-    mounted() {
-      // Automatically show pop up after delay when there's a conflict
-      setTimeOut(() => {
-        this.showPopup = true;
-      }, 3000);
-    },
+    // mounted() {
+    //   // Automatically show pop up after delay when there's a conflict
+    //   setTimeOut(() => {
+    //     this.showPopup = true;
+    //   }, 3000);
+    // },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
