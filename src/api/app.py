@@ -11,6 +11,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.professor as All_professors
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -20,6 +21,7 @@ import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
 from io import StringIO
+from sqlalchemy.orm import Session
 import json
 import os
 import pandas as pd
@@ -45,6 +47,7 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
+professor_info =  All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -216,7 +219,6 @@ async def get_user_info(request: Request, session_id):
 
     return user_controller.get_user_info(session_id)
 
-
 @app.post('/api/user')
 async def add_user(user: UserPydantic):
     return user_controller.add_user(user.dict())
@@ -235,7 +237,6 @@ async def update_user_info(request:Request, user:updateUser):
         return Response("Not authorized", status_code=403)
 
     return user_controller.update_user(user)
-
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
@@ -274,3 +275,102 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
         return Response("Not authorized", status_code=403)
     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
+
+@app.get('/api/professor/name/{email}')
+async def get_professor_name_by_email(email: str):
+    # searches professor's first and last name by email
+    professorName, error = professor_info.get_professor_name_by_email(email)
+    # Return the data as a JSON response
+    return professorName if not error else Response(content=error, status_code=500)
+
+@app.get('/api/professor/department/{department}')
+async def get_professor_from_department(department: str):
+    professors, error = professor_info.get_professors_by_department(department)
+    return professors if not error else Response(content=error, status_code=500)
+
+@app.get('/api/professor')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def get_all_professors():
+    """
+    GET /api/professor
+    Cached: 24 Hours
+    """
+    professors, error = professor_info.get_all_professors()  # replace professor_info with db_manager
+    db_list = [dict(prof) for prof in professors] if professors else []
+    return db_list if not error else Response(error, status_code = 500)
+
+@app.get('/api/professor/office_hours/{email}')
+async def get_office_hours(email: str):
+    professor_office_hours, error = professor_info.get_office_hours_by_email(email)    
+    return professor_office_hours if not error else Response(content=error, status_code=500)
+
+@app.get('/api/professor/phone_number/{email}')
+async def get_professor_phone_number_by_email(email: str):
+    phone_number, error = professor_info.get_professor_phone_number_by_email(email)
+    return phone_number if not error else Response(content=error, status_code=500)
+
+@app.get('/api/professor/rcs/{rcs}')
+async def get_professor_info_by_rcs(rcs:str):
+    professor_rcs, error = professor_info.get_professor_info_by_rcs(rcs)
+    return professor_rcs if not error else Response(content=error,status_code=500)
+
+@app.get('/api/professor/email/{email}')
+async def get_professor_info_by_email(email:str):
+    professor_email, error = professor_info.get_professor_info_by_email(email)
+    return professor_email if not error else Response(content=error, status_code=500)
+
+#@app.delete('/api/user/course')
+# async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+#     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+#     return Response(status_code=200) if not error else Response(error, status_code=500)
+
+@app.post('/api/professor/add/{msg}')
+async def add_professor(msg:str):
+    info = msg.split(",")
+    #msg should be name, title , email ,phone number, dep, portfolio page, rcs
+    # rcs = info[2].split("@")
+    # id = rcs[0]
+    # print("name", info[0])
+    # print("title", info[1])
+    # print("email", info[2])
+    # print("phone", info[3])
+    # print("dep", info[4])
+    # print("portfolio_page", info[5])
+    # print("rcs", id)
+    
+    professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
+    info[5], info[6], info[7], info[8])
+    return professor if not error else Response(error, status_code=500)
+
+@app.post('/api/professor/add/test')
+async def add_test_professor():
+    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI", 
+        "lally 300", "52995")
+    return professor if not error else Response(content = error, status_code = 500)
+
+@app.delete('/api/professor/remove/{email}')
+async def remove_professor(email:str):
+    print(email)
+    professor, error = professor_info.remove_professor(email)
+    return professor if not error else Response(str(error), status_code=500)
+
+#Parses the data from the .csv data files
+@app.post('/api/bulkProfUpload')
+async def uploadHandler(file: UploadFile = File(...)):
+    # check for user files
+    if not file:
+        return Response("No file received", 400)
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
+        return Response("File must have csv extension", 400)
+    # get file
+    contents = await file.read()
+    csv_file = StringIO(contents.decode())
+    isSuccess, error = courses.populate_from_csv(csv_file)
+    # Populate DB from CSV
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)

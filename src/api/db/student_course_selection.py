@@ -17,7 +17,7 @@ class student_course_selection:
 		if cid is None:
 			sql = 	"""
 					DELETE FROM
-						student_course_selection
+						student_course_selection 
 					WHERE
 						user_id = %s AND
 						semester = %s AND

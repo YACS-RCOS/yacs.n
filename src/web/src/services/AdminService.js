@@ -18,3 +18,12 @@ export const getAllSemesterInfo = () =>
 
 export const getDefaultSemester = () =>
   client.get("/defaultsemester").then((res) => res.data);
+
+export const remove_professor = (email) =>
+  client.delete("/professor/remove/" + email).then((res) => res.data);
+
+export const addProfessors = (msg) =>
+  client.post("/professor/add/" + msg).then((res) => res.data);
+
+export const addProfessorsTest = () =>
+  client.post("/professor/add/test").then((res) => res.data);
