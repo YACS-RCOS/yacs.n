@@ -31,7 +31,7 @@
       <b-row>
         <b-col class="mb-4">
           <br />
-          <button @click="openSyllabus">syllabus</button>
+          <button @click="openSyllabus">Syllabus</button>
         </b-col>
       </b-row>
 
