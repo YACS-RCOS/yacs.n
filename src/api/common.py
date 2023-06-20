@@ -1,6 +1,5 @@
 import hashlib
 import bcrypt
-import os
 
 # def assert_keys_in_form_exist(form, keys):
 #     """
@@ -20,7 +19,6 @@ import os
 #             return False
 
 #     return True
-
 
 # def encrypt(str):
 #     """
