@@ -1,38 +1,44 @@
 <template>
-  <b-row
-  align-v="center"
-  align-h="around"
-  >
-    <b-dropdown text="Color Mode" size = "lg" style="padding-right: 5px;">
-      <b-dropdown-item
-        :class="this.darkMode === false ? 'drop-down-item' : ''"
-        @click="toggle_style(false)"
+  <div>
+      <b-dropdown 
+        text="Color Mode" 
+        block 
+        size = "lg" 
+        menu-class="w-100"
+        class="m-2"
+        style="padding-right: 5px;"
       >
-        Light Mode
-      </b-dropdown-item>
-      <b-dropdown-item
-        :class="this.darkMode === true ? 'drop-down-item' : ''"
-        @click="toggle_style(true)"
-      >
-        Dark Mode
-      </b-dropdown-item>
-      <b-dropdown-item
-        :class="this.darkMode === null ? 'drop-down-item' : ''"
-        @click="toggle_device"
-      >
-        Follow Device Theme
-      </b-dropdown-item>
-    </b-dropdown>
+        <b-dropdown-item
+          :class="this.darkMode === false ? 'drop-down-item' : ''"
+          @click="toggle_style(false)"
+        >
+          Light Mode
+        </b-dropdown-item>
+        <b-dropdown-item
+          :class="this.darkMode === true ? 'drop-down-item' : ''"
+          @click="toggle_style(true)"
+        >
+          Dark Mode
+        </b-dropdown-item>
+        <b-dropdown-item
+          :class="this.darkMode === null ? 'drop-down-item' : ''"
+          @click="toggle_device"
+        >
+          Follow Device Theme
+        </b-dropdown-item>
+      </b-dropdown>
 
-    <b-form-checkbox
-      :checked="$store.state.colorBlindAssist"
-      @change="toggleColors()"
-      switch
-    >
-      Color Blind Assistance
-    </b-form-checkbox>
 
-  </b-row>
+      <b-form-checkbox
+        :checked="$store.state.colorBlindAssist"
+        @change="toggleColors()"
+        switch
+        class="m-2"
+        size="lg"
+      >
+        Color Blind Assistance
+      </b-form-checkbox>
+    </div>
 
 </template>
 

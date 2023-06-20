@@ -114,9 +114,6 @@
 import {
   SELECT_SEMESTER,
   COOKIE_DARK_MODE,
-  TOGGLE_DARK_MODE,
-  SAVE_DARK_MODE,
-  RESET_DARK_MODE,
 } from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
 import LoginComponent from "@/components/Login";
