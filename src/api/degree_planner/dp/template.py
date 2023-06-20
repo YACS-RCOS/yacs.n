@@ -13,6 +13,8 @@ class Template():
     courses we filter from.
     '''
 
+    specification_sets = dict() # a dictionary of 'set name' : 'specification'
+
     def __init__(self, name, specifications=None, replacement=False, courses_required=1):
         if specifications == None:
             specifications = list()
@@ -208,13 +210,27 @@ class template_parsing():
 
     @staticmethod
     def single_attribute_evaluation(attr:str, course:Course):
+        if isinstance(attr, bool):
+            return attr
         attr = attr.strip()
         if attr == '':
             return True, {}
-        if attr in ('True', True):
+        if attr in ('True', 'true'):
             return True, {}
-        if attr in ('False', False):
+        if attr in ('False', 'false'):
             return False, {}
+
+        if len(attr) and attr[0] == '$':
+            ''' 
+            this signifies evaluate the attribute of the template with the name after $[attr] inside
+            'specification sets' degree in the degrees.json
+            '''
+            if Template.specification_sets.get(attr[1:]) is None:
+                return False
+            
+            true_given_for_wildcards = {}
+            truth = template_parsing.parse_attribute(attr[1:], course, true_given_for_wildcards)
+            return template_parsing.single_attribute_evaluation(truth, course), true_given_for_wildcards
 
         if len(attr) and attr[-1] == '+':
             matches = course.get_attributes_ge(attr[:-1])
@@ -269,6 +285,9 @@ class template_parsing():
         if '|' in input_text:
             and_loc = input_text.find('|')
             return template_parsing.parse_attribute(input_text[: and_loc], course, true_given_for_wildcards) or template_parsing.parse_attribute(input_text[and_loc + 1:], course, true_given_for_wildcards)
+
+        if len(input_text) and input_text[0] == '~':
+            return not template_parsing.parse_attribute(input_text[1:], course, true_given_for_wildcards)
 
         truth, true_given_entries = template_parsing.single_attribute_evaluation(input_text, course)
         if len(true_given_entries):

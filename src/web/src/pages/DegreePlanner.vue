@@ -145,14 +145,14 @@
   .text-block {
     border: 8px solid #43494f;
     border-radius: 16px;
-    padding: 15px;
+    padding: 10px;
     margin: 10px;
-    min-width:200px;
-    width: 50vw;
+    min-width:150px;
+    width: 30vw;
     max-width: 500px;
     min-height: 80px;
     align-items: center;
-    font-size: 1em;
+    font-size: 0.9em;
     background-color: #21242b;
   }
   .text-block h3 {
@@ -164,14 +164,14 @@
     font-size: 0.8em;
   }
   .fulfillment {
-    padding: 15px;
+    padding: 10px;
     margin: 2px;
     border-radius: 8px;
     color: #e3e8e4;
     background-color: #434f41;
   }
   .unfulfilled_fulfillment {
-    padding: 15px;
+    padding: 10px;
     margin: 2px;
     border-radius: 8px;
     color: #e3e8e4;
@@ -206,7 +206,7 @@
     border: none;
   }
   .recommendations {
-    padding: 15px;
+    padding: 10px;
     margin: 2px;
     border-radius: 8px;
     background-color: #393b40;

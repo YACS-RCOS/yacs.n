@@ -118,7 +118,7 @@ class Catalog():
         '''
         return list(self.__course_list.keys())
 
-    def get_degree(self, degree_name:str):
+    def get_degree(self, degree_name:str) -> Degree:
         '''
         gets degree by name
         '''

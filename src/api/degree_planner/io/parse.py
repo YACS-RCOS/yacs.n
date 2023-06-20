@@ -76,6 +76,7 @@ class parsing():
 
         for degree_name, degree_templates in degrees.items():
             # degrees
+
             if catalog.get_degree(degree_name) is not None:
                 catalog.remove_degree(degree_name)
                 io.print(f"replaced degree {degree_name} in catalog")
@@ -93,7 +94,7 @@ class parsing():
                     if property_name == 'replacement':
                         template.replacement = property_value
 
-                    if property_name == 'requires':
+                    elif property_name == 'requires':
                         template.courses_required = property_value
 
                     # attributes for template course
@@ -101,6 +102,15 @@ class parsing():
                         template.specifications.extend(property_value)
                 degree.add_template(template)
             catalog.add_degree(degree)
+
+        # parse specification sets
+        spec_sets = catalog.get_degree('specification sets')
+        if spec_sets is not None:
+            print('importing specification sets')
+            for template in spec_sets.templates:
+                print(f'added specification {template.name} with specifications {template.specifications[0]}')
+                Template.specification_sets.update({template.name:template.specifications[0]})
+            catalog.remove_degree('specification sets')
             
 
     '''
