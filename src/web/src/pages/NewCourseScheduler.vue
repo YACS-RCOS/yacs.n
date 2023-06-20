@@ -252,7 +252,7 @@ import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
 
 import { userTypes } from "../store/modules/user";
 
-import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+import { COURSES } from "@/store";
 
 import {
   addStudentCourse,
