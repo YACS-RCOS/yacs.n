@@ -142,8 +142,9 @@ class acalog_client():
 
     def _get_course_details(self, id_params):
         #CUT THIS URL IN HALF and try python 3
-        course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
+        # course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
 
+        # hardcode the link for now...
         course_details_xml_str = req.get("http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses&key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&catalog=21&ids[]=51879&ids[]=52948&ids[]=53210&ids[]=53223&ids[]=53225&ids[]=53240&ids[]=53241&ids[]=53211&ids[]=53214&ids[]=53242&ids[]=53243&ids[]=53244&ids[]=53245&ids[]=53246&ids[]=51880&ids[]=51881&ids[]=51882&ids[]=51883&ids[]=51884&ids[]=51885&ids[]=51886&ids[]=51887").content.decode("utf8")
 
         #ERROR: ACCESSING THIS LINK RESULTS IN 403 FORBIDDEN ERROR 
