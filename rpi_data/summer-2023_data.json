@@ -1,46 +1,61 @@
 {
+    "ADMN1030": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
     "ADMN1824": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ADMN6600": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ADMN6800": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ADMN6960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS2560": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS2750": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ASTR2960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BCBP4760": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  CHEM 2250 Minimum Grade of D and Undergraduate level  BIOL 1010 Minimum Grade of D) or (Undergraduate level  BIOL 2120 Minimum Grade of D)",
         "prerequisites": [
             "CHEM-2250",
             "BIOL-1010",
@@ -50,26 +65,37 @@
     },
     "BCBP6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BCBP9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL1960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL2960": {
         "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL2961": {
+        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL4200": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  BIOL 1010 Minimum Grade of D and Undergraduate level  MATH 1010 Minimum Grade of D) or  Prerequisite Override 100",
         "prerequisites": [
             "BIOL-1010",
             "MATH-1010"
@@ -78,40 +104,49 @@
     },
     "BIOL4720": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  BIOL 2120 Minimum Grade of D and Undergraduate level  BIOL 2125 Minimum Grade of D and Undergraduate level  BIOL 4620 Minimum Grade of D)",
         "prerequisites": [
             "BIOL-2120",
+            "BIOL-2125",
             "BIOL-4620"
         ],
         "corequisites": null
     },
     "BIOL4740": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  BIOL 2120 Minimum Grade of D and Undergraduate level  BIOL 2125 Minimum Grade of D and Undergraduate level  BIOL 2500 Minimum Grade of D",
         "prerequisites": [
             "BIOL-2120",
+            "BIOL-2125",
             "BIOL-2500"
         ],
         "corequisites": null
     },
     "BIOL4760": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D and (Undergraduate level  BIOL 1010 Minimum Grade of D or Undergraduate level  BIOL 2120 Minimum Grade of D)",
         "prerequisites": [
             "CHEM-2250",
-            "BIOL-1010"
+            "BIOL-1010",
+            "BIOL-2120"
         ],
         "corequisites": null
     },
     "BIOL6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BMED2050": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
         "prerequisites": [
             "ENGR-1100"
         ],
@@ -119,11 +154,13 @@
     },
     "BMED2100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BMED2300": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  PHYS 1200 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "PHYS-1200"
         ],
@@ -131,6 +168,7 @@
     },
     "BMED2540": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
         "prerequisites": [
             "ENGR-1100"
         ],
@@ -138,6 +176,7 @@
     },
     "BMED4010": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  BMED 2100 Minimum Grade of D and Undergraduate level  BMED 2300 Minimum Grade of D and Undergraduate level  BMED 2540 Minimum Grade of D",
         "prerequisites": [
             "BMED-2100",
             "BMED-2300",
@@ -147,6 +186,7 @@
     },
     "BMED4200": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and Undergraduate level  BMED 2050 Minimum Grade of D",
         "prerequisites": [
             "MATH-2010",
             "PHYS-1200",
@@ -157,6 +197,7 @@
     },
     "BMED4250": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D and Undergraduate level  PHYS 1100 Minimum Grade of D and Undergraduate level  MATH 2400 Minimum Grade of D)",
         "prerequisites": [
             "ENGR-1100",
             "PHYS-1100",
@@ -166,11 +207,13 @@
     },
     "CHEM2930": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHEM4010": {
         "description": "",
+        "raw_precoreqs": "CHEM 2030 or  Prerequisite Override 100 or  Prerequisite Override 100",
         "prerequisites": [
             "CHEM-2030"
         ],
@@ -178,6 +221,7 @@
     },
     "CHEM4410": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D",
         "prerequisites": [
             "MATH-2400"
         ],
@@ -185,14 +229,17 @@
     },
     "CHEM4440": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  CHEM 1200 Minimum Grade of D or Undergraduate level  CHEM 1220 Minimum Grade of D) and Undergraduate level  MATH 1010 Minimum Grade of D",
         "prerequisites": [
             "CHEM-1200",
+            "CHEM-1220",
             "MATH-1010"
         ],
         "corequisites": null
     },
     "CHEM4530": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D",
         "prerequisites": [
             "CHEM-2250"
         ],
@@ -200,6 +247,7 @@
     },
     "CHEM4760": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D and (Undergraduate level  BIOL 1010 Minimum Grade of D or Undergraduate level  BIOL 2120 Minimum Grade of D)",
         "prerequisites": [
             "CHEM-2250",
             "BIOL-1010",
@@ -209,6 +257,7 @@
     },
     "CHME2050": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400",
         "prerequisites": [
             "MATH-2400"
         ],
@@ -216,6 +265,7 @@
     },
     "CHME2100": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHME 2020 Minimum Grade of D",
         "prerequisites": [
             "CHME-2020"
         ],
@@ -223,6 +273,7 @@
     },
     "CHME4020": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and Undergraduate level  CHME 4010 Minimum Grade of D",
         "prerequisites": [
             "MATH-2400",
             "CHME-4010"
@@ -231,78 +282,82 @@
     },
     "CHME4963": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHME4965": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHME4966": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHME6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHME9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CIVL6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CIVL9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COGS4360": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  PSYC 1200 Minimum Grade of D or Undergraduate level  COGS 2120 Minimum Grade of D)",
         "prerequisites": [
             "PSYC-1200",
-            "PHIL-2120",
-            "PSYC-2120",
             "COGS-2120"
         ],
         "corequisites": null
     },
     "COGS4600": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  COGS 4330 Minimum Grade of D or Undergraduate level  PSYC 4330 Minimum Grade of D) or (Undergraduate level  COGS 4360 Minimum Grade of D or Undergraduate level  PSYC 4360 Minimum Grade of D) or Undergraduate level  PSYC 4370 Minimum Grade of D",
         "prerequisites": [
-            "PSYC-1200",
             "COGS-4330",
             "PSYC-4330",
-            "PHIL-2120",
-            "PSYC-2120",
-            "COGS-2120"
+            "COGS-4360",
+            "PSYC-4360",
+            "PSYC-4370"
         ],
         "corequisites": null
     },
     "COGS4960": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM4961": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI1100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI2600": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  CSCI 1200 Minimum Grade of D and Undergraduate level  CSCI 2200 Minimum Grade of D)",
         "prerequisites": [
             "CSCI-1200",
             "CSCI-2200"
@@ -311,11 +366,13 @@
     },
     "CSCI2960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI4210": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D and (Undergraduate level  CSCI 2500 Minimum Grade of D or Undergraduate level  ECSE 2660 Minimum Grade of D)",
         "prerequisites": [
             "CSCI-2300",
             "CSCI-2500",
@@ -325,6 +382,7 @@
     },
     "CSCI4380": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D",
         "prerequisites": [
             "CSCI-2300"
         ],
@@ -332,6 +390,7 @@
     },
     "CSCI4440": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D",
         "prerequisites": [
             "CSCI-2300"
         ],
@@ -339,6 +398,7 @@
     },
     "CSCI4800": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D and Undergraduate level  MATH 2012 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2400",
             "MATH-2010",
@@ -349,25 +409,28 @@
     },
     "CSCI6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CSCI9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECON2010": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  INQR 1200 Minimum Grade of D) and (Undergraduate level  MATH 1010 Minimum Grade of D or Undergraduate level  MATH 1500 Minimum Grade of D)",
         "prerequisites": [
             "ECON-1200",
-            "IHSS-1200",
-            "IHSS-1975",
+            "INQR-1200",
             "MATH-1010",
             "MATH-1500"
         ],
@@ -375,14 +438,16 @@
     },
     "ECON4130": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  INQR 1200 Minimum Grade of D",
         "prerequisites": [
             "ECON-1200",
-            "IHSS-1200"
+            "INQR-1200"
         ],
         "corequisites": null
     },
     "ECSE2010": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "MATH-2400"
         ],
@@ -390,6 +455,7 @@
     },
     "ECSE2110": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ECSE 2010 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
         "prerequisites": [
             "ECSE-2010",
             "PHYS-1200",
@@ -399,6 +465,7 @@
     },
     "ECSE2410": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ECSE 2010 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "ECSE-2010"
         ],
@@ -406,6 +473,7 @@
     },
     "ECSE2500": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D",
         "prerequisites": [
             "MATH-2400"
         ],
@@ -413,6 +481,7 @@
     },
     "ECSE2660": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ECSE 2610 Minimum Grade of D",
         "prerequisites": [
             "ECSE-2610"
         ],
@@ -420,26 +489,31 @@
     },
     "ECSE2960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECSE6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECSE6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECSE9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENGR2050": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  CIVL 1200 Minimum Grade of D or Undergraduate level  ENGR 1200 Minimum Grade of D or Undergraduate level  ENGR 1400 Minimum Grade of D) and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
         "prerequisites": [
             "ENGR-1100",
             "ECSE-1010",
@@ -453,6 +527,7 @@
     },
     "ENGR2090": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  PHYS 1100 Minimum Grade of D or Undergraduate level  PHYS 1150 Minimum Grade of D) and Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2400 Minimum Grade of D)",
         "prerequisites": [
             "ENGR-1100",
             "ECSE-1010",
@@ -465,6 +540,7 @@
     },
     "ENGR2300": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and Undergraduate level  MATH 1020 Minimum Grade of D",
         "prerequisites": [
             "PHYS-1200",
             "PHYS-1250",
@@ -474,6 +550,7 @@
     },
     "ENGR2530": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
         "prerequisites": [
             "ENGR-1100"
         ],
@@ -481,6 +558,7 @@
     },
     "ENGR2600": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 1010 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "MATH-1010"
         ],
@@ -488,11 +566,13 @@
     },
     "ENGR4760": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENVE4370": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CIVL 2060 Minimum Grade of D",
         "prerequisites": [
             "CIVL-2060"
         ],
@@ -500,63 +580,82 @@
     },
     "ENVE9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ERTH1010": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "GSAS1040": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "GSAS2560": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "GSAS2961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "GSAS4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "GSAS4961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "IHSS4960": {
         "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ILEA4400": {
+        "description": "Return to Previous",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISCI9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISYE4140": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 2600 Minimum Grade of D or Undergraduate level  MATP 4600 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
-            "ENGR-2600"
+            "ENGR-2600",
+            "MATP-4600"
         ],
         "corequisites": null
     },
     "ISYE4240": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISYE4600": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 2600 Minimum Grade of D and Undergraduate level  MATH 1020 Minimum Grade of D",
         "prerequisites": [
             "ENGR-2600",
             "MATH-1020"
@@ -565,31 +664,37 @@
     },
     "ISYE6610": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISYE6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISYE6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ISYE9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "LGHT6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MANE2220": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and (Undergraduate level  ENGR 1200 Minimum Grade of D or Undergraduate level  ENGR 1400 Minimum Grade of D or Undergraduate level  CIVL 1200 Minimum Grade of D)",
         "prerequisites": [
             "ENGR-1100",
             "ECSE-1010",
@@ -603,6 +708,7 @@
     },
     "MANE2720": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D and (Undergraduate level  PHYS 1100 Minimum Grade of D or Undergraduate level  PHYS 1150 Minimum Grade of D) and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D) and Undergraduate level  MATH 2400 Minimum Grade of D",
         "prerequisites": [
             "ENGR-1100",
             "PHYS-1100",
@@ -615,6 +721,7 @@
     },
     "MANE4030": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  ENGR 2530 Minimum Grade of D or Undergraduate level  BMED 2540 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2400",
             "ENGR-2530",
@@ -624,6 +731,7 @@
     },
     "MANE4060": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 2530 Minimum Grade of D",
         "prerequisites": [
             "ENGR-2530"
         ],
@@ -631,6 +739,7 @@
     },
     "MANE4070": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MANE 2720 Minimum Grade of D",
         "prerequisites": [
             "MANE-2720"
         ],
@@ -638,6 +747,7 @@
     },
     "MANE4240": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  ENGR 2530 Minimum Grade of D or Undergraduate level  BMED 2540 Minimum Grade of D)",
         "prerequisites": [
             "ENGR-2530",
             "BMED-2540"
@@ -646,6 +756,7 @@
     },
     "MANE4500": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2400",
             "PHYS-1200",
@@ -655,6 +766,7 @@
     },
     "MANE4730": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MANE 2710 Minimum Grade of D",
         "prerequisites": [
             "MANE-2710"
         ],
@@ -662,21 +774,25 @@
     },
     "MANE4880": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MANE6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MANE6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MATH4090": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D",
         "prerequisites": [
             "MATH-2010"
         ],
@@ -684,6 +800,7 @@
     },
     "MATH4100": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D",
         "prerequisites": [
             "MATH-2010",
             "MATH-2012"
@@ -692,11 +809,13 @@
     },
     "MATH4300": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MATH4600": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2010",
             "MATH-2011",
@@ -706,6 +825,7 @@
     },
     "MATH4800": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2400",
             "MATH-2010",
@@ -716,16 +836,19 @@
     },
     "MATH6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MGMT1100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MGMT2320": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MGMT 2300 Minimum Grade of D",
         "prerequisites": [
             "MGMT-2300"
         ],
@@ -733,11 +856,13 @@
     },
     "MGMT4140": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MGMT4850": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MGMT 1100 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "MGMT-1100"
         ],
@@ -745,41 +870,46 @@
     },
     "MGMT9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MTLE2500": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MTLE4250": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ENGR 1600 Minimum Grade of D and Undergraduate level  MTLE 2100 Minimum Grade of D",
         "prerequisites": [
             "ENGR-1600",
             "MTLE-2100"
         ],
-        "corequisites": [
-            "MTLE-2500"
-        ]
+        "corequisites": null
     },
     "MTLE6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MTLE6990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MTLE9990": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHYS2350": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  PHYS 2210 Minimum Grade of D",
         "prerequisites": [
             "PHYS-2210"
         ],
@@ -787,16 +917,19 @@
     },
     "PHYS2962": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHYS4962": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PSYC4360": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  PSYC 1200 Minimum Grade of D or Undergraduate level  COGS 2120 Minimum Grade of D",
         "prerequisites": [
             "PSYC-1200",
             "COGS-2120"
@@ -805,6 +938,7 @@
     },
     "PSYC4600": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  COGS 4330 Minimum Grade of D or Undergraduate level  PSYC 4330 Minimum Grade of D) or (Undergraduate level  PSYC 4360 Minimum Grade of D or Undergraduate level  COGS 4360 Minimum Grade of D) or Undergraduate level  PSYC 4370 Minimum Grade of D",
         "prerequisites": [
             "COGS-4330",
             "PSYC-4330",
@@ -816,61 +950,61 @@
     },
     "PSYC4961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PSYC4962": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "STSO4600": {
         "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4961": {
+        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "WRIT1110": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "WRIT4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS2180": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS2700": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS2960": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ARTS2961": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS2962": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "ARTS4560": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL1010": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  BIOL 1015 Minimum Grade of D or Undergraduate level  BIOL 1016 Minimum Grade of D",
         "prerequisites": [
             "BIOL-1015",
             "BIOL-1016"
@@ -879,6 +1013,7 @@
     },
     "BIOL1015": {
         "description": "",
+        "raw_precoreqs": "BIOL 1010",
         "prerequisites": null,
         "corequisites": [
             "BIOL-1010"
@@ -886,6 +1021,7 @@
     },
     "BIOL4320": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  BIOL 2500 Minimum Grade of D",
         "prerequisites": [
             "BIOL-2500"
         ],
@@ -893,11 +1029,13 @@
     },
     "CHEM1100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "CHEM2230": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D",
         "prerequisites": [
             "CHEM-2250"
         ],
@@ -905,65 +1043,64 @@
     },
     "CHEM2250": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 1100 Minimum Grade of D or Undergraduate level  CHEM 1110 Minimum Grade of D or Undergraduate level  CHEM 1120 Minimum Grade of D",
         "prerequisites": [
             "CHEM-1100",
-            "CHEM-1110"
+            "CHEM-1110",
+            "CHEM-1120"
         ],
         "corequisites": null
     },
     "CHEM4961": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COGS4961": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM1960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM2520": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM2660": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "COMM2960": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM4880": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CSCI 1100 Minimum Grade of D",
         "prerequisites": [
-            "CSCI-1010",
-            "CSCI-1100",
-            "CSCI-1200"
+            "CSCI-1100"
         ],
         "corequisites": null
     },
     "COMM4963": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM6880": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECON2020": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  INQR 1200 Minimum Grade of D or Undergraduate level  ECON 1200 Minimum Grade of D) and (Undergraduate level  MATH 1010 Minimum Grade of D or Undergraduate level  MATH 1500 Minimum Grade of D)",
         "prerequisites": [
-            "IHSS-1200",
+            "INQR-1200",
+            "ECON-1200",
             "MATH-1010",
             "MATH-1500"
         ],
@@ -971,64 +1108,71 @@
     },
     "ECON4190": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  INQR 1200 Minimum Grade of D",
         "prerequisites": [
-            "ECON-1200"
+            "ECON-1200",
+            "INQR-1200"
         ],
         "corequisites": null
     },
     "ECON4230": {
         "description": "",
+        "raw_precoreqs": "Prerequisite Override 100 or Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  INQR 1200 Minimum Grade of D",
         "prerequisites": [
             "ECON-1200",
-            "IHSS-1200"
+            "INQR-1200"
         ],
         "corequisites": null
     },
     "ENGR1100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENGR1200": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENGR1600": {
         "description": "",
+        "raw_precoreqs": "(Undergraduate level  CHEM 1100 Minimum Grade of D or Undergraduate level  CHEM 1110 Minimum Grade of D or Undergraduate level  CHEM 1120 Minimum Grade of D)",
         "prerequisites": [
             "CHEM-1100",
-            "CHEM-1110"
+            "CHEM-1110",
+            "CHEM-1120"
         ],
         "corequisites": null
     },
     "ENGR4010": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENGR4960": {
         "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
-    "IHSS4961": {
-        "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "LANG1410": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "LANG4961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "MANE4080": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MANE 2710 Minimum Grade of D and Undergraduate level  MANE 2720 Minimum Grade of D",
         "prerequisites": [
             "MANE-2710",
             "MANE-2720"
@@ -1037,28 +1181,32 @@
     },
     "MANE4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHIL2140": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHIL4240": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHIL4500": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  STSO 2500 Minimum Grade of D or Undergraduate level  STSO 2510 Minimum Grade of D or Undergraduate level  STSO 2520 Minimum Grade of D or Undergraduate level  STSO 2700 Minimum Grade of D or Undergraduate level  INQR 1110 Minimum Grade of D or Undergraduate level  INQR 1150 Minimum Grade of D or Undergraduate level  PHIL 1110 Minimum Grade of D or Undergraduate level  PHIL 4240 Minimum Grade of D",
         "prerequisites": [
             "STSO-2500",
             "STSO-2510",
             "STSO-2520",
             "STSO-2700",
-            "IHSS-1110",
-            "IHSS-1150",
+            "INQR-1110",
+            "INQR-1150",
             "PHIL-1110",
             "PHIL-4240"
         ],
@@ -1066,31 +1214,37 @@
     },
     "PHYS1100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHYS2961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHYS6980": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PSYC2960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PSYC4430": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PSYC4730": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  PSYC 1200 Minimum Grade of D",
         "prerequisites": [
             "PSYC-1200"
         ],
@@ -1098,49 +1252,57 @@
     },
     "STSO2520": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "STSO4100": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "STSO4250": {
         "description": "",
-        "prerequisites": null,
+        "raw_precoreqs": "Undergraduate level  STSO 2500 Minimum Grade of D or Undergraduate level  STSO 2510 Minimum Grade of D or Undergraduate level  STSO 2520 Minimum Grade of D or Undergraduate level  INQR 1150 Minimum Grade of D or Undergraduate level  INQR 1160 Minimum Grade of D or Undergraduate level  PHIL 1110 Minimum Grade of D or Undergraduate level  PHIL 4240 Minimum Grade of D",
+        "prerequisites": [
+            "STSO-2500",
+            "STSO-2510",
+            "STSO-2520",
+            "INQR-1150",
+            "INQR-1160",
+            "PHIL-1110",
+            "PHIL-4240"
+        ],
         "corequisites": null
     },
     "STSO4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "WRIT2340": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "WRIT2960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "BIOL1961": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "CHEM1200": {
-        "description": "",
-        "prerequisites": [
-            "CHEM-1100",
-            "CHEM-1110"
-        ],
         "corequisites": null
     },
     "CHEM2240": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2230 Minimum Grade of D and Undergraduate level  CHEM 2260 Minimum Grade of D",
         "prerequisites": [
             "CHEM-2230",
             "CHEM-2260"
@@ -1149,6 +1311,7 @@
     },
     "CHEM2260": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D or  Prerequisite Override 100",
         "prerequisites": [
             "CHEM-2250"
         ],
@@ -1156,26 +1319,31 @@
     },
     "CHEM4962": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COGS2120": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM2440": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "COMM4535": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ECON4570": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D and (Undergraduate level  ENGR 2600 Minimum Grade of D or Undergraduate level  MGMT 2100 Minimum Grade of D or Undergraduate level  MATP 4600 Minimum Grade of D or Undergraduate level  PSYC 2310 Minimum Grade of D or Undergraduate level  BIOL 4200 Minimum Grade of D)",
         "prerequisites": [
             "MATH-2010",
             "ENGR-2600",
@@ -1186,56 +1354,55 @@
         ],
         "corequisites": null
     },
-    "ECON4960": {
-        "description": "",
-        "prerequisites": null,
-        "corequisites": null
-    },
     "ECSE6970": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ENGR1300": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "ERTH4190": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
-        "corequisites": null
-    },
-    "ISYE4310": {
-        "description": "",
-        "prerequisites": [
-            "ENGR-2600",
-            "CSCI-1010",
-            "CSCI-1100"
-        ],
         "corequisites": null
     },
     "LANG4960": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "LITR2110": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHIL4130": {
         "description": "",
+        "raw_precoreqs": "",
         "prerequisites": null,
         "corequisites": null
     },
     "PHYS1200": {
         "description": "",
+        "raw_precoreqs": "Undergraduate level  PHYS 1100 Minimum Grade of D and Undergraduate level  MATH 1020 Minimum Grade of D",
         "prerequisites": [
             "PHYS-1100",
             "MATH-1020"
         ],
+        "corequisites": null
+    },
+    "PHYS2963": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
         "corequisites": null
     }
 }
