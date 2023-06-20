@@ -35,7 +35,7 @@
 
                   <b-form-group>
                     <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
-                      <b-form-checkbox v-if="course!=null" type="radio" :value="course.CourseCode">
+                      <b-form-checkbox v-if="course!=null" type="radio" :value="course">
                         {{selectedCourses[index].CourseCode + " - " + selectedCourses[index].Section}}
                       </b-form-checkbox>
                     </b-form-checkbox-group>
@@ -228,12 +228,12 @@ export default {
     deleteCourses(){
         console.log("reached Delete FUNC");
         console.log("BEFORE");
-        console.log("DELETE ARR: ",this.selectToDelete);
-        console.log("COURSES ARR: ",this.selectedCourses);
+        console.log("DELETE ARR: ",this.selectToDelete.length);
+        console.log("COURSES ARR: ",this.selectedCourses.length);
         console.log("COURSE OP");
 
         for(let i = 0; i < this.selectToDelete.length; i++){
-          let index = this.selectToDelete.indexOf(this.selectToDelete[i]);
+          let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
           this.selectedCourses.splice(index, 1);
         }
 
@@ -242,7 +242,11 @@ export default {
         }
 
         if(this.selectedCourses.length===0){
-          this.selectedCourses = null;
+          this.selectedCourses[0] = null;
+          this.emptyCourses=false;
+        }
+        else if(this.selectedCourses.length===1){
+          this.emptyCourses=false;
         }
 
         console.log("AFTER");
