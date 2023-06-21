@@ -34,8 +34,6 @@
           <button @click="openSyllabus">Syllabus</button>
         </b-col>
       </b-row>
-
-
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
