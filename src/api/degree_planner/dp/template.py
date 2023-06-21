@@ -225,11 +225,12 @@ class template_parsing():
             this signifies evaluate the attribute of the template with the name after $[attr] inside
             'specification sets' degree in the degrees.json
             '''
-            if Template.specification_sets.get(attr[1:]) is None:
+            specification = Template.specification_sets.get(attr[1:], None)
+            if specification is None:
                 return False
             
             true_given_for_wildcards = {}
-            truth = template_parsing.parse_attribute(attr[1:], course, true_given_for_wildcards)
+            truth = template_parsing.parse_attribute(specification, course, true_given_for_wildcards)
             return template_parsing.single_attribute_evaluation(truth, course), true_given_for_wildcards
 
         if len(attr) and attr[-1] == '+':
