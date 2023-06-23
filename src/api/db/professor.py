@@ -37,8 +37,6 @@ class Professor:
         else:
             return False, "Email cannot be None."
 
-
-
     def add_bulk_professor(self):
         # Load the JSON data from a file
         with open('Professors.json') as file:
@@ -64,11 +62,15 @@ class Professor:
         return (True,None)
 
     def populate_from_json(self, json_data):
+        
         # Connect to the database
         conn = self.db_conn.get_connection()
 
-        # Read JSON data
-        data = json.loads(json_data)
+        with open(json_data, 'r') as file:
+            try:
+                data = json.load(file)
+            except json.JSONDecodeError as e:
+                return False, f"Invalid JSON file: {str(e)}"
 
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
@@ -78,20 +80,20 @@ class Professor:
                         transaction.execute(
                             """
                             INSERT INTO professor (
-                                "Name",
-                                "Title",
-                                "Email",
-                                "Department",
-                                "Portfolio_page",
-                                "Profile_page"
+                                name,
+                                title,
+                                email,
+                                department,
+                                portfolio_page,
+                                profile_page
                             )
                             VALUES (
                                 NULLIF(%(Name)s, ''),
                                 NULLIF(%(Title)s, ''),
                                 %(Email)s,
                                 NULLIF(%(Department)s, ''),
-                                NULLIF(%(Portfolio_page)s, ''),
-                                NULLIF(%(Profile_page)s, '')
+                                NULLIF(%(Portfolio)s, ''),
+                                NULLIF(%(Profile_Page)s, '')
                             )
                             ON CONFLICT DO NOTHING;
                             """,
@@ -100,8 +102,8 @@ class Professor:
                                 "Title": entry['Title'],
                                 "Email": entry['Email'],
                                 "Department": entry['Department'],
-                                "Portfolio_page": entry['Portfolio'],
-                                "Profile_page": entry['Profile Page']
+                                "Portfolio": entry['Portfolio'],
+                                "Profile_Page": entry['Profile Page']
                             }
                         )
                     except Exception as e:
@@ -110,11 +112,6 @@ class Professor:
                         return (False, e)
             except ValueError as ve:
                 return (False, "Invalid JSON data: {}".format(ve))
-
-            conn.commit()
-            # Invalidate cache so we can get new classes
-            self.clear_cache()
-            return (True, None)
 
     #removes professor if it exists
     def remove_professor(self, email):
