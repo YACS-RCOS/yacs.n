@@ -632,7 +632,6 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
-              console.log(schedule);
               const name = schedule.sections[0].department + '-' + schedule.sections[0].level;
               if(!(this.coursesConflicting).includes(popped.name)) this.coursesConflicting.push(popped.name);
               if(!(this.coursesConflicting).includes(name)) this.coursesConflicting.push(name);
