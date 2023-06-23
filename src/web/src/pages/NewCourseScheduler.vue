@@ -6,6 +6,7 @@
         <!--This is a button, an animated one-->
         <div
           id="burger"
+          
           :class="{ active: isNavOpen }"
           @click.prevent="toggleNav"
         >
@@ -22,7 +23,7 @@
           </slot>
         </div>
         <div class="sidebar">
-          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
+          <!--<div class="sidebar-backdrop" v-if="isNavOpen">-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
               <div class="sidebar-panal-nav" style="height: 100%;">
@@ -910,5 +911,19 @@ button:focus {
 
 #burger.active .burger-bar {
   background-color: #32aad8;
+}
+
+#burger {
+  //display: inline-block;
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  z-index: 9999;
 }
 </style>
