@@ -1,6 +1,36 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+
+    <!-- button to switch between alphabet order and department order -->
+    <div style="float: left;" class="w-10">
+      <b-button 
+        class="button"
+        @click="listAlphabet()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+        List by Alphabet
+      </b-button>
+      <br />
+      <b-button
+        class="button"
+        @click="listDept()"
+        style="
+          margin-top: 10px;
+          color: #007bff;
+          border: solid #007bff;
+          background-color: transparent;
+        "
+      >
+        List by Department
+      </b-button>
+    </div>
+
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
         <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
@@ -8,6 +38,7 @@
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
           md="6"
+          v-show="cateShow"
         >
           <b-row
             v-for="deptObj in deptCol"
@@ -19,6 +50,38 @@
               <b-row class="school-name">
                 <h3 class="m-1 ml-2">
                   {{ deptObj.school }}
+                </h3>
+              </b-row>
+              <!-- Subject Title  -->
+              <b-row>
+                <DepartmentList
+                  :majors="deptObj.departments"
+                  :deptClassDict="deptClassDict"
+                  v-on:showCourseInfo="showCourseInfo($event)"
+                ></DepartmentList>
+              </b-row>
+            </b-col>
+          </b-row>
+        </b-col>
+
+      
+        <!-- splitted Departments in alphabet order -->
+        <b-col
+          v-for="(alphCol, index) in alphabetCols"
+          :key="`alphCol-${index}`"
+          md="6"
+          v-show="alphShow"
+        >
+          <b-row
+            v-for="alphabetObj in alphCol"
+            :key="alphabetObj['School Name'][0]"
+            class="departmentBox border m-2 mb-4"
+          >
+            <b-col>
+              <!-- Alphabet Title  -->
+              <b-row class="school-name">
+                <h3 class="m-1 ml-2">
+                  {{ alphabetObj["School Name"][0] }}
                 </h3>
               </b-row>
               <!-- Subject Title  -->
@@ -68,9 +131,19 @@ export default {
           text: "Explore",
         },
       ],
+      cateShow: true,
+      alphShow: false,
     };
   },
   methods: {
+    listAlphabet() {
+      this.deptShow = false;
+      this.alphShow = true;
+    },
+    listDept() {
+      this.deptShow = true;
+      this.alphShow = false;
+    },
     generateRequirementsText,
   },
   computed: {
@@ -94,6 +167,9 @@ export default {
       }
       return columnArr;
     },
+
+    
+
     schoolsMajorDict() {
       let schoolsMajorDict = {};
       for (const c of this.courses) {
@@ -157,4 +233,9 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
+
+.button:hover {
+  background: rgba(108, 90, 90, 0.15) !important;
+}
+
 </style>
