@@ -140,28 +140,39 @@ class acalog_client():
     def get_course_ids_xml(self):
         return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={self.catalog_id}&options[limit]=0").content
 
+    def _get_course_descriptions(self):
+        # print(SEMESTER)
+        f"sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=BIOL"
+        return
+    
     def _get_course_details(self, id_params):
-        #CUT THIS URL IN HALF and try python 3
-        # course_details_xml_str = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}").content.decode("utf8")
+        id_list = id_params.split("&")
+        # print(id_list)
+        id_count = int(id_params.count("&") / 2)
+        # print("id_count: ", id_count)
+        id_list1 = id_list[:id_count]
+        id_list2 = id_list[id_count:]
 
-        # hardcode the link for now...
-        course_details_xml_str = req.get("http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses&key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&catalog=21&ids[]=51879&ids[]=52948&ids[]=53210&ids[]=53223&ids[]=53225&ids[]=53240&ids[]=53241&ids[]=53211&ids[]=53214&ids[]=53242&ids[]=53243&ids[]=53244&ids[]=53245&ids[]=53246&ids[]=51880&ids[]=51881&ids[]=51882&ids[]=51883&ids[]=51884&ids[]=51885&ids[]=51886&ids[]=51887").content.decode("utf8")
 
-        #ERROR: ACCESSING THIS LINK RESULTS IN 403 FORBIDDEN ERROR 
-        # print(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{id_params}")
-        # http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses&key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&catalog=21&ids[]=51879&ids[]=52948&ids[]=53210&ids[]=53223&ids[]=53225&ids[]=53240&ids[]=53241&ids[]=53211&ids[]=53214&ids[]=53242&ids[]=53243&ids[]=53244&ids[]=53245&ids[]=53246&ids[]=51880&ids[]=51881&ids[]=51882&ids[]=51883&ids[]=51884&ids[]=51885&ids[]=51886&ids[]=51887
-        
+        str_id_list1 = "&".join(id_list1)
+        str_id_list2 = "&".join(id_list2)
+
+        course_details_xml_str1 = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{str_id_list1}").content.decode("utf8")
+        # print(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{str_id_list1}")
+        course_details_xml_str2 = req.get(f"{self.course_detail_endpoint}&key={self.api_key}&format={self.api_response_format}&catalog=21&{str_id_list2}").content.decode("utf8")
+        course_details_xml_str = course_details_xml_str1 + course_details_xml_str2
+        # print(course_details_xml_str)
         with self._lock:
             # https://stackoverflow.com/questions/39119165/xml-what-does-that-question-mark-mean
             # Can only have one prolog per XML document in order for it to be well-formed.
             # Can also only have one root.
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
             if (match is None):
-                raise ValueError("XML document is missing prolog and root. Invalid.")
+                raise Error("XML document is missing prolog and root. Invalid.")
             # For some reason, the response is sometimes missing the XML prolog. Not sure how it's possible, but give default in that case.
             self._xml_prolog = match.group("prolog") if match.group("prolog") is not None else '<?xml version="1.0"?>'
             if match.group("root") is None:
-                raise ValueError("XML document is missing root element. Invalid.")
+                raise Error("XML document is missing root element. Invalid.")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
 
@@ -247,7 +258,6 @@ class acalog_client():
                     value = ("".join(raw_course.xpath(f"*[local-name() = 'field'][@type='{ACALOG_COURSE_FIELDS[field_name]}']//text()"))).replace("\n", "").replace("\r","").strip()
                     if field_name == 'description':
                         field_values['description'] = self._clean_utf(value).encode("utf8").decode("utf8")
-                        # print(field_values['description'], flush=True)
                     else:
                         field_values[field_name] = self._clean_utf(value)
                 for field_name in used_custom_fields:
