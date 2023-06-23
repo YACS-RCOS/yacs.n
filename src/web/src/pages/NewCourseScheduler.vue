@@ -122,14 +122,7 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
-                  
-                  Can't display because of course conflict between {{ this.coursesConflicting[0] }} and {{ this.coursesConflicting[1] }}!
-
-                  <!-- new message will be "can't display because of course conflict between __ and __" -->
-                  <!-- This is where the two courses that are conflicting should be displayed.
-                        If scheduleDisplayMessage === 3, then pop up message should show up 
-                        right away with the two conflicting courses. -->
-                  
+                  Conflict between {{ this.coursesConflicting[0] }} and {{ this.coursesConflicting[1] }}
                 </span>
                 <span v-else>
                   Displaying schedule {{ this.index + 1 }} out of
@@ -187,21 +180,6 @@
         </div>
       </div>
     </b-row>
-
-    <b-modal
-      id="courseConflictModal"
-      v-if="coursesConflicting.length != 0"
-      v-model="showConflictMessage"
-      :title="'Course Conflict'" hide-footer
-    >
-
-      There is a course conflict between: 
-      <div v-for="course in coursesConflicting" :key="course">  
-        <li>{{ course }}</li>
-      </div>
-
-    </b-modal>
-
 
     <b-modal
       id="courseInfoModal"
@@ -337,7 +315,6 @@ export default {
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
       coursesConflicting: [],
-      showConflictMessage: false,
       possibilities: [
         {
           sections: [],
@@ -567,7 +544,6 @@ export default {
     },
     getSchedules() {
       this.coursesConflicting = [];
-      this.showConflictMessage = false;
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
@@ -582,7 +558,6 @@ export default {
           Object.values(this.selectedCourses)
         );
         if (!result.length) {
-          this.showConflictMessage = true;
           throw new Error("conflict!");
         }
         this.possibilities = result;
