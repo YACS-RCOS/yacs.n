@@ -196,8 +196,7 @@
 
       There is a course conflict between: 
       <div v-for="course in coursesConflicting" :key="course">  
-        {{ course }}
-        <br>
+        <li>{{ course }}</li>
       </div>
 
     </b-modal>
@@ -634,9 +633,14 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
-              const name = schedule.section.department + '-' + schedule.section.level;
-              this.coursesConflicting.push(popped.name);
-              this.coursesConflicting.push(name);
+              const name = schedule.sections[0].department + '-' + schedule.sections[0].level;
+              if(!(this.coursesConflicting).includes(popped.name)) {
+                this.coursesConflicting.push(popped.name);
+              }
+              if(!(this.coursesConflicting).includes(name)) {
+                this.coursesConflicting.push(name);
+              }
+              this.coursesConflicting.sort();
               return undefined;
             })
             .filter((x) => !!x);
