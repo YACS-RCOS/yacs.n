@@ -123,6 +123,8 @@
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
                   Can't display because of course conflict!
+
+                  <!-- new message will be "can't display because of course conflict between __ and __" -->
                   <!-- This is where the two courses that are conflicting should be displayed.
                         If scheduleDisplayMessage === 3, then pop up message should show up 
                         right away with the two conflicting courses. -->
@@ -184,6 +186,22 @@
         </div>
       </div>
     </b-row>
+
+    <b-modal
+      id="courseConflictModal"
+      v-if="coursesConflicting.length != 0"
+      v-model="showConflictMessage"
+      :title="'Course Conflict'" hide-footer
+    >
+
+      There is a course conflict between: 
+      <div v-for="course in coursesConflicting" :key="course">  
+        {{ course }}
+        <br>
+      </div>
+
+    </b-modal>
+
 
     <b-modal
       id="courseInfoModal"
@@ -285,7 +303,9 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
-    if ((p.time[i] & section.times[i]) > 0) return false;
+    if ((p.time[i] & section.times[i]) > 0) {
+      return false;
+    }
   }
   return true;
 };
@@ -318,6 +338,8 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
+      coursesConflicting: [],
+      showConflictMessage: false,
       possibilities: [
         {
           sections: [],
@@ -546,6 +568,8 @@ export default {
       }
     },
     getSchedules() {
+      this.showConflictMessage = false;
+      this.coursesConflicting = [];
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
@@ -560,6 +584,7 @@ export default {
           Object.values(this.selectedCourses)
         );
         if (!result.length) {
+          this.showConflictMessage = true;
           throw new Error("conflict!");
         }
         this.possibilities = result;
@@ -599,6 +624,7 @@ export default {
       // This is when the "conflict" error is thrown when there's conflicting 
       // courses. Might be able to add something here to help show pop up. 
       if (ret.length === 0) throw new Error("conflict!");
+
       return ret
         .map((schedule) => {
           const x = popped.sections.filter((s) => s.selected);
@@ -608,6 +634,9 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
+              const name = schedule.section.department + '-' + schedule.section.level;
+              this.coursesConflicting.push(popped.name);
+              this.coursesConflicting.push(name);
               return undefined;
             })
             .filter((x) => !!x);
@@ -634,6 +663,10 @@ export default {
         .updateIndex(this.index)
         .save();
     },
+    cleanConflicts() {
+      this.coursesConflicting = [ ...new Set(this.coursesConflicting) ];
+    },
+
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -690,6 +723,7 @@ export default {
       }
       return 1;
     },
+
   },
   watch: {
     courses: {
