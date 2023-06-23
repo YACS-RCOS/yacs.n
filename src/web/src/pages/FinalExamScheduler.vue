@@ -4,6 +4,7 @@
     <b-row class="justify-content-md-center">
       <b-col md="5">
         <b-card title="Final Exam Schedule">
+
           <b-form @submit.prevent="searchExams">
             <div
                 v-for="(course, index) in selectedCourses"
@@ -12,48 +13,71 @@
             >
               <b-form-group :label="'Course ' + (index + 1)">
                 <b-form-select
+                    @change="searchExams"
                     v-model="selectedCourses[index]"
                     :options="courseOptions"
                 ></b-form-select>
 
-<!--                <b-button variant="danger" class="ml-3">Delete</b-button>   class="flex-grow-1"-->
-
               </b-form-group>
             </div>
-            <b-button @click="addCourse" variant="primary">Add Course</b-button>
 
-            <b-button type="submit" variant="success" class="ml-3">
-              Search
+
+            <b-button @click="$bvModal.show('add-modal-id')" variant="primary">Add Course</b-button>
+
+            <b-modal id="add-modal-id" hide-footer title="Add Course"
+                     @close="$bvModal.hide('add-modal-id')"
+                     @keydown.esc="$bvModal.hide('add-modal-id')">
+
+                <b-form-group :label="'Select Course'">
+                  <b-form-select
+                      v-model="currCourse"
+                      :options="filterCourses()"
+                  ></b-form-select>
+                </b-form-group>
+
+              <b-button class="mt-3" variant="outline-success" block
+                        @click="$bvModal.hide('add-modal-id'); addCourse(currCourse); searchExams();">
+                Confirm
+              </b-button>
+              <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('add-modal-id')">
+                Cancel
+              </b-button>
+
+            </b-modal>
+            <!--<b-button @click="addCourse" variant="primary">Add Course</b-button>-->
+
+<!--            <b-button type="submit" variant="success" class="ml-3">-->
+<!--              Search-->
+<!--            </b-button>-->
+
+            <b-button :disabled="this.selectedCourses.length===0" @click="$bvModal.show('delete-modal-id')" variant="danger"
+                      class="ml-3">Delete
             </b-button>
+            <b-modal id="delete-modal-id" hide-footer title="Delete Course"
+                     @close="$bvModal.hide('delete-modal-id')"
+                     @keydown.esc="$bvModal.hide('delete-modal-id')">
 
-            <b-button :disabled="this.emptyCourses===false" @click="$bvModal.show('delete-modal-id')" variant="danger" class="ml-3">Delete</b-button>
-                <b-modal id="delete-modal-id" hide-footer title="Delete Course"
-                         @close="$bvModal.hide('delete-modal-id')"
-                         @keydown.esc="$bvModal.hide('delete-modal-id')">
 
-                  <div class="d-block text-center">
-                    <h3>Select the Courses you wish to delete.</h3>
-                  </div>
+              <b-form-group :label="'Delete Courses'">
+                <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
+                  <b-form-checkbox type="radio" :value="course || index">
+                    {{ (course ? (course.CourseCode + " - " + course.Section) : 'No Course Selected') }}
+                  </b-form-checkbox>
+                </b-form-checkbox-group>
+              </b-form-group>
 
-                  <b-form-group>
-                    <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
-                      <b-form-checkbox v-if="index!==0" type="radio" :value="course || index">
-                        {{(course ? (course.CourseCode + " - " + course.Section) : 'No Course Selected') }}
-                      </b-form-checkbox>
-                    </b-form-checkbox-group>
-                  </b-form-group>
+              <b-button class="mt-3" variant="outline-success" block
+                        @click="$bvModal.hide('delete-modal-id'); deleteCourses()">
+                Confirm
+              </b-button>
+              <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('delete-modal-id')">
+                Cancel
+              </b-button>
 
-                  <b-button class="mt-3" variant="outline-success" block @click="$bvModal.hide('delete-modal-id'); deleteCourses()">
-                    Confirm
-                  </b-button>
-                  <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('delete-modal-id')">
-                    Cancel
-                  </b-button>
-
-                </b-modal>
+            </b-modal>
 
           </b-form>
-          <b-card v-if="examDetails" class="mt-3">
+          <b-card v-if="examDetails && this.selectedCourses.length!==0" class="mt-3">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
               <div>
@@ -109,9 +133,9 @@ export default {
         },
       ],
       exams: Finals,
+      currCourse: null,
       selectToDelete: [],
-      selectedCourses: [null],
-      emptyCourses:false,
+      selectedCourses: [],
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
@@ -165,9 +189,12 @@ export default {
 
       this.courseOptions = Object.values(groupedCourses);
     },
-    addCourse() {
-      this.selectedCourses.push(null);
-      this.emptyCourses=true;
+    addCourse(currCourse) {
+      if(currCourse !== null){
+        this.selectedCourses.push(currCourse);
+      }
+      this.currCourse=null;
+      console.log(this.selectedCourses);
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
@@ -227,33 +254,22 @@ export default {
 
       console.log(this.examDetails);
     },
-    deleteCourses(){
-        console.log("reached Delete FUNC");
-        console.log("BEFORE");
-        console.log("DELETE ARR: ",this.selectToDelete.length);
-        console.log("COURSES ARR: ",this.selectedCourses.length);
-        console.log("COURSE OP");
+    deleteCourses() {
+      console.log(this.selectedCourses);
+      console.log(this.selectToDelete);
+      for (let i = 0; i < this.selectToDelete.length; i++) {
+        let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
+        this.selectedCourses.splice(index, 1);
+      }
 
-        for(let i = 0; i < this.selectToDelete.length; i++){
-          let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
-          this.selectedCourses.splice(index, 1);
-        }
+      for (let i = 0; i < this.selectToDelete.length; i++) {
+        this.selectToDelete.splice(i, 1);
+      }
 
-        for(let i = 0; i < this.selectToDelete.length; i++) {
-          this.selectToDelete.splice(i, 1);
-        }
-
-        if(this.selectedCourses.length===0){
-          this.selectedCourses[0] = null;
-          this.emptyCourses=false;
-        }
-        else if(this.selectedCourses.length===1){
-          this.emptyCourses=false;
-        }
-
-        console.log("AFTER");
-        console.log("DELETE ARR: ",this.selectToDelete);
-        console.log("COURSES ARR: ",this.selectedCourses);
+      this.searchExams();
+    },
+    filterCourses(){
+      return this.courseOptions.filter(option => !this.selectedCourses.includes(option.value));
     },
   },
 };
