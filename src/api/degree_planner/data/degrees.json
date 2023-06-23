@@ -50,6 +50,16 @@
             "replacement": true,
             "attributes":["level.4", "concentration.*"]
         },
+        "Concentration2": {
+            "requires": 3,
+            "replacement": true,
+            "attributes":["level.4", "concentration.*1"]
+        },
+        "Concentration3": {
+            "requires": 3,
+            "replacement": true,
+            "attributes":["level.4", "credits.3", "concentration.*1"]
+        },
         "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,

@@ -80,23 +80,58 @@ class Degree():
             max_fulfillment_possibilities.append(template.get_course_match(taken_courses))
 
         # if template contains wildcards, this is how many templates can result from the wildcard
+        # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
         bound_array = [len(e) for e in max_fulfillment_possibilities]
 
         # all possible combinations using all generated templates
+        # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
         combos = af.generate_combinatorics(bound_array, 1)
         all_template_combinations = list()
 
         for combo in combos:
             templates_to_use = []
+            required_resolutions = dict()
+            cancel_add = False
 
             # generates the combination of templates to use
             for i in range(0, len(combo)):
                 # gets the fulfillment status to use based on the number in combo
                 fulfillment_status = max_fulfillment_possibilities[i][combo[i] - 1]
+
+                # we check if there's wildcards in this template required to be a specific resolution
+                wildcard_resolutions = fulfillment_status.get_template().wildcard_resolutions
+                for wildcard_original, wildcard_resolution in wildcard_resolutions.items():
+                    # skip if it's not a required resolution
+                    if wildcard_original[-1] == '*':
+                        continue
+                    print(f'REQUIRED WILDCARD RESOLUTION FOUND, {wildcard_original}')
+                    # if it's a required resolution and it dooesn't exist in our dict yet
+                    if wildcard_original not in required_resolutions:
+                        required_resolutions.update({wildcard_original:wildcard_resolution})
+                        print(f'ADDED {wildcard_resolution} TO REQUIRED RESOLUTION DICT')
+                    elif wildcard_resolution != required_resolutions[wildcard_original]:
+                        print(f'MISMATCH BETWEEN REQUIRED AND NEW {wildcard_resolution} != {required_resolutions[wildcard_original]}')
+                        replacement_template = copy.deepcopy(template_set[i])
+                        #break
+                    else:
+                        print(f'GOOD MATCH')
+
+                #if cancel_add:
+                #    break
                 templates_to_use.append(fulfillment_status.get_template())
+                
+            print(f'GOOD MATCHES! YAY {templates_to_use}')
             all_template_combinations.append(templates_to_use)
 
         return all_template_combinations
+    
+
+    def replace_attributes(self, template, attributes_to_replace:list):
+        # just for now, we treat attributes to replace as a list where [template, attribute to replace, template, attribute to replace ...]
+        for attribute in attributes_to_replace:
+            attribute_head = attribute[:attribute.find('.')]
+            template.replace_specifications(attribute_head, attribute)
+        return template
 
 
     ##############################################################################################

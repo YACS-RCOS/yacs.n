@@ -127,7 +127,7 @@
   .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 5px;
   }
   .text-input{
     border:2px solid #21242b;
@@ -143,21 +143,24 @@
     background-color:#3f4146;
   }
   .text-block {
-    border: 8px solid #43494f;
-    border-radius: 16px;
-    padding: 10px;
-    margin: 10px;
-    min-width:150px;
+    border: 6px solid #43494f;
+    border-radius: 12px;
+    padding: 8px;
+    margin: 8px;
+    min-width:250px;
     width: 30vw;
-    max-width: 500px;
-    min-height: 80px;
+    max-width: 550px;
+    min-height: 70px;
     align-items: center;
-    font-size: 0.9em;
+    font-size: 0.8em;
     background-color: #21242b;
   }
   .text-block h3 {
     color:cornflowerblue;
-    font-size: 1.7em;
+    font-size: 1.6em;
+  }
+  .text-block h4 {
+    font-size: 1.4em;
   }
   .text-block h6 {
     color:rgb(129, 145, 161);
@@ -166,19 +169,19 @@
   .fulfillment {
     padding: 10px;
     margin: 2px;
-    border-radius: 8px;
+    border-radius: 6px;
     color: #e3e8e4;
     background-color: #434f41;
   }
   .unfulfilled_fulfillment {
     padding: 10px;
     margin: 2px;
-    border-radius: 8px;
+    border-radius: 6px;
     color: #e3e8e4;
     background-color: #4f433e;
   }
   .alternative-buttons {
-    border-radius: 8px;
+    border-radius: 6px;
     border: none;
     padding: 4px;
     margin: 2px;
@@ -192,7 +195,7 @@
     border: none;
   }
   .alternative-buttons-wildcard {
-    border-radius: 8px;
+    border-radius: 6px;
     border: none;
     padding: 4px;
     margin: 2px;
@@ -206,9 +209,9 @@
     border: none;
   }
   .recommendations {
-    padding: 10px;
+    padding: 5px;
     margin: 2px;
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: #393b40;
   }
   .recommendations-list {
