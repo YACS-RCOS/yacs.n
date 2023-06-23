@@ -72,11 +72,11 @@ import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
 
-import SelectedCoursesComponent from "@/components/SelectedCourses";
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
 
 import {
   addStudentCourse,
+  getStudentCourses,
   removeStudentCourse,
 } from "@/services/YacsService";
 
@@ -85,7 +85,6 @@ export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
-    SelectedCourses: SelectedCoursesComponent,
   },
   name: "CoursePage",
   data() {
@@ -113,6 +112,76 @@ export default {
   },
   methods: {
     generateRequirementsText,
+    async loadStudentCourses() {
+      if (!this.courses.length) {
+        return;
+      }
+
+      // Need to reset `selected` property on courses and sections,
+      // two sources of truth ugh
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.selected = false;
+
+        course.sections
+          .filter((section) => section.selected)
+          .forEach((section) => (section.selected = false));
+      });
+      this.selectedCourses = {};
+
+      if (this.isLoggedIn) {
+        var cids = await getStudentCourses();
+
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
+              });
+              sect.selected = true;
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+            }
+          }
+        });
+      } else {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+
+              this.$set(this.selectedCourses, course.id, course);
+              course.selected = true;
+
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
+
+                  section.selected = true;
+                }
+              );
+            });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
+        }
+      }
+    },
     addCourse(course) {
       this.$set(this.selectedCourses, course.id, course);
       course.selected = true;
@@ -264,6 +333,20 @@ export default {
             },
           ],
     };
+  },
+  watch: {
+    courses: {
+      immediate: true,
+      handler() {
+        this.loadStudentCourses();
+      },
+    },
+    isLoggedIn: {
+      immediate: true,
+      handler() {
+        this.loadStudentCourses();
+      },
+    },
   },
 };
 </script>
