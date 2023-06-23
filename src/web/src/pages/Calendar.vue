@@ -109,6 +109,8 @@ export default {
         STU: "Studio",
         null: "No Type",
       },
+      // dayLabels: document.querySelectorAll('.day-label')
+      
     };
   },
   methods: {
@@ -153,6 +155,9 @@ export default {
     mapSessionType(type) {
       return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
+
+   
+    
   },
   computed: {
     hasConflict() {
@@ -269,6 +274,15 @@ export default {
     hourHeight() {
       return (60 * 100) / this.numMinutes;
     },
+
+    // getFontSize(textLength) {
+    //   const baseFont = 9;
+    //   if (textLength >= baseFont) {
+    //     textLength = baseFont - 2;
+    //   }
+    //   const fontSize = baseFont - textLength;
+    //   return '${fontSize}vw';
+    // },
   },
   watch: {
     possibility(val) {
@@ -277,6 +291,10 @@ export default {
     },
   },
 };
+
+// dayLabels.forEach(label => {
+//       label.style.fontSize = getFontSize(label.textContent.length);
+//     })
 </script>
 
 <style scoped lang="scss">
@@ -318,7 +336,7 @@ $hourFontSize: 0.5em;
   margin: 0 auto;
   margin-bottom: 3px;
   text-align: center;
-  font-size: 0.8vw;
+  font-size: 0.9vw;
   font-variant: small-caps;
 }
 
