@@ -122,7 +122,8 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
-                  Can't display because of course conflict!
+                  
+                  Can't display because of course conflict between {{ this.coursesConflicting[0] }} and {{ this.coursesConflicting[1] }}!
 
                   <!-- new message will be "can't display because of course conflict between __ and __" -->
                   <!-- This is where the two courses that are conflicting should be displayed.
@@ -302,9 +303,7 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
-    if ((p.time[i] & section.times[i]) > 0) {
-      return false;
-    }
+    if ((p.time[i] & section.times[i]) > 0) return false;
   }
   return true;
 };
@@ -567,8 +566,8 @@ export default {
       }
     },
     getSchedules() {
-      this.showConflictMessage = false;
       this.coursesConflicting = [];
+      this.showConflictMessage = false;
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
@@ -633,13 +632,10 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
+              console.log(schedule);
               const name = schedule.sections[0].department + '-' + schedule.sections[0].level;
-              if(!(this.coursesConflicting).includes(popped.name)) {
-                this.coursesConflicting.push(popped.name);
-              }
-              if(!(this.coursesConflicting).includes(name)) {
-                this.coursesConflicting.push(name);
-              }
+              if(!(this.coursesConflicting).includes(popped.name)) this.coursesConflicting.push(popped.name);
+              if(!(this.coursesConflicting).includes(name)) this.coursesConflicting.push(name);
               this.coursesConflicting.sort();
               return undefined;
             })
@@ -667,10 +663,6 @@ export default {
         .updateIndex(this.index)
         .save();
     },
-    cleanConflicts() {
-      this.coursesConflicting = [ ...new Set(this.coursesConflicting) ];
-    },
-
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -727,7 +719,6 @@ export default {
       }
       return 1;
     },
-
   },
   watch: {
     courses: {
