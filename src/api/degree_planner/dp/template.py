@@ -28,7 +28,7 @@ class Template():
         self.specifications = specifications # details the attributes courses must have to fulfill this template
         self.original_specifications = None # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.courses_required = courses_required
-        self.wildcard_choices = list()
+        self.wildcard_choices = set()
 
         self.courses_fulfilled = 0
 
@@ -86,6 +86,9 @@ class Template():
             if good_match:
                 for wildcard_orig, wildcard_resol in conditions.items():
                     resolutions.extend_elements(wildcard_orig, wildcard_resol)
+                    self.wildcard_choices.update(wildcard_resol)
+                    self.wildcard_choices.add(wildcard_orig)
+
         return resolutions
 
     def wildcard_differentiate(self, begin_counter):
