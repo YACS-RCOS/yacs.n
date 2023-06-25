@@ -147,7 +147,8 @@
             <b-row>
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
-                <h5>Credits: {{ totalCredits }}</h5>
+                <h5 v-if="scheduleDisplayMessage === 3">Credits:</h5>
+                <h5 v-else>Credits: {{ totalCredits }}</h5>
               </b-col>
 
               <b-col md="3" justify="end">
