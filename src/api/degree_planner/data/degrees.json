@@ -50,6 +50,11 @@
             "replacement": true,
             "attributes":["level.4", "concentration.*"]
         },
+        "Concentration1": {
+            "requires": 3,
+            "replacement": true,
+            "attributes":["level.4", "credits.3", "concentration.*"]
+        },
         "Concentration2": {
             "requires": 3,
             "replacement": true,

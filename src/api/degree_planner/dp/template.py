@@ -5,6 +5,7 @@ Course Template object
 import copy
 from .course import Course
 from .fulfillment_status import Fulfillment_Status
+from ..math.dictionary_array import Dict_Array
 
 class Template():
     '''
@@ -28,7 +29,6 @@ class Template():
         self.original_specifications = None # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.courses_required = courses_required
         self.wildcard_choices = list()
-        self.wildcard_resolutions = dict()
 
         self.courses_fulfilled = 0
 
@@ -45,22 +45,63 @@ class Template():
         for i in range(0, len(self.specifications)):
             specification = self.specifications[i]
             print('old specification: ' + specification)
-            specification = specification + ' '
             search_begin_index = 0
-            while specification.find(old_attr_head, search_begin_index, -1) != -1:
+            while specification.find(old_attr_head, search_begin_index) != -1:
                 begin_index = specification.find(old_attr_head)
-                end_index = specification.find(' ', begin_index + 1, -1)
+                end_index = self.find_from_set(specification, [' ', '|', '&', '(', ')', '~'], begin_index + 1)
                 if end_index != -1:
                     end_index +=1
+                else:
+                    end_index = len(specification)
                 search_begin_index = end_index
                 specification = specification[:begin_index] + new_attr + specification[end_index:]
             print('new specification: ' + specification)
             self.specifications[i] = specification
 
 
+    def find_from_set(self, string, charset, begin_index=0, end_index=None):
+        min_loc = len(string)
+        if end_index is None:
+            end_index = len(string)
+
+        for c in charset:
+            loc = string.find(c, begin_index, end_index)
+            if loc != -1 and loc < min_loc:
+                min_loc = loc
+        if min_loc == len(string):
+            return -1
+        return min_loc
+
+
     def get_required_count(self):
         return self.courses_required
     
+
+    def wildcard_resolutions(self, courses):
+
+        resolutions = Dict_Array(list_type='set')
+        
+        for course in courses:
+            good_match, conditions = template_parsing.course_fulfills_template(self, course)
+            if good_match:
+                for wildcard_orig, wildcard_resol in conditions.items():
+                    resolutions.extend_elements(wildcard_orig, wildcard_resol)
+        return resolutions
+
+    def wildcard_differentiate(self, begin_counter):
+        
+        for i in range(len(self.specifications)):
+            star_index = -1
+            while self.specifications[i].find('*', star_index + 1) != -1:
+                star_index = self.specifications[i].find('*', star_index + 1)
+                if star_index + 1 < len(self.specifications[i]) and self.specifications[i][star_index + 1] not in (' ', ')', '(', '&', '|', '~'):
+                    continue
+                self.specifications[i] = self.specifications[i][:star_index + 1] + 'auto' + str(begin_counter) + self.specifications[i][star_index + 1:]
+                begin_counter += 1
+        return begin_counter
+
+
+
     def get_course_match(self, courses) -> list:
         '''
         Finds all courses that fulfills the given template
@@ -127,7 +168,6 @@ class Template():
 
         for choice in wildcard_choices:
             # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
-            self.wildcard_resolutions.update({wildcard_attr:choice})
             template_cpy = copy.deepcopy(self)
 
             # a temporary dictionary holding the old/new values, since we cannot update an object

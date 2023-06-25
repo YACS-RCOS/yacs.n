@@ -10,6 +10,7 @@ from .template import Template
 from ..math.graph import Graph
 from ..math.graph import Backwards_Overlap
 from ..math.array_math import array_functions as af
+from ..math.dictionary_array import Dict_Array
 from ..io.output import Output
 from ..math.sorting import sorting
 from .course import Course
@@ -75,13 +76,21 @@ class Degree():
         if template_set is None:
             template_set = self.templates
 
-        max_fulfillment_possibilities = list()
+        wildcard_resolutions = Dict_Array(list_type='set')
+
         for template in template_set:
-            max_fulfillment_possibilities.append(template.get_course_match(taken_courses))
+            wildcard_resolutions.extend(template.wildcard_resolutions(taken_courses))
+
+        wildcard_resolutions.convert_list_type('list')
+        wildcard_resolutions = wildcard_resolutions.to_tuples()
+
+        print(f'FINAL WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
         # if template contains wildcards, this is how many templates can result from the wildcard
         # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
-        bound_array = [len(e) for e in max_fulfillment_possibilities]
+        # bound_array = [len(e) for e in max_fulfillment_possibilities]
+
+        bound_array = [len(e[1]) for e in wildcard_resolutions]
 
         # all possible combinations using all generated templates
         # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
@@ -90,38 +99,19 @@ class Degree():
 
         for combo in combos:
             templates_to_use = []
-            required_resolutions = dict()
-            cancel_add = False
+            template_set_to_use = copy.deepcopy(template_set)
+            for template in template_set_to_use:
 
-            # generates the combination of templates to use
-            for i in range(0, len(combo)):
-                # gets the fulfillment status to use based on the number in combo
-                fulfillment_status = max_fulfillment_possibilities[i][combo[i] - 1]
-
-                # we check if there's wildcards in this template required to be a specific resolution
-                wildcard_resolutions = fulfillment_status.get_template().wildcard_resolutions
-                for wildcard_original, wildcard_resolution in wildcard_resolutions.items():
-                    # skip if it's not a required resolution
-                    if wildcard_original[-1] == '*':
-                        continue
-                    print(f'REQUIRED WILDCARD RESOLUTION FOUND, {wildcard_original}')
-                    # if it's a required resolution and it dooesn't exist in our dict yet
-                    if wildcard_original not in required_resolutions:
-                        required_resolutions.update({wildcard_original:wildcard_resolution})
-                        print(f'ADDED {wildcard_resolution} TO REQUIRED RESOLUTION DICT')
-                    elif wildcard_resolution != required_resolutions[wildcard_original]:
-                        print(f'MISMATCH BETWEEN REQUIRED AND NEW {wildcard_resolution} != {required_resolutions[wildcard_original]}')
-                        replacement_template = copy.deepcopy(template_set[i])
-                        #break
-                    else:
-                        print(f'GOOD MATCH')
-
-                #if cancel_add:
-                #    break
-                templates_to_use.append(fulfillment_status.get_template())
+                # generates the combination of templates to use
+                for i in range(0, len(combo)):
+                    # gets the fulfillment status to use based on the number in combo
+                    template.replace_specifications(wildcard_resolutions[i][0], wildcard_resolutions[i][1][combo[i] - 1])
                 
-            print(f'GOOD MATCHES! YAY {templates_to_use}')
+                templates_to_use.append(template)
+
             all_template_combinations.append(templates_to_use)
+        
+        print(f'ALL TEMPLATE COMBINATIONS: {all_template_combinations}')
 
         return all_template_combinations
     

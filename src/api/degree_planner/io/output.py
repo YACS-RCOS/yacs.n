@@ -223,8 +223,7 @@ class Output():
                     f"\n    required count: {status.get_required_count()}" + \
                     f"\n    actual count: {status.get_actual_count()}" + \
                     f"\n    specifications: {status.template.specifications}" + \
-                    f"\n    original specifications: {status.template.original_specifications}" + \
-                    f"\n    wildcard resolutions: {status.template.wildcard_resolutions}\n")
+                    f"\n    original specifications: {status.template.original_specifications}\n")
                 simplified_fulfillment_set = set()
                 for course in status.get_fulfillment_set():
                     simplified_fulfillment_set.add(course.get_unique_name())

@@ -83,6 +83,8 @@ class parsing():
             degree = Degree(degree_name, catalog)
             io.print(f"added degree {str(degree)} to catalog")
 
+            wildcard_diff_counter = 0
+
             for template_name, template_properties in degree_templates.items():
                 # templates within degree
                 template = Template(template_name)
@@ -100,6 +102,9 @@ class parsing():
                     # attributes for template course
                     elif property_name == 'attributes':
                         template.specifications.extend(property_value)
+
+                wildcard_diff_counter = template.wildcard_differentiate(wildcard_diff_counter)
+                
                 degree.add_template(template)
             catalog.add_degree(degree)
 
