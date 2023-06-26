@@ -1,6 +1,9 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
     <b-row class="h-100">
+      <!-- tried adding "offset-md-3" to make sidebar scrollable; it was still fixed and caused overlap with main page -->
+      <!-- tried style="position:fixed"; changed nothing -->
+      <!-- tried col-md-3 scrollit; caused overlap with main page and still not scrollable -->
       <div v-if="isNavOpen" class="col-md-3"></div>
       <div :class="[main]">
         <!--This is a button, an animated one-->
@@ -797,12 +800,18 @@ sidebar-panel-nav {
 
 .sidebar-panel {
   // The actual view of sidebar back
-  overflow-y: auto;
+
+  //tried scroll; made another vertical scrollbar to sidebar and still not scrollable
+  overflow-y: auto; 
   background-color: #1eddff00;
-  position: fixed;
+  //absolute made sidebar scrollable but not aligned as it should be (too far right of page)
+  //statics, sticky, and relative made sidebar scrollable but pushed main page below sidebar
+  //tried fixed !important; changed nothing and still not scrollable
+  position: absolute;   
   left: 0;
   top: 0;
-  height: 100vh;
+  //tried 100px; made sidebar smaller and still not scrollable
+  height: 100vh;  
   z-index: 999;
   margin: 60px 0px 0px;
   width: 25%;
