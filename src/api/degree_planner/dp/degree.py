@@ -105,7 +105,7 @@ class Degree():
                 # generates the combination of templates to use
                 for i in range(0, len(combo)):
                     # gets the fulfillment status to use based on the number in combo
-                    template.replace_specifications(wildcard_resolutions[i][0], wildcard_resolutions[i][1][combo[i] - 1])
+                    template.replace_attribute(wildcard_resolutions[i][0], wildcard_resolutions[i][1][combo[i] - 1])
                 
                 templates_to_use.append(template)
 
@@ -120,7 +120,7 @@ class Degree():
         # just for now, we treat attributes to replace as a list where [template, attribute to replace, template, attribute to replace ...]
         for attribute in attributes_to_replace:
             attribute_head = attribute[:attribute.find('.')]
-            template.replace_specifications(attribute_head, attribute)
+            template.replace_attribute(attribute_head, attribute)
         return template
 
 
@@ -166,7 +166,7 @@ class Degree():
                     if template.name.casefold() == attributes_to_replace[i].casefold():
                         attribute = attributes_to_replace[i + 1]
                         attribute_head = attribute[:attribute.find('.')]
-                        template.replace_specifications(attribute_head, attribute)
+                        template.replace_attribute(attribute_head, attribute)
 
         for template_set in self.generate_template_combinations(taken_courses, template_sets):
 

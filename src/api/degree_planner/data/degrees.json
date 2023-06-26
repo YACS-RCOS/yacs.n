@@ -1,104 +1,104 @@
 {
     "specification sets": {
         "cscore": {
-            "attributes":["(subject.csci & course_id.1200) | (subject.csci & course_id.2200) | (subject.csci & course_id.2500) | (subject.ecse & course_id.2660) | (subject.csci & course_id.2300) | (subject.csci & course_id.2600) | (subject.csci & course_id.4430) | (subject.csci & course_id.4210)"]
+            "specifications":"(subject.csci & course_id.1200) | (subject.csci & course_id.2200) | (subject.csci & course_id.2500) | (subject.ecse & course_id.2660) | (subject.csci & course_id.2300) | (subject.csci & course_id.2600) | (subject.csci & course_id.4430) | (subject.csci & course_id.4210)"
         }
     },
     "computer science": {
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.1200"]
+            "specifications":"subject.csci & course_id.1200"
         },
         "Core - FOCS": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.2200"]
+            "specifications":"subject.csci & course_id.2200"
         },
         "Core - Computer Organization": {
             "requires": 1,
             "replacement": false,
-            "attributes":["(subject.csci & course_id.2500) | (subject.ecse & course_id.2660)"]
+            "specifications":"(subject.csci & course_id.2500) | (subject.ecse & course_id.2660)"
         },
         "Core - Algorithms": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.2300"]
+            "specifications":"subject.csci & course_id.2300"
         },
         "Core - Principles of Software": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.2600"]
+            "specifications":"subject.csci & course_id.2600"
         },
         "Core - Programming Languages": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.4430"]
+            "specifications":"subject.csci & course_id.4430"
         },
         "Core - Operating Systems": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.csci & course_id.4210"]
+            "specifications":"subject.csci & course_id.4210"
         },
         "Intensity": {
             "requires": 4,
             "replacement": true,
-            "attributes":["level.4", "subject.csci", "~$cscore"]
+            "specifications":"level.4 & subject.csci & ~$cscore"
         },
         "Concentration": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4", "concentration.*"]
+            "specifications":"level.4 & concentration.*"
         },
         "Concentration1": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4", "credits.3", "concentration.*"]
+            "specifications":"level.4 & credits.3 & concentration.*"
         },
         "Concentration2": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4", "concentration.*1"]
+            "specifications":"level.4&concentration.*1"
         },
         "Concentration3": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4", "credits.3", "concentration.*1"]
+            "specifications":"level.4&credits.3&concentration.*1"
         },
         "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.math & course_id.1020"]
+            "specifications":"subject.math & course_id.1020"
         },
         "Math - Electives": {
             "requires": 2,
             "replacement": true,
-            "attributes":["subject.math", "level.2+", "level.4-"]
+            "specifications":"subject.math & level.2+ & level.4-"
         },
         "Physics - Physics II": {
             "requires": 1,
             "replacement": false,
-            "attributes":["subject.phys & (course_id.1200 | course_id.1250)"]
+            "specifications":"subject.phys & (course_id.1200 | course_id.1250)"
         },
         "Science - Electives": {
             "requires": 1,
             "replacement": true,
-            "attributes":["(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr)", "level.4-"]
+            "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4-"
         },
         "HASS Elective - level 4": {
             "requires": 1,
             "replacement": true,
-            "attributes":["level.4", "subject.arts | subject.gsas"]
+            "specifications":"level.4 & subject.arts | subject.gsas"
         },
         "HASS Elective - level 4 or 2": {
             "requires": 2,
             "replacement": true,
-            "attributes":["level.2+", "level.4-", "subject.arts | subject.gsas"]
+            "specifications":"level.2+ & level.4- & (subject.arts | subject.gsas)"
         },
         "HASS Pathway": {
             "requires": 3,
             "replacement": true,
-            "attributes":["level.4-", "subject.arts"]
+            "specifications":"level.4- & subject.arts"
         }
     }
 

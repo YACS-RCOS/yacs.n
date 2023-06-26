@@ -215,7 +215,7 @@ def test_other():
     }
     for example, answer in example_attributes.items():
         true_given = dict()
-        response = template_parsing.parse_attribute(example, course0, true_given)
+        response = template_parsing.evaluate_specifications(example, course0, true_given)
         print(f"parse attribute {example} \n  response: {response}\n  correct response: {answer}")
         print(f"  answer is {'correct :)' if str(response).casefold() == str(answer).casefold() else 'INCORRECT INCORRECT INCORRECT!'}")
         print(f"  true given: {true_given}")
