@@ -45,7 +45,7 @@ var router = new VueRouter({
         {
           path: "/faq",
           component: FAQPage,
-          name: "FAQ",
+          name: "FAQs",
         },
         {
           path: "/FinalExamScheduler",

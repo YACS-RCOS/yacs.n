@@ -55,7 +55,7 @@
           Finals
         </b-nav-item>
         <b-nav-item :to="{ name: 'FAQs' }">
-          <font-awesome-icon icon="file-alt" />
+          <font-awesome-icon icon="question-circle" />
           FAQs
         </b-nav-item>
       </b-navbar-nav>
