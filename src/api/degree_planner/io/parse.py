@@ -100,11 +100,12 @@ class parsing():
                         template.courses_required = property_value
 
                     # attributes for template course
-                    elif property_name == 'attributes':
-                        template.specifications.extend(property_value)
+                    elif property_name == 'specifications':
+                        template.specifications = property_value
 
+                template.original_specifications = template.specifications
                 wildcard_diff_counter = template.wildcard_differentiate(wildcard_diff_counter)
-                
+
                 degree.add_template(template)
             catalog.add_degree(degree)
 
@@ -113,8 +114,8 @@ class parsing():
         if spec_sets is not None:
             print('importing specification sets')
             for template in spec_sets.templates:
-                print(f'added specification {template.name} with specifications {template.specifications[0]}')
-                Template.specification_sets.update({template.name:template.specifications[0]})
+                print(f'added specification {template.name} with specifications {template.specifications}')
+                Template.specification_sets.update({template.name:template.specifications})
             catalog.remove_degree('specification sets')
             
 

@@ -18,15 +18,11 @@ class Template():
 
     def __init__(self, name, specifications=None, replacement=False, courses_required=1):
         if specifications == None:
-            specifications = list()
-        elif isinstance(specifications, str):
-            specifications = [specifications]
-        elif isinstance(specifications, set):
-            specifications = list(specifications)
+            specifications = ''
 
         self.name = name # must be unique within a degree
         self.specifications = specifications # details the attributes courses must have to fulfill this template
-        self.original_specifications = None # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
+        self.original_specifications = specifications # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.courses_required = courses_required
         self.wildcard_choices = set()
 
@@ -36,27 +32,26 @@ class Template():
         self.importance = 0 # used internally by degree, higher the number the more important it is
 
     def add_specification(self, attr):
-        self.specifications.append(attr)
-
-    def remove_specification(self, attr):
-        self.specifications.remove(attr, None)
+        if len(self.specifications):
+            self.specifications = f'({self.specifications}) & ({attr})'
+        else:
+            self.specifications = attr
 
     def replace_specifications(self, old_attr_head, new_attr):
-        for i in range(0, len(self.specifications)):
-            specification = self.specifications[i]
-            print('old specification: ' + specification)
-            search_begin_index = 0
-            while specification.find(old_attr_head, search_begin_index) != -1:
-                begin_index = specification.find(old_attr_head)
-                end_index = self.find_from_set(specification, [' ', '|', '&', '(', ')', '~'], begin_index + 1)
-                if end_index != -1:
-                    end_index +=1
-                else:
-                    end_index = len(specification)
-                search_begin_index = end_index
-                specification = specification[:begin_index] + new_attr + specification[end_index:]
-            print('new specification: ' + specification)
-            self.specifications[i] = specification
+        specification = self.specifications
+        print('old specification: ' + specification)
+        search_begin_index = 0
+        while specification.find(old_attr_head, search_begin_index) != -1:
+            begin_index = specification.find(old_attr_head)
+            end_index = self.find_from_set(specification, [' ', '|', '&', '(', ')', '~'], begin_index + 1)
+            if end_index != -1:
+                end_index +=1
+            else:
+                end_index = len(specification)
+            search_begin_index = end_index
+            specification = specification[:begin_index] + new_attr + specification[end_index:]
+        self.specifications = specification
+        print('new specification: ' + specification)
 
 
     def find_from_set(self, string, charset, begin_index=0, end_index=None):
@@ -73,10 +68,6 @@ class Template():
         return min_loc
 
 
-    def get_required_count(self):
-        return self.courses_required
-    
-
     def wildcard_resolutions(self, courses):
 
         resolutions = Dict_Array(list_type='set')
@@ -92,15 +83,14 @@ class Template():
         return resolutions
 
     def wildcard_differentiate(self, begin_counter):
-        
-        for i in range(len(self.specifications)):
-            star_index = -1
-            while self.specifications[i].find('*', star_index + 1) != -1:
-                star_index = self.specifications[i].find('*', star_index + 1)
-                if star_index + 1 < len(self.specifications[i]) and self.specifications[i][star_index + 1] not in (' ', ')', '(', '&', '|', '~'):
-                    continue
-                self.specifications[i] = self.specifications[i][:star_index + 1] + 'auto' + str(begin_counter) + self.specifications[i][star_index + 1:]
-                begin_counter += 1
+
+        star_index = -1
+        while self.specifications.find('*', star_index + 1) != -1:
+            star_index = self.specifications.find('*', star_index + 1)
+            if star_index + 1 < len(self.specifications) and self.specifications[star_index + 1] not in (')', '(', '&', '|', '~'):
+                continue
+            self.specifications = f"{self.specifications[:star_index + 1]}auto{begin_counter}{self.specifications[star_index + 1:]}"
+            begin_counter += 1
         return begin_counter
 
 
@@ -155,9 +145,6 @@ class Template():
         if not len(all_conditions):
             fulfillment_sets.append(curr_fulfillment)
 
-        if self.original_specifications is None:
-            self.original_specifications = copy.deepcopy(self.specifications)
-
 
         # if there are wildcard branching needed (we only need to pop the first one, the rest is handled by the following recursive calls
         # as each recursive call only needs to handle one)
@@ -172,23 +159,13 @@ class Template():
         for choice in wildcard_choices:
             # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
             template_cpy = copy.deepcopy(self)
+            
+            specifications = template_cpy.specifications
+            if wildcard_attr not in specifications:
+                continue
 
-            # a temporary dictionary holding the old/new values, since we cannot update an object
-            # while iterating through it
-            replace_attributes = dict()
-
-            for attribute_str in template_cpy.specifications:
-                if wildcard_attr not in attribute_str:
-                    continue
-
-                # we make a note of the replacements needed by storing it in replace_attributes
-                attribute_str_update = attribute_str.replace(wildcard_attr, choice)
-                replace_attributes.update({attribute_str:attribute_str_update})
-
-            # we commit the changes to the specifications while iterating through the replace_attributes we made previously
-            for old, new in replace_attributes.items():
-                template_cpy.specifications.remove(old)
-                template_cpy.specifications.append(new)
+            # we make a note of the replacements needed by storing it in replace_attributes
+            template_cpy.specifications = specifications.replace(wildcard_attr, choice)
 
             # recursively call this function, we're guaranteed that the final return values all are wildcard-free
             fulfillment_sets.extend(template_cpy.get_course_match(courses))
@@ -199,7 +176,7 @@ class Template():
     def __repr__(self):
         string = f"Template {self.name}:\n"
         string += f"  replacement: {self.replacement}\n"
-        string += f"  specifications: {str(self.specifications)}"
+        string += f"  specifications: {self.specifications}"
         return string
     
     def __str__(self):
@@ -221,9 +198,7 @@ class Template():
         return self.importance > other.importance
 
     def __add__(self, other):
-        new_specifications = copy.deepcopy(self.specifications)
-        new_specifications.extend(other.specifications)
-        return Template(f'{self.name} + {other.name}', specifications=new_specifications, 
+        return Template(f'{self.name} + {other.name}', specifications=f'({self.specifications}) & ({other.specifications})', 
             replacement=self.replacement & other.replacement, courses_required=self.courses_required + other.courses_required)
 
     def __hash__(self):
@@ -246,11 +221,11 @@ class template_parsing():
     @staticmethod
     def course_fulfills_template(template:Template, course:Course):
         conditions = dict()
-        for attr in template.specifications:
-            if 'NA' in attr or 'ANY' in attr or '-1' in attr:
-                continue
-            if not template_parsing.parse_attribute(attr, course, conditions):
-                return False, {}
+        specifications = template.specifications
+        if 'NA' in specifications or 'ANY' in specifications or '-1' in specifications:
+            return True, {}
+        if not template_parsing.parse_attribute(specifications, course, conditions):
+            return False, {}
         return True, conditions
 
     @staticmethod
@@ -276,6 +251,7 @@ class template_parsing():
             
             true_given_for_wildcards = {}
             truth = template_parsing.parse_attribute(specification, course, true_given_for_wildcards)
+            print(f'evaluated specification set {specification} with truth {truth}')
             return template_parsing.single_attribute_evaluation(truth, course), true_given_for_wildcards
 
         if len(attr) and attr[-1] == '+':
@@ -305,6 +281,8 @@ class template_parsing():
         returns a True or False value based on whether the course fulfills the template
         '''
         # print('accepted input ' + str(input))
+
+        input_text = input_text.strip()
 
         if '(' in input_text:
             open_bracket_loc = input_text.find('(')
