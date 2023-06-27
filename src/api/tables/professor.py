@@ -6,13 +6,12 @@ from .database import Base
 class Professor(Base):
     __tablename__ = "professor"
 
-    email = Column(VARCHAR(length=255), primary_key = True, nullable=False)
-    name = Column(VARCHAR(length=255), nullable=True)
-    title = Column(VARCHAR(length=255), nullable=True)
-    phone_number = Column(VARCHAR(length=255),nullable=True) 
-    department = Column(VARCHAR(length=255), nullable=True)
-    portfolio_page = Column(VARCHAR(length=255),nullable=True)
-    profile_page = Column(VARCHAR(length=255),nullable=True)
+    Email = Column(VARCHAR(length=255), primary_key=True, nullable=False)
+    Name = Column(VARCHAR(length=255), nullable = True) #try changign datatype to stirng
+    Title = Column(VARCHAR(length=255), nullable=True)
+    Phone_number = Column(VARCHAR(length=255), nullable=True) 
+    Department = Column(VARCHAR(length=255), nullable=True)
+    Portfolio_page = Column(VARCHAR(length=255), nullable=True)
+    Profile_page = Column(VARCHAR(length=255), nullable=True)
 
     # rcs = Column(VARCHAR(length=255), nullable = True)
-

@@ -62,56 +62,64 @@ class Professor:
         return (True,None)
 
     def populate_from_json(self, json_data):
-        
         # Connect to the database
         conn = self.db_conn.get_connection()
 
-        with open(json_data, 'r') as file:
-            try:
-                data = json.load(file)
-            except json.JSONDecodeError as e:
-                return False, f"Invalid JSON file: {str(e)}"
-
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
-                for entry in data:
+                # Iterate over each entry in the JSON data
+                for entry in json_data:
                     try:
-                        # Professors
+                        # Insert professor data into the 'professor' table
                         transaction.execute(
                             """
                             INSERT INTO professor (
-                                name,
-                                title,
-                                email,
-                                department,
-                                portfolio_page,
-                                profile_page
+                                Email,
+                                Name,
+                                Title,
+                                Phone_number,
+                                Department,
+                                Portfolio_page,
+                                Profile_page
                             )
                             VALUES (
-                                NULLIF(%(Name)s, ''),
-                                NULLIF(%(Title)s, ''),
-                                %(Email)s,
+                                NULLIF(%(Email)s, ''),  -- Use NULL if Email is empty string
+                                NULLIF(%(Name)s, ''),  
+                                NULLIF(%(Title)s, ''),  
+                                NULLIF(%(Phone)s, ''),  
                                 NULLIF(%(Department)s, ''),
-                                NULLIF(%(Portfolio)s, ''),
-                                NULLIF(%(Profile_Page)s, '')
+                                NULLIF(%(Portfolio)s, ''), 
+                                NULLIF(%(Profile_Page)s, '') 
                             )
                             ON CONFLICT DO NOTHING;
                             """,
                             {
+                                "Email": entry['Email'],
                                 "Name": entry['Name'],
                                 "Title": entry['Title'],
-                                "Email": entry['Email'],
+                                "Phone": entry['Phone'],
                                 "Department": entry['Department'],
                                 "Portfolio": entry['Portfolio'],
                                 "Profile_Page": entry['Profile Page']
                             }
                         )
                     except Exception as e:
-                        print(e)
+                        # Roll back the transaction and return the exception if an error occurs
+                        print("THIS IS THE EXCEPTION:", e)
                         conn.rollback()
                         return (False, e)
             except ValueError as ve:
-                return (False, "Invalid JSON data: {}".format(ve))
+                # Return an error message if the JSON data is invalid
+                return (False, f"Invalid JSON data: {str(ve)}")
+
+            # Commit the transaction if all entries are inserted successfully
+            conn.commit()
+
+            # Invalidate cache to ensure new data is retrieved
+            self.clear_cache()
+
+            # Return success status and no error
+            return (True, None)
 
     #removes professor if it exists
     def remove_professor(self, email):

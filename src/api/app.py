@@ -197,22 +197,23 @@ async def uploadJSON(
     contents = await file.read()
     
     # Load JSON data
-    json_data = json.loads(contents.decode('utf-8'))
-    print(json_data)
+    try:
+        #convert string to python dict
+        json_data = json.loads(contents.decode('utf-8'))
+        print(json_data)
+    except json.JSONDecodeError as e:
+        return Response(f"Invalid JSON data: {str(e)}", 400)
 
     # Update semester infos based on isPubliclyVisible, hiding semester if needed
     # professors = pd.read_json(json_data)
     
     # Populate DB from JSON
-    professor_info.bulk_delete(json_data)
+    #professor_info.bulk_delete(json_data)
     
     print("TESTING")
     print("START DUMPING")
-    # Convert json_data to JSON string
-    json_data_string = json.dumps(json_data)
-    print("this is json_data_string", json_data_string)
     # Call populate_from_json method
-    isSuccess, error = professor_info.populate_from_json(json_data_string)
+    isSuccess, error = professor_info.populate_from_json(json_data)
     print("SUCCESS DOES IT WORK?:",isSuccess, )
     if isSuccess:
         print("SUCCESS")
