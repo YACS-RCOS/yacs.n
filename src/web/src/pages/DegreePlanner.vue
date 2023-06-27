@@ -14,7 +14,6 @@
                 <h3>{{ item.name }}</h3>
                 <h6>specifications: {{ item.specifications }}</h6>
                 <div v-bind:class="{fulfillment:item.actual_count >= item.required_count, unfulfilled_fulfillment:item.actual_count < item.required_count}">
-                    <h4>Fulfillment:</h4>
                     <div v-bind:class="{req_fulfilled:item.actual_count >= item.required_count, req_unfulfilled:item.actual_count < item.required_count}">
                         <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
                     </div>
@@ -25,12 +24,14 @@
                     </div>
                 </div>
                 <br>
-                <div class="alternatives" v-if="item.alternatives.length > 0">
+                <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
 
-                  <div v-for="alternative in item.alternatives" :key="alternative-index">
-                    <button v-bind:class="{'alternative-buttons':!alternative.endsWith('*'), 'alternative-buttons-wildcard':alternative.endsWith('*')}" type="button" @click="fulfillment('testuser', 'schedule1', [item.name, alternative])">
-                      {{ alternative.replace('.*', ': automatically select').replace('.', ': ') }}
+                  <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
+                    <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
+                      <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment('testuser', 'schedule1', [alternative_orig, alternative_choice])">
+                        {{ format_alternative(alternative_choice) }}
                     </button>
+                    </div>
                   </div>
 
                 </div>
@@ -58,6 +59,13 @@
       };
     },
     methods: {
+        format_alternative(str) {
+          if (str.includes('*')) {
+            str = str.split('*')[0] + " automatically select"
+          }
+          str = str.replace('.', ': ')
+          return str
+        },
         async dp_command() {
             let userid = 'testuser'
             let command = this.textInput

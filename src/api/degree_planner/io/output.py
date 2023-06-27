@@ -180,7 +180,7 @@ class Output():
     ######################################
 
     @staticmethod
-    def format_fulfillments(fulfillments) -> list:
+    def format_fulfillments(fulfillments, taken_courses) -> list:
         
         formatted_fulfillments = list()
         
@@ -193,7 +193,11 @@ class Output():
             formatted.update({'specifications':fulfillment.template.specifications})
             fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
             formatted.update({'fulfillment_set':fulfillment_set})
-            formatted.update({'alternatives':list(fulfillment.template.wildcard_choices)})
+            wildcard_resolutions = fulfillment.template.wildcard_resolutions(taken_courses, True)
+            for key, _ in wildcard_resolutions.dictionary.items():
+                wildcard_resolutions.add(key, key)
+            wildcard_resolutions.convert_list_type('list')
+            formatted.update({'wildcard_resolutions':wildcard_resolutions.dictionary})
 
             formatted_fulfillments.append(formatted)
         

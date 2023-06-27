@@ -2,6 +2,7 @@ import re
 from ..user.user import User
 from ..io.output import Output
 from ..dp.command import Command
+from ..math.dictionary_array import Dict_Array
 
 class command_handler():
 
@@ -180,8 +181,11 @@ class command_handler():
                     io.store(f"  taken courses: {[str(e) for e in schedule.courses()]}")
                     
                     attributes_to_replace = command.arguments
+                    wildcard_resolutions = Dict_Array(list_type='list')
+                    for i in range(0, len(attributes_to_replace) - 1, 2):
+                        wildcard_resolutions.add(attributes_to_replace[i], attributes_to_replace[i+1])
 
-                    fulfillment = planner.fulfillment(user, schedule.name, io, attributes_to_replace)
+                    fulfillment = planner.fulfillment(user, schedule.name, io, wildcard_resolutions=wildcard_resolutions)
                     io.store(Output.print_fulfillment(fulfillment))
                     io.view_cache()
                 user.command_queue.task_done()

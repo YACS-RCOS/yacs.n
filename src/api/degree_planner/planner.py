@@ -152,6 +152,10 @@ class Planner():
         user.get_active_schedule().degree = degree
         io.print(f"set your degree to {degree.name}")
         return True
+    
+
+    def taken_courses(self, user:User) -> set:
+        return user.get_active_schedule().courses()
 
 
     def details(self, course_name:str) -> str:
@@ -166,7 +170,7 @@ class Planner():
         return None
     
     
-    def fulfillment(self, user:User, schedule_name, io=None, attributes_to_replace=None):
+    def fulfillment(self, user:User, schedule_name, io=None, wildcard_resolutions=None):
         if io is None:
             io = self.default_io
 
@@ -181,7 +185,7 @@ class Planner():
             return f"no degree set for user '{user.username}'"
         
 
-        fulfillment = schedule.degree.fulfillment(schedule.courses(), attributes_to_replace=attributes_to_replace)
+        fulfillment = schedule.degree.fulfillment(schedule.courses(), wildcard_resolutions=wildcard_resolutions)
         return fulfillment
     
 

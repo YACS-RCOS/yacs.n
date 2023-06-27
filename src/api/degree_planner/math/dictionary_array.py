@@ -18,12 +18,21 @@ class Dict_Array():
                 self.dictionary.update({key:set(elements)})
 
 
-    def add(self, key, element) -> None:
+    def add(self, key, element, overwrite=False) -> None:
+        '''
+        adds element to dict array by appending it to array of its cooresponding key
+        '''
         if key in self.dictionary:
             if self.list_type == 'list':
-                self.dictionary.get(key).append(element)
+                if overwrite:
+                    self.dictionary.update({key:[element]})
+                else:
+                    self.dictionary.get(key).append(element)
             elif self.list_type == 'set':
-                self.dictionary.get(key).add(element)
+                if overwrite:
+                    self.dictionary.update({key:{element}})
+                else:
+                    self.dictionary.get(key).add(element)
         else:
             if self.list_type == 'list':
                 self.dictionary.update({key:[element]})
@@ -31,9 +40,18 @@ class Dict_Array():
                 self.dictionary.update({key:{element}})
 
 
-    def extend_elements(self, key, elements) -> None:
+    def extend_elements(self, key, elements, overwrite=False) -> None:
+        '''
+        parameters:
+            key: key of elements
+            elements: iterable set to append to dictionary
+
+        iterate over elements to add to values of its cooresponding keys in dictionary
+        '''
         if key in self.dictionary:
-            if self.list_type == 'list':
+            if overwrite:
+                self.dictionary.update({key:elements})
+            elif self.list_type == 'list':
                 self.dictionary.get(key).extend(elements)
             elif self.list_type == 'set':
                 self.dictionary.get(key).update(elements)
@@ -44,9 +62,14 @@ class Dict_Array():
                 self.dictionary.update({key:set(elements)})
 
 
-    def extend(self, other):
+    def extend(self, other, overwrite=False):
+        '''
+        other (Dict_Array)
+
+        merges two dict arrays together
+        '''
         for key, elements in other.dictionary.items():
-            self.extend_elements(key, elements)
+            self.extend_elements(key, elements, overwrite)
 
 
     def remove(self, key, element=None, suppress_error=False) -> None:

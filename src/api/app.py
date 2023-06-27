@@ -20,6 +20,7 @@ import db.student_course_selection as CourseSelect
 import db.user as UserModel
 from degree_planner.planner import User, Planner
 from degree_planner.math.sorting import sorting
+from degree_planner.math.dictionary_array import Dict_Array
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -100,8 +101,16 @@ async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(..
     
     if user.get_schedule(schedule_name) is None:
         return Response(content="user schedule not found")
-    fulfillments = planner.fulfillment(user, schedule_name, attributes_to_replace=attributes_replacement)
-    formatted_fulfillments = io.format_fulfillments(fulfillments)
+
+    wildcard_resolutions = Dict_Array(list_type='list')
+
+    for i in range(0, len(attributes_replacement) - 1, 2):
+        wildcard_resolutions.add(attributes_replacement[i],attributes_replacement[i+1])
+    print(f'APP WILDCARD RESOLUTIONS: {wildcard_resolutions}')
+
+    fulfillments = planner.fulfillment(user, schedule_name, wildcard_resolutions=wildcard_resolutions)
+    formatted_fulfillments = io.format_fulfillments(fulfillments, planner.taken_courses(user))
+    print(f"APP WILDCARD RESOLUTIONS from formatted fulfillments: {formatted_fulfillments[10]['wildcard_resolutions']}")
 
     return formatted_fulfillments
 

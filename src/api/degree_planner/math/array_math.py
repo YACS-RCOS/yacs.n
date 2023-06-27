@@ -51,16 +51,7 @@ class array_functions():
     @staticmethod
     def generate_combinatorics(bound:list, start_index=1) -> list:
         '''
-        recursively generates a list of all combinations from picking a wildcard evaluation possibility
-
-        e.g. suppose degree with two templates, 1) level.* and 2) subject.* resolves into
-        1) level.1, level.4 and 2) subject.csci, subject.biol for a certain user
-
-        this will return a list of 
-        [[level.1, subject.csci], [level.1, subject.biol], [level.4, subject.csci], [level.4, subject.biol]]
-
-        Returns:
-            list: contains all possible combinations
+        recursively generates a list of all combinations from bound array
         '''
         if len(bound) == 0:
             return [[]]
@@ -68,7 +59,7 @@ class array_functions():
         last_num = bound_cpy.pop(-1)
         nth_combo = []
         for i in range(start_index, last_num + start_index):
-            prev_combos = array_functions.generate_combinatorics(bound_cpy)
+            prev_combos = array_functions.generate_combinatorics(bound_cpy, start_index)
             for prev_combo in prev_combos:
                 prev_combo.append(i)
                 nth_combo.append(prev_combo)

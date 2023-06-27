@@ -67,108 +67,89 @@ class Degree():
     # fulfillment computation
     ##############################################################################################
 
-    def generate_template_combinations(self, taken_courses, template_set:list=None) -> list:
-        '''
-        generates a list of all possible template combinations resulted from wildcard usage
-        '''
-        # max fulfillment set for every template, including wildcards
-
-        if template_set is None:
-            template_set = self.templates
-
-        wildcard_resolutions = Dict_Array(list_type='set')
-
-        for template in template_set:
-            wildcard_resolutions.extend(template.wildcard_resolutions(taken_courses))
+    def generate_resolution_combos(self, wildcard_resolutions:Dict_Array):
 
         wildcard_resolutions.convert_list_type('list')
         wildcard_resolutions = wildcard_resolutions.to_tuples()
 
-        print(f'FINAL WILDCARD RESOLUTIONS: {wildcard_resolutions}')
+        print(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
         # if template contains wildcards, this is how many templates can result from the wildcard
         # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
         # bound_array = [len(e) for e in max_fulfillment_possibilities]
 
         bound_array = [len(e[1]) for e in wildcard_resolutions]
+        print(f'generate combo method bound array: {bound_array}')
 
         # all possible combinations using all generated templates
         # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
-        combos = af.generate_combinatorics(bound_array, 1)
-        all_template_combinations = list()
-
-        for combo in combos:
-            templates_to_use = []
-            template_set_to_use = copy.deepcopy(template_set)
-            for template in template_set_to_use:
-
-                # generates the combination of templates to use
-                for i in range(0, len(combo)):
-                    # gets the fulfillment status to use based on the number in combo
-                    template.replace_specifications(wildcard_resolutions[i][0], wildcard_resolutions[i][1][combo[i] - 1])
-                
-                templates_to_use.append(template)
-
-            all_template_combinations.append(templates_to_use)
+        combos = af.generate_combinatorics(bound_array, 0)
+        print(f'generate combo method combos array: {combos}')
         
-        print(f'ALL TEMPLATE COMBINATIONS: {all_template_combinations}')
+        # list of combinations, each combination is a dictionary
+        wildcard_combos = list()
+        for combo in combos:
+            wildcard_combo = dict()
+            for i in range(len(combo)):
+                wildcard_combo.update({wildcard_resolutions[i][0]:wildcard_resolutions[i][1][combo[i]]})
+            wildcard_combos.append(wildcard_combo)
 
-        return all_template_combinations
+        print(f'generate combo method wildcard_combos: {wildcard_combos}')
+
+        return wildcard_combos
     
 
-    def replace_attributes(self, template, attributes_to_replace:list):
+    def replace_attributes_(self, template, attributes_to_replace:list):
         # just for now, we treat attributes to replace as a list where [template, attribute to replace, template, attribute to replace ...]
         for attribute in attributes_to_replace:
             attribute_head = attribute[:attribute.find('.')]
             template.replace_specifications(attribute_head, attribute)
         return template
 
+    
+    def wildcards(self, template, template_name=None):
+        if template_name is not None:
+            template = self.get_template(template_name)
+        
+        if template is None:
+            return set()
+
+        return template.wildcards()
+
 
     ##############################################################################################
     # MAIN FULFILLMENT FUNCTION
     ##############################################################################################
 
-    def fulfillment(self, taken_courses:set, template_sets:list=None, attributes_to_replace:list=None) -> dict:
-        '''
-        Generates the best fulfillment set by assigning courses to the templates stored along with
-        each degree.
+    def fulfillment(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None):
 
-        If a wildcard is encountered, all possible values of that wildcard will be attempted and the
-        best one in the end applied and stored in the return dictionary. (For example, suppose
-        Template1 has attribute [concentration.*]. This means all courses must be within the same
-        concentration, not mattering which one in particular. The return we receive would describe
-        the concentration that provided the best fulfillment, and would have an attribute such as
-        [concentration.ai].)
-
-        parameters:
-            taken_courses (set): all courses that is to be used to generate the fulfillment sets
-            templates_set (list): specify list of templates to use, leave empty to use default set of this degree
-
-        returns:
-            all_fulfillment (dict): {template : Fulfillment_set}
-                template is the template evaluated, with all wildcard tokens replaced by the best token
-                fulfillment_set objects contain the courses that fulfill that template
-        '''
         start = timeit.default_timer()
-        # all fulfillment sets based on each possible combination of templates resulted from wildcard templates
+        original_template_set = template_set
+        forced_wildcard_resolutions = wildcard_resolutions
+
+        if original_template_set is None:
+            original_template_set = self.templates
+            original_template_set = copy.deepcopy(original_template_set)
+
+        wildcard_resolutions = Dict_Array(list_type='set')
+
+        for template in original_template_set:
+            wildcard_resolutions.extend(template.wildcard_resolutions(taken_courses))
+
+        if forced_wildcard_resolutions is not None:
+            wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
+
+        wildcard_combos = self.generate_resolution_combos(wildcard_resolutions)
+
         potential_fulfillments = list()
 
-        if template_sets is None:
-            template_sets = self.templates
-        if attributes_to_replace is not None:
-            template_sets = copy.deepcopy(template_sets)
+        for wildcard_combo in wildcard_combos:
+            template_set = copy.deepcopy(original_template_set)
 
-
-            # just for now, we treat attributes to replace as a list where [template, attribute to replace, template, attribute to replace ...]
-            for i in range(0, len(attributes_to_replace) - 1, 2):
-                for template in template_sets:
-                    print(f'comparing {template.name} and {attributes_to_replace[i]}')
-                    if template.name.casefold() == attributes_to_replace[i].casefold():
-                        attribute = attributes_to_replace[i + 1]
-                        attribute_head = attribute[:attribute.find('.')]
-                        template.replace_specifications(attribute_head, attribute)
-
-        for template_set in self.generate_template_combinations(taken_courses, template_sets):
+            # replace template set attributes with this resolution combination
+            for template in template_set:
+                for old_attr, new_attr in wildcard_combo.items():
+                    template.replace_specifications(old_attr, new_attr)
 
             # all courses that fulfills each template
             max_fulfillments = dict()
@@ -344,7 +325,7 @@ class Degree():
         needs a course template2 has. Template2 may not have excess, but Template3 does and can offer Template2 a course, so
         we transfer a course from Template3 to Template2, then the wanted course from Template2 to Template1.)
 
-        The BFS tree has the excessly filled templates as roots and the template we want to receive a course as the target
+        The BFS tree has the excessively filled templates as roots and the template we want to receive a course as the target
         for search. If less_important_templates is not None, then we also add them as the roots, essentially saying that
         we can take courses from this template without compensation. This step is used as a final optimization step when
         interacting between replacement and non replacement templates due to the fact that all non replacement templates
@@ -602,7 +583,7 @@ class Degree():
                 matches_dict.update({matched_fulfillment.get_template():recommended_courses})
 
                 for course in recommended_courses:
-                    self.io.print(f'score {final_score.get(course)} for course {str(course)}, keywords: {course.keywords}')
+                    self.io.debug(f'score {final_score.get(course)} for course {str(course)}, keywords: {course.keywords}')
 
             recommendation.update({best_template:matches_dict})
 
