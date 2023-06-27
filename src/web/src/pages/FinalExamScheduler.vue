@@ -15,7 +15,7 @@
                 <b-form-select
                     @change="searchExams"
                     v-model="selectedCourses[index]"
-                    :options="courseOptions"
+                    :options="filterCourses(index)"
                 ></b-form-select>
 
               </b-form-group>
@@ -28,15 +28,15 @@
                      @close="$bvModal.hide('add-modal-id')"
                      @keydown.esc="$bvModal.hide('add-modal-id')">
 
-                <b-form-group :label="'Select Course'">
-                  <b-form-select
-                      v-model="currCourse"
-                      :options="filterCourses()"
-                  ></b-form-select>
-                </b-form-group>
+              <b-form-group :label="''">
+                <b-form-select
+                    v-model="currCourse"
+                    :options="filterCourses()"
+                ></b-form-select>
+              </b-form-group>
 
               <b-button class="mt-3" variant="outline-success" block
-                        @click="$bvModal.hide('add-modal-id'); addCourse(currCourse); searchExams();">
+                        @click="currCourse ? ($bvModal.hide('add-modal-id'), addCourse(currCourse), searchExams()) : null">
                 Confirm
               </b-button>
               <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('add-modal-id')">
@@ -46,11 +46,12 @@
             </b-modal>
             <!--<b-button @click="addCourse" variant="primary">Add Course</b-button>-->
 
-<!--            <b-button type="submit" variant="success" class="ml-3">-->
-<!--              Search-->
-<!--            </b-button>-->
+            <!--            <b-button type="submit" variant="success" class="ml-3">-->
+            <!--              Search-->
+            <!--            </b-button>-->
 
-            <b-button :disabled="this.selectedCourses.length===0" @click="$bvModal.show('delete-modal-id')" variant="danger"
+            <b-button :disabled="this.selectedCourses.length===0" @click="$bvModal.show('delete-modal-id')"
+                      variant="danger"
                       class="ml-3">Delete
             </b-button>
             <b-modal id="delete-modal-id" hide-footer title="Delete Course"
@@ -58,7 +59,7 @@
                      @keydown.esc="$bvModal.hide('delete-modal-id')">
 
 
-              <b-form-group :label="'Delete Courses'">
+              <b-form-group :label="''">
                 <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
                   <b-form-checkbox type="radio" :value="course || index">
                     {{ (course ? (course.CourseCode + " - " + course.Section) : 'No Course Selected') }}
@@ -115,6 +116,8 @@
 <script>
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
+import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
+
 
 export default {
   components: {
@@ -139,10 +142,18 @@ export default {
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
+      coursesOnSchedule: [],
     };
   },
   mounted() {
+     try {
     this.initCourseOptions();
+    this.loadSelectedCoursesFromCookie();
+    console.log("coursesOnSchedule: ", this.coursesOnSchedule);
+    console.log("selectedCourses: ", this.selectedCourses);
+  } catch (error) {
+    console.error("An error occurred in the mounted() hook:", error);
+  }
   },
   methods: {
     formatExamDateTime(day, time) {
@@ -190,10 +201,10 @@ export default {
       this.courseOptions = Object.values(groupedCourses);
     },
     addCourse(currCourse) {
-      if(currCourse !== null){
+      if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
       }
-      this.currCourse=null;
+      this.currCourse = null;
       console.log(this.selectedCourses);
     },
     searchExams() {
@@ -268,8 +279,34 @@ export default {
 
       this.searchExams();
     },
-    filterCourses(){
-      return this.courseOptions.filter(option => !this.selectedCourses.includes(option.value));
+    filterCourses(index) {
+      return this.courseOptions.filter(option => {
+        if (index !== undefined) {
+          return !this.selectedCourses.includes(option.value) || option.value === this.selectedCourses[index];
+        } else {
+          return !this.selectedCourses.includes(option.value);
+        }
+      });
+    },
+    loadSelectedCoursesFromCookie() {
+      this.coursesOnSchedule = SelectedCoursesCookie.load(this.$cookies);
+      const groupedCourses = [];
+      for(let i = 0; i< this.coursesOnSchedule.length; i++){
+        const exam = this.coursesOnSchedule[i].$cookies._selectedSemesters[0];
+        const key =
+            exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
+        if (!groupedCourses[key]) {
+          groupedCourses[key] = {
+            value: exam,
+            text: key,
+          };
+        } else if (exam.Section === "ALL SECTIONS") {
+          groupedCourses[key].value.Room += ", " + exam.Room;
+        }
+      }
+      console.log("GROUPED COURSES",groupedCourses);
+      //this.courseOptions = Object.values(groupedCourses);
+      this.selectedCourses.concat(Object.values(groupedCourses));
     },
   },
 };
