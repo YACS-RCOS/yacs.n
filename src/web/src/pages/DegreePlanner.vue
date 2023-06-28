@@ -18,6 +18,15 @@
             <div class="text-block" v-for="(item, index) in requirements" :key="index">
                 <h3>{{ item.name }}</h3>
                 <div v-if="item.content">
+                  <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
+                    <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
+                      <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, [alternative_orig, alternative_choice])">
+                          {{ format_alternative(alternative_choice) }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                   <div v-if="'specifications' in item">
                     <h6>specifications: {{ item.specifications }}</h6>
                   </div>
@@ -26,28 +35,23 @@
                           <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
                       </div>
                       <div class="fulfilled-list">
-                          <li v-for="course in item.fulfillment_set" :key="course">
-                              {{ course }}
-                          </li>
+                          <div v-for="(course, index) in item.fulfillment_set" :key="index">
+                            <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                              &#10148; {{ course }}
+                            </button>
+                          </div>
                       </div>
-                  </div>
-                  <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
-                    <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
-                      <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, [alternative_orig, alternative_choice])">
-                          {{ format_alternative(alternative_choice) }}
-                      </button>
-                      </div>
-                    </div>
                   </div>
                   <br>
                   <div class="recommendations" v-if="recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
                       <h4>Recommendations:</h4>
                       <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
                           <h6>specifications: {{ recommendation.specifications }}</h6>
-                          <li v-for="course in recommendation.fulfillment_set" :key="course">
-                              {{ course }}
-                          </li>
+                          <div v-for="(course, index) in recommendation.fulfillment_set" :key="index">
+                            <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                              &#10148; {{ course }}
+                            </button>
+                          </div>
                       </div>
                   </div>
                 </div>
@@ -69,6 +73,10 @@
       };
     },
     methods: {
+        navigate_to_course_page(course) {
+          let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
+          this.$router.push("/explore/" + page);
+        },
         format_alternative(str) {
           if (str.includes('*')) {
             str = str.split('*')[0] + " automatically select"
@@ -187,6 +195,20 @@
     font-size: 0.8em;
     background-color: #21242b;
   }
+  .course-buttons {
+    border: none;
+    border-radius: 4px;
+    width: 99%;
+    padding: 2px;
+    margin: 2px;
+    color:#e3e8e4;
+    background-color: rgba(197, 211, 218, 0.01);
+    transition: background-color 0.15s ease;
+    text-align: left;
+  }
+  .course-buttons:hover {
+    background-color: rgba(13, 23, 26, 0.78);
+  }
   .text-block h3 {
     color:cornflowerblue;
     font-size: 1.6em;
@@ -214,17 +236,16 @@
   }
   .alternative-buttons {
     border-radius: 6px;
+    width: 99%;
     border: none;
     padding: 4px;
     margin: 2px;
     color:#e3e8e4;
-    background-color: #3f4146;
+    background-color: #3e4041;
     transition: background-color 0.2s ease;
   }
   .alternative-buttons:hover {
     background-color:#21242b;
-    color: #c7e4e1;
-    border: none;
   }
   .alternative-buttons-wildcard {
     border-radius: 6px;
