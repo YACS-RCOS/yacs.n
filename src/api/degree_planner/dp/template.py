@@ -6,6 +6,7 @@ import copy
 from .course import Course
 from .fulfillment_status import Fulfillment_Status
 from ..math.dictionary_array import Dict_Array
+from ..math.array_math import array_functions as af
 
 class Template():
     '''
@@ -18,17 +19,16 @@ class Template():
     DELIMITERS = ['|', '&', '(', ')', '~']
 
     def __init__(self, name, specifications=None, replacement=False, courses_required=1):
+        self.name = name # must be unique within a degree
+        
         if specifications == None:
             specifications = ''
-
-        self.name = name # must be unique within a degree
         self.specifications = specifications # details the attributes courses must have to fulfill this template
         self.original_specifications = specifications # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
         self.original_formatted_specifications = specifications
+
         self.courses_required = courses_required
-
         self.courses_fulfilled = 0
-
         self.replacement = replacement
         self.importance = 0 # used internally by degree, higher the number the more important it is
 
@@ -41,11 +41,10 @@ class Template():
     def replace_specifications(self, old_attr_head, new_attr):
         old_attr_head = old_attr_head.casefold()
         specification = self.specifications
-        #print('old specification: ' + specification)
         search_begin_index = 0
         while specification.find(old_attr_head, search_begin_index) != -1:
             begin_index = specification.find(old_attr_head)
-            end_index = self.find_from_set(specification, Template.DELIMITERS, begin_index + 1)
+            end_index = af.find_set(specification, Template.DELIMITERS, begin_index + 1)
             if end_index != -1:
                 end_index +=1
             else:
@@ -53,24 +52,6 @@ class Template():
             search_begin_index = end_index
             specification = specification[:begin_index] + new_attr + specification[end_index:]
         self.specifications = specification
-        #print('new specification: ' + specification)
-
-
-    def find_from_set(self, string, charset, begin_index=0, end_index=None, rfind=False):
-        min_loc = len(string)
-        if end_index is None:
-            end_index = len(string)
-
-        for c in charset:
-            if rfind:
-                loc = string.rfind(c, begin_index, end_index)
-            else:
-                loc = string.find(c, begin_index, end_index)
-            if loc != -1 and loc < min_loc:
-                min_loc = loc
-        if min_loc == len(string):
-            return -1
-        return min_loc
 
 
     def wildcard_resolutions(self, courses, use_original_specifications:bool=False):
@@ -100,17 +81,17 @@ class Template():
         return begin_counter
     
     def wildcards(self):
+        '''
+        untested
+        '''
         wildcards = set()
-
         begin_index = 0
         star_index = self.specifications.find('*', begin_index)
         while star_index != -1:
-            begin_index = self.find_from_set(self.specifications, Template.DELIMITERS, 0, star_index, True) + 1
-            end_index = self.find_from_set(self.specifications, Template.DELIMITERS, star_index)
+            begin_index = af.find_set(self.specifications, Template.DELIMITERS, 0, star_index, True) + 1
+            end_index = af.find_set(self.specifications, Template.DELIMITERS, star_index)
             wildcards.add(self.specifications[begin_index:end_index])
             star_index = self.specifications.find('*', end_index)
-
-        print(f'WILDCARDS METHOD FOUND WILDCARDS {wildcards}')
         return wildcards
 
 

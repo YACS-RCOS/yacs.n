@@ -72,19 +72,19 @@ class Degree():
         wildcard_resolutions.convert_list_type('list')
         wildcard_resolutions = wildcard_resolutions.to_tuples()
 
-        print(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
+        self.io.debug(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
         # if template contains wildcards, this is how many templates can result from the wildcard
         # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
         # bound_array = [len(e) for e in max_fulfillment_possibilities]
 
         bound_array = [len(e[1]) for e in wildcard_resolutions]
-        print(f'generate combo method bound array: {bound_array}')
+        self.io.debug(f'generate combo method bound array: {bound_array}')
 
         # all possible combinations using all generated templates
         # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
         combos = af.generate_combinatorics(bound_array, 0)
-        print(f'generate combo method combos array: {combos}')
+        self.io.debug(f'generate combo method combos array: {combos}')
         
         # list of combinations, each combination is a dictionary
         wildcard_combos = list()
@@ -94,17 +94,9 @@ class Degree():
                 wildcard_combo.update({wildcard_resolutions[i][0]:wildcard_resolutions[i][1][combo[i]]})
             wildcard_combos.append(wildcard_combo)
 
-        print(f'generate combo method wildcard_combos: {wildcard_combos}')
+        self.io.debug(f'generate combo method wildcard_combos: {wildcard_combos}')
 
         return wildcard_combos
-    
-
-    def replace_attributes_(self, template, attributes_to_replace:list):
-        # just for now, we treat attributes to replace as a list where [template, attribute to replace, template, attribute to replace ...]
-        for attribute in attributes_to_replace:
-            attribute_head = attribute[:attribute.find('.')]
-            template.replace_specifications(attribute_head, attribute)
-        return template
 
     
     def wildcards(self, template, template_name=None):

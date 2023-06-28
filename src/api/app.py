@@ -87,14 +87,13 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
     if user is None:
         return Response(content="user not found")
 
-    planner.user_input(user, command)
-    print(f'user {user} ran command {command}')
-    return Response(content='ran command successfully', status_code=200)
+    return planner.user_input(user, command)
     
 
 @app.post('/api/dp/fulfillment')
 async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(...), attributes_replacement:list = Body(...)):
     io = planner.default_io
+    print(f'app fulfillment called with schedule {schedule_name}')
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
@@ -106,11 +105,10 @@ async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(..
 
     for i in range(0, len(attributes_replacement) - 1, 2):
         wildcard_resolutions.add(attributes_replacement[i],attributes_replacement[i+1])
-    print(f'APP WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
     fulfillments = planner.fulfillment(user, schedule_name, wildcard_resolutions=wildcard_resolutions)
+    #print(f'APP FULFILLMENTS: {fulfillments}')
     formatted_fulfillments = io.format_fulfillments(fulfillments, planner.taken_courses(user))
-    print(f"APP WILDCARD RESOLUTIONS from formatted fulfillments: {formatted_fulfillments[10]['wildcard_resolutions']}")
 
     return formatted_fulfillments
 

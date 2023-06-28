@@ -84,10 +84,14 @@ class Planner():
         self.users.pop(userid, None)
 
 
-    def user_input(self, user:User, input:str, io=None):
+    def user_input(self, user:User, input:str, io=None) -> dict:
+        '''
+        returns a dictionary of variables:values to update on the frontend based on commands entered
+        that changes user state (ie active schedule, active degree)
+        '''
         if io is None:
             io = self.default_io
-        command_handler.user_input(self, user, input, io, prompting=self.PROMPTING)
+        return command_handler.user_input(self, user, input, io, prompting=self.PROMPTING)
 
 
     def schedule(self, user:User, schedule_name:str, io:Output=None) -> None:

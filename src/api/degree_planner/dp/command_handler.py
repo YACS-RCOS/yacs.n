@@ -7,7 +7,7 @@ from ..math.dictionary_array import Dict_Array
 class command_handler():
 
     @staticmethod
-    def user_input(planner, user:User, user_input:str, io:Output=None, prompting=False) -> bool:
+    def user_input(planner, user:User, user_input:str, io:Output=None, prompting=False) -> dict:
         ''' MAIN FUNCTION FOR ACCEPTING COMMAND ENTRIES
 
         Args:
@@ -31,7 +31,7 @@ class command_handler():
 
             if user.command_queue_locked:
                 io.print(f'queue busy, please try again later')
-                return False
+                return {}
 
             user.command_queue_locked = True
             user.command_queue.join()
@@ -40,13 +40,13 @@ class command_handler():
             for command in commands:
                 user.command_queue.put(command)
 
-        command_handler.execute_commands(planner, user, io, prompting)
+        variable_updates = command_handler.execute_commands(planner, user, io, prompting)
         user.command_queue_locked = False
         io.debug(f'user {user.username} unlocked their command queue')
-        return True
+        return variable_updates
 
     @staticmethod
-    def execute_commands(planner, user:User, io:Output=None, prompting=False) -> None:
+    def execute_commands(planner, user:User, io:Output=None, prompting=False) -> dict:
         ''' EXECUTES COMMANDS FROM USER'S COMMAND QUEUE
 
         Args:
@@ -67,6 +67,8 @@ class command_handler():
         be entered again.
         """
         io.debug(f'user {user.username} entered command loop')
+
+        variable_updates = {}
 
         while(not user.command_queue.empty() or User.Flag.CMD_PAUSED in user.flag):
             if User.Flag.CMD_PAUSED in user.flag:
@@ -109,6 +111,8 @@ class command_handler():
                     else:
                         io.print(f"switched schedule to {schedule_name}")
                         user.set_active_schedule(schedule_name)
+
+                    variable_updates.update({'schedule_name':schedule_name})
                 user.command_queue.task_done()
                 continue
 
@@ -119,6 +123,7 @@ class command_handler():
                 user.new_schedule(user.username)
                 user.set_active_schedule(user.username)
                 schedule = user.get_active_schedule()
+                variable_updates.update({'schedule_name':user.username})
 
             if command.command in (Command.CMD.ADD, Command.CMD.REMOVE):
                 if User.Flag.CMD_PAUSED in user.flag:
@@ -223,6 +228,9 @@ class command_handler():
                 io.print(f"Unimplemented command {command.command} entered")
                 user.command_queue.task_done()
                 continue
+        
+        print(f'variable updates: {variable_updates}')
+        return variable_updates
 
 
     #--------------------------------------------------------------------------

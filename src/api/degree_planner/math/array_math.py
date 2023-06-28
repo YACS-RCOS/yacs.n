@@ -64,3 +64,20 @@ class array_functions():
                 prev_combo.append(i)
                 nth_combo.append(prev_combo)
         return nth_combo
+    
+    @staticmethod
+    def find_set(string, charset, begin_index=0, end_index=None, rfind=False):
+        min_loc = len(string)
+        if end_index is None:
+            end_index = len(string)
+
+        for c in charset:
+            if rfind:
+                loc = string.rfind(c, begin_index, end_index)
+            else:
+                loc = string.find(c, begin_index, end_index)
+            if loc != -1 and loc < min_loc:
+                min_loc = loc
+        if min_loc == len(string):
+            return -1
+        return min_loc

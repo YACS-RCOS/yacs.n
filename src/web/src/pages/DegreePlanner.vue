@@ -6,7 +6,7 @@
         </div>
 
         <div>
-            <input class="text-input" v-model="textInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
+          <input class="text-input" v-model="textInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
         </div>
 
         <div class="container">
@@ -23,18 +23,16 @@
                         </li>
                     </div>
                 </div>
-                <br>
                 <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
-
                   <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
                     <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                      <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment('testuser', 'schedule1', [alternative_orig, alternative_choice])">
+                      <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, schedule_name, [alternative_orig, alternative_choice])">
                         {{ format_alternative(alternative_choice) }}
                     </button>
                     </div>
                   </div>
-
                 </div>
+                <br>
                 <div class="recommendations" v-if="recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
                     <h4>Recommendations:</h4>
                     <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
@@ -54,6 +52,9 @@
   export default {
     data() {
       return {
+        userid: 'testuser',
+        degree: 'computer science',
+        schedule_name: 'schedule1',
         requirements: [],
         recommendations: {}
       };
@@ -63,33 +64,37 @@
           if (str.includes('*')) {
             str = str.split('*')[0] + " automatically select"
           }
-          str = str.replace('.', ': ')
+          str = str.replace('.', ': ');
           return str
         },
         async dp_command() {
-            let userid = 'testuser'
-            let command = this.textInput
-
-            await fetch('/api/dp/users/command', {
+            let command = this.textInput;
+            let userid = this.userid;
+            const updates = await fetch('/api/dp/users/command', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({userid, command}),
             });
-            this.textInput = ""
-            this.fetch_data()
+            let variable_updates = await updates.json();
+
+            this.update_variables(variable_updates).then(this.fetch_data());
+            this.textInput = "";
         },
-
+        async update_variables(variable_updates) {
+          for(let [key, value] of Object.entries(variable_updates)) {
+            if (this[key] !== undefined) {
+              this[key] = value;
+            }
+          }
+        },
         async fetch_data() {
-            let userid = 'testuser'
-            let degree = 'computer science'
-            let schedule_name = 'schedule1'
-            let courses = {}
+            let userid = this.userid;
+            let schedule_name = this.schedule_name;
 
-            this.newuser(userid, degree, schedule_name, courses)
-            this.fulfillment(userid, schedule_name, [])
-            this.recommend(userid, schedule_name)
+            this.fulfillment(userid, schedule_name, []);
+            this.recommend(userid, schedule_name);
         },
 
         async newuser(userid, degree, schedule_name, courses) {
@@ -126,7 +131,14 @@
         },
     },
     async created() {
-        this.fetch_data();
+      let courses = {};
+      let userid = this.userid;
+      let degree = this.degree;
+      let schedule_name = this.schedule_name;
+
+      this.newuser(userid, degree, schedule_name, courses);
+      this.fulfillment(userid, schedule_name, []);
+      this.recommend(userid, schedule_name);
     },
   };
 </script>

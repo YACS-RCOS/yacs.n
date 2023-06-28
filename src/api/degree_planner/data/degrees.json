@@ -4,6 +4,11 @@
             "specifications":"(subject.csci & course_id.1200) | (subject.csci & course_id.2200) | (subject.csci & course_id.2500) | (subject.ecse & course_id.2660) | (subject.csci & course_id.2300) | (subject.csci & course_id.2600) | (subject.csci & course_id.4430) | (subject.csci & course_id.4210)"
         }
     },
+    "electrical engineering": {
+        "Core - Intro to ECSE": {
+            "specifications":"subject.ecse & course_id.1010"
+        }
+    },
     "computer science": {
         "Core - Data Structures": {
             "requires": 1,
