@@ -91,22 +91,18 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
     
 
 @app.post('/api/dp/fulfillment')
-async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(...), attributes_replacement:list = Body(...)):
+async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
     io = planner.default_io
-    print(f'app fulfillment called with schedule {schedule_name}')
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
-    
-    if user.get_schedule(schedule_name) is None:
-        return Response(content="user schedule not found")
 
     wildcard_resolutions = Dict_Array(list_type='list')
 
     for i in range(0, len(attributes_replacement) - 1, 2):
         wildcard_resolutions.add(attributes_replacement[i],attributes_replacement[i+1])
 
-    fulfillments = planner.fulfillment(user, schedule_name, wildcard_resolutions=wildcard_resolutions)
+    fulfillments = planner.fulfillment(user, user.active_schedule, wildcard_resolutions=wildcard_resolutions)
     #print(f'APP FULFILLMENTS: {fulfillments}')
     formatted_fulfillments = io.format_fulfillments(fulfillments, planner.taken_courses(user))
 
@@ -114,16 +110,13 @@ async def get_dp_fulfillment(userid:str = Body(...), schedule_name:str = Body(..
 
 
 @app.post('/api/dp/recommend')
-async def get_dp_recommendations(userid:str = Body(...), schedule_name:str = Body(...)):
+async def get_dp_recommendations(userid:str = Body(...)):
     io = planner.default_io
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
     
-    if user.get_schedule(schedule_name) is None:
-        return Response(content="user schedule not found")
-    
-    recommendation = planner.recommend(user, schedule_name)
+    recommendation = planner.recommend(user, user.active_schedule)
     formatted_recommendations = io.format_recommendations(recommendation)
 
     dict_recommendations = dict()

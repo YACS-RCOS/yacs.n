@@ -8,39 +8,48 @@
         <div>
           <input class="text-input" v-model="textInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
         </div>
-
+        <div>
+          <h4 class="schedule-selection">
+            Schedule: {{ schedule_name }} <br>
+            Degree: {{ degree }}
+          </h4>
+        </div>
         <div class="container">
             <div class="text-block" v-for="(item, index) in requirements" :key="index">
                 <h3>{{ item.name }}</h3>
-                <h6>specifications: {{ item.specifications }}</h6>
-                <div v-bind:class="{fulfillment:item.actual_count >= item.required_count, unfulfilled_fulfillment:item.actual_count < item.required_count}">
-                    <div v-bind:class="{req_fulfilled:item.actual_count >= item.required_count, req_unfulfilled:item.actual_count < item.required_count}">
-                        <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
-                    </div>
-                    <div class="fulfilled-list">
-                        <li v-for="course in item.fulfillment_set" :key="course">
-                            {{ course }}
-                        </li>
-                    </div>
-                </div>
-                <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
-                  <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
-                    <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                      <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, schedule_name, [alternative_orig, alternative_choice])">
-                        {{ format_alternative(alternative_choice) }}
-                    </button>
+                <div v-if="item.content">
+                  <div v-if="'specifications' in item">
+                    <h6>specifications: {{ item.specifications }}</h6>
+                  </div>
+                  <div v-bind:class="{fulfillment:item.actual_count >= item.required_count, unfulfilled_fulfillment:item.actual_count < item.required_count}">
+                      <div v-bind:class="{req_fulfilled:item.actual_count >= item.required_count, req_unfulfilled:item.actual_count < item.required_count}">
+                          <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
+                      </div>
+                      <div class="fulfilled-list">
+                          <li v-for="course in item.fulfillment_set" :key="course">
+                              {{ course }}
+                          </li>
+                      </div>
+                  </div>
+                  <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
+                    <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
+                      <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, [alternative_orig, alternative_choice])">
+                          {{ format_alternative(alternative_choice) }}
+                      </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <br>
-                <div class="recommendations" v-if="recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
-                    <h4>Recommendations:</h4>
-                    <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
-                        <h6>specifications: {{ recommendation.specifications }}</h6>
-                        <li v-for="course in recommendation.fulfillment_set" :key="course">
-                            {{ course }}
-                        </li>
-                    </div>
+                  <br>
+                  <div class="recommendations" v-if="recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
+                      <h4>Recommendations:</h4>
+                      <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
+                          <h6>specifications: {{ recommendation.specifications }}</h6>
+                          <li v-for="course in recommendation.fulfillment_set" :key="course">
+                              {{ course }}
+                          </li>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -91,10 +100,9 @@
         },
         async fetch_data() {
             let userid = this.userid;
-            let schedule_name = this.schedule_name;
 
-            this.fulfillment(userid, schedule_name, []);
-            this.recommend(userid, schedule_name);
+            this.fulfillment(userid, []);
+            this.recommend(userid);
         },
 
         async newuser(userid, degree, schedule_name, courses) {
@@ -107,25 +115,25 @@
           });
         },
 
-        async fulfillment(userid, schedule_name, attributes_replacement) {
+        async fulfillment(userid, attributes_replacement) {
           const response1 = await fetch('/api/dp/fulfillment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({userid, schedule_name, attributes_replacement}),
+            body: JSON.stringify({userid, attributes_replacement}),
           });
 
           this.requirements = await response1.json();
         },
 
-        async recommend(userid, schedule_name) {
+        async recommend(userid) {
           const response2 = await fetch('/api/dp/recommend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({userid, schedule_name}),
+            body: JSON.stringify(userid),
           });
           this.recommendations = await response2.json();
         },
@@ -137,13 +145,17 @@
       let schedule_name = this.schedule_name;
 
       this.newuser(userid, degree, schedule_name, courses);
-      this.fulfillment(userid, schedule_name, []);
-      this.recommend(userid, schedule_name);
+      this.fulfillment(userid, []);
+      this.recommend(userid);
     },
   };
 </script>
   
 <style scoped>
+  .schedule-selection {
+    text-align: center;
+    color:#e3e8e4;
+  }
   .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

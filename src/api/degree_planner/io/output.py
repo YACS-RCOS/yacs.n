@@ -183,10 +183,19 @@ class Output():
     def format_fulfillments(fulfillments, taken_courses) -> list:
         
         formatted_fulfillments = list()
+
+        # if fulfillment failed, typically due to no degree specified
+        if isinstance(fulfillments, str):
+            formatted = dict()
+            formatted.update({'name':'No Degree Selected'})
+            formatted.update({'content':False})
+            formatted_fulfillments.append(formatted)
+            return formatted_fulfillments
         
         for fulfillment in fulfillments.values():
             formatted = dict()
             formatted.update({'name':fulfillment.template.name})
+            formatted.update({'content':True})
             formatted.update({'replacement':fulfillment.template.replacement})
             formatted.update({'required_count':fulfillment.get_required_count()})
             formatted.update({'actual_count':fulfillment.get_actual_count()})
@@ -238,6 +247,10 @@ class Output():
     def format_recommendations(recommendation:dict) -> list:
 
         formatted_recommendations = list()
+
+        # if recommendation failed, typically due to no degree specified
+        if isinstance(recommendation, str):
+            return []
 
         templates = list(recommendation.keys())
         templates.sort()

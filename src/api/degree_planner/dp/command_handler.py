@@ -113,6 +113,7 @@ class command_handler():
                         user.set_active_schedule(schedule_name)
 
                     variable_updates.update({'schedule_name':schedule_name})
+                    variable_updates.update({'degree':str(user.get_active_schedule().degree)})
                 user.command_queue.task_done()
                 continue
 
@@ -174,7 +175,9 @@ class command_handler():
                 if not command.arguments:
                     io.print(f"no arguments found. Use degree, <degree name> to set your schedule's degree")
                 else:
-                    planner.degree(user, command.arguments[0], io)
+                    success = planner.degree(user, command.arguments[0], io)
+                    if success:
+                        variable_updates.update({'degree':command.arguments[0]})
                 user.command_queue.task_done()
                 continue
 
