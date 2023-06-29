@@ -2,7 +2,12 @@
     <b-container fluid>
         <div class="heading">
             <h1>Degree Planner</h1>
-            <h2>Requirements</h2>
+        </div>
+        <div class="main-loading" v-if="main_loading">
+          YACS<h1>&#32; &#32;Degree Planner</h1>
+        </div>
+        <div class="loading" v-if="loading">
+          loading
         </div>
 
         <div>
@@ -10,8 +15,8 @@
         </div>
         <div>
           <h4 class="schedule-selection">
-            Schedule: {{ schedule_name }} <br>
-            Degree: {{ degree }}
+            <font color="#e6bc8a">Schedule:</font> {{ schedule_name }} <br>
+            <font color="#e6bc8a">Degree:</font> {{ degree }}
           </h4>
         </div>
         <div class="container">
@@ -21,7 +26,7 @@
                   <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
                     <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
                       <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment(userid, [alternative_orig, alternative_choice])">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment([alternative_orig, alternative_choice])">
                           {{ format_alternative(alternative_choice) }}
                         </button>
                       </div>
@@ -65,104 +70,154 @@
   export default {
     data() {
       return {
+        loading: true,
+        main_loading: true,
         userid: 'testuser',
         degree: 'computer science',
-        schedule_name: 'schedule1',
+        schedule_name: "new schedule",
         requirements: [],
         recommendations: {}
       };
     },
     methods: {
-        navigate_to_course_page(course) {
-          let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
-          this.$router.push("/explore/" + page);
-        },
-        format_alternative(str) {
-          if (str.includes('*')) {
-            str = str.split('*')[0] + " automatically select"
+
+      // HELPER FUNCTIONS
+
+      navigate_to_course_page(course) {
+        let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
+        this.$router.push("/explore/" + page);
+      },
+
+      format_alternative(str) {
+        if (str.includes('*')) {
+          str = str.split('*')[0] + " automatically select"
+        }
+        str = str.replace('.', ': ');
+        return str
+      },
+
+      async update_variables(variable_updates) {
+        // helper function that updates variables of this page from API reply
+        for(let [key, value] of Object.entries(variable_updates)) {
+          if (this[key] !== undefined) {
+            this[key] = value;
           }
-          str = str.replace('.', ': ');
-          return str
-        },
-        async dp_command() {
-            let command = this.textInput;
-            let userid = this.userid;
-            const updates = await fetch('/api/dp/users/command', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({userid, command}),
-            });
-            let variable_updates = await updates.json();
+        }
+      },
 
-            this.update_variables(variable_updates).then(this.fetch_data());
-            this.textInput = "";
-        },
-        async update_variables(variable_updates) {
-          for(let [key, value] of Object.entries(variable_updates)) {
-            if (this[key] !== undefined) {
-              this[key] = value;
-            }
-          }
-        },
-        async fetch_data() {
-            let userid = this.userid;
 
-            this.fulfillment(userid, []);
-            this.recommend(userid);
-        },
+      // API CALLING
 
-        async newuser(userid, degree, schedule_name, courses) {
-          await fetch('/api/dp/newuser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, degree, schedule_name, courses}),
+      async dp_command() {
+          let command = this.textInput;
+          let userid = this.userid;
+          const updates = await fetch('/api/dp/users/command', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({userid, command}),
           });
-        },
+          let variable_updates = await updates.json();
 
-        async fulfillment(userid, attributes_replacement) {
-          const response1 = await fetch('/api/dp/fulfillment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, attributes_replacement}),
-          });
+          this.update_variables(variable_updates).then(this.fetch_data());
+          this.textInput = "";
+      },
 
-          this.requirements = await response1.json();
-        },
+      async fetch_data() {
+        this.loading = true;
+        // fetch fulfillment and recommendations
+        this.fulfillment([]);
+        this.recommend();
+      },
 
-        async recommend(userid) {
-          const response2 = await fetch('/api/dp/recommend', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userid),
-          });
-          this.recommendations = await response2.json();
-        },
+      async newuser() {
+        let userid = this.userid;
+        let degree = this.degree;
+        let schedule_name = this.schedule_name;
+        let courses = {};
+
+        await fetch('/api/dp/newuser', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({userid, degree, schedule_name, courses}),
+        });
+      },
+
+      async fulfillment(attributes_replacement) {
+        let userid = this.userid;
+
+        const response1 = await fetch('/api/dp/fulfillment', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({userid, attributes_replacement}),
+        });
+
+        this.requirements = await response1.json();
+      },
+
+      async recommend() {
+        let userid = this.userid;
+
+        const response2 = await fetch('/api/dp/recommend', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userid),
+        });
+        this.recommendations = await response2.json().then(this.loading = false).then(this.main_loading = false);
+      },
+
     },
-    async created() {
-      let courses = {};
-      let userid = this.userid;
-      let degree = this.degree;
-      let schedule_name = this.schedule_name;
 
-      this.newuser(userid, degree, schedule_name, courses);
-      this.fulfillment(userid, []);
-      this.recommend(userid);
+    async created() {
+      this.main_loading = true;
+      await this.newuser();
+      await this.fetch_data();
     },
   };
 </script>
   
 <style scoped>
+  .heading {
+    font-weight:400;
+    color:#9fc6c6;
+  }
   .schedule-selection {
     text-align: center;
     color:#e3e8e4;
+  }
+  .main-loading {
+    text-align:center;
+    font-size:8em;
+    font-weight:600;
+    color:#e19e8c;
+    position: fixed;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(8, 26, 32, 0.95);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .main-loading h1 {
+    font-size:0.9em;
+    margin: 30px;
+    color:#cadbdb;
+  }
+  .loading {
+    text-align:center;
+    font-size:1em;
+    position:fixed;
   }
   .container {
     display: grid;

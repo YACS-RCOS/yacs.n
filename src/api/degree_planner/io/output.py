@@ -203,9 +203,9 @@ class Output():
             fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
             formatted.update({'fulfillment_set':fulfillment_set})
             wildcard_resolutions = fulfillment.template.wildcard_resolutions(taken_courses, True)
-            for key, _ in wildcard_resolutions.dictionary.items():
-                wildcard_resolutions.add(key, key)
             wildcard_resolutions.convert_list_type('list')
+            for key, _ in wildcard_resolutions.dictionary.items():
+                wildcard_resolutions.insert(key, key, 0)
             formatted.update({'wildcard_resolutions':wildcard_resolutions.dictionary})
 
             formatted_fulfillments.append(formatted)
@@ -297,7 +297,7 @@ class Output():
         for template in templates:
             printout += (f"\n  Original Template '{template.name}':" + \
                 f"\n    replacement: {template.replacement}, importance: {template.importance}" + \
-                f"\n    required count: {template.get_required_count()}" + \
+                f"\n    required count: {template.courses_required}" + \
                 f"\n    specifications: {template.specifications}\n")
             
             for generated_template, fulfillment_courses in recommendation.get(template).items():

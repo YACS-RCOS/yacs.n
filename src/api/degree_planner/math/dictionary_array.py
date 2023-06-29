@@ -16,6 +16,34 @@ class Dict_Array():
                 self.dictionary.update({key:list(elements)})
             elif list_type == 'set':
                 self.dictionary.update({key:set(elements)})
+        self.list_type = list_type
+
+
+    def prune(self, discriminator, remove_empty_keys=True) -> None:
+        for _, elements in self.dictionary.items():
+            remove_list = []
+            for element in elements:
+                if discriminator(element):
+                    remove_list.append(element)
+            for marked_element in remove_list:
+                elements.remove(marked_element)
+        if not remove_empty_keys:
+            return
+        
+        remove_keys = set()
+        for key, elements in self.dictionary.items():
+            if not len(elements):
+                remove_keys.add(key)
+
+        for key in remove_keys:
+            self.dictionary.pop(key)
+
+
+    def insert(self, key, element, index) -> None:
+        if self.list_type == 'list':
+            self.dictionary.get(key).insert(index, element)
+        else:
+            self.add(key, element)
 
 
     def add(self, key, element, overwrite=False) -> None:

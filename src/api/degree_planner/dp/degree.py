@@ -129,6 +129,8 @@ class Degree():
             wildcard_resolutions.extend(template.wildcard_resolutions(taken_courses))
 
         if forced_wildcard_resolutions is not None:
+            # forced wildcard resolutions should not contain wildcards in resolution, will remove them
+            forced_wildcard_resolutions.prune(lambda x : '*' in x)
             wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
 
         wildcard_combos = self.generate_resolution_combos(wildcard_resolutions)
