@@ -139,11 +139,6 @@ class acalog_client():
 
     def get_course_ids_xml(self):
         return req.get(f"{self.search_endpoint}?key={self.api_key}&format={self.api_response_format}&method=listing&catalog={self.catalog_id}&options[limit]=0").content
-
-    def _get_course_descriptions(self):
-        # print(SEMESTER)
-        f"sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=BIOL"
-        return
     
     def _get_course_details(self, id_params):
         id_list = id_params.split("&")

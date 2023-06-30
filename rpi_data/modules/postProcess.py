@@ -173,7 +173,57 @@ def parseSemester(filename) -> str:
     elif season == 'winter':
         season = '12'
     return year+season
-    
+
+
+# course descriptions must be acquired separately because the API used in fetch_catalog_course_info.py is outdated and no longer contains course info
+def getDescriptions():
+    # print(SEMESTER)
+    getCourseLink("05", "CSCI", "1000")
+    year = "2023"
+    season = "05"
+    short_name = "CSCI"
+    # link = f"http://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={year}{season}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={short_name}"
+    page_num = 20
+    link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
+    s = requests.Session()
+    webpage_response = s.get(link)
+    webpage = webpage_response.content
+    soup = BeautifulSoup(webpage, "html.parser")
+    # print(soup)
+
+    # data2 = []
+    # table = soup.find('table', attrs={'class':'table_default'})
+    # rows = table.find_all('tr')
+    # for row in rows:
+    #     cols = row.find_all('td')
+    #     print(cols)
+    #     # li = cols.find("li")
+    #     # for l in li:
+    #     #     print(l)
+        
+    #     # print(cols)
+    #     # cols = [ele.text.strip() for ele in cols]
+    #     # data2.append([ele for ele in cols if ele]) # Get rid of empty values
+
+    # for d in data2:
+    #     print(d)
+
+
+    data2 = []
+    table = soup.find('table', attrs={'class':'table_default'})
+    rows = table.find_all('tr')
+    for row in rows:
+        cols = row.find_all('td')
+        cols = [ele.text.strip() for ele in cols]
+        # for headers in cols.select('h2,h3'):
+        #     print(headers)
+        for ele in cols:
+            if ele:
+                data2.append[ele]
+        data2.append([ele for ele in cols if ele]) # Get rid of empty values
+
+    for d in data2:
+        print(d)
 
 def main() -> None:
     filename = os.environ.get('TARGET_FILE')
@@ -181,6 +231,7 @@ def main() -> None:
     hasData = os.environ.get('HAS_DATA')
     DEBUG = os.environ.get('DEBUG')
 
+    getDescriptions()
     if hasData == 'y':
         WithData(filename, dataFilename)
     else:
