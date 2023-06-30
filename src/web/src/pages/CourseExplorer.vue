@@ -67,27 +67,27 @@
       
         <!-- splitted Departments in alphabet order -->
         <b-col
-          v-for="(alphCol, index) in alphabetCols"
+          v-for="(alphCol, index) in alphDepartmentObjects"
           :key="`alphCol-${index}`"
           md="6"
           v-show="alphShow"
         >
           <b-row
             v-for="alphabetObj in alphCol"
-            :key="alphabetObj['School Name'][0]"
+            :key="alphabetObj.letter"
             class="departmentBox border m-2 mb-4"
           >
             <b-col>
               <!-- Alphabet Title  -->
-              <b-row class="school-name">
+              <b-row class="letter">
                 <h3 class="m-1 ml-2">
-                  {{ alphabetObj["School Name"][0] }}
+                  {{ alphabetObj.letter }}
                 </h3>
               </b-row>
               <!-- Subject Title  -->
               <b-row>
                 <DepartmentList
-                  :majors="deptObj.departments"
+                  :majors="alphabetObj.departments"
                   :deptClassDict="deptClassDict"
                   v-on:showCourseInfo="showCourseInfo($event)"
                 ></DepartmentList>
@@ -168,7 +168,26 @@ export default {
       return columnArr;
     },
 
-    
+    // similar to schoolDepartmentObjects() but creating two columns
+    // of departments separated by alphabetical letters 
+    alphDepartmentObjects() {
+      let keyArr = Object.entries(this.alphDeptDict)
+        .map((alphDepartmentMapping) => ({
+          letter: alphDepartmentMapping[0],
+          departments: alphDepartmentMapping[1],
+        }))
+        .sort((left, right) => right.departments.size - left.departments.size);
+      let columnArr = [[], []];
+      //This is a greedy alg for solving the partition problem
+      for (let i = 0; i < keyArr.length; i++) {
+        if (i % 2 === 0) {
+          columnArr[0].push(keyArr[i]);
+        } else {
+          columnArr[1].push(keyArr[i]);
+        }
+      }
+      return columnArr;
+    },
 
     schoolsMajorDict() {
       let schoolsMajorDict = {};
@@ -180,6 +199,7 @@ export default {
       }
       return schoolsMajorDict;
     },
+
     deptClassDict() {
       let deptClassDict = {};
       for (const c of this.courses) {
@@ -190,6 +210,49 @@ export default {
         }
       }
       return deptClassDict;
+    },
+
+    // similar to schoolsMajorDict() and deptClassDict()
+    // map/set with a set of departments for each alphabetical letter
+    alphDict(){
+      let alphDeptDict = {};
+      let alphabet = [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z",
+      ];
+      for (const i = 0; i < alphabet.length; i++){
+        alphDeptDict[alphabet[i]] = new Set();
+      }
+      for (const c of this.courses){
+        if (!(alphDeptDict[c.department[0]][c.department])){
+          alphDeptDict[c.department[0]].push(c.department);
+        }
+      }
+      return alphDeptDict;
     },
   },
   metaInfo() {
