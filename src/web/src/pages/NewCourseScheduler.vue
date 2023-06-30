@@ -915,10 +915,17 @@ button:focus {
 
 #burger {
   //display: inline-block;
+
+  //position: fixed with left auto does not allow burger button to move with sidebar
+  //position: relative puts button in right location but doesnt lock when navbar is out of sight
   position: fixed;
-  top: 50%;
-  left: 0;
+  top: 12%;
+  left: 3;
+  //left: auto
+  //left: 0 puts button all the way left of page; any value >0 puts it right of the sidebar
   transform: translateY(-50%);
+  border: 0;
+  border-radius: 0;
   padding: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
