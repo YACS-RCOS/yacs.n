@@ -913,6 +913,8 @@ button:focus {
   background-color: #32aad8;
 }
 
+//deleting #burger because there is already a burger button code written before this
+/*
 #burger {
   //display: inline-block;
 
@@ -933,4 +935,6 @@ button:focus {
   color: white;
   z-index: 9999;
 }
+*/
+
 </style>
