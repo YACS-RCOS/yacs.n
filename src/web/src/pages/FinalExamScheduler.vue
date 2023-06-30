@@ -146,14 +146,12 @@ export default {
     };
   },
   mounted() {
-     try {
-    this.initCourseOptions();
-    this.loadSelectedCoursesFromCookie();
-    console.log("coursesOnSchedule: ", this.coursesOnSchedule);
-    console.log("selectedCourses: ", this.selectedCourses);
-  } catch (error) {
-    console.error("An error occurred in the mounted() hook:", error);
-  }
+    try {
+      this.initCourseOptions();
+      this.loadSelectedCoursesFromCookie();
+    } catch (error) {
+      console.error("An error occurred in the mounted() hook:", error);
+    }
   },
   methods: {
     formatExamDateTime(day, time) {
@@ -290,23 +288,73 @@ export default {
     },
     loadSelectedCoursesFromCookie() {
       this.coursesOnSchedule = SelectedCoursesCookie.load(this.$cookies);
-      const groupedCourses = [];
-      for(let i = 0; i< this.coursesOnSchedule.length; i++){
-        const exam = this.coursesOnSchedule[i].$cookies._selectedSemesters[0];
+
+      // for(let i = 0; i< this.coursesOnSchedule.length; i++){
+      //   const exam = this.coursesOnSchedule[i].$cookies._selectedSemesters[0];
+      //   const key =
+      //       exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
+      //   if (!groupedCourses[key]) {
+      //     groupedCourses[key] = {
+      //       value: exam,
+      //       text: key,
+      //     };
+      //   } else if (exam.Section === "ALL SECTIONS") {
+      //     groupedCourses[key].value.Room += ", " + exam.Room;
+      //   }
+      // }
+
+
+      try {
+        this.coursesOnSchedule
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+          const course = this.courses.find(
+              (course) => course.id === selectedCourse.id
+          );
+
+          this.$set(this.selectedCourses, course.id, course);
+          course.selected = true;
+
+          selectedCourse.selectedSectionCrns.forEach(
+              (selectedSectionCrn) => {
+                const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                );
+
+                section.selected = true;
+              }
+          );
+        });
+      } catch (err) {
+        // If there is an error here, it might mean the data was changed,
+        //  thus we need to reload the cookie
+        console.log("HIT ERROR IN LOADING COURSES ON SCHEDULE")
+      }
+
+      console.log("COURSES ON SCHEDULE", this.coursesOnSchedule);
+
+      console.log("cOnS",Object.values(this.coursesOnSchedule));
+      console.log("[1]",Object.values(Object.values(this.coursesOnSchedule)[1]));
+
+
+      const groupedCourses = Object.values(Object.values(this.coursesOnSchedule)[1]).reduce((acc, exam) => {
         const key =
             exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
-        if (!groupedCourses[key]) {
-          groupedCourses[key] = {
+        if (!acc[key]) {
+          acc[key] = {
             value: exam,
             text: key,
           };
         } else if (exam.Section === "ALL SECTIONS") {
-          groupedCourses[key].value.Room += ", " + exam.Room;
+          acc[key].value.Room += ", " + exam.Room;
         }
-      }
-      console.log("GROUPED COURSES",groupedCourses);
-      //this.courseOptions = Object.values(groupedCourses);
-      this.selectedCourses.concat(Object.values(groupedCourses));
+        return acc;
+      }, {});
+
+      console.log("GROUPED COURSES", groupedCourses);
+      console.log(typeof groupedCourses);
+      this.selectedCourses.concat(Object.values(groupedCourses.value));
+
     },
   },
 };
