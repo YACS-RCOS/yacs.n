@@ -64,37 +64,37 @@
           </b-row>
         </b-col>
 
-      
         <!-- splitted Departments in alphabet order -->
         <b-col
-          v-for="(alphCol, index) in alphDepartmentObjects"
-          :key="`alphCol-${index}`"
+          v-for="(deptCol, index) in alphDepartmentObjects"
+          :key="`deptCol-${index}`"
           md="6"
           v-show="alphShow"
         >
           <b-row
-            v-for="alphabetObj in alphCol"
-            :key="alphabetObj.letter"
+            v-for="deptObj in deptCol"
+            :key="deptObj.letter"
             class="departmentBox border m-2 mb-4"
           >
             <b-col>
               <!-- Alphabet Title  -->
-              <b-row class="letter">
+              <b-row class="school-name">
                 <h3 class="m-1 ml-2">
-                  {{ alphabetObj.letter }}
+                  {{ deptObj.letter }}
                 </h3>
               </b-row>
               <!-- Subject Title  -->
               <b-row>
                 <DepartmentList
-                  :majors="alphabetObj.departments"
+                  :majors="deptObj.departments"
                   :deptClassDict="deptClassDict"
                   v-on:showCourseInfo="showCourseInfo($event)"
                 ></DepartmentList>
               </b-row>
             </b-col>
           </b-row>
-        </b-col>
+        </b-col>      
+        
       </b-row>
     </div>
     <CenterSpinner
@@ -137,11 +137,11 @@ export default {
   },
   methods: {
     listAlphabet() {
-      this.deptShow = false;
+      this.cateShow = false;
       this.alphShow = true;
     },
     listDept() {
-      this.deptShow = true;
+      this.cateShow = true;
       this.alphShow = false;
     },
     generateRequirementsText,
@@ -214,7 +214,7 @@ export default {
 
     // similar to schoolsMajorDict() and deptClassDict()
     // map/set with a set of departments for each alphabetical letter
-    alphDict(){
+    alphDeptDict(){
       let alphDeptDict = {};
       let alphabet = [
         "A",
@@ -244,13 +244,11 @@ export default {
         "Y",
         "Z",
       ];
-      for (const i = 0; i < alphabet.length; i++){
-        alphDeptDict[alphabet[i]] = new Set();
+      for (const c of alphabet){
+        alphDeptDict[c] = new Set();
       }
       for (const c of this.courses){
-        if (!(alphDeptDict[c.department[0]][c.department])){
-          alphDeptDict[c.department[0]].push(c.department);
-        }
+        alphDeptDict[c.department[0]].add(c.department);
       }
       return alphDeptDict;
     },
