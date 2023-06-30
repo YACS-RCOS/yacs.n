@@ -1,5 +1,7 @@
 <template>
     <b-container fluid>
+        <h1>My Semester Template</h1>
+        <semester-template></semester-template>
         <div class="heading">
             <h1>Degree Planner</h1>
         </div>
@@ -67,8 +69,13 @@
 </template>
   
 <script>
+  // import SemesterTemplate from './SemesterTemplate.vue';
 
   export default {
+    // components: {
+    //   SemesterTemplate,
+    // },
+
     data() {
       return {
         loading: true,
