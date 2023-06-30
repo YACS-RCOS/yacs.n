@@ -43,11 +43,9 @@ class Template():
         specification = self.specifications
         search_begin_index = 0
         while specification.find(old_attr_head, search_begin_index) != -1:
-            begin_index = specification.find(old_attr_head)
+            begin_index = specification.find(old_attr_head, search_begin_index)
             end_index = af.find_set(specification, Template.DELIMITERS, begin_index + 1)
-            if end_index != -1:
-                end_index +=1
-            else:
+            if end_index == -1:
                 end_index = len(specification)
             search_begin_index = end_index
             specification = specification[:begin_index] + new_attr + specification[end_index:]
@@ -73,7 +71,9 @@ class Template():
         star_index = -1
         while self.specifications.find('*', star_index + 1) != -1:
             star_index = self.specifications.find('*', star_index + 1)
-            if star_index + 1 < len(self.specifications) and self.specifications[star_index + 1] not in Template.DELIMITERS:
+            delimiters = Template.DELIMITERS
+            delimiters.append(' ')
+            if star_index + 1 < len(self.specifications) and self.specifications[star_index + 1] not in delimiters:
                 continue
             self.specifications = f"{self.specifications[:star_index + 1]}auto{begin_counter}{self.specifications[star_index + 1:]}"
             begin_counter += 1

@@ -70,6 +70,7 @@ class Degree():
     def generate_resolution_combos(self, wildcard_resolutions:Dict_Array):
 
         wildcard_resolutions.convert_list_type('list')
+        wildcard_resolutions.sort()
         wildcard_resolutions = wildcard_resolutions.to_tuples()
 
         self.io.debug(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')

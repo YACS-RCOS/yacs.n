@@ -200,6 +200,7 @@ class Output():
             formatted.update({'required_count':fulfillment.get_required_count()})
             formatted.update({'actual_count':fulfillment.get_actual_count()})
             formatted.update({'specifications':fulfillment.template.specifications})
+            formatted.update({'original_specifications':fulfillment.template.original_formatted_specifications})
             fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
             formatted.update({'fulfillment_set':fulfillment_set})
             wildcard_resolutions = fulfillment.template.wildcard_resolutions(taken_courses, True)

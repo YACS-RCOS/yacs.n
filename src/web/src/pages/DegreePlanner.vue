@@ -26,7 +26,7 @@
                   <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
                     <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
                       <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.endsWith('*'), 'alternative-buttons-wildcard':alternative_choice.endsWith('*')}" type="button" @click="fulfillment([alternative_orig, alternative_choice])">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="fulfillment([alternative_orig, alternative_choice])">
                           {{ format_alternative(alternative_choice) }}
                         </button>
                       </div>
@@ -34,6 +34,7 @@
                   </div>
                   <div v-if="'specifications' in item">
                     <h6>specifications: {{ item.specifications }}</h6>
+                    <h6>used for computation: {{ item.original_specifications }}</h6>
                   </div>
                   <div v-bind:class="{fulfillment:item.actual_count >= item.required_count, unfulfilled_fulfillment:item.actual_count < item.required_count}">
                       <div v-bind:class="{req_fulfilled:item.actual_count >= item.required_count, req_unfulfilled:item.actual_count < item.required_count}">
@@ -304,11 +305,13 @@
   }
   .alternative-buttons-wildcard {
     border-radius: 6px;
+    width: 99%;
     border: none;
     padding: 4px;
     margin: 2px;
     color:#d8e8dc;
     background-color: #497348;
+    font-weight:500;
     transition: background-color 0.2s ease;
   }
   .alternative-buttons-wildcard:hover {

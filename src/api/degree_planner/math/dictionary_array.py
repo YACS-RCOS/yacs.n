@@ -38,6 +38,12 @@ class Dict_Array():
         for key in remove_keys:
             self.dictionary.pop(key)
 
+    
+    def sort(self) -> None:
+        if self.list_type == 'list':
+            for key, _ in self.dictionary.items():
+                self.dictionary.get(key).sort()
+
 
     def insert(self, key, element, index) -> None:
         if self.list_type == 'list':
