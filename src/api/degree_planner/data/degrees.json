@@ -99,7 +99,7 @@
             "requires": 1,
             "replacement": false,
             "specifications":"subject.mane & course_id.4030"
-        },
+        }
     },
     "electrical engineering": {
         "Core - Intro to ECSE": {
