@@ -4,9 +4,206 @@
             "specifications":"(subject.csci & course_id.1200) | (subject.csci & course_id.2200) | (subject.csci & course_id.2500) | (subject.ecse & course_id.2660) | (subject.csci & course_id.2300) | (subject.csci & course_id.2600) | (subject.csci & course_id.4430) | (subject.csci & course_id.4210)"
         }
     },
+    "mechanical engineering":{
+        "engr - Introduction to Engineering Analysis": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1100"
+        },
+        "chem - Chemistry I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1100"
+        },
+        "engr - Engineering Graphics and CAD":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1200"
+        },
+        "Math - Calculus 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
+        "engr - Engineering Processes":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1300"
+        },
+        "engr - Introduction to Materials Science":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1600"
+        },
+        "math - Calculus II":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1020"
+        },
+        "phys - Physics I":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1100"
+        },
+        "stso - Professional Development II":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stso & course_id.4100"
+        },
+        "Core - thermodynamics":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2710"
+        },
+        "engr - Strength of Materials":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2530"
+        },
+        "math - Introduction to Differential Equations":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "phys - Physics II":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "engr - Electronic Instrumentation":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2300"
+        },
+        "core - Numerical Methods and Programming for Engineers":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2110"
+        },
+        "math - Multivariable Calculus and Matrix Algebra":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010"
+        },
+        "engr - Engineering Dynamics":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2090"
+        },
+        "core - Fluid Mechanics":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2720"
+        },
+        "core - Elements of Mechanical Design":{
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4030"
+        },
+    },
     "electrical engineering": {
         "Core - Intro to ECSE": {
             "specifications":"subject.ecse & course_id.1010"
+        },
+        "Math - Calculus 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
+        "csci - cComputer Science I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & course_id.1100"
+        },
+        "engineering - Embedded Control": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2350"
+        },
+        "Physics - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1100"
+        },
+        "Physics - Physics II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "Math - Intro to Differential Equations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "Core - Computer Comp. & Operations ": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2610"
+        },
+        "Core - Electric Circuits ": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2010"
+        },
+        "Core - Engineering Probability": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2500"
+        },
+        "Math - Mutivariable Calac & Matrix Algebra": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010"
+        },
+        "Core - Electrical Energy Systems": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2110"
+        },
+        "engr - Introduction to Eng. Design": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2050"
+        },
+        "stss - Prof Devt- Tech Issues & Solutions": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stss & course_id.4100"
+        },
+        "Core - Intro. to Electronics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2050"
+        },
+        "Core - Fields and Waves": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2100"
+        },
+        "Core - Signals and Systems ": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2410"
+        },
+        "Core - ECSE Enrichment Seminar": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2900"
+        },
+        "Core - Microelectronics Tech": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.2210"
+        },
+        "Core - Multidisc. Capstone Design": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.4900"
+        },
+        "engr - Prof Development - Leadership": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.ecse & course_id.4010"
         }
     },
     "computer science": {
