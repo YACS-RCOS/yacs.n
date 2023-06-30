@@ -10,16 +10,17 @@ from ..dp.fulfillment_status import Fulfillment_Status
 class Edge_Generator():
 
     def __init__(self):
-        pass
+        self.default_value = 0
 
     def edge_data(self, node1, node2):
-        return '1'
+        return 1
     
+    # True for no edge present, False for edge present
     def zero_value(self, value) -> bool:
-        return value is None
+        return value == 0
     
     def print_edge(self, value) -> str:
-        return '-' if value is None else str(value)
+        return str(value)
 
 class Backwards_Overlap(Edge_Generator):
 
@@ -111,6 +112,7 @@ class BFS_data():
 
     def __init__(self, start_nodes:set):
         self.paths = dict()
+        self.nodes = set()
         self.bfs_queue = queue.SimpleQueue()
 
         for node in start_nodes:
@@ -193,9 +195,16 @@ class Graph():
             for target_node in self.nodes_obj_to_id.keys():
                 self.update_connection(node, target_node, data_set)
                 self.update_connection(target_node, node, data_set)
+        else:
+            for target_node in self.nodes_obj_to_id.keys():
+                self.update_connection(node, target_node, self.edge_data_gen.default_value)
+                self.update_connection(target_node, node, self.edge_data_gen.default_value)
 
         return True
 
+    def add_nodes(self, nodes, compute_overlap=True, data_set=None):
+        for node in nodes:
+            self.add_node(node, compute_overlap, data_set)
     
     def remove_node(self, node):
         if node not in self:
@@ -302,20 +311,37 @@ class Graph():
         return node obj from node id
         '''
         return self.nodes_id_to_obj.get(id, None)
+    
+
+    # TODO NEED TESTING
+    def connected_components(self) -> list:
+        nodes = set(self.nodes_obj_to_id.keys())
+        visited = set()
+        groups = list()
+        for node in nodes:
+            if node in visited:
+                continue
+            group = self.bfs(roots={node}).nodes
+            visited.update(group)
+            groups.append(group)
+        return groups
 
 
-    def bfs(self, start_nodes:set=None) -> BFS_data:
+    def bfs(self, roots:set=None, add_roots:set=None) -> BFS_data:
         '''
         find BFS paths from links
         '''
-        if start_nodes is None:
-            start_nodes = set()
+        if roots is None:
+            roots = self.roots
 
-        start_nodes.update(self.roots)
-            
-        bfs = BFS_data(start_nodes)
+        if add_roots is not None:
+            roots.update(add_roots)
+
+        bfs = BFS_data(roots)
+        bfs.nodes.update(roots)
         while bfs.has_next():
             node_current = bfs.next()
+            bfs.nodes.add(node_current)
             for node_next in self.outbound_connections(node_current):
                 if bfs.contains_node(node_next):
                     continue

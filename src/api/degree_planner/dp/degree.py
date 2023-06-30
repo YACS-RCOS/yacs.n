@@ -13,6 +13,7 @@ from ..math.array_math import array_functions as af
 from ..math.dictionary_array import Dict_Array
 from ..io.output import Output
 from ..math.sorting import sorting
+from ..math.graph import Graph
 from .course import Course
 from .fulfillment_status import Fulfillment_Status
 
@@ -109,12 +110,39 @@ class Degree():
 
         return template.wildcards()
 
+    def segment_templates(self, template_set) -> list:
+        graph = Graph()
+        for template in template_set:
+            graph.add_node(template, False)
+            wildcards = self.wildcards(template)
+            for wildcard in wildcards:
+                graph.add_node(wildcard, False)
+                graph.update_connection(template, wildcard)
+                graph.update_connection(wildcard, template)
+
+        connected_components = graph.connected_components()
+        print(f'CONNECTED COMPONENTS: \n{connected_components}')
+
+        garbage = list()
+        for component in connected_components:
+            for node in component:
+                if not isinstance(node, Template):
+                    garbage.append(node)
+            for g in garbage:
+                component.remove(g)
+            garbage = list()
+
+        print(f'CONNECTED COMPONENTS after garbage collection: \n{[[f.name for f in e] for e in connected_components]}')
+
+        return connected_components
+        
+
 
     ##############################################################################################
     # MAIN FULFILLMENT FUNCTION
     ##############################################################################################
 
-    def fulfillment(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None):
+    def fulfillment(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None, root=True):
 
         start = timeit.default_timer()
         original_template_set = template_set
@@ -123,6 +151,14 @@ class Degree():
         if original_template_set is None:
             original_template_set = self.templates
             original_template_set = copy.deepcopy(original_template_set)
+
+        if root:
+            #segment templates to calculate fulfillment separately
+            segmented_templates = self.segment_templates(original_template_set)
+            fulfillment = dict()
+            for segment in segmented_templates:
+                fulfillment.update(self.fulfillment(taken_courses, segment, wildcard_resolutions, False))
+            return fulfillment
 
         wildcard_resolutions = Dict_Array(list_type='set')
 
@@ -334,7 +370,7 @@ class Degree():
         '''
         if less_important_templates is None:
             less_important_templates = get_less_important_templates(all_fulfillment, importance_level)
-        bfs = graph.bfs(less_important_templates)
+        bfs = graph.bfs(add_roots=less_important_templates)
 
         # Optimization: we can leave immediately if BFS doesn't even contain the target at all
         if not bfs.contains_child(template):
@@ -468,7 +504,7 @@ class Degree():
 
             graph = self.generate_graph(all_fulfillment, max_fulfillments)
 
-            bfs = graph.bfs(less_important_templates)
+            bfs = graph.bfs(add_roots=less_important_templates)
             template_with_course = templates_containing_course(all_fulfillment, course, True)
 
             if not bfs.contains_node(template_with_course):
