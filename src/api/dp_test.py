@@ -242,6 +242,25 @@ def test_other():
     attribute.replace_attribute('test', '10')
     print(f"printing attribute: {attribute}")
 
+    print('\ntesting wildcard searching')
+    specification = '(concentration.* &credit.*& level.4|(subject.*))'
+    print(f'specification: {specification}')
+
+    template = Template('testtemplate', specification)
+    print(f'wildcards: {template.wildcards()}')
+    template.wildcard_differentiate(1)
+    print(f'after wildcard differentiate: {template.specifications}')
+    course1 = Course('1', 'csci', 1)
+    course1.add_attribute('concentration.ai')
+    course1.set_credits(4)
+    course1.add_attribute('credit.4')
+    course2 = Course('2', 'ecse', 2)
+    course2.add_attribute('concentration.theory')
+    course2.set_credits(3)
+    course2.add_attribute('credit.3')
+    print(f'wildcard_resolutions: {template.wildcard_resolutions({course1, course2}).dictionary}')
+
+
 
 def test_fulfillment():
     planner = Planner(enable_tensorflow=False)
