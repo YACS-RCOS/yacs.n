@@ -92,8 +92,9 @@ class Template():
             end_index = af.find_set(self.specifications, Template.DELIMITERS, star_index)
             if end_index == -1:
                 end_index = len(self.specifications)
-            wildcards.add(self.specifications[begin_index:end_index])
-            print(f'wildcard ---  found wildcard at pos {star_index}, attr begin {begin_index} end {end_index} of attr {self.specifications}')
+            wildcard = self.specifications[begin_index:end_index].strip()
+            wildcards.add(wildcard)
+            #print(f'wildcard ---  found wildcard {wildcard} at pos {star_index}, attr begin {begin_index} end {end_index} of attr {self.specifications}')
             star_index = self.specifications.find('*', end_index)
         return wildcards
 
@@ -154,7 +155,7 @@ class Template():
         if not len(all_conditions):
             return fulfillment_sets
         wildcard_attr, wildcard_choices = all_conditions.popitem()
-        print(f'WILDCARD ATTRIBUTE {wildcard_attr} RESOLVING TO CHOICES {wildcard_choices}')
+        #print(f'WILDCARD ATTRIBUTE {wildcard_attr} RESOLVING TO CHOICES {wildcard_choices}')
         self.wildcard_choices = list(wildcard_choices)
         if len(wildcard_choices):
             self.wildcard_choices.insert(0, wildcard_attr)

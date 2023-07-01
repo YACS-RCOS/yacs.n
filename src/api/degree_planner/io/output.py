@@ -197,11 +197,13 @@ class Output():
             formatted.update({'name':fulfillment.template.name})
             formatted.update({'content':True})
             formatted.update({'replacement':fulfillment.template.replacement})
+            formatted.update({'position':fulfillment.template.importance})
             formatted.update({'required_count':fulfillment.get_required_count()})
             formatted.update({'actual_count':fulfillment.get_actual_count()})
             formatted.update({'specifications':fulfillment.template.specifications})
             formatted.update({'original_specifications':fulfillment.template.original_formatted_specifications})
             fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
+            fulfillment_set.sort()
             formatted.update({'fulfillment_set':fulfillment_set})
             wildcard_resolutions = fulfillment.template.wildcard_resolutions(taken_courses, True)
             wildcard_resolutions.convert_list_type('list')
@@ -210,6 +212,8 @@ class Output():
             formatted.update({'wildcard_resolutions':wildcard_resolutions.dictionary})
 
             formatted_fulfillments.append(formatted)
+
+            formatted_fulfillments = sorted(formatted_fulfillments, key=lambda x:-x['position'])
         
         return formatted_fulfillments
 

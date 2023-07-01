@@ -121,7 +121,6 @@ class Degree():
                 graph.update_connection(wildcard, template)
 
         connected_components = graph.connected_components()
-        print(f'CONNECTED COMPONENTS: \n{connected_components}')
 
         garbage = list()
         for component in connected_components:
@@ -158,6 +157,8 @@ class Degree():
             fulfillment = dict()
             for segment in segmented_templates:
                 fulfillment.update(self.fulfillment(taken_courses, segment, wildcard_resolutions, False))
+            end = timeit.default_timer()
+            self.io.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
             return fulfillment
 
         wildcard_resolutions = Dict_Array(list_type='set')
@@ -247,8 +248,6 @@ class Degree():
             elif total_unfulfilled_slots(fulfillment) == total_unfulfilled_slots(best_fulfillment) and total_filled_slots(fulfillment) > total_filled_slots(best_fulfillment):
                 best_fulfillment = fulfillment
 
-        end = timeit.default_timer()
-        self.io.info(f'\nfulfillment runtime: {end - start}\n')
         return best_fulfillment
 
 
@@ -619,7 +618,7 @@ class Degree():
             recommendation.update({best_template:matches_dict})
 
         end = timeit.default_timer()
-        self.io.info(f'\rrecommendation runtime: {end - start}\n')
+        self.io.warn(f'\r---------------------------------------recommendation runtime: {end - start}\n')
        
         return recommendation
     
