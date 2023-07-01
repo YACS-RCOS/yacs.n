@@ -243,10 +243,10 @@ export default {
         "Y",
         "Z",
       ];
-      for (const c of alphabet){
-        alphDeptDict[c] = new Set();
-      }
       for (const c of this.courses){
+        if (!alphDeptDict[c.department[0]]){
+          alphDeptDict[c.department[0]] = new Set();
+        }
         alphDeptDict[c.department[0]].add(c.department);
       }
       return alphDeptDict;
