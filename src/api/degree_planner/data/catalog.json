@@ -7638,6 +7638,7 @@
     "prerequisites": "Prerequisites: CSCI 2300\u00a0\u00a0and either CSCI 2500\u00a0\u00a0or ECSE 2660\u00a0.",
     "offered": "Spring and summer terms annually.",
     "cross_listed": "Not Crosslisted",
+    "concentration": ["ai"],
     "credits": "4"
   },
   {

@@ -144,7 +144,7 @@ class Degree():
 
         connected_components.insert(0, no_wildcards)
 
-        print(f'CONNECTED COMPONENTS after garbage collection: \n{[[f.name for f in e] for e in connected_components]}')
+        #print(f'CONNECTED COMPONENTS after garbage collection: \n{[[f.name for f in e] for e in connected_components]}')
 
         return connected_components
         
@@ -161,15 +161,33 @@ class Degree():
         if template_set is None:
             template_set = self.templates
         
-        new_template_set = list()
+        ''' segments templates into groups where:
+            - all templates that share the same wildcard will be in the same group
+            - first group will be all templates without wildcards
+        '''
         segmented_templates = self.segment_templates(template_set)
+        no_wildcard_segment = segmented_templates[0]
+        print(f'segments: {[[t.name for t in e] for e in segmented_templates]}')
+        new_template_set = copy.copy(no_wildcard_segment)
 
-        for segment in segmented_templates:
+        for i in range(1, len(segmented_templates)):
+            segment = copy.deepcopy(segmented_templates[i])
+            segment:set
+            '''DEBUGGING
+            print(f'segment {i}: {[e.name for e in segment]}')
+            print(f'nowildcard: {[e.name for e in no_wildcard_segment]}')
+            '''
+            segment.update(no_wildcard_segment)
+            ##############print(f'testing fulfillment with templates {[e.name + " specs: " +  e.specifications for e in segment]} and resolutions {wildcard_resolutions}')
             fulfillments = self.fulfillment_original(taken_courses, segment, wildcard_resolutions)
+            #################print(f'fulfillments: {fulfillments}')
             for template in fulfillments.keys():
+                if template in no_wildcard_segment:
+                    continue
                 new_template_set.append(template)
-                print(f'using new template specs {template.name}: {template.specifications}')
+                ##################print(f'using new template specs {template.name}: {template.specifications}')
 
+        ###########print(f'new template set: {new_template_set}')
 
         fulfillments = self.fulfillment_original(taken_courses, new_template_set, wildcard_resolutions)
         end = timeit.default_timer()
@@ -181,30 +199,30 @@ class Degree():
 
     def fulfillment_original(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None) -> dict:
 
-        
         original_template_set = template_set
         forced_wildcard_resolutions = wildcard_resolutions
 
-        if original_template_set is None:
+        if template_set is None:
             original_template_set = self.templates
-            original_template_set = copy.deepcopy(original_template_set)
-
 
         wildcard_resolutions = Dict_Array(list_type='set')
 
         for template in original_template_set:
+            template:Template
             wildcard_resolutions.extend(template.wildcard_resolutions(taken_courses))
 
-        if forced_wildcard_resolutions is not None:
+        if forced_wildcard_resolutions is not None and len(forced_wildcard_resolutions):
             # forced wildcard resolutions should not contain wildcards in resolution, will remove them
             forced_wildcard_resolutions.prune(lambda x : '*' in x)
             wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
 
         wildcard_combos = self.generate_resolution_combos(wildcard_resolutions)
+        #######print(f'wildcard combos for template set {[e.name for e in original_template_set]} {wildcard_combos}')
 
         potential_fulfillments = list()
 
         for wildcard_combo in wildcard_combos:
+            ###################print(f'fulfillment testing combo {wildcard_combo}')
             template_set = copy.deepcopy(original_template_set)
 
             # replace template set attributes with this resolution combination
@@ -217,7 +235,7 @@ class Degree():
             for template in template_set:
                 max_fulfillments.update({template:template.get_course_match(taken_courses)[0]})
 
-            Output.visualize('degree', max_fulfillments, 'max fulfillment')
+            # Output.visualize('degree', max_fulfillments, 'max fulfillment')
 
             all_fulfillment = dict()
 
@@ -258,7 +276,6 @@ class Degree():
                 self.replacement_template_steal(template, all_fulfillment, max_fulfillments)
 
             self.io.debug(f'after R steal: {Output.print_fulfillment(all_fulfillment)}')
-
             '''
             R TEMPLATE FORCE STEAL/TRADE
             '''
@@ -501,8 +518,9 @@ class Degree():
             return
 
         requested_courses = max_fulfillments.get(template).get_fulfillment_set().difference(all_fulfillment.get(template).get_fulfillment_set())
-        requested_courses_sorted = sorting.bucket_sort(num_bindings(all_fulfillment, requested_courses, Bind_Type.R))
-
+        requested_courses_sorted = sorted(num_bindings(all_fulfillment, requested_courses, Bind_Type.R).items(), key=lambda x: x[1])
+        requested_courses_sorted = [x[0] for x in requested_courses_sorted]
+        requested_courses_sorted.reverse()
         for course in requested_courses_sorted:
             if this_fulfillment.fulfilled():
                 return
