@@ -215,34 +215,6 @@ export default {
     // map/set with a set of departments for each alphabetical letter
     alphDeptDict(){
       let alphDeptDict = {};
-      let alphabet = [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-      ];
       for (const c of this.courses){
         if (!alphDeptDict[c.department[0]]){
           alphDeptDict[c.department[0]] = new Set();
