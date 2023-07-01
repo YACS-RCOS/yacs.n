@@ -176,11 +176,10 @@ export default {
           letter: alphDepartmentMapping[0],
           departments: alphDepartmentMapping[1],
         }))
-        .sort((left, right) => right.departments.size - left.departments.size);
       let columnArr = [[], []];
-      //This is a greedy alg for solving the partition problem
+      // separates into two columns, first 13 in col 0 and last 13 in col 1
       for (let i = 0; i < keyArr.length; i++) {
-        if (i % 2 === 0) {
+        if (i < keyArr.length / 2) {
           columnArr[0].push(keyArr[i]);
         } else {
           columnArr[1].push(keyArr[i]);
