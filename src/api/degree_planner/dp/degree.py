@@ -111,14 +111,22 @@ class Degree():
         return template.wildcards()
 
     def segment_templates(self, template_set) -> list:
+        '''
+        the first array within the returned list will always be the group of templates without wildcards
+        '''
         graph = Graph()
+        no_wildcards = list()
         for template in template_set:
-            graph.add_node(template, False)
             wildcards = self.wildcards(template)
+            if not len(wildcards):
+                no_wildcards.append(template)
+                continue
+            graph.add_node(template, False)
             for wildcard in wildcards:
                 graph.add_node(wildcard, False)
                 graph.update_connection(template, wildcard)
                 graph.update_connection(wildcard, template)
+
 
         connected_components = graph.connected_components()
 
@@ -130,6 +138,11 @@ class Degree():
             for g in garbage:
                 component.remove(g)
             garbage = list()
+        
+        while [] in connected_components:
+            connected_components.remove([])
+
+        connected_components.insert(0, no_wildcards)
 
         print(f'CONNECTED COMPONENTS after garbage collection: \n{[[f.name for f in e] for e in connected_components]}')
 
@@ -141,9 +154,34 @@ class Degree():
     # MAIN FULFILLMENT FUNCTION
     ##############################################################################################
 
-    def fulfillment(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None, root=True):
+    def fulfillment(self, taken_courses, template_set=None, wildcard_resolutions=None):
 
         start = timeit.default_timer()
+
+        if template_set is None:
+            template_set = self.templates
+        
+        new_template_set = list()
+        segmented_templates = self.segment_templates(template_set)
+
+        for segment in segmented_templates:
+            fulfillments = self.fulfillment_original(taken_courses, segment, wildcard_resolutions)
+            for template in fulfillments.keys():
+                new_template_set.append(template)
+                print(f'using new template specs {template.name}: {template.specifications}')
+
+
+        fulfillments = self.fulfillment_original(taken_courses, new_template_set, wildcard_resolutions)
+        end = timeit.default_timer()
+        self.io.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
+        return fulfillments
+        
+
+
+
+    def fulfillment_original(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None) -> dict:
+
+        
         original_template_set = template_set
         forced_wildcard_resolutions = wildcard_resolutions
 
@@ -151,15 +189,6 @@ class Degree():
             original_template_set = self.templates
             original_template_set = copy.deepcopy(original_template_set)
 
-        if root:
-            #segment templates to calculate fulfillment separately
-            segmented_templates = self.segment_templates(original_template_set)
-            fulfillment = dict()
-            for segment in segmented_templates:
-                fulfillment.update(self.fulfillment(taken_courses, segment, wildcard_resolutions, False))
-            end = timeit.default_timer()
-            self.io.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
-            return fulfillment
 
         wildcard_resolutions = Dict_Array(list_type='set')
 
