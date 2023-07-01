@@ -5,7 +5,11 @@
     <!-- button to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
       <b-button
+        class="my-button" 
+        :class="{ 'hovered': isHoveredAlphabet }"
         @click="listAlphabet()"
+        @mouseover="isHoveredAlphabet = true"
+        @mouseleave="isHoveredAlphabet = false" 
         style="
           margin-top: 10px;
           color: #007bff;
@@ -17,7 +21,11 @@
       </b-button>
       <br />
       <b-button
+        class="my-button"
+        :class="{ 'hovered': isHoveredCate }"
         @click="listCate()"
+        @mouseover="isHoveredCate = true"
+        @mouseleave="isHoveredCate = false"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -171,6 +179,8 @@ export default {
   },
   data() {
     return {
+      isHoveredAlphabet: false,
+      isHoveredCate: false,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -342,9 +352,9 @@ export default {
   width: 95%;
 }
 
-.pathway-button:hover {
+/* .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
-}
+} */
 
 .courseInPath {
   cursor: pointer;
@@ -352,5 +362,9 @@ export default {
 
 .courseInPath:hover {
   background-color: rgba(39, 130, 230, 0.5);
+}
+
+.hovered {
+  background-color: rgba(108, 90, 90, 0.15) !important;
 }
 </style>
