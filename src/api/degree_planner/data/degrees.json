@@ -240,7 +240,7 @@
         "Core - Operating Systems": {
             "requires": 1,
             "replacement": false,
-            "specifications":"subject.csci & (course_id.4210 | course_id.4440)"
+            "specifications":"subject.csci & course_id.4210"
         },
         "Intensity": {
             "requires": 4,

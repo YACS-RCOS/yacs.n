@@ -17,10 +17,12 @@ from ..math.graph import Graph
 from .course import Course
 from .fulfillment_status import Fulfillment_Status
 
+
 class Bind_Type(Enum):
     NR = False
     R = True
     ALL = 2 # must be distinct in value since False gets converted to 1 in some instances
+
 
 class Degree():
     '''
@@ -52,9 +54,11 @@ class Degree():
             template.importance = self.templates[-1].importance - 1
         self.templates.append(template)
 
+
     def remove_template(self, template:Template):
         ''' removes template object '''
         self.templates.remove(template)
+
 
     def get_template(self, template_name) -> Template:
         ''' gets template by name, O(n) time '''
@@ -100,7 +104,7 @@ class Degree():
 
         return wildcard_combos
 
-    
+
     def wildcards(self, template, template_name=None):
         if template_name is not None:
             template = self.get_template(template_name)
@@ -109,6 +113,7 @@ class Degree():
             return set()
 
         return template.wildcards()
+
 
     def segment_templates(self, template_set) -> list:
         '''
@@ -127,7 +132,6 @@ class Degree():
                 graph.update_connection(template, wildcard)
                 graph.update_connection(wildcard, template)
 
-
         connected_components = graph.connected_components()
 
         garbage = list()
@@ -143,11 +147,7 @@ class Degree():
             connected_components.remove([])
 
         connected_components.insert(0, no_wildcards)
-
-        #print(f'CONNECTED COMPONENTS after garbage collection: \n{[[f.name for f in e] for e in connected_components]}')
-
         return connected_components
-        
 
 
     ##############################################################################################
@@ -161,40 +161,35 @@ class Degree():
         if template_set is None:
             template_set = self.templates
         
-        ''' segments templates into groups where:
+        ''' 
+        segments templates into groups where:
             - all templates that share the same wildcard will be in the same group
             - first group will be all templates without wildcards
         '''
         segmented_templates = self.segment_templates(template_set)
         no_wildcard_segment = segmented_templates[0]
-        print(f'segments: {[[t.name for t in e] for e in segmented_templates]}')
+        self.io.debug(f'segments: {[[t.name for t in e] for e in segmented_templates]}')
         new_template_set = copy.copy(no_wildcard_segment)
 
         for i in range(1, len(segmented_templates)):
-            segment = copy.deepcopy(segmented_templates[i])
-            segment:set
-            '''DEBUGGING
-            print(f'segment {i}: {[e.name for e in segment]}')
-            print(f'nowildcard: {[e.name for e in no_wildcard_segment]}')
-            '''
+            segment = segmented_templates[i]
             segment.update(no_wildcard_segment)
-            ##############print(f'testing fulfillment with templates {[e.name + " specs: " +  e.specifications for e in segment]} and resolutions {wildcard_resolutions}')
             fulfillments = self.fulfillment_original(taken_courses, segment, wildcard_resolutions)
-            #################print(f'fulfillments: {fulfillments}')
+
+            # use these wildcard resolutions that led to a local best
             for template in fulfillments.keys():
                 if template in no_wildcard_segment:
                     continue
                 new_template_set.append(template)
-                ##################print(f'using new template specs {template.name}: {template.specifications}')
-
-        ###########print(f'new template set: {new_template_set}')
+        
+        # at this point, we obtained new_template_set, which represents all the templates with resolved wildcards to use
 
         fulfillments = self.fulfillment_original(taken_courses, new_template_set, wildcard_resolutions)
+
         end = timeit.default_timer()
         self.io.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
-        return fulfillments
-        
 
+        return fulfillments
 
 
     def fulfillment_original(self, taken_courses:set, template_set:list=None, wildcard_resolutions:Dict_Array=None) -> dict:
@@ -217,12 +212,10 @@ class Degree():
             wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
 
         wildcard_combos = self.generate_resolution_combos(wildcard_resolutions)
-        #######print(f'wildcard combos for template set {[e.name for e in original_template_set]} {wildcard_combos}')
 
         potential_fulfillments = list()
 
         for wildcard_combo in wildcard_combos:
-            ###################print(f'fulfillment testing combo {wildcard_combo}')
             template_set = copy.deepcopy(original_template_set)
 
             # replace template set attributes with this resolution combination
@@ -235,7 +228,7 @@ class Degree():
             for template in template_set:
                 max_fulfillments.update({template:template.get_course_match(taken_courses)[0]})
 
-            # Output.visualize('degree', max_fulfillments, 'max fulfillment')
+            Output.visualize('degree', max_fulfillments, 'max fulfillment')
 
             all_fulfillment = dict()
 
@@ -668,15 +661,17 @@ class Degree():
         self.io.warn(f'\r---------------------------------------recommendation runtime: {end - start}\n')
        
         return recommendation
-    
+
 
     def json(self) -> json:
         degree = dict()
         degree.update({self.name:self.templates})
         return json.dumps(degree)
 
+
     def __str__(self):
         return self.name
+
 
     def __repr__(self):
         rep = f"degree: {self.name} \n"
@@ -684,12 +679,14 @@ class Degree():
             rep += repr(template) + '\n'
         return rep
 
+
     def __eq__(self, other):
         if not isinstance(other, Degree):
             return False
         if self.name == other.name and self.rules == other.rules:
             return True
         return False
+
 
     def __hash__(self):
         i = 0

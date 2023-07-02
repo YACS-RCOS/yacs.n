@@ -24,8 +24,8 @@ class Template():
         if specifications == None:
             specifications = ''
         self.specifications = specifications # details the attributes courses must have to fulfill this template
-        self.original_specifications = specifications # wildcard deconstruction modifies the specifications, so we store a copy of the original for later use
-        self.original_formatted_specifications = specifications
+        self.original_specifications = specifications # just for display
+        self.original_formatted_specifications = specifications # for reverting to original
 
         self.courses_required = courses_required
         self.courses_fulfilled = 0
