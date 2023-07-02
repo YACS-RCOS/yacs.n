@@ -29,6 +29,7 @@ from sqlalchemy.orm import Session
 import json
 import os
 import pandas as pd
+import copy
 from constants import Constants
 
 """
@@ -88,7 +89,23 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
         return Response(content="user not found")
 
     return planner.user_input(user, command)
+
+
+@app.post('/api/dp/print')
+async def get_dp_print(userid:str = Body(...)):
+    io = planner.default_io
+    user = planner_users.get(userid, None)
+    if user is None:
+        return Response(content="user not found")
     
+    user:User
+    course_list = copy.copy(user.get_active_schedule().courses_by_semester)
+    for i in range(len(course_list)):
+        course_list[i] = [t.get_display_name() for t in course_list[i]]
+
+    return course_list
+
+
 
 @app.post('/api/dp/fulfillment')
 async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):

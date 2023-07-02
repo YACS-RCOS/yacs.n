@@ -17,22 +17,22 @@ class Schedule():
     def __init__(self, name:str, SEMESTERS_MAX:int=12):
         # 2D list, 1st dimension is semesters and 2nd dimension is courses for that semester
         # NOTE: duplications are allowed both within semester and across semesters!
-        self.__master_list = list()
+        self.courses_by_semester = list()
         self.SEMESTERS_MAX = SEMESTERS_MAX
         self.name = name
         self.degree = None
 
-        # master_list must be initiated before use
-        self.master_list_init()
+        # courses_by_semester must be initiated before use
+        self.courses_list_init()
 
 
-    def master_list_init(self):
+    def courses_list_init(self):
         ''' 
         Initializes the list storing all courses in the schedule, grouped by semester
         '''
-        self.__master_list.clear()
+        self.courses_by_semester.clear()
         for _ in range(0, self.SEMESTERS_MAX):
-            self.__master_list.append([])
+            self.courses_by_semester.append([])
 
 
     def add_course(self, semester, course:Course) -> bool:
@@ -47,7 +47,7 @@ class Schedule():
         if semester in self.find_course(course):
             return False
         else:
-            self.__master_list[semester].append(course)
+            self.courses_by_semester[semester].append(course)
             return True
 
 
@@ -63,7 +63,7 @@ class Schedule():
         if semester not in self.find_course(course):
             return False
         else:
-            self.__master_list[semester].remove(course)
+            self.courses_by_semester[semester].remove(course)
             return True
 
 
@@ -79,7 +79,7 @@ class Schedule():
         if semester not in range(0, self.SEMESTERS_MAX):
             return None
         else:
-            return self.__master_list[semester]
+            return self.courses_by_semester[semester]
 
 
     def courses(self) -> set:
@@ -88,7 +88,7 @@ class Schedule():
             courses (set): all courses within this schedule
         '''
         courses = set()
-        for a in self.__master_list:
+        for a in self.courses_by_semester:
             for c in a:
                 courses.add(c)
         return courses
@@ -104,7 +104,7 @@ class Schedule():
         '''
         i = 0
         present_in = []
-        for courselist in self.__master_list:
+        for courselist in self.courses_by_semester:
             if course in courselist:
                 present_in.append(i)
             i+=1
@@ -125,19 +125,19 @@ class Schedule():
 
     def __len__(self):
         i = 0
-        for sem in self.__master_list:
+        for sem in self.courses_by_semester:
             i += len(sem)
         return i
 
     def __eq__(self, other):
         if not isinstance(other, Schedule):
             return False
-        return self.__master_list == other.__master_list
+        return self.courses_by_semester == other.courses_by_semester
 
     def __repr__(self):
         count = 0
         s = f"Schedule: {self.name} [{self.degree.name if self.degree != None else ''}]\n"
-        for courselist in self.__master_list:
+        for courselist in self.courses_by_semester:
             s+=f"  Semester {str(count)}:\n"
             count+=1
             for course in courselist:
@@ -147,7 +147,7 @@ class Schedule():
     def __hash__(self):
         i = hash(self.degree)
         sem = 0
-        for sem in self.__master_list:
+        for sem in self.courses_by_semester:
             for course in sem:
                 i += hash(course) * sem
             sem += 1

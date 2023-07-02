@@ -48,6 +48,9 @@ class Course():
     def get_unique_name(self):
         return self.unique_name
 
+    def get_display_name(self):
+        return f"{self.get_subject()} {str(self.get_id())} {self.get_name().strip()}"
+
     def get_subject(self):
         return self.subject
 
