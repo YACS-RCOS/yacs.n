@@ -399,7 +399,7 @@
     width: 350px;
     min-height: 60px;
     align-items: center;
-    font-size: 0.75em;
+    font-size: 0.7em;
     background-color: #21242b;
   }
   .course-schedule-buttons {
@@ -418,6 +418,7 @@
     border-radius: 4px;
     flex: 1;
     padding: 0px;
+    width: 99%;
     margin: 1px;
     color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);

@@ -130,7 +130,7 @@ class Template():
         # current fulfillment set, will be added only if current template does not contain wildcards
         # (recursive calls remove one wildcard at a time), so essentially "leaf" branches
         # get to add their fulfillment to fulfillment_sets
-        curr_fulfillment = Fulfillment_Status(self, self.courses_required, set())
+        curr_fulfillment = Fulfillment_Status(self, set())
 
         for course in courses:
             good_match, conditions = template_parsing.course_fulfills_template(self, course)

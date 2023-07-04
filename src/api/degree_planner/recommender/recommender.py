@@ -84,8 +84,8 @@ class Recommender():
         tag_relevances_to_user_by_bin = {k: af.hard_max(v) for k, v in tag_relevances_to_user_by_bin.items()}
 
         # printing user's preference scores
-        for bin, tags in self.catalog.tags.items():
-            self.io.debug(f"user's best descriptors for {bin}: {af.best_descriptors(dict(zip(tags, tag_relevances_to_user_by_bin.get(bin))), 5, 0.3)}")
+        #for bin, tags in self.catalog.tags.items():
+            #self.io.debug(f"user's best descriptors for {bin}: {af.best_descriptors(dict(zip(tags, tag_relevances_to_user_by_bin.get(bin))), 5, 0.3)}")
 
         ''' STEP 4: compute relevance of each recommending course and compare to user's tag relevances and relevance to the custom tag '''
         for course in recommending_courses:

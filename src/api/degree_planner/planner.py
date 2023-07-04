@@ -169,7 +169,7 @@ class Planner():
         courses = self.catalog.search(course_name)
         if len(courses) == 1:
             course = self.catalog.get_course(courses[0])
-            description = f'{repr(course)}: {course.description}'
+            description = f"{repr(course)}: {course.attr('description')}"
             return description
         return None
     

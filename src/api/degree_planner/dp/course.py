@@ -35,8 +35,6 @@ class Course():
 
         self.generate_unique_name()
 
-        self.description = "" # text to be displayed describing the class
-
 
     """
     Getters
@@ -187,7 +185,6 @@ class Course():
             course.add_attribute(attr)
         for attr in other.attributes:
             course.add_attribute(attr)
-        course.description = self.description + '\n\n' + other.description
         return course
 
     def __hash__(self):

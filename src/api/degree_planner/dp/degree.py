@@ -353,7 +353,7 @@ class Degree():
         if template.replacement:
             requested_courses = sorting.dictionary_sort(num_wanted_bindings(all_fulfillment, max_fulfillments, requested_courses, Bind_Type.R))
             requested_courses.reverse()
-        this_fulfillment = Fulfillment_Status(template, template.courses_required, set())
+        this_fulfillment = Fulfillment_Status(template, set())
 
         """
         we grab all courses from potential_courses that won't disturb
