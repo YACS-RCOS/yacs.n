@@ -1,4 +1,7 @@
 import numpy as np
+import threading
+import concurrent.futures
+import asyncio
 
 from ..math.array_math import array_functions as af
 from ..io.output import Output
@@ -62,7 +65,8 @@ class Recommender():
         return scorer.get_tag_relevances(course, custom_tags)
 
 
-    def embedded_relevance(self, taken_courses:set, recommending_courses:set, custom_tags:set) -> dict:
+    async def embedded_relevance(self, taken_courses:set, recommending_courses:set, custom_tags:set) -> dict:
+    
         if self.cache is None:
             self.load_cache()
         course_relevances_to_user = dict()
@@ -104,4 +108,12 @@ class Recommender():
             course.keywords = self.cache.course_keywords.get(course.unique_name)
 
         return course_relevances_to_user
+    
+
+    '''async def embedded_relevance(self, taken_courses:set, recommending_courses:set, custom_tags:set) -> dict:
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            loop = asyncio.get_event_loop()
+            future = loop.run_in_executor(executor, self.threaded_embedded_relevance, taken_courses, recommending_courses, custom_tags)
+            result = await future
+            return result '''
     

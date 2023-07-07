@@ -75,7 +75,7 @@
                   </div>
                   <br>
 
-                  <div class="recommendations" v-if="recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
+                  <div class="recommendations" v-if="item.name in recommendations && recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
                     <h4>Recommendations:</h4>
                     <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
                       <h6>specifications: {{ recommendation.specifications }}</h6>
@@ -116,6 +116,8 @@
 
         SEM_MAX: 12,
         course_inputs: [],
+
+        recommend_pause_token: 1,
       };
     },
     methods: {
@@ -168,7 +170,7 @@
         // fetch fulfillment and recommendations
         this.print();
         this.fulfillment([]);
-        this.recommend();
+        this.delayed_recommend();
       },
 
       async newuser() {
@@ -198,6 +200,17 @@
         });
 
         this.requirements = await response1.json();
+      },
+
+      async delayed_recommend() {
+        let id = ++this.recommend_pause_token;
+        setTimeout(this.recommend, 3000, id);
+      },
+
+      async delayed_recommend_gate(token) {
+        if (token == this.recommend_pause_token) {
+          this.recommend();
+        }
       },
 
       async recommend() {

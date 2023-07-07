@@ -193,7 +193,7 @@ class Planner():
         return fulfillment
     
 
-    def recommend(self, user:User, schedule_name, io=None):
+    async def recommend(self, user:User, schedule_name, io=None):
         if io is None:
             io = self.default_io
 
@@ -203,7 +203,7 @@ class Planner():
             io.print(f"no degree specified")
             return f"no degree specified"
 
-        recommendation = schedule.degree.recommend(schedule.courses())
+        recommendation = await schedule.degree.recommend(schedule.courses())
         return recommendation
 
 

@@ -7,6 +7,8 @@ from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
 from typing import Dict
+import asyncio
+import random
 
 from api_models import *
 import db.connection as connection
@@ -84,16 +86,19 @@ async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_n
 
 @app.post('/api/dp/users/command')
 async def dp_command(userid:str = Body(...), command:str = Body(...)):
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED COMMAND API CALL {randint}')
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
-
+    print(f'== FINISHED COMMAND API CALL {randint}')
     return planner.user_input(user, command)
 
 
 @app.post('/api/dp/print')
 async def get_dp_print(userid:str = Body(...)):
-    io = planner.default_io
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED PRINT API CALL {randint}')
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
@@ -102,13 +107,15 @@ async def get_dp_print(userid:str = Body(...)):
     course_list = copy.copy(user.get_active_schedule().courses_by_semester)
     for i in range(len(course_list)):
         course_list[i] = [t.get_display_name() for t in course_list[i]]
-
+    print(f'== FINISHED PRINT API CALL {randint}')
     return course_list
 
 
 
 @app.post('/api/dp/fulfillment')
 async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED FULFILLMENT API CALL {randint}')
     io = planner.default_io
     user = planner_users.get(userid, None)
     if user is None:
@@ -122,18 +129,24 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     fulfillments = planner.fulfillment(user, user.active_schedule, wildcard_resolutions=wildcard_resolutions)
     #print(f'APP FULFILLMENTS: {fulfillments}')
     formatted_fulfillments = io.format_fulfillments(fulfillments, planner.taken_courses(user))
-
+    
+    print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
 
 
 @app.post('/api/dp/recommend')
 async def get_dp_recommendations(userid:str = Body(...)):
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED RECOMMENDATION API CALL {randint}')
+    await asyncio.sleep(2)
+    print(f'== FINISHED RECOMMENDATION API CALL {randint}')
+    return {}
     io = planner.default_io
     user = planner_users.get(userid, None)
     if user is None:
         return Response(content="user not found")
     
-    recommendation = planner.recommend(user, user.active_schedule)
+    recommendation = await planner.recommend(user, user.active_schedule)
     formatted_recommendations = io.format_recommendations(recommendation)
 
     dict_recommendations = dict()
@@ -143,6 +156,7 @@ async def get_dp_recommendations(userid:str = Body(...)):
         curr_list.append(recommendation)
         curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
         dict_recommendations.update({recommendation['name']:curr_list})
+    print(f'== FINISHED RECOMMENDATION API CALL {randint}')
     
     return dict_recommendations
     
