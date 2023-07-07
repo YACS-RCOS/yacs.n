@@ -574,7 +574,7 @@ class Degree():
     # fulfillment recommendation
     ##############################################################################################
 
-    async def recommend(self, taken_courses, best_fulfillments:dict=None, custom_tags=None) -> dict:
+    def recommend(self, taken_courses, best_fulfillments:dict=None, custom_tags=None) -> dict:
         '''
         gives possible courses to take
 
@@ -641,7 +641,7 @@ class Degree():
                 matched_fulfillment.get_template().importance = fulfilled_courses
 
                 course_R_bindings = num_bindings(max_fulfillments, recommended_courses, Bind_Type.R)
-                course_relevances = await self.catalog.recommender.embedded_relevance(taken_courses, recommended_courses, custom_tags)
+                course_relevances = self.catalog.recommender.embedded_relevance(taken_courses, recommended_courses, custom_tags)
                 
                 final_score = dict()
                 for course in recommended_courses:

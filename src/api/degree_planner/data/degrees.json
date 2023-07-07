@@ -245,7 +245,7 @@
         "Intensity": {
             "requires": 4,
             "replacement": true,
-            "specifications":"level.4 & subject.csci & ~$cscore"
+            "specifications":"level.4 & subject.csci"
         },
         "Concentration": {
             "requires": 3,

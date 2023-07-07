@@ -65,7 +65,7 @@ class Recommender():
         return scorer.get_tag_relevances(course, custom_tags)
 
 
-    async def embedded_relevance(self, taken_courses:set, recommending_courses:set, custom_tags:set) -> dict:
+    def embedded_relevance(self, taken_courses:set, recommending_courses:set, custom_tags:set) -> dict:
     
         if self.cache is None:
             self.load_cache()

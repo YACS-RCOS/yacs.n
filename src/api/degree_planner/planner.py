@@ -71,7 +71,7 @@ class Planner():
 
 
     def get_user(self, userid):
-        return self.users.get(userid)
+        return self.users.get(userid, None)
 
 
     def add_user(self, userid, username=None):
@@ -193,7 +193,7 @@ class Planner():
         return fulfillment
     
 
-    async def recommend(self, user:User, schedule_name, io=None):
+    def recommend(self, user:User, schedule_name, io=None):
         if io is None:
             io = self.default_io
 
@@ -203,7 +203,23 @@ class Planner():
             io.print(f"no degree specified")
             return f"no degree specified"
 
-        recommendation = await schedule.degree.recommend(schedule.courses())
+        recommendation = schedule.degree.recommend(schedule.courses())
+        return recommendation
+    
+    def parallel_recommend(self, userid, io=None):
+        if io is None:
+            io = self.default_io
+
+        user = self.users.get(userid)
+        schedule_name = user.active_schedule
+
+        schedule = user.get_schedule(schedule_name)
+
+        if schedule.degree is None:
+            io.print(f"no degree specified")
+            return f"no degree specified"
+
+        recommendation = schedule.degree.recommend(schedule.courses())
         return recommendation
 
 

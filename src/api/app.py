@@ -9,6 +9,7 @@ from fastapi import Depends
 from typing import Dict
 import asyncio
 import random
+import multiprocessing
 
 from api_models import *
 import db.connection as connection
@@ -23,6 +24,7 @@ import db.user as UserModel
 from degree_planner.planner import User, Planner
 from degree_planner.math.sorting import sorting
 from degree_planner.math.dictionary_array import Dict_Array
+from degree_planner.dp.recommend import recommend
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -59,7 +61,6 @@ users = UserModel.User()
 
 planner = Planner(enable_tensorflow=False, prompting=False)
 planner.import_data()
-planner_users = dict()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -68,11 +69,8 @@ def is_admin_user(session):
 
 @app.post('/api/dp/newuser')
 async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
-    if planner_users.get(userid, None) is None:
-        user = User(userid)
-        planner_users.update({userid:user})
-    else:
-        user = planner_users.get(userid)
+    planner.add_user(userid)
+    user = planner.get_user(userid)
 
     query = ''
     for course, semester in courses.items():
@@ -88,7 +86,9 @@ async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_n
 async def dp_command(userid:str = Body(...), command:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED COMMAND API CALL {randint}')
-    user = planner_users.get(userid, None)
+
+    user = planner.get_user(userid)
+
     if user is None:
         return Response(content="user not found")
     print(f'== FINISHED COMMAND API CALL {randint}')
@@ -99,7 +99,9 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
 async def get_dp_print(userid:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED PRINT API CALL {randint}')
-    user = planner_users.get(userid, None)
+
+    user = planner.get_user(userid)
+
     if user is None:
         return Response(content="user not found")
     
@@ -117,7 +119,7 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
     io = planner.default_io
-    user = planner_users.get(userid, None)
+    user = planner.get_user(userid)
     if user is None:
         return Response(content="user not found")
 
@@ -138,15 +140,17 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
 async def get_dp_recommendations(userid:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED RECOMMENDATION API CALL {randint}')
-    await asyncio.sleep(2)
-    print(f'== FINISHED RECOMMENDATION API CALL {randint}')
-    return {}
     io = planner.default_io
-    user = planner_users.get(userid, None)
-    if user is None:
-        return Response(content="user not found")
-    
-    recommendation = await planner.recommend(user, user.active_schedule)
+
+    user = planner.get_user(userid)
+    user:User
+    taken_courses = user.get_active_schedule().courses()
+    best_fulfillments = planner.fulfillment(user, user.active_schedule)
+
+    print(f'BEGINNING MULTIPROCESSING')
+    with multiprocessing.Pool(processes=1) as pool:
+        recommendation = pool.apply(recommend, (taken_courses, best_fulfillments, planner.catalog))
+    print(f'END MULTIPROCESSING')
     formatted_recommendations = io.format_recommendations(recommendation)
 
     dict_recommendations = dict()
