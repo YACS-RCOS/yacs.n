@@ -163,11 +163,11 @@ class acalog_client():
             # Can also only have one root.
             match = prolog_and_root_ele_regex.match(course_details_xml_str)
             if (match is None):
-                raise Error("XML document is missing prolog and root. Invalid.")
+                raise ValueError("XML document is missing prolog and root. Invalid.")
             # For some reason, the response is sometimes missing the XML prolog. Not sure how it's possible, but give default in that case.
             self._xml_prolog = match.group("prolog") if match.group("prolog") is not None else '<?xml version="1.0"?>'
             if match.group("root") is None:
-                raise Error("XML document is missing root element. Invalid.")
+                raise ValueError("XML document is missing root element. Invalid.")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
 

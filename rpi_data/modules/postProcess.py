@@ -95,20 +95,23 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
 
     # print(data)
     for row in data:
+        if (len(row) < 17): continue
         department = row[11]
         courseNumber = row[16]
         #needs department and courseNumber!!!
         link = getCourseLink(semester, department, courseNumber)
-        if DEBUG == 'y':
-            print(link)
+        # if DEBUG == 'y':
+            # print(link)
         page = session.get(link)
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
         rawbody = soup.find('td', class_='ntdefault')
         body = rawbody.text.split('\n\n')
+        
         description = body[0].strip()
         description = description.split('\n \n')[0]
         description = description.replace('\n','')
-        
+
+        # print(description)
         prerequisites = None
         corequisites = None
         rawrequisites = ''
@@ -168,7 +171,7 @@ def parseSemester(filename) -> str:
         season = '09'
     elif season == 'spring':
         season = '01'
-    elif season == 'arch':
+    elif season == 'summer':
         season = '05'
     elif season == 'winter':
         season = '12'
@@ -176,54 +179,54 @@ def parseSemester(filename) -> str:
 
 
 # course descriptions must be acquired separately because the API used in fetch_catalog_course_info.py is outdated and no longer contains course info
-def getDescriptions():
+def getCourseDescription(semester, department, courseNumber):
     # print(SEMESTER)
-    getCourseLink("05", "CSCI", "1000")
-    year = "2023"
-    season = "05"
-    short_name = "CSCI"
+    # year = "2023"
+    # season = "05"
+    # short_name = "CSCI"
+
     # link = f"http://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={year}{season}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={short_name}"
-    page_num = 20
-    link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
-    s = requests.Session()
-    webpage_response = s.get(link)
+    # page_num = 20
+
+    # link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
+    # link = f"https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
+    
+    # print(semester, department, courseNumber)
+    link = getCourseLink(semester, department, courseNumber)
+
+    webpage_response = requests.Session().get(link)
     webpage = webpage_response.content
     soup = BeautifulSoup(webpage, "html.parser")
-    # print(soup)
 
-    # data2 = []
-    # table = soup.find('table', attrs={'class':'table_default'})
-    # rows = table.find_all('tr')
-    # for row in rows:
-    #     cols = row.find_all('td')
-    #     print(cols)
-    #     # li = cols.find("li")
-    #     # for l in li:
-    #     #     print(l)
-        
-    #     # print(cols)
-    #     # cols = [ele.text.strip() for ele in cols]
-    #     # data2.append([ele for ele in cols if ele]) # Get rid of empty values
+    rawbody = soup.find('td', class_='ntdefault')
+    body = rawbody.text.split('\n') # list of strings
+    return body[1]
 
-    # for d in data2:
-    #     print(d)
+def getProfessorInfo():
+    # print(SEMESTER)
+    # year = "2023"
+    # season = "05"
+    # short_name = "CSCI"
 
+    # link = f"http://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={year}{season}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={short_name}"
+    # page_num = 20
 
-    data2 = []
-    table = soup.find('table', attrs={'class':'table_default'})
-    rows = table.find_all('tr')
-    for row in rows:
-        cols = row.find_all('td')
-        cols = [ele.text.strip() for ele in cols]
-        # for headers in cols.select('h2,h3'):
-        #     print(headers)
-        for ele in cols:
-            if ele:
-                data2.append[ele]
-        data2.append([ele for ele in cols if ele]) # Get rid of empty values
+    # link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
+    # link = f"https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
+    
+    # print(semester, department, courseNumber)
+    link = f"https://faculty.rpi.edu/chunyu-wang"
 
-    for d in data2:
-        print(d)
+    webpage_response = requests.Session().get(link)
+    webpage = webpage_response.content
+    soup = BeautifulSoup(webpage, "html.parser")
+
+    rawbody = soup.find(class_='faculty-contact my-3')
+    body = rawbody.text.split('\n') # list of strings
+
+    # use regex
+    print( body )
+
 
 def main() -> None:
     filename = os.environ.get('TARGET_FILE')
@@ -231,7 +234,7 @@ def main() -> None:
     hasData = os.environ.get('HAS_DATA')
     DEBUG = os.environ.get('DEBUG')
 
-    getDescriptions()
+    getProfessorInfo()
     if hasData == 'y':
         WithData(filename, dataFilename)
     else:
