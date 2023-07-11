@@ -177,7 +177,7 @@ export default {
           departments: alphDepartmentMapping[1],
         }))
       let columnArr = [[], []];
-      // separates into two columns, first 13 in col 0 and last 13 in col 1
+      // separates into two columns based on number of letters
       for (let i = 0; i < keyArr.length; i++) {
         if (i < keyArr.length / 2) {
           columnArr[0].push(keyArr[i]);
