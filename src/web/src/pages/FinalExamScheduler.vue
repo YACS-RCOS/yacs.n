@@ -21,8 +21,9 @@
               </b-form-group>
             </div>
 
-
+            <b-button @click="temp()" variant="primary">Import from Schedule</b-button>
             <b-button @click="$bvModal.show('add-modal-id')" variant="primary">Add Course</b-button>
+            
 
             <b-modal id="add-modal-id" hide-footer title="Add Course"
                      @close="$bvModal.hide('add-modal-id')"
@@ -117,7 +118,7 @@
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
 import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
-
+import CourseScheduler from "./NewCourseScheduler.vue";
 
 export default {
   components: {
@@ -356,6 +357,9 @@ export default {
       this.selectedCourses.concat(Object.values(groupedCourses.value));
 
     },
+    temp(){
+      console.log(this.coursesOnSchedule._selectedSemesters);
+    }
   },
 };
 </script>
