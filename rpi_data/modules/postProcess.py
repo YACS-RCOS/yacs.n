@@ -1,11 +1,38 @@
-# GOAL: fix description and pre/co-requisites for courses
-# Target URL: https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202209&subj_code_in=CSCI&crse_numb_in=2500
-# SCRAPES COOURSE DESCRIPT FORM THIS FILE
-# How to use:
+# WHAT THIS FILE DOES
+# This file creates a CSV file that contains course data of all classes offered during the semester
+# The name of the file will always follow the format: {semester}-{year}.csv  (e.g. summer-2023.csv)
+# Data contained in this CSV file is exactly same as the information users see on the YACS website.
+# 
+# 
+# HOW TO RUN/DEBUG:
+# In order to run this file and create the csv file, run the corresponding update bash file. 
+# The command line for running the bash file is simply ./update-{semeester}-{year}.sh 
+# For example, if you want to update the values for classes in summer 2023, run ./update-summer-2023.sh on linux
+# 
+# using print() will print directly on the terminal
+# 
+# SETTING UP ENVIRONMENT VARIABLES:
+# The following envrionment variables are already set for you,
 #   DATA_FILE=summer-2023_data.json ; The cache filename
 #   TARGET_FILE=summer-2023.csv     ; The file to prosses
 #   HAS_DATA=y                      ; y if has the cache file, n otherwise
 #   DEBUG=n                         ; y if need debug info, n otherwise
+#
+# ... but you can change them as needed in the update bash file
+#
+# FINDING THE LINK TO EXTRACT DATA FROM:
+# The link that contains information of each course has the format of 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&subj_code_in={department}&crse_numb_in={courseNumber}'
+# 
+# semesester is a concatenation of the year and season. Season is based on the month the semesester starts in and is one of the following: '09',  '01',  '05', '12'.
+#   So fall 2021 would be '202109' and summer 2023 would be '202305'
+# department is a four-letter string. ('CSCI' or 'ARTS')
+# courseNumber is a four-digit number associated with each course. (1100 OR 1200 OR 2200)
+# 
+# The link to Computer Science I offered in Fall 2021 is https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202109&subj_code_in=CSCI&crse_numb_in=1100
+#                                                                                                                          ^^^^^^              ^^^^              ^^^^
+# MORE DETAIL ON SCRAPING: 
+# check the PDF 'Scraping SIS with Python' on discord
+
 
 import os
 import requests
@@ -19,21 +46,15 @@ import re
 baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
 subj_code_in={department}&crse_numb_in={courseNumber}'
 
-
+# convert the given csv to a list
 def read_csv(file_name : str = 'fall-2023.csv') -> list:
     with open(file_name, 'r', encoding='UTF-8') as csv_file:
         csv_reader = csv.reader(csv_file)
-        # line_count = 0
-        # for row in csv_reader2:
-        #     print("row " + str(line_count) + " is: ")
-        #     print(row)
-        #     line_count += 1
-        # print(f'Processed {line_count} lines.')
-
         csv_reader = list(csv_reader)
         csv_reader.pop(0)
         return csv_reader
 
+# convert the list we have to a csv file
 def write_csv(file_name : str = 'fall-2023_fixed.csv', data :list = []) -> None:
     with open(file_name, 'w', encoding='UTF-8') as csv_file:
         data.insert(0,['course_name', 'course_type', 'course_credit_hours', 
@@ -46,6 +67,7 @@ def write_csv(file_name : str = 'fall-2023_fixed.csv', data :list = []) -> None:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerows(data)
 
+# add '-' between the first 4 letters and the last 4 digits.  'CSCI 1100' -> 'CSCI-1100'
 def parsePrerequisites(rawPrerequisites : str) -> str:
     if rawPrerequisites == 'None':
         return None
@@ -54,6 +76,7 @@ def parsePrerequisites(rawPrerequisites : str) -> str:
         retList.append(item.replace(' ','-'))
     return retList
 
+# add '-' between the first 4 letters and the last 4 digits.  'CSCI 1100' -> 'CSCI-1100'
 def parseCorequisites(rawCorequisites : str) -> str:
     if rawCorequisites == 'None':
         return None
@@ -87,6 +110,7 @@ def saveData(filename :str, data : dict) -> None:
 def getCourseLink(semester : str, department : str, courseNumber : str) -> str:
     return baseLink.format(semester=semester, department=department, courseNumber=courseNumber)
 
+# create a new csv
 def WithoutData(filename : str, dataFilename : str, DEBUG):
     session = requests.Session()
     data = read_csv(filename)
@@ -98,10 +122,10 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         if (len(row) < 17): continue
         department = row[11]
         courseNumber = row[16]
-        #needs department and courseNumber!!!
         link = getCourseLink(semester, department, courseNumber)
-        # if DEBUG == 'y':
-            # print(link)
+        print(link)
+        if DEBUG == 'y':
+            print(link)
         page = session.get(link)
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
         rawbody = soup.find('td', class_='ntdefault')
@@ -143,10 +167,12 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
     write_csv(filename,data)
     saveData(dataFilename, Data)
 
+# Update the existing csv
 def WithData(filename : str, dataFilename : str) -> None:
     Data = readData(dataFilename)
     data = read_csv(filename)
     for row in data:
+        if (len(row) < 17): continue
         department = row[11]
         courseNumber = row[16]
         shortName = department+courseNumber
@@ -179,19 +205,7 @@ def parseSemester(filename) -> str:
 
 
 # course descriptions must be acquired separately because the API used in fetch_catalog_course_info.py is outdated and no longer contains course info
-def getCourseDescription(semester, department, courseNumber):
-    # print(SEMESTER)
-    # year = "2023"
-    # season = "05"
-    # short_name = "CSCI"
-
-    # link = f"http://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={year}{season}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={short_name}"
-    # page_num = 20
-
-    # link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
-    # link = f"https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
-    
-    # print(semester, department, courseNumber)
+def getCourseDescription(semester, department, courseNumber):    
     link = getCourseLink(semester, department, courseNumber)
 
     webpage_response = requests.Session().get(link)
@@ -202,31 +216,6 @@ def getCourseDescription(semester, department, courseNumber):
     body = rawbody.text.split('\n') # list of strings
     return body[1]
 
-def getProfessorInfo():
-    # print(SEMESTER)
-    # year = "2023"
-    # season = "05"
-    # short_name = "CSCI"
-
-    # link = f"http://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={year}{season}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={short_name}"
-    # page_num = 20
-
-    # link = f"https://catalog.rpi.edu/content.php?catoid=24&navoid=606&filter%5B27%5D=-1&filter%5B29%5D=&filter%5Bcourse_type%5D=&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D={page_num}&filter%5Bexact_match%5D=1&filter%5Bitem_type%5D=3&filter%5Bonly_active%5D=1&filter%5B3%5D=1&expand=1&print#acalog_template_course_filter"
-    # link = f"https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202305&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
-    
-    # print(semester, department, courseNumber)
-    link = f"https://faculty.rpi.edu/chunyu-wang"
-
-    webpage_response = requests.Session().get(link)
-    webpage = webpage_response.content
-    soup = BeautifulSoup(webpage, "html.parser")
-
-    rawbody = soup.find(class_='faculty-contact my-3')
-    body = rawbody.text.split('\n') # list of strings
-
-    # use regex
-    print( body )
-
 
 def main() -> None:
     filename = os.environ.get('TARGET_FILE')
@@ -234,7 +223,6 @@ def main() -> None:
     hasData = os.environ.get('HAS_DATA')
     DEBUG = os.environ.get('DEBUG')
 
-    getProfessorInfo()
     if hasData == 'y':
         WithData(filename, dataFilename)
     else:
