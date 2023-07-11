@@ -44,11 +44,6 @@
               </b-button>
 
             </b-modal>
-            <!--<b-button @click="addCourse" variant="primary">Add Course</b-button>-->
-
-            <!--            <b-button type="submit" variant="success" class="ml-3">-->
-            <!--              Search-->
-            <!--            </b-button>-->
 
             <b-button :disabled="this.selectedCourses.length===0" @click="$bvModal.show('delete-modal-id')"
                       variant="danger"
@@ -118,12 +113,10 @@ import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
 import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
 
-
 export default {
   components: {
     Calendar,
   },
-  name: "FinalExamSchedule",
   data() {
     return {
       breadcrumbNav: [
@@ -182,6 +175,7 @@ export default {
       });
     },
     initCourseOptions() {
+      console.log("exams:", this.exams);
       const groupedCourses = this.exams.reduce((acc, exam) => {
         const key =
             exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
@@ -264,10 +258,10 @@ export default {
       console.log(this.examDetails);
     },
     deleteCourses() {
-      console.log(this.selectedCourses);
-      console.log(this.selectToDelete);
+      //console.log(this.selectedCourses);
+      //console.log(this.selectToDelete);
       for (let i = 0; i < this.selectToDelete.length; i++) {
-        let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
+        let index = this.selectedCourses.indexOf(this.selectToDelete[i].);
         this.selectedCourses.splice(index, 1);
       }
 
@@ -303,6 +297,7 @@ export default {
       //   }
       // }
 
+      console.log("courseOptions", this.courseOptions);
 
       try {
         this.coursesOnSchedule
@@ -333,8 +328,8 @@ export default {
 
       console.log("COURSES ON SCHEDULE", this.coursesOnSchedule);
 
-      console.log("cOnS",Object.values(this.coursesOnSchedule));
-      console.log("[1]",Object.values(Object.values(this.coursesOnSchedule)[1]));
+      console.log("cOnS", Object.values(this.coursesOnSchedule));
+      console.log("[1]", Object.values(Object.values(this.coursesOnSchedule)[1]));
 
 
       const groupedCourses = Object.values(Object.values(this.coursesOnSchedule)[1]).reduce((acc, exam) => {
