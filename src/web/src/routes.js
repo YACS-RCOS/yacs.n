@@ -58,7 +58,12 @@ var router = new VueRouter({
           component: CoursePage,
           name: "CoursePage",
           props: true,
-        },
+        },{
+          path: "/explore/GPA",
+          component: GPACalculatorPage,
+          name: "GPACalc",
+          props: true ,
+        }
       ],
     },
     {
