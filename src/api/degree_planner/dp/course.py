@@ -2,7 +2,6 @@
 Course class
 '''
 
-import json
 from ..math.attributes import Attributes
 
 class Course():
@@ -151,24 +150,8 @@ class Course():
     def get_attributes_le(self, attr) -> list:
         return self.attributes.get_attributes_le(attr)
 
-    def json(self):
-        '''
-        Returns:
-            course (OrderedDict): all course attributes within an ordered dictionary
-                includes name, id, id2, major, credits, CI, HASS_inquiry, crosslisted,
-                concentrations, pathways, presequisites, restricted, description.
-
-                Some attributes will be omitted if empty, includes all attributes that
-                are the form of a list or set.
-        '''
-        return json.dumps(list(self.attributes))
-
     def __repr__(self):
         return f"{self.subject} {self.course_id} {self.name}"
-        string = (f"{self.unique_name}:\n{self.get_credits()} credits\n" + \
-            f"crosslisted with: {self.get_crosslisted()}\n" + \
-            f"attributes: {self.attributes}" if len(self.attributes) > 0 else '' + '\n')
-        return string.replace("set()", "none")
 
     def __str__(self):
         return f"{self.subject} {self.course_id} {self.name}"

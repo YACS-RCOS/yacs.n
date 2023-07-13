@@ -61,11 +61,13 @@ services:
     container_name: yacs_redis
 
   celery:
-    build: ./fastapi
     container_name: yacs_celery
+    build:
+      context: ./src/worker/
+      dockerfile: Dockerfile
     command: celery -A celery_app worker --loglevel=info
     volumes:
-      - ./src/api:/usr/src
+      - ./src/worker:/app
     depends_on:
       - redis
 

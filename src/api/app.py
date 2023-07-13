@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Body, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Body
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -9,10 +9,6 @@ from fastapi import Depends
 from typing import Dict
 import asyncio
 import random
-from concurrent.futures import ThreadPoolExecutor
-from multiprocessing import Pool
-
-from celery import Celery
 
 from api_models import *
 import db.connection as connection
@@ -51,9 +47,6 @@ app.add_middleware(SessionMiddleware,
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
-celery_broker = 'redis://localhost:6379/0'
-celery_backend = 'redis://localhost:6379/1'
-celery_app = Celery("celery_app", broker=celery_broker, backend=celery_backend)
 
 # - init interfaces to db
 db_conn = connection.db
@@ -70,7 +63,6 @@ planner = Planner(enable_tensorflow=False, prompting=False)
 planner.import_data()
 
 recommendation_results = dict() # {user: results dict}
-recommendation_ready = dict()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -145,35 +137,13 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
 
-@celery_app.task
-async def dp_recommend(userid:str):
-    io = planner.default_io
-
-    user = planner.get_user(userid)
-    user:User
-    taken_courses = user.get_active_schedule().courses()
-    best_fulfillments = planner.fulfillment(user, user.active_schedule)
-
-    recommendation = recommend(taken_courses, best_fulfillments, planner.catalog)
-    formatted_recommendations = io.format_recommendations(recommendation[0])
-
-    results = dict()
-
-    for recommendation in formatted_recommendations:
-        curr_list = results.get(recommendation['name'], [])
-        curr_list.append(recommendation)
-        curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
-        results.update({recommendation['name']:curr_list})
-    
-    return results
-
 
 @app.post('/api/dp/recommend/{userid}')
 async def begin_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
-    results = dp_recommend.delay(userid)
-    recommendation_results.update({userid:results})
+    #results = dp_recommend.delay(userid)
+    #recommendation_results.update({userid:results})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
 
