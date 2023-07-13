@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Body
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Body, BackgroundTasks
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -9,7 +9,10 @@ from fastapi import Depends
 from typing import Dict
 import asyncio
 import random
-import multiprocessing
+from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Pool
+
+from celery import Celery
 
 from api_models import *
 import db.connection as connection
@@ -24,7 +27,7 @@ import db.user as UserModel
 from degree_planner.planner import User, Planner
 from degree_planner.math.sorting import sorting
 from degree_planner.math.dictionary_array import Dict_Array
-from degree_planner.dp.recommend import recommend
+from degree_planner.dp.recommend import recommend_packed
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -48,6 +51,10 @@ app.add_middleware(SessionMiddleware,
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 
+celery_broker = 'redis://localhost:6379/0'
+celery_backend = 'redis://localhost:6379/1'
+celery_app = Celery("celery_app", broker=celery_broker, backend=celery_backend)
+
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
@@ -61,6 +68,9 @@ users = UserModel.User()
 
 planner = Planner(enable_tensorflow=False, prompting=False)
 planner.import_data()
+
+recommendation_results = dict() # {user: results dict}
+recommendation_ready = dict()
 
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
@@ -135,11 +145,7 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
 
-
-@app.post('/api/dp/recommend')
-async def get_dp_recommendations(userid:str = Body(...)):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED RECOMMENDATION API CALL {randint}')
+async def dp_recommend(userid:str):
     io = planner.default_io
 
     user = planner.get_user(userid)
@@ -148,21 +154,48 @@ async def get_dp_recommendations(userid:str = Body(...)):
     best_fulfillments = planner.fulfillment(user, user.active_schedule)
 
     print(f'BEGINNING MULTIPROCESSING')
-    with multiprocessing.Pool(processes=1) as pool:
-        recommendation = pool.apply(recommend, (taken_courses, best_fulfillments, planner.catalog))
+    with ThreadPoolExecutor() as executor:
+        with Pool() as pool:
+            loop = asyncio.get_running_loop()
+            recommendation = await loop.run_in_executor(executor, pool.map, recommend_packed, [(taken_courses, best_fulfillments, planner.catalog, [])])
     print(f'END MULTIPROCESSING')
-    formatted_recommendations = io.format_recommendations(recommendation)
+    formatted_recommendations = io.format_recommendations(recommendation[0])
 
-    dict_recommendations = dict()
+    results = dict()
 
     for recommendation in formatted_recommendations:
-        curr_list = dict_recommendations.get(recommendation['name'], [])
+        curr_list = results.get(recommendation['name'], [])
         curr_list.append(recommendation)
         curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
-        dict_recommendations.update({recommendation['name']:curr_list})
-    print(f'== FINISHED RECOMMENDATION API CALL {randint}')
+        results.update({recommendation['name']:curr_list})
     
-    return dict_recommendations
+    recommendation_results.update({userid:results})
+    recommendation_ready.update({userid:True})
+
+
+@app.post('/api/dp/recommend/{userid}')
+async def begin_dp_recommendations(userid:str, background_tasks:BackgroundTasks):
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
+    recommendation_ready.update({userid:False})
+    background_tasks.add_task(dp_recommend, userid)
+    print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
+    
+
+@app.get('/api/dp/recommend/{userid}')
+async def get_dp_recommendations(userid:str):
+    randint = int(random.random() * 1000)
+    print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
+    i = 0
+    while(not recommendation_ready.get(userid)):
+        await asyncio.sleep(1)
+        print('waiting for recommendation...')
+        i+=1
+        if i > 20:
+            print('timeout')
+            return dict()
+    print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
+    return recommendation_results.get(userid)
     
 
 @app.get('/')

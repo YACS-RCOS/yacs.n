@@ -164,6 +164,7 @@ class Course():
         return json.dumps(list(self.attributes))
 
     def __repr__(self):
+        return f"{self.subject} {self.course_id} {self.name}"
         string = (f"{self.unique_name}:\n{self.get_credits()} credits\n" + \
             f"crosslisted with: {self.get_crosslisted()}\n" + \
             f"attributes: {self.attributes}" if len(self.attributes) > 0 else '' + '\n')

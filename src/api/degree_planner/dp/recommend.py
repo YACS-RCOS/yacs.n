@@ -11,6 +11,10 @@ from .course import Course
 from .fulfillment_status import Fulfillment_Status
 from .degree import Bind_Type
 
+def recommend_packed(packed) -> dict:
+    taken_courses, best_fulfillments, catalog, custom_tags = packed
+    return recommend(taken_courses, best_fulfillments, catalog, custom_tags)
+
 def recommend(taken_courses, best_fulfillments:dict, catalog, custom_tags=None) -> dict:
     '''
     gives possible courses to take

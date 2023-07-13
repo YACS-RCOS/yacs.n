@@ -170,7 +170,7 @@
         // fetch fulfillment and recommendations
         this.print();
         this.fulfillment([]);
-        this.delayed_recommend();
+        this.recommend();
       },
 
       async newuser() {
@@ -216,13 +216,11 @@
       async recommend() {
         let userid = this.userid;
 
-        const response2 = await fetch('/api/dp/recommend', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userid),
+        await fetch('/api/dp/recommend/' + userid, {
+          method: 'POST'
         });
+
+        const response2 = await fetch('/api/dp/recommend/' + userid);
         this.recommendations = await response2.json().then(this.loading = false).then(this.main_loading = false);
       },
 
