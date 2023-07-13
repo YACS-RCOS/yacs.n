@@ -27,7 +27,7 @@ import db.user as UserModel
 from degree_planner.planner import User, Planner
 from degree_planner.math.sorting import sorting
 from degree_planner.math.dictionary_array import Dict_Array
-from degree_planner.dp.recommend import recommend_packed
+from degree_planner.dp.recommend import *
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -145,6 +145,7 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
 
+@celery_app.task
 async def dp_recommend(userid:str):
     io = planner.default_io
 
@@ -153,12 +154,7 @@ async def dp_recommend(userid:str):
     taken_courses = user.get_active_schedule().courses()
     best_fulfillments = planner.fulfillment(user, user.active_schedule)
 
-    print(f'BEGINNING MULTIPROCESSING')
-    with ThreadPoolExecutor() as executor:
-        with Pool() as pool:
-            loop = asyncio.get_running_loop()
-            recommendation = await loop.run_in_executor(executor, pool.map, recommend_packed, [(taken_courses, best_fulfillments, planner.catalog, [])])
-    print(f'END MULTIPROCESSING')
+    recommendation = recommend(taken_courses, best_fulfillments, planner.catalog)
     formatted_recommendations = io.format_recommendations(recommendation[0])
 
     results = dict()
@@ -169,16 +165,15 @@ async def dp_recommend(userid:str):
         curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
         results.update({recommendation['name']:curr_list})
     
-    recommendation_results.update({userid:results})
-    recommendation_ready.update({userid:True})
+    return results
 
 
 @app.post('/api/dp/recommend/{userid}')
-async def begin_dp_recommendations(userid:str, background_tasks:BackgroundTasks):
+async def begin_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
-    recommendation_ready.update({userid:False})
-    background_tasks.add_task(dp_recommend, userid)
+    results = dp_recommend.delay(userid)
+    recommendation_results.update({userid:results})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
 
@@ -187,7 +182,7 @@ async def get_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
     i = 0
-    while(not recommendation_ready.get(userid)):
+    while(not recommendation_results.get(userid).ready()):
         await asyncio.sleep(1)
         print('waiting for recommendation...')
         i+=1
@@ -195,7 +190,7 @@ async def get_dp_recommendations(userid:str):
             print('timeout')
             return dict()
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
-    return recommendation_results.get(userid)
+    return recommendation_results.get(userid).result
     
 
 @app.get('/')

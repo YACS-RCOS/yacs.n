@@ -29,14 +29,3 @@ services:
     restart: unless-stopped
     container_name: yacs_db
     image: postgres:12-alpine
-
-  redis:
-    image: redis:latest
-    container_name: yacs_redis
-
-  celery:
-    build: ./fastapi
-    container_name: yacs_celery
-    command: celery -A celery_app worker --loglevel=info
-    depends_on:
-      - redis
