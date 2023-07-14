@@ -63,11 +63,15 @@ services:
   celery:
     container_name: yacs_celery
     build:
-      context: ./src/worker/
+      context: ./src/api/worker/
       dockerfile: Dockerfile
+    environment:
+      - CELERY_ACCEPT_CONTENT=pickle
+      - CELERY_TASK_SERIALIZER=pickle
+      - CELERY_RESULT_SERIALIZER=pickle
     command: celery -A celery_app worker --loglevel=info
     volumes:
-      - ./src/worker:/app
+      - ./src/api/worker:/app
     depends_on:
       - redis
 

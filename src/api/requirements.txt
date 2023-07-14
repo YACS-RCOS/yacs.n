@@ -9,3 +9,5 @@ python-multipart==0.0.5
 fastapi-cache2==0.1.8
 itsdangerous==2.0.1
 sqlalchemy==1.4.1
+celery==5.2.3
+redis==4.6.0

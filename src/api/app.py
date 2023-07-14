@@ -35,7 +35,7 @@ import pandas as pd
 import copy
 from constants import Constants
 
-from ..worker.celery_app import celery_app, dp_recommend
+from worker.celery_app import dp_recommend
 
 """
 NOTE: on caching
@@ -144,8 +144,15 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
 async def begin_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
-    results = dp_recommend.delay(userid)
-    recommendation_results.update({userid:results})
+
+    user = planner.get_user(userid)
+    user
+    taken_courses = user.get_active_schedule().courses()
+    best_fulfillments = planner.fulfillment(user, user.active_schedule)
+
+    #recommendation = test.delay(100)
+    recommendation = dp_recommend.delay(taken_courses, best_fulfillments, planner.catalog)
+    recommendation_results.update({userid:recommendation})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
 
@@ -153,16 +160,30 @@ async def begin_dp_recommendations(userid:str):
 async def get_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
+    io = planner.default_io
     i = 0
-    while(not recommendation_results.get(userid).ready()):
+    while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
         await asyncio.sleep(1)
         print('waiting for recommendation...')
+        print(f'queued: {recommendation_results.get(userid, None) is not None}')
         i+=1
         if i > 20:
             print('timeout')
             return dict()
+    
+    recommendation = recommendation_results.get(userid).result
+
+    formatted_recommendations = io.format_recommendations(recommendation)
+
+    results = dict()
+
+    for recommendation in formatted_recommendations:
+        curr_list = results.get(recommendation['name'], [])
+        curr_list.append(recommendation)
+        curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
+        results.update({recommendation['name']:curr_list})
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
-    return recommendation_results.get(userid).result
+    return results
     
 
 @app.get('/')
