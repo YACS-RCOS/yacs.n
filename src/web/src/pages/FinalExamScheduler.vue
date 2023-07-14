@@ -21,7 +21,10 @@
               </b-form-group>
             </div>
 
-            <b-button @click="temp()" variant="primary">Import from Schedule</b-button>
+            <b-button @click="temp1()" variant="primary">Looking at Cookie Import</b-button>
+            <b-button @click="temp2()" variant="primary">Looking at arrays in Cookie</b-button>
+
+
             <b-button @click="$bvModal.show('add-modal-id')" variant="primary">Add Course</b-button>
             
 
@@ -357,8 +360,17 @@ export default {
       this.selectedCourses.concat(Object.values(groupedCourses.value));
 
     },
-    temp(){
-      console.log(this.coursesOnSchedule._selectedSemesters);
+    temp1(){
+      //console.log(Object.keys(this.coursesOnSchedule._selectedSemesters)[0]);
+      //Object.keys(this.coursesOnSchedule._selectedSemesters) returns an array of all semesters
+      //need to retrieve the most recent one
+      console.log(this.coursesOnSchedule.semester(Object.keys(this.coursesOnSchedule._selectedSemesters)[0]));
+    },
+    temp2(){
+      //this gets the actual selected semester "summer 2023"  object
+      console.log(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters);
+      //
+      console.log(Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)[0][1]);
     }
   },
 };
