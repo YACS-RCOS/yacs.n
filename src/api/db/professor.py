@@ -20,19 +20,19 @@ class Professor:
     def add_professor(self, name, title, email, phone, dep, portfolio, profile_page):
         if email is not None:
             return self.db_conn.execute("""
-                INSERT INTO professor (name, title, email, phone_number, department,
-                                    portfolio_page, profile_page)
+                INSERT INTO professor (Email, Name, Title, Phone_number, Department,
+                                    Portfolio_page, Profile_page)
                 VALUES (%(name)s, %(title)s, %(email)s, %(phone_number)s, %(department)s,
                         %(portfolio_page)s, %(profile_page)s)
                 ON CONFLICT DO NOTHING;
             """, {
-                "name": name,
-                "title": title,
-                "email": email,
-                "phone_number": phone,
-                "department": dep,
-                "portfolio_page": portfolio,
-                "profile_page": profile_page,
+                "Name": name,
+                "Title": title,
+                "Email": email,
+                "Phone_number": phone,
+                "Department": dep,
+                "Portfolio_page": portfolio,
+                "Profile_page": profile_page,
             })
         else:
             return False, "Email cannot be None."
@@ -64,23 +64,32 @@ class Professor:
     def populate_from_json(self, json_data):
         # Connect to the database
         conn = self.db_conn.get_connection()
-
+        
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
                 # Iterate over each entry in the JSON data
                 for entry in json_data:
                     try:
+                        # Email,
+                        # Name
+                        # Title,
+                        # Phone_number,
+                        # Department,
+                        # Portfolio_page,
+                        # Profile_page
+
                         # Insert professor data into the 'professor' table
+                        self.db_conn.execute("select * from professor where false", None, True)
                         transaction.execute(
                             """
                             INSERT INTO professor (
                                 Email,
-                                Name,
-                                Title,
-                                Phone_number,
-                                Department,
-                                Portfolio_page,
-                                Profile_page
+                                first_name,
+                                phone_number,
+                                department,
+                                office_room,
+                                office_hours_time,
+                                rcs
                             )
                             VALUES (
                                 NULLIF(%(Email)s, ''),  -- Use NULL if Email is empty string
