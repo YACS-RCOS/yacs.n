@@ -236,14 +236,14 @@ class Professor:
     def get_professor_name_by_email(self, email):
         if email is not None:
             sql = """
-                    select
-                        first_name,
-                        last_name
-                    from
-                        professor
-                    where
-                        email = '%s'
-                    """ % email
+            SELECT
+                first_name,
+                last_name
+            FROM
+                professor
+            WHERE
+                email = %s
+        """
             name, error = self.db_conn.execute(sql, None, True)
             return (name, None) if not error else (False, error)
 
