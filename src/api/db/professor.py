@@ -234,6 +234,7 @@ class Professor:
             return (phone_number, None) if not error else (False, error)
 
     def get_professor_name_by_email(self, email):
+        #NEEDS TESTING after change
         if email is not None:
             sql = """
             SELECT
