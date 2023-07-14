@@ -4,6 +4,544 @@
             "specifications":"(subject.csci & course_id.1200) | (subject.csci & course_id.2200) | (subject.csci & course_id.2500) | (subject.ecse & course_id.2660) | (subject.csci & course_id.2300) | (subject.csci & course_id.2600) | (subject.csci & course_id.4430) | (subject.csci & course_id.4210)"
         }
     },
+    "aerospace engineering":{
+      "engrr - Introduction to Engineering Analysis": {
+          "requires": 1,
+          "replacement": false,
+          "specifications":"subject.engr & course_id.1100"
+      },
+      "phys - Physics I": {
+          "requires": 1,
+          "replacement": false,
+          "specifications":"subject.phys & course_id.1100"
+      },
+      "math - Calculus I": {
+          "requires": 1,
+          "replacement": false,
+          "specifications":"subject.math & course_id.1010"
+      },
+        "engr - Engineering Graphics and CAD": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1200"
+        },
+        "chem - Chemistry I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1100"
+        },
+        "mane - Fundamentals of Flight": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.1060"
+        },
+        "math - Calculus II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1020"
+        },
+        "phys - Physics II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "engr - Engineering Processes": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1300"
+        },
+        "engr - Strength of Materials": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2530"
+        },
+        "mane - Thermodynamics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2710"
+        },
+        "math - introduction to Differential Equations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "engr - modeling and Analysis of Uncertainty": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2600"
+        },
+        "mane - numerical methods and programming for engineers": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2110"
+        },
+        "mane - fluid mechanics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2720"
+        },
+        "math - multivariable calculus": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010"
+        },
+        "engr - engineering dynamics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2090"
+        },
+        "mane - aerospace strucutres and materials": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4060"
+        },
+        "mane - aerodynamics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4070"
+        },
+        "stso - professional development II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stso & course_id.4100"
+        },
+        "mane - modeling and control of dynamic systems": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4500"
+        },
+        "mane - aeroelasticity and structural vibrations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4900"
+        },
+        "mane - fluid dynamics laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4910"
+        },
+        "mane - aerospace structures laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4920"
+        },
+        "mane - propulsion systems": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4080"
+        },
+        "mane - control systems laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4510"
+        },
+        "engr - professional development:Leadership Competencies": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.4010"
+        }
+    },
+    "nuclear engineering":{
+        "engr - Introduction to Engineering Analysis": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1100"
+        },
+        "engr - Engineering Graphics and CAD": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1200"
+        },
+        "math - calculus I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
+        "phys - physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1100"
+        },
+        "chem - chemistry I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1100"
+        },
+        "mane - Introduction to Nuclear Engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.1100"
+        },
+        "math - calculus II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1020"
+        },
+        "phys - physics II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "mane - thermodynamics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2710"
+        },
+        "mane - nuclear phenomena for engineering applications": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2830"
+        },
+        "math - multi-variable calculus": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010"
+        },
+        "math - introduction to differential equations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "stso - professional development 2- Technical Issues and Solutions": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stso & course_id.4100"
+        },
+        "mane - numerical methods and programming for engineers": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2110"
+        },
+        "mane - fundamentals of nuclear engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2400"
+        },
+        "mane - fluid mechanics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.2720"
+        },
+        "mane - nuclear instrumentation and measurement": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4350"
+        },
+        "engr - modeling and analysis of uncertainty": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2600"
+        },
+        "mane - modeling and control of dynamics systems": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4500"
+        },
+        "engr - professional development: Leadership Competencies": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.4010"
+        },
+        "mane - nuclear power systems engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4400"
+        },
+        "mane - radiological engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4470"
+        },
+        "mane - physics of nuclear reactors": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4480"
+        },
+        "mane 4380 - nuclear engineering senior design project": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4380"
+        },
+        "mane - nuclear engineering laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4370"
+        },
+        "mane - nuclear engineering senior design project II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.mane & course_id.4390"
+        }
+    },
+    "biomedical eningeering":{
+        "chem - chemistry I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1100"
+        },
+        "engr - Introduction to Engineering Analysis": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1100"
+        },
+        "engr - Engineering Graphics and CAD": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1200"
+        },
+        "math - calculus I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
+        "biol - introduction to cell and molecular biology": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.biol & course_id.2120"
+        },
+        "biol - Introduction to Cellular and Molecular Biology Laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.biol & course_id.2125"
+        },
+        "engr - engineering processes": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1300"
+        },
+        "math - calculus II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1020"
+        },
+        "phys - physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1100"
+        },
+        "bmed - Programming for BME": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.2050"
+        },
+        "math - Multivaribale Calculus and Matrix Algebra": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010"
+        },
+        "phys - physics II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "math - introduction to differential equations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "bmed - biomaterials Science and Engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.2100"
+        },
+        "bmed - bioimaging and Bioinstrumentation": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.2300"
+        },
+        "bmed - Biomechanics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.2540"
+        },
+        "engr - Modeling and Analysis of Uncertainty": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2600"
+        },
+        "bmed - Modeling of Biomedical Systems": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4200"
+        },
+        "bmed - Biomedical Transport Phenomena": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4250"
+        },
+        "engr - Professional Development: Leadership Competencies": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.4010"
+        },
+        "bmed - Advanced Systems Physiology": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4500"
+        },
+        "stso - Professional Development 2-Technical Issues and Solutions": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stso & course_id.4100"
+        },
+        "engr - Introduction to Engineering Design": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.2050"
+        },
+        "bmed - Biomedical Engineering Laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4010"
+        },
+        "bmed - Biomedical Product Development and Commercialization": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4260"
+        },
+        "bmed - Biomedical Engineering Design Project I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.bmed & course_id.4600"
+        }
+    },
+    "chemical engineering":{
+        "chem -Introuction to Chemical Engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1010"
+        },
+        "chem - Chemistry I with Advanced Laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1110"
+        },
+        "math - Calculus I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
+        "phys - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1100"
+        },
+        "chem - Fundamentals of Chemical Engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.1100"
+        },
+        "biol - Introduction to Cell and Molecular Biology": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.biol & course_id.2120"
+        },
+        "engr - Engineering Graphics and CAD": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1200"
+        },
+        "biol - Introduction to Celluar and Molecular Biology Laboratory": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.biol & course_id.2125"
+        },
+        "math - Calculus II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1020"
+        },
+        "chem - Material, Energy, and Entroy Balances": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.2010"
+        },
+        "chem - Organic Chemistry I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.2250"
+        },
+        "engr - Professional Development:Group Dynamics": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.1010"
+        },
+        "math - Introduction to Differential Equations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2400"
+        },
+        "phys - Physics II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & course_id.1200"
+        },
+        "chem - Introduction ot Computational Chemical Engineering": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.2050"
+        },
+        "chem - Transport Phenomena II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chme & course_id.4020"
+        },
+        "stso - Professional Development 2-Technical Issues and Solutions": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.stso & course_id.4100"
+        },
+        "chem - Chemical Engineering Separations": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4040"
+        },
+        "chem - Chemical Reactor Design": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4500"
+        },
+        "chem - Modern Techniques in Chemistry": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4530"
+        },
+        "chem - Chemical Process Dynamics and Control": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4030"
+        },
+        "chem - Checmical Process Design:Fundamentals": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4050"
+        },
+        "chem - Chemical Engineering Laboratory I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4150"
+        },
+        "chem - Microscopic Physical Chemistry": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4420"
+        },
+        "chem - Chemical Process Design:Applications": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4060"
+        },
+        "chem - Chemical Engineering Laboratory II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.chem & course_id.4160"
+        },
+        "engr - Professional Development:Leadership Competencies": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.engr & course_id.4010"
+        }
+    },
     "mechanical engineering":{
         "engr - Introduction to Engineering Analysis": {
             "requires": 1,
@@ -99,7 +637,7 @@
             "requires": 1,
             "replacement": false,
             "specifications":"subject.mane & course_id.4030"
-        },
+        }
     },
     "electrical engineering": {
         "Core - Intro to ECSE": {
