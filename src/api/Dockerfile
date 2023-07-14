@@ -1,5 +1,7 @@
 FROM python:3.8-slim
 
+ENV PYTHONPATH=/usr/src
+
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
 COPY ./requirements.txt /usr/src/

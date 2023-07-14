@@ -35,6 +35,8 @@ import pandas as pd
 import copy
 from constants import Constants
 
+from ..worker.celery_app import celery_app, dp_recommend
+
 """
 NOTE: on caching
 on add of semester of change of data from GET
@@ -142,8 +144,8 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
 async def begin_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
-    #results = dp_recommend.delay(userid)
-    #recommendation_results.update({userid:results})
+    results = dp_recommend.delay(userid)
+    recommendation_results.update({userid:results})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
 
