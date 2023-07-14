@@ -153,7 +153,7 @@ async def uploadHandler(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
-    print("in process");
+    print("in process")
     if not file:
         return Response("No file received", 400)
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
