@@ -38,6 +38,15 @@
       >
         Color Blind Assistance
       </b-form-checkbox>
+
+      <b-form-checkbox
+        @change="toggleTime()"
+        switch
+        class="m-2"
+        size="lg"
+      >
+        Standard Time
+      </b-form-checkbox>
     </div>
 
 </template>
@@ -60,6 +69,7 @@ export default {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
       notify: false,
       // colorBlindAssist: this.$store.getters.colorBlindAssistState,
+      standardTime: true,
     };
   },
   mounted() {
@@ -125,6 +135,11 @@ export default {
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
+    toggleTime(){
+      if (standardTime) return false;
+      else return true;
+    },
+    
   }
 };
 
