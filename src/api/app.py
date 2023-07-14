@@ -374,6 +374,16 @@ async def get_professor_info_by_email(email:str):
 @app.post('/api/professor/add/{msg}')
 async def add_professor(msg:str):
     info = msg.split(",")
+    #msg should be name, title , email ,phone number, dep, portfolio page, rcs
+    # rcs = info[2].split("@")
+    # id = rcs[0]
+    # print("name", info[0])
+    # print("title", info[1])
+    # print("email", info[2])
+    # print("phone", info[3])
+    # print("dep", info[4])
+    # print("portfolio_page", info[5])
+    # print("rcs", id)
     
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
     info[5], info[6], info[7], info[8])
