@@ -8,19 +8,17 @@
         {{ course }}
       </li>
     </div>
-
-    <div>
-      <h1>Course Template</h1>
-    </div>
     <div class="table-container">
       <table>
         <tbody>
           <tr v-for="(semester, semesterIndex) in courseTable" :key="semesterIndex">
             <td v-for="(column, columnIndex) in semester" :key="columnIndex" @dragover.prevent @drop="dropCourse(semesterIndex, columnIndex)">
               <div class="course-item" :class="{ 'drag-over': isDragOver }" @dragenter="dragEnter" @dragleave="dragLeave" @click="removeCourse(semesterIndex, columnIndex)">
-                <template v-for="course in column">
-                  {{ course }}
-                </template>
+                <ul>
+                  <li v-for="course in column" :key="course">
+                    {{ course }}
+                  </li>
+                </ul>
               </div>
             </td>
           </tr>
@@ -59,6 +57,7 @@ export default {
 
       this.courses = await response1.json();
     },
+
     dragStart(course) {
       this.dragData = course;
     },
@@ -75,11 +74,10 @@ export default {
       this.isDragOver = false;
     },
     removeCourse(semesterIndex, columnIndex) {
-      this.courseTable[semesterIndex][columnIndex] = [];
+      this.courseTable[semesterIndex][columnIndex].pop();
+      this.$set(this.courseTable, semesterIndex, [...this.courseTable[semesterIndex]]);
     },
-    updateCourse(rowIndex, columnIndex) {
-      // Not needed in this implementation as courses are not edited directly in the table cells
-    },
+    
   },
 };
 </script>
@@ -94,7 +92,7 @@ export default {
 }
 
 table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
 }
 
