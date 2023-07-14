@@ -34,6 +34,13 @@
  * @property {boolean} selected
  */
 /**
+ * @typedef FinalExam
+ * @property {string} Department
+ * @property {string} CourseCode
+ * @property {string} Section
+ * @property {string} Day
+ */
+/**
  * @typedef Subsemester
  * @property {Date} date_start
  * @property {Date} date_end

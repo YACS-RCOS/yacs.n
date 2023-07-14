@@ -112,6 +112,7 @@
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
 import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
+import {FinalsPageCookie} from "@/controllers/FinalsPageCookie";
 
 export default {
   components: {
@@ -141,7 +142,7 @@ export default {
   mounted() {
     try {
       this.initCourseOptions();
-      this.loadSelectedCoursesFromCookie();
+      //this.loadSelectedCoursesFromCookie();
     } catch (error) {
       console.error("An error occurred in the mounted() hook:", error);
     }
@@ -193,9 +194,13 @@ export default {
       this.courseOptions = Object.values(groupedCourses);
     },
     addCourse(currCourse) {
+      const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
+        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day);
+        finalsPageCookie.save();
       }
+      console.log(finalsPageCookie);
       this.currCourse = null;
       console.log(this.selectedCourses);
     },
@@ -261,7 +266,7 @@ export default {
       //console.log(this.selectedCourses);
       //console.log(this.selectToDelete);
       for (let i = 0; i < this.selectToDelete.length; i++) {
-        let index = this.selectedCourses.indexOf(this.selectToDelete[i].);
+        let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
         this.selectedCourses.splice(index, 1);
       }
 
