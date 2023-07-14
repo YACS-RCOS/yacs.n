@@ -23,15 +23,25 @@
 # FINDING THE LINK TO EXTRACT DATA FROM:
 # The link that contains information of each course has the format of 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&subj_code_in={department}&crse_numb_in={courseNumber}'
 # 
-# semesester is a concatenation of the year and season. Season is based on the month the semesester starts in and is one of the following: '09',  '01',  '05', '12'.
-#   So fall 2021 would be '202109' and summer 2023 would be '202305'
-# department is a four-letter string. ('CSCI' or 'ARTS')
-# courseNumber is a four-digit number associated with each course. (1100 OR 1200 OR 2200)
 # 
-# The link to Computer Science I offered in Fall 2021 is https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202109&subj_code_in=CSCI&crse_numb_in=1100
-#                                                                                                                          ^^^^^^              ^^^^              ^^^^
+# To get to the SIS page of the specific class offered in the specific semester, we need three pieces of information to fill in:
+# 
+# 1. semesester is a concatenation of the year and season. Season is based on the month the semesester starts in and is one of the following: '09',  '01',  '05', '12'.
+#       So fall 2021 would be '202109' and summer 2023 would be '202305'
+# 2. department is a four-letter string. ('CSCI' or 'ARTS')
+# 3. courseNumber is a four-digit number associated with each course. (1100 OR 1200 OR 2200)
+# 
+# Given that Computer Science I is offered by the CS department and its course number is 1100, the link to Computer Science I offered in Fall 2021 is:
+# 
+# https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202109&subj_code_in=CSCI&crse_numb_in=1100
+#                                                                   ^^^^^^              ^^^^              ^^^^
+#                                                                  semester          department        courseNumber
+# 
 # MORE DETAIL ON SCRAPING: 
 # check the PDF 'Scraping SIS with Python' on discord
+# 
+# BOILDERPLATE CODE OF WEB SCRAPPER:
+# https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
 
 
 import os
@@ -113,9 +123,11 @@ def getCourseLink(semester : str, department : str, courseNumber : str) -> str:
 # create a new csv
 def WithoutData(filename : str, dataFilename : str, DEBUG):
     session = requests.Session()
-    data = read_csv(filename)
+    data = read_csv(filename)           # list of lists containing data from csv; each list represents a valid class row
     semester = parseSemester(filename)
-    Data = dict()
+    
+    
+    Data = dict()                       # a dictionary of dictionaries where {key: course id; value: {key: description, prereq, or coreq; value: corresponding data } }; all key value pairs are strings
 
     # print(data)
     for row in data:
@@ -123,7 +135,6 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         department = row[11]
         courseNumber = row[16]
         link = getCourseLink(semester, department, courseNumber)
-        print(link)
         if DEBUG == 'y':
             print(link)
         page = session.get(link)
@@ -169,13 +180,14 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
 
 # Update the existing csv
 def WithData(filename : str, dataFilename : str) -> None:
-    Data = readData(dataFilename)
-    data = read_csv(filename)
+    Data = readData(dataFilename)   # a dictionary of dictionaries where {key: course id; value: {key: description, prereq, or coreq; value: corresponding data } }; all key value pairs are strings
+    data = read_csv(filename)       # list of lists containing data from csv; each list represents a valid class row
+
     for row in data:
         if (len(row) < 17): continue
-        department = row[11]
-        courseNumber = row[16]
-        shortName = department+courseNumber
+        department = row[11]        # 4 letter course name (e.g. CSCI)
+        courseNumber = row[16]      # 4 digit course identifier (e.g. 1200)
+        shortName = department+courseNumber 
         if shortName not in Data:
             WithoutData(filename, dataFilename, 'n')
             return None
@@ -188,8 +200,8 @@ def WithData(filename : str, dataFilename : str) -> None:
         if corequisites != None:
             row[24] = corequisites
     write_csv(filename,data)
-    # saveData(dataFilename, Data)
 
+# convert the season and year from the name of the given csv file in format 'season-year.csv' (e.g. summer-2023.csv) into semester (see FINDING THE LINK TO EXTRACT DATA FROM)
 def parseSemester(filename) -> str:
     semester = filename.split('.')[0]
     season, year = semester.split('-')
