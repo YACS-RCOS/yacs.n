@@ -391,7 +391,7 @@ export const getLongName = (department) => {
     COMM: "Communication",
     ECON: "Economics",
     GSAS: "Games and Simulations Arts and Sciences",
-    IHSS: "Interdisciplinary H&SS",
+    IHSS: "Interdisciplinary HASS",
     INQR: "HASS Inquiry",
     LANG: "Languages",
     LITR: "Literature",
