@@ -66,18 +66,27 @@ class array_functions():
         return nth_combo
     
     @staticmethod
-    def find_set(string, charset, begin_index=0, end_index=None, rfind=False):
+    def find_set(string, charset, begin_index=0, end_index=None):
         min_loc = len(string)
         if end_index is None:
             end_index = len(string)
 
         for c in charset:
-            if rfind:
-                loc = string.rfind(c, begin_index, end_index)
-            else:
-                loc = string.find(c, begin_index, end_index)
+            loc = string.find(c, begin_index, end_index)
             if loc != -1 and loc < min_loc:
                 min_loc = loc
         if min_loc == len(string):
             return -1
         return min_loc
+
+    @staticmethod
+    def rfind_set(string, charset, begin_index=0, end_index=None):
+        max_loc = -1
+        if end_index is None:
+            end_index = len(string)
+
+        for c in charset:
+            loc = string.rfind(c, begin_index, end_index)
+            if loc > max_loc:
+                max_loc = loc
+        return max_loc

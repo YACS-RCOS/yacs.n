@@ -52,6 +52,10 @@ class Dict_Array():
             self.add(key, element)
 
 
+    def get(self, key, __default=None) -> None:
+        return self.dictionary.get(key, __default)
+
+
     def add(self, key, element, overwrite=False) -> None:
         '''
         adds element to dict array by appending it to array of its cooresponding key

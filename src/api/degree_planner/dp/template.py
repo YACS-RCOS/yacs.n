@@ -86,11 +86,14 @@ class Template():
         '''
         wildcards = set()
         begin_index = 0
-        star_index = self.specifications.find('*', begin_index)
+        star_index = self.specifications.find('*')
         while star_index != -1:
-            begin_index = af.find_set(self.specifications, Template.DELIMITERS, 0, star_index, True) + 1
+            begin_index = af.rfind_set(self.specifications, Template.DELIMITERS, 0, star_index) + 1
             end_index = af.find_set(self.specifications, Template.DELIMITERS, star_index)
+            if end_index == -1:
+                end_index = len(self.specifications)
             wildcards.add(self.specifications[begin_index:end_index])
+            print(f'wildcard ---  found wildcard at pos {star_index}, attr begin {begin_index} end {end_index} of attr {self.specifications}')
             star_index = self.specifications.find('*', end_index)
         return wildcards
 
@@ -174,7 +177,7 @@ class Template():
 
 
     def __repr__(self):
-        string = f"Template {self.name}:\n"
+        string = f"\nTemplate {self.name}:\n"
         string += f"  replacement: {self.replacement}\n"
         string += f"  specifications: {self.specifications}"
         return string
