@@ -156,6 +156,21 @@ class Dict_Array():
     
     def to_tuples(self):
         return [[key, elements] for key,elements in self.dictionary.items()]
+    
+
+    def elements(self):
+        elements = []
+        for _ , e in self.dictionary.items():
+            elements.extend(e)
+        return elements
+    
+
+    def find_element(self, element):
+        keys = []
+        for key, elements in self.dictionary.items():
+            if element in elements:
+                keys.append(key)
+        return keys
 
 
     def items(self):

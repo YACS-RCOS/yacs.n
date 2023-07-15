@@ -4,7 +4,7 @@ DEGREE PLANNER MAIN CLASS
 
 from .io.output import Output
 from .io.parse import parsing
-from .dp.catalog import Catalog
+from .dp.old_catalog import Catalog
 from .dp.command_handler import command_handler
 from .user.user import User
 
@@ -57,7 +57,7 @@ class Planner():
         # each user is assigned a User object and stored in this dictionary
         # Users = <user id, User>
         self.users = dict()
-        self.catalog = Catalog(enable_tensorflow=enable_tensorflow)
+        self.catalog = Catalog()
 
         self.default_io = io
         if self.default_io is None:
@@ -66,23 +66,18 @@ class Planner():
         # configurable flags
         self.ENABLE_TENSORFLOW = enable_tensorflow
         self.PROMPTING = prompting
-
         self.SEMESTERS_MAX  = 12
-
 
     def get_user(self, userid):
         return self.users.get(userid, None)
-
 
     def add_user(self, userid, username=None):
         if userid in self.users:
             return
         self.users.update({userid:User(userid, username)})
 
-
     def remove_user(self, userid):
         self.users.pop(userid, None)
-
 
     def user_input(self, user:User, input:str, io=None) -> dict:
         '''
@@ -92,7 +87,6 @@ class Planner():
         if io is None:
             io = self.default_io
         return command_handler.user_input(self, user, input, io, prompting=self.PROMPTING)
-
 
     def schedule(self, user:User, schedule_name:str, io:Output=None) -> None:
         ''' Changes user's active schedule selection and creates new schedule if

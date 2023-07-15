@@ -1,42 +1,17 @@
-from ..recommender.recommender import Recommender
 from .element import Element
 from .template import Template
-from ..math.search import Search
 from ..io.output import Output
 
 
 class Catalog():
 
-    def __init__(self, enable_tensorflow=True):
+    def __init__(self):
 
         self.elements = dict()
         self.templates = dict()
-
         self.tags = dict()
-        self.recommender = Recommender(self, enable_tensorflow=enable_tensorflow)
-
-        self.element_searcher = Search()
-        self.template_searcher = Search()
 
         self.debug = Output(Output.OUT.DEBUG)
-
-    def reindex(self, recompute_cache=True):
-        '''
-        1) computes search index
-        2) recaches recommender if tensorflow is enabled
-        '''
-        self.debug.info('starting search indexing')
-        self.element_searcher.update_items(self.elements.keys())
-        self.element_searcher.generate_index()
-
-        self.template_searcher.update_items(self.templates.keys())
-        self.template_searcher.generate_index()
-        self.debug.info('finished search indexing')
-
-        if recompute_cache:
-            self.debug.info('starting recommender reindex')
-            self.recommender.recache()
-            self.debug.info('finished recommender reindex')
 
     def add(self, items):
         '''add an element or template or an iterable of elements/templates'''
@@ -71,24 +46,10 @@ class Catalog():
         self.templates.pop(template_name, None)
 
     def get_element(self, element_name):
-        '''will use search function to find unique element based on name. If multiple matches, return None'''
-        full_name = self.search_element(element_name)
-        if len(full_name) != 1:
-            return None
-        return self.elements.get(full_name[0], None)
+        return self.elements.get(element_name, None)
     
     def get_template(self, template_name):
-        '''will use search function to find unique template based on name. If multiple matches, return None'''
-        full_name = self.search_template(template_name)
-        if len(full_name) != 1:
-            return None
-        return self.templates.get(full_name[0], None)
-    
-    def search_element(self, element_name):
-        return self.element_searcher.search(element_name.casefold())
-    
-    def search_template(self, template_name):
-        return self.template_searcher.search(template_name.casefold())
+        return self.templates.get(template_name, None)
     
     def get_elements(self):
         return self.elements.values()
