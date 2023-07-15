@@ -15,11 +15,6 @@ celery_app.conf.update(
 )
 
 
-@celery_app.task
-def test(integer):
-    time.sleep(5)
-    return integer
-
 @celery_app.task(name='worker.celery_app.dp_recommend')
 def dp_recommend(taken_courses, best_fulfillments:dict, catalog, custom_tags=None) -> dict:
     print('beginning recommendation computation')
