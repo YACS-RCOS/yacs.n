@@ -45,10 +45,10 @@ class Catalog():
         '''remove template by name'''
         self.templates.pop(template_name, None)
 
-    def get_element(self, element_name):
+    def get_element(self, element_name) -> Element:
         return self.elements.get(element_name, None)
     
-    def get_template(self, template_name):
+    def get_template(self, template_name) -> Template:
         return self.templates.get(template_name, None)
     
     def get_elements(self):

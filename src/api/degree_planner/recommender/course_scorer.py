@@ -22,11 +22,11 @@ class Scorer():
         pass
 
     def get_course_embedding(self, course, cache=True):
-        course_embedding = self.cache.course_embeddings.get(course.unique_name, None)
+        course_embedding = self.cache.course_embeddings.get(course.name, None)
         if course_embedding is None:
             course_embedding = self.embed_message(course.attr(self.ATTRIBUTE_TO_EMBED))
             if cache:
-                self.cache.course_embeddings.update({course.unique_name:course_embedding})
+                self.cache.course_embeddings.update({course.name:course_embedding})
         return course_embedding
 
     def get_tag_embedding(self, tag, cache=True):
@@ -60,7 +60,7 @@ class Scorer():
         while custom tag relevances will only be returned and not stored.
         '''
 
-        for course in self.catalog.courses():
+        for course in self.catalog.get_elements():
 
             ''' STEP 1: DETERMINE BIN TO PUT COURSE IN AND WHAT TAGS TO COMPUTE
             
@@ -87,9 +87,9 @@ class Scorer():
 
             ''' STEP 4: find the best descriptors for this course by finding tags with high relevance '''
             descriptors = dict(zip(self.catalog.tags.get(bin), tag_relevances_to_course))
-            self.cache.course_keywords.update({course.unique_name : af.best_descriptors(descriptors, self.BEST_DESCRIPTORS_AMOUNT, self.BEST_DESCRIPTORS_THRESHOLD)})
+            self.cache.course_keywords.update({course.name : af.best_descriptors(descriptors, self.BEST_DESCRIPTORS_AMOUNT, self.BEST_DESCRIPTORS_THRESHOLD)})
             ''' STEP 5: update the tag relevances to course value within cache '''
-            self.cache.tag_relevances_to_courses.update({course.unique_name : tag_relevances_to_course})
+            self.cache.tag_relevances_to_courses.update({course.name : tag_relevances_to_course})
 
 
     def embed_message(self, message):

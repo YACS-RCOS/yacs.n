@@ -122,7 +122,7 @@ async def get_dp_print(userid:str = Body(...)):
 async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
-    io = planner.default_io
+    io = planner.output
     user = planner.get_user(userid)
     if user is None:
         return Response(content="user not found")
@@ -134,7 +134,7 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
 
     fulfillments = planner.fulfillment(user, user.active_schedule, wildcard_resolutions=wildcard_resolutions)
     #print(f'APP FULFILLMENTS: {fulfillments}')
-    formatted_fulfillments = io.format_fulfillments(fulfillments, planner.taken_courses(user))
+    formatted_fulfillments = io.format_fulfillments(fulfillments, planner.selected_elements(user))
     
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
@@ -160,7 +160,7 @@ async def begin_dp_recommendations(userid:str):
 async def get_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
-    io = planner.default_io
+    io = planner.output
     i = 0
     while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
         await asyncio.sleep(1)

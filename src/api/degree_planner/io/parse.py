@@ -4,12 +4,10 @@ Parsing functions specific for custom data structure
 You will need to make your own parser for every data input file
 '''
 
-import json
 import os
 from .output import Output
-from ..dp.course import Course
+from ..dp.element import Element
 from ..dp.catalog import Catalog
-from ..dp.degree import Degree
 from ..dp.template import Template
 
 CATALOG_PATH = Output.DATA_FOLDER_PATH + "catalog.json"

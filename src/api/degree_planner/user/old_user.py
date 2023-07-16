@@ -5,7 +5,7 @@ User class and Flag enum that indicates command queue status for the user
 from enum import Enum
 import json
 from queue import Queue
-from ..user.schedule import Schedule
+from .schedule import Schedule
 
 class User():
     '''

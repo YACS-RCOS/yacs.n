@@ -6,7 +6,7 @@ import json
 import timeit
 import copy
 from enum import Enum
-from .template import Template
+from .old_template import Template
 from ..math.graph import Graph
 from ..math.graph import Backwards_Overlap
 from ..math.array_math import array_functions as af

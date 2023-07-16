@@ -1,4 +1,4 @@
-from dictionary_array import Dict_Array
+from .dictionary_array import Dict_Array
 
 class Simple_Attributes():
 

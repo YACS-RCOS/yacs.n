@@ -27,55 +27,36 @@ class User():
         self.command_paused = None
 
     class Flag(Enum):
-        '''
-        For command queue use
-        '''
+        ''' For command queue use '''
         CMD_PAUSED = 100
         CMD_RUNNING = 101
 
-
     def get_schedules(self) -> list:
-        '''
-        Creates a copied list of all current schedule objects
-        '''
+        ''' Creates a copied list of all current schedule objects '''
         return list(self.schedules.values())
 
-
     def get_schedule(self, schedule_name:str) -> Schedule:
-        '''
-        Returns schedule if found, otherwise None
-        '''
+        ''' Returns schedule if found, otherwise None '''
         return self.schedules.get(schedule_name, None)
 
-
     def new_schedule(self, schedule_name:str) -> None:
-        '''
-        Creates a new schedule if the schedule does not yet exist
-        '''
+        ''' Creates a new schedule if the schedule does not yet exist '''
         schedule = Schedule(schedule_name)
         self.schedules.update({schedule_name : schedule})
 
-
     def add_schedule(self, schedule_name:str, schedule:Schedule):
-        '''
-        Add schedule from input to schedules
-        '''
+        ''' Add schedule from input to schedules '''
         self.schedules.update({schedule_name : schedule})
 
-
     def get_active_schedule(self) -> Schedule:
-        '''
-        Get schedule object being actively editted for this user
-        '''
+        ''' Get schedule object being actively editted for this user '''
         return self.get_schedule(self.active_schedule)
-
 
     def set_active_schedule(self, schedule):
         if isinstance(schedule, Schedule):
             schedule = schedule.name
         if schedule in self.schedules:
             self.active_schedule = schedule
-
 
     def rename_schedule(self, old_name:str, new_name:str) -> bool:
         '''
@@ -96,12 +77,10 @@ class User():
     def __repr__(self):
         return f"{str(self.username)}'s schedules: {self.schedules.keys().join(',')}"
 
-
     def __eq__(self, other):
         if not isinstance(other, User):
             return False
         return self.id == other.id
-
 
     def __hash__(self):
         return hash(self.id)
