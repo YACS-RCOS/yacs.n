@@ -16,11 +16,11 @@ from datetime import datetime
 import timeit
 
 from degree_planner.planner import Planner
-from degree_planner.dp.degree import Degree
-from degree_planner.dp.course import Course
+from degree_planner.dp.command_handler import Command_Handler
+from degree_planner.dp.requirement import Requirement, specification_parsing
+from degree_planner.dp.element import Element
 from degree_planner.dp.template import Template
-from degree_planner.dp.template import template_parsing
-from degree_planner.math.attributes import Attributes
+from degree_planner.math.simple_attributes import Simple_Attributes
 from degree_planner.math.graph import Graph
 from degree_planner.math.graph import Edge_Generator
 from degree_planner.math.sorting import sorting
@@ -106,60 +106,62 @@ def test_other():
     planner = Planner(enable_tensorflow=False)
     
     catalog = planner.catalog
-    degree = Degree("computer science", catalog)
-    catalog.add_degree(degree)
+    degree = Template("computer science")
+    catalog.add(degree)
 
-    course0 = Course('0', 'BINTEST', 0)
-    course0.add_attribute('bin.1')
-    course0.add_attribute('bin.5')
-    course0.add_attribute('credits.3')
-    catalog.add_course(course0)
+    course0 = Element('0')
+    course0.attributes.add_attribute('bin.1')
+    course0.attributes.add_attribute('bin.5')
+    course0.attributes.add_attribute('credits.3')
+    catalog.add(course0)
 
-    course1 = Course('1', 'BINTEST', 1)
-    course1.add_attribute('bin.1')
-    course1.add_attribute('bin.2')
-    catalog.add_course(course1)
+    course1 = Element('1')
+    course1.attributes.add_attribute('bin.1')
+    course1.attributes.add_attribute('bin.2')
+    catalog.add(course1)
 
-    course2 = Course('2', 'BINTEST', 2)
-    course2.add_attribute('bin.2')
-    course2.add_attribute('bin.3')
-    catalog.add_course(course2)
+    course2 = Element('2')
+    course2.attributes.add_attribute('bin.2')
+    course2.attributes.add_attribute('bin.3')
+    catalog.add(course2)
 
-    course3 = Course('3', 'BINTEST', 3)
-    course3.add_attribute('bin.3')
-    course3.add_attribute('bin.4')
-    catalog.add_course(course3)
+    course3 = Element('3')
+    course3.attributes.add_attribute('bin.3')
+    course3.attributes.add_attribute('bin.4')
+    catalog.add(course3)
 
-    course4 = Course('4', 'BINTEST', 4)
-    course4.add_attribute('bin.4')
-    course4.add_attribute('bin.5')
-    catalog.add_course(course4)
+    course4 = Element('4')
+    course4.attributes.add_attribute('bin.4')
+    course4.attributes.add_attribute('bin.5')
+    catalog.add(course4)
 
-    course5 = Course('5', 'BINTEST', 5)
-    course5.add_attribute('bin.4')
-    course5.add_attribute('bin.5')
-    catalog.add_course(course5)
+    course5 = Element('5')
+    course5.attributes.add_attribute('bin.4')
+    course5.attributes.add_attribute('bin.5')
+    catalog.add(course5)
 
-    testtemplate1 = Template('bin1', 'bin.1')
-    testtemplate2 = Template('bin2', 'bin.2')
-    testtemplate3 = Template('bin3', 'bin.3')
-    testtemplate4 = Template('bin4', 'bin.4')
-    testtemplate5 = Template('bin5', 'bin.5')
+    testtemplate1 = Requirement('bin1', 'bin.1')
+    testtemplate2 = Requirement('bin2', 'bin.2')
+    testtemplate3 = Requirement('bin3', 'bin.3')
+    testtemplate4 = Requirement('bin4', 'bin.4')
+    testtemplate5 = Requirement('bin5', 'bin.5')
     testtemplate1.replacement = False
     testtemplate2.replacement = False
     testtemplate3.replacement = False
     testtemplate4.replacement = False
     testtemplate5.replacement = False
 
-    degree.add_template(testtemplate1)
-    degree.add_template(testtemplate2)
-    degree.add_template(testtemplate3)
-    degree.add_template(testtemplate4)
-    degree.add_template(testtemplate5)
+    degree.requirements.append(testtemplate1)
+    degree.requirements.append(testtemplate2)
+    degree.requirements.append(testtemplate3)
+    degree.requirements.append(testtemplate4)
+    degree.requirements.append(testtemplate5)
 
-    catalog.reindex(recompute_cache=False)
+    planner.index()
+    print(f"course0 attributes: {course0.attributes}")
+    print(f"course0 credits: {course0.attr('credits')}")
+    print(f"course0 bin: {course0.attr('bin')}")
 
-    print(f'course0 credits: {course0.get_credits()}')
 
     # run_cmd(planner, user, 'degree, computer science, add, 1, bin 1, add, 2, bin 2, add, 3, bin 3, add, 4, bin 4, add, 5, bin 5, print, fulfillment')
 
@@ -215,7 +217,7 @@ def test_other():
     }
     for example, answer in example_attributes.items():
         true_given = dict()
-        response = template_parsing.parse_attribute(example, course0, true_given)
+        response = specification_parsing.parse_attribute(example, course0.attributes, true_given)
         print(f"parse attribute {example} \n  response: {response}\n  correct response: {answer}")
         print(f"  answer is {'correct :)' if str(response).casefold() == str(answer).casefold() else 'INCORRECT INCORRECT INCORRECT!'}")
         print(f"  true given: {true_given}")
@@ -224,7 +226,7 @@ def test_other():
 
     print(f"testing attribute functions")
 
-    attribute = Attributes()
+    attribute = Simple_Attributes()
     attribute.add_attribute('test.1')
     attribute.add_attribute('test.1.1')
     attribute.add_attribute('test.2')
@@ -246,19 +248,19 @@ def test_other():
     specification = '(concentration.* &credit.*& level.4|(subject.*))'
     print(f'specification: {specification}')
 
-    template = Template('testtemplate', specification)
-    print(f'wildcards: {template.wildcards()}')
-    template.wildcard_differentiate(1)
-    print(f'after wildcard differentiate: {template.specifications}')
-    course1 = Course('1', 'csci', 1)
-    course1.add_attribute('concentration.ai')
-    course1.set_credits(4)
-    course1.add_attribute('credit.4')
-    course2 = Course('2', 'ecse', 2)
-    course2.add_attribute('concentration.theory')
-    course2.set_credits(3)
-    course2.add_attribute('credit.3')
-    print(f'wildcard_resolutions: {template.wildcard_resolutions({course1, course2}).dictionary}')
+    requirement = Requirement('testtemplate', specification)
+    print(f'wildcards: {requirement.wildcards()}')
+    requirement.wildcard_differentiate(1)
+    print(f'after wildcard differentiate: {requirement.specifications}')
+    course1 = Element('1')
+    course1.attributes.add_attribute('subject.csci')
+    course1.attributes.add_attribute('concentration.ai')
+    course1.attributes.add_attribute('credits.4')
+    course2 = Element('2')
+    course1.attributes.add_attribute('subject.ecse')
+    course2.attributes.add_attribute('concentration.theory')
+    course2.attributes.add_attribute('credits.3')
+    print(f'wildcard_resolutions: {requirement.wildcard_resolutions({course1, course2}).dictionary}')
 
 
 
@@ -734,7 +736,7 @@ def visualize_fulfillment():
 
 
 def run_cmd(planner, user, string):
-    planner.user_input(user, string)
+    Command_Handler.input(planner, user, string)
 
 
 def main():

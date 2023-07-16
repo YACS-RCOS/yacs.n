@@ -1,10 +1,10 @@
-from ..math.simple_attributes import Simple_Attributes
+from ..math.attributes import Attributes
 
 class Element():
 
     def __init__(self, name):
         self.name = name
-        self.attributes = Simple_Attributes()
+        self.attributes = Attributes()
 
     def attr(self, attr_head):
         return self.attributes.attr(attr_head)

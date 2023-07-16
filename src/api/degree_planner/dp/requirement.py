@@ -2,7 +2,7 @@
 requirements within templates
 '''
 
-from ..math.simple_attributes import Simple_Attributes
+from ..math.attributes import Attributes
 from ..math.dictionary_array import Dict_Array
 from ..math.array_math import array_functions as af
 
@@ -53,9 +53,9 @@ class Requirement():
         resolutions = Dict_Array(list_type='set')
         for element in elements:
             if use_original_specifications:
-                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element, specifications=self.original_formatted_specifications)
+                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element.attributes, specifications=self.original_formatted_specifications)
             else:
-                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element)
+                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element.attributes)
             if good_match:
                 for wildcard_orig, wildcard_resol in conditions.items():
                     resolutions.extend_elements(wildcard_orig, wildcard_resol)
@@ -144,7 +144,7 @@ class specification_parsing():
     '''
 
     @staticmethod
-    def attr_fulfills_specification(template:Requirement, target_attribute:Simple_Attributes, specifications=None):
+    def attr_fulfills_specification(template:Requirement, target_attribute:Attributes, specifications=None):
         conditions = dict()
         if specifications is None:
             specifications = template.specifications
@@ -155,7 +155,7 @@ class specification_parsing():
         return True, conditions
 
     @staticmethod
-    def single_attribute_evaluation(eval_attribute:str, target_attribute:Simple_Attributes):
+    def single_attribute_evaluation(eval_attribute:str, target_attribute:Attributes):
         if isinstance(eval_attribute, bool):
             return eval_attribute
         eval_attribute = eval_attribute.strip()
@@ -193,7 +193,7 @@ class specification_parsing():
         return (target_attribute.attr(eval_attribute) is not None), {}
 
     @staticmethod
-    def parse_attribute(input_text:str, target_attribute:Simple_Attributes, true_given_for_wildcards:dict=None) -> str:
+    def parse_attribute(input_text:str, target_attribute:Attributes, true_given_for_wildcards:dict=None) -> str:
         '''
         Input -> Attribute
         Input -> True|False

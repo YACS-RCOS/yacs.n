@@ -75,7 +75,7 @@ class Recommender():
         ''' STEP 2: compute a scaled sum of all of tag relevances of user's taken courses, organized by bin (such as course subject)
         this is to allow different tagging methods for different kinds of items to avoid irrevelant tags from influencing results '''
         for element in selected_elements:
-            bin = element(self.ATTRIBUTE_BIN)
+            bin = element.attr(self.ATTRIBUTE_BIN)
             relevance_tags_to_elements = self.cache.tag_relevances_to_courses.get(element.name, None)
             if relevance_tags_to_elements is None:
                 continue

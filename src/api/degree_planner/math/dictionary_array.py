@@ -124,6 +124,9 @@ class Dict_Array():
                 self.dictionary.get(key).remove(element)
             elif self.list_type == 'set':
                 self.dictionary.get(key).remove(element)
+
+            if not len(self.dictionary.get(key)):
+                self.pop(key)
                 
         except ValueError as e:
             if suppress_error:

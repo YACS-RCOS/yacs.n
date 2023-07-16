@@ -75,7 +75,7 @@ class User():
             return True
 
     def __repr__(self):
-        return f"{str(self.username)}'s schedules: {self.schedules.keys().join(',')}"
+        return f"{str(self.username)}'s schedules: {','.join(self.schedules.keys())}"
 
     def __eq__(self, other):
         if not isinstance(other, User):

@@ -12,15 +12,15 @@ class Simple_Attributes():
         body = attr[first_dot + 1:]
         self.attributes.add(head, body)
         self.attributes_str.add(attr)
-        print(f'added attribute {attr}, current states: \n {self.attributes}')
+        #print(f'added attribute {attr}, current states: \n {self.attributes}')
 
     def remove_attribute(self, attr:str):
         first_dot = attr.find('.')
         head = attr[:first_dot]
         body = attr[first_dot + 1:]
         self.attributes.remove(head, body)
-        self.attributes_str.remove(attr, None)
-        print(f'removed attribute {attr}, current states: \n {self.attributes}')
+        self.attributes_str.remove(attr)
+        #print(f'removed attribute {attr}, current states: \n {self.attributes}')
 
     def get_attributes_by_head(self, attr:str):
         '''
@@ -28,7 +28,7 @@ class Simple_Attributes():
         '''
         if attr == '':
             return list(self.attributes_str)
-        bodies = self.attributes.get(attr)
+        bodies = self.attributes.get(attr, [])
         attributes = list()
         for body in bodies:
             if body == '':
@@ -38,7 +38,7 @@ class Simple_Attributes():
         return attributes
     
     def get_attributes_body_by_head(self, attr:str):
-        return self.attributes.get(attr)
+        return self.attributes.get(attr, [])
 
     def remove_attributes_by_head(self, attr:str):
         for attribute in self.get_attributes_by_head(attr):
@@ -50,22 +50,29 @@ class Simple_Attributes():
             self.add_attribute(f'{head}.{body}')
 
     def get_attributes_ge(self, attr):
-        bodies = self.attributes.get(head(attr))
+        bodies = self.attributes.get(head(attr), [])
         bodies_ge = [possibility for possibility in bodies if possibility >= body(attr)]
         print(f"attribute {attr} with head {head(attr)} matched with bodies {bodies} with bodies ge {bodies_ge}")
         return [f"{head(attr)}.{body}" if head(attr) != '' else body for body in bodies_ge]
     
     def get_attributes_le(self, attr):
-        bodies = self.attributes.get(head(attr))
+        bodies = self.attributes.get(head(attr), [])
         bodies_le = [possibility for possibility in bodies if possibility <= body(attr)]
         print(f"attribute {attr} with head {head(attr)} matched with bodies {bodies} with bodies ge {bodies_le}")
         return [f"{head(attr)}.{body}" if head(attr) != '' else body for body in bodies_le]
 
-    def attr(self, head:str):
+    def attr(self, attr:str):
         '''
         returns only the body of the attribute specified
         '''
-        return self.attributes.get(head, None)
+        if '.' in attr:
+            bodies = self.attributes.get(head(attr), None)
+            if bodies is None:
+                return None
+            if body(attr) in bodies:
+                return []
+            return None
+        return self.attributes.get(attr, None)
 
     def __eq__(self, other):
         if not isinstance(other, Simple_Attributes):
@@ -91,10 +98,10 @@ class Simple_Attributes():
             hash += hash(attr)
         return hash
 
-def head(attr) -> str:
+def head(attr:str) -> str:
     return attr[:attr.find('.')]
 
-def body(attr) -> str:
+def body(attr:str) -> str:
     if '.' not in attr:
         return ''
     return attr[attr.find('.') + 1:]

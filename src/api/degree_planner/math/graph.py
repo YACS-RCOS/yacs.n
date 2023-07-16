@@ -29,7 +29,7 @@ class Backwards_Overlap(Edge_Generator):
         self.all_fulfillment = all_fulfillment
 
     def edge_data(self, node1:Fulfillment_Status, node2:Fulfillment_Status):
-        return self.all_fulfillment.get(node1).get_fulfillment_set().intersection(self.max_fulfillment.get(self.all_fulfillment.get(node2).get_template()).get_fulfillment_set())
+        return self.all_fulfillment.get(node1).fulfillment_set.intersection(self.max_fulfillment.get(self.all_fulfillment.get(node2).requirement).fulfillment_set)
     
     def zero_value(self, value):
         return value is None or not len(value)
@@ -44,7 +44,7 @@ class Forwards_Overlap(Edge_Generator):
         self.all_fulfillment = all_fulfillment
 
     def edge_data(self, node1:Fulfillment_Status, node2:Fulfillment_Status):
-        return self.all_fulfillment.get(node1).get_fulfillment_set().intersection(self.max_fulfillment.get(self.all_fulfillment.get(node2).get_template()).get_fulfillment_set())
+        return self.all_fulfillment.get(node1).fulfillment_set.intersection(self.max_fulfillment.get(self.all_fulfillment.get(node2).requirement).fulfillment_set)
     
     def zero_value(self, value):
         return value is None or not len(value)

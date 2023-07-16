@@ -194,18 +194,18 @@ class Output():
         
         for fulfillment in fulfillments.values():
             formatted = dict()
-            formatted.update({'name':fulfillment.template.name})
+            formatted.update({'name':fulfillment.requirement.name})
             formatted.update({'content':True})
-            formatted.update({'replacement':fulfillment.template.replacement})
-            formatted.update({'position':fulfillment.template.importance})
+            formatted.update({'replacement':fulfillment.requirement.replacement})
+            formatted.update({'position':fulfillment.requirement.importance})
             formatted.update({'required_count':fulfillment.get_required_count()})
             formatted.update({'actual_count':fulfillment.get_actual_count()})
-            formatted.update({'specifications':fulfillment.template.specifications})
-            formatted.update({'original_specifications':fulfillment.template.original_formatted_specifications})
-            fulfillment_set = [str(course) for course in fulfillment.get_fulfillment_set()]
+            formatted.update({'specifications':fulfillment.requirement.specifications})
+            formatted.update({'original_specifications':fulfillment.requirement.original_formatted_specifications})
+            fulfillment_set = [str(course) for course in fulfillment.fulfillment_set]
             fulfillment_set.sort()
             formatted.update({'fulfillment_set':fulfillment_set})
-            wildcard_resolutions = fulfillment.template.wildcard_resolutions(taken_courses, True)
+            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True)
             wildcard_resolutions.convert_list_type('list')
             for key, _ in wildcard_resolutions.dictionary.items():
                 wildcard_resolutions.insert(key, key, 0)
@@ -234,17 +234,17 @@ class Output():
         fulfillments.sort()
         for status in fulfillments:
             if as_dict:
-                printout.update({status.template.name:[str(e) for e in status.get_fulfillment_set()]})
+                printout.update({status.requirement.name:[str(e) for e in status.fulfillment_set]})
             else:
-                printout += (f"  Template '{status.template.name}':" + \
-                    f"\n    replacement: {status.template.replacement}, importance: {status.template.importance}" + \
+                printout += (f"  Template '{status.requirement.name}':" + \
+                    f"\n    replacement: {status.requirement.replacement}, importance: {status.requirement.importance}" + \
                     f"\n    required count: {status.get_required_count()}" + \
                     f"\n    actual count: {status.get_actual_count()}" + \
-                    f"\n    specifications: {status.template.specifications}" + \
-                    f"\n    original specifications: {status.template.original_specifications}\n")
+                    f"\n    specifications: {status.requirement.specifications}" + \
+                    f"\n    original specifications: {status.requirement.original_specifications}\n")
                 simplified_fulfillment_set = set()
-                for course in status.get_fulfillment_set():
-                    simplified_fulfillment_set.add(course.get_unique_name())
+                for course in status.fulfillment_set:
+                    simplified_fulfillment_set.add(course.name)
                 printout += f"    fulfillment set: {simplified_fulfillment_set}\n"
         return printout
     
@@ -257,15 +257,14 @@ class Output():
         if isinstance(recommendation, str):
             return []
 
-        templates = list(recommendation.keys())
-        templates.sort()
-        templates.reverse()
-        for template in templates:
-            for generated_template, fulfillment_courses in recommendation.get(template).items():
+        requirements = list(recommendation.keys())
+        requirements.sort()
+        requirements.reverse()
+        for requirement in requirements:
+            for generated_requirement, fulfillment_courses in recommendation.get(requirement).items():
                 formatted = dict()
-                formatted.update({'name':generated_template.name})
-                formatted.update({'specifications':generated_template.specifications})
-                formatted.update({'courses_fulfilled':generated_template.courses_fulfilled})
+                formatted.update({'name':generated_requirement.name})
+                formatted.update({'specifications':generated_requirement.specifications})
                 fulfillment_set = [str(e) for e in fulfillment_courses]
                 del fulfillment_set[5:]
                 formatted.update({'fulfillment_set':fulfillment_set})
@@ -286,28 +285,28 @@ class Output():
         
         if as_dict:
             printout = dict()
-            templates = list(recommendation.keys())
-            templates.sort()
-            templates.reverse()
-            for template in templates:
-                for generated_template, fulfillment_courses in recommendation.get(template).items():
-                    printout.update({f"{generated_template.name}":f"specifications: {generated_template.specifications}" + \
+            requirements = list(recommendation.keys())
+            requirements.sort()
+            requirements.reverse()
+            for requirement in requirements:
+                for generated_requirement, fulfillment_courses in recommendation.get(requirement).items():
+                    printout.update({f"{generated_requirement.name}":f"specifications: {generated_requirement.specifications}" + \
                     f"fulfillment courses: {[str(e) for e in fulfillment_courses]}"})
             return printout
 
         printout = ''
-        templates = list(recommendation.keys())
-        templates.sort()
-        templates.reverse()
-        for template in templates:
-            printout += (f"\n  Original Template '{template.name}':" + \
-                f"\n    replacement: {template.replacement}, importance: {template.importance}" + \
-                f"\n    required count: {template.courses_required}" + \
-                f"\n    specifications: {template.specifications}\n")
+        requirements = list(recommendation.keys())
+        requirements.sort()
+        requirements.reverse()
+        for requirement in requirements:
+            printout += (f"\n  Original Template '{requirement.name}':" + \
+                f"\n    replacement: {requirement.replacement}, importance: {requirement.importance}" + \
+                f"\n    required count: {requirement.elements_required}" + \
+                f"\n    specifications: {requirement.specifications}\n")
             
-            for generated_template, fulfillment_courses in recommendation.get(template).items():
-                printout += (f"\n    Generated Template '{generated_template.name}':" + \
-                f"\n      specifications: {generated_template.specifications}" + \
+            for generated_requirement, fulfillment_courses in recommendation.get(requirement).items():
+                printout += (f"\n    Generated Template '{generated_requirement.name}':" + \
+                f"\n      specifications: {generated_requirement.specifications}" + \
                 f"\n      fulfillment courses: {[str(e) for e in fulfillment_courses]}\n")
 
         return printout

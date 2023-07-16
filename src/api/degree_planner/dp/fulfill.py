@@ -25,12 +25,80 @@ def get_element_match(requirement:Requirement, elements:set) -> list:
     fulfillment = Fulfillment_Status(requirement, set())
 
     for element in elements:
-        good_match, _ = specification_parsing.attr_fulfills_specification(requirement, element)
+        good_match, _ = specification_parsing.attr_fulfills_specification(requirement, element.attributes)
 
         if good_match:
             fulfillment.add_element(element)
 
     return fulfillment
+
+def get_branched_element_match(requirement:Requirement, elements:set) -> list:
+    '''
+    Finds all elements that fulfills the given requirement
+
+    Wildcards (*) may be used to dictate the fact that all courses within this template's fulfillment
+    set must have the same values for that attribute. It doesn't matter which one, just so long as
+    it's consistent. This is useful if we want a rule that says all courses must be in the same subject
+    area or all courses must be in the same concentration/focus area, but doesn't matter which specific 
+    one in particular.
+
+    For example, concentration.* means all courses must be within the same concentration.
+    If course1 has attribute concentration.1 and course2 has attribute concentration.1 and concentration.2,
+    this function will return a list of fulfillment sets as follows:
+
+    Template1.1 [concentration.1] : fulfillment courses: [course1, course2]
+    Template1.2 [concentration.2] : fulfillment courses: [course2]
+
+    If the template doesn't contain a wildcard operator, the returned list would be a single entry
+    '''
+
+    fulfillment_sets = list() # all possible fulfillments based on different combinations resulting from wildcard sauge
+    all_conditions = dict() # all possible wildcard replacement conditions that can influence the result (wildcard branching)
+
+    # current fulfillment set, will be added only if current template does not contain wildcards
+    # (recursive calls remove one wildcard at a time), so essentially "leaf" branches
+    # get to add their fulfillment to fulfillment_sets
+    curr_fulfillment = Fulfillment_Status(requirement, set())
+
+    for element in elements:
+        good_match, conditions = specification_parsing.attr_fulfills_specification(requirement, element.attributes)
+
+        # updates all_conditions with possible values for wildcard replacement
+        for condition, condition_sat_set in conditions.items():
+            current_condition_set = all_conditions.get(condition, set())
+            current_condition_set.update(condition_sat_set)
+            all_conditions.update({condition:current_condition_set})
+
+        # if this is a leaf call (no wildcard branching), add to current fulfillment set
+        if good_match and not len(conditions):
+            curr_fulfillment.add_element(element)
+
+    # if this is a leaf call (no wildcard branching), add to main fulfillment set
+    if not len(all_conditions):
+        fulfillment_sets.append(curr_fulfillment)
+
+
+    # if there are wildcard branching needed (we only need to pop the first one, the rest is handled by the following recursive calls
+    # as each recursive call only needs to handle one)
+    if not len(all_conditions):
+        return fulfillment_sets
+    wildcard_attr, wildcard_choices = all_conditions.popitem()
+
+    for choice in wildcard_choices:
+        # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
+        requirement_copy = copy.deepcopy(requirement)
+        
+        specifications = requirement_copy.specifications
+        if wildcard_attr not in specifications:
+            continue
+
+        # we make a note of the replacements needed by storing it in replace_attributes
+        requirement_copy.specifications = specifications.replace(wildcard_attr, choice)
+
+        # recursively call this function, we're guaranteed that the final return values all are wildcard-free
+        fulfillment_sets.extend(get_branched_element_match(requirement_copy, elements))
+
+    return fulfillment_sets
 
 ##############################################################################################
 # fulfillment computation
@@ -112,7 +180,7 @@ def group_requirements(requirements) -> list:
 # MAIN FULFILLMENT FUNCTION
 ##############################################################################################
 
-def get_optimized_fulfillment(taken_courses:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
+def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
 
     start = timeit.default_timer()
     
@@ -131,7 +199,7 @@ def get_optimized_fulfillment(taken_courses:set, requirements:set, forced_wildca
         # add wildcardless requirements to each group such that they can engage in trading/stealing optimizations
         # linearly increases runtime, which is fine since this process is to avoid the exponential growth of multiple wilcards
         group.update(wildcardless_requirements)
-        fulfillments = get_fulfillment(taken_courses, group, forced_wildcard_resolutions)
+        fulfillments = get_fulfillment(elements_selected, group, forced_wildcard_resolutions)
 
         # use these wildcard resolutions that led to a local best
         for requirement in fulfillments.keys():
@@ -140,7 +208,7 @@ def get_optimized_fulfillment(taken_courses:set, requirements:set, forced_wildca
             resolved_requirements.append(requirement)
     
     # at this point, we obtained resolved_requirements, which represents all the requirements with resolved wildcards to use
-    fulfillments = get_fulfillment(taken_courses, resolved_requirements, forced_wildcard_resolutions)
+    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions)
 
     end = timeit.default_timer()
     logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
@@ -148,13 +216,13 @@ def get_optimized_fulfillment(taken_courses:set, requirements:set, forced_wildca
     return fulfillments
 
 
-def get_fulfillment(taken_courses:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
+def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
 
     wildcard_resolutions = Dict_Array(list_type='set')
 
     for requirement in requirements:
         requirement:Requirement
-        wildcard_resolutions.extend(requirement.wildcard_resolutions(taken_courses))
+        wildcard_resolutions.extend(requirement.wildcard_resolutions(elements_selected))
 
     if forced_wildcard_resolutions is not None and len(forced_wildcard_resolutions):
         # forced wildcard resolutions should not contain wildcards in resolution, will remove them
@@ -176,7 +244,8 @@ def get_fulfillment(taken_courses:set, requirements:set, forced_wildcard_resolut
         # all courses that fulfills each template
         max_fulfillments = dict()
         for requirement in requirement_set:
-            max_fulfillments.update({requirement:get_element_match(requirement, taken_courses)})
+            print(f'element match of {requirement.name}: {get_element_match(requirement, elements_selected)}')
+            max_fulfillments.update({requirement:get_element_match(requirement, elements_selected)})
 
         # Output.visualize('degree', max_fulfillments, 'max fulfillment')
         all_fulfillment = dict()
@@ -299,7 +368,7 @@ def requirement_fill(requirement:Requirement, all_fulfillment:dict, max_fulfillm
         fulfillment (Fulfillment_Status): fulfillment status of the current template
     '''
 
-    requested_elements = max_fulfillments.get(requirement).get_fulfillment_set()
+    requested_elements = max_fulfillments.get(requirement).fulfillment_set
 
     logging.debug(f"template {requirement} requests: {[str(e) for e in requested_elements]}")
 
@@ -336,7 +405,7 @@ def requirement_fill(requirement:Requirement, all_fulfillment:dict, max_fulfillm
     return this_fulfillment
 
 
-def element_steal(self, requirement:Requirement, element:Element, all_fulfillment:dict, max_fulfillments:dict, graph:Graph, importance_level:int=-1, less_important_templates:set=None) -> bool:
+def element_steal(requirement:Requirement, element:Element, all_fulfillment:dict, max_fulfillments:dict, graph:Graph, importance_level:int=-1, less_important_templates:set=None) -> bool:
     '''
     The optimization step for course assignment to templates.
 
@@ -396,7 +465,7 @@ def element_steal(self, requirement:Requirement, element:Element, all_fulfillmen
     Output.visualize('degree', all_fulfillment, 'course steal')
 
 
-def requirement_steal(self, requirement:Requirement, all_fulfillment:dict, max_fulfillments:dict, graph:Graph, importance_level:int=-1) -> None:
+def requirement_steal(requirement:Requirement, all_fulfillment:dict, max_fulfillments:dict, graph:Graph, importance_level:int=-1) -> None:
     '''
     try to steal any courses it can from other templates
     '''
@@ -416,7 +485,7 @@ def requirement_steal(self, requirement:Requirement, all_fulfillment:dict, max_f
         element_steal(requirement, course, all_fulfillment, max_fulfillments, graph, importance_level)
 
 
-def replacement_template_steal(self, requirement:Requirement, all_fulfillment:dict, max_fulfillments:dict, importance_level=-1) -> None:
+def replacement_template_steal(requirement:Requirement, all_fulfillment:dict, max_fulfillments:dict, importance_level=-1) -> None:
     '''
     We now introduce templates with replacement. (note this computation should occur after non-replacement
     templates are fully optimized.) This is essentially a version of the course stealing method but used for

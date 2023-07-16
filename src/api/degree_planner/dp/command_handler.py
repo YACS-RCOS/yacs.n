@@ -5,7 +5,7 @@ from ..dp.command import Command
 from ..math.dictionary_array import Dict_Array
 from ..planner import Planner
 
-class command_handler():
+class Command_Handler():
 
     @staticmethod
     def input(planner:Planner, user:User, user_input:str, io:Output=None, prompting=False) -> dict:
@@ -20,6 +20,8 @@ class command_handler():
         Returns:
             bool: whether input was successfully executed
         '''
+        if io is None:
+            io = Output(Output.OUT.DEBUG, auto_clear=True)
 
         if User.Flag.CMD_PAUSED in user.flag:
             ''' this means that the system is awaiting a response from the user '''
@@ -36,12 +38,12 @@ class command_handler():
 
             user.command_queue_locked = True
             user.command_queue.join()
-            commands = command_handler.parse_command(user_input, io)
+            commands = Command_Handler.parse_command(user_input, io)
 
             for command in commands:
                 user.command_queue.put(command)
 
-        variable_updates = command_handler.execute_commands(planner, user, io, prompting)
+        variable_updates = Command_Handler.execute_commands(planner, user, io, prompting)
         user.command_queue_locked = False
         io.debug(f'user {user.username} unlocked their command queue')
         return variable_updates
@@ -67,6 +69,8 @@ class command_handler():
         and add Flag.CMD_PAUSED in user.flag, otherwise the loop can never
         be entered again.
         """
+        if io is None:
+            io = Output(Output.OUT.DEBUG, auto_clear=True)
         io.debug(f'user {user.username} entered command loop')
 
         variable_updates = {}
@@ -81,7 +85,7 @@ class command_handler():
 
             if command.command == Command.CMD.IMPORT:
                 io.print("begin importing data")
-                planner.import_data(io)
+                planner.import_data()
                 io.print("importing completed")
                 user.command_queue.task_done()
                 continue
@@ -159,9 +163,9 @@ class command_handler():
                     break
 
                 if command.command == Command.CMD.ADD:
-                        planner.add_course(user, semester, course_name, io)
+                        planner.add_course(user, semester, course_name)
                 else:
-                    planner.remove_course(user, semester, course_name, io)
+                    planner.remove_course(user, semester, course_name)
 
                 user.command_queue.task_done()
                 continue
@@ -176,7 +180,7 @@ class command_handler():
                 if not command.arguments:
                     io.print(f"no arguments found. Use degree, <degree name> to set your schedule's degree")
                 else:
-                    success = planner.set_degree(user, command.arguments[0], io)
+                    success = planner.set_degree(user, command.arguments[0])
                     if success:
                         variable_updates.update({'degree':command.arguments[0]})
                 user.command_queue.task_done()
@@ -187,14 +191,14 @@ class command_handler():
                     io.print(f"no degree specified")
                 else:
                     io.store(f"{schedule.name} Fulfillment")
-                    io.store(f"  taken courses: {[str(e) for e in schedule.courses()]}")
+                    io.store(f"  taken courses: {[str(e) for e in schedule.get_courses()]}")
                     
                     attributes_to_replace = command.arguments
                     wildcard_resolutions = Dict_Array(list_type='list')
                     for i in range(0, len(attributes_to_replace) - 1, 2):
                         wildcard_resolutions.add(attributes_to_replace[i], attributes_to_replace[i+1])
 
-                    fulfillment = planner.fulfillment(user, schedule.name, io, wildcard_resolutions=wildcard_resolutions)
+                    fulfillment = planner.fulfillment(user, schedule.name, wildcard_resolutions)
                     io.store(Output.print_fulfillment(fulfillment))
                     io.view_cache()
                 user.command_queue.task_done()
@@ -205,7 +209,7 @@ class command_handler():
                     io.print(f"no degree specified")
                 else:
                     io.store(f"{schedule.name} Recommended path of completion:")
-                    recommendation = planner.recommend(schedule.courses(), custom_tags=command.arguments)
+                    recommendation = planner.recommend(user, schedule.name, command.arguments)
                     io.store(Output.print_recommendation(recommendation))
                     io.view_cache()
 
@@ -244,7 +248,7 @@ class command_handler():
                 on command and arguments
         '''
 
-        arg_list = [command_handler.cleanse_input(e.strip().casefold()) for e in cmd.split(",") if e.strip()]
+        arg_list = [Command_Handler.cleanse_input(e.strip().casefold()) for e in cmd.split(",") if e.strip()]
         cmd_queue = []
         last_command = None
 

@@ -53,7 +53,7 @@ class Planner():
     It is essential to keep all user specific data inside the User class.
     '''
 
-    def __init__(self, enable_tensorflow=True, prompting=False):
+    def __init__(self, enable_tensorflow=True):
         # each user is assigned a User object and stored in this dictionary
         # Users = <user id, User>
         self.users = dict()
@@ -64,7 +64,6 @@ class Planner():
 
         # configurable flags
         self.ENABLE_TENSORFLOW = enable_tensorflow
-        self.PROMPTING = prompting
         self.SEMESTERS_MAX  = 12
 
     def get_user(self, userid):
@@ -132,35 +131,30 @@ class Planner():
         return True
 
     def selected_elements(self, user:User) -> set:
-        return user.get_active_schedule().courses()
+        return user.get_active_schedule().get_courses()
 
 
-    def fulfillment(self, user:User, schedule_name, io=None, wildcard_resolutions=None):
-        if io is None:
-            io = self.output
-
+    def fulfillment(self, user:User, schedule_name, wildcard_resolutions=None):
         schedule = user.get_schedule(schedule_name)
-
         if schedule is None:
-            io.print(f"no schedule named {schedule_name} for user {user}")
+            self.output.error(f"no schedule named {schedule_name} for user {user}")
             return f"no schedule named {schedule_name} for user {user}"
 
         if schedule.degree is None:
-            io.print(f"no degree set for user {user}")
+            self.output.error(f"no degree set for user {user}")
             return f"no degree set for user '{user.username}'"
 
-        fulfillment = get_optimized_fulfillment(schedule.get_courses(), wildcard_resolutions=wildcard_resolutions)
+        fulfillment = get_optimized_fulfillment(schedule.get_courses(), schedule.degree.requirements, wildcard_resolutions)
         return fulfillment
 
 
     def recommend(self, user:User, schedule_name, custom_tags=None):
         schedule = user.get_schedule(schedule_name)
-
         if schedule.degree is None:
             self.output.print(f"no degree specified")
             return f"no degree specified"
 
-        recommendation = recommend(schedule.get_courses(), None, self.catalog, custom_tags)
+        recommendation = recommend(schedule.get_courses(), self.catalog, schedule.degree.requirements, custom_tags=custom_tags)
         return recommendation
 
     def add_course(self, user:User, semester, course_name:str):
@@ -240,18 +234,20 @@ class Planner():
             Exception: if exception occurs, returns exception, else None
         '''
 
-        parsing.parse_courses(self.catalog, self.output)
+        parsing.parse_catalog(self.catalog)
         self.output.print(f"Sucessfully parsed catalog data")
 
-        parsing.parse_degrees(self.catalog, self.output)
+        parsing.parse_templates(self.catalog)
         self.output.print(f"Sucessfully parsed degree data")
 
-        parsing.parse_tags(self.catalog, self.output)
+        parsing.parse_tags(self.catalog)
         self.output.print(f"parsed tags")
+        self.index()
 
+    def index(self):
         self.course_search.update_items(self.catalog.get_elements(), True)
+        self.course_search.generate_index()
 
-        # self.catalog.reindex()
 
 
     def cache(self):

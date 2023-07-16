@@ -5,129 +5,122 @@ You will need to make your own parser for every data input file
 '''
 
 import os
+import json
+import logging
 from .output import Output
 from ..dp.element import Element
 from ..dp.catalog import Catalog
+from ..dp.requirement import Requirement
 from ..dp.template import Template
 
 CATALOG_PATH = Output.DATA_FOLDER_PATH + "catalog.json"
-DEGREE_PATH = Output.DATA_FOLDER_PATH + "degrees.json"
+TEMPLATES_PATH = Output.DATA_FOLDER_PATH + "degrees.json"
 TAGS_PATH = Output.DATA_FOLDER_PATH + "tags.json"
 
-print('current working directory: ' + os.getcwd())
-
+logging.info('current working directory: ' + os.getcwd())
 
 class parsing():
 
-    def parse_courses(catalog:Catalog, io:Output=None):
-        if io is None:
-            io = Output(Output.OUT.DEBUG, auto_clear=True)
-
-        io.print("Beginning parsing course data into catalog")
+    @staticmethod
+    def parse_catalog(catalog:Catalog):
+        logging.info("Beginning parsing course data into catalog")
         
         if os.path.isfile(CATALOG_PATH):
-            io.print(f"file found: {CATALOG_PATH}")
+            logging.info(f"file found: {CATALOG_PATH}")
             file_catalog_results = open(CATALOG_PATH)
         else:
-            io.print("catalog file not found")
+            logging.error("catalog file not found")
             return
         
         json_data = json.load(file_catalog_results)
         file_catalog_results.close()
 
-        for course_data in json_data:
-            course = Course(course_data['name'], course_data['subject'], course_data['course_id'])
-            for attr, attr_val in course_data.items():
+        for element_data in json_data:
+            element = Element(f"{element_data['subject']} {element_data['course_id']} {element_data['name']}")
+            level = element_data['course_id'][0]
+            element.attributes.add_attribute(f"level.{level}")
+            for attr, attr_val in element_data.items():
                 if isinstance(attr_val, list):
                     for e in attr_val:
-                        course.add_attribute(f"{attr}.{e}")
+                        element.attributes.add_attribute(f"{attr}.{e}")
                 else:
-                    course.add_attribute(f"{attr}.{attr_val}")
-            catalog.add_course(course)
+                    element.attributes.add_attribute(f"{attr}.{attr_val}")
+            catalog.add(element)
 
+    @staticmethod
+    def parse_templates(catalog:Catalog):
+        ''' Rarses json data degree objects stored in Catalog
 
-    """ Rarses json data degree objects stored in Catalog
-
-    Args:
-        file_name (str): name of file to parse from
-        catalog (Catalog): catalog object to store parsed information into
-        output (Output): debug output, default is print to console
-    """
-    def parse_degrees(catalog:Catalog, io:Output=None):
-        if io is None:
-            io = Output(Output.OUT.DEBUG, auto_clear=True)
-        io.print("Beginning parsing degree data into catalog")
-        
-        ''' NOT IMPLEMENTED FOR JSON INPUT YET
-        There are 1 location(s) for degrees, checked in this order:
-        1) data/
+        Args:
+            file_name (str): name of file to parse from
+            catalog (Catalog): catalog object to store parsed information into
         '''
-        if os.path.isfile(DEGREE_PATH):
-            io.print(f"file found: {DEGREE_PATH}")
-            file_degree = open(DEGREE_PATH)
+        logging.info("Beginning parsing degree data into catalog")
+
+        if os.path.isfile(TEMPLATES_PATH):
+            logging.info(f"file found: {TEMPLATES_PATH}")
+            file_templates = open(TEMPLATES_PATH)
         else:
-            io.print("degree file not found")
+            logging.error("templates file not found")
             return
         
-        degrees = json.load(file_degree)
-        file_degree.close()
+        templates = json.load(file_templates)
+        file_templates.close()
 
-        for degree_name, degree_templates in degrees.items():
+        for template_name, template_data in templates.items():
             # degrees
 
-            if catalog.get_degree(degree_name) is not None:
-                catalog.remove_degree(degree_name)
-                io.print(f"replaced degree {degree_name} in catalog")
-            degree = Degree(degree_name, catalog)
-            io.print(f"added degree {str(degree)} to catalog")
+            if catalog.get_template(template_name) is not None:
+                catalog.remove_template(template_name)
+                logging.debug(f"replaced template {template_name} in catalog")
+            template = Template(template_name)
+            logging.info(f"added template {str(template)} to catalog")
 
             wildcard_diff_counter = 0
 
-            for template_name, template_properties in degree_templates.items():
+            for requirement_name, requirement_properties in template_data.items():
                 # templates within degree
-                template = Template(template_name)
+                requirement = Requirement(requirement_name)
 
-                for property_name, property_value in template_properties.items():
+                for property_name, property_value in requirement_properties.items():
                     # property dictionary within template
 
                     # replacement enabled
                     if property_name == 'replacement':
-                        template.replacement = property_value
+                        requirement.replacement = property_value
 
                     elif property_name == 'requires':
-                        template.courses_required = property_value
+                        requirement.elements_required = property_value
 
                     # attributes for template course
                     elif property_name == 'specifications':
-                        template.specifications = property_value
+                        requirement.specifications = property_value
 
-                template.original_specifications = template.specifications
-                wildcard_diff_counter = template.wildcard_differentiate(wildcard_diff_counter)
+                requirement.original_specifications = requirement.specifications
+                wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)
 
-                degree.add_template(template)
-            catalog.add_degree(degree)
+                template.requirements.append(requirement)
+            catalog.add(template)
 
         # parse specification sets
-        spec_sets = catalog.get_degree('specification sets')
+        spec_sets = catalog.get_template('specification sets')
         if spec_sets is not None:
             print('importing specification sets')
-            for template in spec_sets.templates:
-                print(f'added specification {template.name} with specifications {template.specifications}')
-                Template.specification_sets.update({template.name:template.specifications})
-            catalog.remove_degree('specification sets')
+            for requirement in spec_sets.requirements:
+                requirement:Requirement
+                print(f'added specification {requirement.name} with specifications {requirement.specifications}')
+                Requirement.specification_sets.update({requirement.name:requirement.specifications})
+            catalog.remove_template('specification sets')
             
+    @staticmethod
+    def parse_tags(catalog:Catalog):
+        ''' parses template tags into their respective degrees within the catalog '''
 
-    '''
-    parses degree tags into their respective degrees within the catalog
-    '''
-    def parse_tags(catalog:Catalog, io:Output=None):
-        if io is None:
-            io = Output(Output.OUT.DEBUG, auto_clear=True)
         if os.path.isfile(TAGS_PATH):
-            io.print(f"file found: {TAGS_PATH}")
+            logging.info(f"file found: {TAGS_PATH}")
             file_tags = open(TAGS_PATH)
         else:
-            io.print("degree file not found")
+            logging.error("tags file not found")
             return
             
         tags = json.load(file_tags)

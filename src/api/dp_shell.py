@@ -11,6 +11,7 @@ from datetime import datetime
 from degree_planner.planner import Planner
 from degree_planner.user.user import User
 from degree_planner.io.output import Output
+from degree_planner.dp.command_handler import Command_Handler
 
 def terminal():
     '''
@@ -37,14 +38,14 @@ def terminal():
             prompting = True
 
     print("")
-    planner = Planner(enable_tensorflow=enable_tensorflow, prompting=prompting)
+    planner = Planner(enable_tensorflow=enable_tensorflow)
     user = User(1, "user1")
     output = Output(Output.OUT.CONSOLE, output_type=Output.OUTTYPE.STRING, signature='DP', auto_clear=True)
     while 1:
         user_input = input("(degree planner) >>> ")
         if user_input.casefold() == "quit":
             return
-        planner.user_input(user, user_input, output)
+        Command_Handler.input(planner, user, user_input, output, prompting)
 
 if __name__ == "__main__":
     terminal()
