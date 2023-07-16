@@ -315,8 +315,8 @@ class Degree():
         manages the graph such that it remains consistent with course moves. This method must be used
         if you want to be able to modify fulfillment sets without rebuilding the entire graph
         '''
-        giver_fulfillment.remove_fulfillment_course(course)
-        receiver_fulfillment.add_fulfillment_course(course)
+        giver_fulfillment.remove_element(course)
+        receiver_fulfillment.add_element(course)
 
         for out_connection in graph.outbound_connections(giver_fulfillment.get_template()):
             graph.update_connection(giver_fulfillment.get_template(), out_connection)
@@ -367,14 +367,14 @@ class Degree():
             # and the course is not in any no replacement templates
             if (not num_bindings(all_fulfillment, course)
                     or (template.replacement and not num_bindings(all_fulfillment, course, bind_type=Bind_Type.NR))):
-                this_fulfillment.add_fulfillment_course(course)
+                this_fulfillment.add_element(course)
                 all_fulfillment.update({template:this_fulfillment})
                 continue
 
             # we are free to remove the course from its original places and add it here
             if not this_fulfillment.fulfilled() and course_weakly_bound(all_fulfillment, course, importance_level) and not template.replacement:
                 course_bindings_clear(all_fulfillment, course)
-                this_fulfillment.add_fulfillment_course(course)
+                this_fulfillment.add_element(course)
                 all_fulfillment.update({template:this_fulfillment})
                 continue
 

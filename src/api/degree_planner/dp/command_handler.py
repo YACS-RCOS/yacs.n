@@ -3,11 +3,12 @@ from ..user.old_user import User
 from ..io.output import Output
 from ..dp.command import Command
 from ..math.dictionary_array import Dict_Array
+from ..planner import Planner
 
 class command_handler():
 
     @staticmethod
-    def user_input(planner, user:User, user_input:str, io:Output=None, prompting=False) -> dict:
+    def input(planner:Planner, user:User, user_input:str, io:Output=None, prompting=False) -> dict:
         ''' MAIN FUNCTION FOR ACCEPTING COMMAND ENTRIES
 
         Args:
@@ -46,7 +47,7 @@ class command_handler():
         return variable_updates
 
     @staticmethod
-    def execute_commands(planner, user:User, io:Output=None, prompting=False) -> dict:
+    def execute_commands(planner:Planner, user:User, io:Output=None, prompting=False) -> dict:
         ''' EXECUTES COMMANDS FROM USER'S COMMAND QUEUE
 
         Args:
@@ -175,7 +176,7 @@ class command_handler():
                 if not command.arguments:
                     io.print(f"no arguments found. Use degree, <degree name> to set your schedule's degree")
                 else:
-                    success = planner.degree(user, command.arguments[0], io)
+                    success = planner.set_degree(user, command.arguments[0], io)
                     if success:
                         variable_updates.update({'degree':command.arguments[0]})
                 user.command_queue.task_done()
@@ -204,19 +205,10 @@ class command_handler():
                     io.print(f"no degree specified")
                 else:
                     io.store(f"{schedule.name} Recommended path of completion:")
-                    recommendation = schedule.degree.recommend(schedule.courses(), custom_tags=command.arguments)
+                    recommendation = planner.recommend(schedule.courses(), custom_tags=command.arguments)
                     io.store(Output.print_recommendation(recommendation))
                     io.view_cache()
 
-                user.command_queue.task_done()
-                continue
-
-            if command.command == Command.CMD.DETAILS:
-                details = planner.details(command.arguments[0])
-                if details is None:
-                    details = 'please enter valid full name of course'
-                io.store(details)
-                io.view_cache()
                 user.command_queue.task_done()
                 continue
 

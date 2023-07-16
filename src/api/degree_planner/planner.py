@@ -6,8 +6,9 @@ from .io.output import Output
 from .io.parse import parsing
 from .dp.catalog import Catalog
 from .math.search import Search
-from .dp.command_handler import command_handler
 from .user.user import User
+from .dp.recommend import recommend
+from .dp.fulfill import get_fulfillment, get_optimized_fulfillment
 
 VERSION = "API 3.0 refactored generalization"
 
@@ -15,8 +16,6 @@ class Planner():
     '''
     All interaction with a Planner is with this class, either by calling user_input
     with a user's command or by directly accessing the functions provided here.
-
-    One catalog is generated for each Planner
 
     Valid commands are:
         (developer only)
@@ -79,13 +78,6 @@ class Planner():
     def remove_user(self, userid):
         self.users.pop(userid, None)
 
-    def user_input(self, user:User, input:str) -> dict:
-        '''
-        returns a dictionary of variables:values to update on the frontend based on commands entered
-        that changes user state (ie active schedule, active degree)
-        '''
-        return command_handler.user_input(self, user, input, self.output, prompting=self.PROMPTING)
-
     def schedule(self, user:User, schedule_name:str) -> None:
         ''' Changes user's active schedule selection and creates new schedule if
             specified schedule is not found
@@ -93,7 +85,6 @@ class Planner():
         Args:
             user (User): user to perform the action on
             schedule_name (str): schedule name
-            output (Output): user interface output
         '''
         schedule = user.get_schedule(schedule_name)
         if schedule is None:
@@ -118,14 +109,13 @@ class Planner():
         '''
         return user.schedules()
 
-    def change_degree(self, user:User, degree_name:str) -> bool:
+    def set_degree(self, user:User, degree_name:str) -> bool:
         ''' Changes user's active schedule's degree
 
         Args:
             user (User): user to perform the action on
             schedule (Schedule): schedule to change degree on
             degree_name (str): degree name
-            output (Output): user interface output
 
         Returns:
             bool: if degree was successfully changed.
@@ -158,23 +148,19 @@ class Planner():
         if schedule.degree is None:
             io.print(f"no degree set for user {user}")
             return f"no degree set for user '{user.username}'"
-        
 
-        fulfillment = schedule.degree.fulfillment(schedule.courses(), wildcard_resolutions=wildcard_resolutions)
+        fulfillment = get_optimized_fulfillment(schedule.get_courses(), wildcard_resolutions=wildcard_resolutions)
         return fulfillment
 
 
-    def recommend(self, user:User, schedule_name, io=None):
-        if io is None:
-            io = self.output
-
+    def recommend(self, user:User, schedule_name, custom_tags=None):
         schedule = user.get_schedule(schedule_name)
 
         if schedule.degree is None:
-            io.print(f"no degree specified")
+            self.output.print(f"no degree specified")
             return f"no degree specified"
 
-        recommendation = schedule.degree.recommend(schedule.courses())
+        recommendation = recommend(schedule.get_courses(), None, self.catalog, custom_tags)
         return recommendation
 
     def add_course(self, user:User, semester, course_name:str):
@@ -184,7 +170,6 @@ class Planner():
             user (User): user to perform the action on
             course_name (str): course name
             semester (int or str): semester to add course into
-            output (Output): user interface output
 
         Returns:
             returned_courses (list): If there are multiple courses that match course_name, 
@@ -216,7 +201,6 @@ class Planner():
             user (User): user to perform the action on
             course_name (str): course name
             semester (int or str): semester to remove course from
-            output (Output): user interface output
 
         Returns:
             returned_courses (list): If there are multiple courses that match course_name, 
@@ -243,7 +227,6 @@ class Planner():
 
         Args:
             course_name (str): search term
-            output (Output): user interface output
         '''
         possible_courses = self.course_search.search(course_name)
         possible_courses.sort()
@@ -252,9 +235,6 @@ class Planner():
 
     def import_data(self) -> Exception:
         ''' Parse json data into a list of courses and degrees inside a catalog
-
-        Args:
-            output (Output): user interface output
 
         Returns:
             Exception: if exception occurs, returns exception, else None

@@ -2,9 +2,7 @@
 requirements within templates
 '''
 
-import copy
 from ..math.simple_attributes import Simple_Attributes
-from .fulfillment_status import Fulfillment_Status
 from ..math.dictionary_array import Dict_Array
 from ..math.array_math import array_functions as af
 
@@ -94,84 +92,6 @@ class Requirement():
             #print(f'wildcard ---  found wildcard {wildcard} at pos {star_index}, attr begin {begin_index} end {end_index} of attr {self.specifications}')
             star_index = self.specifications.find('*', end_index)
         return wildcards
-
-    def get_element_match(self, elements) -> list:
-        '''
-        Finds all courses that fulfills the given template
-
-        Wildcards (*) may be used to dictate the fact that all courses within this template's fulfillment
-        set must have the same values for that attribute. It doesn't matter which one, just so long as
-        it's consistent. This is useful if we want a rule that says all courses must be in the same subject
-        area or all courses must be in the same concentration/focus area, but doesn't matter which specific 
-        one in particular.
-
-        For example, concentration.* means all courses must be within the same concentration.
-        If course1 has attribute concentration.1 and course2 has attribute concentration.1 and concentration.2,
-        this function will return a list of fulfillment sets as follows:
-
-        Template1.1 [concentration.1] : fulfillment courses: [course1, course2]
-        Template1.2 [concentration.2] : fulfillment courses: [course2]
-
-        Note that just because two courses fulfills bin.1 and only one fulfills bin.2 in this scenario doesn't
-        necessarily bin.1 is a better choice. Suppose another template, Template2, which does not allow replacement
-        and is of higher importance requires course1. now, both Template1.1 and Template1.2 will only have one 
-        fulfillment course. This is why we must try every single combination.
-
-        If the template doesn't contain a wildcard operator, the list would simply be a single entry
-        '''
-
-        fulfillment_sets = list() # all possible fulfillments based on different combinations resulting from wildcard sauge
-        all_conditions = dict() # all possible wildcard replacement conditions that can influence the result (wildcard branching)
-
-        # current fulfillment set, will be added only if current template does not contain wildcards
-        # (recursive calls remove one wildcard at a time), so essentially "leaf" branches
-        # get to add their fulfillment to fulfillment_sets
-        curr_fulfillment = Fulfillment_Status(self, set())
-
-        for element in elements:
-            good_match, conditions = specification_parsing.attr_fulfills_specification(self, element)
-
-            # updates all_conditions with possible values for wildcard replacement
-            for condition, condition_sat_set in conditions.items():
-                current_condition_set = all_conditions.get(condition, set())
-                current_condition_set.update(condition_sat_set)
-                all_conditions.update({condition:current_condition_set})
-
-            # if this is a leaf call (no wildcard branching), add to current fulfillment set
-            if good_match and not len(conditions):
-                curr_fulfillment.add_fulfillment_course(element)
-
-        # if this is a leaf call (no wildcard branching), add to main fulfillment set
-        if not len(all_conditions):
-            fulfillment_sets.append(curr_fulfillment)
-
-
-        # if there are wildcard branching needed (we only need to pop the first one, the rest is handled by the following recursive calls
-        # as each recursive call only needs to handle one)
-        if not len(all_conditions):
-            return fulfillment_sets
-        wildcard_attr, wildcard_choices = all_conditions.popitem()
-        #print(f'WILDCARD ATTRIBUTE {wildcard_attr} RESOLVING TO CHOICES {wildcard_choices}')
-        self.wildcard_choices = list(wildcard_choices)
-        if len(wildcard_choices):
-            self.wildcard_choices.insert(0, wildcard_attr)
-
-        for choice in wildcard_choices:
-            # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
-            requirement_copy = copy.deepcopy(self)
-            
-            specifications = requirement_copy.specifications
-            if wildcard_attr not in specifications:
-                continue
-
-            # we make a note of the replacements needed by storing it in replace_attributes
-            requirement_copy.specifications = specifications.replace(wildcard_attr, choice)
-
-            # recursively call this function, we're guaranteed that the final return values all are wildcard-free
-            fulfillment_sets.extend(requirement_copy.get_element_match(elements))
-
-        return fulfillment_sets
-
 
     def __repr__(self):
         string = f"\Requirement {self.name}:\n"

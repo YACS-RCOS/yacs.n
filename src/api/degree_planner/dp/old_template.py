@@ -143,7 +143,7 @@ class Template():
 
             # if this is a leaf call (no wildcard branching), add to current fulfillment set
             if good_match and not len(conditions):
-                curr_fulfillment.add_fulfillment_course(course)
+                curr_fulfillment.add_element(course)
 
         # if this is a leaf call (no wildcard branching), add to main fulfillment set
         if not len(all_conditions):
