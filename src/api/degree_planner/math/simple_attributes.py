@@ -1,3 +1,7 @@
+'''
+BUGGY, NEED SOME FIXING
+'''
+
 from .dictionary_array import Dict_Array
 
 class Simple_Attributes():
