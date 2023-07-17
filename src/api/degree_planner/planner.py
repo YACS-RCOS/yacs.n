@@ -66,7 +66,7 @@ class Planner():
         self.ENABLE_TENSORFLOW = enable_tensorflow
         self.SEMESTERS_MAX  = 12
 
-    def get_user(self, userid):
+    def get_user(self, userid) -> User:
         return self.users.get(userid, None)
 
     def add_user(self, userid, username=None):

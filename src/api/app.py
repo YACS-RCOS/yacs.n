@@ -20,22 +20,22 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
-from degree_planner.planner import User, Planner
-from degree_planner.math.sorting import sorting
+
+from degree_planner.planner import Planner
 from degree_planner.math.dictionary_array import Dict_Array
-from degree_planner.dp.recommend import *
+from degree_planner.dp.command_handler import Command_Handler
+
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
 from io import StringIO
 from sqlalchemy.orm import Session
-import json
 import os
 import pandas as pd
 import copy
 from constants import Constants
 
-from worker.celery_app import dp_recommend
+from celery_app import dp_recommend, dp_fulfill
 
 """
 NOTE: on caching
@@ -61,7 +61,7 @@ semester_info = SemesterInfo.semester_info(db_conn)
 professor_info =  All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
-planner = Planner(enable_tensorflow=False, prompting=False)
+planner = Planner(enable_tensorflow=False)
 planner.import_data()
 
 recommendation_results = dict() # {user: results dict}
@@ -79,9 +79,9 @@ async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_n
     query = ''
     for course, semester in courses.items():
         query += f'add, {semester}, {course},'
-    planner.user_input(user, f'schedule, {schedule_name}')
-    planner.user_input(user, query)
-    planner.user_input(user, f'degree, {degree}')
+    Command_Handler.input(planner, user, f'schedule, {schedule_name}')
+    Command_Handler.input(planner, user, query)
+    Command_Handler.input(planner, user, f'degree, {degree}')
 
     return Response(content="added user successfully", status_code=200)
 
@@ -92,11 +92,11 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
     print(f'== RECEIVED COMMAND API CALL {randint}')
 
     user = planner.get_user(userid)
-
     if user is None:
         return Response(content="user not found")
+    
     print(f'== FINISHED COMMAND API CALL {randint}')
-    return planner.user_input(user, command)
+    return Command_Handler.input(planner, user, command)
 
 
 @app.post('/api/dp/print')
@@ -105,14 +105,14 @@ async def get_dp_print(userid:str = Body(...)):
     print(f'== RECEIVED PRINT API CALL {randint}')
 
     user = planner.get_user(userid)
-
     if user is None:
         return Response(content="user not found")
     
-    user:User
-    course_list = copy.copy(user.get_active_schedule().courses_by_semester)
-    for i in range(len(course_list)):
-        course_list[i] = [t.get_display_name() for t in course_list[i]]
+    courses_dict = user.get_active_schedule().courses
+    course_list = [[]] * 12
+    for semester, courses in courses_dict.dictionary.items():
+        course_list[semester] = [str(c) for c in courses]
+
     print(f'== FINISHED PRINT API CALL {randint}')
     return course_list
 
@@ -122,9 +122,12 @@ async def get_dp_print(userid:str = Body(...)):
 async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
+
     io = planner.output
     user = planner.get_user(userid)
+    print(f'fulfillment request from user {user}')
     if user is None:
+        print(f'user {userid} not found')
         return Response(content="user not found")
 
     wildcard_resolutions = Dict_Array(list_type='list')
@@ -132,9 +135,11 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     for i in range(0, len(attributes_replacement) - 1, 2):
         wildcard_resolutions.add(attributes_replacement[i],attributes_replacement[i+1])
 
-    fulfillments = planner.fulfillment(user, user.active_schedule, wildcard_resolutions=wildcard_resolutions)
-    #print(f'APP FULFILLMENTS: {fulfillments}')
-    formatted_fulfillments = io.format_fulfillments(fulfillments, planner.selected_elements(user))
+    taken_courses = user.get_active_schedule().get_courses()
+    requirements = user.get_active_schedule().degree.requirements
+
+    fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions)
+    formatted_fulfillments = io.format_fulfillments(fulfillment, taken_courses)
     
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
@@ -146,12 +151,15 @@ async def begin_dp_recommendations(userid:str):
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
 
     user = planner.get_user(userid)
-    user
-    taken_courses = user.get_active_schedule().courses()
-    best_fulfillments = planner.fulfillment(user, user.active_schedule)
+    print(f'recommendation request from user {user}')
+    if user is None:
+        print(f'user {userid} not found')
+        return Response(content="user not found")
 
-    #recommendation = test.delay(100)
-    recommendation = dp_recommend.delay(taken_courses, best_fulfillments, planner.catalog)
+    taken_courses = user.get_active_schedule().get_courses()
+    requirements = user.get_active_schedule().degree.requirements
+
+    recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements)
     recommendation_results.update({userid:recommendation})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
@@ -160,28 +168,27 @@ async def begin_dp_recommendations(userid:str):
 async def get_dp_recommendations(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
+
     io = planner.output
     i = 0
     while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
         await asyncio.sleep(1)
-        print('waiting for recommendation...')
-        print(f'queued: {recommendation_results.get(userid, None) is not None}')
+        print(f'waiting for recommendation...  queued: {recommendation_results.get(userid, None) is not None}')
         i+=1
         if i > 20:
             print('timeout')
             return dict()
     
     recommendation = recommendation_results.get(userid).result
-
     formatted_recommendations = io.format_recommendations(recommendation)
-
     results = dict()
 
     for recommendation in formatted_recommendations:
         curr_list = results.get(recommendation['name'], [])
         curr_list.append(recommendation)
-        curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
+        # curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
         results.update({recommendation['name']:curr_list})
+
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
     return results
     

@@ -71,7 +71,7 @@ services:
       - CELERY_RESULT_SERIALIZER=pickle
     command: celery -A celery_app worker --loglevel=info
     volumes:
-      - ./src/api/worker:/app
+      - ./src/api:/app
     depends_on:
       - redis
 
