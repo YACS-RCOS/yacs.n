@@ -125,7 +125,6 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
 
     io = planner.output
     user = planner.get_user(userid)
-    print(f'fulfillment request from user {user}')
     if user is None:
         print(f'user {userid} not found')
         return Response(content="user not found")
@@ -151,7 +150,6 @@ async def begin_dp_recommendations(userid:str):
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
 
     user = planner.get_user(userid)
-    print(f'recommendation request from user {user}')
     if user is None:
         print(f'user {userid} not found')
         return Response(content="user not found")

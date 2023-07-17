@@ -12,7 +12,7 @@ class Schedule():
         self.courses.add(semester, course)
 
     def remove_course(self, semester, course):
-        self.courses.remove(semester, course)
+        self.courses.remove(semester, course, True)
 
     def get_courses(self, semester=None):
         if semester is None:
