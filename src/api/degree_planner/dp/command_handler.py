@@ -1,5 +1,5 @@
 import re
-from ..user.old_user import User
+from ..user.user import User
 from ..io.output import Output
 from ..dp.command import Command
 from ..math.dictionary_array import Dict_Array

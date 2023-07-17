@@ -247,9 +247,3 @@ class Planner():
     def index(self):
         self.course_search.update_items(self.catalog.get_elements(), True)
         self.course_search.generate_index()
-
-
-
-    def cache(self):
-        if self.catalog.recommender is not None:
-            self.catalog.recommender.recache()

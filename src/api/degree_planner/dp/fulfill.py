@@ -9,7 +9,6 @@ from ..math.graph import Graph, Backwards_Overlap
 from ..math.sorting import sorting
 from ..dp.element import Element
 from ..dp.requirement import Requirement, specification_parsing
-#from ..dp.template import Template
 from ..dp.fulfillment_status import Fulfillment_Status
 from ..io.output import Output
 
@@ -244,7 +243,6 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         # all courses that fulfills each template
         max_fulfillments = dict()
         for requirement in requirement_set:
-            print(f'element match of {requirement.name}: {get_element_match(requirement, elements_selected)}')
             max_fulfillments.update({requirement:get_element_match(requirement, elements_selected)})
 
         # Output.visualize('degree', max_fulfillments, 'max fulfillment')

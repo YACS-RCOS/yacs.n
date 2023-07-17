@@ -5,10 +5,6 @@ from ..math.sorting import sorting
 from ..recommender.recommender import Recommender
 from .fulfill import get_branched_element_match
 
-def recommend_packed(packed) -> dict:
-    taken_courses, best_fulfillments, catalog, custom_tags = packed
-    return recommend(taken_courses, best_fulfillments, catalog, custom_tags)
-
 def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=None, enable_tensorflow=False) -> dict:
     '''
     gives possible courses to take
@@ -19,9 +15,11 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
         custom_tags = None
 
     start = timeit.default_timer()
-    print(f' RECOMMENDER --- BUILDING RECOMMENDER')
-    recommender = Recommender(catalog, enable_tensorflow=enable_tensorflow)
-    print(f' RECOMMENDER --- FINISHED BUILDING RECOMMENDER')
+    if Recommender.cache is None:
+        print(f' RECOMMENDER --- BUILDING RECOMMENDER')
+        Recommender.initialize(catalog)
+        Recommender.ENABLE_TENSORFLOW = enable_tensorflow
+        print(f' RECOMMENDER --- FINISHED BUILDING RECOMMENDER')
     recommendation = dict() # {best template : {alternative template : fulfillment list}}
     # note that best template == alternative template if best template does not contain wildcards
 
@@ -41,7 +39,7 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
                 elements_recommended.discard(element)
 
             # course_R_bindings = num_bindings(max_fulfillments, recommended_courses, Bind_Type.R)
-            course_relevances = recommender.embedded_relevance(elements_selected, elements_recommended, custom_tags)
+            course_relevances = Recommender.embedded_relevance(elements_selected, elements_recommended, catalog.tags, custom_tags)
 
             final_score = dict()
             for element in elements_recommended:
