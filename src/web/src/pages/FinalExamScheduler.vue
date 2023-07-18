@@ -142,6 +142,8 @@ export default {
   mounted() {
     try {
       this.initCourseOptions();
+      const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      console.log(finalsPageCookie);
       //this.loadSelectedCoursesFromCookie();
     } catch (error) {
       console.error("An error occurred in the mounted() hook:", error);
@@ -199,6 +201,7 @@ export default {
         this.selectedCourses.push(currCourse);
         finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day);
         finalsPageCookie.save();
+        console.log(finalsPageCookie.getExams());
       }
       console.log(finalsPageCookie);
       this.currCourse = null;
