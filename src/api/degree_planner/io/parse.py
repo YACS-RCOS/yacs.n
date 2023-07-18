@@ -77,10 +77,13 @@ class parsing():
             logging.info(f"added template {str(template)} to catalog")
 
             wildcard_diff_counter = 0
+            requirement_importance_counter = 1000
 
             for requirement_name, requirement_properties in template_data.items():
                 # templates within degree
                 requirement = Requirement(requirement_name)
+                requirement.importance = requirement_importance_counter
+                requirement_importance_counter -= 1
 
                 for property_name, property_value in requirement_properties.items():
                     # property dictionary within template

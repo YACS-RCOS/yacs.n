@@ -181,7 +181,6 @@ class Dict_Array():
         if reverse:
             reverser = -1
         for key, elements in self.dictionary.items():
-            print(f'methodcall: {method_call}, methodargs: {method_args}')
             self.dictionary.update({key:sorted(elements, key = lambda x:reverser * getattr(x, method_call)(*method_args))})
 
 

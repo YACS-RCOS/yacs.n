@@ -187,7 +187,6 @@ async def get_dp_recommendations(userid:str):
     for recommendation in formatted_recommendations:
         results.add(recommendation['name'], recommendation)
 
-    print(f'results: {results}')
     results.sort_elements('get', ("courses_fulfilled",), True)
 
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
