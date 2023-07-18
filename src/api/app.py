@@ -9,6 +9,7 @@ from fastapi import Depends
 from typing import Dict
 import asyncio
 import random
+import time
 
 from api_models import *
 import db.connection as connection
@@ -67,13 +68,40 @@ planner.import_data()
 
 recommendation_results = dict() # {user: results dict}
 
+def rate_limited(seconds_interval):
+    def decorator(func):
+        call_history = {}
+
+        async def rate_limited_function(userid, *args, **kwargs):
+            time_last_called = call_history.get(userid, 0.0)
+            time_elapsed = time.time() - time_last_called
+            time_wait = seconds_interval - time_elapsed
+
+            debug_time = time.time()
+
+            if time_wait > 0:
+                print(f'rate limited!')
+                await asyncio.sleep(time_wait)
+
+            if call_history.get(userid, 0.0) != time_last_called:
+                # means another call occurred while waiting, so cancel this one
+                print(f'cancelling function call sent at time {debug_time}')
+                return
+
+            print(f'executing function call made at time {debug_time}')
+            
+            call_history.update({userid:time.time()})
+            return await func(userid, *args, **kwargs)
+        return rate_limited_function
+    return decorator
+
 def is_admin_user(session):
     if 'user' in session and (session['user']['admin'] or session['user']['super_admin']):
         return True
     return False
 
 @app.post('/api/dp/newuser')
-async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
+async def dp_create_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
     planner.add_user(userid)
     user = planner.get_user(userid)
 
@@ -88,7 +116,7 @@ async def set_dp_user(userid:str = Body(...), degree:str = Body(...), schedule_n
 
 
 @app.post('/api/dp/users/command')
-async def dp_command(userid:str = Body(...), command:str = Body(...)):
+async def dp_run_command(userid:str = Body(...), command:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED COMMAND API CALL {randint}')
 
@@ -101,7 +129,7 @@ async def dp_command(userid:str = Body(...), command:str = Body(...)):
 
 
 @app.post('/api/dp/print')
-async def get_dp_print(userid:str = Body(...)):
+async def dp_get_schedule(userid:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED PRINT API CALL {randint}')
 
@@ -118,9 +146,8 @@ async def get_dp_print(userid:str = Body(...)):
     return course_list
 
 
-
 @app.post('/api/dp/fulfillment')
-async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
+async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
 
@@ -145,8 +172,8 @@ async def get_dp_fulfillment(userid:str = Body(...), attributes_replacement:list
     return formatted_fulfillments
 
 
-@app.post('/api/dp/recommend/{userid}')
-async def begin_dp_recommendations(userid:str):
+@rate_limited(3)
+async def dp_begin_recommendation_limited(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
 
@@ -163,8 +190,13 @@ async def begin_dp_recommendations(userid:str):
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
 
+@app.post('/api/dp/recommend/{userid}')
+async def dp_begin_recommendation(userid:str):
+    await dp_begin_recommendation_limited(userid)
+    
+
 @app.get('/api/dp/recommend/{userid}')
-async def get_dp_recommendations(userid:str):
+async def dp_get_recommendation(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
 
