@@ -174,6 +174,15 @@ class Dict_Array():
             if element in elements:
                 keys.append(key)
         return keys
+    
+
+    def sort_elements(self, method_call=None, method_args:tuple=None, reverse=False):
+        reverser = 1
+        if reverse:
+            reverser = -1
+        for key, elements in self.dictionary.items():
+            print(f'methodcall: {method_call}, methodargs: {method_args}')
+            self.dictionary.update({key:sorted(elements, key = lambda x:reverser * getattr(x, method_call)(*method_args))})
 
 
     def items(self):

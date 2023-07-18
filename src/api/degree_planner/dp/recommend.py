@@ -24,7 +24,7 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
     # note that best template == alternative template if best template does not contain wildcards
 
     for requirement in requirements:
-        print(f'  RECOMMENDER --- SOLVING {requirement}')
+        print(f'  RECOMMENDER --- SOLVING requirement {requirement}')
         # here we receive the list of fulfillment sets from get course match
         matches = get_branched_element_match(requirement, catalog.get_elements())
         matches_dict = {}
@@ -34,9 +34,14 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
 
             # remove the elements already selected
             elements_recommended = matched_fulfillment.fulfillment_set
-
+            elements_fulfilled = 0
             for element in elements_selected:
-                elements_recommended.discard(element)
+                if element in elements_recommended:
+                    elements_recommended.discard(element)
+                    elements_fulfilled += 1
+
+            matched_fulfillment.requirement.elements_fulfilled = elements_fulfilled
+            matched_fulfillment.requirement.importance = elements_fulfilled
 
             # course_R_bindings = num_bindings(max_fulfillments, recommended_courses, Bind_Type.R)
             course_relevances = Recommender.embedded_relevance(elements_selected, elements_recommended, catalog.tags, custom_tags)

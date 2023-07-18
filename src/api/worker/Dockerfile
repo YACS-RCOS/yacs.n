@@ -10,5 +10,4 @@ RUN pip install -r requirements.txt
 
 USER celery
 
-
-CMD ["celery", "-A", "celery_app", "worker", "--loglevel=debug", "--settings=celeryconfig"]
+CMD celery -A celery_app worker --loglevel=info

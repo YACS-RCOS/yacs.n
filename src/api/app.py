@@ -23,6 +23,7 @@ import db.user as UserModel
 
 from degree_planner.planner import Planner
 from degree_planner.math.dictionary_array import Dict_Array
+from degree_planner.math.sorting import sorting
 from degree_planner.dp.command_handler import Command_Handler
 
 import controller.user as user_controller
@@ -179,16 +180,18 @@ async def get_dp_recommendations(userid:str):
     
     recommendation = recommendation_results.get(userid).result
     formatted_recommendations = io.format_recommendations(recommendation)
-    results = dict()
+    results = Dict_Array('list')
 
+    # formatted recommendations is a list of dictionaries with each dictionary being a recommendation, containing
+    # entries such as name and fulfillment set
     for recommendation in formatted_recommendations:
-        curr_list = results.get(recommendation['name'], [])
-        curr_list.append(recommendation)
-        # curr_list = sorting.list_of_dictionary_sort(curr_list, 'courses_fulfilled')
-        results.update({recommendation['name']:curr_list})
+        results.add(recommendation['name'], recommendation)
+
+    print(f'results: {results}')
+    results.sort_elements('get', ("courses_fulfilled",), True)
 
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
-    return results
+    return results.dictionary
     
 
 @app.get('/')
