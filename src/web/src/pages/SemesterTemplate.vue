@@ -1,27 +1,30 @@
 <template>
   <div>
     <div>
-      <input class="text-input" v-model="textInput" type="text" placeholder="course name" @keyup.enter="courseSearch(textInput)">
+      <input class="text-input" v-model="textInput" type="text" placeholder="course name" @keyup.enter="courselist">
     </div>
     <div class="fulfilled-list">
-      <div v-for="course in courseSearchResults" :key="course" draggable="true" @dragstart="dragStart(course)">
-          {{ course }}
-      </div>
+      <li v-for="course in courses" :key="course" draggable="true" @dragstart="dragStart(course)">
+        {{ course }}
+      </li>
     </div>
-
-    <div class="scheduler">
-      <div v-for="(semester, index) in schedulerB" :key="index" @dragover.prevent @drop="dropCourse(semester)">
-        <div class="course-item" :class="{ 'drag-over': isDragOver }" @dragenter="dragEnter" @dragleave="dragLeave" @click="removeCourse(index)">
-          <h3> Semester {{ index }} </h3>
-          <div v-for="course in semester" :key="course">
-            <button class="course-buttons" type="button">
-              &#10148; {{ course }}
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="table-container">
+      <table>
+        <tbody>
+          <tr v-for="(semester, semesterIndex) in courseTable" :key="semesterIndex">
+            <td v-for="(column, columnIndex) in semester" :key="columnIndex" @dragover.prevent @drop="dropCourse(semesterIndex, columnIndex)">
+              <div class="course-item" :class="{ 'drag-over': isDragOver }" @dragenter="dragEnter" @dragleave="dragLeave" @click="removeCourse(semesterIndex, columnIndex)">
+                <ul>
+                  <li v-for="course in column" :key="course">
+                    {{ course }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
   </div>
 </template>
 
@@ -29,24 +32,30 @@
 export default {
   data() {
     return {
-      courseSearchResults: [],
-      schedulerB: [],
+      courses: [],
+      courseTable: [
+        [[], []], // Semester 1
+        [[], []], // Semester 2
+        [[], []], // Semester 3
+        [[], []], // Semester 4
+      ],
       textInput: "",
       isDragOver: false,
       dragData: null,
     };
   },
   methods: {
-    async courseSearch(course) {
+    async courselist() {
+      let course = this.textInput;
       const response1 = await fetch("/api/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(course),
+        body: JSON.stringify({ course }),
       });
 
-      this.courseSearchResults = await response1.json();
+      this.courses = await response1.json();
     },
 
     dragStart(course) {
@@ -59,20 +68,16 @@ export default {
     dragLeave() {
       this.isDragOver = false;
     },
-    dropCourse(semester) {
-      this.schedulerB[semester].push(this.dragData);
-      this.$set(this.schedulerB, semester, [...this.schedulerB[semester]]);
+    dropCourse(semesterIndex, columnIndex) {
+      this.courseTable[semesterIndex][columnIndex].push(this.dragData);
       this.dragData = null;
       this.isDragOver = false;
     },
-    removeCourse(semester) {
-      this.schedulerB[semester].pop();
-      this.$set(this.schedulerB, semester, [...this.schedulerB[semester]]);
-    },    
-  },
-
-  async created() {
-    this.schedulerB = Array(12).fill([])
+    removeCourse(semesterIndex, columnIndex) {
+      this.courseTable[semesterIndex][columnIndex].pop();
+      this.$set(this.courseTable, semesterIndex, [...this.courseTable[semesterIndex]]);
+    },
+    
   },
 };
 </script>
@@ -82,9 +87,19 @@ export default {
   font-size: 1em;
 }
 
-.scheduler {
+.table-container {
+  margin-top: 1em;
+}
+
+table {
   width: 50%;
   border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid black;
+  padding: 0.5em;
 }
 
 .course-item {
@@ -92,22 +107,6 @@ export default {
   margin-right: 0.5em;
   cursor: pointer;
 }
-
-.course-buttons {
-    border: none;
-    border-radius: 4px;
-    flex: 1;
-    padding: 0px;
-    width: 99%;
-    margin: 1px;
-    color:#e3e8e4;
-    background-color: rgba(197, 211, 218, 0.01);
-    transition: background-color 0.15s ease;
-    text-align: left;
-  }
-  .course-buttons:hover {
-    background-color: rgba(13, 23, 26, 0.78);
-  }
 
 .drag-over {
   border: 2px dashed red;

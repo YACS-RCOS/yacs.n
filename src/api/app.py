@@ -549,8 +549,10 @@ async def uploadHandler(file: UploadFile = File(...)):
         return Response(error.__str__(), status_code=500)
 
 @app.post('/api/search')
-async def dp_search(course=Body(...)):
-    list_courses = planner.find(course)
+async def sarchcourse(course=Body(...)):
+    print(str(course))
+    list_courses = planner.find(course["course"])
+    print(str(list_courses)) 
     return list_courses
 
 
