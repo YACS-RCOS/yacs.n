@@ -121,8 +121,14 @@ class Dict_Array():
                 self.dictionary.pop(key)
             
             if self.list_type == 'list':
+                if element not in self.dictionary.get(key) and suppress_error:
+                    print('====ERROR SUPPRESSED IN DICT ARRAY REMOVE====')
+                    return
                 self.dictionary.get(key).remove(element)
             elif self.list_type == 'set':
+                if element not in self.dictionary.get(key) and suppress_error:
+                    print('====ERROR SUPPRESSED IN DICT ARRAY REMOVE====')
+                    return
                 self.dictionary.get(key).remove(element)
 
             if not len(self.dictionary.get(key)):

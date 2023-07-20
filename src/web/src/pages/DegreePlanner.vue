@@ -1,7 +1,5 @@
 <template>
     <b-container fluid>
-        <!--<h1>My Semester Template</h1> 
-        <semester-template></semester-template> -->
         <div class="heading">
             <h1>Degree Planner</h1>
         </div>
@@ -15,7 +13,7 @@
 
         <div>
           <h4 class="schedule-selection">
-            <font color="#e6bc8a">Schedule:</font> {{ schedule_name }} <br>
+            <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
             <font color="#e6bc8a">Degree:</font> {{ degree }}
           </h4>
         </div>
@@ -24,7 +22,12 @@
 
           <div class="column-left">
             <div class="courses-grid">
-              <div class="semester-block" v-for="(semester, index) in courses" :key="index">
+              <div v-for="(semester, index) in courses" :key="index" 
+                  v-bind:class="{'semester-block':hoverOverSemester!=index, 'semester-block-highlighted':hoverOverSemester==index}" 
+                  @dragenter="schedulerDragEnter($event, index)" 
+                  @dragleave="schedulerDragLeave()" 
+                  @dragover.prevent 
+                  @drop="schedulerDrop($event, index)">
                 <h3>Semester {{ index + 1 }}</h3>
 
                 <div>
@@ -32,13 +35,14 @@
                 </div>
 
                 <div class="schedule-button-container" v-for="course in semester" :key="course">
-                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
                     &#10148; {{ course }}
                   </button>
                   <button class="course-remove-button" type="button" @click="remove(index, course)">
                     &#10008;
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
@@ -103,13 +107,10 @@
 </template>
   
 <script>
-  // import SemesterTemplate from './SemesterTemplate.vue';
+
 
   export default {
-    // components: {
-    //   SemesterTemplate,
-    // },
-
+    
     data() {
       return {
         loading: true,
@@ -117,19 +118,54 @@
         userid: 'testuser',
         degree: 'computer science',
         schedule_name: "new schedule",
+        courses: [],
+        
         requirements: [],
         recommendations: {},
-        courses: [],
 
         SEM_MAX: 12,
         course_inputs: [],
 
         recommend_pause_token: 1,
+
+        dragElement: null,
+        dragFromSemester: 0,
+        hoverOverSemester: -1,
+        hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
       };
     },
     methods: {
 
       // HELPER FUNCTIONS
+
+      schedulerDrag(event, item, semester) {
+        this.dragElement = item;
+        this.dragFromSemester = semester;
+        event.dataTransfer.effectAllowed = "move";
+      },
+
+      schedulerDrop(event, dragToSemester) {
+        event.preventDefault();
+        if (this.dragElement != null) {
+          this.remove(this.dragFromSemester, this.dragElement, false, false);
+          this.add(dragToSemester, this.dragElement, false, false);
+        }
+        this.hoverCounter--;
+        this.hoverOverSemester = -1;
+      },
+
+      schedulerDragEnter(event, hoverOverSemester) {
+        event.preventDefault();
+        this.hoverOverSemester = hoverOverSemester;
+        this.hoverCounter++;
+      },
+
+      schedulerDragLeave() {
+        this.hoverCounter--;
+        if (this.hoverCounter == 0) {
+          this.hoverOverSemester = -1;
+        }
+      },
 
       navigate_to_course_page(course) {
         let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
@@ -172,12 +208,16 @@
           this.textInput = "";
       },
 
-      async fetch_data() {
+      async fetch_data(fulfill=true, recommend=true) {
         this.loading = true;
         // fetch fulfillment and recommendations
         this.print();
-        this.fulfillment([]);
-        this.recommend();
+        if (fulfill) {
+          this.fulfillment([]);
+        }
+        if (recommend) {
+          this.recommend();
+        }
       },
 
       async newuser() {
@@ -236,7 +276,7 @@
         this.course_inputs[semester] = "";
       },
 
-      async add(semester, course) {
+      async add(semester, course, fulfill=true, recommend=true) {
         let userid = this.userid;
         let command = "add, " + semester + ", " + course;
 
@@ -248,10 +288,10 @@
             body: JSON.stringify({userid, command}),
         });
         let variable_updates = await updates.json();
-        this.update_variables(variable_updates).then(this.fetch_data());
+        this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
       },
 
-      async remove(semester, course) {
+      async remove(semester, course, fulfill=true, recommend=true) {
         let userid = this.userid;
         let command = "remove, " + semester + ", " + course;
 
@@ -263,7 +303,7 @@
             body: JSON.stringify({userid, command}),
         });
         let variable_updates = await updates.json();
-        this.update_variables(variable_updates).then(this.fetch_data());
+        this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
       },
 
       async print() {
@@ -372,19 +412,31 @@
   .courses-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap:4px;
+    gap:0px;
   }
   .semester-block {
     border: 2px;
-    border-radius:12px;
-    padding: 4px;
-    margin: 4px;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 0px;
     font-size: 0.75em;
     background-color: #21242b;
   }
   .semester-block h3 {
     font-size: 1.5em;
     color: #a2bbe0;
+  }
+  .semester-block-highlighted {
+    border: 2px;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 0px;
+    font-size: 0.75em;
+    background-color: #43413f;
+  }
+  .semester-block-highlighted h3 {
+    font-size: 1.5em;
+    color: #c3d3ec;
   }
   .schedule-button-container {
     display: flex;

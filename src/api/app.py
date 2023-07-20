@@ -71,10 +71,11 @@ recommendation_results = dict() # {user: results dict}
 def rate_limited(seconds_interval):
     def decorator(func):
         call_history = {}
-
+        add_history = {}
         async def rate_limited_function(userid, *args, **kwargs):
-            time_last_called = call_history.get(userid, 0.0)
-            time_elapsed = time.time() - time_last_called
+            time_added = time.time()
+            add_history.update({userid:time_added})
+            time_elapsed = time.time() - call_history.get(userid, 0.0)
             time_wait = seconds_interval - time_elapsed
 
             debug_time = time.time()
@@ -83,7 +84,7 @@ def rate_limited(seconds_interval):
                 print(f'rate limited!')
                 await asyncio.sleep(time_wait)
 
-            if call_history.get(userid, 0.0) != time_last_called:
+            if add_history.get(userid) != time_added:
                 # means another call occurred while waiting, so cancel this one
                 print(f'cancelling function call sent at time {debug_time}')
                 return
@@ -124,8 +125,10 @@ async def dp_run_command(userid:str = Body(...), command:str = Body(...)):
     if user is None:
         return Response(content="user not found")
     
+    updates = Command_Handler.input(planner, user, command)
+    
     print(f'== FINISHED COMMAND API CALL {randint}')
-    return Command_Handler.input(planner, user, command)
+    return updates
 
 
 @app.post('/api/dp/print')
@@ -172,7 +175,7 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:list
     return formatted_fulfillments
 
 
-@rate_limited(3)
+@rate_limited(4)
 async def dp_begin_recommendation_limited(userid:str):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
