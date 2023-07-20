@@ -56,7 +56,7 @@
                   <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
                     <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
                       <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="fulfillment([alternative_orig, alternative_choice])">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="fulfillment({[alternative_orig]:alternative_choice})">
                           {{ format_alternative(alternative_choice) }}
                         </button>
                       </div>
@@ -98,7 +98,7 @@
             </div>
           </div>
 
-          <div class="column">
+          <div class="column-right">
             column 3
           </div>
 
@@ -384,7 +384,7 @@
     padding: 4px;
     border: 1px solid #171d1a;
     font-size: 0.8em;
-    min-width: 500px;
+    min-width: 400px;
   }
   .column-left::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
@@ -396,6 +396,17 @@
     border: 1px solid #171d1a;
   }
   .column-center::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+  .column-right {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px;
+    border: 1px solid #171d1a;
+    font-size: 0.8em;
+    min-width: 100px;
+  }
+  .column-right::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
   .requirements-dyngrid {

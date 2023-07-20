@@ -2,12 +2,18 @@ from collections import OrderedDict
 
 class Dict_Array():
 
-    def __init__(self, list_type='list', ordered_dict=False):
+    def __init__(self, convert=None, list_type='list', ordered_dict=False):
         if ordered_dict:
             self.dictionary = OrderedDict()
         else:
             self.dictionary = dict()
+
         self.list_type = list_type
+
+        if convert is not None:
+            if isinstance(convert, dict):
+                for key, value in convert.items():
+                    self.add(key, value)
 
 
     def convert_list_type(self, list_type):

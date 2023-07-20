@@ -150,7 +150,7 @@ async def dp_get_schedule(userid:str = Body(...)):
 
 
 @app.post('/api/dp/fulfillment')
-async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:list = Body(...)):
+async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
 
@@ -160,10 +160,8 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:list
         print(f'user {userid} not found')
         return Response(content="user not found")
 
-    wildcard_resolutions = Dict_Array(list_type='list')
-
-    for i in range(0, len(attributes_replacement) - 1, 2):
-        wildcard_resolutions.add(attributes_replacement[i],attributes_replacement[i+1])
+    print(f'received wildcard resolution requirements: {attributes_replacement}')
+    wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
@@ -215,7 +213,7 @@ async def dp_get_recommendation(userid:str):
     
     recommendation = recommendation_results.get(userid).result
     formatted_recommendations = io.format_recommendations(recommendation)
-    results = Dict_Array('list')
+    results = Dict_Array(list_type='list')
 
     # formatted recommendations is a list of dictionaries with each dictionary being a recommendation, containing
     # entries such as name and fulfillment set

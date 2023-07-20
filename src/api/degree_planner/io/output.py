@@ -6,6 +6,7 @@ import logging
 from enum import Enum
 import json
 import os
+from ..math.dictionary_array import Dict_Array
 
 class Output():
     '''
@@ -178,6 +179,19 @@ class Output():
     ######################################
     # PRINT FORMATTING
     ######################################
+
+    @staticmethod
+    def new_format_fulfillments(fulfillments, taken_courses) -> dict:
+
+        formatted_fulfillments = Output.format_fulfillments(fulfillments, taken_courses)
+
+        organized_fulfillments = Dict_Array(list_type='list')
+
+        for fulfillment in formatted_fulfillments:
+            tag = fulfillment.get('name', '').split('-')[0]
+            organized_fulfillments.add(tag, fulfillment)
+
+        return organized_fulfillments.dictionary
 
     @staticmethod
     def format_fulfillments(fulfillments, taken_courses) -> list:
