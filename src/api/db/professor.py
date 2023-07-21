@@ -79,7 +79,6 @@ class Professor:
                         # Profile_page
 
                         # Insert professor data into the 'professor' table
-                        self.db_conn.execute("select * from professor where false", None, True)
                         transaction.execute(
                             """
                             INSERT INTO professor (
