@@ -189,6 +189,12 @@ class Output():
 
         for fulfillment in formatted_fulfillments:
             tag = fulfillment.get('name', '').split('-')[0]
+            
+            if 'core' in tag.casefold():
+                fulfillment.update({'display_style':'condensed'})
+            else:
+                fulfillment.update({'display_style':'separate'})
+
             organized_fulfillments.add(tag, fulfillment)
 
         return organized_fulfillments.dictionary

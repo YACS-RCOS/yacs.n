@@ -8,7 +8,7 @@
         </div>
 
         <div>
-          <input class="text-input" v-model="textInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
+          <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
         </div>
 
         <div>
@@ -34,7 +34,7 @@
                   <input class="course-input" v-model="course_inputs[index]" type="text" placeholder="add course" @keyup.enter="add_from_input(index)">
                 </div>
 
-                <div class="schedule-button-container" v-for="course in semester" :key="course">
+                <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
                     &#10148; {{ course }}
                   </button>
@@ -48,15 +48,60 @@
           </div>
           
           <div class="column-center">
-            <div class="requirements-dyngrid">
+
+            <div class="requirements-orggrid" v-if="organize_requirements">
+              <div class="fulfillment-org-block" v-for="(fulfillments, category) in organized_requirements" :key="category">
+                <h2>{{ category }}</h2>
+                <div v-for="(fulfillment, index) in fulfillments" :key="index">
+                  
+                  <div v-if="Object.keys(fulfillment.wildcard_resolutions).length > 0">
+                    <div v-for="(alternative_choices, alternative_orig) in fulfillment.wildcard_resolutions" :key="alternative_orig">
+                      <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
+                          {{ format_alternative(alternative_choice) }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-bind:class="{'minimal-fulfillment':fulfillment.actual_count >= fulfillment.required_count, 'minimal-unfulfilled-fulfillment':fulfillment.actual_count < fulfillment.required_count}">
+                    <div v-bind:class="{'req-fulfilled':fulfillment.actual_count >= fulfillment.required_count, 'req-unfulfilled':fulfillment.actual_count < fulfillment.required_count}">
+                      <span style="font-size: 1.5em; color: #b7c2db; font-weight: 600;"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span style="font-size: 1.5em; padding-left:8px;"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
+                    </div>
+
+                    <div v-for="(course, index) in fulfillment.fulfillment_set" :key="index">
+                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                        &#10148; {{ course }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div v-if="fulfillment.name in recommendations && recommendations[fulfillment.name].length > 0 && recommendations[fulfillment.name][0].fulfillment_set.length > 0">
+                    <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[fulfillment.name]" :key="recommendation_index">
+                      <div v-if="recommendations[fulfillment.name].length > 1">
+                        <h5>{{ recommendation.specifications }}</h5>
+                      </div>
+                      <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
+                        <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)">
+                          <font color = #a9a9a9> {{ course }} </font>
+                        </button>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="requirements-dyngrid" v-if="organize_requirements">
               <div class="text-block" v-for="(item, index) in requirements" :key="index">
                 <h3>{{ item.name }}</h3>
                 <div v-if="item.content">
 
-                  <div class="alternatives" v-if="Object.keys(item.wildcard_resolutions).length > 0">
+                  <div v-if="Object.keys(item.wildcard_resolutions).length > 0">
                     <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
-                      <div v-for="alternative_choice in alternative_choices" :key="alternative_choice">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="fulfillment({[alternative_orig]:alternative_choice})">
+                      <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
+                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
                           {{ format_alternative(alternative_choice) }}
                         </button>
                       </div>
@@ -67,8 +112,8 @@
                     <h6>specifications: {{ item.specifications }}</h6>
                   </div>
 
-                  <div v-bind:class="{fulfillment:item.actual_count >= item.required_count, unfulfilled_fulfillment:item.actual_count < item.required_count}">
-                      <div v-bind:class="{req_fulfilled:item.actual_count >= item.required_count, req_unfulfilled:item.actual_count < item.required_count}">
+                  <div v-bind:class="{'fulfillment':item.actual_count >= item.required_count, 'unfulfilled-fulfillment':item.actual_count < item.required_count}">
+                      <div v-bind:class="{'req-fulfilled':item.actual_count >= item.required_count, 'req-unfulfilled':item.actual_count < item.required_count}">
                           <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
                       </div>
                       <div class="fulfilled-list">
@@ -83,7 +128,7 @@
 
                   <div class="recommendations" v-if="item.name in recommendations && recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
                     <h4>Recommendations:</h4>
-                    <div class="recommendation-list" v-for="recommendation in recommendations[item.name]" :key="recommendation">
+                    <div class="recommendation-list" v-for="(recommendation, recommendation_index) in recommendations[item.name]" :key="recommendation_index">
                       <h6>specifications: {{ recommendation.specifications }}</h6>
                       <div v-for="(course, index) in recommendation.fulfillment_set" :key="index">
                         <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
@@ -119,8 +164,11 @@
         degree: 'computer science',
         schedule_name: "new schedule",
         courses: [],
+        cmdInput: '',
         
         requirements: [],
+        organized_requirements: {},
+        organize_requirements: true,
         recommendations: {},
 
         SEM_MAX: 12,
@@ -180,6 +228,13 @@
         return str
       },
 
+      format_fulfillment_name(str) {
+        if (str.includes('-')) {
+          str = str.substring(str.indexOf('-') + 1)
+        }
+        return str
+      },
+
       async update_variables(variable_updates) {
         // helper function that updates variables of this page from API reply
         for(let [key, value] of Object.entries(variable_updates)) {
@@ -193,7 +248,7 @@
       // API CALLING
 
       async dp_command() {
-          let command = this.textInput;
+          let command = this.cmdInput;
           let userid = this.userid;
           const updates = await fetch('/api/dp/users/command', {
               method: 'POST',
@@ -205,7 +260,7 @@
           let variable_updates = await updates.json();
 
           this.update_variables(variable_updates).then(this.fetch_data());
-          this.textInput = "";
+          this.cmdInput = "";
       },
 
       async fetch_data(fulfill=true, recommend=true) {
@@ -213,10 +268,10 @@
         // fetch fulfillment and recommendations
         this.print();
         if (fulfill) {
-          this.fulfillment([]);
+          this.get_fulfillment();
         }
         if (recommend) {
-          this.recommend();
+          this.get_recommendation();
         }
       },
 
@@ -235,32 +290,29 @@
         });
       },
 
-      async fulfillment(attributes_replacement) {
+      async get_fulfillment(attributes_replacement=null) {
         let userid = this.userid;
+        let organize = this.organize_requirements;
+
+        if (attributes_replacement == null) {
+          attributes_replacement = {};
+        }
 
         const response1 = await fetch('/api/dp/fulfillment', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({userid, attributes_replacement}),
+          body: JSON.stringify({userid, attributes_replacement, organize}),
         });
-
-        this.requirements = await response1.json();
-      },
-
-      async delayed_recommend() {
-        let id = ++this.recommend_pause_token;
-        setTimeout(this.recommend, 3000, id);
-      },
-
-      async delayed_recommend_gate(token) {
-        if (token == this.recommend_pause_token) {
-          this.recommend();
+        if (organize) {
+          this.organized_requirements = await response1.json();
+        } else {
+          this.requirements = await response1.json();
         }
       },
 
-      async recommend() {
+      async get_recommendation() {
         let userid = this.userid;
 
         await fetch('/api/dp/recommend/' + userid, {
@@ -415,10 +467,11 @@
     justify-content: center;
     gap: 4px;
   }
-  .requirements-grid {
+  .requirements-orggrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    justify-content: center;
+    gap: 8px;
   }
   .courses-grid {
     display: grid;
@@ -483,6 +536,29 @@
     font-size: 0.7em;
     background-color: #21242b;
   }
+  .fulfillment-org-block {
+    border: 2px solid #43494f;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 2px;
+    width: 350px;
+    min-height: 60px;
+    align-items: center;
+    font-size: 0.65em;
+    background-color: #21242b;
+  }
+  .fulfillment-org-block h2 {
+    font-size: 2.4em;
+    color: cornflowerblue;
+  }
+  .fulfillment-org-block h3 {
+    font-size: 1.5em;
+  }
+  .fulfillment-org-block h5 {
+    font-size: 1.2em;
+    margin: 0px;
+    color: #dadac9;
+  }
   .course-schedule-buttons {
     border: none;
     border-radius: 4px;
@@ -508,6 +584,56 @@
   }
   .course-buttons:hover {
     background-color: rgba(13, 23, 26, 0.78);
+  }
+  .condensed-course-buttons {
+    border: none;
+    border-radius: 4px;
+    flex: 1;
+    padding: 0px;
+    width: 50%;
+    margin: 1px;
+    color:#e3e8e4;
+    background-color: rgba(197, 211, 218, 0.01);
+    transition: background-color 0.15s ease;
+    text-align: left;
+  }
+  .condensed-course-buttons:hover {
+    background-color: rgba(13, 23, 26, 0.78);
+  }
+  .minimal-fulfillment {
+    padding: 4px;
+    margin: 2px;
+    border-radius: 4px;
+    color: #e3e8e4;
+    background-color: #434f41;
+  }
+  .minimal-unfulfilled-fulfillment {
+    padding: 4px;
+    margin: 2px;
+    border-radius: 4px;
+    color: #e3e8e4;
+    background-color: #4f433e;
+  }
+  .minimal-course-buttons {
+    border: none;
+    border-radius: 2px;
+    flex: 1;
+    padding: 0px;
+    margin: 1px;
+    margin-right: 5px;
+    color:#e3e8e4;
+    background-color: rgba(197, 211, 218, 0.01);
+    transition: background-color 0.15s ease;
+    text-align: left;
+  }
+  .minimal-course-buttons:hover {
+    background-color: rgba(13, 23, 26, 0.78);
+  }
+  .minimal-recommendations {
+    margin-left: 8px;
+  }
+  .minimal-recommendations-courses {
+    margin-left: 16px;
   }
   .course-remove-button {
     border: none;
@@ -541,7 +667,7 @@
     color: #e3e8e4;
     background-color: #434f41;
   }
-  .unfulfilled_fulfillment {
+  .unfulfilled-fulfillment {
     padding: 6px;
     margin: 2px;
     border-radius: 6px;
@@ -586,11 +712,11 @@
   .recommendations-list {
     color: #e3e8e4;
   }
-  .req_fulfilled {
+  .req-fulfilled {
     color: greenyellow;
     background-color: #434f41;
   }
-  .req_unfulfilled {
+  .req-unfulfilled {
     color: orangered;
     background-color: #4f433e;
   }

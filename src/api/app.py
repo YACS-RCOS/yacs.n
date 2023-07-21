@@ -6,7 +6,7 @@ from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
 from fastapi import Depends
-from typing import Dict
+from typing import Dict, Optional
 import asyncio
 import random
 import time
@@ -150,14 +150,13 @@ async def dp_get_schedule(userid:str = Body(...)):
 
 
 @app.post('/api/dp/fulfillment')
-async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...)):
+async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...), organize:Optional[bool] = Body(False)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
 
     io = planner.output
     user = planner.get_user(userid)
     if user is None:
-        print(f'user {userid} not found')
         return Response(content="user not found")
 
     print(f'received wildcard resolution requirements: {attributes_replacement}')
@@ -167,7 +166,11 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     requirements = user.get_active_schedule().degree.requirements
 
     fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions)
-    formatted_fulfillments = io.format_fulfillments(fulfillment, taken_courses)
+
+    if not organize:
+        formatted_fulfillments = io.format_fulfillments(fulfillment, taken_courses)
+    else:
+        formatted_fulfillments = io.new_format_fulfillments(fulfillment, taken_courses)
     
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return formatted_fulfillments
