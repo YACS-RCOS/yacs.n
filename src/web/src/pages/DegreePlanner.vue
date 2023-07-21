@@ -1,8 +1,5 @@
 <template>
     <b-container fluid>
-        <div class="heading">
-            <h1>Degree Planner</h1>
-        </div>
         <div class="main-loading" v-if="main_loading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
@@ -10,13 +7,11 @@
         <div>
           <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
         </div>
-
-        <div>
+        <span>
           <h4 class="schedule-selection">
-            <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
-            <font color="#e6bc8a">Degree:</font> {{ degree }}
+            <span style="margin-right: 7vw"> <font color="#eb8d75">Schedule:</font> {{ schedule_name }} </span><span> <font color="#e6bc8a">Degree:</font> {{ degree }} </span>
           </h4>
-        </div>
+        </span>
 
         <div class="columns">
 
@@ -67,7 +62,9 @@
 
                     <div v-bind:class="{'minimal-fulfillment':fulfillment.actual_count >= fulfillment.required_count, 'minimal-unfulfilled-fulfillment':fulfillment.actual_count < fulfillment.required_count}">
                       <div v-bind:class="{'req-fulfilled':fulfillment.actual_count >= fulfillment.required_count, 'req-unfulfilled':fulfillment.actual_count < fulfillment.required_count}">
-                        <span style="font-size: 1.5em; color: #b7c2db; font-weight: 600;"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span style="font-size: 1.5em; padding-left:8px;"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
+                        <div class="req-fulfillment-text">
+                          <span class="req-fulfillment-name"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span class="req-fulfillment-count"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
+                        </div>
                       </div>
 
                       <div v-for="(course, index) in fulfillment.fulfillment_set" :key="index">
@@ -388,7 +385,7 @@
 <style scoped>
   .heading {
     font-weight:400;
-    color:#9fc6c6;
+    color:#d65252;
   }
   .schedule-selection {
     text-align: center;
@@ -423,14 +420,8 @@
   }
   .columns {
     display: flex;
-    height: 100vh;
+    height: 90vh;
     width: 100%;
-  }
-  .column {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #171d1a;
   }
   .column-left {
     flex: 2;
@@ -486,7 +477,8 @@
     padding: 8px;
     margin: 0px;
     font-size: 0.75em;
-    background-color: #21242b;
+    background-color: rgba(8, 26, 32, 0.35);
+    backdrop-filter: blur(4px);
   }
   .semester-block h3 {
     font-size: 1.5em;
@@ -498,7 +490,7 @@
     padding: 8px;
     margin: 0px;
     font-size: 0.75em;
-    background-color: #43413f;
+    background-color: rgba(69, 94, 104, 0.35);
   }
   .semester-block-highlighted h3 {
     font-size: 1.5em;
@@ -547,17 +539,18 @@
     min-height: 60px;
     align-items: center;
     font-size: 0.65em;
-    background-color: #21242b;
+    background-color: rgba(8, 26, 32, 0.35);
+    backdrop-filter: blur(4px);
   }
   .fulfillment-org-block h2 {
-    font-size: 2.4em;
+    font-size: 2em;
     color: cornflowerblue;
   }
   .fulfillment-org-block h3 {
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
   .fulfillment-org-block h5 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     margin: 0px;
     color: #dadac9;
   }
@@ -569,7 +562,7 @@
     margin: 1px;
     color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
-    transition: background-color 0.15s ease;
+    transition: background-color 0.2s ease;
     text-align: left;
   }
   .course-buttons {
@@ -581,26 +574,25 @@
     margin: 1px;
     color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
-    transition: background-color 0.15s ease;
+    transition: background-color 0.2s ease;
     text-align: left;
   }
   .course-buttons:hover {
     background-color: rgba(13, 23, 26, 0.78);
   }
-  .condensed-course-buttons {
-    border: none;
-    border-radius: 4px;
-    flex: 1;
-    padding: 0px;
-    width: 50%;
-    margin: 1px;
-    color:#e3e8e4;
-    background-color: rgba(197, 211, 218, 0.01);
-    transition: background-color 0.15s ease;
-    text-align: left;
+  .req-fulfillment-text {
+    display:flex;
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 1.4em;
+    font-weight: 500;
   }
-  .condensed-course-buttons:hover {
-    background-color: rgba(13, 23, 26, 0.78);
+  .req-fulfillment-text .req-fulfillment-name {
+    color: rgb(173, 175, 194);
+    flex: 1;
+  }
+  .req-fulfillment-text .req-fulfillment-count {
+    font-weight: 700;
   }
   .minimal-fulfillment {
     padding: 4px;
@@ -677,11 +669,11 @@
     background-color: #4f433e;
   }
   .alternative-buttons {
-    border-radius: 6px;
+    border-radius: 2px;
     width: 99%;
     border: none;
-    padding: 4px;
-    margin: 2px;
+    padding: 2px;
+    margin: 1px;
     color:#e3e8e4;
     background-color: #3e4041;
     transition: background-color 0.2s ease;
@@ -690,11 +682,11 @@
     background-color:#21242b;
   }
   .alternative-buttons-wildcard {
-    border-radius: 6px;
+    border-radius: 2px;
     width: 99%;
     border: none;
-    padding: 4px;
-    margin: 2px;
+    padding: 2px;
+    margin: 1px;
     color:#d8e8dc;
     background-color: #497348;
     font-weight:500;
@@ -719,7 +711,7 @@
     background-color: #434f41;
   }
   .req-unfulfilled {
-    color: orangered;
+    color: rgb(255, 149, 122);
     background-color: #4f433e;
   }
   .heading {
