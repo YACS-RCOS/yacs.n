@@ -203,6 +203,7 @@ export default {
       this.courseOptions = Object.values(groupedCourses);
     },
     addCourse(currCourse) {
+      console.log(currCourse);
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
       }
@@ -369,8 +370,19 @@ export default {
     temp2(){
       //this gets the actual selected semester "summer 2023"  object
       console.log(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters);
-      //
-      console.log(Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)[0][1]);
+      //this will create an array of objects that get all the selected courses holding id and selectedSectionCrns
+      console.log("testing:");
+      console.log(Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)[0][1][0].id);
+      console.log("trying to return the course object from cookie info")
+      temp = SelectedCoursesCookie.getSelectedCourse(
+                  Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)
+                        [0][1][0].id
+              );
+      this.selectedCourses.push(Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)[0][1][0]);
+      this.searchExams();
+      CRNS = []
+      CRNS.push(Object.entries(this.coursesOnSchedule.semester("SUMMER 2023")._selectedSemesters)[0][1].selectedSectionCrns[0]);
+
     }
   },
 };
