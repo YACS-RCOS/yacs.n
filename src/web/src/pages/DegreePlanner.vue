@@ -4,15 +4,6 @@
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
 
-        <div>
-          <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
-        </div>
-        <span>
-          <h4 class="schedule-selection">
-            <span style="margin-right: 7vw"> <font color="#eb8d75">Schedule:</font> {{ schedule_name }} </span><span> <font color="#e6bc8a">Degree:</font> {{ degree }} </span>
-          </h4>
-        </span>
-
         <div class="columns">
 
           <div class="column-left">
@@ -31,10 +22,10 @@
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
-                    &#10148; {{ course }}
+                    <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                   </button>
                   <button class="course-remove-button" type="button" @click="remove(index, course)">
-                    &#10008;
+                    <font color="#b05f6e">&#10008;</font>
                   </button>
                 </div>
 
@@ -46,7 +37,7 @@
 
             <div class="requirements-orggrid" v-if="organize_requirements">
               <div class="fulfillment-org-block" v-for="(fulfillments, category) in organized_requirements" :key="category">
-                <h2>{{ category }}</h2>
+                <h2 style="color:#78b2d9; font-size: 1.8em">{{ category }}</h2>
                 <div v-if="fulfillments[0].content">
                   <div v-for="(fulfillment, index) in fulfillments" :key="index">
                     
@@ -143,7 +134,13 @@
           </div>
 
           <div class="column-right">
-            column 3
+            <div>
+              <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
+            </div>
+            <div class="schedule-selection">
+              <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
+              <font color="#e6bc8a">Degree:</font> {{ degree }}
+            </div>
           </div>
 
         </div>
@@ -388,7 +385,8 @@
     color:#d65252;
   }
   .schedule-selection {
-    text-align: center;
+    text-align: left;
+    font-size: 1.5em;
     color:#e3e8e4;
   }
   .main-loading {
@@ -424,18 +422,19 @@
     width: 100%;
   }
   .column-left {
-    flex: 2;
+    flex: 3;
     overflow-y: auto;
     padding: 4px;
     border: 1px solid #171d1a;
     font-size: 0.8em;
     min-width: 400px;
+    max-width: 600px;
   }
   .column-left::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
   .column-center {
-    flex: 5;
+    flex: 6;
     overflow-y: auto;
     padding: 8px;
     border: 1px solid #171d1a;
@@ -444,12 +443,13 @@
     display: none; /* Chrome, Safari and Opera */
   }
   .column-right {
-    flex: 1;
+    flex: 2;
     overflow-y: auto;
     padding: 4px;
     border: 1px solid #171d1a;
     font-size: 0.8em;
-    min-width: 100px;
+    min-width: 150px;
+    max-width: 400px;
   }
   .column-right::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
@@ -482,7 +482,7 @@
   }
   .semester-block h3 {
     font-size: 1.5em;
-    color: #a2bbe0;
+    color: #98bdd4;
   }
   .semester-block-highlighted {
     border: 2px;
@@ -494,7 +494,7 @@
   }
   .semester-block-highlighted h3 {
     font-size: 1.5em;
-    color: #c3d3ec;
+    color: #98bdd4;
   }
   .schedule-button-container {
     display: flex;
@@ -502,10 +502,9 @@
   .text-input{
     border:2px solid #21242b;
     border-radius:4px;
-    width:150px;
+    width:100%;
     padding:4px;
     background-color:#393b40;
-    position:fixed;
   }
   .course-input{
     border:2px solid #21242b;
@@ -513,11 +512,6 @@
     width:75%;
     padding:2px;
     background-color:#393b40;
-  }
-  .text-input:focus{
-    width:300px;
-    border:4px;
-    background-color:#3f4146;
   }
   .text-block {
     border: 2px solid #43494f;
@@ -542,17 +536,13 @@
     background-color: rgba(8, 26, 32, 0.35);
     backdrop-filter: blur(4px);
   }
-  .fulfillment-org-block h2 {
-    font-size: 2em;
-    color: cornflowerblue;
-  }
   .fulfillment-org-block h3 {
     font-size: 1.2em;
   }
   .fulfillment-org-block h5 {
     font-size: 1.1em;
     margin: 0px;
-    color: #dadac9;
+    color: #beb8b1;
   }
   .course-schedule-buttons {
     border: none;
@@ -560,7 +550,6 @@
     width: 80%;
     padding: 0px;
     margin: 1px;
-    color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
     transition: background-color 0.2s ease;
     text-align: left;
@@ -572,7 +561,6 @@
     padding: 0px;
     width: 99%;
     margin: 1px;
-    color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
     transition: background-color 0.2s ease;
     text-align: left;
@@ -588,7 +576,7 @@
     font-weight: 500;
   }
   .req-fulfillment-text .req-fulfillment-name {
-    color: rgb(173, 175, 194);
+    color: rgb(163, 185, 189);
     flex: 1;
   }
   .req-fulfillment-text .req-fulfillment-count {
@@ -598,14 +586,12 @@
     padding: 4px;
     margin: 2px;
     border-radius: 4px;
-    color: #e3e8e4;
     background-color: #434f41;
   }
   .minimal-unfulfilled-fulfillment {
     padding: 4px;
     margin: 2px;
     border-radius: 4px;
-    color: #e3e8e4;
     background-color: #4f433e;
   }
   .minimal-course-buttons {
@@ -615,7 +601,6 @@
     padding: 0px;
     margin: 1px;
     margin-right: 5px;
-    color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
     transition: background-color 0.15s ease;
     text-align: left;
@@ -635,7 +620,6 @@
     flex: 0.1;
     padding: 0px;
     margin: 1px;
-    color:#e3e8e4;
     background-color: rgba(197, 211, 218, 0.01);
     transition: background-color 0.15s ease;
     text-align: center;

@@ -252,31 +252,6 @@
             "replacement": true,
             "specifications":"level.4 & concentration.*"
         },
-        "Concentration1": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"level.4 & credits.3 & concentration.*"
-        },
-        "Concentration2": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"level.4&concentration.*1"
-        },
-        "Concentration3": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"level.4&credits.3&concentration.*1"
-        },
-        "Concentration4": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"level.* & credits.* & concentration.*"
-        },
-        "Concentration5": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"(concentration.* & (course_id.4100 | course_id.4110)) | (concentration.* & credits.*)"
-        },
         "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,
