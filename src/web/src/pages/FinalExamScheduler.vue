@@ -136,14 +136,12 @@ export default {
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
-      coursesOnSchedule: [],
+      coursesOnSchedule: []
     };
   },
   mounted() {
     try {
       this.initCourseOptions();
-      const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
-      console.log(finalsPageCookie);
       //this.loadSelectedCoursesFromCookie();
     } catch (error) {
       console.error("An error occurred in the mounted() hook:", error);
@@ -199,13 +197,14 @@ export default {
       const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
-        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day);
-        finalsPageCookie.save();
-        console.log(finalsPageCookie.getExams());
+        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day).save();
+        //finalsPageCookie.save();
+        //console.log(finalsPageCookie.getExams());
       }
-      console.log(finalsPageCookie);
+      //finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      console.log(finalsPageCookie.getExams());
       this.currCourse = null;
-      console.log(this.selectedCourses);
+      //console.log(this.selectedCourses);
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
@@ -263,7 +262,7 @@ export default {
 
       this.examDetails = Object.values(examDetailsGrouped);
 
-      console.log(this.examDetails);
+      //console.log(this.examDetails);
     },
     deleteCourses() {
       //console.log(this.selectedCourses);
