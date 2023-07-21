@@ -82,13 +82,13 @@ class Professor:
                         transaction.execute(
                             """
                             INSERT INTO professor (
-                                Email,
+                                email,
                                 name,
+                                title,
                                 phone_number,
                                 department,
-                                Title,
-                                Portfolio,
-                                Profile_Page
+                                portfolio_page,
+                                profile_Page
                             )
                             VALUES (
                                 NULLIF(%(Email)s, ''),  -- Use NULL if Email is empty string

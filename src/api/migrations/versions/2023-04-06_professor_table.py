@@ -22,11 +22,11 @@ def upgrade():
     op.create_table('professor',
     sa.Column('email', sa.VARCHAR(length=255), nullable=False),
     sa.Column('name', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('Title', sa.VARCHAR(length=255), nullable=True),
+    sa.Column('title', sa.VARCHAR(length=255), nullable=True),
     sa.Column('phone_number', sa.VARCHAR(length=255), nullable=True),
     sa.Column('department', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('Portfolio_page', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('Profile_page', sa.VARCHAR(length=255), nullable=True),
+    sa.Column('portfolio_page', sa.VARCHAR(length=255), nullable=True),
+    sa.Column('profile_page', sa.VARCHAR(length=255), nullable=True),
     sa.PrimaryKeyConstraint('email')
     )
     # ### end Alembic commands ###
