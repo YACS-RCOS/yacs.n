@@ -51,7 +51,7 @@ class Professor:
                                 first_name=record['Name'],
                                 phone_number=record['Phone'],
                                 department=record['Department'],
-                                office_room=record['Portfolio'],
+                                portfolio=record['Portfolio'],
                                 office_hours_time='',
                                 rcs='')
             conn.add(professor)
@@ -87,9 +87,9 @@ class Professor:
                                 first_name,
                                 phone_number,
                                 department,
-                                office_room,
-                                office_hours_time,
-                                rcs
+                                Title,
+                                Portfolio,
+                                Profile_Page
                             )
                             VALUES (
                                 NULLIF(%(Email)s, ''),  -- Use NULL if Email is empty string
