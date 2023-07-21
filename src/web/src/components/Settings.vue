@@ -45,7 +45,7 @@
         class="m-2"
         size="lg"
       >
-        Standard Time
+        Military Time
       </b-form-checkbox>
     </div>
 
@@ -69,7 +69,7 @@ export default {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
       notify: false,
       // colorBlindAssist: this.$store.getters.colorBlindAssistState,
-      standardTime: true,
+      militaryTime: true,
     };
   },
   mounted() {
@@ -135,9 +135,9 @@ export default {
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
-    toggleTime(){
-      if (standardTime) return false;
-      else return true;
+    statusMilitaryTime(){
+      if (militaryTime) return true;
+      else return false;
     },
     
   }

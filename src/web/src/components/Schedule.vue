@@ -32,8 +32,8 @@
             v-for="(session, j) in getSessionsOfDay(section, index)"
             :key="j"
             :day="session.day_of_week"
-            :startTime="session.time_start.split(':').slice(0, 2).join(':')"
-            :endTime="session.time_end.split(':').slice(0, 2).join(':')"
+            :startTime="convertToStandardTime(session.time_start)"
+            :endTime="convertToStandardTime(session.time_end)"
             :crn="session.crn"
             :section="session.section"
             :semester="session.semester"
@@ -83,6 +83,8 @@ import {
   getBorderColor,
   getTextColor,
 } from "@/services/ColorService";
+
+import statusMilitaryTime from "@/components/Settings";
 
 import ScheduleEventComponent from "@/components/ScheduleEvent";
 
@@ -150,6 +152,25 @@ export default {
     getSessionsOfDay(section, day) {
       return section.sessions.filter((session) => session.day_of_week === day);
     },
+    /**
+     * Returns the hour and minutes in (hour:minute) standard time 
+     * format with given time (doesn't return seconds)
+     * @param {string} time
+     * @return {time.hour:time.minutes}
+     */
+    convertToStandardTime(time){
+      const array = time.split(':').slice(0,2);
+      // if military time is toggled, don't modify the time
+      // if not toggled, modify time so that it's in standard time
+      // if (!statusMilitaryTime()){
+        if (parseInt(array[0]) > 12){
+          array[0] = parseInt(array[0]) - 12;
+        }
+        else array[0] = parseInt(array[0]);
+      // }
+      return array.join(':');
+    },
+
     mapSessionType(type) {
       return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
