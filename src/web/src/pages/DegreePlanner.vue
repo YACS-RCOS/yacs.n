@@ -52,48 +52,50 @@
             <div class="requirements-orggrid" v-if="organize_requirements">
               <div class="fulfillment-org-block" v-for="(fulfillments, category) in organized_requirements" :key="category">
                 <h2>{{ category }}</h2>
-                <div v-for="(fulfillment, index) in fulfillments" :key="index">
-                  
-                  <div v-if="Object.keys(fulfillment.wildcard_resolutions).length > 0">
-                    <div v-for="(alternative_choices, alternative_orig) in fulfillment.wildcard_resolutions" :key="alternative_orig">
-                      <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
-                          {{ format_alternative(alternative_choice) }}
+                <div v-if="fulfillments[0].content">
+                  <div v-for="(fulfillment, index) in fulfillments" :key="index">
+                    
+                    <div v-if="Object.keys(fulfillment.wildcard_resolutions).length > 0">
+                      <div v-for="(alternative_choices, alternative_orig) in fulfillment.wildcard_resolutions" :key="alternative_orig">
+                        <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
+                          <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
+                            {{ format_alternative(alternative_choice) }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div v-bind:class="{'minimal-fulfillment':fulfillment.actual_count >= fulfillment.required_count, 'minimal-unfulfilled-fulfillment':fulfillment.actual_count < fulfillment.required_count}">
+                      <div v-bind:class="{'req-fulfilled':fulfillment.actual_count >= fulfillment.required_count, 'req-unfulfilled':fulfillment.actual_count < fulfillment.required_count}">
+                        <span style="font-size: 1.5em; color: #b7c2db; font-weight: 600;"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span style="font-size: 1.5em; padding-left:8px;"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
+                      </div>
+
+                      <div v-for="(course, index) in fulfillment.fulfillment_set" :key="index">
+                        <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                          &#10148; {{ course }}
                         </button>
                       </div>
                     </div>
-                  </div>
 
-                  <div v-bind:class="{'minimal-fulfillment':fulfillment.actual_count >= fulfillment.required_count, 'minimal-unfulfilled-fulfillment':fulfillment.actual_count < fulfillment.required_count}">
-                    <div v-bind:class="{'req-fulfilled':fulfillment.actual_count >= fulfillment.required_count, 'req-unfulfilled':fulfillment.actual_count < fulfillment.required_count}">
-                      <span style="font-size: 1.5em; color: #b7c2db; font-weight: 600;"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span style="font-size: 1.5em; padding-left:8px;"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
-                    </div>
-
-                    <div v-for="(course, index) in fulfillment.fulfillment_set" :key="index">
-                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                        &#10148; {{ course }}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div v-if="fulfillment.name in recommendations && recommendations[fulfillment.name].length > 0 && recommendations[fulfillment.name][0].fulfillment_set.length > 0">
-                    <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[fulfillment.name]" :key="recommendation_index">
-                      <div v-if="recommendations[fulfillment.name].length > 1">
-                        <h5>{{ recommendation.specifications }}</h5>
+                    <div v-if="fulfillment.name in recommendations && recommendations[fulfillment.name].length > 0 && recommendations[fulfillment.name][0].fulfillment_set.length > 0">
+                      <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[fulfillment.name]" :key="recommendation_index">
+                        <div v-if="recommendations[fulfillment.name].length > 1">
+                          <h5>{{ recommendation.specifications }}</h5>
+                        </div>
+                        <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
+                          <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)">
+                            <font color = #a9a9a9> {{ course }} </font>
+                          </button>
+                        </div>
+                        <br>
                       </div>
-                      <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                        <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)">
-                          <font color = #a9a9a9> {{ course }} </font>
-                        </button>
-                      </div>
-                      <br>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="requirements-dyngrid" v-if="organize_requirements">
+            <div class="requirements-dyngrid" v-if="!organize_requirements">
               <div class="text-block" v-for="(item, index) in requirements" :key="index">
                 <h3>{{ item.name }}</h3>
                 <div v-if="item.content">

@@ -162,6 +162,9 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     print(f'received wildcard resolution requirements: {attributes_replacement}')
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
 
+    if user.get_active_schedule().degree is None:
+        return {'No Degree Selected':[{'name':'No Degree Selected', 'content':False}]}
+
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
 
@@ -185,6 +188,9 @@ async def dp_begin_recommendation_limited(userid:str):
     if user is None:
         print(f'user {userid} not found')
         return Response(content="user not found")
+    
+    if user.get_active_schedule().degree is None:
+        return dict()
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
