@@ -12,7 +12,7 @@
             <span style="margin-right: 7vw"> <font color="#eb8d75">Schedule:</font> {{ schedule_name }} </span><span> <font color="#e6bc8a">Degree:</font> {{ degree }} </span>
           </h4>
         </span>
-
+        
         <div class="columns">
 
           <div class="column-left">
