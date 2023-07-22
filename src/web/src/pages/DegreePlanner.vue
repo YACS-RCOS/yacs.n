@@ -39,7 +39,10 @@
               <div class="fulfillment-org-block" v-for="(group, group_index) in requirement_groups" :key="group_index">
                 <div v-if="true">
                   <div class="group-heading">
-                    <span class="group-title"> {{ group.name }} </span> <span v-bind:class="{'group-credit-stats-fulfilled':group.credits_obtained >= group.credits_required, 'group-credit-stats-unfulfilled':group.credits_obtained < group.credits_required}"> {{ group.credits_obtained }} / {{ group.credits_required }}</span>
+                    <span class="group-title"> {{ group.name }} </span> 
+                    <span v-if="group.minimum_requirements.credits > 0" 
+                      v-bind:class="{'group-credit-stats-fulfilled':get_tallied_amount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':get_tallied_amount(group.name, 'credits') < group.minimum_requirements.credits}">
+                      <font color="#5e6061"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
                   </div>
                   <div v-for="(requirement, index) in group.requirements" :key="index">
                     
@@ -116,6 +119,7 @@
         cmdInput: '',
 
         requirement_groups: [],
+        tally: {},
         requirements: {},
         recommendations: {},
 
@@ -181,6 +185,13 @@
           str = str.substring(str.indexOf('-') + 1)
         }
         return str
+      },
+
+      get_tallied_amount(group_name, tally) {
+        if (this.tally[group_name][tally] == null) {
+          return 0
+        }
+        return this.tally[group_name][tally]
       },
 
       async update_variables(variable_updates) {
@@ -255,6 +266,7 @@
         let fulfillment_tuple = await response1.json();
         this.requirements = fulfillment_tuple[0];
         this.requirement_groups = fulfillment_tuple[1];
+        this.tally = fulfillment_tuple[2];
       },
 
       async get_recommendation() {
@@ -548,7 +560,8 @@
     flex: 1;
   }
   .req-fulfillment-text .req-fulfillment-count {
-    font-weight: 700;
+    font-weight: 650;
+    font-size: 1.3em;
   }
   .minimal-fulfillment {
     padding: 4px;

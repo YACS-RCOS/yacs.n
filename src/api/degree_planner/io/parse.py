@@ -13,6 +13,8 @@ from ..dp.catalog import Catalog
 from ..dp.requirement import Requirement
 from ..dp.template import Template
 from ..math.dictionary_array import Dict_Array
+from ..dp.requirement_group import Requirement_Group
+
 
 CATALOG_PATH = Output.DATA_FOLDER_PATH + "catalog.json"
 TEMPLATES_PATH = Output.DATA_FOLDER_PATH + "degrees.json"
@@ -133,7 +135,7 @@ class parsing():
                 credits_required = 0
                 if template.name in group_credit_requirements:
                     credits_required = group_credit_requirements.get(template.name).get(group_name, 0)
-                template.groups.append({'name':group_name, 'credits_required':credits_required, 'requirements':requirements})
+                template.groups.append(Requirement_Group(group_name, {'credits':credits_required}, requirements))
 
 
         # parse specification sets

@@ -204,8 +204,7 @@ class Output():
         new_groups = []
         for group in groups:
             new_group = dict()
-            new_group.update(group)
-            new_group.update({'requirements':[e.name for e in group['requirements']]})
+            new_group.update({'name': group.name, 'minimum_requirements': group.minimum_requirements, 'requirements':[e.name for e in group.requirements]})
             new_groups.append(new_group)
         return new_groups
 

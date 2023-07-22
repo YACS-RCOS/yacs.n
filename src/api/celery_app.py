@@ -26,5 +26,5 @@ def dp_fulfill(taken_courses, requirements, forced_wildcard_resolutions=None) ->
 
 @celery_app.task()
 def dp_fulfill_groups(fulfillments, groups, forced_groupings=None) -> list:
-    fulfillment_groups = get_group_fulfillment(fulfillments, groups, forced_groupings)
-    return fulfillment_groups
+    fulfillment_groups, tally = get_group_fulfillment(fulfillments, groups, forced_groupings)
+    return fulfillment_groups, tally

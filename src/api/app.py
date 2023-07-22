@@ -171,11 +171,11 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
-    fulfillment_groups = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
+    fulfillment_groups, tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
     fulfillment_groups = io.format_fulfillment_groups(fulfillment_groups)
-    
+    print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
-    return [formatted_fulfillments, fulfillment_groups]
+    return [formatted_fulfillments, fulfillment_groups, tally]
 
 
 @rate_limited(4)

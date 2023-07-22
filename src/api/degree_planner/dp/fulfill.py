@@ -11,6 +11,7 @@ from ..dp.element import Element
 from ..dp.requirement import Requirement, specification_parsing
 from ..dp.fulfillment_status import Fulfillment_Status
 from ..io.output import Output
+from ..dp.requirement_group import Requirement_Group
 
 class Bind_Type(Enum):
     NR = False
@@ -180,17 +181,14 @@ def group_requirements(requirements) -> list:
 ##############################################################################################
 
 def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=None) -> list:
-    groups = copy.copy(groups)
+    tallies = dict()
     for group in groups:
-        group:dict
-        group_name = group.get('name', '')
-        group_requirements = group.get('requirements', [])
-        group_credits_required = group.get('credits_required', 0)
+        group:Requirement_Group
+        print(f"evaluating group {group.name} with requirements {[str(e) for e in group.requirements]} and minimums {group.minimum_requirements}")
 
-        print(f"evaluating group {group_name} with requirements {[str(e) for e in group_requirements]} and credit requirement {group_credits_required}")
-        credits_obtained = 0
+        tally = dict()
         
-        for requirement in group_requirements:
+        for requirement in group.requirements:
             requirement:Requirement
             if fulfillments.get(requirement) is None:
                 continue
@@ -198,12 +196,12 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
             
             for element in fulfillment_set:
                 element:Element
-                credits_obtained += int(element.attr('credits'))
-                print(  f"added {int(element.attr('credits'))} to credit count")
+                for minimum in group.minimum_requirements.keys():
+                    tally.update({minimum:int(element.attr('credits')) + tally.get(minimum, 0)})
 
-        group.update({'credits_obtained':credits_obtained})
+        tallies.update({group.name:tally})
 
-    return groups
+    return (groups, tallies)
 
 
 def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
