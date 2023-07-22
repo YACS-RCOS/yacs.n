@@ -12,6 +12,7 @@ from ..dp.element import Element
 from ..dp.catalog import Catalog
 from ..dp.requirement import Requirement
 from ..dp.template import Template
+from ..math.dictionary_array import Dict_Array
 
 CATALOG_PATH = Output.DATA_FOLDER_PATH + "catalog.json"
 TEMPLATES_PATH = Output.DATA_FOLDER_PATH + "degrees.json"
@@ -104,6 +105,19 @@ class parsing():
 
                 template.requirements.append(requirement)
             catalog.add(template)
+
+        # make groups
+        for template in catalog.get_templates():
+            template:Template
+            groups = Dict_Array()
+            for requirement in template.requirements:
+                requirement:Requirement
+                group_name = requirement.name.split('-')[0].strip()
+                groups.add(group_name, requirement)
+
+            for group_name, requirements in groups.dictionary.items():
+                template.groups.append({'name':group_name, 'credits_required':0, 'requirements':requirements})
+
 
         # parse specification sets
         spec_sets = catalog.get_template('specification sets')

@@ -3,6 +3,7 @@ class Template():
     def __init__(self, name):
         self.name = name
         self.requirements = list()
+        self.groups = list() # [ { name: str, credits_required: int, requirements: [Requirement] } ]
 
     def __str__(self):
         return self.name

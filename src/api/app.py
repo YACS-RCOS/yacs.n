@@ -37,7 +37,7 @@ import pandas as pd
 import copy
 from constants import Constants
 
-from celery_app import dp_recommend, dp_fulfill
+from celery_app import dp_recommend, dp_fulfill, dp_fulfill_groups
 
 """
 NOTE: on caching
@@ -150,7 +150,7 @@ async def dp_get_schedule(userid:str = Body(...)):
 
 
 @app.post('/api/dp/fulfillment')
-async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...), organize:Optional[bool] = Body(False)):
+async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED FULFILLMENT API CALL {randint}')
 
@@ -169,14 +169,13 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     requirements = user.get_active_schedule().degree.requirements
 
     fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions)
+    formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
-    if not organize:
-        formatted_fulfillments = io.format_fulfillments(fulfillment, taken_courses)
-    else:
-        formatted_fulfillments = io.new_format_fulfillments(fulfillment, taken_courses)
+    fulfillment_groups = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
+    fulfillment_groups = io.format_fulfillment_groups(fulfillment_groups)
     
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
-    return formatted_fulfillments
+    return [formatted_fulfillments, fulfillment_groups]
 
 
 @rate_limited(4)

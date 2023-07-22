@@ -35,14 +35,16 @@
           
           <div class="column-center">
 
-            <div class="requirements-orggrid" v-if="organize_requirements">
-              <div class="fulfillment-org-block" v-for="(fulfillments, category) in organized_requirements" :key="category">
-                <h2 style="color:#78b2d9; font-size: 1.8em">{{ category }}</h2>
-                <div v-if="fulfillments[0].content">
-                  <div v-for="(fulfillment, index) in fulfillments" :key="index">
+            <div class="requirements-orggrid">
+              <div class="fulfillment-org-block" v-for="(group, group_index) in requirement_groups" :key="group_index">
+                <div v-if="true">
+                  <div class="group-heading">
+                    <span class="group-title"> {{ group.name }} </span> <span class="group-credit-stats"> {{ group.credits_obtained }} / {{ group.credits_required }}</span>
+                  </div>
+                  <div v-for="(requirement, index) in group.requirements" :key="index">
                     
-                    <div v-if="Object.keys(fulfillment.wildcard_resolutions).length > 0">
-                      <div v-for="(alternative_choices, alternative_orig) in fulfillment.wildcard_resolutions" :key="alternative_orig">
+                    <div v-if="Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
+                      <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
                         <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
                           <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
                             {{ format_alternative(alternative_choice) }}
@@ -51,23 +53,23 @@
                       </div>
                     </div>
 
-                    <div v-bind:class="{'minimal-fulfillment':fulfillment.actual_count >= fulfillment.required_count, 'minimal-unfulfilled-fulfillment':fulfillment.actual_count < fulfillment.required_count}">
-                      <div v-bind:class="{'req-fulfilled':fulfillment.actual_count >= fulfillment.required_count, 'req-unfulfilled':fulfillment.actual_count < fulfillment.required_count}">
+                    <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
+                      <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
                         <div class="req-fulfillment-text">
-                          <span class="req-fulfillment-name"> {{ format_fulfillment_name(fulfillment.name) }} </span> <span class="req-fulfillment-count"> {{ fulfillment.actual_count }} / {{ fulfillment.required_count }}</span>
+                          <span class="req-fulfillment-name"> {{ format_fulfillment_name(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
                         </div>
                       </div>
 
-                      <div v-for="(course, index) in fulfillment.fulfillment_set" :key="index">
+                      <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
                         <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
                           &#10148; {{ course }}
                         </button>
                       </div>
                     </div>
 
-                    <div v-if="fulfillment.name in recommendations && recommendations[fulfillment.name].length > 0 && recommendations[fulfillment.name][0].fulfillment_set.length > 0">
-                      <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[fulfillment.name]" :key="recommendation_index">
-                        <div v-if="recommendations[fulfillment.name].length > 1">
+                    <div v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
+                      <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
+                        <div v-if="recommendations[requirement].length > 1">
                           <h5>{{ recommendation.specifications }}</h5>
                         </div>
                         <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
@@ -79,55 +81,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="requirements-dyngrid" v-if="!organize_requirements">
-              <div class="text-block" v-for="(item, index) in requirements" :key="index">
-                <h3>{{ item.name }}</h3>
-                <div v-if="item.content">
-
-                  <div v-if="Object.keys(item.wildcard_resolutions).length > 0">
-                    <div v-for="(alternative_choices, alternative_orig) in item.wildcard_resolutions" :key="alternative_orig">
-                      <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
-                        <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
-                          {{ format_alternative(alternative_choice) }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div v-if="'specifications' in item">
-                    <h6>specifications: {{ item.specifications }}</h6>
-                  </div>
-
-                  <div v-bind:class="{'fulfillment':item.actual_count >= item.required_count, 'unfulfilled-fulfillment':item.actual_count < item.required_count}">
-                      <div v-bind:class="{'req-fulfilled':item.actual_count >= item.required_count, 'req-unfulfilled':item.actual_count < item.required_count}">
-                          <h5>{{ item.actual_count }} / {{ item.required_count }}</h5>
-                      </div>
-                      <div class="fulfilled-list">
-                          <div v-for="(course, index) in item.fulfillment_set" :key="index">
-                            <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                              &#10148; {{ course }}
-                            </button>
-                          </div>
-                      </div>
-                  </div>
-                  <br>
-
-                  <div class="recommendations" v-if="item.name in recommendations && recommendations[item.name].length > 0 && recommendations[item.name][0].fulfillment_set.length > 0">
-                    <h4>Recommendations:</h4>
-                    <div class="recommendation-list" v-for="(recommendation, recommendation_index) in recommendations[item.name]" :key="recommendation_index">
-                      <h6>specifications: {{ recommendation.specifications }}</h6>
-                      <div v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                        <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                          &#10148; {{ course }}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -161,10 +114,9 @@
         schedule_name: "new schedule",
         courses: [],
         cmdInput: '',
-        
-        requirements: [],
-        organized_requirements: {},
-        organize_requirements: true,
+
+        requirement_groups: [],
+        requirements: {},
         recommendations: {},
 
         SEM_MAX: 12,
@@ -288,7 +240,6 @@
 
       async get_fulfillment(attributes_replacement=null) {
         let userid = this.userid;
-        let organize = this.organize_requirements;
 
         if (attributes_replacement == null) {
           attributes_replacement = {};
@@ -299,13 +250,11 @@
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({userid, attributes_replacement, organize}),
+          body: JSON.stringify({userid, attributes_replacement}),
         });
-        if (organize) {
-          this.organized_requirements = await response1.json();
-        } else {
-          this.requirements = await response1.json();
-        }
+        let fulfillment_tuple = await response1.json();
+        this.requirements = fulfillment_tuple[0];
+        this.requirement_groups = fulfillment_tuple[1];
       },
 
       async get_recommendation() {
@@ -400,7 +349,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(8, 26, 32, 0.95);
+    background-color: rgba(8, 26, 32, 0.85);
     backdrop-filter: blur(4px);
     justify-content: center;
     align-items: center;
@@ -543,6 +492,17 @@
     font-size: 1.1em;
     margin: 0px;
     color: #beb8b1;
+  }
+  .group-heading {
+    display: flex;
+  }
+  .group-heading .group-title {
+    color:#78b2d9; 
+    font-size: 1.8em;
+    flex: 1;
+  }
+  .group-heading .group-credit-stats {
+    font-size: 1.8em;
   }
   .course-schedule-buttons {
     border: none;

@@ -198,6 +198,16 @@ class Output():
             organized_fulfillments.add(tag, fulfillment)
 
         return organized_fulfillments.dictionary
+    
+    @staticmethod
+    def format_fulfillment_groups(groups) -> list:
+        new_groups = []
+        for group in groups:
+            new_group = dict()
+            new_group.update(group)
+            new_group.update({'requirements':[e.name for e in group['requirements']]})
+            new_groups.append(new_group)
+        return new_groups
 
     @staticmethod
     def format_fulfillments(fulfillments, taken_courses) -> list:
@@ -236,6 +246,40 @@ class Output():
             formatted_fulfillments = sorted(formatted_fulfillments, key=lambda x:-x['position'])
         
         return formatted_fulfillments
+
+
+    @staticmethod
+    def format_fulfillments_dict(fulfillments, taken_courses) -> dict:
+        
+        formatted_fulfillments = dict()
+
+        # if fulfillment failed, typically due to no degree specified
+        if isinstance(fulfillments, str):
+            return {'No Degree Selected':'No Degree Selected'}
+        
+        for fulfillment in fulfillments.values():
+            formatted = dict()
+            formatted.update({'name':fulfillment.requirement.name})
+            formatted.update({'content':True})
+            formatted.update({'replacement':fulfillment.requirement.replacement})
+            formatted.update({'position':fulfillment.requirement.importance})
+            formatted.update({'required_count':fulfillment.get_required_count()})
+            formatted.update({'actual_count':fulfillment.get_actual_count()})
+            formatted.update({'specifications':fulfillment.requirement.specifications})
+            formatted.update({'original_specifications':fulfillment.requirement.original_formatted_specifications})
+            fulfillment_set = [str(course) for course in fulfillment.fulfillment_set]
+            fulfillment_set.sort()
+            formatted.update({'fulfillment_set':fulfillment_set})
+            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True)
+            wildcard_resolutions.convert_list_type('list')
+            for key, _ in wildcard_resolutions.dictionary.items():
+                wildcard_resolutions.insert(key, key, 0)
+            formatted.update({'wildcard_resolutions':wildcard_resolutions.dictionary})
+
+            formatted_fulfillments.update({formatted['name']:formatted})
+        
+        return formatted_fulfillments
+    
 
     @staticmethod
     def print_fulfillment(all_fulfillment:dict, as_dict=False) -> str:
