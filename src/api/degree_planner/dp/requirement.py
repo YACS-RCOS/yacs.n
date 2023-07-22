@@ -108,7 +108,7 @@ class Requirement():
     def __eq__(self, other):
         if not isinstance(other, Requirement):
             return False
-        return self.name == other.name and self.specifications == other.specifications
+        return self.name == other.name
     
     def __lt__(self, other):
         if not isinstance(other, Requirement):
@@ -127,7 +127,7 @@ class Requirement():
             replacement=self.replacement & other.replacement, courses_required=self.elements_required + other.elements_required)
 
     def __hash__(self):
-        return hash(self.name) + len(self.specifications)
+        return hash(self.name)
 
 
 class specification_parsing():

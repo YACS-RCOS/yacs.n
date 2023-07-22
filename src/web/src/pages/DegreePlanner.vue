@@ -39,7 +39,7 @@
               <div class="fulfillment-org-block" v-for="(group, group_index) in requirement_groups" :key="group_index">
                 <div v-if="true">
                   <div class="group-heading">
-                    <span class="group-title"> {{ group.name }} </span> <span class="group-credit-stats"> {{ group.credits_obtained }} / {{ group.credits_required }}</span>
+                    <span class="group-title"> {{ group.name }} </span> <span v-bind:class="{'group-credit-stats-fulfilled':group.credits_obtained >= group.credits_required, 'group-credit-stats-unfulfilled':group.credits_obtained < group.credits_required}"> {{ group.credits_obtained }} / {{ group.credits_required }}</span>
                   </div>
                   <div v-for="(requirement, index) in group.requirements" :key="index">
                     
@@ -499,10 +499,18 @@
   .group-heading .group-title {
     color:#78b2d9; 
     font-size: 1.8em;
-    flex: 1;
+    flex: 0.97;
+    padding-left: 2%;
   }
-  .group-heading .group-credit-stats {
+  .group-heading .group-credit-stats-fulfilled {
     font-size: 1.8em;
+    font-weight: 700;
+    color: #86bea9;
+  }
+  .group-heading .group-credit-stats-unfulfilled {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #be8886;
   }
   .course-schedule-buttons {
     border: none;
