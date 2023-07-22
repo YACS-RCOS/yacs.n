@@ -68,6 +68,8 @@ class parsing():
         templates = json.load(file_templates)
         file_templates.close()
 
+        group_credit_requirements = dict()
+
         for template_name, template_data in templates.items():
             # degrees
 
@@ -80,7 +82,16 @@ class parsing():
             wildcard_diff_counter = 0
             requirement_importance_counter = 1000
 
+            template_group_credit_requirements = dict()
+
             for requirement_name, requirement_properties in template_data.items():
+
+                if requirement_name == 'groups':
+                    for property_name, property_value in requirement_properties.items():
+                        template_group_credit_requirements.update({property_name:property_value})
+                    group_credit_requirements.update({template_name:template_group_credit_requirements})
+                    continue
+
                 # templates within degree
                 requirement = Requirement(requirement_name)
                 requirement.importance = requirement_importance_counter
@@ -100,6 +111,9 @@ class parsing():
                     elif property_name == 'specifications':
                         requirement.specifications = property_value
 
+                    elif property_name == 'credits':
+                        requirement.credits_required = property_value
+
                 requirement.original_specifications = requirement.specifications
                 wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)
 
@@ -116,7 +130,10 @@ class parsing():
                 groups.add(group_name, requirement)
 
             for group_name, requirements in groups.dictionary.items():
-                template.groups.append({'name':group_name, 'credits_required':0, 'requirements':requirements})
+                credits_required = 0
+                if template.name in group_credit_requirements:
+                    credits_required = group_credit_requirements.get(template.name).get(group_name, 0)
+                template.groups.append({'name':group_name, 'credits_required':credits_required, 'requirements':requirements})
 
 
         # parse specification sets

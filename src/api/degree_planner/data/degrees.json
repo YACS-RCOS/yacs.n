@@ -207,6 +207,11 @@
         }
     },
     "computer science": {
+        "groups": {
+            "Intensity": 16,
+            "Concentration": 12,
+            "Math": 8
+        },
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,

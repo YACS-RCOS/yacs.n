@@ -230,6 +230,8 @@ class Output():
             formatted.update({'position':fulfillment.requirement.importance})
             formatted.update({'required_count':fulfillment.get_required_count()})
             formatted.update({'actual_count':fulfillment.get_actual_count()})
+            formatted.update({'required_credits':fulfillment.requirement.credits_required})
+            formatted.update({'total_credits':fulfillment.get_total_credits()})
             formatted.update({'specifications':fulfillment.requirement.specifications})
             formatted.update({'original_specifications':fulfillment.requirement.original_formatted_specifications})
             fulfillment_set = [str(course) for course in fulfillment.fulfillment_set]

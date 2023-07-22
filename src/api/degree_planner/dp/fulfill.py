@@ -330,7 +330,7 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
     for fulfillment in potential_fulfillments:
         if best_fulfillment is None or total_unfulfilled_slots(fulfillment) < total_unfulfilled_slots(best_fulfillment):
             best_fulfillment = fulfillment
-        elif total_unfulfilled_slots(fulfillment) == total_unfulfilled_slots(best_fulfillment) and total_filled_slots(fulfillment) > total_filled_slots(best_fulfillment):
+        elif total_unfulfilled_slots(fulfillment) == total_unfulfilled_slots(best_fulfillment) and total_credits(fulfillment) > total_credits(best_fulfillment):
             best_fulfillment = fulfillment
 
     return best_fulfillment
@@ -737,6 +737,14 @@ def total_filled_slots(all_fulfillment:dict) -> int:
     for fulfillment_status in all_fulfillment.values():
         fulfillment_status:Fulfillment_Status
         count += fulfillment_status.get_actual_count()
+    return count
+
+
+def total_credits(all_fulfillment:dict) -> int:
+    count = 0
+    for fulfillment_status in all_fulfillment.values():
+        fulfillment_status:Fulfillment_Status
+        count += fulfillment_status.get_total_credits()
     return count
 
 

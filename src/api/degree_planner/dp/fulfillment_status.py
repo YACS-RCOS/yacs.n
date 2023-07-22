@@ -15,6 +15,12 @@ class Fulfillment_Status():
 
     def get_actual_count(self) -> int:
         return len(self.fulfillment_set)
+    
+    def get_total_credits(self) -> int:
+        count = 0
+        for course in self.fulfillment_set:
+            count += int(course.attr('credits'))
+        return count
 
     """
     returns whether the element is added (not previously present)

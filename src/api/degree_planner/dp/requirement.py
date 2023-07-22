@@ -16,7 +16,7 @@ class Requirement():
     specification_sets = dict() # a dictionary of 'set name' : 'specification'
     DELIMITERS = ['|', '&', '(', ')', '~']
 
-    def __init__(self, name, specifications=None, replacement=False, elements_required=1):
+    def __init__(self, name, specifications=None, replacement=False, elements_required=1, credits_required=0):
         self.name = name # must be unique within a degree
         
         if specifications == None:
@@ -27,6 +27,7 @@ class Requirement():
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
+        self.credits_required = credits_required
         self.replacement = replacement
         self.importance = 0 # used internally by degree, higher the number the more important it is
 
