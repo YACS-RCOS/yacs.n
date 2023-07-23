@@ -3,13 +3,23 @@
       <section id="edits">
         <h2>Pathway Testing</h2>
         <div class="form-group">
-          <label for="Name">Name:</label>
+          <label for="PathwayName">PathwayName:</label>
           <input
-            v-model="name"
+            v-model="PathwayName"
             type="text"
             class="form-control"
-            id="name"
-            placeholder="Enter name"
+            id="PathwayName"
+            placeholder="Enter a pathway name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="CourseName">CourseName:</label>
+          <input
+            v-model="CourseName"
+            type="text"
+            class="form-control"
+            id="CourseName"
+            placeholder="Enter a course name"
           />
         </div>
         <div class="form-group">
@@ -71,19 +81,25 @@
   
   <script>
   import {
-    
+    getPathway,
+    getPathwayName,
   } from "@/services/YacsService";
+  import {
+    removePathway,
+    addPathway,
+    addPathwayTest,
+  } from "@/services/AdminService";
   
   export default {
-    name: "EditProfessors",
+    name: "EditPathway",
     props: {},
     data() {
       return {
-        name: "",
+        course: "",
         
       };
     },
-    /*   functions not defined yet
+    
     methods: {
       getPathway() {
         console.log("getPathway");
@@ -92,17 +108,17 @@
       },
       getPathwayName() {
         console.log("get_pathway_name");
-        this.result = get_pathway_name_by_email(this.email);
+        this.result = getPathwayName(this.course);
         console.log(this.result);
       },
       removePathway() {
         console.log("remove_pathway");
-        this.result = remove_pathway(this.email);
+        this.result = removePathway(this.course);
         console.log(this.result);
       },
       addPathway() {
         console.log("addPathway");
-        this.result = addPathway(this.addMsg);
+        this.result = addPathway();
         console.log(this.result);
       },
       addPathwayTest() {
@@ -111,7 +127,7 @@
         console.log(this.result);
       },
     },
-    */
+    
   };
   </script>
   
