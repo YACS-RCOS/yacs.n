@@ -27,3 +27,13 @@ export const addProfessors = (msg) =>
 
 export const addProfessorsTest = () =>
   client.post("/professor/add/test").then((res) => res.data);
+
+export const removePathway = (course) =>
+  client.delete("/pathway/remove/" + course).then((res) => res.data);
+
+export const addPathway = (name) =>
+  client.post("/pathway/add/" + name).then((res) => res.data);
+
+export const addPathwayTest = () =>
+  client.post("/pathway/add/test").then((res) => res.data);
+
