@@ -1,24 +1,24 @@
-import hashlib
+# import hashlib
 import bcrypt
 
-# def assert_keys_in_form_exist(form, keys):
-#     """
-#     Check all the keys exist in the form.
-#     :param form: object form
-#     :param keys: required keys
-#     :return: True if all the keys exist. Otherwise return false.
-#     """
-#     if form is None:
-#         return False
+def assert_keys_in_form_exist(form, keys):
+    """
+    Check all the keys exist in the form.
+    :param form: object form
+    :param keys: required keys
+    :return: True if all the keys exist. Otherwise return false.
+    """
+    if form is None:
+        return False
 
-#     if type(form) is not dict:
-#         return False
+    if type(form) is not dict:
+        return False
 
-#     for key in keys:
-#         if key not in form.keys():
-#             return False
+    for key in keys:
+        if key not in form.keys():
+            return False
 
-#     return True
+    return True
 
 # def encrypt(str):
 #     """
