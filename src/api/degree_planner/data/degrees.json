@@ -260,8 +260,7 @@
         "Concentration - Breadth": {
             "requires": 1,
             "replacement": true,
-            "specifications":"level.4 & concentration.*2 & (concentration.*2 != concentration.*1)",
-            "recommender specifications":"level.4 & concentration.*2",
+            "specifications":"level.4 & concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },
         "Math - Calculus 2": {

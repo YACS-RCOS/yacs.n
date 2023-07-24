@@ -14,7 +14,7 @@ class Requirement():
     '''
 
     specification_sets = dict() # a dictionary of 'set name' : 'specification'
-    DELIMITERS = ['|', '&', '(', ')', '~', '=', '!']
+    DELIMITERS = ['|', '&', '(', ')', '~', '=', '!', '@']
 
     def __init__(self, name, specifications=None, replacement=False, elements_required=1, credits_required=0):
         self.name = name # must be unique within a degree
@@ -159,7 +159,7 @@ class specification_parsing():
     @staticmethod
     def single_attribute_evaluation(eval_attribute:str, target_attribute:Attributes):
         if isinstance(eval_attribute, bool):
-            return eval_attribute
+            return eval_attribute, {}
         eval_attribute = eval_attribute.strip()
         if eval_attribute == '':
             return True, {}
@@ -175,11 +175,14 @@ class specification_parsing():
             '''
             specification = Requirement.specification_sets.get(eval_attribute[1:], None)
             if specification is None:
-                return False
+                return False, {}
             
             true_given_for_wildcards = {}
             truth = specification_parsing.parse_attribute(specification, target_attribute, true_given_for_wildcards)
             return specification_parsing.single_attribute_evaluation(truth, target_attribute), true_given_for_wildcards
+        
+        if len(eval_attribute) and eval_attribute[0] == '@':
+            return eval_attribute, {}
 
         if len(eval_attribute) and eval_attribute[-1] == '+':
             matches = target_attribute.get_attributes_ge(eval_attribute[:-1])
@@ -209,7 +212,6 @@ class specification_parsing():
         '''
 
         input_text = input_text.strip()
-
         if '(' in input_text:
             open_bracket_loc = input_text.find('(')
             close_bracket_loc = len(input_text) # we allow close brackets to be omitted if it's at the end of the input
@@ -228,14 +230,6 @@ class specification_parsing():
             new_string = input_text[: open_bracket_loc] + str(specification_parsing.parse_attribute(input_text[open_bracket_loc + 1 : close_bracket_loc], target_attribute, true_given_for_wildcards)) + input_text[close_bracket_loc + 1:]
             return specification_parsing.parse_attribute(new_string, target_attribute, true_given_for_wildcards)
         
-        if '==' in input_text:
-            symbol_loc = input_text.find('==')
-            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) == specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
-        
-        if '!=' in input_text:
-            symbol_loc = input_text.find('!=')
-            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) != specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
-        
         if '&' in input_text:
             symbol_loc = input_text.find('&')
             return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) and specification_parsing.parse_attribute(input_text[symbol_loc + 1:], target_attribute, true_given_for_wildcards)
@@ -243,6 +237,17 @@ class specification_parsing():
         if '|' in input_text:
             symbol_loc = input_text.find('|')
             return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) or specification_parsing.parse_attribute(input_text[symbol_loc + 1:], target_attribute, true_given_for_wildcards)
+        
+        if '==' in input_text:
+            symbol_loc = input_text.find('==')
+            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) == specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
+        
+        if '!=' in input_text:
+            symbol_loc = input_text.find('!=')
+
+            result = specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) != specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
+            print(f'results of parsing {input_text}: {result}')
+            return result
 
         if input_text.startswith('~'):
             return not specification_parsing.parse_attribute(input_text[1:], target_attribute, true_given_for_wildcards)
