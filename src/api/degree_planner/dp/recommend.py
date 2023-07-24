@@ -26,7 +26,6 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
     for requirement in requirements:
         print(f'  RECOMMENDER --- SOLVING requirement {requirement}')
         # here we receive the list of fulfillment sets from get course match
-        print(f'requirement infO: {requirement.recommender_specifications}')
         matches = get_branched_element_match(requirement, catalog.get_elements())
         matches_and_courses = []
 

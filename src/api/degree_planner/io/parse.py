@@ -129,6 +129,9 @@ class parsing():
                     elif group_name == 'hide recommendations':
                         requirement.hide_recommendations = group_properties
 
+                    elif group_name == 'display':
+                        requirement.display = group_properties
+
                 requirement.original_specifications = requirement.specifications
                 wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)
 

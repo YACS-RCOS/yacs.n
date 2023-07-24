@@ -210,7 +210,8 @@
         "groups": {
             "Intensity": {"credits": 16},
             "Concentration": {"credits": 16, "oasis": true},
-            "Math": {"credits": 8}
+            "Math": {"credits": 8},
+            "HASS": {"credits": 12, "oasis": true}
         },
         "Core - Data Structures": {
             "requires": 1,
@@ -255,7 +256,8 @@
         "Concentration - Depth": {
             "requires": 3,
             "replacement": false,
-            "specifications":"level.4 & concentration.*1"
+            "specifications":"level.4 & concentration.*1",
+            "display": "level.4 & concentration.*"
         },
         "Concentration - Breadth": {
             "requires": 1,
@@ -273,7 +275,12 @@
             "replacement": true,
             "specifications":"subject.math & level.2+ & level.4-"
         },
-        "Physics - Physics II": {
+        "Science - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & (course_id.1100 | course_id.1150)"
+        },
+        "Science - Physics II": {
             "requires": 1,
             "replacement": false,
             "specifications":"subject.phys & (course_id.1200 | course_id.1250)"
@@ -283,20 +290,20 @@
             "replacement": true,
             "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4-"
         },
-        "HASS Elective - level 4": {
+        "HASS - Elective level 4": {
             "requires": 1,
-            "replacement": true,
-            "specifications":"level.4 & subject.arts | subject.gsas"
+            "replacement": false,
+            "specifications":"level.4 & (subject.arts | subject.gsas)"
         },
-        "HASS Elective - level 4 or 2": {
-            "requires": 2,
-            "replacement": true,
+        "HASS - Elective level 4 or 2": {
+            "requires": 1,
+            "replacement": false,
             "specifications":"level.2+ & level.4- & (subject.arts | subject.gsas)"
         },
-        "HASS Pathway": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"level.4- & subject.arts"
+        "HASS - Elective level 4, 2, or 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"level.4- & (subject.arts | subject.gsas)"
         }
     }
 

@@ -27,6 +27,7 @@ class Requirement():
 
         self.recommender_specifications = specifications
         self.hide_recommendations = False
+        self.display = None
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
@@ -246,7 +247,6 @@ class specification_parsing():
             symbol_loc = input_text.find('!=')
 
             result = specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) != specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
-            print(f'results of parsing {input_text}: {result}')
             return result
 
         if input_text.startswith('~'):

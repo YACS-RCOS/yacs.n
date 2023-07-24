@@ -112,19 +112,19 @@ def generate_resolution_combos(wildcard_resolutions:Dict_Array):
     wildcard_resolutions.sort()
     wildcard_resolutions = wildcard_resolutions.to_tuples()
 
-    print(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
+    #print(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
     # if template contains wildcards, this is how many templates can result from the wildcard
     # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
     # bound_array = [len(e) for e in max_fulfillment_possibilities]
 
     bound_array = [len(e[1]) for e in wildcard_resolutions]
-    print(f'generate combo method bound array: {bound_array}')
+    #print(f'generate combo method bound array: {bound_array}')
 
     # all possible combinations using all generated templates
     # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
     combos = af.generate_combinatorics(bound_array, 0)
-    print(f'generate combo method combos array: {combos}')
+    #print(f'generate combo method combos array: {combos}')
     
     # list of combinations, each combination is a dictionary
     wildcard_combos = list()
@@ -134,7 +134,7 @@ def generate_resolution_combos(wildcard_resolutions:Dict_Array):
             wildcard_combo.update({wildcard_resolutions[i][0]:wildcard_resolutions[i][1][combo[i]]})
         wildcard_combos.append(wildcard_combo)
 
-    print(f'generate combo method wildcard_combos: {wildcard_combos}')
+    #print(f'generate combo method wildcard_combos: {wildcard_combos}')
 
     return wildcard_combos
 
@@ -200,7 +200,7 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
     return (groups, tallies)
 
 
-def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None) -> dict:
+def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False) -> dict:
 
     start = timeit.default_timer()
     
@@ -209,17 +209,22 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
         - all templates that share the same wildcard will be in the same group
         - first group will be all templates without wildcards
     '''
+    if return_all:
+        end = timeit.default_timer()
+        logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
+        return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, groups, return_all)
+    
     grouped_requirements = group_requirements(requirements)
     wildcardless_requirements = grouped_requirements[0]
     logging.debug(f'requirement groups: {[[r.name for r in e] for e in grouped_requirements]}')
 
     resolved_requirements = copy.copy(wildcardless_requirements)
     for i in range(1, len(grouped_requirements)):
-        group = grouped_requirements[i]
+        requirement_group = grouped_requirements[i]
         # add wildcardless requirements to each group such that they can engage in trading/stealing optimizations
         # linearly increases runtime, which is fine since this process is to avoid the exponential growth of multiple wilcards
-        group.update(wildcardless_requirements)
-        fulfillments = get_fulfillment(elements_selected, group, forced_wildcard_resolutions)
+        requirement_group.update(wildcardless_requirements)
+        fulfillments = get_fulfillment(elements_selected, requirement_group, forced_wildcard_resolutions)
 
         # use these wildcard resolutions that led to a local best
         for requirement in fulfillments.keys():
@@ -228,7 +233,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
             resolved_requirements.append(requirement)
     
     # at this point, we obtained resolved_requirements, which represents all the requirements with resolved wildcards to use
-    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions, groups)
+    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions, groups, return_all)
 
     end = timeit.default_timer()
     logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
@@ -236,7 +241,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
     return fulfillments
 
 
-def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None) -> dict:
+def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False) -> dict:
     '''
     Returns:
         fulfillment: { Requirement: Fulfillment_Status }
@@ -245,13 +250,12 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
     if groups is not None:
         fulfillments = {}
         for group in groups:
-            print(f'group {group} :{group.separate_fulfillment}')
+            # print(f'group {group} :{group.separate_fulfillment}')
             if group.separate_fulfillment:
-                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions)
-                fulfillments.update(get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions))
+                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions, None, return_all)
+                fulfillments.update(fulfillment)
                 requirements = requirements.difference(group.requirements)
-                print(f'fulfillment of group {group.name}: {fulfillment}')
-        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions))
+        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all))
         return fulfillments
 
     wildcard_resolutions = Dict_Array(list_type='set')
@@ -331,6 +335,9 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         potential_fulfillments.append(all_fulfillment)
 
         Output.visualize('degree', all_fulfillment, 'completed fulfillment calculations')
+
+    if return_all:
+        return potential_fulfillments
 
     # checks all fulfillment sets and return the best one
     best_fulfillment = None

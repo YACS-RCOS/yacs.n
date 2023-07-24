@@ -174,9 +174,28 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
 
     fulfillment_groups, tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
     fulfillment_groups = io.format_fulfillment_groups(fulfillment_groups)
+    
+    display_requirements = {} # requirement: [[requirement, fulfillments]]
+    for requirement in requirements:
+        if requirement.display is not None:
+            requirement = copy.copy(requirement)
+            requirement.specifications = requirement.display
+            requirement.replacement = True
+            print(f'BEGINNING EVAL OF DISPLAY')
+            requirement_fulfillment = dp_fulfill(taken_courses, [requirement], None, None, True)
+            #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
+            #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
+            fulfillment_as_list = []
+            for fulfillment_dict in requirement_fulfillment:
+                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
+                    fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
+            display_requirements.update({requirement.name:fulfillment_as_list})
+
+    print(f'display requirements: {display_requirements}')
+
     print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
-    return [formatted_fulfillments, fulfillment_groups, tally]
+    return [formatted_fulfillments, fulfillment_groups, tally, display_requirements]
 
 
 @rate_limited(4)

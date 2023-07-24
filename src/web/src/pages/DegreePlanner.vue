@@ -70,7 +70,7 @@
                       </div>
                     </div>
 
-                    <div v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
+                    <div class="req-recommendations" v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
                       <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
                         <div v-if="recommendations[requirement].length > 1">
                           <h5>{{ recommendation.specifications }}</h5>
@@ -80,7 +80,6 @@
                             <font color = #a9a9a9> {{ course }} </font>
                           </button>
                         </div>
-                        <br>
                       </div>
                     </div>
                   </div>
@@ -96,6 +95,19 @@
             <div class="schedule-selection">
               <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
               <font color="#e6bc8a">Degree:</font> {{ degree }}
+            </div>
+            
+            <div class="details-panel" v-for="(fulfillments, requirement) in display" :key="requirement">
+              <h3> <font color="#78b2d9">Details</font></h3>
+              <h5>{{ requirement }}:</h5>
+              <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in fulfillments" :key="fulfillment_index">
+                {{ fulfillment[0] }}
+                <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
+                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                    &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -122,6 +134,7 @@
         tally: {},
         requirements: {},
         recommendations: {},
+        display: {},
 
         SEM_MAX: 12,
         course_inputs: [],
@@ -267,6 +280,7 @@
         this.requirements = fulfillment_tuple[0];
         this.requirement_groups = fulfillment_tuple[1];
         this.tally = fulfillment_tuple[2];
+        this.display = fulfillment_tuple[3];
       },
 
       async get_recommendation() {
@@ -345,11 +359,7 @@
     font-weight:400;
     color:#d65252;
   }
-  .schedule-selection {
-    text-align: left;
-    font-size: 1.5em;
-    color:#e3e8e4;
-  }
+
   .main-loading {
     text-align:center;
     font-size:8em;
@@ -383,7 +393,7 @@
     width: 100%;
   }
   .column-left {
-    flex: 3;
+    flex: 6;
     overflow-y: auto;
     padding: 4px;
     border: 1px solid #171d1a;
@@ -395,7 +405,7 @@
     display: none; /* Chrome, Safari and Opera */
   }
   .column-center {
-    flex: 6;
+    flex: 11;
     overflow-y: auto;
     padding: 8px;
     border: 1px solid #171d1a;
@@ -404,12 +414,12 @@
     display: none; /* Chrome, Safari and Opera */
   }
   .column-right {
-    flex: 2;
+    flex: 4;
     overflow-y: auto;
     padding: 4px;
     border: 1px solid #171d1a;
     font-size: 0.8em;
-    min-width: 150px;
+    min-width: 300px;
     max-width: 400px;
   }
   .column-right::-webkit-scrollbar {
@@ -423,9 +433,9 @@
   }
   .requirements-orggrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
   }
   .courses-grid {
     display: grid;
@@ -433,10 +443,10 @@
     gap:0px;
   }
   .semester-block {
-    border: 2px;
+    border: 2px solid #43494f;
     border-radius: 8px;
     padding: 8px;
-    margin: 0px;
+    margin: 4px;
     font-size: 0.75em;
     background-color: rgba(8, 26, 32, 0.35);
     backdrop-filter: blur(4px);
@@ -446,10 +456,10 @@
     color: #98bdd4;
   }
   .semester-block-highlighted {
-    border: 2px;
+    border: 2px solid #43494f;
     border-radius: 8px;
     padding: 8px;
-    margin: 0px;
+    margin: 4px;
     font-size: 0.75em;
     background-color: rgba(69, 94, 104, 0.35);
   }
@@ -474,23 +484,12 @@
     padding:2px;
     background-color:#393b40;
   }
-  .text-block {
-    border: 2px solid #43494f;
-    border-radius: 8px;
-    padding: 8px;
-    margin: 4px;
-    width: 350px;
-    min-height: 60px;
-    align-items: center;
-    font-size: 0.7em;
-    background-color: #21242b;
-  }
   .fulfillment-org-block {
     border: 2px solid #43494f;
     border-radius: 8px;
     padding: 8px;
     margin: 2px;
-    width: 350px;
+    width: 345px;
     min-height: 60px;
     align-items: center;
     font-size: 0.65em;
@@ -552,7 +551,7 @@
     display:flex;
     margin-left: 4px;
     margin-right: 4px;
-    font-size: 1.4em;
+    font-size: 1.3em;
     font-weight: 500;
   }
   .req-fulfillment-text .req-fulfillment-name {
@@ -561,19 +560,26 @@
   }
   .req-fulfillment-text .req-fulfillment-count {
     font-weight: 650;
-    font-size: 1.3em;
+    font-size: 1.2em;
   }
   .minimal-fulfillment {
-    padding: 4px;
-    margin: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding: 1px;
+    margin: 0px;
     border-radius: 4px;
     background-color: #434f41;
   }
   .minimal-unfulfilled-fulfillment {
-    padding: 4px;
-    margin: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding: 1px;
+    margin: 0px;
     border-radius: 4px;
     background-color: #4f433e;
+  }
+  .req-recommendations {
+    margin-bottom: 10px;
   }
   .minimal-course-buttons {
     border: none;
@@ -593,7 +599,7 @@
     margin-left: 8px;
   }
   .minimal-recommendations-courses {
-    margin-left: 16px;
+    margin-left: 14px;
   }
   .course-remove-button {
     border: none;
@@ -607,31 +613,6 @@
   }
   .course-remove-button:hover {
     background-color: rgba(13, 23, 26, 0.78);
-  }
-  .text-block h3 {
-    color:cornflowerblue;
-    font-size: 1.5em;
-  }
-  .text-block h4 {
-    font-size: 1.4em;
-  }
-  .text-block h6 {
-    color:rgb(129, 145, 161);
-    font-size: 0.8em;
-  }
-  .fulfillment {
-    padding: 6px;
-    margin: 2px;
-    border-radius: 6px;
-    color: #e3e8e4;
-    background-color: #434f41;
-  }
-  .unfulfilled-fulfillment {
-    padding: 6px;
-    margin: 2px;
-    border-radius: 6px;
-    color: #e3e8e4;
-    background-color: #4f433e;
   }
   .alternative-buttons {
     border-radius: 2px;
@@ -679,8 +660,31 @@
     color: rgb(255, 149, 122);
     background-color: #4f433e;
   }
-  .heading {
-    text-align: center;
+
+  .schedule-selection {
+    margin: 4px;
+    padding: 4px;
+    text-align: left;
+    font-size: 1.5em;
+    color:#e3e8e4;
+  }
+  .details-panel {
+    margin: 4px;
+    margin-top: 16px;
+    padding: 8px;
+    border: 2px solid #43494f;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #b7c0c4;
+    background-color: rgba(8, 26, 32, 0.35);
+  }
+  .details-wildcard-title {
+    font-size: 10px;
+    color: #769eb1;
+  }
+  .details-info {
+    font-size: 10px;
+    color: #769eb1;
   }
 </style>
   
