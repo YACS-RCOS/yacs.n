@@ -151,17 +151,7 @@
               </b-col>
 
               <b-col md="3" justify="end">
-                <b-row>
-                  <b-form-checkbox
-                    class="mt-2"
-                    size="sm"
-                    :checked="$store.state.colorBlindAssist"
-                    @change="toggleColors()"
-                    switch
-                  >
-                    Color Blind Assistance
-                  </b-form-checkbox>
-                </b-row>
+
                 <b-row>
                   <b-dropdown text="Export Data" class="mt-2">
                     <b-dropdown-item @click="exportScheduleToIcs">
@@ -262,7 +252,7 @@ import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
 
 import { userTypes } from "../store/modules/user";
 
-import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+import { COURSES } from "@/store";
 
 import {
   addStudentCourse,
@@ -332,9 +322,6 @@ export default {
       } else {
         this.main = "col-md-12";
       }
-    },
-    toggleColors() {
-      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
     generateRequirementsText,
     exportScheduleToIcs() {
