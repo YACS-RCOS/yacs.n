@@ -208,9 +208,9 @@
     },
     "computer science": {
         "groups": {
-            "Intensity": 16,
-            "Concentration": 12,
-            "Math": 8
+            "Intensity": {"credits": 16},
+            "Concentration": {"credits": 16, "oasis": true},
+            "Math": {"credits": 8}
         },
         "Core - Data Structures": {
             "requires": 1,
@@ -254,12 +254,12 @@
         },
         "Concentration - Depth": {
             "requires": 3,
-            "replacement": true,
+            "replacement": false,
             "specifications":"level.4 & concentration.*1"
         },
         "Concentration - Breadth": {
             "requires": 1,
-            "replacement": true,
+            "replacement": false,
             "specifications":"level.4 & concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },

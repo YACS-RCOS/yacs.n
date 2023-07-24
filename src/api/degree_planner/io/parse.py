@@ -71,6 +71,7 @@ class parsing():
         file_templates.close()
 
         group_credit_requirements = dict()
+        oasis_groups = list()
 
         for template_name, template_data in templates.items():
             # degrees
@@ -89,8 +90,12 @@ class parsing():
             for requirement_name, requirement_properties in template_data.items():
 
                 if requirement_name == 'groups':
-                    for property_name, property_value in requirement_properties.items():
-                        template_group_credit_requirements.update({property_name:property_value})
+                    for group_name, group_properties in requirement_properties.items():
+                        for group_property, property_value in group_properties.items():
+                            if group_property == "credits":
+                                template_group_credit_requirements.update({group_name:property_value})
+                            elif group_property == "oasis" and property_value:
+                                oasis_groups.append(group_name)
                     group_credit_requirements.update({template_name:template_group_credit_requirements})
                     continue
 
@@ -99,30 +104,30 @@ class parsing():
                 requirement.importance = requirement_importance_counter
                 requirement_importance_counter -= 1
 
-                for property_name, property_value in requirement_properties.items():
+                for group_name, group_properties in requirement_properties.items():
                     # property dictionary within template
 
                     # replacement enabled
-                    if property_name == 'replacement':
-                        requirement.replacement = property_value
+                    if group_name == 'replacement':
+                        requirement.replacement = group_properties
 
-                    elif property_name == 'requires':
-                        requirement.elements_required = property_value
+                    elif group_name == 'requires':
+                        requirement.elements_required = group_properties
 
                     # attributes for template course
-                    elif property_name == 'specifications':
-                        requirement.specifications = property_value
+                    elif group_name == 'specifications':
+                        requirement.specifications = group_properties
                         if requirement.recommender_specifications is None or requirement.recommender_specifications == '':
-                            requirement.recommender_specifications = property_value
+                            requirement.recommender_specifications = group_properties
 
-                    elif property_name == 'recommender specifications':
-                        requirement.recommender_specifications = property_value
+                    elif group_name == 'recommender specifications':
+                        requirement.recommender_specifications = group_properties
 
-                    elif property_name == 'credits':
-                        requirement.credits_required = property_value
+                    elif group_name == 'credits':
+                        requirement.credits_required = group_properties
 
-                    elif property_name == 'hide recommendations':
-                        requirement.hide_recommendations = property_value
+                    elif group_name == 'hide recommendations':
+                        requirement.hide_recommendations = group_properties
 
                 requirement.original_specifications = requirement.specifications
                 wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)
@@ -143,7 +148,11 @@ class parsing():
                 credits_required = 0
                 if template.name in group_credit_requirements:
                     credits_required = group_credit_requirements.get(template.name).get(group_name, 0)
-                template.groups.append(Requirement_Group(group_name, {'credits':credits_required}, requirements))
+                requirement_group = Requirement_Group(group_name, {'credits':credits_required}, requirements)
+                if group_name in oasis_groups:
+                    print(f'separate fulfillment for {group_name}')
+                    requirement_group.separate_fulfillment = True
+                template.groups.append(requirement_group)
 
 
         # parse specification sets

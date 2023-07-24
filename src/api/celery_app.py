@@ -20,8 +20,8 @@ def dp_recommend(taken_courses, catalog, requirements, custom_tags=None) -> dict
     return recommendation
 
 @celery_app.task()
-def dp_fulfill(taken_courses, requirements, forced_wildcard_resolutions=None) -> dict:
-    fulfillment = get_optimized_fulfillment(taken_courses, requirements, forced_wildcard_resolutions)
+def dp_fulfill(taken_courses, requirements, forced_wildcard_resolutions=None, groups=None) -> dict:
+    fulfillment = get_optimized_fulfillment(taken_courses, requirements, forced_wildcard_resolutions, groups)
     return fulfillment
 
 @celery_app.task()

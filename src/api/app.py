@@ -167,8 +167,9 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
+    groups = user.get_active_schedule().degree.groups
 
-    fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions)
+    fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions, groups)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
     fulfillment_groups, tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)

@@ -200,7 +200,7 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
     return (groups, tallies)
 
 
-def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
+def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None) -> dict:
 
     start = timeit.default_timer()
     
@@ -228,7 +228,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
             resolved_requirements.append(requirement)
     
     # at this point, we obtained resolved_requirements, which represents all the requirements with resolved wildcards to use
-    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions)
+    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions, groups)
 
     end = timeit.default_timer()
     logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
@@ -236,11 +236,24 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
     return fulfillments
 
 
-def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None) -> dict:
+def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None) -> dict:
     '''
     Returns:
         fulfillment: { Requirement: Fulfillment_Status }
     '''
+    requirements = set(requirements)
+    if groups is not None:
+        fulfillments = {}
+        for group in groups:
+            print(f'group {group} :{group.separate_fulfillment}')
+            if group.separate_fulfillment:
+                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions)
+                fulfillments.update(get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions))
+                requirements = requirements.difference(group.requirements)
+                print(f'fulfillment of group {group.name}: {fulfillment}')
+        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions))
+        return fulfillments
+
     wildcard_resolutions = Dict_Array(list_type='set')
 
     for requirement in requirements:
