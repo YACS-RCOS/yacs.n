@@ -25,7 +25,7 @@ def get_element_match(requirement:Requirement, elements:set) -> list:
     fulfillment = Fulfillment_Status(requirement, set())
 
     for element in elements:
-        good_match, _ = specification_parsing.attr_fulfills_specification(requirement, element.attributes)
+        good_match, _ = specification_parsing.attr_fulfills_specification(requirement.specifications, element.attributes)
 
         if good_match:
             fulfillment.add_element(element)
@@ -61,7 +61,7 @@ def get_branched_element_match(requirement:Requirement, elements:set) -> list:
     curr_fulfillment = Fulfillment_Status(requirement, set())
 
     for element in elements:
-        good_match, conditions = specification_parsing.attr_fulfills_specification(requirement, element.attributes)
+        good_match, conditions = specification_parsing.attr_fulfills_specification(requirement.recommender_specifications, element.attributes)
 
         # updates all_conditions with possible values for wildcard replacement
         for condition, condition_sat_set in conditions.items():
@@ -77,6 +77,7 @@ def get_branched_element_match(requirement:Requirement, elements:set) -> list:
     if not len(all_conditions):
         fulfillment_sets.append(curr_fulfillment)
 
+    print(f'all conditions: {all_conditions}')
 
     # if there are wildcard branching needed (we only need to pop the first one, the rest is handled by the following recursive calls
     # as each recursive call only needs to handle one)
@@ -88,12 +89,13 @@ def get_branched_element_match(requirement:Requirement, elements:set) -> list:
         # for each branching choice, make a copy of the template with the wildcard replaced with a possible value
         requirement_copy = copy.deepcopy(requirement)
         
-        specifications = requirement_copy.specifications
+        specifications = requirement_copy.recommender_specifications
         if wildcard_attr not in specifications:
             continue
 
         # we make a note of the replacements needed by storing it in replace_attributes
         requirement_copy.specifications = specifications.replace(wildcard_attr, choice)
+        requirement_copy.recommender_specifications = requirement_copy.specifications
 
         # recursively call this function, we're guaranteed that the final return values all are wildcard-free
         fulfillment_sets.extend(get_branched_element_match(requirement_copy, elements))
@@ -110,19 +112,19 @@ def generate_resolution_combos(wildcard_resolutions:Dict_Array):
     wildcard_resolutions.sort()
     wildcard_resolutions = wildcard_resolutions.to_tuples()
 
-    logging.debug(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
+    #print(f'generate combo method: WILDCARD RESOLUTIONS: {wildcard_resolutions}')
 
     # if template contains wildcards, this is how many templates can result from the wildcard
     # ex: [1, 2, 2, 1, 1], meaning indexes 1 and 2 have wildcard and each evaluates to 2 possibilities
     # bound_array = [len(e) for e in max_fulfillment_possibilities]
 
     bound_array = [len(e[1]) for e in wildcard_resolutions]
-    logging.debug(f'generate combo method bound array: {bound_array}')
+    #print(f'generate combo method bound array: {bound_array}')
 
     # all possible combinations using all generated templates
     # ex: [[1, 1, 1, 1, 1], [1, 1, 2, 1, 1], [1, 2, 1, 1, 1], [1, 2, 2, 1, 1]] continuing from the example above
     combos = af.generate_combinatorics(bound_array, 0)
-    logging.debug(f'generate combo method combos array: {combos}')
+    #print(f'generate combo method combos array: {combos}')
     
     # list of combinations, each combination is a dictionary
     wildcard_combos = list()
@@ -132,7 +134,7 @@ def generate_resolution_combos(wildcard_resolutions:Dict_Array):
             wildcard_combo.update({wildcard_resolutions[i][0]:wildcard_resolutions[i][1][combo[i]]})
         wildcard_combos.append(wildcard_combo)
 
-    logging.debug(f'generate combo method wildcard_combos: {wildcard_combos}')
+    #print(f'generate combo method wildcard_combos: {wildcard_combos}')
 
     return wildcard_combos
 
@@ -184,8 +186,6 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
     tallies = dict()
     for group in groups:
         group:Requirement_Group
-        print(f"evaluating group {group.name} with requirements {[str(e) for e in group.requirements]} and minimums {group.minimum_requirements}")
-
         tally = dict()
         
         for requirement in group.requirements:

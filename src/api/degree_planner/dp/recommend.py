@@ -26,8 +26,9 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
     for requirement in requirements:
         print(f'  RECOMMENDER --- SOLVING requirement {requirement}')
         # here we receive the list of fulfillment sets from get course match
+        print(f'requirement infO: {requirement.recommender_specifications}')
         matches = get_branched_element_match(requirement, catalog.get_elements())
-        matches_dict = {}
+        matches_and_courses = []
 
         for matched_fulfillment in matches:
             matched_fulfillment:Fulfillment_Status
@@ -53,9 +54,9 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
                 final_score.update({element : score})
 
             elements_recommended = sorting.dictionary_sort(final_score)
-            matches_dict.update({matched_fulfillment.requirement:elements_recommended})
+            matches_and_courses.append([matched_fulfillment.requirement,elements_recommended])
 
-        recommendation.update({requirement:matches_dict})
+        recommendation.update({requirement:matches_and_courses})
 
     end = timeit.default_timer()
     print(f'\r---------------------------------------recommendation runtime: {end - start}\n')

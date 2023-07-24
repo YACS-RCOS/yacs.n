@@ -252,10 +252,17 @@
             "replacement": true,
             "specifications":"level.4 & subject.csci"
         },
-        "Concentration": {
+        "Concentration - Depth": {
             "requires": 3,
             "replacement": true,
-            "specifications":"level.4 & concentration.*"
+            "specifications":"level.4 & concentration.*1"
+        },
+        "Concentration - Breadth": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"level.4 & concentration.*2 & (concentration.*2 != concentration.*1)",
+            "recommender specifications":"level.4 & concentration.*2",
+            "hide recommendations": true
         },
         "Math - Calculus 2": {
             "requires": 1,

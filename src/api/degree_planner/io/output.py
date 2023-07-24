@@ -236,7 +236,7 @@ class Output():
             fulfillment_set = [str(course) for course in fulfillment.fulfillment_set]
             fulfillment_set.sort()
             formatted.update({'fulfillment_set':fulfillment_set})
-            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True)
+            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True, True)
             wildcard_resolutions.convert_list_type('list')
             for key, _ in wildcard_resolutions.dictionary.items():
                 wildcard_resolutions.insert(key, key, 0)
@@ -271,7 +271,7 @@ class Output():
             fulfillment_set = [str(course) for course in fulfillment.fulfillment_set]
             fulfillment_set.sort()
             formatted.update({'fulfillment_set':fulfillment_set})
-            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True)
+            wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True, True)
             wildcard_resolutions.convert_list_type('list')
             for key, _ in wildcard_resolutions.dictionary.items():
                 wildcard_resolutions.insert(key, key, 0)
@@ -326,14 +326,17 @@ class Output():
         requirements.sort()
         requirements.reverse()
         for requirement in requirements:
-            for generated_requirement, fulfillment_courses in recommendation.get(requirement).items():
+            for generated_requirement, fulfillment_courses in recommendation.get(requirement):
                 formatted = dict()
                 formatted.update({'name':generated_requirement.name})
                 formatted.update({'specifications':generated_requirement.specifications})
                 formatted.update({'courses_fulfilled':generated_requirement.elements_fulfilled})
                 fulfillment_set = [str(e) for e in fulfillment_courses]
                 del fulfillment_set[5:]
-                formatted.update({'fulfillment_set':fulfillment_set})
+                if not requirement.hide_recommendations:
+                    formatted.update({'fulfillment_set':fulfillment_set})
+                else:
+                    formatted.update({'fulfillment_set':[]})
                 formatted_recommendations.append(formatted)
 
         return formatted_recommendations

@@ -112,9 +112,17 @@ class parsing():
                     # attributes for template course
                     elif property_name == 'specifications':
                         requirement.specifications = property_value
+                        if requirement.recommender_specifications is None or requirement.recommender_specifications == '':
+                            requirement.recommender_specifications = property_value
+
+                    elif property_name == 'recommender specifications':
+                        requirement.recommender_specifications = property_value
 
                     elif property_name == 'credits':
                         requirement.credits_required = property_value
+
+                    elif property_name == 'hide recommendations':
+                        requirement.hide_recommendations = property_value
 
                 requirement.original_specifications = requirement.specifications
                 wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)

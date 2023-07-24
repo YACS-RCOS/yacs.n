@@ -14,7 +14,7 @@ class Requirement():
     '''
 
     specification_sets = dict() # a dictionary of 'set name' : 'specification'
-    DELIMITERS = ['|', '&', '(', ')', '~']
+    DELIMITERS = ['|', '&', '(', ')', '~', '=', '!']
 
     def __init__(self, name, specifications=None, replacement=False, elements_required=1, credits_required=0):
         self.name = name # must be unique within a degree
@@ -24,6 +24,9 @@ class Requirement():
         self.specifications = specifications # details the attributes courses must have to fulfill this template
         self.original_specifications = specifications # just for display
         self.original_formatted_specifications = specifications # for reverting to original
+
+        self.recommender_specifications = specifications
+        self.hide_recommendations = False
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
@@ -50,13 +53,15 @@ class Requirement():
             specification = specification[:begin_index] + new_attr + specification[end_index:]
         self.specifications = specification
 
-    def wildcard_resolutions(self, elements, use_original_specifications:bool=False):
+    def wildcard_resolutions(self, elements, use_original_specifications:bool=False, use_recommender_specifications:bool=False):
         resolutions = Dict_Array(list_type='set')
         for element in elements:
-            if use_original_specifications:
-                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element.attributes, specifications=self.original_formatted_specifications)
+            if use_recommender_specifications:
+                good_match, conditions = specification_parsing.attr_fulfills_specification(self.recommender_specifications, element.attributes)
+            elif use_original_specifications:
+                good_match, conditions = specification_parsing.attr_fulfills_specification(self.original_formatted_specifications, element.attributes)
             else:
-                good_match, conditions = specification_parsing.attr_fulfills_specification(self, element.attributes)
+                good_match, conditions = specification_parsing.attr_fulfills_specification(self.specifications, element.attributes)
             if good_match:
                 for wildcard_orig, wildcard_resol in conditions.items():
                     resolutions.extend_elements(wildcard_orig, wildcard_resol)
@@ -95,9 +100,7 @@ class Requirement():
         return wildcards
 
     def __repr__(self):
-        string = f"\Requirement {self.name}:\n"
-        string += f"  replacement: {self.replacement}\n"
-        string += f"  specifications: {self.specifications}"
+        string = f"Requirement {self.name}"
         return string
     
     def __str__(self):
@@ -145,10 +148,8 @@ class specification_parsing():
     '''
 
     @staticmethod
-    def attr_fulfills_specification(template:Requirement, target_attribute:Attributes, specifications=None):
+    def attr_fulfills_specification(specifications:str, target_attribute:Attributes):
         conditions = dict()
-        if specifications is None:
-            specifications = template.specifications
         if 'NA' in specifications or 'ANY' in specifications or '-1' in specifications:
             return True, {}
         if not specification_parsing.parse_attribute(specifications, target_attribute, conditions):
@@ -227,13 +228,21 @@ class specification_parsing():
             new_string = input_text[: open_bracket_loc] + str(specification_parsing.parse_attribute(input_text[open_bracket_loc + 1 : close_bracket_loc], target_attribute, true_given_for_wildcards)) + input_text[close_bracket_loc + 1:]
             return specification_parsing.parse_attribute(new_string, target_attribute, true_given_for_wildcards)
         
+        if '==' in input_text:
+            symbol_loc = input_text.find('==')
+            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) == specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
+        
+        if '!=' in input_text:
+            symbol_loc = input_text.find('!=')
+            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) != specification_parsing.parse_attribute(input_text[symbol_loc + 2:], target_attribute, true_given_for_wildcards)
+        
         if '&' in input_text:
-            and_loc = input_text.find('&')
-            return specification_parsing.parse_attribute(input_text[: and_loc], target_attribute, true_given_for_wildcards) and specification_parsing.parse_attribute(input_text[and_loc + 1:], target_attribute, true_given_for_wildcards)
+            symbol_loc = input_text.find('&')
+            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) and specification_parsing.parse_attribute(input_text[symbol_loc + 1:], target_attribute, true_given_for_wildcards)
         
         if '|' in input_text:
-            and_loc = input_text.find('|')
-            return specification_parsing.parse_attribute(input_text[: and_loc], target_attribute, true_given_for_wildcards) or specification_parsing.parse_attribute(input_text[and_loc + 1:], target_attribute, true_given_for_wildcards)
+            symbol_loc = input_text.find('|')
+            return specification_parsing.parse_attribute(input_text[: symbol_loc], target_attribute, true_given_for_wildcards) or specification_parsing.parse_attribute(input_text[symbol_loc + 1:], target_attribute, true_given_for_wildcards)
 
         if input_text.startswith('~'):
             return not specification_parsing.parse_attribute(input_text[1:], target_attribute, true_given_for_wildcards)
