@@ -84,7 +84,7 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import statusMilitaryTime from "@/components/Settings";
+// import statusMilitaryTime from "@/components/Settings";
 
 import ScheduleEventComponent from "@/components/ScheduleEvent";
 

@@ -136,7 +136,7 @@ export default {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
     statusMilitaryTime(){
-      if (militaryTime) return true;
+      if (this.militaryTime) return true;
       else return false;
     },
     
