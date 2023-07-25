@@ -176,47 +176,19 @@ class Professor:
             info, error = self.db_conn.execute(sql, (email), True)
             return (info, None) if not error else (False, error)
 
-    def get_professor_phone_number_by_email(self, email):
+    def get_professor_phone_number_by_email(self, email):    
         if email is not None:
             sql = """
                     select
-                        rcs
+                        phone_number
                     from
                         professor
                     where
                         email = '{email}'
-                    """ 
-        rcs, error = self.db_conn.execute(sql, None, True)
-        return (rcs, None) if not error else (False, error)
-    
-        # if email is not None:
-        #     sql = """
-        #             select
-        #                 phone_number
-        #             from
-        #                 professor
-        #             where
-        #                 email = '{email}'
-        #             """
-        #     info, error = self.db_conn.execute(sql, (email,), True)
-        #     return (info, None) if not error else (False, error)
+                    """
+            info, error = self.db_conn.execute(sql, (email,), True)
+            return (info, None) if not error else (False, error)
 
-    
-    def get_professor_info_by_rcs(self,rcs):
-        return self.get_professor_info_by_email(rcs+"@rpi.edu")
-
-    def get_professor_rcs_by_email(self,email):
-        if email is not None:
-            sql = """
-                    select
-                        rcs
-                    from
-                        professor
-                    where
-                        email = '{email}'
-                    """ 
-        rcs, error = self.db_conn.execute(sql, None, True)
-        return (rcs, None) if not error else (False, error)
 
     #return as a json
     def get_all_professors(self):  

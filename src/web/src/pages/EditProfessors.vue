@@ -59,9 +59,6 @@
       <button @click="getProfNumberByEmail()" class="btn btn-primary">
         Get Prof Number By Email
       </button>
-      <button @click="get_professor_info_by_rcs()" class="btn btn-primary">
-        Get Prof By Rcs
-      </button>
       <button @click="getProfByEmail()" class="btn btn-primary">
         Get Prof By Email
       </button>
@@ -82,7 +79,6 @@ import {
   get_professor_name_by_email,
   get_professor_from_department,
   get_professor_phone_number_by_email,
-  get_professor_info_by_rcs,
   get_professor_info_by_email,
 } from "@/services/YacsService";
 import {
@@ -122,11 +118,6 @@ export default {
     getProfNumberByEmail() {
       console.log("get_professor_phone_number_by_email");
       this.result = get_professor_phone_number_by_email(this.email);
-      console.log(this.result);
-    },
-    get_professor_info_by_rcs() {
-      console.log("get_professor_info_by_rcs");
-      this.result = get_professor_info_by_rcs(this.rcs);
       console.log(this.result);
     },
     getProfByEmail() {

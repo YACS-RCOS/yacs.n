@@ -349,10 +349,6 @@ async def get_professor_phone_number_by_email(email: str):
     phone_number, error = professor_info.get_professor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
 
-@app.get('/api/professor/rcs/{rcs}')
-async def get_professor_info_by_rcs(rcs:str):
-    professor_rcs, error = professor_info.get_professor_info_by_rcs(rcs)
-    return professor_rcs if not error else Response(content=error,status_code=500)
 
 @app.get('/api/professor/email/{email}')
 async def get_professor_info_by_email(email:str):
