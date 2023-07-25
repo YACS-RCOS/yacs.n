@@ -186,8 +186,20 @@ class Professor:
                     where
                         email = '{email}'
                     """
-            info, error = self.db_conn.execute(sql, (email,), True)
-            return (info, None) if not error else (False, error)
+        info, error = self.db_conn.execute(sql, None, True)
+        return (info, None) if not error else (False, error)
+    
+        # if email is not None:
+        #     sql = """
+        #             select
+        #                 phone_number
+        #             from
+        #                 professor
+        #             where
+        #                 email = '{email}'
+        #             """
+        #     info, error = self.db_conn.execute(sql, None, True)
+        #     return (info, None) if not error else (False, error)
 
     
     def get_professor_info_by_rcs(self,rcs):
