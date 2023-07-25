@@ -9,6 +9,7 @@
 # The command line for running the bash file is simply ./update-{semeester}-{year}.sh 
 # For example, if you want to update the values for classes in summer 2023, run ./update-summer-2023.sh on linux
 # 
+# if you are unable to run due to the error " /bin/bash^M: bad interpreter: No such file or directory": https://stackoverflow.com/questions/14219092/bash-script-bin-bashm-bad-interpreter-no-such-file-or-directory
 # using print() will print directly on the terminal
 # 
 # SETTING UP ENVIRONMENT VARIABLES:
