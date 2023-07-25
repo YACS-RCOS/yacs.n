@@ -75,7 +75,9 @@ export default {
   },
   computed: {
     prof() {
-      return this.professors.find((p) => p.Email.replace("@rpi.edu","") === this.rcs);
+       return this.professors.find(
+        (p) => p.Email.replace("@rpi.edu", "") === this.rcs
+      );
     },
   },
 };
