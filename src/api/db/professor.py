@@ -1,9 +1,6 @@
 import json
 from psycopg2.extras import RealDictCursor
 import asyncio
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import sessionmaker
-# from your_module import Professor, Base
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -164,7 +161,8 @@ class Professor:
         self.clear_cache()
         return None
 
-    # if you expect the SQL statement to return more than one row of data, you should pass True as the value for multi.
+    # if you expect the SQL statement to return more than one row of data, 
+    # you should pass True as the value for multi.
     def get_professor_info_by_email(self, email):
         if email is not None:
             sql = """
@@ -173,8 +171,8 @@ class Professor:
                     from
                         professor
                     where
-                        email = '%s'
-                    """ % email
+                        email = '{email}'
+                    """ 
         info, error = self.db_conn.execute(sql, None, True)
         return (info, None) if not error else (False, error)
 
@@ -186,8 +184,8 @@ class Professor:
                     from
                         professor
                     where
-                        email = '%s'
-                    """ % email
+                        email = '{email}'
+                    """ 
         phone_number, error = self.db_conn.execute(sql, None, True)
         return (phone_number, None) if not error else (False, error)
     
@@ -202,24 +200,10 @@ class Professor:
                     from
                         professor
                     where
-                        email = '%s'
-                    """ % email
+                        email = '{email}'
+                    """ 
         rcs, error = self.db_conn.execute(sql, None, True)
         return (rcs, None) if not error else (False, error)
-
-    def get_office_hours_by_email(self,email):
-        if email is not None:
-            sql = """
-                    select
-                        office_room
-                        office_hours_time
-                    from
-                        professor
-                    where
-                        email = '%s'
-                    """ % email
-        office_hours, error = self.db_conn.execute(sql, None, True)
-        return (office_hours,error) if not error else (False,error)
 
     #return as a json
     def get_all_professors(self):  
