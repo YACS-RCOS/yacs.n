@@ -11,12 +11,12 @@
       <b-row>
         <b-col>
           <br />
-          <h6 class="mb-1 d-inline">Department: {{prof.Department}}</h6>
+          <h6 class="mb-1 d-inline">Department: {{ prof.Department }}</h6>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <h6 class="mb-1 d-inline">School: {{prof.Portfolio}}</h6>
+          <h6 class="mb-1 d-inline">School: {{ prof.Portfolio }}</h6>
         </b-col>
       </b-row>
       <b-row>
@@ -24,11 +24,13 @@
           <br />
           <h6 class="mb-1 d-inline">Contact Info</h6>
           <!-- <li>Phone: {{prof.Phone}}</li> -->
-          <li> Email: 
-          <a v-bind:href="'mailto:' + prof.Email">{{prof.Email}}</a>
+          <li>
+            Email:
+            <a v-bind:href="'mailto:' + prof.Email">{{ prof.Email }}</a>
           </li>
-          <li> Faculty Page: 
-          <a v-bind:href="prof['Profile Page']">{{prof['Profile Page']}}</a>
+          <li>
+            Faculty Page:
+            <a v-bind:href="prof['Profile Page']">{{ prof["Profile Page"] }}</a>
           </li>
         </b-col>
       </b-row>
@@ -75,7 +77,9 @@ export default {
   },
   computed: {
     prof() {
-      return this.professors.find((p) => p.Email.replace("@rpi.edu","") === this.rcs);
+      return this.professors.find(
+        (p) => p.Email.replace("@rpi.edu", "") === this.rcs
+      );
     },
   },
 };

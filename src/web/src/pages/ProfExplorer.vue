@@ -43,14 +43,13 @@
           </h3>
           <br />
           <div v-for="(item, itemName) in showProf" :key="itemName">
-            <h4 v-if="itemName != 'Name'" style="color: #3395ff; margin-top: -20px;">
+            <h4
+              v-if="itemName != 'Name'"
+              style="color: #3395ff; margin-top: -20px;"
+            >
               {{ itemName + ": " }}
             </h4>
-            <h5
-              v-if="itemName != 'Name'"
-              :key="item"
-              class="profInfo"
-            >
+            <h5 v-if="itemName != 'Name'" :key="item" class="profInfo">
               {{ item }}
             </h5>
             <br />
@@ -95,7 +94,7 @@
                         variant="light"
                         class="professor-button m-0 ml-1"
                       >
-                        {{ prof['Name'] }}
+                        {{ prof["Name"] }}
                       </b-button>
                     </div>
                   </div>
@@ -158,7 +157,7 @@
       :fontSize="1.3"
       loadingMessage="Professors"
       :topSpacing="30"
-    />    
+    />
   </b-container>
 </template>
 
@@ -195,13 +194,13 @@ export default {
       var count = 0;
       var departments = [];
       var dept = "";
-      for (let i = 0; i < this.professors.length; i++){
+      for (let i = 0; i < this.professors.length; i++) {
         dept = this.professors[i]["Department"];
-        if (dept == ""){
+        if (dept == "") {
           dept = this.professors[i]["Portfolio"];
         }
-        if (!departments.includes(dept)){
-          departments.push(dept)
+        if (!departments.includes(dept)) {
+          departments.push(dept);
         }
       }
       departments.sort();
@@ -209,23 +208,26 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for (var i = 0; i < departments.length; i++){
+      for (var i = 0; i < departments.length; i++) {
         var tmp = {
-          "Department": departments[i],
-          "Professors": [],
+          Department: departments[i],
+          Professors: [],
         };
-        for (var j = 0; j < this.professors.length; j++){
+        for (var j = 0; j < this.professors.length; j++) {
           dept = this.professors[j]["Department"];
-          if (dept == ""){
+          if (dept == "") {
             dept = this.professors[i]["Portfolio"];
           }
           var name = this.professors[j]["Name"];
           var last_name = name.split(" ").slice(-1)[0];
-          if (dept == departments[i]){
+          if (dept == departments[i]) {
             var index = 0;
-            while (index < tmp["Professors"].length){
-              if (last_name < tmp["Professors"][index]["Name"].split(" ").slice(-1)){
-                break
+            while (index < tmp["Professors"].length) {
+              if (
+                last_name <
+                tmp["Professors"][index]["Name"].split(" ").slice(-1)
+              ) {
+                break;
               }
               index++;
             }
@@ -234,11 +236,17 @@ export default {
         }
 
         // sort by last name, then first name
-        tmp["Professors"].sort((a,b) => {
-          if (a["Name"].split(" ").slice(-1)[0] === b["Name"].split(" ").slice(-1)[0]){
-            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1
+        tmp["Professors"].sort((a, b) => {
+          if (
+            a["Name"].split(" ").slice(-1)[0] ===
+            b["Name"].split(" ").slice(-1)[0]
+          ) {
+            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1;
           } else {
-            return a["Name"].split(" ").slice(-1)[0] < b["Name"].split(" ").slice(-1)[0] ? -1 : 1
+            return a["Name"].split(" ").slice(-1)[0] <
+              b["Name"].split(" ").slice(-1)[0]
+              ? -1
+              : 1;
           }
         });
 
@@ -292,31 +300,37 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for (var i = 0; i < alphabet.length; i++){
+      for (var i = 0; i < alphabet.length; i++) {
         var tmp = {
-          "Letter": alphabet[i],
-          "Professors": [],
+          Letter: alphabet[i],
+          Professors: [],
         };
-        for (var j = 0; j < this.professors.length; j++){
+        for (var j = 0; j < this.professors.length; j++) {
           var name = this.professors[j]["Name"];
           var last_name = name.split(" ").slice(-1)[0];
-          if (last_name.startsWith(alphabet[i])){
+          if (last_name.startsWith(alphabet[i])) {
             tmp["Professors"].push(this.professors[j]);
           }
         }
 
         // sort by last name, then first name
-        tmp["Professors"].sort((a,b) => {
-          if (a["Name"].split(" ").slice(-1)[0] === b["Name"].split(" ").slice(-1)[0]){
-            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1
+        tmp["Professors"].sort((a, b) => {
+          if (
+            a["Name"].split(" ").slice(-1)[0] ===
+            b["Name"].split(" ").slice(-1)[0]
+          ) {
+            return a["Name"].split(" ")[0] < b["Name"].split(" ")[0] ? -1 : 1;
           } else {
-            return a["Name"].split(" ").slice(-1)[0] < b["Name"].split(" ").slice(-1)[0] ? -1 : 1
+            return a["Name"].split(" ").slice(-1)[0] <
+              b["Name"].split(" ").slice(-1)[0]
+              ? -1
+              : 1;
           }
         });
 
         // split into 2 arrays
         if (tmp["Professors"].length > 0) {
-        	count += tmp["Professors"].length + 0.2;
+          count += tmp["Professors"].length + 0.2;
           if (count < half_length) {
             col1.push(tmp);
           } else {
@@ -385,7 +399,6 @@ export default {
 }
 
 .h3 {
-	text-align: left;
+  text-align: left;
 }
-
 </style>
