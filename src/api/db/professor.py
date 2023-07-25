@@ -173,7 +173,7 @@ class Professor:
                     where
                         email = '{email}'
                     """
-            info, error = self.db_conn.execute(sql, (email), True)
+            info, error = self.db_conn.execute(sql, None, True)
             return (info, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):    
@@ -186,7 +186,7 @@ class Professor:
                     where
                         email = '{email}'
                     """
-            info, error = self.db_conn.execute(sql, (email,), True)
+            info, error = self.db_conn.execute(sql, None, True)
             return (info, None) if not error else (False, error)
 
 
