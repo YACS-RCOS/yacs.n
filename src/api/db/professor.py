@@ -172,8 +172,8 @@ class Professor:
                         professor
                     where
                         email = %s
-                    """ 
-            info, error = self.db_conn.execute(sql, (email,), True)
+                    """ % email
+            info, error = self.db_conn.execute(sql, (email), True)
             return (info, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):
