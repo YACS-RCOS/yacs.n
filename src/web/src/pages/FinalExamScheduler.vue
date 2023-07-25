@@ -194,17 +194,19 @@ export default {
       this.courseOptions = Object.values(groupedCourses);
     },
     addCourse(currCourse) {
-      const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      ///const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      let finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+
+      if (!finalsPageCookie) {
+        finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      }
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
-        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day).save();
-        //finalsPageCookie.save();
-        //console.log(finalsPageCookie.getExams());
+        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day);
+        finalsPageCookie.save();
       }
-      //finalsPageCookie = FinalsPageCookie.load(this.$cookies);
       console.log(finalsPageCookie.getExams());
       this.currCourse = null;
-      //console.log(this.selectedCourses);
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {

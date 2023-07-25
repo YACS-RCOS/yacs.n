@@ -6,36 +6,70 @@ import {VueCookies} from "vue-cookies";
 const COOKIE_KEY = "finalExams";
 
 class FinalsPageCookie {
-
+    // /**
+    //  * @param {VueCookies} $cookies
+    //  * @private
+    //  */
     constructor($cookies) {
         this.$cookies = $cookies;
         this.exams = [];
-        this._semester = undefined;
     }
+    // constructor($cookies, exams) {
+    //     this.$cookies = $cookies;
+    //     this.exams = exams; // Initialize as empty array
+    // }
 
-    static load($cookies, key = COOKIE_KEY) {
-        return new FinalsPageCookie(
-            $cookies,
-            $cookies.isKey(key) ? $cookies.get(key) : {}
-        );
+
+    // /**
+    //  * @param {VueCookies} $cookies
+    //  //* @param {string} key defaults to `COOKIE_KEY`
+    //  * @returns {FinalsPageCookie}
+    //  */
+    static load($cookies) {// key = COOKIE_KEY
+        // console.log("load: ", this.getExams());
+        return new FinalsPageCookie($cookies);
+        // return new FinalsPageCookie(
+        //     $cookies,
+        //     $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : []
+        // );
     }
+    // static load($cookies) {
+    //     const exams = $cookies.exams === null ? [] : $cookies.exams;
+    //
+    //     return new FinalsPageCookie($cookies, exams);
+    // }
 
+    /**
+     * Save current state into cookie
+     * @param {string} key defaults to `COOKIE_KEY`
+     */
     save(key = COOKIE_KEY) {
         this.$cookies.set(key, this.exams);
     }
 
     clear() {
-        this.exams = {};
+        this.exams = [];
 
         return this;
     }
+
 
     getExams() {
         return this.exams;
     }
 
 
+    /**
+     * Only adds an entry for the course, to add sections, call `addCourseSection`
+     * @param {String} Department
+     * @param {String} CourseCode
+     * @param {String} Section
+     * @param {String} Day
+     * @returns {this}
+     */
     addCourse(Department, CourseCode, Section, Day) {
+        console.log(this.exams);
+
         const course = {
             Department,
             CourseCode,
@@ -46,24 +80,8 @@ class FinalsPageCookie {
         this.save();
         return this;
     }
-
-    //
-    // /**
-    //  * Removes a course from the selected courses.
-    //  * @param {string} Department ID of the course department.
-    //  * @param {string} CourseCode Code of the course.
-    //  * @param {string} Section Section of the course.
-    //  * @param {string} Day Day of the course.
-    //  * @returns {this}
-    //  */
-    // removeCourse(Department, CourseCode, Section, Day) {
-    //     this.selectedExams = this.selectedExams.filter(
-    //         (selectedExam) => !(selectedExam.Department === Department && selectedExam.CourseCode === CourseCode && selectedExam.Section === Section && selectedExam.Day === Day)
-    //     );
-    //     return this;
-    // }
-
-
 }
 
-export {FinalsPageCookie};
+export {
+    FinalsPageCookie
+};
