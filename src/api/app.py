@@ -344,11 +344,6 @@ async def get_all_professors():
     db_list = [dict(prof) for prof in professors] if professors else []
     return db_list if not error else Response(error, status_code = 500)
 
-@app.get('/api/professor/office_hours/{email}')
-async def get_office_hours(email: str):
-    professor_office_hours, error = professor_info.get_office_hours_by_email(email)    
-    return professor_office_hours if not error else Response(content=error, status_code=500)
-
 @app.get('/api/professor/phone_number/{email}')
 async def get_professor_phone_number_by_email(email: str):
     phone_number, error = professor_info.get_professor_phone_number_by_email(email)

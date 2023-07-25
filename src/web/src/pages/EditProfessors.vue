@@ -81,7 +81,6 @@ import {
   getProfessors,
   get_professor_name_by_email,
   get_professor_from_department,
-  get_office_hours,
   get_professor_phone_number_by_email,
   get_professor_info_by_rcs,
   get_professor_info_by_email,
@@ -118,11 +117,6 @@ export default {
     getProfDepartment() {
       console.log("get_professor_from_department");
       this.result = get_professor_from_department(this.department);
-      console.log(this.result);
-    },
-    getOfficeHours() {
-      console.log("get_office_hours");
-      this.result = get_office_hours(this.email);
       console.log(this.result);
     },
     getProfNumberByEmail() {
