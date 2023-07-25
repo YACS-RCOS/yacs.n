@@ -171,8 +171,8 @@ class Professor:
                     from
                         professor
                     where
-                        email = %s
-                    """ % email
+                        email = '{email}'
+                    """
             info, error = self.db_conn.execute(sql, (email), True)
             return (info, None) if not error else (False, error)
 
@@ -184,7 +184,7 @@ class Professor:
                     from
                         professor
                     where
-                        email = %s
+                        email = '{email}'
                     """
             info, error = self.db_conn.execute(sql, (email,), True)
             return (info, None) if not error else (False, error)
