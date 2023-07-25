@@ -26,7 +26,7 @@ export default {
         faqData: [
             {
                 title: 'Q: What is YACS and what is its mission?',
-                answer_symbol: 'A.',
+                answer_symbol: 'A:',
                 answer:' YACS (Yet Another Course Scheduler) is a web-based application designed to assist students in scheduling and planning their courses at academic institutions. It provides features such as course catalog browsing, schedule building, and course availability information. YACS aims to simplify the course selection process, allowing students to efficiently organize their academic schedules.',
                 isOpen: false
             },
@@ -42,7 +42,7 @@ export default {
             {
                 title: 'Q: What is the Explore feature?',
                 answer_symbol: 'A:',
-                answer:'1.Click the Explore navbar on the top of the page.' ,
+                answer:'1.Click the Explore navbar at the top of the page.' ,
                 answer1:'2.Choose the major you want to explore from the available options. ',
                 answer2:'3.YACS will display the courses associated with the selected major for the specified semester.',
                 answer3:'4.You can further explore each course for detailed information such as descriptions, prerequisites, and offered sections.',
@@ -51,7 +51,7 @@ export default {
             {
                 title: 'Q: How can I use the Pathways Navigation feature?',
                 answer_symbol: 'A:',
-                answer:'1.Click the Pathways button on the top of the page.',
+                answer:'1.Click the Pathways button at the top of the page.',
                 answer1:'2.Select the pathway you are interested in or that aligns with your academic goals.',
                 answer2:'3.YACS will display the pathway requirements and the courses available to fulfill each requirement.',
                 answer3:'4.Explore the recommended course options and plan your academic path accordingly.',
@@ -61,7 +61,7 @@ export default {
                 title: 'Q: How can I use the Finals feature?',
                 answer_symbol: 'A:',
                 answer:'1.Click the Finals button on the top of the page.',
-                answer1:'2.Enter the courses you are enrolled in for the semester. Once you finishing adding your courses, hit Search.',
+                answer1:'2.Enter the courses you are enrolled in for the semester. Once you finish adding your courses, hit Search.',
                 answer2:'3.YACS will generate your final exam schedule, displaying the date, time, and location of each exam.',
                 isOpen: false
             },
