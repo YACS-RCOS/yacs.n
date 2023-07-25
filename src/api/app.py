@@ -191,7 +191,7 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
                     fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
             display_requirements.update({requirement.name:fulfillment_as_list})
 
-    print(f'display requirements: {display_requirements}')
+    #print(f'display requirements: {display_requirements}')
 
     print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')

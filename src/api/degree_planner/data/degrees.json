@@ -256,13 +256,13 @@
         "Concentration - Depth": {
             "requires": 3,
             "replacement": false,
-            "specifications":"level.4 & concentration.*1",
-            "display": "level.4 & concentration.*"
+            "specifications":"concentration.*1",
+            "display": "concentration.*"
         },
         "Concentration - Breadth": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.4 & concentration.*2 & (@concentration.*2 != @concentration.*1)",
+            "specifications":"concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },
         "Math - Calculus 2": {
