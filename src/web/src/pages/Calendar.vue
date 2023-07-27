@@ -30,8 +30,12 @@
             v-for="exam in filteredExams(day)"
             :key="exam.id"
             :day="exam.dayOfWeek"
-            :startTime="convertToStandardTime(exam.time_start)"
-            :endTime="convertToStandardTime(exam.time_end)"
+            :startTime="
+              exam.time_start.split('T')[1].split(':').slice(0, 2).join(':')
+            "
+            :endTime="
+              exam.time_end.split('T')[1].split(':').slice(0, 2).join(':')
+            "
             :section="exam.section"
             :name="exam.course"
             :location="exam.room"
@@ -144,25 +148,6 @@ export default {
       return section && section.sessions
         ? section.sessions.filter((session) => session.day_of_week === day)
         : [];
-    },
-
-    /**
-     * Returns the hour and minutes in (hour:minute) standard time 
-     * format with given time (doesn't return seconds)
-     * @param {string} time
-     * @return {time.hour:time.minutes}
-     */
-    convertToStandardTime(time){
-      const array = time.split('T')[1].split(':').slice(0,2);
-      // if military time is toggled, don't modify the time
-      // if not toggled, modify time so that it's in standard time
-      if (!this.$store.getters.militaryTimeState){
-        if (parseInt(array[0]) > 12){
-          array[0] = parseInt(array[0]) - 12;
-        }
-        else array[0] = parseInt(array[0]);
-      }
-      return array.join(':');
     },
 
     mapSessionType(type) {
