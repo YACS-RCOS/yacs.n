@@ -84,7 +84,6 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-// import statusMilitaryTime from "@/components/Settings";
 
 import ScheduleEventComponent from "@/components/ScheduleEvent";
 
@@ -162,12 +161,12 @@ export default {
       const array = time.split(':').slice(0,2);
       // if military time is toggled, don't modify the time
       // if not toggled, modify time so that it's in standard time
-      // if (!statusMilitaryTime()){
+      if (!this.$store.getters.militaryTimeState){
         if (parseInt(array[0]) > 12){
           array[0] = parseInt(array[0]) - 12;
         }
         else array[0] = parseInt(array[0]);
-      // }
+      }
       return array.join(':');
     },
 

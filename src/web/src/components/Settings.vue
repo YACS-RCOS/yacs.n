@@ -40,6 +40,7 @@
       </b-form-checkbox>
 
       <b-form-checkbox
+        :checked="$store.state.militaryTime"
         @change="toggleTime()"
         switch
         class="m-2"
@@ -62,6 +63,8 @@ import {
   TOGGLE_COLOR_BLIND_ASSIST,
 } from "@/store";
 
+
+
 export default {
   name: "Settings",
   data() {
@@ -69,7 +72,6 @@ export default {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
       notify: false,
       // colorBlindAssist: this.$store.getters.colorBlindAssistState,
-      militaryTime: true,
     };
   },
   mounted() {
@@ -135,9 +137,8 @@ export default {
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
-    statusMilitaryTime(){
-      if (this.militaryTime) return true;
-      else return false;
+    toggleTime() {
+      this.$store.state.militaryTime = !this.$store.state.militaryTime;
     },
     
   }

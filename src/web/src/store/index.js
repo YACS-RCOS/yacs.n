@@ -42,6 +42,7 @@ const store = new Vuex.Store({
   state: {
     darkMode: false,
     colorBlindAssist: false,
+    militaryTime: false,
     coursesById: {},
     isLoadingCourses: false,
     selectedSemester: null,
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     colorBlindAssistState: (state) => {
       return state.colorBlindAssist;
     },
+    militaryTimeState: (state) => {
+      return state.militaryTime;
+    }
   },
   mutations: {
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
