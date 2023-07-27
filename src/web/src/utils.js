@@ -84,7 +84,9 @@ export const hourName = (minutes) => {
   } else if (hour === 12) {
     return "Noon";
   } else {
-    return hour - 12 + " PM";
+    if (!this.$store.getters.militaryTimeState)
+      return hour - 12 + " PM";
+    else return hour + " PM";
   }
 };
 
