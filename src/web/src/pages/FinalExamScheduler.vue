@@ -39,7 +39,7 @@
               </div>
               <div>
                 <strong>Time:</strong>
-                {{ exam.time }}
+                {{ convertTime(exam.time) }}
               </div>
               <div>
                 <strong>Date:</strong>
@@ -60,12 +60,16 @@
 <script>
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     Calendar,
   },
   name: "FinalExamSchedule",
+  computed: {
+    ...mapGetters(["militaryTimeState"]),
+  },
   data() {
     return {
       breadcrumbNav: [
@@ -101,6 +105,37 @@ export default {
       endDateTime.setMinutes(parseInt(endMinutes));
 
       return { startTime: startDateTime, endTime: endDateTime };
+    },
+
+    convertTime(time) {
+      const array = time.split("-");
+      const start = array[0].split(":");
+      const end = array[1].split(":");
+      
+      // if military time is toggled, don't modify the time
+      // if not toggled, modify time so that it's in standard time
+      if (this.militaryTimeState){
+        if (start[1].substring(start[1].length - 2).valueOf() == ("PM").valueOf() && parseInt(start[0]) != 12){
+          start[0] = parseInt(start[0]) + 12;
+        }
+        else if (start[1].substring(start[1].length - 2).valueOf() == ("AM").valueOf() && parseInt(start[0]) == 12){
+          start[0] = "00";
+        }
+        else if (start[1].substring(start[1].length - 2).valueOf()== ("AM").valueOf() && parseInt(start[0]) < 10){
+          start[0] = "0" + start[0];
+        }
+        if (end[1].substring(end[1].length - 2).valueOf() == ("PM").valueOf() && parseInt(end[0]) != 12){
+          end[0] = parseInt(end[0]) + 12;
+        }
+        else if (end[1].substring(end[1].length - 2).valueOf() == ("AM").valueOf() && parseInt(end[0]) == 12){
+          end[0] = "00";
+        }
+        else if (end[1].substring(end[1].length - 2).valueOf() == ("AM").valueOf() && parseInt(end[0]) < 10){
+          end[0] = "0" + end[0];
+        }
+      }
+      
+      return start[0] + ":" + start[1] + "-" + end[0] + ":" + end[1];
     },
 
     formatDate(date) {
