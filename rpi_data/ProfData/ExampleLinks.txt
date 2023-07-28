@@ -1,0 +1,10 @@
+Example course link: https://sis.rpi.edu/rss/bwckschd.p_disp_listcrse?term_in=202301&subj_in=CSCI&crse_in=2961&crn_in=80260
+
+For each term in year Y:
+Spring: Y01
+Summer(Arch): Y05
+Fall: Y09
+Winter: Y12
+
+ALL classes for a major
+https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202209&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=BIOL

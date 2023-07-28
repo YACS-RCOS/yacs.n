@@ -1,0 +1,1433 @@
+{
+    "ADMN1824": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6600": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6800": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ADMN6960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2560": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2750": {
+        "description": "Private applied music lessons provide weekly instruction in instrumental and vocal performance. The goal of this class is to develop the student\u2019s musical ability relative to capacity and interest. A supplementary lesson fee is charged.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS4960": {
+        "description": "Experimental courses offered for one or two semesters.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ASTR2960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BCBP4760": {
+        "description": "Part I of a two-semester sequence focusing on the chemistry, structure, and function of biological molecules, macromolecules, and systems. Topics covered include protein and nucleic acid structure, enzymology, mechanisms of catalysis, regulation, lipids and membranes, carbohydrates, bioenergetics, and carbohydrate metabolism. (Students cannot obtain credit for both this course and either BIOL 4760 or CHEM 4760.)",
+        "raw_precoreqs": "(Undergraduate level  CHEM 2250 Minimum Grade of D and Undergraduate level  BIOL 1010 Minimum Grade of D) or (Undergraduate level  BIOL 2120 Minimum Grade of D)",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010",
+            "BIOL-2120"
+        ],
+        "corequisites": null
+    },
+    "BCBP6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BCBP9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL2960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL4200": {
+        "description": "An introduction to the concepts and techniques of modern statistics. Computer-based, in-class sessions will emphasize hands-on application of statistical techniques using data and examples drawn from the biological and medical sciences. Pre-class, online exercises will prepare students for in-depth classroom explorations. Topics covered will include sampling, regression, analysis of variance, and factor analysis, MANOVA, maximum likelihood methods, discriminant analysis, time series analysis, and forecasting. The final project requires analysis of a major research-related data set and write-up of results in the format of a scientific paper.",
+        "raw_precoreqs": "(Undergraduate level  BIOL 1010 Minimum Grade of D and Undergraduate level  MATH 1010 Minimum Grade of D) or  Prerequisite Override 100",
+        "prerequisites": [
+            "BIOL-1010",
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "BIOL4720": {
+        "description": "The techniques of gel electrophoresis, restriction enzyme mapping, PCR, and use of a molecular biology software program are applied to the study of bacterial plasmids and mammalian genes. The course includes extensive hands-on laboratory work, as well as the writing of in-depth reports. This is a communication-intensive course.",
+        "raw_precoreqs": "(Undergraduate level  BIOL 2120 Minimum Grade of D and Undergraduate level  BIOL 4620 Minimum Grade of D) or  Prerequisite Override 100",
+        "prerequisites": [
+            "BIOL-2120",
+            "BIOL-4620"
+        ],
+        "corequisites": null
+    },
+    "BIOL4740": {
+        "description": "Students will learn a variety of modern cell biology techniques such as cell culture, genetic analysis, immunocytochemistry, fluorescence microscopy, and live cell imaging. Using these techniques, students will investigate the function of genetically manipulated proteins in cells. In the last third of the semester, students will develop independent experimental research plans to address questions of interest to the student. This is a communication-intensive course.",
+        "raw_precoreqs": "Undergraduate level  BIOL 2120 Minimum Grade of D and Undergraduate level  BIOL 2500 Minimum Grade of D",
+        "prerequisites": [
+            "BIOL-2120",
+            "BIOL-2500"
+        ],
+        "corequisites": null
+    },
+    "BIOL4760": {
+        "description": "Part I of a two-semester sequence focusing on the chemistry, structure, and function of biological molecules, macromolecules, and systems. Topics covered include protein and nucleic acid structure, enzymology, mechanisms of catalysis, regulation, lipids and membranes, carbohydrates, bioenergetics, and carbohydrate metabolism.",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D and Undergraduate level  BIOL 1010 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010"
+        ],
+        "corequisites": null
+    },
+    "BIOL6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BMED2050": {
+        "description": "Introduction of number systems \u2013 decimal, binary and hexadecimal \u2013; variable types including Boolean, integer, float, character and string; general overview of computer architecture and software, programming in \u201cC/C++\u201d including input/output, control statements, operators, functions, arrays, strings, classes, objects, inheritance, pointers, references, file processing, exceptions and operator overloading; overview of other programming languages including Matlab, R and Python; design of algorithms for applications that are relevant for biomedical engineering applications.",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "BMED2100": {
+        "description": "Presents structure-property relationships of implant materials including metals, polymers, ceramics, and composites, with an emphasis on mechanical and surface properties in the broader context of implant design. Biological performance of biomaterials, case studies of traditional implants\u2014as well as emerging, tissue-engineered materials\u2014 are emphasized.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BMED2300": {
+        "description": "This course serves as an introduction to biomedical instrumentation and imaging with focus on the acquisition and monitoring of vital signals. Basic principles for the selection and appropriate use of instruments for solving bioengineering and medical problems such as microscopy, magnetic resonance imaging, and ultrasounds, among others are addressed.",
+        "raw_precoreqs": "Undergraduate level  PHYS 1200 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "PHYS-1200"
+        ],
+        "corequisites": null
+    },
+    "BMED2540": {
+        "description": "Application of mechanics to the study of normal, diseased, and traumatized musculo-skeletal system. Areas covered include determination of joint and muscle forces, mechanical properties of biological tissues, and structural analysis of bone-implant systems. Case studies are discussed to illustrate the role of biomechanics and biomaterials in the design of implants.",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "BMED4010": {
+        "description": "Theory and practice of biomedical measurements. An introduction to instrumentation and procedures for measurement of membrane transport, bioelectrical potentials, cell counting, biomechanical and biomaterial properties using invasive and noninvasive techniques. Transducers studied include strain gauge, differential transformer, spectrophometer, biopotential electrodes, microscope with camera, mechanical testing machine, piezoelectric transducer (or sensor). Also studied are instruments for determination of material properties.",
+        "raw_precoreqs": "Undergraduate level  BMED 2100 Minimum Grade of D and Undergraduate level  BMED 2300 Minimum Grade of D and Undergraduate level  BMED 2540 Minimum Grade of D",
+        "prerequisites": [
+            "BMED-2100",
+            "BMED-2300",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "BMED4200": {
+        "description": "Introduction of mathematical and computational methods to model physiological systems in biomedical engineering. Mathematical methods include solution techniques for systems of algebraic equations, systems of partial and partial differential equations. Computational methods include finite difference, finite element, and lumped parameter methods. Computational methods are programmed using commercial programming software.",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and Undergraduate level  BMED 2050 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2010",
+            "PHYS-1200",
+            "PHYS-1250",
+            "BMED-2050"
+        ],
+        "corequisites": null
+    },
+    "BMED4250": {
+        "description": "Quantitative analysis of transport phenomena in physiological systems, including fluid mechanics, thermodynamics, and mass transfer. Fluid statics, mass and energy conservation, laminar and turbulent flow, microscale and macroscale analytical methods, mass transport with biochemical reactions, applications to transport in tissue and organs will be introduced.",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D and Undergraduate level  PHYS 1100 Minimum Grade of D and Undergraduate level  MATH 2400 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-1100",
+            "PHYS-1100",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHEM2930": {
+        "description": "Students may obtain credit for chemistry-related experience in nonclassroom situations. For credit to be awarded, a brief proposal outlining the nature of the experience to be undertaken must be given to the department in advance for approval of its suitability. A written report is required at the end of the experience. A maximum of 4 credits is allowed, but this may be made up in more than one experience.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM4010": {
+        "description": "A course dealing with more advanced topics of inorganic chemistry, including molecular symmetry, application of symmetry concepts to molecular orbital descriptions of polyatomic molecules, solid state and non-stoichiometric compounds, coordination chemistry, spectral and magnetic properties, organometallic chemistry, and bioinorganic chemistry.",
+        "raw_precoreqs": "CHEM 2030 or  Prerequisite Override 100 or  Prerequisite Override 100",
+        "prerequisites": [
+            "CHEM-2030"
+        ],
+        "corequisites": null
+    },
+    "CHEM4410": {
+        "description": "A course dealing with physicochemical properties of substances on a macroscopic scale. Chemical thermodynamics, electrochemistry, electric and magnetic phenomena, transport properties, and surface and colloid chemistry.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHEM4440": {
+        "description": "Topics in physical chemistry that are important for understanding processes in biological systems. Included are: thermodynamics as applied to phase and chemical equilibria in chemical and biochemical systems; passive transport models for diffusion and electrical conductivity in electrolyte solutions; kinetic models for simple and complex chemical reactions, including enzyme mechanisms; quantum mechanical models used in spectroscopy.",
+        "raw_precoreqs": "Undergraduate level  CHEM 1200 Minimum Grade of D and Undergraduate level  MATH 1010 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-1200",
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "CHEM4530": {
+        "description": "A lecture/laboratory course for Chemical Engineering students. Topics include the principles of chemical equilibria and their relation to modern analytical methods and the basis of instrumental techniques for characterizing the chemical structures and properties of compounds. The course provides laboratory experience in the use of modern instruments along with other chemical techniques. Aspects of analytical, organic, and physical chemistry will be illustrated throughout the course. Students cannot get credit for both this course and CHEM 2110.",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM4760": {
+        "description": "Part I of a two-semester sequence focusing on the chemistry, structure, and function of biological molecules, macromolecules, and systems. Topics covered include protein and nucleic acid structure, enzymology, mechanisms of catalysis, regulation, lipids and membranes, carbohydrates, bioenergetics, and carbohydrate metabolism. (Students cannot obtain credit for both this course and either BIOL 4760 or BCBP 4760.)",
+        "raw_precoreqs": "(Undergraduate level  CHEM 2250 Minimum Grade of D and Undergraduate level  BIOL 1010 Minimum Grade of D) or Undergraduate level  BIOL 2120 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-2250",
+            "BIOL-1010",
+            "BIOL-2120"
+        ],
+        "corequisites": null
+    },
+    "CHME2050": {
+        "description": "This course introduces common computational techniques that are used in Chemical Engineering. Topics include solving algebraic equations, data analysis, numerical differentiation and integration, and numerical solutions of differential equations applied to chemical engineering problems. Multiple numerical approaches will be used, including an introduction to computer programming.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "CHME2100": {
+        "description": "This is a course designed to supplement RPI\u2019s personal lab safety courses and covers the safety protocols and practices associated with chemical process plants.  It is designed to provide information necessary for an ABET accredited degree and to assist students in finding an internship and a job. The course uses material offered on-line by the American Institute of Chemical Engineers.  It is part of the Safety and Chemical Engineering (SAChE) Certificate program offered by the society and provides continuing education credits for working engineers.",
+        "raw_precoreqs": "Undergraduate level  CHME 2020 Minimum Grade of D",
+        "prerequisites": [
+            "CHME-2020"
+        ],
+        "corequisites": null
+    },
+    "CHME4020": {
+        "description": "A continuation of CHME 4010. Course includes topics on multi-dimensional transport processes, potential, boundary layer and turbulent fluid flows, convective heat and mass transfer processes, friction factors and drag in and around solid objects, heat and mass exchangers, and radiation heat transfer. The course extends the use of numerical methods to apply to multidimensional problems, convective heat and mass transfer problems, and the simulation of more complicated fluid flows including turbulence approximations. Credit not allowed for both this course and ENGR 2250.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and Undergraduate level  CHME 4010 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2400",
+            "CHME-4010"
+        ],
+        "corequisites": null
+    },
+    "CHME4963": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME4965": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME4966": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHME9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CIVL6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CIVL9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS4360": {
+        "description": "This course is an introduction to the role of physiological mechanisms in behavioral processes. There will be detailed examination and discussion of the involvement of biological systems in feeding and drinking, sexual behavior, sleep and arousal, learning and memory, psychopathology and psychopharmacology.",
+        "raw_precoreqs": "(Undergraduate level  PSYC 1200 Minimum Grade of D or Undergraduate level  PHIL 2120 Minimum Grade of D or Undergraduate level  PSYC 2120 Minimum Grade of D or Undergraduate level  COGS 2120 Minimum Grade of D)",
+        "prerequisites": [
+            "PSYC-1200",
+            "PHIL-2120",
+            "PSYC-2120",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "COGS4600": {
+        "description": "Perception and thought are considered in terms of processes represented in the brain. The localization and lateralization of function are examined, drawing upon research on the behavioral effects of brain damage as well as brain-imaging studies and other approaches. Examples of topics include object recognition, memory, language, emotion, spatial ability, and motor processes.",
+        "raw_precoreqs": "Undergraduate level  PSYC 1200 Minimum Grade of D or (Undergraduate level  COGS 4330 Minimum Grade of D or Undergraduate level  PSYC 4330 Minimum Grade of D) or (Undergraduate level  PHIL 2120 Minimum Grade of D or Undergraduate level  PSYC 2120 Minimum Grade of D or Undergraduate level  COGS 2120 Minimum Grade of D)",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-4330",
+            "PSYC-4330",
+            "PHIL-2120",
+            "PSYC-2120",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "COGS4960": {
+        "description": "An advanced course concerned with selected topics in cognitive science.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI1100": {
+        "description": "An introduction to computer programming algorithm design and analysis. Additional topics include basic computer organization; internal representation of scalar and array data; use of top-down design and subprograms to tackle complex problems; abstract data types. Enrichment material as time allows. Interdisciplinary case studies, numerical and nonnumerical applications. Students who have passed CSCI 1200 cannot register for this course.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI2600": {
+        "description": "A study of important concepts in software design, implementation, and testing. Topics include specification, abstraction with classes, design principles and patterns, testing, refactoring, the software development process, GUI and event-driven programming, and cloud-based programming. The course also introduces implementation and testing tools, including IDEs, revision control systems, and other frameworks. The overarching goal of the course is for students to learn how to write correct and maintainable software.",
+        "raw_precoreqs": "(Undergraduate level  CSCI 1200 Minimum Grade of D and Undergraduate level  CSCI 2200 Minimum Grade of D)",
+        "prerequisites": [
+            "CSCI-1200",
+            "CSCI-2200"
+        ],
+        "corequisites": null
+    },
+    "CSCI2960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI4210": {
+        "description": "Discussion of various aspects of computer operating systems design and implementation. Topics include I/O programming, concurrent processes and synchronization problems, process management and scheduling of processes, virtual memory management, device management, file systems, deadlock problems, system calls, and interprocess communication. Programming projects are required.",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D and (Undergraduate level  CSCI 2500 Minimum Grade of D or Undergraduate level  ECSE 2660 Minimum Grade of D)",
+        "prerequisites": [
+            "CSCI-2300",
+            "CSCI-2500",
+            "ECSE-2660"
+        ],
+        "corequisites": null
+    },
+    "CSCI4380": {
+        "description": "Discussion of the state of practice in modern database systems, with an emphasis on relational systems. Topics include database design, database system architecture, SQL, normalization techniques, storage structures, query processing, concurrency control, recovery, security, and new directions such as object-oriented and distributed database systems. Students gain hands-on experience with commercial database systems and interface building tools. Programming projects are required.",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
+        "corequisites": null
+    },
+    "CSCI4440": {
+        "description": "Software system design methodology emphasizing use of object oriented modeling of application domains and of software systems and emphasizing the roles of written and oral communication in software engineering. Project management and software testing. Individual and team projects include specification, software architecture, user interfaces, and documentation of the phases of a project. This is a communication-intensive course.",
+        "raw_precoreqs": "Undergraduate level  CSCI 2300 Minimum Grade of D",
+        "prerequisites": [
+            "CSCI-2300"
+        ],
+        "corequisites": null
+    },
+    "CSCI4800": {
+        "description": "A survey of numerical methods for scientific and engineering problems. Topics include numerical solution of linear and nonlinear algebraic equations, interpolation and least squares approximations, numerical integration and differentiation, eigenvalue problems, and an introduction to the numerical solution of ordinary differential equations. Emphasis is placed on efficient computational procedures including the use of library and student written procedures using high-level software such as MATLAB.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D and Undergraduate level  MATH 2012 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2400",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "CSCI6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester.  If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presentend, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CSCI9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON2010": {
+        "description": "This course combines demand, derived from consumer preferences, and supply, based on firms\u2019 production functions, to establish market prices for goods and services. Calculus-based techniques are used to minimize costs and maximize utility and profits across differing industry structures. Product pricing strategies are examined. The course also provides an introduction to topics such as the pricing of stocks and bonds, game theory, positive and negative externalities, asymmetric information, and behavioral economics.",
+        "raw_precoreqs": "(Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  IHSS 1200 Minimum Grade of D or Undergraduate level  IHSS 1975 Minimum Grade of D) and (Undergraduate level  MATH 1010 Minimum Grade of D or Undergraduate level  MATH 1500 Minimum Grade of D)",
+        "prerequisites": [
+            "ECON-1200",
+            "IHSS-1200",
+            "IHSS-1975",
+            "MATH-1010",
+            "MATH-1500"
+        ],
+        "corequisites": null
+    },
+    "ECON4130": {
+        "description": "Financial institutions, especially commercial banking and the Federal Reserve System, are considered from three perspectives: their monetary roles; trends in the economic, organizational, and technological aspects of their operations; and their other economic roles-a critical view. Also, the role of money in macroeconomic theory is considered along with the role of monetary policies in relation to the problems of inflation and unemployment.",
+        "raw_precoreqs": "Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  INQR 1200 Minimum Grade of D",
+        "prerequisites": [
+            "ECON-1200",
+            "INQR-1200"
+        ],
+        "corequisites": null
+    },
+    "ECSE2010": {
+        "description": "Techniques for the analysis and simulation of linear electric circuits and measurements of their properties. Topics include resistive and energy-storage elements, controlled sources and operational amplifiers, systematic analysis methods, AC steady state, power and three-phase systems, magnetic coupling and transformers, transients, s-plane representation and analysis, frequency response, and Laplace transform and computer-aided methods.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ECSE2110": {
+        "description": "This course introduces the major components of today\u2019s power system such as transformers, electric machines, and transmission lines. Renewable energy sources and systems are discussed, including wind and solar energy. Integration of energy sources with the grid is addressed.",
+        "raw_precoreqs": "Undergraduate level  ECSE 2010 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
+        "prerequisites": [
+            "ECSE-2010",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "ECSE2410": {
+        "description": "Time and frequency-domain representation of continuous- and discrete-time signals and systems.  Response of linear, time-invariant systems. Convolution, Fourier series, Fourier transform, Laplace transform, and z-transform. Applications in communication, feedback control, and filtering.",
+        "raw_precoreqs": "Undergraduate level  ECSE 2010 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "ECSE-2010"
+        ],
+        "corequisites": null
+    },
+    "ECSE2500": {
+        "description": "Axioms of probability, joint and conditional probability, random variables, probability density, mass, and distribution functions, functions of one and two random variables, characteristic functions, sequences of independent random variables, central limit theorem, and laws of large numbers. Applications to electrical and computer engineering problems.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ECSE2660": {
+        "description": "Quantitative basis of modern computer architecture, processor design, memory hierarchy, and input/output methods. Layered operating system structures, process and storage management. Layered network organization, network protocols, switching, local and wide area networks. Examples from Unix and the Internet.",
+        "raw_precoreqs": "Undergraduate level  ECSE 2610 Minimum Grade of D",
+        "prerequisites": [
+            "ECSE-2610"
+        ],
+        "corequisites": null
+    },
+    "ECSE2960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE9990": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR2050": {
+        "description": "A first course in engineering design which emphasizes creativity, teamwork, communication, and work across engineering disciplines. Students are introduced to the design process through a semester-long project which provides a design-build-test experience. Oral and written communication are important elements of the course. The course meets with ENGR 1010.",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  CIVL 1200 Minimum Grade of D or Undergraduate level  ENGR 1200 Minimum Grade of D or Undergraduate level  ENGR 1400 Minimum Grade of D) and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "CIVL-1200",
+            "ENGR-1200",
+            "ENGR-1400",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "ENGR2090": {
+        "description": "An integrated development of modeling-and problem-solving techniques for particles and rigid bodies emphasizing the use of free-body diagrams, vector algebra, and computer simulation. Topics covered include the kinematics and kinetics of translational, rotational, and general plane motion, energy and momentum methods.",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  PHYS 1100 Minimum Grade of D or Undergraduate level  PHYS 1150 Minimum Grade of D) and Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2400 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "PHYS-1100",
+            "PHYS-1150",
+            "MATH-2400",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "ENGR2300": {
+        "description": "A survey, application-oriented course for engineering and science majors. Transducers and measurement devices. DC and AC analog circuits including impedance, power, frequency response, and resonance. Diodes, transistors, and operational amplifiers. Signal conditioning, noise, and shielding. Digital electronics, A/D and D/A conversation. Power supplies, rectifiers, and electromagnetic devices.",
+        "raw_precoreqs": "(Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and Undergraduate level  MATH 1020 Minimum Grade of D",
+        "prerequisites": [
+            "PHYS-1200",
+            "PHYS-1250",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    },
+    "ENGR2530": {
+        "description": "Concept of stress and strain, generalized Hooke\u2019s law, axial load, torsion, pure bending, transverse loading, transformation of stress and strain components in 2D, design of beams and shafts for strength, deflection of beams, work and energy, columns.",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-1100"
+        ],
+        "corequisites": null
+    },
+    "ENGR2600": {
+        "description": "Appreciation and understanding of uncertainties and the conditions under which they occur, within the context of the engineering problem-solving pedagogy of measurements, models, validation, and analysis. Problems and concerns in obtaining measurements; tabular and graphical organization of data to minimize misinformation and maximize information; and development and evaluation of models. Concepts will be supported with computer demonstration. Applications to problems in engineering are emphasized.",
+        "raw_precoreqs": "Undergraduate level  MATH 1010 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "MATH-1010"
+        ],
+        "corequisites": null
+    },
+    "ENGR4760": {
+        "description": "The objective is to help engineering students recognize and understand the importance of cost factors that are inherent in all engineering decisions. Development of ability to handle engineering problems that involve economic factors. The course includes economic environment, selections in present economy, value analysis, critical path economy, interest and money-time relationships, depreciation and valuation, capital financing and budgeting, basic methods for undertaking economic studies, risk, uncertainty and sensitivity, selections between alternatives, fixed, increment, and sunk costs, the effects of income taxes in economic studies, replacement studies, minimum cost formulas, economic studies of public projects, economic studies in public utilities. Effects of inflation are considered at each step. Students cannot obtain credit for both this course and ENGR 4750.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENVE4370": {
+        "description": "This course introduces elements of applied hydrology including climate data analysis, hydrologic processes (rainfall, abstraction, evaporation, excess runoff), and catchment modelling. Applications include design of stormwater management infrastructure to promote infiltration, control peak discharge, and control receiving stream flow distribution.",
+        "raw_precoreqs": "Undergraduate level  CIVL 2060 Minimum Grade of D",
+        "prerequisites": [
+            "CIVL-2060"
+        ],
+        "corequisites": null
+    },
+    "ENVE9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ERTH1010": {
+        "description": "Age and origin of the Earth, internal constituents, and energy sources; how plates move, oceans develop, resources accumulate, and mountains rise. Gives nonspecialists a picture of the Earth\u2019s major processes and the ways in which they interact to provide the world\u2019s citizens with adequate material resources. Lectures and recitation. (Students cannot obtain credit for both ERTH 1010 and ERTH 1100.)",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS1040": {
+        "description": "This course combines an introduction to traditional visual arts and digital media and serves as a foundation for work in game design and interactive art. Using studio projects that incorporate physical media, digital imaging and computer code, students develop their formal vocabulary, observational skills, and their understanding of issues in visual and interactive arts.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS2560": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS2961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS4960": {
+        "description": "Credit Hours: 1 to 4",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "GSAS4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS4960": {
+        "description": "Credit Hours: 3",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISCI9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4140": {
+        "description": "Review of simple and multiple regression, selection procedures, regression diagnostics, residual analysis, stepwise regression, analysis of variance, design of experiments including factorial experiments, analysis of ordinal data and nonparametric inference, basic time series models. Extensive use of statistical software. Emphasis on statistical applications to industrial engineering.",
+        "raw_precoreqs": "Undergraduate level  ENGR 2600 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-2600"
+        ],
+        "corequisites": null
+    },
+    "ISYE4240": {
+        "description": "Planning, controlling, and evaluating engineering projects. Use of network analysis techniques, PERT/CPM, budget control, time/cost tradeoff, time estimation, resource allocation, and resource leveling. Extensions include probabilistic models, multiple resource models, project organization, risk analysis, technical forecasting, and network theory. Students cannot obtain credit for both this course and ENGR 4750.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4600": {
+        "description": "An introduction to commonly used methods of deterministic and stochastic operations research. Topics include linear programming, simplex algorithms, duality, linear networks, integer programming, dynamic programming, goa1 programming, location models, exact and heuristic solution procedures for integer and sequencing problems, queuing theory, Markov chains, multi-criteria decision making, and decision analysis.",
+        "raw_precoreqs": "Undergraduate level  ENGR 2600 Minimum Grade of D and Undergraduate level  MATH 1020 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-2600",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    },
+    "ISYE6610": {
+        "description": "Survey of decision science methodologies in the context of technical and economic decision problems. The course seeks to develop a conceptual understanding of these methods and basic implementation skills. Students will learn how to apply decision science methods from problem recognition and data development through problem formulation and computer solution.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE6980": {
+        "description": "Active participation in a master\u2019s-level project under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades of IP are assigned until the master\u2019s project has been approved by the faculty adviser. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the Library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LGHT6980": {
+        "description": "Active participation in a master's-level project, under the supervision of a faculty adviser, leading to a master's project report. Grades S or U are assigned at the end of the semester.  If recommended by the adviser, the master's project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE2220": {
+        "description": "A first course in enhancing critical skills for leaders of technological innovation. The course emphasizes creativity, teamwork, communication and work across engineering disciplines. Students learn how to build on personal and innate talents through critical thinking skills, design-oriented mindsets, and an understanding of appropriate tool and process selection. Students will utilize tools and processes for ideation and innovation, develop ideas from concepts to minimum viable products via the ideate - build - learn cycle, and recognize and understand prototyping methods.",
+        "raw_precoreqs": "(Undergraduate level  ENGR 1100 Minimum Grade of D or Undergraduate level  ECSE 1010 Minimum Grade of D) and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D) and (Undergraduate level  ENGR 1200 Minimum Grade of D or Undergraduate level  ENGR 1400 Minimum Grade of D or Undergraduate level  CIVL 1200 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-1100",
+            "ECSE-1010",
+            "PHYS-1200",
+            "PHYS-1250",
+            "ENGR-1200",
+            "ENGR-1400",
+            "CIVL-1200"
+        ],
+        "corequisites": null
+    },
+    "MANE2720": {
+        "description": "The fundamentals of fluid statics and dynamics. Hydrostatics, fluid flow fields, control-volume analysis, and the Navier-Stokes equations. Inviscid, viscous, and turbulent flows. Similitude, boundary layers, internal and external flows.",
+        "raw_precoreqs": "Undergraduate level  ENGR 1100 Minimum Grade of D and (Undergraduate level  PHYS 1100 Minimum Grade of D or Undergraduate level  PHYS 1150 Minimum Grade of D) and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D) and Undergraduate level  MATH 2400 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-1100",
+            "PHYS-1100",
+            "PHYS-1150",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2400"
+        ],
+        "corequisites": null
+    },
+    "MANE4030": {
+        "description": "Introduction to the design of mechanical components and integrated assemblies. Loads, stresses, and strains. Failure phenomena and material selection. Mechanical components including shafts, couplings, bearings, gears, springs, clutches, brakes, screws and fasteners, and bonded joints.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  ENGR 2530 Minimum Grade of D or Undergraduate level  BMED 2540 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2400",
+            "ENGR-2530",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "MANE4060": {
+        "description": "Beam structures under combined shear, bending, and torsional loads. Semi-monocoque structures: idealizations involving wings, ribs, and fuselage bulkheads. Effects of taper and cutouts in stiffened shell structures, shear deformations and warping, location of elastic axis in open and closed sections, torsion of multicell sections. Stability of beam and membrane elements. Introduction to materials used in aerospace vehicles including metals, ceramics, and composites with special emphasis on fiber-reinforced composite materials. Methods for material analysis and selection for various aerospace components.",
+        "raw_precoreqs": "Undergraduate level  ENGR 2530 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-2530"
+        ],
+        "corequisites": null
+    },
+    "MANE4070": {
+        "description": "Introduction to fixed-wing flight mechanics.  Lift generation, thin-airfoil, and wing theories.  Boundary layers and applications to wings.  One and two-dimensional compressible flow and applications to aircraft and rocket engines.",
+        "raw_precoreqs": "Undergraduate level  MANE 2720 Minimum Grade of D",
+        "prerequisites": [
+            "MANE-2720"
+        ],
+        "corequisites": null
+    },
+    "MANE4240": {
+        "description": "An introductory course in the use of finite element methods for the solution of practical problems in engineering. The course focuses on the concepts of model generation, finite element discretization, numerical integration, computational solution, and verification.  Students will be exposed to the use of commercial finite element software.",
+        "raw_precoreqs": "(Undergraduate level  ENGR 2530 Minimum Grade of D or Undergraduate level  BMED 2540 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-2530",
+            "BMED-2540"
+        ],
+        "corequisites": null
+    },
+    "MANE4500": {
+        "description": "Introduction to modeling, analysis, and control of dynamic systems. Modeling of mechanical, electrical, and electromechanical systems. Time-domain and Laplace-Transform solutions. Block diagrams and transfer functions. Analysis and design of feedback control systems. Control system representation and characteristics. System performance specifications. Absolute stability criteria. Root-Locus and frequency response analysis and design methods. Systems compensation and controller design.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  PHYS 1200 Minimum Grade of D or Undergraduate level  PHYS 1250 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2400",
+            "PHYS-1200",
+            "PHYS-1250"
+        ],
+        "corequisites": null
+    },
+    "MANE4730": {
+        "description": "Comprehensive treatment of conduction, convection (including boiling and condensation), and radiation heat transfer. Thermal system design and performance (including heat exchangers). Emphasis is on physical and mathematical modeling of engineering systems for application of modern analytical and computational solution methods.",
+        "raw_precoreqs": "Undergraduate level  MANE 2710 Minimum Grade of D",
+        "prerequisites": [
+            "MANE-2710"
+        ],
+        "corequisites": null
+    },
+    "MANE4880": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MATH4090": {
+        "description": "The course provides an opportunity for the development of theorem-proving skills in the field of mathematical analysis.  Expansion of a knowledge base comes as a by-product of energy expended in theorem proving and subsequent exposition.  Analysis topics included are: sets, functions, the real numbers, cardinality, induction, decimal representations of real numbers, Euclidean spaces, abstract vector spaces, and metric spaces. This is a communication-intensive course.",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2010"
+        ],
+        "corequisites": null
+    },
+    "MATH4100": {
+        "description": "The theory underlying vector spaces, algebra of subspaces, bases; linear transformations, dual spaces; eigenvectors, eigenvalues, minimal polynomials, canonical forms of linear transformations; inner products, adjoints, orthogonal projections, and complements.",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D",
+        "prerequisites": [
+            "MATH-2010",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH4300": {
+        "description": "An introduction to the theory and applications of complex variables. Topics include analytic functions, Riemann surfaces, complex integration, Taylor and Laurent series, residues, conformal mapping, harmonic functions, and Laplace transforms. Applications will be to problems in science and engineering such as fluid and heat flow, dynamical systems, and electrostatics.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MATH4600": {
+        "description": "A course emphasizing advanced concepts and methods from calculus. Topics include: multivariable integral theorems (Green\u2019s, divergence, Stokes\u2019, Reynolds transport), extrema of multivariable functions (including Taylor\u2019s theorem and Lagrange multipliers), the calculus of variations (Euler\u2013Lagrange equations, constraints, principle of least action), and Cartesian tensors (calculus, invariants, representations).",
+        "raw_precoreqs": "(Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH4800": {
+        "description": "A survey of numerical methods for scientific and engineering problems. Topics include numerical solution of linear and nonlinear algebraic equations, interpolation and least squares approximations, numerical integration and differentiation, eigenvalue problems, and an introduction to the numerical solution of ordinary differential equations. Emphasis placed on efficient computational procedures including the use of library and student written procedures using high-level software such as MATLAB.",
+        "raw_precoreqs": "Undergraduate level  MATH 2400 Minimum Grade of D and (Undergraduate level  MATH 2010 Minimum Grade of D or Undergraduate level  MATH 2011 Minimum Grade of D or Undergraduate level  MATH 2012 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2400",
+            "MATH-2010",
+            "MATH-2011",
+            "MATH-2012"
+        ],
+        "corequisites": null
+    },
+    "MATH6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT1100": {
+        "description": "This is a required first course for management majors and minors. In a case-based format, it emphasizes broad, basic principles of managerial functions and processes using an interdisciplinary approach to goal-oriented situations of private and public organizations.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT2320": {
+        "description": "An introduction to corporate financial analysis and decision making. This course covers the following topics: financial statement analysis, valuation principles, risk and return analysis, working capital management, capital budgeting, cost of capital, capital structure, and dividend policy.",
+        "raw_precoreqs": "Undergraduate level  MGMT 2300 Minimum Grade of D",
+        "prerequisites": [
+            "MGMT-2300"
+        ],
+        "corequisites": null
+    },
+    "MGMT4140": {
+        "description": "This course provides the undergraduate management student with an introduction to the concept and components of computer-based \u201cmanagement information systems\u201d (MIS) and their integration into organizational processes to gain competitive advantage. This course will examine approaches for developing and using information systems in support of business processes. Topics include: the impact of computer-based information systems on organizations; the basic technology components of modern information systems; the process by which information systems are created and changed; and selected management and technology issues.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MGMT4850": {
+        "description": "This course provides an overview of basic processes in human behavior that influence the effectiveness of individuals, groups and organizations. Its focus is on understanding what happens during interpersonal interactions in work situations, and what can be done to make employees more effective. Topics covered include organizational socialization, motivation, decision-making, team dynamics, virtual teams, influence, and conflict management. Numerous exercises and case analyses are used in class to help provide students with insights into these processes.",
+        "raw_precoreqs": "Undergraduate level  MGMT 1100 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "MGMT-1100"
+        ],
+        "corequisites": null
+    },
+    "MGMT9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a doctoral dissertation. Grades of IP are assigned until the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education to be archived in a standard format in the library. Grades will then be listed as S.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE2500": {
+        "description": "Introduction to some experimental methods used to fabricate and measure the structure and properties of materials. Thermal and mechanical processing and properties are emphasized. Specimen preparation, examination by light optical microscopy, report writing, and measurement systems analysis are covered.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE4250": {
+        "description": "This is a required departmental course, but is also appropriate for biomedical engineers and other engineering disciplines as an elective. This course teaches the mechanical properties of metals, ceramics, and polymers from both the macroscopic and atomistic or micromechanical viewpoints. An introduction to three-dimensional stresses and strains. Elastic behavior, plastic behavior, strengthening mechanisms, fracture, creep, and fatigue are all addressed. Includes laboratory component.",
+        "raw_precoreqs": "Undergraduate level  ENGR 1600 Minimum Grade of D and Undergraduate level  MTLE 2100 Minimum Grade of D",
+        "prerequisites": [
+            "ENGR-1600",
+            "MTLE-2100"
+        ],
+        "corequisites": null
+    },
+    "MTLE6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE6990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the thesis has been presented, approved by the adviser, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MTLE9990": {
+        "description": "Active participation in research, under the supervision of a faculty adviser, leading to a master\u2019s thesis. Grades of S or U are assigned by the adviser each term to reflect the student\u2019s research progress for the given semester. Once the dissertation has been publicly defended, approved by the doctoral committee, and accepted by the Office of Graduate Education, it will be archived in a standard format in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2350": {
+        "description": "Experiments in mechanics, optics, electricity and electromagnetics, oscillations and waves, atomic, nuclear, and solid-state physics. Experimental methods, quantitative observations, and interpretation of data. This is a communication-intensive course.",
+        "raw_precoreqs": "Undergraduate level  PHYS 2210 Minimum Grade of D",
+        "prerequisites": [
+            "PHYS-2210"
+        ],
+        "corequisites": null
+    },
+    "PHYS2962": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS4962": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4360": {
+        "description": "This course is an introduction to the role of physiological mechanisms in behavioral processes. There will be detailed examination and discussion of the involvement of biological systems in feeding and drinking, sexual behavior, sleep and arousal, learning and memory, psychopathology and psychopharmacology.",
+        "raw_precoreqs": "Undergraduate level  PSYC 1200 Minimum Grade of D or Undergraduate level  COGS 2120 Minimum Grade of D",
+        "prerequisites": [
+            "PSYC-1200",
+            "COGS-2120"
+        ],
+        "corequisites": null
+    },
+    "PSYC4600": {
+        "description": "Perception and thought are considered in terms of processes represented in the brain. The localization and lateralization of function are examined, drawing upon research on the behavioral effects of brain damage as well as brain-imaging studies and other approaches. Examples of topics include object recognition, memory, language, emotion, spatial ability, and motor processes.",
+        "raw_precoreqs": "(Undergraduate level  COGS 4330 Minimum Grade of D or Undergraduate level  PSYC 4330 Minimum Grade of D or Undergraduate level  PSYC 4360 Minimum Grade of D or Undergraduate level  COGS 4360 Minimum Grade of D or Undergraduate level  PSYC 4370 Minimum Grade of D",
+        "prerequisites": [
+            "COGS-4330",
+            "PSYC-4330",
+            "PSYC-4360",
+            "COGS-4360",
+            "PSYC-4370"
+        ],
+        "corequisites": null
+    },
+    "PSYC4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4962": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4600": {
+        "description": "DIS Studio A introduces students to the principles and practices of design for environmental sustainability. It is open to majors in Design, Innovation, and Society (DIS), Sustainability Studies, and Science, Technology, and Society (STS). This is an intensive studio/seminar hybrid that will advance students\u2019 understanding, through practice, of iterative design processes and the multiple dimensions of sustainability. The specific methodologies, concepts, and topics will vary according to the expertise and research specialization of the faculty member teaching the course and may include themes such as disability, feminism, critical race theory, or other approaches as they intersect with environmental sustainability.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT1110": {
+        "description": "This course will help you experience the power of language and learn how to develop that power as you become more aware of your communicative choices. You will write for several genres, both formal and informal, creating each piece for a specific audience and purpose. You will learn to communicate effectively\u2014orally, visually, and in writing\u2014in a wide range of situations that will be crucial to success in your academic and professional careers.  ",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT4960": {
+        "description": "Credit Hours: 4",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2180": {
+        "description": "Deep Listening is a practice developed by pioneering composer and humanitarian Pauline Oliveros to enhance and expand listening abilities and to encourage creativity. Students will develop a heightened awareness to sound and their sonic environment through experiential exercises, creative projects, collaborations, readings, lectures, and discussion. Musicians and non-musicians of all abilities and backgrounds are welcome!",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2700": {
+        "description": "An introductory studio course covering the principles of critical listening, psychoacoustics, the art of music recording, and the basic use of digital equipment for music production and post-production. Hands-on assignments in a professional sound facility will be combined with readings and historical examples drawing on popular and experimental styles.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2960": {
+        "description": "Experimental courses offered for one or two semesters.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS2962": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ARTS4560": {
+        "description": "This course explores the history, methods, and goals of hackers with special attention paid to their role in social movements. It broadly interprets the term \u201chacktivism\u201d to include computer hacking, media hacking and \u201creality hacking\u201d in the service of social change. Students will gain an understanding of how and why hackers have emerged as a major social force.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1010": {
+        "description": "Introduction to biological systems. Discussion of problems associated with biological organization, scaling, and hierarchy. Major topics covered include evolution, genetics and medicine, and ecology. The course considers the biological components of various environmental, social, and individual problems. Course is taught using both traditional and research-based pedagogical methods.",
+        "raw_precoreqs": "BIOL 1015",
+        "prerequisites": null,
+        "corequisites": [
+            "BIOL-1015"
+        ]
+    },
+    "BIOL1015": {
+        "description": "The goal of this laboratory course is to learn about biology through hands-on, project-based lab activities that engage students in actual biology experiments and procedures - learning biology by actually doing biology.",
+        "raw_precoreqs": "BIOL 1010",
+        "prerequisites": null,
+        "corequisites": [
+            "BIOL-1010"
+        ]
+    },
+    "BIOL4320": {
+        "description": "Microbiology Laboratory will provide hands-on experience for broad training in bacteriology and mycology with emphasis on: microscopy, bacterial growth, and biochemical assays. An investigative component will involve characterization of an unknown bacterium using the analytical tools learned. In addition to laboratory experience and good technique, the course will emphasize written communication with reports in the format of scientific papers. This is a communication-intensive course.",
+        "raw_precoreqs": "Undergraduate level  BIOL 2500 Minimum Grade of D",
+        "prerequisites": [
+            "BIOL-2500"
+        ],
+        "corequisites": null
+    },
+    "CHEM1100": {
+        "description": "Principles of chemistry, with particular focus on atomic and molecular structure and bonding, periodicity, basic thermodynamic principles, introduction to acid-base chemistry and elementary chemical equilibrium, and introduction to organic chemistry. Students cannot get credit for both this course and CHEM 1110.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM2230": {
+        "description": "Laboratory experiments dealing with basic techniques used in the synthesis and characterization of organic compounds.",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM2250": {
+        "description": "Structure and chemical behavior of organic molecules with particular emphasis on reaction mechanisms as pathways for understanding their reactions. Stereochemistry, synthesis, and spectroscopic methods for the identification of organic functional groups are among the topics included.",
+        "raw_precoreqs": "( Prerequisite Override 100 or Undergraduate level  CHEM 1100 Minimum Grade of D or Undergraduate level  CHEM 1110 Minimum Grade of D)",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "CHEM4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM1960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2520": {
+        "description": "This course introduces students to basic topics in communication theory and research. It includes topics in interpersonal, group, organizational, mediated, and mass communication. Students will study and apply theories to real world situations and events and explore the social and cultural impact of new media technology.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2660": {
+        "description": "This course introduces students to the practice of graphic design with a variety of hands-on projects. Studies include the principles and theories of 2D design and the integration of form, color, type, image, and content. Students will develop a heightened visual awareness and an understanding of how design influences meaning. The course emphasizes strategic and critical thinking in the solving of graphic design problems for the purposes of professional communication across a range of media platforms.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2960": {
+        "description": "Experimental courses tried out in one or two terms.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4880": {
+        "description": "The course covers interactive, multimedia interface design (for Web sites and apps) for data visualization or other forms of interactive information design. Innovative designs that explore new directions in interactive data design are highlighted. Topics include multisensory information design using graphics, sound, touch, and large-scale data projection. Interface design topics include user-centered design, information architecture, rapid prototyping, cross-cultural design, and intellectual property. Students may choose the applications they want to design for the class project.",
+        "raw_precoreqs": "Undergraduate level  CSCI 1010 Minimum Grade of D or Undergraduate level  CSCI 1100 Minimum Grade of D or Undergraduate level  CSCI 1200 Minimum Grade of D",
+        "prerequisites": [
+            "CSCI-1010",
+            "CSCI-1100",
+            "CSCI-1200"
+        ],
+        "corequisites": null
+    },
+    "COMM4963": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM6880": {
+        "description": "This course covers interactive, multimedia interface design (for Web sites and apps) for data visualization or other forms of interactive information design. Innovative designs that explore new directions in interactive data design are highlighted. Topics include multisensory information design using graphics, sound, touch, and large-scale data projection. Interface design topics include user-centered design, information architecture, rapid prototyping, cross-cultural design, and intellectual property. Students may choose the applications they want to design for the class project.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON2020": {
+        "description": "Attention is directed primarily to variations in the aggregate volume of output, income, and employment. Cyclical fluctuations and long-term economic trends are examined and the interrelations of business and government policies are analyzed. The applicability of economic theory to the problems of business forecasting is discussed.",
+        "raw_precoreqs": "Undergraduate level  IHSS 1200 Minimum Grade of D and (Undergraduate level  MATH 1010 Minimum Grade of D or Undergraduate level  MATH 1500 Minimum Grade of D)",
+        "prerequisites": [
+            "IHSS-1200",
+            "MATH-1010",
+            "MATH-1500"
+        ],
+        "corequisites": null
+    },
+    "ECON4190": {
+        "description": "This course investigates the significance of economic globalization, covering the following topics: international trade and financial flows, technological innovation and intellectual property, technology transfer, national government and transnational corporations, natural resources, health and the environment, impacts on selected industries and countries, and roles of the world trade organization and international monetary fund. The major controversies surrounding globalization are identified, and alternative arguments are evaluated based on available evidence.",
+        "raw_precoreqs": "Undergraduate level  ECON 1200 Minimum Grade of D",
+        "prerequisites": [
+            "ECON-1200"
+        ],
+        "corequisites": null
+    },
+    "ECON4230": {
+        "description": "Develops a critical understanding of environmental issues and policy from an interdisciplinary economics perspective. Covers the economics of environmental quality including the links between the economy and the environment, the causes of environmental problems, evaluation of environmental projects and policies, and policies to address environmental issues with an emphasis on efficiency, equity, and sustainability, and the international dimensions of environmental issues.",
+        "raw_precoreqs": "Prerequisite Override 100 or Undergraduate level  ECON 1200 Minimum Grade of D or Undergraduate level  IHSS 1200 Minimum Grade of D",
+        "prerequisites": [
+            "ECON-1200",
+            "IHSS-1200"
+        ],
+        "corequisites": null
+    },
+    "ENGR1100": {
+        "description": "An integrated development of linear algebra and statics emphasizing engineering applications and also incorporating computer exercises involving matrix techniques and calculations using available software packages.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1200": {
+        "description": "An introduction to the techniques for creating solid models of engineering designs. Topics include three-dimensional modeling of parts and assemblies, visualization, orthographic and isometric free-hand sketching, and computer-generated design documentation.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1600": {
+        "description": "Introduction to the scientific principles that dictate the structure and properties of engineering materials, including metals, ceramics, semiconductors, and polymers. Physical properties of materials (mechanical, electrical, thermal, optical) are discussed in terms of the underlying bonding and structure, spanning multiple length scales from atomic packing to micron scale defects, in practical engineering materials. Throughout the course, the material behaviors are understood from the viewpoint of thermodynamics and kinetics.",
+        "raw_precoreqs": "(Undergraduate level  CHEM 1100 Minimum Grade of D or Undergraduate level  CHEM 1110 Minimum Grade of D) or  Prerequisite Override 100",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "ENGR4010": {
+        "description": "Students will study issues associated with working in teams in a modern work environment. Various styles of leadership, the definitions of power and empowerment and their applications in industry and team settings will be studied. Additionally, other topics to be explored include vision, values and attitudes, and organizational culture. The course format will include small and large group discussions, case studies, experiential exercises, and participation from industry guests.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR4960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "IHSS4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LANG1410": {
+        "description": "This course assumes no previous knowledge of the subject. The course is designed to provide students with fundamental skills in listening, speaking, reading, and writing Mandarin Chinese. Oral and aural skills will be emphasized. Background on Chinese culture will be introduced as an element of the course. For entry level, non-native speakers only.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LANG4961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "MANE4080": {
+        "description": "Analysis of thrust generation from rockets, gas turbines, and propellers. Applications of one- and two-dimensional compressible flow to analysis of propulsion systems. Gas turbine component performance including diffusers and nozzles, turbomachinery, and combustors.",
+        "raw_precoreqs": "Undergraduate level  MANE 2710 Minimum Grade of D and Undergraduate level  MANE 2720 Minimum Grade of D",
+        "prerequisites": [
+            "MANE-2710",
+            "MANE-2720"
+        ],
+        "corequisites": null
+    },
+    "MANE4960": {
+        "description": "When Offered: Upon sufficient demand.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL2140": {
+        "description": "Introduction to first-order logic as a tool to be used in engineering, computer science, philosophy, etc., and as procedural knowledge helpful in puzzle-solving environments (e.g., standardized tests). A hands-on laboratory component is included.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4240": {
+        "description": "A critical examination of traditional and contemporary works in ethical theory by considering what these theories have to say about how people should live, what rights and obligations they have, what things are intrinsically valuable. Typically, this includes such topics as ethical and cultural relativism, egoism, freedom, and responsibility. Often the focus will be on contemporary issues such as war, abortion, equality, or punishment.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4500": {
+        "description": "This course involves a philosophical analysis of some of the basic moral issues raised by recent and anticipated developments in the areas of biology and medicine. The general question \u201cWhat are moral problems, and how does one resolve them?\u201d is examined in the context of concrete cases involving issues such as abortion, euthanasia, organ transplants, experimentation on human patients, cloning, genetic engineering, and behavior control and modification.",
+        "raw_precoreqs": "Undergraduate level  STSO 2500 Minimum Grade of D or Undergraduate level  STSO 2510 Minimum Grade of D or Undergraduate level  STSO 2520 Minimum Grade of D or Undergraduate level  STSO 2700 Minimum Grade of D or Undergraduate level  IHSS 1110 Minimum Grade of D or Undergraduate level  IHSS 1150 Minimum Grade of D or Undergraduate level  PHIL 1110 Minimum Grade of D or Undergraduate level  PHIL 4240 Minimum Grade of D",
+        "prerequisites": [
+            "STSO-2500",
+            "STSO-2510",
+            "STSO-2520",
+            "STSO-2700",
+            "IHSS-1110",
+            "IHSS-1150",
+            "PHIL-1110",
+            "PHIL-4240"
+        ],
+        "corequisites": null
+    },
+    "PHYS1100": {
+        "description": "The first semester of a two-semester sequence of interactive courses. Topics include linear and angular kinematics and dynamics, work and energy, momentum and collisions, forces and fields, gravitation, oscillatory motion, waves, sound, and interference.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS2961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS6980": {
+        "description": "Active participation in a master\u2019s-level project, under the supervision of a faculty adviser, leading to a master\u2019s project report. Grades S or U are assigned at the end of the semester. If recommended by the adviser, the master\u2019s project may be accepted by the Office of Graduate Education to be archived in the library.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC2960": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4430": {
+        "description": "Mindfulness involves giving particular attention to our moment-to-moment experiences in a way that emphasizes observing, rather than judging or evaluating. There is empirical evidence of the many health benefits of mindfulness meditation, including the potential to produce fundamental changes in brain structure and epigenetic change. In this class, participants will discuss the historical and psychological foundations of mindfulness and empirical findings supporting its positive effects. Students will participate in structured exercises. This course is a very hands-on approach to mindfulness. Students will be required to practice mindfulness and meditation and develop their mindful skills. ",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PSYC4730": {
+        "description": "Positive Psychology is the scientific study of human happiness, well-being, and strength of character. This course takes an empirical approach to helping individuals use the science of flourishing to enhance their lives. Resiliency, the ability to adapt to stress and adversity, will be emphasized. Students will learn about coping techniques of resiliency to effectively navigate through life situations. ",
+        "raw_precoreqs": "Undergraduate level  PSYC 1200 Minimum Grade of D",
+        "prerequisites": [
+            "PSYC-1200"
+        ],
+        "corequisites": null
+    },
+    "STSO2520": {
+        "description": "A study of the principles and concepts of sociology and their application to the study of society and self. Students are introduced to the scope, materials, and methods of sociology. The issues and problems to be studied come from basic social institutions such as the family, science, and religion. Other topics may include love, crime, political economy, power, population growth, social class, and minority and ethnic relations.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4100": {
+        "description": "This course focuses on increasing students\u2019 knowledge concerning the impact of non-technical issues on the viability of technical (engineering) designs and solutions. The non-technical issues to be considered include the cognitive and physical strengths and limitations of people in the chain spanning from product/equipment designers/manufacturers to end users, as well as economic, environmental, cultural, political, ethical, health and safety, and societal influences. During the course, students will read and discuss articles and case studies in which the technical solution pursued did not have the desired effect, or led to disaster. Possible explanations include a failure to take into account the environmental, economic, socio-cultural, and/or political issues associated with the technology\u2019s ultimate usage.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4250": {
+        "description": "This course involves a philosophical analysis of some of the basic moral issues raised by recent and anticipated developments in the areas of biology and medicine. The general question \u201cWhat are moral problems, and how does one resolve them?\u201d is examined in the context of concrete cases involving issues such as abortion, euthanasia, organ transplants, experimentation on human patients, cloning, genetic engineering, and behavior control and modification.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "STSO4960": {
+        "description": "Credit Hours: 4",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT2340": {
+        "description": "This course focuses on developing public speaking skills and critical listening abilities. Guided by rhetorical theory, theories of persuasion, and argumentation theory, students prepare several oral presentations, engage in extemporaneous speaking exercises, and criticize other performances.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "WRIT2960": {
+        "description": "Credit Hours: 4",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "BIOL1961": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "CHEM1200": {
+        "description": "Continued examination of the principles of chemistry in more depth, considering thermodynamics, advanced concepts in chemical equilibrium and acid-base chemistry, kinetics of chemical reactions, and electrochemistry. Students cannot get credit for this course and CHEM 1210.",
+        "raw_precoreqs": "Undergraduate level  CHEM 1100 Minimum Grade of D or Undergraduate level  CHEM 1110 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "CHEM-1100",
+            "CHEM-1110"
+        ],
+        "corequisites": null
+    },
+    "CHEM2240": {
+        "description": "A continuation of CHEM 2230, which is a prerequisite.",
+        "raw_precoreqs": "Undergraduate level  CHEM 2230 Minimum Grade of D and Undergraduate level  CHEM 2260 Minimum Grade of D",
+        "prerequisites": [
+            "CHEM-2230",
+            "CHEM-2260"
+        ],
+        "corequisites": null
+    },
+    "CHEM2260": {
+        "description": "A continuation of CHEM 2250, which is a prerequisite.",
+        "raw_precoreqs": "Undergraduate level  CHEM 2250 Minimum Grade of D or  Prerequisite Override 100",
+        "prerequisites": [
+            "CHEM-2250"
+        ],
+        "corequisites": null
+    },
+    "CHEM4962": {
+        "description": "",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COGS2120": {
+        "description": "This course is an introduction to the new and quickly growing field of cognitive science. Cognitive Science is a highly interdisciplinary field of study of mind at the intersection of philosophy, psychology, computer science, neuroscience, linguistics, and anthropology.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM2440": {
+        "description": "Does documentary film depict reality or is it just another form of storytelling? This course takes a broad, historical look at documentary media, exposing students to a wide range of works that in some sense stand on claims to truth. Students are invited to develop a critical stance toward documentary modes of social representation, through viewing and analyzing colonial photography and cinema, ethnographic, propaganda, cinema verite, experimental, and even \u201cfake\u201d documentaries.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "COMM4535": {
+        "description": "This course provides students a venue to explore the different uses of Eastern and Western social media for socializing, entertaining, publicizing, and marketing. Students explore how media and mediated communication affect people and society, and develop critical perspectives of the diversity of mediated messages across cultures. The course also looks at the variability and cross-cultural encounters built on students\u2019 own everyday observations. The course is taught in English and requires no Chinese language proficiency.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECON4570": {
+        "description": "This course is an introduction to econometric data analysis. The statistical methods covered enable analysis of relationships between variables in data, with special attention to identification of true casual effects. Topics covered include linear and simple nonlinear regression models, internal and external validity, methods for panel data and binary dependent variables, instrumental variable methods, use of experimental and quasi-experimental data, and basic time series methods. The course included hands-on data analysis and report writing.",
+        "raw_precoreqs": "Undergraduate level  MATH 2010 Minimum Grade of D and (Undergraduate level  ENGR 2600 Minimum Grade of D or Undergraduate level  MGMT 2100 Minimum Grade of D or Undergraduate level  MATP 4600 Minimum Grade of D or Undergraduate level  PSYC 2310 Minimum Grade of D or Undergraduate level  BIOL 4200 Minimum Grade of D)",
+        "prerequisites": [
+            "MATH-2010",
+            "ENGR-2600",
+            "MGMT-2100",
+            "MATP-4600",
+            "PSYC-2310",
+            "BIOL-4200"
+        ],
+        "corequisites": null
+    },
+    "ECON4960": {
+        "description": "Selected topics in economic analysis and problems to meet the special needs of upper-division students in various curricula throughout the Institute. This allows students to pursue more in-depth work in their areas of study.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ECSE6970": {
+        "description": "Active participation in a semester-long project, under the supervision of a faculty adviser. A Professional Project often serves as a culminating experience for a Professional Master\u2019s program but, with departmental or school approval, can be used to fulfill other program requirements. With approval, students may register for more than one Professional Project. Professional Projects must result in documentation established by each department or school, but are not submitted to the Office of Graduate Education and are not archived in the library. Grades of A, B, C, or F are assigned by the faculty adviser at the end of the semester. If not completed on time, a formal Incomplete grade may be assigned by the faculty adviser, listing the work remaining to be completed and the time limit for completing this work.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ENGR1300": {
+        "description": "The use of basic machine tools such as lathes, milling machines, drill presses, band saws, and grinders, including micrometers, vernier calipers, and other devices of use in a machine shop or laboratory. Welding techniques and tool making are also considered.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ERTH4190": {
+        "description": "Modern methods used in analysis of environmental samples for monitoring and research purposes. Standard and advanced techniques of air, water, sediment, and soil analysis are covered including spectrometric and chromatographic methods.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "ISYE4310": {
+        "description": "This course introduces students to past, current, and future issues in the ethics of information technology, and encourages students to develop their own standpoint from which to address the diverse range of ethical challenges faced in the information age. During the course, students will learn about a wide range of ethical theories, and then will apply these theories to address ethical dilemmas in creating models for decision support using an educational computer simulation.",
+        "raw_precoreqs": "Undergraduate level  ENGR 2600 Minimum Grade of D and (Undergraduate level  CSCI 1010 Minimum Grade of D or Undergraduate level  CSCI 1100 Minimum Grade of D)",
+        "prerequisites": [
+            "ENGR-2600",
+            "CSCI-1010",
+            "CSCI-1100"
+        ],
+        "corequisites": null
+    },
+    "LANG4960": {
+        "description": "Credit Hours: 1 to 4",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "LITR2110": {
+        "description": "A study of major literary works that introduces students to basic ideas and terminology in literary criticism. Students learn to read and interpret a selection of novels, plays, poetry, or other forms of writing to be determined each semester by the instructor.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHIL4130": {
+        "description": "How does science stimulate philosophical thinking and how has philosophy influenced science? This broad range of interaction is studied with special attention given to the concepts of theory, observation, and scientific method. Special attention is given to issues basic to psychology, in particular, reductionism, behaviorism, functionalism, and cognitivism.",
+        "raw_precoreqs": "",
+        "prerequisites": null,
+        "corequisites": null
+    },
+    "PHYS1200": {
+        "description": "The second semester of the two-semester sequence of interactive courses. Topics include electric and magnetic forces and fields, Gauss\u2019s Law, dc and ac circuits, Ampere\u2019s Law and Faraday\u2019s Law, electromagnetic radiation, physical optics, and quantum physics.",
+        "raw_precoreqs": "Undergraduate level  PHYS 1100 Minimum Grade of D and Undergraduate level  MATH 1020 Minimum Grade of D",
+        "prerequisites": [
+            "PHYS-1100",
+            "MATH-1020"
+        ],
+        "corequisites": null
+    }
+}
