@@ -7,7 +7,7 @@
       <b-button
         @click="listAlphabet()"
         style="
-          margin-top: 10px;
+          margin-top: 65px;
           color: #007bff;
           border: solid #007bff;
           background-color: transparent;
@@ -30,7 +30,16 @@
         List by Department
       </b-button>
     </div>
+    
+    <template>
+      <div class="search-bar-container">
+        <input type="text" v-model="searchQuery" placeholder="Search by name or subject">
+        <button @click="searchProfessors"> <font-awesome-icon icon="search" /> </button>
+        <div v-if="professors.length === 0">No professors found.</div>
 
+      </div>
+    </template>
+    
     <div v-if="professors.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
@@ -366,6 +375,8 @@ export default {
       var rcs = professor["Email"].replace("@rpi.edu", "");
       this.$router.push("/professor/" + rcs);
     },
+    searchProfessors() {
+    },
   },
 };
 </script>
@@ -397,6 +408,29 @@ export default {
 .professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
+
+.search-bar-container {
+  padding: 10px;
+  text-align: left;
+}
+
+.search-bar-container input {
+  margin-left: 18px;
+  width: 70%;
+  padding: 5px;
+  font-size: 16px;
+}
+.search-bar-container button {
+  padding: 5px;
+  color: hsl(211, 100%, 60%);
+  background-color: transparent;
+  box-shadow: none;
+  border: 2px solid
+}
+.search-bar-container button:hover {
+  color: white;
+}
+
 
 .h3 {
   text-align: left;
