@@ -910,12 +910,19 @@ button:focus {
 .burger-button-close:hover .burger-bar--1 {
   transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
 }
+.burger-button-open:hover .burger-bar--1 {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
+}
 
 .no-touchevents .burger-bar--1:hover {
   transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
 }
 
 .burger-button-close:hover .burger-bar--2 {
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
+}
+
+.burger-button-open:hover .burger-bar--2 {
   transform: scale(0.5) rotate(45deg) translate(20px, -30px);
 }
 
@@ -927,6 +934,10 @@ button:focus {
   transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
 }
 
+.burger-button-open:hover .burger-bar--5 {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
 .no-touchevents .burger-bar--5:hover {
   transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
 }
@@ -935,11 +946,18 @@ button:focus {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
+.burger-button-open:hover .burger-bar--6 {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
 .no-touchevents .burger-bar--6:hover {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
-#burger.active .burger-button {
+#burger.active .burger-button-close {
+  transform: rotateY(-540deg);
+}
+#burger.active .burger-button-open {
   transform: rotateY(-540deg);
 }
 
