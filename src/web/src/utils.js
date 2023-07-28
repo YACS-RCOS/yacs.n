@@ -75,18 +75,19 @@ export const readableTime = (timeString) => {
  * @param {number} minutes
  * @returns {string} string with hour and am/pm
  */
-export const hourName = (minutes) => {
+export const hourName = (minutes, militaryTimeState) => {
   const hour = minutes / 60;
   if (hour === 0) {
+    if (militaryTimeState) return "00 AM";
     return "12 AM";
   } else if (hour < 12) {
+    if (hour < 10 && militaryTimeState) return "0" + hour + " AM";
     return hour + " AM";
   } else if (hour === 12) {
     return "Noon";
   } else {
-    if (!this.$store.getters.militaryTimeState)
-      return hour - 12 + " PM";
-    else return hour + " PM";
+    if (militaryTimeState) return hour + " PM";
+    return hour - 12 + " PM";
   }
 };
 

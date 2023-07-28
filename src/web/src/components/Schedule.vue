@@ -193,7 +193,7 @@ export default {
     hours() {
       const hours = [];
       for (let time = this.startTime; time < this.endTime; time += 60) {
-        hours.push(hourName(time));
+        hours.push(hourName(time, this.$store.getters.militaryTimeState));
       }
       return hours;
     },
