@@ -163,18 +163,20 @@ class Professor:
 
     # if you expect the SQL statement to return more than one row of data, 
     # you should pass True as the value for multi.
-    def get_professor_phone_number_by_email(self, email):    
+    def get_professor_info_by_email(self, email):
         if email is not None:
             sql = """
                     select
-                        phone_number
+                        *
                     from
                         professor
                     where
-                        email = '{email}'
-                    """
-            info, error = self.db_conn.execute(sql, None, True)
-            return (info, None) if not error else (False, error)
+                        email = '%s'
+                   """
+            
+            with self.db_conn:
+                info, error = self.db_conn.execute( sql, (email,), True)
+                return (info, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):    
         if email is not None:
