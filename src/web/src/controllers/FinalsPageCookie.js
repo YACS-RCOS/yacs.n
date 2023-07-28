@@ -10,14 +10,14 @@ class FinalsPageCookie {
     //  * @param {VueCookies} $cookies
     //  * @private
     //  */
-    constructor($cookies) {
-        this.$cookies = $cookies;
-        this.exams = [];
-    }
-    // constructor($cookies, exams) {
+    // constructor($cookies) {
     //     this.$cookies = $cookies;
-    //     this.exams = exams; // Initialize as empty array
+    //     this.exams = [];
     // }
+    constructor($cookies, exams) {
+        this.$cookies = $cookies;
+        this.exams = exams; // Initialize as empty array
+    }
 
 
     // /**
@@ -27,11 +27,12 @@ class FinalsPageCookie {
     //  */
     static load($cookies) {// key = COOKIE_KEY
         // console.log("load: ", this.getExams());
-        return new FinalsPageCookie($cookies);
-        // return new FinalsPageCookie(
-        //     $cookies,
-        //     $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : []
-        // );
+        // return new FinalsPageCookie($cookies);
+        let exams = $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : [];
+        if (!Array.isArray(exams)){
+            exams = [];
+        }
+        return new FinalsPageCookie($cookies, exams);
     }
     // static load($cookies) {
     //     const exams = $cookies.exams === null ? [] : $cookies.exams;
@@ -49,13 +50,17 @@ class FinalsPageCookie {
 
     clear() {
         this.exams = [];
-
         return this;
     }
 
 
     getExams() {
         return this.exams;
+    }
+
+    setExams(exams) {
+        this.exams = exams;
+        this.save()
     }
 
 
@@ -68,8 +73,6 @@ class FinalsPageCookie {
      * @returns {this}
      */
     addCourse(Department, CourseCode, Section, Day) {
-        console.log(this.exams);
-
         const course = {
             Department,
             CourseCode,
@@ -77,7 +80,6 @@ class FinalsPageCookie {
             Day,
         };
         this.exams.push(course);
-        this.save();
         return this;
     }
 }

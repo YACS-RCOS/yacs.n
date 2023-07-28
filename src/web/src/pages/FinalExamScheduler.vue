@@ -142,6 +142,8 @@ export default {
   mounted() {
     try {
       this.initCourseOptions();
+      let finalsPageCookie = FinalsPageCookie.load(this.$cookies);
+      console.log(finalsPageCookie.getExams());
       //this.loadSelectedCoursesFromCookie();
     } catch (error) {
       console.error("An error occurred in the mounted() hook:", error);
@@ -197,15 +199,21 @@ export default {
       ///const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
       let finalsPageCookie = FinalsPageCookie.load(this.$cookies);
 
-      if (!finalsPageCookie) {
-        finalsPageCookie = FinalsPageCookie.load(this.$cookies);
-      }
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
-        finalsPageCookie.addCourse(currCourse.Department, currCourse.CourseCode, currCourse.Section, currCourse.Day);
+        console.log("selected courses:", this.selectedCourses);
+        // finalsPageCookie.addCourse();
+
+        // let exams = finalsPageCookie.getExams();
+        // console.log("exams before push:", exams);
+
+        // exams.push(currCourse);
+        // console.log("exams after push:", exams);
+
+        finalsPageCookie.setExams(this.selectedCourses);
         finalsPageCookie.save();
       }
-      console.log(finalsPageCookie.getExams());
+      console.log("cookie:", finalsPageCookie.getExams());
       this.currCourse = null;
     },
     searchExams() {
