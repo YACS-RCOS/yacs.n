@@ -31,7 +31,7 @@
       <b-row>
         <b-col class="mb-4">
           <br />
-          <button @click="openSyllabus">Syllabus</button>
+            <button @click="openSyllabus" class="btn btn-primary">Syllabus</button>
         </b-col>
       </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
