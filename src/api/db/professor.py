@@ -164,7 +164,7 @@ class Professor:
     # if you expect the SQL statement to return more than one row of data, 
     # you should pass True as the value for multi.
     def get_professor_info_by_email(self, email):
-        email += " or 1=1" # only matches this email
+        email += ' or 1=1' # only matches this email
         if email is not None:
             sql = """
                     select
