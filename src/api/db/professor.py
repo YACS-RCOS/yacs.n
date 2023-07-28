@@ -166,15 +166,15 @@ class Professor:
     def get_professor_info_by_email(self, email):
         if email is not None:
             sql = """
-                    select
+                    SELECT 
                         *
-                    from
+                    FROM 
                         professor
-                    where
-                        email = '{email}'
-                    """
-            info, error = self.db_conn.execute(sql, None, True)
-            return (info, None) if not error else (False, error)
+                    WHERE 
+                        email = %s
+                """
+            info, error = self.db_conn.execute(sql, email, True)
+        return (info, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):    
         if email is not None:
