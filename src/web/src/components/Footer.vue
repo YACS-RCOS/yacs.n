@@ -7,7 +7,7 @@
             <strong class="section-head">Contact Us</strong>
             <a
               class="link"
-              href="https://discord.gg/hTSPMr53vP"
+              href="https://discord.gg/D9PW9X79E3"
               target="_blank"
               rel="noopener"
             >
