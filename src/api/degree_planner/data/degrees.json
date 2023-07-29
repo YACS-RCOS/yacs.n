@@ -210,7 +210,7 @@
         "groups": {
             "Intensity": {"credits": 16},
             "Concentration": {"credits": 16, "oasis": true},
-            "Math": {"credits": 8},
+            "Math": {"credits": 8, "oasis": true},
             "HASS": {"credits": 12, "oasis": true}
         },
         "Core - Data Structures": {
@@ -248,10 +248,15 @@
             "replacement": false,
             "specifications":"subject.csci & course_id.4210"
         },
-        "Intensity": {
+        "Intensity - level 4 classes": {
             "requires": 4,
             "replacement": true,
-            "specifications":"level.4 & subject.csci"
+            "specifications":"level.4 & subject.csci & ~$cscore"
+        },
+        "Intensity - Communication Intensive": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"ci.true & subject.csci"
         },
         "Concentration - Depth": {
             "requires": 3,
@@ -265,15 +270,25 @@
             "specifications":"concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },
+        "Math - Calculus 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.1010"
+        },
         "Math - Calculus 2": {
             "requires": 1,
             "replacement": false,
             "specifications":"subject.math & course_id.1020"
         },
-        "Math - Electives": {
-            "requires": 2,
-            "replacement": true,
-            "specifications":"subject.math & level.2+ & level.4-"
+        "Math - Options I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & (course_id.2010 | course_id.4030 | course_id.4040 | course_id.4100 | course_id.4600)"
+        },
+        "Math - Options II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & level.2+ & ~course_id.2800"
         },
         "Science - Physics I": {
             "requires": 1,

@@ -42,7 +42,7 @@
                     <span class="group-title"> {{ group.name }} </span> 
                     <span v-if="group.minimum_requirements.credits > 0" 
                       v-bind:class="{'group-credit-stats-fulfilled':get_tallied_amount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':get_tallied_amount(group.name, 'credits') < group.minimum_requirements.credits}">
-                      <font color="#5e6061"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
+                      <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
                   </div>
                   <div v-for="(requirement, index) in group.requirements" :key="index">
                     
@@ -98,7 +98,7 @@
             </div>
             
             <div class="details-panel" v-for="(fulfillments, requirement) in display" :key="requirement">
-              <h3> <font color="#78b2d9">Details</font></h3>
+              <p> <font color="#707a7a">Details</font></p>
               <h5>{{ requirement }}:</h5>
               <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in fulfillments" :key="fulfillment_index">
                 {{ fulfillment[0] }}
@@ -668,6 +668,7 @@
     font-size: 1.5em;
     color:#e3e8e4;
   }
+
   .details-panel {
     margin: 4px;
     margin-top: 16px;
