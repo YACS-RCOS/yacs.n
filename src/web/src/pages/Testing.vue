@@ -2,30 +2,47 @@
     <b-container fluid>
         <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
-        <div v-if="selectedCourses.length == 0" class="no-courses">
+        <div v-if="Object.keys(selectedCourses).length == 0" class="no-courses">
             Oops! It looks like you haven't selected anything!
             <br />
             To calculate your GPA, please add some courses to your schedule!
         </div>
 
-        <div v-else class="mx-auto w-75">
-            <b-list-group-item
-            class="selected"
-            v-for="course of selectedCourses"
-            :key="course.id"
-            >
-
-                <div>
-                    <b data-cy="name">{{ course.name }}</b>
-                    
-
-                    <br />
-                    {{ course.title }}
-                    <br />
-                    <course-sections-open-badge :course="course" />
-                </div>
-
-            </b-list-group-item>
+        <div v-else>
+            <b-row>
+                <b-col
+                    v-for="(courses, index) in courseObjects"
+                    :key="`deptCol-${index}`"
+                >
+                    <b-row
+                        v-for="course in courses"
+                        :key="course.id"
+                        class="selected"
+                    >
+                        <div>
+                            <b data-cy="name">{{ course.name }}</b>
+                            <br />
+                            {{ course.title }}
+                            <br />
+                            {{ course.max_credits }}
+                            
+                            <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}">                 
+                                <b-form-group id="course.id-group" label="Grade:" label-for="course.id">
+                                    <b-form-select
+                                    id="course.id"
+                                    :options="grades"
+                                    required
+                                    ></b-form-select>
+                                </b-form-group>
+                                
+                            </b-form>
+                        </div>
+                    </b-row>
+                </b-col>
+                <b-col>
+                    GPA
+                </b-col>
+            </b-row>
         </div>
 
     </b-container>
@@ -34,9 +51,9 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 
-// import SelectedCoursesComponent from "@/components/SelectedCourses";
-
 import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+
+import { userTypes } from "../store/modules/user";
 
 import { COURSES } from "@/store";
 
@@ -44,9 +61,6 @@ import { getStudentCourses } from "@/services/YacsService";
 
 export default {
     name: "GPACalculator",
-    // components: {
-    //     SelectedCourses: SelectedCoursesComponent,
-    // },
     data() {
         return {
             breadcrumbNav: [
@@ -58,6 +72,7 @@ export default {
                     text: "GPA Calculator",
                 },
             ],
+            grades: [{ text: 'Select', value: null }, 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'P'],
             selectedCourses: {},
             selectedScheduleSubsemester: null,
             loadedIndexCookie: 0,
@@ -101,13 +116,12 @@ export default {
 
                             this.$set(this.selectedCourses, course.id, course);
                             course.selected = true;
-
                         });
                 } catch (err) {
                     selectedCoursesCookie.clear().save();
                 }
             }
-
+            
         },
 
         // AddForm() {
@@ -498,13 +512,28 @@ export default {
 
     },
     computed: {
+        ...mapState(["isLoading"]),
         ...mapState(["selectedSemester"]),
         ...mapGetters([COURSES]),
-        // ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+        ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
 
         loading() {
             return this.$store.state.isLoadingCourses;
         },
+
+        courseObjects(){
+            let columnArr = [[],[]];
+            let courses = Object.values(this.selectedCourses).sort((a,b) => a.name - b.name);
+            for (let i = 0; i < courses.length; i++) {
+                if (i % 2 === 0) {
+                    columnArr[0].push(courses[i]);
+                } else {
+                    columnArr[1].push(courses[i]);
+                }
+            }
+            return columnArr;
+        }
+    
     },
     watch: {
         courses: {
@@ -513,12 +542,12 @@ export default {
                 this.loadStudentCourses();
             },
         },
-        // isLoggedIn: {
-        //     immediate: true,
-        //     handler() {
-        //         this.loadStudentCourses();
-        //     },
-        // },
+        isLoggedIn: {
+            immediate: true,
+            handler() {
+                this.loadStudentCourses();
+            },
+        },
     },
 };
 //during the end of this semester one feature that I worked on was YACS gpa calculator
@@ -662,21 +691,19 @@ button {
 }
 
 .no-courses {
-  margin-right: 20px;
-  border-style: solid;
-  border-width: 2px;
-  border-color: rgb(0, 0, 0, 0.05);
-  font-size: 16px;
-  padding: 20px;
+    margin: 20px;
+    border-style: solid;
+    border-width: 2px;
+    font-size: 16px;
+    padding: 20px;
 }
 
 #selected-course-list {
-  overflow-y: scroll !important;
-  overflow-x: auto;
-  min-height: 200px;
-  flex-grow: 1;
-  flex-basis: 0px; 
-  border-bottom: 1px solid #dbdbdc;
+    overflow-y: scroll !important;
+    overflow-x: auto;
+    min-height: 200px;
+    flex-grow: 1;
+    flex-basis: 0px;
+    border-bottom: 1px solid #dbdbdc;
 }
-
 </style>
