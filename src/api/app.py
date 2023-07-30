@@ -26,6 +26,7 @@ from degree_planner.planner import Planner
 from degree_planner.math.dictionary_array import Dict_Array
 from degree_planner.math.sorting import sorting
 from degree_planner.dp.command_handler import Command_Handler
+from degree_planner.dp.requirement import Requirement
 
 import controller.user as user_controller
 import controller.session as session_controller
@@ -214,7 +215,7 @@ async def dp_begin_recommendation_limited(userid:str):
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
 
-    recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements)
+    recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements, specification_sets=Requirement.specification_sets)
     recommendation_results.update({userid:recommendation})
     print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     

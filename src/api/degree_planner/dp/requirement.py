@@ -180,6 +180,7 @@ class specification_parsing():
             
             true_given_for_wildcards = {}
             truth = specification_parsing.parse_attribute(specification, target_attribute, true_given_for_wildcards)
+            truth, _ = specification_parsing.single_attribute_evaluation(truth, target_attribute)
             return truth, true_given_for_wildcards
         
         if len(eval_attribute) and eval_attribute[0] == '@':

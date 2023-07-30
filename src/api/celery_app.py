@@ -2,6 +2,7 @@ from celery import Celery
 from os import environ
 from degree_planner.dp.recommend import recommend
 from degree_planner.dp.fulfill import get_optimized_fulfillment, get_group_fulfillment
+from degree_planner.dp.requirement import Requirement
 
 celery_broker = 'redis://redis:6379/0'
 celery_backend = 'redis://redis:6379/1'
@@ -15,7 +16,8 @@ celery_app.conf.update(
 )
 
 @celery_app.task()
-def dp_recommend(taken_courses, catalog, requirements, custom_tags=None) -> dict:
+def dp_recommend(taken_courses, catalog, requirements, custom_tags=None, specification_sets=None) -> dict:
+    Requirement.specification_sets = specification_sets
     recommendation = recommend(taken_courses, catalog, requirements, custom_tags)
     return recommendation
 
