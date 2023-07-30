@@ -180,7 +180,7 @@ class specification_parsing():
             
             true_given_for_wildcards = {}
             truth = specification_parsing.parse_attribute(specification, target_attribute, true_given_for_wildcards)
-            return specification_parsing.single_attribute_evaluation(truth, target_attribute), true_given_for_wildcards
+            return truth, true_given_for_wildcards
         
         if len(eval_attribute) and eval_attribute[0] == '@':
             return eval_attribute, {}
@@ -253,6 +253,7 @@ class specification_parsing():
             return not specification_parsing.parse_attribute(input_text[1:], target_attribute, true_given_for_wildcards)
 
         truth, true_given_entries = specification_parsing.single_attribute_evaluation(input_text, target_attribute)
+        #print(f'truth of {input_text}: {truth}')
         if len(true_given_entries):
             true_given_for_wildcards.update(true_given_entries)
         return truth

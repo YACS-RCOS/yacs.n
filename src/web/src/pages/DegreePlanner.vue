@@ -76,7 +76,7 @@
                           <h5>{{ recommendation.specifications }}</h5>
                         </div>
                         <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                          <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)">
+                          <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
                             <font color = #a9a9a9> {{ course }} </font>
                           </button>
                         </div>
@@ -160,8 +160,12 @@
       schedulerDrop(event, dragToSemester) {
         event.preventDefault();
         if (this.dragElement != null) {
-          this.remove(this.dragFromSemester, this.dragElement, false, false);
-          this.add(dragToSemester, this.dragElement, false, false);
+          if (this.dragFromSemester != -1) {
+            this.remove(this.dragFromSemester, this.dragElement, false, false);
+            this.add(dragToSemester, this.dragElement, false, false);
+          } else {
+            this.add(dragToSemester, this.dragElement, true, true);
+          }
         }
         this.hoverCounter--;
         this.hoverOverSemester = -1;

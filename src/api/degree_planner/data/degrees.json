@@ -251,7 +251,7 @@
         "Intensity - level 4 classes": {
             "requires": 4,
             "replacement": true,
-            "specifications":"level.4 & subject.csci & ~$cscore"
+            "specifications":"level.4 & subject.csci & ~($cscore)"
         },
         "Intensity - Communication Intensive": {
             "requires": 1,
