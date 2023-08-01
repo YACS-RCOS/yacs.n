@@ -51,7 +51,7 @@
         </b-card>
       </b-col>
       <b-col md="7">
-        <calendar :exam-details="examDetails"></calendar>
+        <calendar :exam-details="examDetails" :convertTime="convertTime"></calendar>
       </b-col>
     </b-row>
   </b-container>
@@ -108,12 +108,13 @@ export default {
     },
 
     convertTime(time) {
-      const array = time.split("-");
+      // time is in "00:00PM-00:00PM" format
+      const array = time.split("-");      
       const start = array[0].split(":");
       const end = array[1].split(":");
       
-      // if military time is toggled, don't modify the time
-      // if not toggled, modify time so that it's in standard time
+      // if military time is toggled, modify the time
+      // if not toggled, don't modify the time (stays in standard time)
       if (this.militaryTimeState){
         if (start[1].substring(start[1].length - 2).valueOf() == ("PM").valueOf() && parseInt(start[0]) != 12){
           start[0] = parseInt(start[0]) + 12;

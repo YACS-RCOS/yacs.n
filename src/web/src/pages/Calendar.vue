@@ -41,6 +41,7 @@
             :location="exam.room"
             :time="exam.time"
             :title="exam.course"
+            :timeState="exam.militaryTimeState"
             :style="{
               'margin-top': eventPosition(exam.time) + 'vh',
               height: eventHeight(exam.time) + '%',
@@ -53,6 +54,7 @@
               color: getTextColor(getCourseDepartmentAndLevel(exam.course)),
               width: 20 + '%',
             }"
+            :convertTime="convertTime"
           ></ScheduleEvent>
           <div
             class="grid-hour"
@@ -78,6 +80,9 @@ import {
 } from "@/services/ColorService";
 
 import ScheduleEventComponent from "./CalendarEvent.vue";
+import { convertTime } from "./FinalExamScheduler.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "Schedule",
@@ -91,6 +96,10 @@ export default {
     examDetails: {
       type: Array,
       default: () => [],
+    },
+    convertTime: {
+      type: Function,
+      required: true,
     },
   },
   data() {
@@ -153,8 +162,10 @@ export default {
     mapSessionType(type) {
       return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
+
   },
   computed: {
+    ...mapGetters(["militaryTimeState"]),
     hasConflict() {
       const conflicts = new Set();
       for (const exam1 of this.examDetails) {
@@ -237,7 +248,7 @@ export default {
     hours() {
       const hours = [];
       for (let time = this.startTime; time < this.endTime; time += 60) {
-        hours.push(hourName(time, this.$store.getters.militaryTimeState));
+        hours.push(hourName(time, this.militaryTimeState));
       }
       return hours;
     },

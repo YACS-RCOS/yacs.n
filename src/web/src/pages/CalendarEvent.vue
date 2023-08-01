@@ -11,7 +11,7 @@
       <br />
       <span data-cy="section">Section: {{ props.section }}</span>
       <br />
-      <span data-cy="time">{{ props.time }}</span>
+      <span data-cy="time">{{ props.convertTime(props.time) }}</span>
       <br />
       <span data-cy="location">{{ props.location }}</span>
       <br />
@@ -19,7 +19,13 @@
   </div>
 </template>
 <script>
+
+import { mapGetters } from "vuex";
+
 export default {
+  computed: {
+    ...mapGetters(["militaryTimeState"]),
+  },
   getExploreCourseLink(courseName) {
     var subject = courseName.split(" ")[0];
     var courseNumber = courseName.split(" ")[1];
