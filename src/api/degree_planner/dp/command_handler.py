@@ -4,6 +4,8 @@ from ..io.output import Output
 from ..dp.command import Command
 from ..math.dictionary_array import Dict_Array
 from ..planner import Planner
+from ..recommender.recommender import Recommender
+
 
 class Command_Handler():
 
@@ -218,7 +220,7 @@ class Command_Handler():
 
             if command.command == Command.CMD.CACHE:
                 io.print("recomputing cache")
-                planner.cache()
+                planner.recache()
                 io.print("finished cache recompute")
                 user.command_queue.task_done()
                 continue

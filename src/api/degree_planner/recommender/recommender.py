@@ -10,6 +10,7 @@ class Recommender():
     ENABLE_TENSORFLOW = False
 
     cache = None
+    cache:Cache
     scorer = None
 
     @staticmethod
@@ -68,9 +69,10 @@ class Recommender():
 
         ''' STEP 2: compute a scaled sum of all of tag relevances of user's taken courses, organized by bin (such as course subject)
         this is to allow different tagging methods for different kinds of items to avoid irrevelant tags from influencing results '''
+
         for element in selected_elements:
             bin = element.attr(Recommender.ATTRIBUTE_BIN)
-            relevance_tags_to_elements = Recommender.cache.tag_relevances_to_courses.get(element.name, None)
+            relevance_tags_to_elements = Recommender.cache.tag_relevances_to_courses.get(element.name.casefold(), None)
             if relevance_tags_to_elements is None:
                 continue
             af.scale_dictionary_values(relevance_tags, relevance_tags_to_elements, 1.0, key=bin)
@@ -85,11 +87,10 @@ class Recommender():
         ''' STEP 4: compute relevance of each recommending course and compare to user's tag relevances and relevance to the custom tag '''
         for element in all_elements:
             bin = element.attr(Recommender.ATTRIBUTE_BIN)
-            relevance_tags_to_elements = Recommender.cache.tag_relevances_to_courses.get(element.name, None)
+            relevance_tags_to_elements = Recommender.cache.tag_relevances_to_courses.get(element.name.casefold(), None)
             course_relevance_to_user = 10
             if relevance_tags_to_elements is not None:
                 course_relevance_to_user = af.array_similarity(relevance_tags.get(bin), relevance_tags_to_elements)
-            
             if custom_tags is not None and Recommender.ENABLE_TENSORFLOW:
                 custom_tag_relevances_to_course = Recommender.get_custom_tag_relevances(element, custom_tags) # numpy array
                 custom_course_relevance_to_user = af.array_similarity(custom_tag_relevances_to_course, np.zeros(len(custom_tag_relevances_to_course)))
@@ -99,4 +100,3 @@ class Recommender():
             # element.keywords = self.cache.course_keywords.get(element.unique_name)
 
         return relevance_all_elements
-    

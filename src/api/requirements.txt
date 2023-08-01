@@ -11,3 +11,5 @@ itsdangerous==2.0.1
 sqlalchemy==1.4.1
 celery==5.2.3
 redis==4.6.0
+tensorflow_hub==0.14.0
+tensorflow==2.13.0

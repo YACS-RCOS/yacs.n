@@ -9,6 +9,7 @@ from .math.search import Search
 from .user.user import User
 from .dp.recommend import recommend
 from .dp.fulfill import get_fulfillment, get_optimized_fulfillment
+from .recommender.recommender import Recommender
 
 VERSION = "API 3.0 refactored generalization"
 
@@ -64,6 +65,8 @@ class Planner():
 
         # configurable flags
         self.ENABLE_TENSORFLOW = enable_tensorflow
+        if enable_tensorflow:
+            Recommender.ENABLE_TENSORFLOW = True
         self.SEMESTERS_MAX  = 12
 
     def get_user(self, userid) -> User:
@@ -247,3 +250,7 @@ class Planner():
     def index(self):
         self.course_search.update_items(self.catalog.get_elements(), True)
         self.course_search.generate_index()
+
+    def recache(self):
+        Recommender.initialize(self.catalog)
+        Recommender.recache()

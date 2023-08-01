@@ -95,3 +95,6 @@ class Cache():
     def __len__(self):
         return (len(self.course_embeddings) + len(self.tag_embeddings) + len(self.tag_relevances_to_courses)
             + len(self.course_keywords) + len(self.word_embeddings))
+    
+    def __str__(self):
+        return f"course embeddings: \n\n {self.course_embeddings} \n\n tag embeddings: {self.tag_embeddings} \n\n tag_relevances: {self.tag_relevances_to_courses}"

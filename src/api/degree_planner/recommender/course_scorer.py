@@ -11,7 +11,7 @@ class Scorer():
         self.cache = cache
         self.embedder = Sentence_Embedder()
 
-        ''' HYPERPARAMETERS '''
+        ''' PARAMETERS '''
         self.ATTRIBUTE_BIN = 'subject'
         self.ATTRIBUTE_TO_EMBED = 'name'
         self.BEST_DESCRIPTORS_AMOUNT = 3

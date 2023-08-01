@@ -244,7 +244,7 @@
         // fetch fulfillment and recommendations
         this.print();
         if (fulfill) {
-          this.get_fulfillment();
+          this.get_fulfillment().then(this.main_loading = false);
         }
         if (recommend) {
           this.get_recommendation();
@@ -295,7 +295,7 @@
         });
 
         const response2 = await fetch('/api/dp/recommend/' + userid);
-        this.recommendations = await response2.json().then(this.loading = false).then(this.main_loading = false);
+        this.recommendations = await response2.json().then(this.loading = false)
       },
 
       async add_from_input(semester) {
