@@ -7,6 +7,7 @@
         <div class="columns">
 
           <div class="column-left">
+            
             <div class="courses-grid">
               <div v-for="(semester, index) in courses" :key="index" 
                   v-bind:class="{'semester-block':hoverOverSemester!=index, 'semester-block-highlighted':hoverOverSemester==index}" 
@@ -31,6 +32,7 @@
 
               </div>
             </div>
+            <DegreePlannerTest></DegreePlannerTest>
           </div>
           
           <div class="column-center">
@@ -117,245 +119,213 @@
   
 <script>
 
+import DegreePlannerTest from './DegreePlannerTest.vue';
 
   export default {
-    
     data() {
-      return {
-        loading: true,
-        main_loading: true,
-        userid: 'testuser',
-        degree: 'computer science',
-        schedule_name: "new schedule",
-        courses: [],
-        cmdInput: '',
-
-        requirement_groups: [],
-        tally: {},
-        requirements: {},
-        recommendations: {},
-        display: {},
-
-        SEM_MAX: 12,
-        course_inputs: [],
-
-        recommend_pause_token: 1,
-
-        dragElement: null,
-        dragFromSemester: 0,
-        hoverOverSemester: -1,
-        hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
-      };
+        return {
+            loading: true,
+            main_loading: true,
+            userid: 'testuser',
+            degree: 'computer science',
+            schedule_name: "new schedule",
+            courses: [],
+            cmdInput: '',
+            requirement_groups: [],
+            tally: {},
+            requirements: {},
+            recommendations: {},
+            display: {},
+            SEM_MAX: 12,
+            course_inputs: [],
+            recommend_pause_token: 1,
+            dragElement: null,
+            dragFromSemester: 0,
+            hoverOverSemester: -1,
+            hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
+        };
     },
     methods: {
-
-      // HELPER FUNCTIONS
-
-      schedulerDrag(event, item, semester) {
-        this.dragElement = item;
-        this.dragFromSemester = semester;
-        event.dataTransfer.effectAllowed = "move";
-      },
-
-      schedulerDrop(event, dragToSemester) {
-        event.preventDefault();
-        if (this.dragElement != null) {
-          if (this.dragFromSemester != -1) {
-            this.remove(this.dragFromSemester, this.dragElement, false, false);
-            this.add(dragToSemester, this.dragElement, false, false);
-          } else {
-            this.add(dragToSemester, this.dragElement, true, true);
-          }
+        // HELPER FUNCTIONS
+        schedulerDrag(event, item, semester) {
+            this.dragElement = item;
+            this.dragFromSemester = semester;
+            event.dataTransfer.effectAllowed = "move";
+        },
+        schedulerDrop(event, dragToSemester) {
+            event.preventDefault();
+            if (this.dragElement != null) {
+                if (this.dragFromSemester != -1) {
+                    this.remove(this.dragFromSemester, this.dragElement, false, false);
+                    this.add(dragToSemester, this.dragElement, false, false);
+                }
+                else {
+                    this.add(dragToSemester, this.dragElement, true, true);
+                }
+            }
+            this.hoverCounter--;
+            this.hoverOverSemester = -1;
+        },
+        schedulerDragEnter(event, hoverOverSemester) {
+            event.preventDefault();
+            this.hoverOverSemester = hoverOverSemester;
+            this.hoverCounter++;
+        },
+        schedulerDragLeave() {
+            this.hoverCounter--;
+            if (this.hoverCounter == 0) {
+                this.hoverOverSemester = -1;
+            }
+        },
+        navigate_to_course_page(course) {
+            let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
+            this.$router.push("/explore/" + page);
+        },
+        format_alternative(str) {
+            if (str.includes('*')) {
+                str = str.split('*')[0] + " automatically select";
+            }
+            str = str.replace('.', ': ');
+            return str;
+        },
+        format_fulfillment_name(str) {
+            if (str.includes('-')) {
+                str = str.substring(str.indexOf('-') + 1);
+            }
+            return str;
+        },
+        get_tallied_amount(group_name, tally) {
+            if (this.tally[group_name][tally] == null) {
+                return 0;
+            }
+            return this.tally[group_name][tally];
+        },
+        async update_variables(variable_updates) {
+            // helper function that updates variables of this page from API reply
+            for (let [key, value] of Object.entries(variable_updates)) {
+                if (this[key] !== undefined) {
+                    this[key] = value;
+                }
+            }
+        },
+        remove_loading() {
+            this.main_loading = false;
+        },
+        // API CALLING
+        async dp_command() {
+            let command = this.cmdInput;
+            let userid = this.userid;
+            const updates = await fetch('/api/dp/users/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, command }),
+            });
+            let variable_updates = await updates.json();
+            this.update_variables(variable_updates).then(this.fetch_data());
+            this.cmdInput = "";
+        },
+        async fetch_data(fulfill = true, recommend = true) {
+            this.loading = true;
+            // fetch fulfillment and recommendations
+            this.print();
+            if (fulfill) {
+                this.get_fulfillment().then(setTimeout(this.remove_loading(), 3000));
+            }
+            if (recommend) {
+                this.get_recommendation();
+            }
+        },
+        async newuser() {
+            let userid = this.userid;
+            let degree = this.degree;
+            let schedule_name = this.schedule_name;
+            let courses = {};
+            await fetch('/api/dp/newuser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, degree, schedule_name, courses }),
+            });
+        },
+        async get_fulfillment(attributes_replacement = null) {
+            let userid = this.userid;
+            if (attributes_replacement == null) {
+                attributes_replacement = {};
+            }
+            const response1 = await fetch('/api/dp/fulfillment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, attributes_replacement }),
+            });
+            let fulfillment_tuple = await response1.json();
+            this.requirements = fulfillment_tuple[0];
+            this.requirement_groups = fulfillment_tuple[1];
+            this.tally = fulfillment_tuple[2];
+            this.display = fulfillment_tuple[3];
+        },
+        async get_recommendation() {
+            let userid = this.userid;
+            await fetch('/api/dp/recommend/' + userid, {
+                method: 'POST'
+            });
+            const response2 = await fetch('/api/dp/recommend/' + userid);
+            this.recommendations = await response2.json().then(this.loading = false);
+        },
+        async add_from_input(semester) {
+            this.add(semester, this.course_inputs[semester]);
+            this.course_inputs[semester] = "";
+        },
+        async add(semester, course, fulfill = true, recommend = true) {
+            let userid = this.userid;
+            let command = "add, " + semester + ", " + course;
+            const updates = await fetch('/api/dp/users/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, command }),
+            });
+            let variable_updates = await updates.json();
+            this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
+        },
+        async remove(semester, course, fulfill = true, recommend = true) {
+            let userid = this.userid;
+            let command = "remove, " + semester + ", " + course;
+            const updates = await fetch('/api/dp/users/command', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, command }),
+            });
+            let variable_updates = await updates.json();
+            this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
+        },
+        async print() {
+            let userid = this.userid;
+            const response = await fetch('/api/dp/print', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userid),
+            });
+            this.courses = await response.json();
         }
-        this.hoverCounter--;
-        this.hoverOverSemester = -1;
-      },
-
-      schedulerDragEnter(event, hoverOverSemester) {
-        event.preventDefault();
-        this.hoverOverSemester = hoverOverSemester;
-        this.hoverCounter++;
-      },
-
-      schedulerDragLeave() {
-        this.hoverCounter--;
-        if (this.hoverCounter == 0) {
-          this.hoverOverSemester = -1;
-        }
-      },
-
-      navigate_to_course_page(course) {
-        let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
-        this.$router.push("/explore/" + page);
-      },
-
-      format_alternative(str) {
-        if (str.includes('*')) {
-          str = str.split('*')[0] + " automatically select"
-        }
-        str = str.replace('.', ': ');
-        return str
-      },
-
-      format_fulfillment_name(str) {
-        if (str.includes('-')) {
-          str = str.substring(str.indexOf('-') + 1)
-        }
-        return str
-      },
-
-      get_tallied_amount(group_name, tally) {
-        if (this.tally[group_name][tally] == null) {
-          return 0
-        }
-        return this.tally[group_name][tally]
-      },
-
-      async update_variables(variable_updates) {
-        // helper function that updates variables of this page from API reply
-        for(let [key, value] of Object.entries(variable_updates)) {
-          if (this[key] !== undefined) {
-            this[key] = value;
-          }
-        }
-      },
-
-
-      // API CALLING
-
-      async dp_command() {
-          let command = this.cmdInput;
-          let userid = this.userid;
-          const updates = await fetch('/api/dp/users/command', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({userid, command}),
-          });
-          let variable_updates = await updates.json();
-
-          this.update_variables(variable_updates).then(this.fetch_data());
-          this.cmdInput = "";
-      },
-
-      async fetch_data(fulfill=true, recommend=true) {
-        this.loading = true;
-        // fetch fulfillment and recommendations
-        this.print();
-        if (fulfill) {
-          this.get_fulfillment().then(this.main_loading = false);
-        }
-        if (recommend) {
-          this.get_recommendation();
-        }
-      },
-
-      async newuser() {
-        let userid = this.userid;
-        let degree = this.degree;
-        let schedule_name = this.schedule_name;
-        let courses = {};
-
-        await fetch('/api/dp/newuser', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({userid, degree, schedule_name, courses}),
-        });
-      },
-
-      async get_fulfillment(attributes_replacement=null) {
-        let userid = this.userid;
-
-        if (attributes_replacement == null) {
-          attributes_replacement = {};
-        }
-
-        const response1 = await fetch('/api/dp/fulfillment', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({userid, attributes_replacement}),
-        });
-        let fulfillment_tuple = await response1.json();
-        this.requirements = fulfillment_tuple[0];
-        this.requirement_groups = fulfillment_tuple[1];
-        this.tally = fulfillment_tuple[2];
-        this.display = fulfillment_tuple[3];
-      },
-
-      async get_recommendation() {
-        let userid = this.userid;
-
-        await fetch('/api/dp/recommend/' + userid, {
-          method: 'POST'
-        });
-
-        const response2 = await fetch('/api/dp/recommend/' + userid);
-        this.recommendations = await response2.json().then(this.loading = false)
-      },
-
-      async add_from_input(semester) {
-        this.add(semester, this.course_inputs[semester]);
-        this.course_inputs[semester] = "";
-      },
-
-      async add(semester, course, fulfill=true, recommend=true) {
-        let userid = this.userid;
-        let command = "add, " + semester + ", " + course;
-
-        const updates = await fetch('/api/dp/users/command', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, command}),
-        });
-        let variable_updates = await updates.json();
-        this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
-      },
-
-      async remove(semester, course, fulfill=true, recommend=true) {
-        let userid = this.userid;
-        let command = "remove, " + semester + ", " + course;
-
-        const updates = await fetch('/api/dp/users/command', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, command}),
-        });
-        let variable_updates = await updates.json();
-        this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
-      },
-
-      async print() {
-        let userid = this.userid;
-
-        const response = await fetch('/api/dp/print', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userid),
-        });
-        this.courses = await response.json();
-      }
-
     },
-
     async created() {
-      this.main_loading = true;
-      await this.newuser();
-      await this.fetch_data();
-
-      this.course_inputs = new Array(this.SEM_MAX).fill('')
+        this.main_loading = true;
+        await this.newuser();
+        await this.fetch_data();
+        this.course_inputs = new Array(this.SEM_MAX).fill('');
     },
-  };
+    components: { DegreePlannerTest }
+};
 </script>
   
 <style scoped>
