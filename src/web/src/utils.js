@@ -65,8 +65,18 @@ export const localToUTCDate = (date) => {
  * @param {string} timeString in the format `kk:mm:ss` where `kk` is hours 1 to 24
  * @returns {string} string in the format `h:mma` where `a` is `'am'` or `'pm'`
  */
-export const readableTime = (timeString) => {
-  return moment(timeString, "kk:mm:ss").format("h:mma");
+export const readableTime = (timeString, militaryTimeState) => {
+  const array = timeString.split(":");
+  let ampm = "am";
+  if (parseInt(array[0]) >= 12) ampm = "pm";
+  if (!militaryTimeState) 
+    if (parseInt(array[0]) == 0)
+      array[0] = 12;
+    else if (parseInt(array[0]) < 10)
+      array[0] = array[0].substring(1,2);
+    else if (parseInt(array[0]) > 12)
+      array[0] = parseInt(array[0]) - 12;
+  return array[0] + ":" + array[1] + ampm;
 };
 
 /**

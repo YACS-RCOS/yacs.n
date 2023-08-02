@@ -87,8 +87,8 @@
               "
             >
               {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
-              {{ readableTime(courseSession.time_start) }} -
-              {{ readableTime(courseSession.time_end) }}
+              {{ readableTime(courseSession.time_start, militaryTimeState) }} -
+              {{ readableTime(courseSession.time_end, militaryTimeState) }}
               <br />
             </span>
           </b-list-group-item>
@@ -100,6 +100,7 @@
 
 <script>
 import "@/typedef";
+import { mapGetters } from "vuex";
 import { DAY_SHORTNAMES, readableTime, readableDate } from "@/utils";
 import { getBackgroundColor, getBorderColor } from "@/services/ColorService";
 import {
@@ -228,6 +229,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["militaryTimeState"]),
     sortedSections() {
       return this.course.sections
         .slice()
