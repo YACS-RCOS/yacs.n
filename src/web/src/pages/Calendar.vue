@@ -80,7 +80,6 @@ import {
 } from "@/services/ColorService";
 
 import ScheduleEventComponent from "./CalendarEvent.vue";
-import { convertTime } from "./FinalExamScheduler.vue";
 
 import { mapGetters } from "vuex";
 
