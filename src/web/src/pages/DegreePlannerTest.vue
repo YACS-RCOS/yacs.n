@@ -9,10 +9,11 @@
         placeholder="Enter course name"
         @blur="onFocus"
         @focus="onBlur"
+        @keyup.enter="selectCourse(0)"
       >
       <ul ref="resultsList" v-if="showDropdown" class="search-results">
         <li v-if="matchingCourses.length === 0" class="no-results">No results found</li>
-        <li v-for="course in matchingCourses" :key="course.id" @click="selectCourse(course)">
+        <li v-for="(course, index) in matchingCourses" :key="index" @click="selectCourse(index)">
           {{ course.name }}
         </li>
       </ul>
@@ -31,6 +32,11 @@ export default {
     };
   },
   methods: {
+    outputValue(val) {
+      // Increment the value and emit an event to notify the parent
+      this.$emit('result', val);
+    },
+
     onFocus() {
       this.showDropdown = true;
       document.addEventListener('click', this.handleClickOutside);
@@ -58,20 +64,23 @@ export default {
       this.matchingCourses = this.fetchMatchingCoursesFromDatabase(this.courseName);
       this.showDropdown = this.matchingCourses.length > 0;
     },
-    selectCourse(course) {
-      this.courseName = course.name;
+    selectCourse(position) {
+      if (position < this.matchingCourses.length) {
+        this.outputValue(this.matchingCourses[position].name)
+      }
+      this.courseName = "";
       this.showDropdown = false;
     },
     fetchMatchingCoursesFromDatabase(input) {
       // Replace this with actual API call to fetch matching courses from the database.
       // For simplicity, using a static array in this example.
       const coursesFromDatabase = [
-        { id: 1, name: 'Mathematics' },
-        { id: 2, name: 'Computer Science' },
-        { id: 3, name: 'Physics' },
-        { id: 4, name: 'Chemistry' },
-        { id: 5, name: 'Biology' },
-        { id: 6, name: 'History' },
+        { id: 1, name: 'CSCI 1200 Data Structures' },
+        { id: 2, name: 'CSCI 2300 Introduction to Algorithms' },
+        { id: 3, name: 'CSCI 4350 Data Science' },
+        { id: 4, name: 'CSCI 4800 Numerical Computing' },
+        { id: 5, name: 'PHYS 1200 Physics II' },
+        { id: 6, name: 'ARTS 4070 3D Animation' },
         // Add more courses here as needed
       ];
       return coursesFromDatabase.filter(course => course.name.toLowerCase().includes(input.toLowerCase()));
@@ -83,20 +92,20 @@ export default {
 <style>
 .search-container {
   position: relative;
-  width: 300px;
+  width: 90%;
 }
 
 .search-input {
-  width: 100%;
-  padding: 2px;
-  font-size: 12px;
+  width: 80%;
+  font-size: 10px;
 }
 
 .search-results {
+  z-index: 99999;
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
+  width: 90%;
   max-height: 200px;
   background-color: #1c1d1f;
   list-style: none;

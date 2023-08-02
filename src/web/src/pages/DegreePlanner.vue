@@ -17,8 +17,8 @@
                   @drop="schedulerDrop($event, index)">
                 <h3>Semester {{ index + 1 }}</h3>
 
-                <div>
-                  <input class="course-input" v-model="course_inputs[index]" type="text" placeholder="add course" @keyup.enter="add_from_input(index)">
+                <div class="schedule-search">
+                  <DegreePlannerTest @result="results => add(index, results)"></DegreePlannerTest>
                 </div>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
@@ -32,7 +32,7 @@
 
               </div>
             </div>
-            <DegreePlannerTest></DegreePlannerTest>
+            
           </div>
           
           <div class="column-center">
@@ -361,6 +361,11 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
     font-size:1em;
     position:fixed;
   }
+  .schedule-search {
+    width: 100%;
+    z-index: 9998;
+    position: relative;
+  }
   .columns {
     display: flex;
     height: 90vh;
@@ -424,6 +429,7 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
     font-size: 0.75em;
     background-color: rgba(8, 26, 32, 0.35);
     backdrop-filter: blur(4px);
+    position: relative;
   }
   .semester-block h3 {
     font-size: 1.5em;
@@ -436,6 +442,7 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
     margin: 4px;
     font-size: 0.75em;
     background-color: rgba(69, 94, 104, 0.35);
+    position: relative;
   }
   .semester-block-highlighted h3 {
     font-size: 1.5em;
