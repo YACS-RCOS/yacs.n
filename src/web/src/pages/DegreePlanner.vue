@@ -18,7 +18,7 @@
                 <h3>Semester {{ index + 1 }}</h3>
 
                 <div class="schedule-search">
-                  <DegreePlannerTest @result="results => add(index, results)"></DegreePlannerTest>
+                  <SearchBarModal @result="results => add(index, results)"></SearchBarModal>
                 </div>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
@@ -119,7 +119,7 @@
   
 <script>
 
-import DegreePlannerTest from './DegreePlannerTest.vue';
+import SearchBarModal from '../components/SearchBarModal.vue';
 
   export default {
     data() {
@@ -324,7 +324,7 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
         await this.fetch_data();
         this.course_inputs = new Array(this.SEM_MAX).fill('');
     },
-    components: { DegreePlannerTest }
+    components: { SearchBarModal }
 };
 </script>
   
@@ -363,8 +363,6 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
   }
   .schedule-search {
     width: 100%;
-    z-index: 9998;
-    position: relative;
   }
   .columns {
     display: flex;
@@ -420,6 +418,8 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap:0px;
+    z-index: 10;
+    position: relative;
   }
   .semester-block {
     border: 2px solid #43494f;
@@ -427,9 +427,7 @@ import DegreePlannerTest from './DegreePlannerTest.vue';
     padding: 8px;
     margin: 4px;
     font-size: 0.75em;
-    background-color: rgba(8, 26, 32, 0.35);
-    backdrop-filter: blur(4px);
-    position: relative;
+    background-color: rgb(8, 26, 32);
   }
   .semester-block h3 {
     font-size: 1.5em;

@@ -65,6 +65,9 @@ export default {
       this.showDropdown = this.matchingCourses.length > 0;
     },
     selectCourse(position) {
+      if (this.matchingCourses.length == 0) {
+        this.outputValue(this.courseName)
+      }
       if (position < this.matchingCourses.length) {
         this.outputValue(this.matchingCourses[position].name)
       }
@@ -98,10 +101,12 @@ export default {
 .search-input {
   width: 80%;
   font-size: 10px;
+  z-index: 999;
+  position: relative;
 }
 
 .search-results {
-  z-index: 99999;
+  z-index: 9999;
   position: absolute;
   top: 100%;
   left: 0;
