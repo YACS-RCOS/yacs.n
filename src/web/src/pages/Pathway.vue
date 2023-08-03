@@ -5,11 +5,11 @@
     <!-- button to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
       <b-button
-        class="my-button" 
-        :class="{ 'hovered': isHoveredAlphabet }"
+        class="my-button"
+        :class="{ hovered: isHoveredAlphabet }"
         @click="listAlphabet()"
         @mouseover="isHoveredAlphabet = true"
-        @mouseleave="isHoveredAlphabet = false" 
+        @mouseleave="isHoveredAlphabet = false"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -22,7 +22,7 @@
       <br />
       <b-button
         class="my-button"
-        :class="{ 'hovered': isHoveredCate }"
+        :class="{ hovered: isHoveredCate }"
         @click="listCate()"
         @mouseover="isHoveredCate = true"
         @mouseleave="isHoveredCate = false"
