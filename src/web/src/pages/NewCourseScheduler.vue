@@ -122,7 +122,8 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
-                  Conflict between {{ this.coursesConflicting[0] }} and {{ this.coursesConflicting[1] }}
+                  Conflict between {{ this.coursesConflicting[0] }} and
+                  {{ this.coursesConflicting[1] }}
                 </span>
                 <span v-else>
                   Displaying schedule {{ this.index + 1 }} out of
@@ -595,8 +596,8 @@ export default {
       const popped = courses.pop();
       let ret = this.generateSchedule(courses);
 
-      // This is when the "conflict" error is thrown when there's conflicting 
-      // courses. Might be able to add something here to help show pop up. 
+      // This is when the "conflict" error is thrown when there's conflicting
+      // courses. Might be able to add something here to help show pop up.
       if (ret.length === 0) throw new Error("conflict!");
 
       return ret
@@ -608,9 +609,14 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
-              const name = schedule.sections[0].department + '-' + schedule.sections[0].level;
-              if(!(this.coursesConflicting).includes(popped.name)) this.coursesConflicting.push(popped.name);
-              if(!(this.coursesConflicting).includes(name)) this.coursesConflicting.push(name);
+              const name =
+                schedule.sections[0].department +
+                "-" +
+                schedule.sections[0].level;
+              if (!this.coursesConflicting.includes(popped.name))
+                this.coursesConflicting.push(popped.name);
+              if (!this.coursesConflicting.includes(name))
+                this.coursesConflicting.push(name);
               this.coursesConflicting.sort();
               return undefined;
             })
