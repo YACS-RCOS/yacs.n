@@ -170,18 +170,8 @@ class Professor:
                     * 
                     FROM 
                         professor 
-                    WHERE email = :email"""
-                    
-            # sql = """
-            #         select
-            #             *
-            #         from
-            #             professor
-            #         where
-            #             email = :pemail'
-            #        """
-            
-            info, error = self.db_conn.execute( sql, pemail = email)
+                    WHERE email = %s """ % email
+            email, error = self.db_conn.execute( sql, None, True)
             return (info, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):    
