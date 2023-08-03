@@ -166,13 +166,29 @@ class Professor:
     
     def get_professor_info_by_email(self, email):
         if email is not None:
-            sql = """select 
-                    * 
-                    FROM 
+            sql = """
+                    select 
+                        * 
+                    from 
                         professor 
-                    WHERE email = %s """ % email
+                    where 
+                        email = %s 
+                """ % email
             email, error = self.db_conn.execute( sql, None, True)
-            return (info, None) if not error else (False, error)
+            return (email, None) if not error else (False, error)
+
+    #seraches professors who are in a certain department
+    def get_professors_by_department(self,department): 
+        sql = """
+                select
+                    *
+                from
+                    professor
+                where
+            department = '%s'
+        """ % department
+        department, error = self.db_conn.execute(sql, None, True)
+        return (department, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):    
         if email is not None:
@@ -222,20 +238,6 @@ class Professor:
         """
             name, error = self.db_conn.execute(sql, None, True)
             return (name, None) if not error else (False, error)
-
-
-    #seraches professors who are in a certain department
-    def get_professors_by_department(self,department): 
-        sql = """
-                select
-                    *
-                from
-                    professor
-                where
-            department = '%s'
-        """ % department
-        department, error = self.db_conn.execute(sql, None, True)
-        return (department, None) if not error else (False, error)
 
 if __name__ == "__main__":
     csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
