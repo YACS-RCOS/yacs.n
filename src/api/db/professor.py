@@ -185,8 +185,8 @@ class Professor:
                     from
                         professor
                     where
-                        email = '{email}'
-                    """
+                        email = '%s'
+                    """ % email
             info, error = self.db_conn.execute(sql, None, True)
             return (info, None) if not error else (False, error)
 
