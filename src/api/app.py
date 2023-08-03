@@ -266,6 +266,11 @@ async def dp_get_courses(lowercase:bool):
     return courses
 
 
+@app.get('/api/dp/subjectgroups')
+async def dp_get_subject_groups():
+    return planner.subject_groups
+
+
 @app.post('/api/dp/search')
 async def sarchcourse(course=Body(...)):
     list_courses = planner.find(course)

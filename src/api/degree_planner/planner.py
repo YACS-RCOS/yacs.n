@@ -61,6 +61,8 @@ class Planner():
         self.catalog = Catalog()
         self.course_search = Search()
 
+        self.subject_groups = None
+
         self.output = Output(Output.OUT.INFO, signature='INPUT HANDLER', auto_clear=True)
 
         # configurable flags
@@ -241,6 +243,9 @@ class Planner():
 
         parsing.parse_tags(self.catalog)
         self.output.print(f"parsed tags")
+
+        self.subject_groups = parsing.parse_subject_groups()
+        self.output.print(f"parsed subject groups")
         self.index()
 
     def index(self):

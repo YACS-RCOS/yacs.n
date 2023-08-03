@@ -1,0 +1,6 @@
+[
+    {"title":"Science", "elements":["CSCI", "PHYS", "BIOL", "PHIL"]},
+    {"title":"Engineering", "elements":["ENGR", "ECSE", "MECH"]},
+    {"title":"Humanities", "elements":["ARTS", "GSAS"]},
+    {"title":"Architecture", "elements":["ARCH"]}
+]

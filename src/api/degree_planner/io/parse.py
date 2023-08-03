@@ -19,6 +19,7 @@ from ..dp.requirement_group import Requirement_Group
 CATALOG_PATH = Output.DATA_FOLDER_PATH + "catalog.json"
 TEMPLATES_PATH = Output.DATA_FOLDER_PATH + "degrees.json"
 TAGS_PATH = Output.DATA_FOLDER_PATH + "tags.json"
+SUBJECT_GROUPS_PATH = Output.DATA_FOLDER_PATH + "subject_groups.json"
 
 logging.info('current working directory: ' + os.getcwd())
 
@@ -49,6 +50,23 @@ class parsing():
                 else:
                     element.attributes.add_attribute(f"{attr}.{attr_val}")
             catalog.add(element)
+
+    @staticmethod
+    def parse_subject_groups() -> dict:
+        logging.info("Beginning parsing subject groups into catalog")
+
+        if os.path.isfile(SUBJECT_GROUPS_PATH):
+            logging.info(f"file found: {SUBJECT_GROUPS_PATH}")
+            file_subject_groups = open(SUBJECT_GROUPS_PATH)
+        else:
+            logging.error("templates file not found")
+            return
+        
+        subject_groups = json.load(file_subject_groups)
+        file_subject_groups.close()
+
+        return subject_groups
+
 
     @staticmethod
     def parse_templates(catalog:Catalog):

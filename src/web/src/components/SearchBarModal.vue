@@ -12,12 +12,29 @@
         @keyup.enter="selectEnter"
       >
       <div v-if="showDropdown" ref="resultsList" class = results>
+
+        <div class="subject-clear-filter">
+          <button class="subject-clear-button" type="button" @click="filterCourses('')">
+            clear
+          </button>
+        </div>
+        <div class="subject-filter">
+          <div class="subject-group" :style="colorTextExtract(subject_group.title, 0, 25, 75, subject_group_index / subjectGroups.length)" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+            {{ extractTitle(subject_group.title) }}<br>
+            <button class="subject-buttons" :style="colorTextExtract(subject_group.title, subject_index, -subject_index, - 10 - subject_index, subject_group_index / subjectGroups.length)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
+              {{ extractTitle(subject) }}
+            </button>
+            <br>
+          </div>
+        </div>
+
         <ul class="search-results">
           <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
           <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
             {{ course.display_name }}
           </li>
         </ul>
+
         <ul class="suggestions">
           <li>Recommendations:</li>
           <li> none for now ;-; </li>
@@ -33,14 +50,63 @@ import debounce from 'lodash/debounce';
 export default {
   data() {
     return {
+      all_courses: [],
       courses: [],
+      subjectGroups: [],
+      filterSubject: '',
 
       searchInput: '',
       searchMatches: [],
       showDropdown: false,
     };
   },
+
   methods: {
+    sumAsciiValues(word) {
+      let sum = 0;
+      for (let i = 0; i < word.length; i++) {
+        sum += word.charCodeAt(i); // Get ASCII value of character and add to sum
+      }
+      return sum;
+    },
+
+    extractColorHSL(element) {
+      if (element.includes("#")) {
+        return element.split("#")[1].split(",")
+      }
+      return []
+    },
+
+    extractTitle(element) {
+      return element.split('#')[0]
+    },
+
+    colorText(hue, saturation, lightness) {
+      return {
+        backgroundColor: `hsl(${hue}, ${saturation}, ${lightness})`
+      };
+    },
+
+    colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, index = -1) {
+      let colors = this.extractColorHSL(element)
+      if (colors.length == 3) {
+        return this.colorText((colors[0] + hue_offset) % 100, (colors[1] + saturation_offset), (colors[2] + lightness_offset));
+      }
+      if (index != -1) {
+        console.log("hue: " + (index * 100.0 + hue_offset) % 100)
+        return this.colorText((index * 100.0 + hue_offset) % 100, saturation_offset, lightness_offset);
+      }
+      else {
+        return this.colorText(hue_offset % 100, saturation_offset, lightness_offset);
+      }
+    },
+
+    randColorText(text, offset, multiple = 1, saturation = 33, lightness = 70) {
+      return {
+        backgroundColor: `hsl(${((this.sumAsciiValues(text) + offset) % 100) * multiple}, ${saturation}, ${lightness})`
+      };
+    },
+
     outputValue(val) {
       // Increment the value and emit an event to notify the parent
       this.$emit('result', val);
@@ -111,6 +177,18 @@ export default {
       this.showDropdown = false;
     },
 
+    filterCourses(subject) {
+      this.courses = [];
+      if (subject === '') {
+        this.courses = this.all_courses;
+      }
+      else {
+        subject = subject.toLowerCase();
+        this.courses = this.all_courses.filter(course => course.search_name.startsWith(subject));
+      }
+      this.search();
+    },
+
     async searchOnline(input) {
       // uses degree planner's own searching algorithm, requires api call so more taxing on the backend
       // uses a fast token matching algorithm rather than exact filtering
@@ -129,17 +207,24 @@ export default {
       const response = await fetch('/api/dp/courses/false');
       let course_list = await response.json();
       for (let i = 0; i < course_list.length; ++i) {
+        this.all_courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
         this.courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
       }
     },
+
+    async fetchSubjectGroups() {
+      const response = await fetch('/api/dp/subjectgroups');
+      this.subjectGroups = await response.json();
+    }
   },
   async created() {
-    await this.fetchElements().then(this.$emit('complete'));
+    await this.fetchElements();
+    await this.fetchSubjectGroups();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .search-container {
   position: relative;
   width: 90%;
@@ -179,6 +264,45 @@ export default {
   border-radius: 4px;
   border: 2px solid #2d2e31;
   overflow-y:scroll;
+}
+
+.subject-filter {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  position: relative;
+}
+
+.subject-clear-filter {
+  width: 100%;
+}
+
+.subject-clear-button {
+  width: 100%;
+  margin: 4px;
+  font-weight: 600;
+  background-color: #71797e;
+  border: none;
+  border-radius: 6px;
+}
+
+.subject-group {
+  background-color: #424648;
+  font-weight: 500;
+}
+
+.subject-buttons {
+  border: none;
+  border-radius: 4px;
+  width: 30px;
+  padding: 0px;
+  margin: 1px;
+  color: #141415;
+  transition: background-color 0.15s ease;
+  text-align: center;
+}
+.subject-buttons:hover {
+    background-color: rgb(80, 85, 87);
 }
 
 .suggestions {
