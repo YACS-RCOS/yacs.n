@@ -5,7 +5,11 @@
     <!-- button to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
       <b-button
+        class="my-button" 
+        :class="{ 'hovered': isHoveredAlphabet }"
         @click="listAlphabet()"
+        @mouseover="isHoveredAlphabet = true"
+        @mouseleave="isHoveredAlphabet = false" 
         style="
           margin-top: 10px;
           color: #007bff;
@@ -17,7 +21,11 @@
       </b-button>
       <br />
       <b-button
+        class="my-button"
+        :class="{ 'hovered': isHoveredCate }"
         @click="listCate()"
+        @mouseover="isHoveredCate = true"
+        @mouseleave="isHoveredCate = false"
         style="
           margin-top: 10px;
           color: #007bff;
@@ -90,7 +98,6 @@
                       <b-button
                         @click="ShowPath(pathway)"
                         squared
-                        variant="light"
                         class="pathway-button m-0 ml-1"
                       >
                         {{ pathway["Name"][0] }}
@@ -136,7 +143,6 @@
                       <b-button
                         @click="ShowPath(pathway)"
                         squared
-                        variant="light"
                         class="pathway-button m-0 ml-1"
                       >
                         {{ pathway["Name"][0] }}
@@ -171,6 +177,8 @@ export default {
   },
   data() {
     return {
+      isHoveredAlphabet: false,
+      isHoveredCate: false,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -336,21 +344,33 @@ export default {
 
 .pathway-button {
   display: inline-block;
-  background: white;
+  background-color: transparent;
+  color: black;
   border-style: none;
-  text-align: justify;
+  text-align: left;
   width: 95%;
+  transition: background-color 0.01s ease-out, border-color 0.01s ease-out;
 }
 
 .pathway-button:hover {
+  color: black;
   background: rgba(108, 90, 90, 0.15) !important;
+  border-color: transparent;
 }
 
-.courseInPath {
-  cursor: pointer;
+.pathway-button:not(:hover) {
+  background-color: transparent;
+  color: black;
+  border-color: transparent;
+  transition-delay: 0.01s;
 }
 
 .courseInPath:hover {
+  cursor: pointer;
   background-color: rgba(39, 130, 230, 0.5);
+}
+
+.hovered {
+  background-color: rgba(108, 90, 90, 0.15) !important;
 }
 </style>
