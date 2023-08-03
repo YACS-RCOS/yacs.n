@@ -133,9 +133,9 @@ class Professor:
                 DELETE FROM 
                     professor
                 WHERE
-                    email = '{email}'
+                    email = '%s'
                 """
-            error = self.db_conn.execute(sql, None, False)
+            error = self.db_conn.execute(sql, (email,), False)
         else:
             return (False, "email cant be none")
         return (True, None)
@@ -208,9 +208,9 @@ class Professor:
                     from
                         professor
                     where
-                        email = '{email}'
+                        email = '%s'
                     """
-            info, error = self.db_conn.execute(sql, None, True)
+            info, error = self.db_conn.execute(sql, (email,), True)
             return (info, None) if not error else (False, error)
 
 
@@ -230,8 +230,8 @@ class Professor:
                         professor
                     where
                         email = '%s'
-                    """ % email
-            phone_number, error = self.db_conn.execute(sql, None, True)
+                    """
+            phone_number, error = self.db_conn.execute(sql, (email,), True)
             return (phone_number, None) if not error else (False, error)
 
     def get_professor_name_by_email(self, email):
@@ -246,7 +246,7 @@ class Professor:
             WHERE
                 email = %s
         """
-            name, error = self.db_conn.execute(sql, None, True)
+            name, error = self.db_conn.execute(sql, (email,), True)
             return (name, None) if not error else (False, error)
 
 if __name__ == "__main__":
