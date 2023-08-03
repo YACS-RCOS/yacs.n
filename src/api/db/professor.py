@@ -166,16 +166,20 @@ class Professor:
     
     def get_professor_info_by_email(self, email):
         if email is not None:
-            sql = """
-                    select 
-                        * 
-                    from 
-                        professor 
-                    where 
-                        email = %s 
-                """ % email
-            email, error = self.db_conn.execute( sql, None, True)
-            return (email, None) if not error else (False, error)
+            return self.db_conn.execute(""" 
+                SELECT * FROM professor where email = %s
+                    """, None, True)
+        # if email is not None:
+        #     sql = """
+        #             select 
+        #                 * 
+        #             from 
+        #                 professor 
+        #             where 
+        #                 email = %s 
+        #         """ % email
+        #     email, error = self.db_conn.execute( sql, None, True)
+        #     return (email, None) if not error else (False, error)
 
     #seraches professors who are in a certain department
     def get_professors_by_department(self,department): 
