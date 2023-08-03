@@ -208,8 +208,12 @@ import SearchBarModal from '../components/SearchBarModal.vue';
                 }
             }
         },
-        remove_loading() {
-            this.main_loading = false;
+        delayedFinishedLoading() {
+          // Calling the method with a delay
+          setTimeout(this.finishedLoading, 1000);
+        },
+        finishedLoading() {
+          this.main_loading = false;
         },
         // API CALLING
         async dp_command() {
@@ -231,7 +235,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             // fetch fulfillment and recommendations
             this.print();
             if (fulfill) {
-                this.get_fulfillment().then(setTimeout(this.remove_loading(), 3000));
+                this.get_fulfillment().then(this.delayedFinishedLoading());
             }
             if (recommend) {
                 this.get_recommendation();

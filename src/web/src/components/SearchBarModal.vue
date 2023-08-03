@@ -5,17 +5,17 @@
         ref="inputBox"
         class="search-input"
         v-model="searchInput"
-        @input="debouncedHandleInput"
+        @input="inputHandler"
         placeholder="Enter course name"
         @blur="onBlur"
         @focus="onFocus"
-        @keyup.enter="selectMatch(0)"
+        @keyup.enter="selectEnter"
       >
       <div v-if="showDropdown" ref="resultsList" class = results>
         <ul class="search-results">
           <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
           <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
-            {{ course }}
+            {{ course.display_name }}
           </li>
         </ul>
         <ul class="suggestions">
@@ -71,31 +71,47 @@ export default {
       }
     },
 
-    debouncedHandleInput: debounce(function () {
-      this.handleInput();
-    }, 400),
-    handleInput() {
-      this.searchMatches = this.search(this.searchInput);
+    inputHandler() {
       this.showDropdown = true;
+      this.debouncedsearch();
     },
 
-    async handleInputAlternative() {
-      this.searchMatches = await this.searchAlternative(this.searchInput);
-      this.showDropdown = true;
+    debouncedsearch: debounce(function () {
+      this.search();
+    }, 400),
+
+    search() {
+      let input = this.searchInput
+      input = input.toLowerCase();
+      console.log('performed search')
+      this.searchMatches = this.courses.filter(course => course.search_name.includes(input));
+    },
+
+    async searchAlternative() {
+      this.searchMatches = await this.searchOnline(this.searchInput);
+    },
+
+    selectEnter() {
+      this.search();
+      this.selectMatch(0);
     },
 
     selectMatch(position) {
-      if (this.searchMatches.length == 0) {
+      if (/^\d+$/.test(this.searchInput.substring(5,9))) {
+        console.log('input was a course ID')
         this.outputValue(this.searchInput)
       }
-      if (position < this.searchMatches.length) {
-        this.outputValue(this.searchMatches[position])
+      else if (this.searchMatches.length == 0) {
+        this.outputValue(this.searchInput)
+      }
+      else if (position < this.searchMatches.length) {
+        this.outputValue(this.searchMatches[position].display_name)
       }
       this.searchInput = "";
       this.showDropdown = false;
     },
 
-    async searchAlternative(input) {
+    async searchOnline(input) {
       // uses degree planner's own searching algorithm, requires api call so more taxing on the backend
       // uses a fast token matching algorithm rather than exact filtering
       const response = await fetch('/api/dp/search', {
@@ -108,19 +124,17 @@ export default {
       let matches = await response.json();
       return matches
     },
-    
-    search(input) {
-      input = input.toLowerCase();
-      return this.courses.filter(course => course.includes(input));
-    },
 
     async fetchElements() {
-      const response = await fetch('/api/dp/courses/true');
-      this.courses = await response.json();
+      const response = await fetch('/api/dp/courses/false');
+      let course_list = await response.json();
+      for (let i = 0; i < course_list.length; ++i) {
+        this.courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
+      }
     },
   },
   async created() {
-    await this.fetchElements();
+    await this.fetchElements().then(this.$emit('complete'));
   },
 };
 </script>
