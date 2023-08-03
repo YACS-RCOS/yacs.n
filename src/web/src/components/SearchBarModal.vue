@@ -4,30 +4,39 @@
       <input
         ref="inputBox"
         class="search-input"
-        v-model="courseName"
-        @input="handleInput"
+        v-model="searchInput"
+        @input="debouncedHandleInput"
         placeholder="Enter course name"
-        @blur="onFocus"
-        @focus="onBlur"
-        @keyup.enter="selectCourse(0)"
+        @blur="onBlur"
+        @focus="onFocus"
+        @keyup.enter="selectMatch(0)"
       >
-      <ul ref="resultsList" v-if="showDropdown" class="search-results">
-        <li v-if="matchingCourses.length === 0" class="no-results">No results found</li>
-        <li v-for="(course, index) in matchingCourses" :key="index" @click="selectCourse(index)">
-          {{ course.name }}
-        </li>
-      </ul>
+      <div v-if="showDropdown" ref="resultsList" class = results>
+        <ul class="search-results">
+          <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
+          <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
+            {{ course }}
+          </li>
+        </ul>
+        <ul class="suggestions">
+          <li>Recommendations:</li>
+          <li> none for now ;-; </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
 
 export default {
   data() {
     return {
-      courseName: '',
-      matchingCourses: [],
+      courses: [],
+
+      searchInput: '',
+      searchMatches: [],
       showDropdown: false,
     };
   },
@@ -37,16 +46,19 @@ export default {
       this.$emit('result', val);
     },
 
-    onFocus() {
-      this.showDropdown = true;
+    onBlur() {
       document.addEventListener('click', this.handleClickOutside);
     },
-    onBlur() {
+
+    onFocus() {
       // Allow the click event to propagate before removing the listener
+      this.showDropdown = true;
+      this.searchMatches = this.courses;
       this.$nextTick(() => {
         document.removeEventListener('click', this.handleClickOutside);
       });
     },
+
     handleClickOutside(event) {
       // Check if the clicked element is outside both the input box and the results list
       if (
@@ -59,35 +71,56 @@ export default {
       }
     },
 
+    debouncedHandleInput: debounce(function () {
+      this.handleInput();
+    }, 400),
     handleInput() {
-      // Simulate fetching matching courses from the database (replace this with actual API call).
-      this.matchingCourses = this.fetchMatchingCoursesFromDatabase(this.courseName);
-      this.showDropdown = this.matchingCourses.length > 0;
+      this.searchMatches = this.search(this.searchInput);
+      this.showDropdown = true;
     },
-    selectCourse(position) {
-      if (this.matchingCourses.length == 0) {
-        this.outputValue(this.courseName)
+
+    async handleInputAlternative() {
+      this.searchMatches = await this.searchAlternative(this.searchInput);
+      this.showDropdown = true;
+    },
+
+    selectMatch(position) {
+      if (this.searchMatches.length == 0) {
+        this.outputValue(this.searchInput)
       }
-      if (position < this.matchingCourses.length) {
-        this.outputValue(this.matchingCourses[position].name)
+      if (position < this.searchMatches.length) {
+        this.outputValue(this.searchMatches[position])
       }
-      this.courseName = "";
+      this.searchInput = "";
       this.showDropdown = false;
     },
-    fetchMatchingCoursesFromDatabase(input) {
-      // Replace this with actual API call to fetch matching courses from the database.
-      // For simplicity, using a static array in this example.
-      const coursesFromDatabase = [
-        { id: 1, name: 'CSCI 1200 Data Structures' },
-        { id: 2, name: 'CSCI 2300 Introduction to Algorithms' },
-        { id: 3, name: 'CSCI 4350 Data Science' },
-        { id: 4, name: 'CSCI 4800 Numerical Computing' },
-        { id: 5, name: 'PHYS 1200 Physics II' },
-        { id: 6, name: 'ARTS 4070 3D Animation' },
-        // Add more courses here as needed
-      ];
-      return coursesFromDatabase.filter(course => course.name.toLowerCase().includes(input.toLowerCase()));
+
+    async searchAlternative(input) {
+      // uses degree planner's own searching algorithm, requires api call so more taxing on the backend
+      // uses a fast token matching algorithm rather than exact filtering
+      const response = await fetch('/api/dp/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(input),
+      });
+      let matches = await response.json();
+      return matches
     },
+    
+    search(input) {
+      input = input.toLowerCase();
+      return this.courses.filter(course => course.includes(input));
+    },
+
+    async fetchElements() {
+      const response = await fetch('/api/dp/courses/true');
+      this.courses = await response.json();
+    },
+  },
+  async created() {
+    await this.fetchElements();
   },
 };
 </script>
@@ -105,19 +138,46 @@ export default {
   position: relative;
 }
 
-.search-results {
+.results {
   z-index: 9999;
   position: absolute;
   top: 100%;
   left: 0;
   width: 90%;
-  max-height: 200px;
-  background-color: #1c1d1f;
+  background-color: #141415;
   list-style: none;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #1c1d1f;
+  margin: 1px;
+  padding: 6px;
+  border-radius: 4px;
+  border: 2px solid #2d2e31;
   border-top: none;
+}
+
+.search-results {
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  background-color: #323435;
+  list-style: none;
+  margin: 2px;
+  padding: 2px;
+  border-radius: 4px;
+  border: 2px solid #2d2e31;
+  overflow-y:scroll;
+}
+
+.suggestions {
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 250px;
+  background-color: #4c5458;
+  list-style: none;
+  margin: 2px;
+  padding: 2px;
+  border-radius: 4px;
+  border: 2px solid #2d2e31;
   overflow-y: auto;
 }
 

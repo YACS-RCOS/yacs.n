@@ -253,7 +253,24 @@ async def dp_get_recommendation(userid:str):
 
     print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
     return results.dictionary
-    
+
+
+@app.get('/api/dp/courses/{lowercase}')
+async def dp_get_courses(lowercase:bool):
+    courses = list(planner.catalog.get_elements())
+    if lowercase:
+        courses = [course.name.casefold() for course in courses]
+    else:
+        courses = [course.name for course in courses]
+    courses.sort()
+    return courses
+
+
+@app.post('/api/dp/search')
+async def sarchcourse(course=Body(...)):
+    list_courses = planner.find(course)
+    return list_courses
+
 
 @app.get('/')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
@@ -574,13 +591,3 @@ async def uploadHandler(file: UploadFile = File(...)):
     else:
         print(error)
         return Response(error.__str__(), status_code=500)
-
-@app.post('/api/search')
-async def sarchcourse(course=Body(...)):
-    print(str(course))
-    list_courses = planner.find(course["course"])
-    print(str(list_courses)) 
-    return list_courses
-
-
-

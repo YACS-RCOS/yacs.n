@@ -219,12 +219,8 @@ class Planner():
         self.output.debug(f"Removed course {course} from semester {semester}")
 
 
-    def find(self, course_name:str) -> None:
-        ''' Print list of courses to output that match input entry, searches from entire catalog
-
-        Args:
-            course_name (str): search term
-        '''
+    def find(self, course_name:str) -> list:
+        ''' returns matches as sorted list '''
         possible_courses = self.course_search.search(course_name)
         possible_courses.sort()
         return possible_courses
