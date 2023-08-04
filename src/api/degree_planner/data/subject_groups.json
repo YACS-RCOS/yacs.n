@@ -1,6 +1,8 @@
 [
-    {"title":"Science", "elements":["CSCI", "PHYS", "BIOL", "PHIL"]},
-    {"title":"Engineering", "elements":["ENGR", "ECSE", "MECH"]},
-    {"title":"Humanities", "elements":["ARTS", "GSAS"]},
-    {"title":"Architecture", "elements":["ARCH"]}
+    {"title":"Humanities", "elements":["ARTS", "COGS", "COMM", "ECON", "GSAS", "IHSS", "LANG", "LITR", "PHIL", "PSYC", "WRIT"]},
+    {"title":"Science", "elements":["ASTR", "BCBP", "BIOL", "CHEM", "CSCI", "ERTH", "ISCI", "ITWS", "MATH", "MATP", "PHYS"]},
+    {"title":"Engineering", "elements":["BMED", "CHME", "CIVL", "ECSE", "ENGR", "ENVE", "ISYE", "MANE", "MTLE"]},
+    {"title":"Other", "elements":["ADMN", "INQR", "STSO", "USAF", "USAR", "USNA"]},
+    {"title":"Architecture", "elements":["ARCH"]},
+    {"title":"Business", "elements":["MGMT"]}
 ]

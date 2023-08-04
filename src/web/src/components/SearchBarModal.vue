@@ -15,13 +15,13 @@
 
         <div class="subject-clear-filter">
           <button class="subject-clear-button" type="button" @click="filterCourses('')">
-            clear
+            CLEAR
           </button>
         </div>
         <div class="subject-filter">
-          <div class="subject-group" :style="colorTextExtract(subject_group.title, 0, 25, 75, subject_group_index / subjectGroups.length)" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          <div class="subject-group" :style="subjectGroupColors[subject_group.title]" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
             {{ extractTitle(subject_group.title) }}<br>
-            <button class="subject-buttons" :style="colorTextExtract(subject_group.title, subject_index, -subject_index, - 10 - subject_index, subject_group_index / subjectGroups.length)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
+            <button class="subject-buttons" :style="subjectColors[subject]" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
               {{ extractTitle(subject) }}
             </button>
             <br>
@@ -53,6 +53,8 @@ export default {
       all_courses: [],
       courses: [],
       subjectGroups: [],
+      subjectColors: {},
+      subjectGroupColors: {},
       filterSubject: '',
 
       searchInput: '',
@@ -82,28 +84,28 @@ export default {
     },
 
     colorText(hue, saturation, lightness) {
+      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
       return {
-        backgroundColor: `hsl(${hue}, ${saturation}, ${lightness})`
+        backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`
       };
     },
 
     colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, index = -1) {
-      let colors = this.extractColorHSL(element)
+      let colors = this.extractColorHSL(element);
       if (colors.length == 3) {
-        return this.colorText((colors[0] + hue_offset) % 100, (colors[1] + saturation_offset), (colors[2] + lightness_offset));
+        return this.colorText((colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset));
       }
       if (index != -1) {
-        console.log("hue: " + (index * 100.0 + hue_offset) % 100)
-        return this.colorText((index * 100.0 + hue_offset) % 100, saturation_offset, lightness_offset);
+        return this.colorText((index * 360 + hue_offset) % 360, saturation_offset, lightness_offset)
       }
       else {
-        return this.colorText(hue_offset % 100, saturation_offset, lightness_offset);
+        return this.colorText(hue_offset % 360, saturation_offset, lightness_offset)
       }
     },
 
     randColorText(text, offset, multiple = 1, saturation = 33, lightness = 70) {
       return {
-        backgroundColor: `hsl(${((this.sumAsciiValues(text) + offset) % 100) * multiple}, ${saturation}, ${lightness})`
+        backgroundColor: `hsl(${((this.sumAsciiValues(text) + offset) % 360) * multiple}, ${saturation}, ${lightness})`
       };
     },
 
@@ -215,12 +217,23 @@ export default {
     async fetchSubjectGroups() {
       const response = await fetch('/api/dp/subjectgroups');
       this.subjectGroups = await response.json();
+    },
+
+    computeSubjectColors() {
+      for (let i = 0; i < this.subjectGroups.length; ++i) {
+        let group = this.subjectGroups[i];
+        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 22, 70, i / this.subjectGroups.length);
+        for (let j = 0; j < group.elements.length; ++j) {
+          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 18 - j * 0.5, 70 - 10 + j * 0.2, i / this.subjectGroups.length)
+        }
+      }
     }
   },
   async created() {
     await this.fetchElements();
     await this.fetchSubjectGroups();
-  },
+    this.computeSubjectColors();
+  },  
 };
 </script>
 
@@ -238,11 +251,11 @@ export default {
 }
 
 .results {
-  z-index: 9999;
   position: absolute;
+  z-index: 9999;
   top: 100%;
   left: 0;
-  width: 90%;
+  width: 325px;
   background-color: #141415;
   list-style: none;
   margin: 1px;
@@ -256,7 +269,7 @@ export default {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 300px;
+  max-height: 200px;
   background-color: #323435;
   list-style: none;
   margin: 2px;
@@ -269,7 +282,8 @@ export default {
 .subject-filter {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
+  gap: 5px;
+  margin: 2px;
   position: relative;
 }
 
@@ -278,31 +292,40 @@ export default {
 }
 
 .subject-clear-button {
-  width: 100%;
-  margin: 4px;
+  width: 99%;
+  margin: 2px;
   font-weight: 600;
+  font-size: 13px;
   background-color: #71797e;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .subject-group {
-  background-color: #424648;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 14px;
+  color: #141415;
+  border-radius: 4px;
+  padding: 6px;
+  padding-top: 4px;
+  padding-bottom: 2px;
 }
 
 .subject-buttons {
   border: none;
   border-radius: 4px;
-  width: 30px;
-  padding: 0px;
-  margin: 1px;
+  font-size: 11px;
+  width: 42px;
+  padding: 1px;
+  font-weight: 600;
+  margin-left: 2px;
+  margin-right: 2px;
   color: #141415;
   transition: background-color 0.15s ease;
   text-align: center;
 }
 .subject-buttons:hover {
-    background-color: rgb(80, 85, 87);
+  background-color: rgb(80, 85, 87);
 }
 
 .suggestions {
@@ -321,6 +344,7 @@ export default {
 
 .search-results li {
   padding: 2px;
+  font-size: 11px;
   cursor: pointer;
 }
 

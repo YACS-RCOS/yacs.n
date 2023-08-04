@@ -367,6 +367,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   }
   .schedule-search {
     width: 100%;
+    z-index: 999;
   }
   .columns {
     display: flex;
@@ -381,6 +382,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     font-size: 0.8em;
     min-width: 400px;
     max-width: 600px;
+    z-index: 100;
   }
   .column-left::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
