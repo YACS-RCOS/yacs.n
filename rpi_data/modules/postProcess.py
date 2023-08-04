@@ -57,6 +57,9 @@ import re
 baseLink = 'https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={semester}&\
 subj_code_in={department}&crse_numb_in={courseNumber}'
 
+# 
+enrollementLink = 'https://sis.rpi.edu/reg/zs{semester}{section}.htm'
+
 # convert the given csv to a list
 def read_csv(file_name : str = 'fall-2023.csv') -> list:
     with open(file_name, 'r', encoding='UTF-8') as csv_file:
@@ -121,6 +124,9 @@ def saveData(filename :str, data : dict) -> None:
 def getCourseLink(semester : str, department : str, courseNumber : str) -> str:
     return baseLink.format(semester=semester, department=department, courseNumber=courseNumber)
 
+def getEnrollmentLink(semester : str, section : str = '') -> str:
+    return enrollementLink.format(semester=semester, section=section)
+
 # create a new csv
 def WithoutData(filename : str, dataFilename : str, DEBUG):
     session = requests.Session()
@@ -147,7 +153,6 @@ def WithoutData(filename : str, dataFilename : str, DEBUG):
         description = description.split('\n \n')[0]
         description = description.replace('\n','')
 
-        # print(description)
         prerequisites = None
         corequisites = None
         rawrequisites = ''
@@ -184,6 +189,7 @@ def WithData(filename : str, dataFilename : str) -> None:
     Data = readData(dataFilename)   # a dictionary of dictionaries where {key: course id; value: {key: description, prereq, or coreq; value: corresponding data } }; all key value pairs are strings
     data = read_csv(filename)       # list of lists containing data from csv; each list represents a valid class row
 
+    getStudentsEnrolled('202301')
     for row in data:
         if (len(row) < 17): continue
         department = row[11]        # 4 letter course name (e.g. CSCI)
@@ -219,7 +225,7 @@ def parseSemester(filename) -> str:
 
 # course descriptions must be acquired separately because the API used in fetch_catalog_course_info.py is outdated and no longer contains course info
 def getCourseDescription(semester, department, courseNumber):    
-    link = getCourseLink(semester, department, courseNumber)
+    link = getCourseLink(semester)
 
     webpage_response = requests.Session().get(link)
     webpage = webpage_response.content
@@ -228,6 +234,37 @@ def getCourseDescription(semester, department, courseNumber):
     rawbody = soup.find('td', class_='ntdefault')
     body = rawbody.text.split('\n') # list of strings
     return body[1]
+
+# finds the number of students enrolled for each class
+# returns a dictionary where {key, value} = {department + course id, [capacity, number enrolled] }
+def getStudentsEnrolled(semester) -> dict:    
+    enrolled_data = dict()
+    link = getEnrollmentLink(semester)
+
+    webpage_response = requests.Session().get(link)
+    webpage = webpage_response.content
+    soup = BeautifulSoup(webpage, "html.parser")
+
+    # rawbody = soup.find('td', class_='ntdefault')
+    # tables = soup.findAll(lambda tag: tag.name=='table') 
+    # for table in tables:
+    #     rows = table.findAll(lambda tag: tag.name=='tr')
+    tables = soup.findChildren('table')
+
+    # This will get the first (and only) table. Your page may have more.
+    table = tables[0]
+   
+    print(table)
+    # print(table.find_all('span'))
+   
+    # You can find children with multiple tags by passing a list of strings
+    rows = my_table.findChildren(['th', 'tr'])
+
+    for row in rows:
+        cells = row.findChildren('td')
+        for cell in cells.find_all('span'):
+            print("The value in this cell is %s" % cell)
+    # print(body)
 
 
 def main() -> None:
