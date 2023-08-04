@@ -32,10 +32,10 @@
     </div>
     
     <template>
-      <div class="search-bar-container">
-        <input type="text" v-model="searchQuery" placeholder="Search by name or subject">
+      <div class="search-bar-container" v-for="search in searchProfessors()" :key=search>
+        <input type="text" v-model="input" placeholder="Search by name or subject">
+        <p>{{ search }}</p>
         <button @click="searchProfessors"> <font-awesome-icon icon="search" /> </button>
-        <div v-if="professors.length === 0">No professors found.</div>
 
       </div>
     </template>
@@ -173,6 +173,8 @@
 <script>
 import json from "./Professors.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
+import { ref } from "vue";
+let input = ref("");
 
 export default {
   name: "Professor",
@@ -376,6 +378,10 @@ export default {
       this.$router.push("/professor/" + rcs);
     },
     searchProfessors() {
+      profs = ["a","b", "c"];
+      return profs.filter((search) =>
+      fruit.toLowerCase().includes(input.value.toLowerCase())
+    );
     },
   },
 };
