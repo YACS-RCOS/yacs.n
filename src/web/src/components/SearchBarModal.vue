@@ -1,6 +1,7 @@
 <template>
   <div>
       <div v-if="showDropdown" ref="resultsList" class="results">
+        <h3>SEMESTER {{ selectedSemester + 1 }}</h3>
         <input
           ref="searchBar"
           class="search-input"
@@ -55,6 +56,7 @@ export default {
       searchInput: '',
       searchMatches: [],
       showDropdown: false,
+      selectedSemester: -1,
     };
   },
 
@@ -109,10 +111,11 @@ export default {
       this.$emit('result', val);
     },
 
-    onClick() {
+    onClick(semester) {
       this.$nextTick(() => {
         this.$refs.searchBar.focus();
       });
+      this.selectedSemester = semester;
       this.searchMatches = this.courses;
     },
 
@@ -236,6 +239,11 @@ export default {
   border-radius: 4px;
   border: 2px solid #2d2e31;
   border-top: none;
+}
+.results h3 {
+  font-size: 14px;
+  margin: 2px;
+  color:#9ca6a9;
 }
 
 .search-results {

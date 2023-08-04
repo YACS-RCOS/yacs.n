@@ -3,7 +3,7 @@
         <div class="main-loading" v-if="main_loading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
-        <div ref="searchModalContainer" class="search-modal">
+        <div ref="searchModalContainer" style="position: absolute; z-index: 9999; width: 325px; list-style: none; border-radius: 4px; border-top: none;">
           <SearchBarModal ref="searchModal" @result="results => add(activeSemester, results)"></SearchBarModal>
         </div>
         <div class="columns">
@@ -43,7 +43,7 @@
             
           </div>
           
-          <div class="column-center">
+          <div class="column-center" ref="columnCenter">
 
             <div class="requirements-orggrid">
               <div class="fulfillment-org-block" v-for="(group, group_index) in requirement_groups" :key="group_index">
@@ -163,9 +163,17 @@ import SearchBarModal from '../components/SearchBarModal.vue';
           }
           this.activeSemester = semester;
           this.toggleSearchModal(true);
-          this.$refs.searchModal.onClick();
+          this.$refs.searchModal.onClick(semester);
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
+          this.$nextTick(() => {
+            const targetDiv = this.$refs.columnCenter;
+            const targetDivRect = targetDiv.getBoundingClientRect();
+            const searchModal = this.$refs.searchModalContainer;
+            searchModal.style.left = targetDivRect.left + 'px';
+            searchModal.style.top = targetDivRect.top - searchModal.offsetHeight + 'px';
+            //console.log("search modal: " + searchModal.style.left + ", " + searchModal.style.top);
+          });
         },
         handleClickOutside(event) {
           // Check if the clicked element is outside both the input box and the results list
