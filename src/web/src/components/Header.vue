@@ -259,12 +259,16 @@ export default {
   border-radius: 5px;
   padding: calc(8px - 0.2em);
   border: 0.2em solid var(--dark-blue-secondary);
+  cursor: default;
+  color: var(--dark-blue-secondary);
 }
 
 .nav-item.first .router-link-exact-active {
   border-radius: 5px;
   padding: calc(8px - 0.2em);
   border: 0.2em solid var(--dark-blue-secondary);
+  cursor: default;
+  color: var(--dark-blue-secondary);
 }
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
