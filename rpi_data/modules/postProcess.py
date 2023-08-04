@@ -254,16 +254,21 @@ def getStudentsEnrolled(semester) -> dict:
     # This will get the first (and only) table. Your page may have more.
     table = tables[0]
    
-    print(table)
+    # print(table)
     # print(table.find_all('span'))
    
     # You can find children with multiple tags by passing a list of strings
-    rows = my_table.findChildren(['th', 'tr'])
-
-    for row in rows:
-        cells = row.findChildren('td')
-        for cell in cells.find_all('span'):
-            print("The value in this cell is %s" % cell)
+    rows = table.findChildren(['tbody', 'tr', 'td', 'td'])
+    
+    print(rows)
+    # for row in rows:
+        # cells = row.findChildren('td')
+        # print(row)
+        # span = cells.find("span")
+        # print(span.text)
+        # for cell in cells:
+        #     value = cell.string
+        #     # print("The value in this cell is %s" % value)
     # print(body)
 
 
