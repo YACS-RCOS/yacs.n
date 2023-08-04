@@ -1,4 +1,4 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 
 from .database import Base
@@ -25,3 +25,5 @@ class Course(Base):
     seats_filled = Column(INTEGER)
     seats_total = Column(INTEGER)
     tsv = Column(TSVECTOR)
+
+    pathway_name = Column(VARCHAR(length=255), ForeignKey('pathway_name'))

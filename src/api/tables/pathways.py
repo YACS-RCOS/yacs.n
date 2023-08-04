@@ -12,3 +12,5 @@ class Pathway(Base):
     #foreign key for courses
     courses = Column(TSVECTOR, ForeignKey("course.crn"))
     compatible_minor = Column(TSVECTOR)
+
+    category_name = Column(VARCHAR(length=255), ForeignKey('categories.name'))
