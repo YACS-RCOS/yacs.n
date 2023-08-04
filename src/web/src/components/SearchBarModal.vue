@@ -145,11 +145,7 @@ export default {
     },
 
     selectMatch(position) {
-      if (/^\d+$/.test(this.searchInput.substring(5,9))) {
-        console.log('input was a course ID')
-        this.outputValue(this.searchInput)
-      }
-      else if (this.searchMatches.length == 0) {
+      if (this.searchMatches.length == 0) {
         this.outputValue(this.searchInput)
       }
       else if (position < this.searchMatches.length) {
