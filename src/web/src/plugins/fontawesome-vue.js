@@ -13,6 +13,7 @@ import {
   faSearch,
   faFileAlt,
   faQuestionCircle,
+  faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
