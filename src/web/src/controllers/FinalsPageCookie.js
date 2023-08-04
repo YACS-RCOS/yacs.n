@@ -6,24 +6,26 @@ import {VueCookies} from "vue-cookies";
 const COOKIE_KEY = "finalExams";
 
 class FinalsPageCookie {
+    /**
+     * @param {VueCookies} $cookies
+    */
 
     constructor($cookies, exams) {
         this.$cookies = $cookies;
-        this.exams = exams; // Initialize as empty array
+        this.exams = exams;
     }
 
-
-
+    /**
+     * @param {VueCookies} $cookies
+    */
     static load($cookies) {// key = COOKIE_KEY
-        // console.log("load: ", this.getExams());
-        // return new FinalsPageCookie($cookies);
-        let exams = $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : [];
-        if (!Array.isArray(exams)){
-            exams = [];
-        }
-        return new FinalsPageCookie($cookies, exams);
+        return new FinalsPageCookie($cookies, $cookies.isKey(COOKIE_KEY) ? $cookies.get(COOKIE_KEY) : []);
     }
 
+    /**
+   * Save current state into cookie
+   * @param {string} key defaults to `COOKIE_KEY`
+   */
     save(key = COOKIE_KEY) {
         this.$cookies.set(key, this.exams);
     }
@@ -33,7 +35,11 @@ class FinalsPageCookie {
         return this;
     }
 
-
+    /**
+   *
+   * @returns {exams} list of selected courses
+   * of current semester
+   */
     getExams() {
         return this.exams;
     }

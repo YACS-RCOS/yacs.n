@@ -145,6 +145,7 @@ export default {
     try {
       this.initCourseOptions();
       this.loadStudentCourses();
+      console.log(FinalsPageCookie.load(this.$cookies).getExams());
       console.log("selectedCourses1: ");
       console.log(this.selectedCourses1);
     } catch (error) {
@@ -201,17 +202,10 @@ export default {
       ///const finalsPageCookie = FinalsPageCookie.load(this.$cookies);
       let finalsPageCookie = FinalsPageCookie.load(this.$cookies);
 
+      console.log(finalsPageCookie.getExams());
       if (currCourse !== null) {
         this.selectedCourses.push(currCourse);
         console.log("selected courses:", this.selectedCourses);
-        // finalsPageCookie.addCourse();
-
-        // let exams = finalsPageCookie.getExams();
-        // console.log("exams before push:", exams);
-
-        // exams.push(currCourse);
-        // console.log("exams after push:", exams);
-
         finalsPageCookie.setExams(this.selectedCourses);
         finalsPageCookie.save();
       }

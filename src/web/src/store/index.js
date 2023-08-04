@@ -31,6 +31,7 @@ export const SET_SELECTED_SEMESTER = "setSelectedSemester";
 export const SET_SEMESTERS = "setSemesters";
 export const SET_SUBSEMESTERS = "setSubsemesters";
 export const SET_DEPARTMENTS = "setDepartments";
+export const SET_FINAL_EXAMS = "finalExams";
 
 export const LOAD_COURSES = "loadCourses";
 export const SELECT_SEMESTER = "selectSemester";
@@ -41,6 +42,7 @@ export const LOAD_DEPARTMENTS = "loadDepartments";
 const store = new Vuex.Store({
   state: {
     darkMode: false,
+    finalExams: [],
     colorBlindAssist: false,
     coursesById: {},
     isLoadingCourses: false,
@@ -50,6 +52,7 @@ const store = new Vuex.Store({
     departments: [],
   },
   getters: {
+    finalExams: (state) => state.finalExams,
     [COURSES]: (state) => Object.values(state.coursesById),
     [GET_COURSE_BY_ID]: (state) => (id) => state.coursesById[id],
     darkModeState: (state) => {
@@ -60,6 +63,9 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
+    [SET_FINAL_EXAMS](state, finalExams) {
+      state.finalExams = finalExams;
+    },
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
       state.darkMode = isDarkMode === null ? !state.darkMode : isDarkMode;
 
@@ -123,6 +129,18 @@ const store = new Vuex.Store({
     },
   },
   actions: {
+     async loadFinalExams({ commit }) {
+      try {
+        const response = await axios.get("/api/final-exams"); // Update the endpoint to fetch final exams data
+
+        // Assuming the response.data contains the final exams data in an array
+        const finalExams = response.data;
+
+        commit(SET_FINAL_EXAMS, finalExams);
+      } catch (error) {
+        console.error("Error loading final exams:", error);
+      }
+    },
     async [LOAD_COURSES]({ state, commit }) {
       commit(SET_IS_LOADING_COURSES, true);
 
