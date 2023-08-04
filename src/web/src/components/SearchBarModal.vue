@@ -1,49 +1,40 @@
 <template>
   <div>
-    <div class="search-container">
-      <button
-        type="button" 
-        ref="inputBox"
-        class="search-open"
-        @click="onClick">
-        &#10133;
-    </button>
-      <div v-if="showDropdown" ref="resultsList" class="results">
-        <input
-          ref="searchBar"
-          class="search-input"
-          v-model="searchInput"
-          @input="inputHandler"
-          placeholder="Enter course name"
-          @keyup.enter="selectEnter"
-        />
-        <div class="subject-clear-filter">
-          <button class="subject-clear-button" type="button" @click="filterCourses('')">
-            CLEAR
-          </button>
-        </div>
-        <div class="subject-filter">
-          <div class="subject-group" :style="subjectGroupColors[subject_group.title]" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
-            {{ extractTitle(subject_group.title) }}<br>
-            <button class="subject-buttons" :style="subjectColors[subject]" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
-              {{ extractTitle(subject) }}
-            </button>
-            <br>
-          </div>
-        </div>
-
-        <ul class="search-results">
-          <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
-          <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
-            {{ course.display_name }}
-          </li>
-        </ul>
-
-        <ul class="suggestions">
-          <li>Recommendations:</li>
-          <li> none for now ;-; </li>
-        </ul>
+    <div v-if="showDropdown" ref="resultsList" class="results">
+      <input
+        ref="searchBar"
+        class="search-input"
+        v-model="searchInput"
+        placeholder="Enter course name"
+        @input="inputHandler"
+        @keyup.enter="selectEnter"
+      />
+      <div class="subject-clear-filter">
+        <button class="subject-clear-button" type="button" @click="filterCourses('')">
+          CLEAR
+        </button>
       </div>
+      <div class="subject-filter">
+        <div class="subject-group" :style="subjectGroupColors[subject_group.title]" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          {{ extractTitle(subject_group.title) }}<br>
+          <button class="subject-buttons" :style="subjectColors[subject]" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
+            {{ extractTitle(subject) }}
+          </button>
+          <br>
+        </div>
+      </div>
+
+      <ul class="search-results">
+        <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
+        <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
+          {{ course.display_name }}
+        </li>
+      </ul>
+
+      <ul class="suggestions">
+        <li>Recommendations:</li>
+        <li> none for now ;-; </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -118,12 +109,18 @@ export default {
       this.$emit('result', val);
     },
 
-    onClick() {
+    dropdown(show) {
+      this.showDropdown = show;
+      this.$emit('showDropdown', show);
+    },
+
+    open() {
+      console.log('open uwu')
       if (this.showDropdown == true) {
-        this.showDropdown = false;
+        this.dropdown(false);
         return
       }
-      this.showDropdown = true;
+      this.dropdown(true);
       this.$nextTick(() => {
         this.$refs.searchBar.focus();
       });
@@ -132,33 +129,15 @@ export default {
       document.addEventListener('click', this.handleClickOutside);
     },
 
-    onBlur() {
-      document.addEventListener('click', this.handleClickOutside);
-    },
-
-    onFocus() {
-      // Allow the click event to propagate before removing the listener
-      this.showDropdown = true;
-      this.searchMatches = this.courses;
-      this.$nextTick(() => {
-        document.removeEventListener('click', this.handleClickOutside);
-      });
-    },
-
     handleClickOutside(event) {
       // Check if the clicked element is outside both the input box and the results list
-      if (
-        this.$refs.inputBox &&
-        !this.$refs.inputBox.contains(event.target) &&
-        this.$refs.resultsList &&
-        !this.$refs.resultsList.contains(event.target)
-      ) {
-        this.showDropdown = false;
+      if (this.$refs.resultsList && !this.$refs.resultsList.contains(event.target)) {
+        this.dropdown(false);
       }
     },
 
     inputHandler() {
-      this.showDropdown = true;
+      this.dropdown(true);
       this.debouncedsearch();
     },
 
@@ -171,10 +150,6 @@ export default {
       input = input.toLowerCase();
       console.log('performed search')
       this.searchMatches = this.courses.filter(course => course.search_name.includes(input));
-    },
-
-    async searchAlternative() {
-      this.searchMatches = await this.searchOnline(this.searchInput);
     },
 
     selectEnter() {
@@ -194,7 +169,7 @@ export default {
         this.outputValue(this.searchMatches[position].display_name)
       }
       this.searchInput = "";
-      this.showDropdown = false;
+      this.dropdown(false);
     },
 
     filterCourses(subject) {
@@ -219,8 +194,7 @@ export default {
         },
         body: JSON.stringify(input),
       });
-      let matches = await response.json();
-      return matches
+      this.searchMatches = await response.json();
     },
 
     async fetchElements() {
@@ -268,16 +242,11 @@ export default {
   color:rgb(224, 232, 239);
   font-weight: 900;
 }
-.search-container {
-  position: relative;
-  width: 90%;
-}
 
 .search-input {
   width: 99%;
   font-size: 11px;
-  z-index: 999;
-  position: relative;
+  margin: 2px;
 }
 
 .results {

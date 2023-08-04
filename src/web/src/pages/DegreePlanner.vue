@@ -3,6 +3,9 @@
         <div class="main-loading" v-if="main_loading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
+        <div ref="searchModalMaster" style="width: 360px; height: 500px; position: absolute; z-index: 9999;">
+          <SearchBarModal ref="searchModal" @showDropdown="showDropdown" @result="results => add(activeSemester, results)"></SearchBarModal>
+        </div>
 
         <div class="columns">
 
@@ -15,10 +18,8 @@
                   @dragleave="schedulerDragLeave()" 
                   @dragover.prevent 
                   @drop="schedulerDrop($event, index)">
-                <h3>Semester {{ index + 1 }}</h3>
-                <span class="schedule-search">
-                  <SearchBarModal @result="results => add(index, results)"></SearchBarModal>
-                </span>
+                <span><h3>Semester {{ index + 1 }}</h3></span>
+                <span><button :ref="'semesterAdder${index}'" @click="openSearchModal(index)">Add</button></span>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
@@ -125,6 +126,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         return {
             loading: true,
             main_loading: true,
+            showDropdown: false,
             userid: 'testuser',
             degree: 'computer science',
             schedule_name: "new schedule",
@@ -142,10 +144,25 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             dragFromSemester: 0,
             hoverOverSemester: -1,
             hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
+            activeSemester: -1,
         };
     },
     methods: {
         // HELPER FUNCTIONS
+        openSearchModal(semester) {
+          this.showDropdown = true;
+          this.activeSemester = semester;
+          this.$refs.searchModal.open();
+          console.log(this.$refs);
+          this.$nextTick(() => {
+            const targetDiv = this.$refs['semesterAdder${index}'][semester];
+            const targetDivRect = targetDiv.getBoundingClientRect();
+            const searchModal = this.$refs.searchModalMaster;
+            searchModal.style.left = targetDivRect.right + 'px';
+            searchModal.style.top = targetDivRect.top - searchModal.offsetHeight + 'px';
+            //console.log("search modal: " + searchModal.style.left + ", " + searchModal.style.top);
+          });
+        },
         schedulerDrag(event, item, semester) {
             this.dragElement = item;
             this.dragFromSemester = semester;
@@ -365,9 +382,12 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     position:fixed;
   }
   .schedule-search {
-    justify-self: right;
     z-index: 999;
-    padding: 0;
+    position: absolute;
+  }
+  .search-modal {
+    z-index: 999;
+    position: absolute;
   }
   .columns {
     display: flex;
