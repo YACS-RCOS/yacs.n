@@ -45,7 +45,7 @@ class Professor:
         # Loop through each professor record in the JSON data
         for record in data:
             professor = Professor(email=record['Email'],
-                                first_name=record['Name'],
+                                name=record['Name'],
                                 phone_number=record['Phone'],
                                 department=record['Department'],
                                 portfolio=record['Portfolio'],
@@ -195,7 +195,7 @@ class Professor:
                 from
                     professor
                 where
-            department = '%s'
+            department = %s
         """
         department, error = self.db_conn.execute(sql, (department,), True)
         return (department, None) if not error else (False, error)
@@ -208,7 +208,7 @@ class Professor:
                     from
                         professor
                     where
-                        email = '%s'
+                        email = %s
                     """
             info, error = self.db_conn.execute(sql, (email,), True)
             return (info, None) if not error else (False, error)
@@ -229,7 +229,7 @@ class Professor:
                     from
                         professor
                     where
-                        email = '%s'
+                        email = %s
                     """
             phone_number, error = self.db_conn.execute(sql, (email,), True)
             return (phone_number, None) if not error else (False, error)
@@ -239,8 +239,7 @@ class Professor:
         if email is not None:
             sql = """
             SELECT
-                first_name,
-                last_name
+                name
             FROM
                 professor
             WHERE

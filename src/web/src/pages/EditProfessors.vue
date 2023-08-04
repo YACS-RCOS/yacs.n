@@ -33,7 +33,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="addMsg">Add message:</label>
+        <label for="addMsg">Testing</label>
         <input
           v-model="addMsg"
           type="text"
@@ -46,21 +46,15 @@
         <label for="result">Result:</label>
         <p id="result">{{ this.result }}</p>
       </div>
-      <button @click="getProf()" class="btn btn-primary">Get Prof</button>
+      <button @click="getProf()" class="btn btn-primary">Professors</button>
       <button @click="getProfName()" class="btn btn-primary">
-        Get Prof Name
+        Professor Name
       </button>
       <button @click="getProfDepartment()" class="btn btn-primary">
-        Get Prof Department
-      </button>
-      <button @click="getOfficeHours()" class="btn btn-primary">
-        Get Prof Office Hours
+        Department
       </button>
       <button @click="getProfNumberByEmail()" class="btn btn-primary">
-        Get Prof Number By Email
-      </button>
-      <button @click="getProfByEmail()" class="btn btn-primary">
-        Get Prof By Email
+        Phone Number
       </button>
       <button @click="addProf()" class="btn btn-success">Add Prof</button>
       <button @click="addProfTest()" class="btn btn-success">
