@@ -1,4 +1,66 @@
 <template>
+    <b-modal ref="my-modal">
+      <div class="block text-left" v-if="getPath != null" md="10">
+        <h3
+          class="text-center"
+          style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
+        >
+          {{ getPath.Name[0] }}
+        </h3>
+        <br />
+        <div v-for="(item, itemName) in getPath" :key="itemName">
+          <h4 style="color: #3395ff; margin-top: -20px;">
+            {{ itemName + ": " }}
+          </h4>
+          <li
+            v-for="course in item"
+            :key="course"
+            v-on:click="goPage(course)"
+            class="courseInPath"
+          >
+            {{ course }}
+          </li>
+          <br />
+        </div>
+      </div>
+    </b-modal>
+
+    <b-row>
+      <b-col
+        v-for="(catCol, index) in categoryCols"
+        :key="`catCol-${index}`"
+        md="6"
+        v-show="coursesShow"
+      >
+        <b-row
+          v-for="categoryObj in catCol"
+          :key="categoryObj['Category Name'][0]"
+          class="categoryBox border m-2 mb-4"
+        >
+          <b-col>
+            <b-row class="category-title">
+              <h3 class="m-1 ml-2">
+                {{ categoryObj["Category Name"][0] }}
+              </h3>
+            </b-row>
+            <b-row>
+              <div class="d-flex flex-column flex-grow-1">
+                <div
+                  v-for="pathway in categoryObj['Pathways']"
+                  :key="pathway['Name'][0]"
+                  role="tablist"
+                >
+                  <div class="mt-1 mb-1 w-100">
+                      {{ pathway["Name"][0] }}
+                  </div>
+                </div>
+              </div>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
+  
     <b-container class="mt-3">
       <section id="edits">
         <h2>Pathway Testing</h2>
@@ -23,46 +85,6 @@
           />
         </div>
         <div class="form-group">
-          <label for="Required">Required:</label>
-          <input
-            v-model="Required"
-            type="text"
-            class="form-control"
-            id="Required"
-            placeholder="Enter a course"
-          />
-        </div>
-        <div class="form-group">
-          <label for="ChooseOne">Choose one of the following:</label>
-          <input
-            v-model="ChooseOne"
-            type="text"
-            class="form-control"
-            id="ChooseOne"
-            placeholder="Enter a course"
-          />
-        </div>
-        <div class="form-group">
-          <label for="ChooseOther">Choose other one of the following:</label>
-          <input
-            v-model="ChooseOther"
-            type="text"
-            class="form-control"
-            id="ChooseOther"
-            placeholder="Enter a course"
-          />
-        </div>
-        <div class="form-group">
-          <label for="ChooseRemaining">Choose remaining credits from:</label>
-          <input
-            v-model="ChooseRemaining"
-            type="text"
-            class="form-control"
-            id="ChooseRemaining"
-            placeholder="Enter a course"
-          />
-        </div>
-        <div class="form-group">
           <label for="result">Result:</label>
           <p id="result">{{ this.result }}</p>
         </div>
@@ -80,39 +102,78 @@
   </template>
   
   <script>
+  import json from "./pathwayV2.json";
+
   import {
     getPathway,
-    getPathwayName,
+    getCourses,
   } from "@/services/YacsService";
+
   import {
     removePathway,
+    removeCourse,
     addPathway,
-    addPathwayTest,
+    addCourse,
   } from "@/services/AdminService";
   
   export default {
     name: "EditPathway",
     props: {},
+
+    data() {
+      return {
+        categories: json,
+        coursesShow: true,
+      };
+    },
+    computed: {
+      categoryCols() {
+        let ret = [];
+        let col1 = [];
+        let col2 = [];
+        for (var i = 0; i < this.categories.length; i++) {
+          if (i < this.categories.length / 2) {
+            col1.push(this.categories[i]);
+          } else {
+            col2.push(this.categories[i]);
+          }
+        }
+        ret.push(col1);
+        ret.push(col2);
+        return ret;
+      },
+    },
+    /*
     data() {
       return {
         course: "",
         
       };
     },
-    
+    */
+
     methods: {
+      listCourse() {
+        this.coursesShow = false;
+        this.pathwaysShow = false;
+      },
       getPathway() {
         console.log("getPathway");
         this.result = getPathway();
         console.log(this.result);
       },
-      getPathwayName() {
-        console.log("get_pathway_name");
-        this.result = getPathwayName(this.course);
+      getCourse() {
+        console.log("getCourse");
+        this.result = getCourse(this.course);
         console.log(this.result);
       },
       removePathway() {
         console.log("remove_pathway");
+        this.result = removePathway(this.course);
+        console.log(this.result);
+      },
+      removeCourse() {
+        console.log("remove_course");
         this.result = removePathway(this.course);
         console.log(this.result);
       },
@@ -121,9 +182,9 @@
         this.result = addPathway();
         console.log(this.result);
       },
-      addPathwayTest() {
-        console.log("addPathwayTest");
-        this.result = addPathwayTest();
+      addCourse() {
+        console.log("addPathway");
+        this.result = addPathway();
         console.log(this.result);
       },
     },
