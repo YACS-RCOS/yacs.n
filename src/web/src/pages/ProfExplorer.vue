@@ -32,11 +32,13 @@
     </div>
     
     <template>
-      <div class="search-bar-container" v-for="search in searchProfessors()" :key=search>
-        <input type="text" v-model="input" placeholder="Search by name or subject">
-        <p>{{ search }}</p>
+      <div class="search-bar-container">
+        <input type="text" v-model="searchQuery" placeholder="Search by name or subject">
         <button @click="searchProfessors"> <font-awesome-icon icon="search" /> </button>
-
+        <div v-if="searchQuery.length == 0"></div>
+        <ul v-else>
+          <div class = "result" v-for="professor in filteredProfessors" :key="professor.Name">{{ professor.Name }}</div>
+        </ul>
       </div>
     </template>
     
@@ -173,8 +175,6 @@
 <script>
 import json from "./Professors.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
-import { ref } from "vue";
-let input = ref("");
 
 export default {
   name: "Professor",
@@ -196,6 +196,7 @@ export default {
       showProf: null,
       deptShow: false,
       alphShow: true,
+      searchQuery: '',
     };
   },
   computed: {
@@ -353,6 +354,14 @@ export default {
       ret.push(col2);
       return ret;
     },
+    filteredProfessors() {
+      const query = this.searchQuery;
+      return this.professors.filter(
+        professor =>
+          professor.Name.includes(query) ||
+          professor.Department.includes(query)
+      );
+    },
   },
 
   methods: {
@@ -378,10 +387,6 @@ export default {
       this.$router.push("/professor/" + rcs);
     },
     searchProfessors() {
-      profs = ["a","b", "c"];
-      return profs.filter((search) =>
-      fruit.toLowerCase().includes(input.value.toLowerCase())
-    );
     },
   },
 };
@@ -435,6 +440,16 @@ export default {
 }
 .search-bar-container button:hover {
   color: white;
+}
+
+.search-bar-container .result{
+  color: white;
+  background-color: rgba(108, 90, 90, 0.15);
+  margin-left: 10%;
+  width: 71.8%;
+  padding: 10px;
+  border: 2px solid;
+  border-color: hsl(211, 100%, 60%);;
 }
 
 
