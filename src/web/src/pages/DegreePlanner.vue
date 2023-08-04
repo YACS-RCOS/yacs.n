@@ -16,10 +16,9 @@
                   @dragover.prevent 
                   @drop="schedulerDrop($event, index)">
                 <h3>Semester {{ index + 1 }}</h3>
-
-                <div class="schedule-search">
+                <span class="schedule-search">
                   <SearchBarModal @result="results => add(index, results)"></SearchBarModal>
-                </div>
+                </span>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
@@ -366,8 +365,9 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     position:fixed;
   }
   .schedule-search {
-    width: 100%;
+    justify-self: right;
     z-index: 999;
+    padding: 0;
   }
   .columns {
     display: flex;

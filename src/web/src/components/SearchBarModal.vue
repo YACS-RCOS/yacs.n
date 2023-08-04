@@ -1,18 +1,22 @@
 <template>
   <div>
     <div class="search-container">
-      <input
+      <button
+        type="button" 
         ref="inputBox"
-        class="search-input"
-        v-model="searchInput"
-        @input="inputHandler"
-        placeholder="Enter course name"
-        @blur="onBlur"
-        @focus="onFocus"
-        @keyup.enter="selectEnter"
-      >
-      <div v-if="showDropdown" ref="resultsList" class = results>
-
+        class="search-open"
+        @click="onClick">
+        &#10133;
+    </button>
+      <div v-if="showDropdown" ref="resultsList" class="results">
+        <input
+          ref="searchBar"
+          class="search-input"
+          v-model="searchInput"
+          @input="inputHandler"
+          placeholder="Enter course name"
+          @keyup.enter="selectEnter"
+        />
         <div class="subject-clear-filter">
           <button class="subject-clear-button" type="button" @click="filterCourses('')">
             CLEAR
@@ -112,6 +116,20 @@ export default {
     outputValue(val) {
       // Increment the value and emit an event to notify the parent
       this.$emit('result', val);
+    },
+
+    onClick() {
+      if (this.showDropdown == true) {
+        this.showDropdown = false;
+        return
+      }
+      this.showDropdown = true;
+      this.$nextTick(() => {
+        this.$refs.searchBar.focus();
+      });
+      this.searchMatches = this.courses;
+      document.removeEventListener('click', this.handleClickOutside);
+      document.addEventListener('click', this.handleClickOutside);
     },
 
     onBlur() {
@@ -238,14 +256,26 @@ export default {
 </script>
 
 <style scoped>
+.search-open {
+  border-radius: 4px;
+  font-size: 16px;
+  background-color:rgba(0,0,0,0);
+  height: 20px;
+  align-content: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color:rgb(224, 232, 239);
+  font-weight: 900;
+}
 .search-container {
   position: relative;
   width: 90%;
 }
 
 .search-input {
-  width: 80%;
-  font-size: 10px;
+  width: 99%;
+  font-size: 11px;
   z-index: 999;
   position: relative;
 }
