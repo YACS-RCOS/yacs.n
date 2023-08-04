@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faQuestionCircle,
   faPaperPlane,
   faMoon,
   faCalendar,
@@ -24,7 +25,6 @@ library.add(
   faSearch,
   faAddressBook,
   faFileAlt,
-  faQuestionCircle,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
