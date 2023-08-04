@@ -22,6 +22,7 @@ library.add(
   faList,
   faBars,
   faSearch,
+  faAddressBook,
   faFileAlt,
   faQuestionCircle,
 );
