@@ -3,7 +3,9 @@
         <div class="main-loading" v-if="main_loading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
-
+        <div ref="searchModalContainer" class="search-modal">
+          <SearchBarModal ref="searchModal" @result="results => add(activeSemester, results)"></SearchBarModal>
+        </div>
         <div class="columns">
 
           <div class="column-left">
@@ -17,7 +19,14 @@
                   @drop="schedulerDrop($event, index)">
                 <h3>Semester {{ index + 1 }}</h3>
                 <span class="schedule-search">
-                  <SearchBarModal @result="results => add(index, results)"></SearchBarModal>
+                  <button
+                    type="button"
+                    :ref="'addButton${index}'"
+                    class="search-open"
+                    @click="onClick(index)">
+                    &#10133;
+                </button>
+                  
                 </span>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
@@ -142,9 +151,37 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             dragFromSemester: 0,
             hoverOverSemester: -1,
             hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
+            activeSemester: -1,
+            showSearchModal: false,
         };
     },
     methods: {
+        onClick(semester) {
+          if (this.showSearchModal && this.activeSemester == semester) {
+            this.toggleSearchModal(false);
+            return
+          }
+          this.activeSemester = semester;
+          this.toggleSearchModal(true);
+          this.$refs.searchModal.onClick();
+          document.removeEventListener('click', this.handleClickOutside);
+          document.addEventListener('click', this.handleClickOutside);
+        },
+        handleClickOutside(event) {
+          // Check if the clicked element is outside both the input box and the results list
+          if (
+            this.$refs['addButton${index}'][this.activeSemester] &&
+            !this.$refs['addButton${index}'][this.activeSemester].contains(event.target) &&
+            this.$refs.searchModalContainer &&
+            !this.$refs.searchModalContainer.contains(event.target)
+          ) {
+            this.toggleSearchModal(false);
+          }
+        },
+        toggleSearchModal(on) {
+          this.showSearchModal = on;
+          this.$refs.searchModal.showDropdown = on;
+        },
         // HELPER FUNCTIONS
         schedulerDrag(event, item, semester) {
             this.dragElement = item;
@@ -364,10 +401,30 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     font-size:1em;
     position:fixed;
   }
+  .search-modal {
+    position: absolute;
+    z-index: 9999;
+    width: 325px;
+    list-style: none;
+    border-radius: 4px;
+    border-top: none;
+  }
   .schedule-search {
     justify-self: right;
     z-index: 999;
     padding: 0;
+  }
+  .search-open {
+    border-radius: 4px;
+    font-size: 16px;
+    background-color:rgba(0,0,0,0);
+    height: 20px;
+    align-content: center;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color:rgb(224, 232, 239);
+    font-weight: 900;
   }
   .columns {
     display: flex;

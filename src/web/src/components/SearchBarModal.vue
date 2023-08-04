@@ -1,13 +1,5 @@
 <template>
   <div>
-    <div class="search-container">
-      <button
-        type="button" 
-        ref="inputBox"
-        class="search-open"
-        @click="onClick">
-        &#10133;
-    </button>
       <div v-if="showDropdown" ref="resultsList" class="results">
         <input
           ref="searchBar"
@@ -44,7 +36,6 @@
           <li> none for now ;-; </li>
         </ul>
       </div>
-    </div>
   </div>
 </template>
 
@@ -119,42 +110,10 @@ export default {
     },
 
     onClick() {
-      if (this.showDropdown == true) {
-        this.showDropdown = false;
-        return
-      }
-      this.showDropdown = true;
       this.$nextTick(() => {
         this.$refs.searchBar.focus();
       });
       this.searchMatches = this.courses;
-      document.removeEventListener('click', this.handleClickOutside);
-      document.addEventListener('click', this.handleClickOutside);
-    },
-
-    onBlur() {
-      document.addEventListener('click', this.handleClickOutside);
-    },
-
-    onFocus() {
-      // Allow the click event to propagate before removing the listener
-      this.showDropdown = true;
-      this.searchMatches = this.courses;
-      this.$nextTick(() => {
-        document.removeEventListener('click', this.handleClickOutside);
-      });
-    },
-
-    handleClickOutside(event) {
-      // Check if the clicked element is outside both the input box and the results list
-      if (
-        this.$refs.inputBox &&
-        !this.$refs.inputBox.contains(event.target) &&
-        this.$refs.resultsList &&
-        !this.$refs.resultsList.contains(event.target)
-      ) {
-        this.showDropdown = false;
-      }
     },
 
     inputHandler() {
@@ -256,22 +215,6 @@ export default {
 </script>
 
 <style scoped>
-.search-open {
-  border-radius: 4px;
-  font-size: 16px;
-  background-color:rgba(0,0,0,0);
-  height: 20px;
-  align-content: center;
-  border: none;
-  padding: 0;
-  margin: 0;
-  color:rgb(224, 232, 239);
-  font-weight: 900;
-}
-.search-container {
-  position: relative;
-  width: 90%;
-}
 
 .search-input {
   width: 99%;
