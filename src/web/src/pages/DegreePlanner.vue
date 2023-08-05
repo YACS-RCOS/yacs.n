@@ -184,6 +184,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             this.$refs.searchModalContainer &&
             !this.$refs.searchModalContainer.contains(event.target)
           ) {
+            console.log("you clicked outside mf")
             this.toggleSearchModal(false);
           }
         },
@@ -193,7 +194,9 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         modalAdd(semester, course) {
           this.add(semester, course);
-          this.toggleSearchModal(false);
+          if (this.$refs.searchModal.closeModalOnSelection) {
+            this.toggleSearchModal(false);
+          }
         },
         // HELPER FUNCTIONS
         schedulerDrag(event, item, semester) {

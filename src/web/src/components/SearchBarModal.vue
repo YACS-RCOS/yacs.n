@@ -20,15 +20,22 @@
             <br>
           </div>
         </div>
-
-        <ul class="search-results">
-          <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
-          <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
-            <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
-            <span v-bind:class="{'search-result-body':!(course.display_name in courseSelected), 'search-result-body-selected':course.display_name in courseSelected}" :style="getCourseBackColor(course.display_name)"> {{ course.display_name.substring(10) }} </span>
-            <span class="selected-tag" v-show="course.display_name in courseSelected"> (selected) </span>
-          </li>
-        </ul>
+        <div ref="searchMatchList">
+          <ul class="search-results">
+            <li v-show="searchMatches.length === 0" class="no-results">No results found</li>
+            <li v-show="searchContextSize < searchMatches.length && searchDisplayContext > 0" @click="decrementSearchPage">
+              <span class="search-traversal-button">PREVIOUS</span>
+            </li>
+            <li v-for="(course, index) in searchMatches.slice(searchDisplayContext * searchContextSize, (searchDisplayContext + 1) * searchContextSize)" :key="index" @click="selectMatch(index)">
+              <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
+              <span v-bind:class="{'search-result-body':!(course.display_name in courseSelected), 'search-result-body-selected':course.display_name in courseSelected}" :style="getCourseBackColor(course.display_name)"> {{ course.display_name.substring(10) }} </span>
+              <span class="selected-tag" v-show="course.display_name in courseSelected"> (selected in semester {{ getSemestersPresentIn(course.display_name) }}) </span>
+            </li>
+            <li v-show="(searchDisplayContext + 1) * searchContextSize < searchMatches.length" @click="incrementSearchPage">
+              <span class="search-traversal-button" >NEXT</span>
+            </li>
+          </ul>
+        </div>
 
         <div class="suggestions">
           <h3>Recommendations:</h3>
@@ -55,18 +62,47 @@ export default {
 
       searchInput: '',
       searchMatches: [],
+      searchDisplayContext: 0,
+      searchContextSize: 50,
       showDropdown: false,
       selectedSemester: -1,
+
+      closeModalOnSelection: false,
     };
   },
 
   methods: {
     importCourses(courses) {
+      this.courseSelected = [];
       for (let semester = 0; semester < courses.length; ++semester) {
         for (let i = 0; i < courses[semester].length; ++i) {
-          this.courseSelected[courses[semester][i]] = semester;
+          const course_name = courses[semester][i];
+          if (course_name in this.courseSelected) {
+            this.courseSelected[course_name].push(semester + 1);
+          }
+          else {
+            this.courseSelected[course_name] = [semester + 1];
+          }
+          //console.log(this.courseSelected[course_name]);
         }
       }
+    },
+    incrementSearchPage() {
+      //this.$refs.searchMatchList.scrollTop = 0;
+      if ((this.searchDisplayContext + 1) * this.searchContextSize < this.searchMatches.length) {
+        this.searchDisplayContext++;
+      }
+    },
+    decrementSearchPage() {
+      if (this.searchDisplayContext > 0) {
+        this.searchDisplayContext--;
+      }
+    },
+    getSemestersPresentIn(course) {
+      if (!(course in this.courseSelected)) {
+        return
+      }
+      return this.courseSelected[course].join(', ')
     },
     sumAsciiValues(word) {
       let sum = 0;
@@ -169,7 +205,7 @@ export default {
     },
 
     inputHandler() {
-      this.showDropdown = true;
+      //this.showDropdown = true;
       this.debouncedsearch();
     },
 
@@ -200,8 +236,9 @@ export default {
       else if (position < this.searchMatches.length) {
         this.outputValue(this.searchMatches[position].display_name)
       }
-      this.searchInput = "";
-      this.showDropdown = false;
+      //if (this.closeModalOnSelection) {
+      //  this.showDropdown = false;
+      //}
     },
 
     filterCourses(subject) {
@@ -299,7 +336,7 @@ export default {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 200px;
+  max-height: 250px;
   background-color: #323435;
   list-style: none;
   margin: 2px;
@@ -320,6 +357,11 @@ export default {
   font-weight: 400;
   font-style: italic;
   font-size: 11px;
+}
+.search-traversal-button {
+  font-weight: 850;
+  font-size: 13px;
+  color: #c1e5ef;
 }
 .selected-tag {
   font-weight: 500;
