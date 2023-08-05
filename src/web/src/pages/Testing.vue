@@ -9,40 +9,47 @@
         </div>
 
         <div v-else>
-            <b-row>
-                <b-col
-                    v-for="(courses, index) in courseObjects"
-                    :key="`deptCol-${index}`"
-                >
-                    <b-row
-                        v-for="course in courses"
-                        :key="course.id"
-                        class="selected"
-                    >
-                        <div>
-                            <b data-cy="name">{{ course.name }}</b>
-                            <br />
-                            {{ course.title }}
-                            <br />
-                            {{ course.max_credits }}
-                            
-                            <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}">                 
-                                <b-form-group id="course.id-group" label="Grade:" label-for="course.id">
-                                    <b-form-select
-                                    id="course.id"
-                                    :options="grades"
-                                    required
-                                    ></b-form-select>
-                                </b-form-group>
-                                
-                            </b-form>
-                        </div>
-                    </b-row>
-                </b-col>
-                <b-col>
-                    GPA
-                </b-col>
-            </b-row>
+            <b-container class="container" fluid>
+                <b-row>
+                    <b-col cols="8">
+                        <b-row
+                            v-for="(courses, index) in courseObjects"
+                            :key="`deptCol-${index}`"
+                            align-v="stretch"
+                        >
+                            <b-col
+                                v-for="course in courses"
+                                :key="course.id"
+                                class="col"
+                            >
+                                <div class="course">
+                                    <b data-cy="name">{{ course.name }}</b>
+                                    <br />
+                                    {{ course.title }}
+                                    <br />
+                                    {{ course.max_credits }}
+                                    
+                                    <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}" v-model="selected">                 
+                                        <b-form-group id="course.id-group" label-for="course.id">
+                                            <b-form-select
+                                            id="course.id"
+                                            :options="grades"
+                                            required
+                                            class="select"
+                                            ></b-form-select>
+
+                                        </b-form-group>
+                                        
+                                    </b-form>
+                                </div>
+                            </b-col>
+                        </b-row>
+                    </b-col>
+                    <b-col align-self="stretch">
+                        <center>GPA</center>
+                    </b-col>
+                </b-row>
+            </b-container>
         </div>
 
     </b-container>
@@ -72,12 +79,14 @@ export default {
                     text: "GPA Calculator",
                 },
             ],
-            grades: [{ text: 'Select', value: null }, 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'P'],
+            grades: [ { text: 'A', value: null }, { text: 'A-', value: null }, { text: 'B+', value: null }, { text: 'B', value: null }, { text: 'B-', value: null }, { text: 'C+', value: null }, { text: 'C', value: null }, { text: 'C-', value: null }, { text: 'D+', value: null }, { text: 'D', value: null }, { text: 'P', value: null }] ,
+            selected: "Select your grade",
             selectedCourses: {},
             selectedScheduleSubsemester: null,
             loadedIndexCookie: 0,
         };
     },
+    // ,
     methods: {
         async loadStudentCourses() {
             this.selectedCourses = {};
@@ -522,16 +531,21 @@ export default {
         },
 
         courseObjects(){
-            let columnArr = [[],[]];
+            let rowArr = [];
+            let rowNum = 0, counter = 0;
             let courses = Object.values(this.selectedCourses).sort((a,b) => a.name - b.name);
             for (let i = 0; i < courses.length; i++) {
-                if (i % 2 === 0) {
-                    columnArr[0].push(courses[i]);
-                } else {
-                    columnArr[1].push(courses[i]);
+                if(counter === 0){
+                    rowArr.push([]);
+                }
+                counter = counter + 1;
+                rowArr[rowNum].push(courses[i]);
+                if(counter === 2){
+                    counter = 0;
+                    rowNum = rowNum + 1;
                 }
             }
-            return columnArr;
+            return rowArr;
         }
     
     },
@@ -677,19 +691,6 @@ button {
     text-align: center;
 }
 
-.lastp {
-    border: rgba(108, 90, 90, 0.15);
-    background-color: #AFC9C6;
-}
-
-.lastp p {
-    color: black;
-    text-align: center;
-    padding: 10px;
-    font-size: 30px;
-    font-weight: bolder;
-}
-
 .no-courses {
     margin: 20px;
     border-style: solid;
@@ -698,12 +699,24 @@ button {
     padding: 20px;
 }
 
-#selected-course-list {
-    overflow-y: scroll !important;
-    overflow-x: auto;
-    min-height: 200px;
-    flex-grow: 1;
-    flex-basis: 0px;
-    border-bottom: 1px solid #dbdbdc;
+.course {
+    padding: 20px;
+    border-style: solid;
+    border-width: 2px;
+    height: 100%;
+    border-radius: 7px;
 }
+
+.container {
+    max-width: 100%;
+}
+
+.col {
+    padding: 20px;
+}
+
+.select {
+    width: -webkit-fill-available;
+}
+
 </style>
