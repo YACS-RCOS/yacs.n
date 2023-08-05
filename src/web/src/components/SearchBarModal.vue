@@ -28,10 +28,10 @@
           </li>
         </ul>
 
-        <ul class="suggestions">
-          <li>Recommendations:</li>
-          <li> none for now ;-; </li>
-        </ul>
+        <div class="suggestions">
+          <h3>Recommendations:</h3>
+          <p> none for now ;-; </p>
+        </div>
       </div>
   </div>
 </template>
@@ -233,9 +233,9 @@ export default {
     computeSubjectColors() {
       for (let i = 0; i < this.subjectGroups.length; ++i) {
         let group = this.subjectGroups[i];
-        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 22, 70, i / this.subjectGroups.length);
+        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 20, 75, i / this.subjectGroups.length);
         for (let j = 0; j < group.elements.length; ++j) {
-          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 18 - j * 0.5, 70 - 10 + j * 0.2, i / this.subjectGroups.length)
+          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 16 - j * 0.5, 75 - 10 + j * 0.2, i / this.subjectGroups.length)
         }
       }
     }
