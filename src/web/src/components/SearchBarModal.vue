@@ -24,7 +24,9 @@
         <ul class="search-results">
           <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
           <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
-            <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> {{ course.display_name.substring(10) }}
+            <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
+            <span v-bind:class="{'search-result-body':!(course.display_name in courseSelected), 'search-result-body-selected':course.display_name in courseSelected}" :style="getCourseBackColor(course.display_name)"> {{ course.display_name.substring(10) }} </span>
+            <span class="selected-tag" v-show="course.display_name in courseSelected"> (selected) </span>
           </li>
         </ul>
 
@@ -45,6 +47,7 @@ export default {
       all_courses: [],
       courses: [],
       courseRecType: {}, // course can be (1) core, (2) useful
+      courseSelected: {},
       subjectGroups: [],
       subjectColors: {},
       subjectGroupColors: {},
@@ -58,6 +61,13 @@ export default {
   },
 
   methods: {
+    importCourses(courses) {
+      for (let semester = 0; semester < courses.length; ++semester) {
+        for (let i = 0; i < courses[semester].length; ++i) {
+          this.courseSelected[courses[semester][i]] = semester;
+        }
+      }
+    },
     sumAsciiValues(word) {
       let sum = 0;
       for (let i = 0; i < word.length; i++) {
@@ -74,6 +84,12 @@ export default {
         return this.makeHSLColor(90, 75, 65)
       }
       return this.makeHSLColor(40, 55, 70)
+    },
+    getCourseBackColor(course){
+      if (course in this.courseSelected) {
+        return this.makeHSLColor(90, 55, 75)
+      }
+      return this.makeHSLColor(40, 0, 100)
     },
     getSubjectButtonColor(subject) {
       const colors = this.subjectColors[subject];
@@ -295,6 +311,20 @@ export default {
 .search-result {
   font-weight: 600;
   font-size: 11px;
+}
+.search-result-body {
+  font-weight: 450;
+  font-size: 11px;
+}
+.search-result-body-selected {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 11px;
+}
+.selected-tag {
+  font-weight: 500;
+  font-size: 11px;
+  color: #9fa7b0;
 }
 
 .subject-filter {

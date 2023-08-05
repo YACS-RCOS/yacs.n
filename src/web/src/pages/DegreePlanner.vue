@@ -369,6 +369,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
                 body: JSON.stringify(userid),
             });
             this.courses = await response.json();
+            this.$refs.searchModal.importCourses(this.courses);
         }
     },
     async created() {
