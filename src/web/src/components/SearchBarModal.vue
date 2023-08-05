@@ -10,15 +10,11 @@
           placeholder="Enter course name"
           @keyup.enter="selectEnter"
         />
-        <div class="subject-clear-filter">
-          <button class="subject-clear-button" type="button" @click="filterCourses('')">
-            CLEAR
-          </button>
-        </div>
+
         <div class="subject-filter">
-          <div class="subject-group" :style="subjectGroupColors[subject_group.title]" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          <div class="subject-group" :style="arrayToHSLBackground(subjectGroupColors[subject_group.title])" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
             {{ extractTitle(subject_group.title) }}<br>
-            <button class="subject-buttons" :style="subjectColors[subject]" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
+            <button class="subject-buttons" :style="getSubjectButtonColor(subject)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
               {{ extractTitle(subject) }}
             </button>
             <br>
@@ -28,7 +24,7 @@
         <ul class="search-results">
           <li v-if="searchMatches.length === 0" class="no-results">No results found</li>
           <li v-for="(course, index) in searchMatches" :key="index" @click="selectMatch(index)">
-            {{ course.display_name }}
+            <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> {{ course.display_name.substring(10) }}
           </li>
         </ul>
 
@@ -48,6 +44,7 @@ export default {
     return {
       all_courses: [],
       courses: [],
+      courseRecType: {}, // course can be (1) core, (2) useful
       subjectGroups: [],
       subjectColors: {},
       subjectGroupColors: {},
@@ -68,6 +65,23 @@ export default {
       }
       return sum;
     },
+    getCourseFrontColor(course){
+      const type = this.courseRecType[course];
+      if (type == "core" || course.startsWith("csci 1200")) {
+        return this.makeHSLColor(20, 85, 70)
+      } 
+      else if (type == "useful" || course.startsWith("csci 4220")) {
+        return this.makeHSLColor(90, 75, 65)
+      }
+      return this.makeHSLColor(40, 55, 70)
+    },
+    getSubjectButtonColor(subject) {
+      const colors = this.subjectColors[subject];
+      if (this.filterSubject == subject) {
+        return this.makeHSLBackground(colors[0] + 10, colors[1] + 30, colors[2] + 30)
+      }
+      return this.arrayToHSLBackground(colors)
+    },
 
     extractColorHSL(element) {
       if (element.includes("#")) {
@@ -80,23 +94,42 @@ export default {
       return element.split('#')[0]
     },
 
-    colorText(hue, saturation, lightness) {
+
+    arrayToHSLBackground(array) {
+      return {
+        backgroundColor: `hsl(${array[0]}, ${array[1]}%, ${array[2]}%)`
+      };
+    },
+
+    makeHSLColor(hue, saturation, lightness) {
+      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
+      return {
+        color: `hsl(${hue}, ${saturation}%, ${lightness}%)`
+      };
+    },
+
+    makeHSLBackground(hue, saturation, lightness) {
       // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
       return {
         backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`
       };
     },
 
+    makeHSL(hue, saturation, lightness) {
+      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+    },
+
     colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, index = -1) {
       let colors = this.extractColorHSL(element);
       if (colors.length == 3) {
-        return this.colorText((colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset));
+        return [(colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset)]
       }
       if (index != -1) {
-        return this.colorText((index * 360 + hue_offset) % 360, saturation_offset, lightness_offset)
+        return [(index * 360 + hue_offset) % 360, saturation_offset, lightness_offset]
       }
       else {
-        return this.colorText(hue_offset % 360, saturation_offset, lightness_offset)
+        return [hue_offset % 360, saturation_offset, lightness_offset]
       }
     },
 
@@ -157,10 +190,12 @@ export default {
 
     filterCourses(subject) {
       this.courses = [];
-      if (subject === '') {
+      if (subject == '' || this.filterSubject == subject) {
+        this.filterSubject = '';
         this.courses = this.all_courses;
       }
       else {
+        this.filterSubject = subject;
         subject = subject.toLowerCase();
         this.courses = this.all_courses.filter(course => course.search_name.startsWith(subject));
       }
@@ -217,9 +252,11 @@ export default {
 
 .search-input {
   width: 99%;
-  font-size: 11px;
-  z-index: 999;
-  position: relative;
+  font-size: 14px;
+  padding: 2px;
+  margin: 2px;
+  border-radius: 4px;
+  border: none;
 }
 
 .results {
@@ -255,6 +292,10 @@ export default {
   border: 2px solid #2d2e31;
   overflow-y:scroll;
 }
+.search-result {
+  font-weight: 600;
+  font-size: 11px;
+}
 
 .subject-filter {
   display: grid;
@@ -272,7 +313,7 @@ export default {
   width: 99%;
   margin: 2px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 11px;
   background-color: #71797e;
   border: none;
   border-radius: 4px;
@@ -298,6 +339,7 @@ export default {
   margin-left: 2px;
   margin-right: 2px;
   color: #141415;
+  background-color:#141415;
   transition: background-color 0.15s ease;
   text-align: center;
 }

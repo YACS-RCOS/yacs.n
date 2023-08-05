@@ -4,7 +4,7 @@
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
         <div ref="searchModalContainer" style="position: absolute; z-index: 9999; width: 325px; list-style: none; border-radius: 4px; border-top: none;">
-          <SearchBarModal ref="searchModal" @result="results => add(activeSemester, results)"></SearchBarModal>
+          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)"></SearchBarModal>
         </div>
         <div class="columns">
 
@@ -17,17 +17,18 @@
                   @dragleave="schedulerDragLeave()" 
                   @dragover.prevent 
                   @drop="schedulerDrop($event, index)">
-                <h3>Semester {{ index + 1 }}</h3>
-                <span class="schedule-search">
-                  <button
-                    type="button"
-                    :ref="'addButton${index}'"
-                    class="search-open"
-                    @click="onClick(index)">
-                    &#10133;
-                </button>
-                  
-                </span>
+                <div class="semester-title-row">
+                  <span style="width: 96%;"><h3>Semester {{ index + 1 }}</h3></span>
+                  <span style="color:#a1a7a8; margin-top:-6px; margin-right:-5px;" class="schedule-search">
+                    <button
+                      type="button"
+                      :ref="'addButton${index}'"
+                      class="search-open"
+                      @click="onClick(index)">
+                      &#10010;
+                    </button>
+                  </span>
+                </div>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
@@ -189,6 +190,10 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         toggleSearchModal(on) {
           this.showSearchModal = on;
           this.$refs.searchModal.showDropdown = on;
+        },
+        modalAdd(semester, course) {
+          this.add(semester, course);
+          this.toggleSearchModal(false);
         },
         // HELPER FUNCTIONS
         schedulerDrag(event, item, semester) {
@@ -425,14 +430,22 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .search-open {
     border-radius: 4px;
     font-size: 16px;
-    background-color:rgba(0,0,0,0);
-    height: 20px;
     align-content: center;
     border: none;
-    padding: 0;
-    margin: 0;
-    color:rgb(224, 232, 239);
+    padding: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin: 0px;
+    color:rgb(153, 160, 164);
+    background-color: rgba(197, 211, 218, 0.01);
+    transition: background-color 0.2s ease;
     font-weight: 900;
+  }
+  .search-open:hover {
+    background-color: #60666d;
+  }
+  .semester-title-row {
+    display: flex;
   }
   .columns {
     display: flex;
