@@ -327,7 +327,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         delayedFinishedLoading() {
           // Calling the method with a delay
-          setTimeout(this.finishedLoading, 1000);
+          setTimeout(this.finishedLoading, 1200);
         },
         finishedLoading() {
           this.main_loading = false;
@@ -468,14 +468,9 @@ import SearchBarModal from '../components/SearchBarModal.vue';
 </script>
   
 <style scoped>
-  .heading {
-    font-weight:400;
-    color:#d65252;
-  }
-
   .main-loading {
     text-align:center;
-    font-size:8em;
+    font-size:128px;
     font-weight:600;
     color:#e19e8c;
     position: fixed;
@@ -494,11 +489,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     font-size:0.9em;
     margin: 30px;
     color:#cadbdb;
-  }
-  .loading {
-    text-align:center;
-    font-size:1em;
-    position:fixed;
   }
   .search-modal {
     position: absolute;
@@ -619,13 +609,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     border-radius:4px;
     width:100%;
     padding:4px;
-    background-color:#393b40;
-  }
-  .course-input{
-    border:2px solid #21242b;
-    border-radius:2px;
-    width:75%;
-    padding:2px;
     background-color:#393b40;
   }
   .fulfillment-org-block {

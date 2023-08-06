@@ -406,20 +406,6 @@ export default {
   position: relative;
 }
 
-.subject-clear-filter {
-  width: 100%;
-}
-
-.subject-clear-button {
-  width: 100%;
-  margin-top: 2px;
-  font-weight: 600;
-  font-size: 11px;
-  background-color: #71797e;
-  border: none;
-  border-radius: 4px;
-}
-
 .subject-group {
   font-weight: 700;
   font-size: 14px;
