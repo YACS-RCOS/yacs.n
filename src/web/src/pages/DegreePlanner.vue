@@ -4,7 +4,7 @@
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
         <div @dragover.prevent @drop="schedulerRemove">
-          
+
         <div ref="searchModalContainer" style="position: absolute; z-index: 9999; width: 325px; list-style: none; border-radius: 4px; border-top: none;">
           <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal"></SearchBarModal>
         </div>
@@ -36,7 +36,7 @@
                   <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
                     <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                   </button>
-                  <button class="course-remove-button" type="button" @click="remove(index, course)">
+                  <button class="course-remove-button" type="button" @click="remove(index, course, true, true, true)">
                     <font color="#b05f6e">&#10008;</font>
                   </button>
                 </div>
@@ -201,10 +201,10 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         modalAdd(semester, course) {
           if (this.courses[semester].includes(course)) {
-            this.remove(semester, course);
+            this.remove(semester, course, true, true, true);
           }
           else {
-            this.add(semester, course);
+            this.add(semester, course, true, true, true);
           }
 
           if (this.$refs.searchModal.closeModalOnSelection) {
@@ -228,7 +228,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
                     this.add(dragToSemester, this.dragElement, false, false);
                 }
                 else {
-                    this.add(dragToSemester, this.dragElement, true, true);
+                    this.add(dragToSemester, this.dragElement, true, true, true);
                 }
             }
             this.hoverCounter = 0;
@@ -236,15 +236,15 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             this.lastDropInsideZone = true;
         },
         schedulerRemove(event) {
-          console.log("remove func activated, hover counter: " + this.hoverCounter + " hoveroversem: " + this.hoverOverSemester);
-          if (this.hoverOverSemester != -1 || this.lastDropInsideZone) {
+          //console.log("remove func activated, hover counter: " + this.hoverCounter + " hoveroversem: " + this.hoverOverSemester + " dragFromSemester: " + this.dragFromSemester + ", " + this.dragElement);
+          if (this.dragFromSemester == -1 || this.hoverOverSemester != -1 || this.lastDropInsideZone) {
             return
           }
-          console.log("remove func removing");
+          console.log("remove function scrubbing");
           event.preventDefault();
           if (this.dragElement != null) {
               if (this.dragFromSemester != -1) {
-                  this.remove(this.dragFromSemester, this.dragElement, true, true);
+                  this.remove(this.dragFromSemester, this.dragElement, true, true, true);
               }
           }
           this.hoverOverSemester = -1;
@@ -367,9 +367,18 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             this.add(semester, this.course_inputs[semester]);
             this.course_inputs[semester] = "";
         },
-        async add(semester, course, fulfill = true, recommend = true) {
+        async add(semester, course, fulfill = true, recommend = true, autoselect = false) {
             let userid = this.userid;
             let command = "add, " + semester + ", " + course;
+
+            if (autoselect) {
+              if (course in this.$refs.searchModal.courseSelected) {
+                console.log("autoskipping fulfillment & recommend");
+                fulfill = false;
+                recommend = false;
+              }
+            }
+
             const updates = await fetch('/api/dp/users/command', {
                 method: 'POST',
                 headers: {
@@ -380,9 +389,17 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             let variable_updates = await updates.json();
             this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
         },
-        async remove(semester, course, fulfill = true, recommend = true) {
+        async remove(semester, course, fulfill = true, recommend = true, autoselect = false) {
             let userid = this.userid;
             let command = "remove, " + semester + ", " + course;
+
+            if (autoselect) {
+              if (course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1) {
+                console.log("autoskipping fulfillment & recommend");
+                fulfill = false;
+                recommend = false;
+              }
+            }
             const updates = await fetch('/api/dp/users/command', {
                 method: 'POST',
                 headers: {
