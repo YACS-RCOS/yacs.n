@@ -391,22 +391,3 @@ async def remove_professor(email:str):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
-
-# #Parses the data from the .csv data files
-# @app.post('/api/bulkProfUpload')
-# async def uploadHandler(file: UploadFile = File(...)):
-#     # check for user files
-#     if not file:
-#         return Response("No file received", 400)
-#     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
-#         return Response("File must have csv extension", 400)
-#     # get file
-#     contents = await file.read()
-#     csv_file = StringIO(contents.decode())
-#     isSuccess, error = courses.populate_from_csv(csv_file)
-#     # Populate DB from CSV
-#     if (isSuccess):
-#         return Response(status_code=200)
-#     else:
-#         print(error)
-#         return Response(error.__str__(), status_code=500)
