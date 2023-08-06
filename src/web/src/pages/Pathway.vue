@@ -38,7 +38,7 @@
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
-      <b-modal ref="my-modal">
+      <b-modal ref="my-modal" hide-footer="true">
         <div class="block text-left" v-if="showPath != null" md="10">
           <h3
             class="text-center"
@@ -48,18 +48,33 @@
           </h3>
           <br />
           <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
-              {{ itemName + ": " }}
-            </h4>
-            <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
-            >
-              {{ course }}
-            </li>
-            <br />
+            <div v-if="itemName != 'Name'">
+              <h4 style="color: #3395ff; margin-top: -20px;">
+                {{ itemName + ": " }}
+              </h4>
+              <div v-if="itemName == 'Compatible minor(s)'" >
+                <li
+                  v-for="course in item"
+                  :key="course"
+                  v-on:click="goPage(course)"
+                  class="courseInPath"
+                  style="pointer-events: none;"
+                >
+                  {{ course }}
+                </li>
+              </div>
+              <div v-else >
+                <li
+                  v-for="course in item"
+                  :key="course"
+                  v-on:click="goPage(course)"
+                  class="courseInPath"
+                >
+                  {{ course }}
+                </li>
+              </div>
+              <br />
+            </div>
           </div>
         </div>
       </b-modal>
