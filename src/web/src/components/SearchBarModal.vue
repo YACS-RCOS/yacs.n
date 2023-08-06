@@ -152,40 +152,50 @@ export default {
 
 
     arrayToHSLBackground(array) {
+      if (array.length == 4) {
+        return {
+          backgroundColor: `hsla(${array[0]}, ${array[1]}%, ${array[2]}%, ${array[3]})`
+        };
+      }
       return {
         backgroundColor: `hsl(${array[0]}, ${array[1]}%, ${array[2]}%)`
       };
     },
 
-    makeHSLColor(hue, saturation, lightness) {
+    makeHSLColor(hue, saturation, lightness, alpha=-1) {
       // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
+      if (alpha != -1) {
+        return {
+          color: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
+        };
+      }
       return {
         color: `hsl(${hue}, ${saturation}%, ${lightness}%)`
       };
     },
 
-    makeHSLBackground(hue, saturation, lightness) {
+    makeHSLBackground(hue, saturation, lightness, alpha = -1) {
+      if (alpha != -1) {
+        return {
+          backgroundColor: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
+        };
+      }
       // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
       return {
         backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`
       };
     },
 
-    makeHSL(hue, saturation, lightness) {
-      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`
-    },
-
-    colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, index = -1) {
+    colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, alpha = 1, index = -1) {
       let colors = this.extractColorHSL(element);
       if (colors.length == 3) {
-        return [(colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset)]
+        return [(colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset), alpha]
       }
       if (index != -1) {
-        return [(index * 360 + hue_offset) % 360, saturation_offset, lightness_offset]
+        return [(index * 360 + hue_offset) % 360, saturation_offset, lightness_offset, alpha]
       }
       else {
-        return [hue_offset % 360, saturation_offset, lightness_offset]
+        return [hue_offset % 360, saturation_offset, lightness_offset, alpha]
       }
     },
 
@@ -290,9 +300,9 @@ export default {
     computeSubjectColors() {
       for (let i = 0; i < this.subjectGroups.length; ++i) {
         let group = this.subjectGroups[i];
-        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 12, 70, i / this.subjectGroups.length);
+        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 15, 70, 0.7, i / this.subjectGroups.length);
         for (let j = 0; j < group.elements.length; ++j) {
-          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 10 - j * 0.25, 70 - 10 + j * 0.2, i / this.subjectGroups.length)
+          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 12 - j * 0.25, 70 - 5 + j * 0.2, 1, i / this.subjectGroups.length)
         }
       }
     }
@@ -308,10 +318,10 @@ export default {
 <style scoped>
 
 .search-input {
-  width: 99%;
+  width: 100%;
   font-size: 14px;
   padding: 2px;
-  margin: 2px;
+  margin-top: 2px;
   border-radius: 4px;
   border: none;
 }
@@ -321,19 +331,20 @@ export default {
   z-index: 9999;
   top: 100%;
   left: 0;
-  width: 390px;
-  background-color: #141415;
+  width: 320px;
+  background-color: rgba(39, 43, 44, 0.75);
   list-style: none;
   margin: 1px;
-  padding: 6px;
+  padding: 8px;
   border-radius: 4px;
   border: 2px solid #2d2e31;
   border-top: none;
+  backdrop-filter: blur(4px);
 }
 .results h3 {
   font-size: 14px;
   margin: 2px;
-  color:#9ca6a9;
+  color:#b3bfc3;
 }
 
 .search-results {
@@ -343,7 +354,7 @@ export default {
   max-height: 250px;
   background-color: #323435;
   list-style: none;
-  margin: 2px;
+  margin-top: 2px;
   padding: 2px;
   border-radius: 4px;
   border: 2px solid #2d2e31;
@@ -377,7 +388,8 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 5px;
-  margin: 2px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   position: relative;
 }
 
@@ -386,8 +398,8 @@ export default {
 }
 
 .subject-clear-button {
-  width: 99%;
-  margin: 2px;
+  width: 100%;
+  margin-top: 2px;
   font-weight: 600;
   font-size: 11px;
   background-color: #71797e;
@@ -409,9 +421,11 @@ export default {
   border: none;
   border-radius: 4px;
   font-size: 11px;
-  width: 40px;
-  padding: 1px;
+  width: 43px;
+  padding: 0px;
   font-weight: 600;
+  margin-bottom: 0px;
+  margin-top: 0px;
   margin-left: 1px;
   margin-right: 1px;
   color: #141415;
@@ -430,7 +444,7 @@ export default {
   max-height: 250px;
   background-color: #4c5458;
   list-style: none;
-  margin: 2px;
+  margin-bottom: 2px;
   padding: 2px;
   border-radius: 4px;
   border: 2px solid #2d2e31;

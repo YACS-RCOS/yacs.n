@@ -175,10 +175,10 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         toggleWildcardRequirement(alternative_orig, alternative_choice) {
           // don't recalculate if the user spams the original button
-          if (!(alternative_orig in this.wildcardRequirements) && alternative_choice == alternative_orig) {
+          if ((!(alternative_orig in this.wildcardRequirements) && alternative_choice == alternative_orig) || (alternative_orig in this.wildcardRequirements && this.wildcardRequirements[alternative_orig] == alternative_choice)) {
             return
           }
-          if ((alternative_orig in this.wildcardRequirements && this.wildcardRequirements[alternative_orig] == alternative_choice) || (alternative_orig == alternative_choice)) {
+          if (alternative_orig == alternative_choice) {
             delete this.wildcardRequirements[alternative_orig];
           } else {
             this.wildcardRequirements[alternative_orig] = alternative_choice
@@ -229,6 +229,9 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         toggleSearchModal(on) {
           this.showSearchModal = on;
           this.$refs.searchModal.showDropdown = on;
+          if (!on) {
+            this.$refs.searchModal.searchInput = '';
+          }
         },
         modalAdd(semester, course) {
           if (this.courses[semester].includes(course)) {
@@ -677,6 +680,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   }
   .group-heading {
     display: flex;
+    margin-bottom: 4px;
   }
   .group-heading .group-title {
     color:#78b2d9; 
@@ -776,33 +780,35 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     background-color: rgba(13, 23, 26, 0.78);
   }
   .alternative-buttons {
-    border-radius: 2px;
+    border-radius: 4px;
     width: 99%;
     border: none;
     padding: 2px;
     margin: 1px;
+    font-size: 11px;
     color:#cfd8d9;
-    background-color: #3e4041;
+    background-color: #383b3d;
     transition: background-color 0.2s ease;
   }
   .alternative-buttons:hover {
     background-color:#21242b;
   }
   .alternative-buttons-selected {
-    border-radius: 2px;
+    border-radius: 4px;
     width: 99%;
-    border: none;
-    padding: 2px;
+    border: 1px solid #c0d6da;
+    padding: 1px;
     margin: 1px;
-    color:#313437;
-    background-color: #939ca0;
-    font-weight:500;
+    color:#e9edf1;
+    background-color: #575e63;
+    font-size: 11px;
+    font-weight:650;
     transition: background-color 0.2s ease;
   }
   .alternative-buttons-selected:hover {
-    background-color:#c6ced5;
-    color: #000000;
-    border: none;
+    background-color:#74808a;
+    color: #f7faff;
+    border: 1px solid #c0d6da;
   }
   .recommendations {
     padding: 4px;
