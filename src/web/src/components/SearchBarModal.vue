@@ -215,6 +215,10 @@ export default {
         this.$refs.searchBar.focus();
       });
       this.selectedSemester = semester;
+    },
+
+    onClose() {
+      this.searchInput = '';
       this.searchMatches = this.courses;
     },
 
@@ -224,14 +228,23 @@ export default {
     },
 
     debouncedsearch: debounce(function () {
-      this.search();
+      this.search(10);
     }, 400),
 
-    search() {
+    search(stop_count = -1) {
       let input = this.searchInput
       input = input.toLowerCase();
       console.log('performed search')
-      this.searchMatches = this.courses.filter(course => course.search_name.includes(input));
+      if (stop_count == -1) {
+        this.searchMatches = this.courses.filter(course => course.search_name.includes(input));
+      } else {
+        this.searchMatches = [];
+        for (let i = 0; i < this.courses.length && this.searchMatches.length < stop_count; ++i) {
+          if (this.courses[i].search_name.includes(input)) {
+            this.searchMatches.push(this.courses[i]);
+          }
+        }
+      }
     },
 
     async searchAlternative() {
@@ -239,8 +252,10 @@ export default {
     },
 
     selectEnter() {
-      this.search();
+      this.search(1);
       this.selectMatch(0);
+      this.searchInput = '';
+      this.search();
     },
 
     selectMatch(position) {
@@ -290,6 +305,7 @@ export default {
         this.all_courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
         this.courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
       }
+      this.searchMatches = this.courses;
     },
 
     async fetchSubjectGroups() {
@@ -328,17 +344,14 @@ export default {
 
 .results {
   position: absolute;
-  z-index: 9999;
   top: 100%;
   left: 0;
-  width: 320px;
+  width: 334px;
   background-color: rgba(39, 43, 44, 0.75);
   list-style: none;
-  margin: 1px;
   padding: 8px;
   border-radius: 4px;
-  border: 2px solid #2d2e31;
-  border-top: none;
+  border: 2px solid #565a5c;
   backdrop-filter: blur(4px);
 }
 .results h3 {
@@ -351,13 +364,13 @@ export default {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 250px;
-  background-color: #323435;
+  max-height: 245px;
+  background-color: rgba(30, 32, 33, 0.7);
   list-style: none;
   margin-top: 2px;
   padding: 2px;
   border-radius: 4px;
-  border: 2px solid #2d2e31;
+  border: none;
   overflow-y:scroll;
 }
 .search-result {
@@ -426,8 +439,8 @@ export default {
   font-weight: 600;
   margin-bottom: 0px;
   margin-top: 0px;
-  margin-left: 1px;
-  margin-right: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
   color: #141415;
   background-color:#141415;
   transition: background-color 0.15s ease;

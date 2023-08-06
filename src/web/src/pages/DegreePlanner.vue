@@ -5,7 +5,7 @@
         </div>
         <div @dragover.prevent @drop="schedulerRemove">
 
-        <div ref="searchModalContainer" style="position: absolute; z-index: 9999; width: 325px; list-style: none; border-radius: 4px; border-top: none;">
+        <div ref="searchModalContainer" style="position: absolute; z-index: 9999;">
           <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal"></SearchBarModal>
         </div>
         <div class="columns">
@@ -21,7 +21,7 @@
                   @drop="schedulerDrop($event, index)">
                 <div class="semester-title-row">
                   <span style="width: 96%;"><h3>Semester {{ index + 1 }}</h3></span>
-                  <span style="color:#a1a7a8; margin-top:-6px; margin-right:-5px;" class="schedule-search">
+                  <span style="color:#a1a7a8; margin-top:-8px; margin-right:-8px;" class="schedule-search">
                     <button
                       type="button"
                       :ref="'addButton${index}'"
@@ -230,7 +230,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
           this.showSearchModal = on;
           this.$refs.searchModal.showDropdown = on;
           if (!on) {
-            this.$refs.searchModal.searchInput = '';
+            this.$refs.searchModal.onClose();
           }
         },
         modalAdd(semester, course) {
@@ -503,7 +503,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .search-modal {
     position: absolute;
     z-index: 9999;
-    width: 325px;
     list-style: none;
     border-radius: 4px;
     border-top: none;
@@ -523,7 +522,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     padding-right: 8px;
     margin: 0px;
     color:rgb(153, 160, 164);
-    background-color: rgba(197, 211, 218, 0.01);
+    background-color: rgba(197, 211, 218, 0.1);
     transition: background-color 0.2s ease;
     font-weight: 900;
   }
@@ -539,22 +538,24 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     width: 100%;
   }
   .column-left {
-    flex: 6;
+    flex: 7;
     overflow-y: auto;
-    padding: 4px;
+    padding: 8px;
     border: 1px solid #171d1a;
+    background-color:#272a2c;
     font-size: 0.8em;
     min-width: 400px;
     max-width: 600px;
-    z-index: 100;
   }
   .column-left::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
   .column-center {
-    flex: 11;
+    flex: 12;
     overflow-y: auto;
-    padding: 8px;
+    padding: 6px;
+    background-color:rgb(36, 37, 40);
+    justify-content: center;
     border: 1px solid #171d1a;
   }
   .column-center::-webkit-scrollbar {
@@ -563,10 +564,11 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .column-right {
     flex: 4;
     overflow-y: auto;
-    padding: 4px;
+    padding: 8px;
     border: 1px solid #171d1a;
+    background-color:#272a2c;
     font-size: 0.8em;
-    min-width: 300px;
+    min-width: 280px;
     max-width: 400px;
   }
   .column-right::-webkit-scrollbar {
@@ -576,13 +578,12 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     justify-content: center;
-    gap: 4px;
+    gap: 2px;
   }
   .courses-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap:0px;
-    z-index: 10;
+    gap: 0px;
     position: relative;
   }
   .semester-block {
@@ -591,7 +592,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     padding: 8px;
     margin: 4px;
     font-size: 0.75em;
-    background-color: rgb(8, 26, 32);
+    background-color: rgba(8, 26, 32, 0.35);
   }
   .semester-block h3 {
     font-size: 1.5em;
@@ -612,21 +613,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   }
   .schedule-button-container {
     display: flex;
-  }
-  .open-details-button {
-    font-size: 16px;
-    border-radius: 4px;
-    border: none;
-    width: 100%;
-    margin: 2px;
-    text-justify: center;
-    align-self: bottom;
-    color: #bbc1c6;
-    background-color:#393b40;
-    transition: background-color 0.2s ease;
-  }
-  .open-details-button:hover {
-    background-color:#5b5f69;
   }
   .text-input{
     border:2px solid #21242b;
