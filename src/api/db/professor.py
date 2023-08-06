@@ -80,7 +80,7 @@ class Professor:
                             """
                             INSERT INTO professor (
                                 email,
-                                Name,
+                                name,
                                 title,
                                 phone_number,
                                 department,
