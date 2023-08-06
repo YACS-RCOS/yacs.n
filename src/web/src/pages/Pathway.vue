@@ -52,7 +52,7 @@
               <h4 style="color: #3395ff; margin-top: -20px;">
                 {{ itemName + ": " }}
               </h4>
-              <div v-if="itemName == 'Compatible minor(s)'" >
+              <div v-if="itemName == 'Compatible minor(s)'">
                 <li
                   v-for="course in item"
                   :key="course"
@@ -63,7 +63,7 @@
                   {{ course }}
                 </li>
               </div>
-              <div v-else >
+              <div v-else>
                 <li
                   v-for="course in item"
                   :key="course"
