@@ -3,8 +3,10 @@
         <div class="main-loading" v-if="main_loading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
+        <div @dragover.prevent @drop="schedulerRemove">
+          
         <div ref="searchModalContainer" style="position: absolute; z-index: 9999; width: 325px; list-style: none; border-radius: 4px; border-top: none;">
-          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)"></SearchBarModal>
+          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal"></SearchBarModal>
         </div>
         <div class="columns">
 
@@ -123,6 +125,7 @@
           </div>
 
         </div>
+      </div>
     </b-container>
 </template>
   
@@ -151,12 +154,17 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             dragElement: null,
             dragFromSemester: 0,
             hoverOverSemester: -1,
+            lastDropInsideZone: false,
             hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
             activeSemester: -1,
             showSearchModal: false,
         };
     },
     methods: {
+        schedulerDragFromModal(course) {
+          this.schedulerDrag(null, course, -1);
+        },
+
         onClick(semester) {
           if (this.showSearchModal && this.activeSemester == semester) {
             this.toggleSearchModal(false);
@@ -207,7 +215,10 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         schedulerDrag(event, item, semester) {
             this.dragElement = item;
             this.dragFromSemester = semester;
-            event.dataTransfer.effectAllowed = "move";
+            this.lastDropInsideZone = false;
+            if (event != null) {
+              event.dataTransfer.effectAllowed = "move";
+            }
         },
         schedulerDrop(event, dragToSemester) {
             event.preventDefault();
@@ -220,8 +231,23 @@ import SearchBarModal from '../components/SearchBarModal.vue';
                     this.add(dragToSemester, this.dragElement, true, true);
                 }
             }
-            this.hoverCounter--;
+            this.hoverCounter = 0;
             this.hoverOverSemester = -1;
+            this.lastDropInsideZone = true;
+        },
+        schedulerRemove(event) {
+          console.log("remove func activated, hover counter: " + this.hoverCounter + " hoveroversem: " + this.hoverOverSemester);
+          if (this.hoverOverSemester != -1 || this.lastDropInsideZone) {
+            return
+          }
+          console.log("remove func removing");
+          event.preventDefault();
+          if (this.dragElement != null) {
+              if (this.dragFromSemester != -1) {
+                  this.remove(this.dragFromSemester, this.dragElement, true, true);
+              }
+          }
+          this.hoverOverSemester = -1;
         },
         schedulerDragEnter(event, hoverOverSemester) {
             event.preventDefault();
@@ -495,12 +521,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .column-right::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
-  .requirements-dyngrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    justify-content: center;
-    gap: 4px;
-  }
   .requirements-orggrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -595,16 +615,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     font-weight: 700;
     color: #be8886;
   }
-  .course-schedule-buttons {
-    border: none;
-    border-radius: 4px;
-    width: 80%;
-    padding: 0px;
-    margin: 1px;
-    background-color: rgba(197, 211, 218, 0.01);
-    transition: background-color 0.2s ease;
-    text-align: left;
-  }
   .course-buttons {
     border: none;
     border-radius: 4px;
@@ -640,7 +650,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     padding: 1px;
     margin: 0px;
     border-radius: 4px;
-    background-color: #434f41;
+    background-color: #414740;
   }
   .minimal-unfulfilled-fulfillment {
     padding-left: 4px;
@@ -726,7 +736,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   }
   .req-fulfilled {
     color: greenyellow;
-    background-color: #434f41;
+    background-color: #414740;
   }
   .req-unfulfilled {
     color: rgb(255, 149, 122);

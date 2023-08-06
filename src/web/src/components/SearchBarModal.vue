@@ -26,7 +26,7 @@
             <li v-show="searchContextSize < searchMatches.length && searchDisplayContext > 0" @click="decrementSearchPage">
               <span class="search-traversal-button">PREVIOUS</span>
             </li>
-            <li v-for="(course, index) in searchMatches.slice(searchDisplayContext * searchContextSize, (searchDisplayContext + 1) * searchContextSize)" :key="index" @click="selectMatch(index)">
+            <li v-for="(course, index) in searchMatches.slice(searchDisplayContext * searchContextSize, (searchDisplayContext + 1) * searchContextSize)" :key="index" @click="selectMatch(index)" draggable="true" @dragstart="courseDrag($event, course.display_name)">
               <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
               <span v-bind:class="{'search-result-body':!(course.display_name in courseSelected), 'search-result-body-selected':course.display_name in courseSelected}" :style="getCourseBackColor(course.display_name)"> {{ course.display_name.substring(10) }} </span>
               <span class="selected-tag" v-show="course.display_name in courseSelected"> (selected in semester {{ getSemestersPresentIn(course.display_name) }}) </span>
@@ -72,6 +72,10 @@ export default {
   },
 
   methods: {
+    courseDrag(event, course) {
+      event.dataTransfer.effectAllowed = "move";
+      this.$emit('courseDrag', course);
+    },
     importCourses(courses) {
       this.courseSelected = [];
       for (let semester = 0; semester < courses.length; ++semester) {
@@ -286,9 +290,9 @@ export default {
     computeSubjectColors() {
       for (let i = 0; i < this.subjectGroups.length; ++i) {
         let group = this.subjectGroups[i];
-        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 20, 75, i / this.subjectGroups.length);
+        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 12, 70, i / this.subjectGroups.length);
         for (let j = 0; j < group.elements.length; ++j) {
-          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 16 - j * 0.5, 75 - 10 + j * 0.2, i / this.subjectGroups.length)
+          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 10 - j * 0.25, 70 - 10 + j * 0.2, i / this.subjectGroups.length)
         }
       }
     }
@@ -317,7 +321,7 @@ export default {
   z-index: 9999;
   top: 100%;
   left: 0;
-  width: 325px;
+  width: 390px;
   background-color: #141415;
   list-style: none;
   margin: 1px;
@@ -361,7 +365,7 @@ export default {
 .search-traversal-button {
   font-weight: 850;
   font-size: 13px;
-  color: #c1e5ef;
+  color: #b2babc;
 }
 .selected-tag {
   font-weight: 500;
@@ -405,11 +409,11 @@ export default {
   border: none;
   border-radius: 4px;
   font-size: 11px;
-  width: 42px;
+  width: 40px;
   padding: 1px;
   font-weight: 600;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-left: 1px;
+  margin-right: 1px;
   color: #141415;
   background-color:#141415;
   transition: background-color 0.15s ease;
