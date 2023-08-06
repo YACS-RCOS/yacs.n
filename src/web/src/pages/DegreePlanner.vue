@@ -49,7 +49,7 @@
           <div class="column-center" ref="columnCenter">
 
             <div class="requirements-orggrid">
-              <div class="fulfillment-org-block" v-for="(group, group_index) in requirement_groups" :key="group_index">
+              <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirement_groups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
                 <div v-if="true">
                   <div class="group-heading">
                     <span class="group-title"> {{ group.name }} </span> 
@@ -62,7 +62,7 @@
                     <div v-if="Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
                       <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
                         <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
-                          <button v-bind:class="{'alternative-buttons':!alternative_choice.includes('*'), 'alternative-buttons-wildcard':alternative_choice.includes('*')}" type="button" @click="get_fulfillment({[alternative_orig]:alternative_choice})">
+                          <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
                             {{ format_alternative(alternative_choice) }}
                           </button>
                         </div>
@@ -96,12 +96,14 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
           </div>
 
           <div class="column-right">
+            highlighted: {{ highlightedFulfillment }}
             <div>
               <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
             </div>
@@ -158,9 +160,38 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
             activeSemester: -1,
             showSearchModal: false,
+            highlightedFulfillment: null,
+
+            wildcardRequirements: {},
         };
     },
     methods: {
+        toggleHighlightFulfillment(group) {
+          if (group == this.highlightedFulfillment) {
+            this.highlightedFulfillment = null;
+          } else {
+            this.highlightedFulfillment = group;
+          }
+        },
+        toggleWildcardRequirement(alternative_orig, alternative_choice) {
+          // don't recalculate if the user spams the original button
+          if (!(alternative_orig in this.wildcardRequirements) && alternative_choice == alternative_orig) {
+            return
+          }
+          if ((alternative_orig in this.wildcardRequirements && this.wildcardRequirements[alternative_orig] == alternative_choice) || (alternative_orig == alternative_choice)) {
+            delete this.wildcardRequirements[alternative_orig];
+          } else {
+            this.wildcardRequirements[alternative_orig] = alternative_choice
+          }
+          this.get_fulfillment(this.wildcardRequirements);
+        },
+        chosenAlternative(alternative_orig) {
+          if (alternative_orig in this.wildcardRequirements) {
+            return this.wildcardRequirements[alternative_orig]
+          }
+          return alternative_orig
+        },
+        
         schedulerDragFromModal(course) {
           this.schedulerDrag(null, course, -1);
         },
@@ -579,6 +610,21 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .schedule-button-container {
     display: flex;
   }
+  .open-details-button {
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    width: 100%;
+    margin: 2px;
+    text-justify: center;
+    align-self: bottom;
+    color: #bbc1c6;
+    background-color:#393b40;
+    transition: background-color 0.2s ease;
+  }
+  .open-details-button:hover {
+    background-color:#5b5f69;
+  }
   .text-input{
     border:2px solid #21242b;
     border-radius:4px;
@@ -603,12 +649,28 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     align-items: center;
     font-size: 0.65em;
     background-color: rgba(8, 26, 32, 0.35);
+    transition: background-color 0.2s ease;
     backdrop-filter: blur(4px);
   }
-  .fulfillment-org-block h3 {
+  .fulfillment-org-block:hover {
+    background-color: rgba(46, 51, 53, 0.35);
+  }
+  .fulfillment-org-block-highlighted {
+    border: 2px solid #676b70;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 2px;
+    width: 345px;
+    min-height: 60px;
+    align-items: center;
+    font-size: 0.65em;
+    background-color: rgba(45, 50, 52, 0.35);
+    backdrop-filter: blur(4px);
+  }
+  .fulfillment-org-block h3, .fulfillment-org-block-highlighted h3 {
     font-size: 1.2em;
   }
-  .fulfillment-org-block h5 {
+  .fulfillment-org-block h5, .fulfillment-org-block-highlighted h5 {
     font-size: 1.1em;
     margin: 0px;
     color: #beb8b1;
@@ -719,27 +781,27 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     border: none;
     padding: 2px;
     margin: 1px;
-    color:#e3e8e4;
+    color:#cfd8d9;
     background-color: #3e4041;
     transition: background-color 0.2s ease;
   }
   .alternative-buttons:hover {
     background-color:#21242b;
   }
-  .alternative-buttons-wildcard {
+  .alternative-buttons-selected {
     border-radius: 2px;
     width: 99%;
     border: none;
     padding: 2px;
     margin: 1px;
-    color:#d8e8dc;
-    background-color: #497348;
+    color:#313437;
+    background-color: #939ca0;
     font-weight:500;
     transition: background-color 0.2s ease;
   }
-  .alternative-buttons-wildcard:hover {
-    background-color:#171d1a;
-    color: #c7e4e1;
+  .alternative-buttons-selected:hover {
+    background-color:#c6ced5;
+    color: #000000;
     border: none;
   }
   .recommendations {
