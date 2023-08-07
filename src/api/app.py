@@ -133,7 +133,7 @@ async def dp_run_command(userid:str = Body(...), command:str = Body(...)):
 
 
 @app.post('/api/dp/print')
-async def dp_get_schedule(userid:str = Body(...)):
+async def dp_print(userid:str = Body(...)):
     randint = int(random.random() * 1000)
     print(f'== RECEIVED PRINT API CALL {randint}')
 
@@ -148,6 +148,18 @@ async def dp_get_schedule(userid:str = Body(...)):
 
     print(f'== FINISHED PRINT API CALL {randint}')
     return course_list
+
+
+@app.get('/api/dp/schedules/{userid}')
+async def dp_get_schedules(userid:str):
+    user = planner.get_user(userid)
+    if user is None:
+        return Response(content="user not found")
+
+    schedules = planner.schedules(user)
+    schedules.sort()
+    return [schedules, user.active_schedule]
+
 
 
 @app.post('/api/dp/fulfillment')
@@ -197,6 +209,35 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return [formatted_fulfillments, fulfillment_groups, tally, display_requirements]
+
+@app.post('/api/dp/schedule')
+async def dp_switch_schedule(userid:str = Body(...), schedule_name:str = Body(...)):
+    user = planner.get_user(userid)
+    if user is None:
+        print(f'user {userid} not found')
+        return Response(content="user not found")
+    
+    planner.schedule(user, schedule_name)
+
+
+@app.post('/api/dp/scheduledelete')
+async def dp_delete_schedule(userid:str = Body(...), schedule_name:str = Body(...)):
+    user = planner.get_user(userid)
+    if user is None:
+        print(f'user {userid} not found')
+        return Response(content="user not found")
+    
+    planner.delete_schedule(user, schedule_name)
+
+
+@app.post('/api/dp/schedulerename')
+async def dp_rename_schedule(userid:str = Body(...), old_schedule_name:str = Body(...), new_schedule_name:str = Body(...)):
+    user = planner.get_user(userid)
+    if user is None:
+        print(f'user {userid} not found')
+        return Response(content="user not found")
+    
+    planner.rename_schedule(user, old_schedule_name, new_schedule_name)
 
 
 @rate_limited(4)
@@ -272,7 +313,7 @@ async def dp_get_subject_groups():
 
 
 @app.post('/api/dp/search')
-async def sarchcourse(course=Body(...)):
+async def dp_course_search(course=Body(...)):
     list_courses = planner.find(course)
     return list_courses
 

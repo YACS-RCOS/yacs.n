@@ -34,6 +34,9 @@ class User():
     def get_schedules(self) -> list:
         ''' Creates a copied list of all current schedule objects '''
         return list(self.schedules.values())
+    
+    def get_schedule_names(self):
+        return list(self.schedules.keys())
 
     def get_schedule(self, schedule_name:str) -> Schedule:
         ''' Returns schedule if found, otherwise None '''
@@ -44,9 +47,13 @@ class User():
         schedule = Schedule(schedule_name)
         self.schedules.update({schedule_name : schedule})
 
-    def add_schedule(self, schedule_name:str, schedule:Schedule):
+    def add_schedule(self, schedule_name:str, schedule:Schedule) -> None:
         ''' Add schedule from input to schedules '''
         self.schedules.update({schedule_name : schedule})
+
+    def remove_schedule(self, schedule_name) -> None:
+        result = self.schedules.pop(schedule_name, None)
+        print(f"attempting to remove schedule {schedule_name}, result: {result}, schedules: {self.schedules}")
 
     def get_active_schedule(self) -> Schedule:
         ''' Get schedule object being actively editted for this user '''
@@ -65,6 +72,9 @@ class User():
         Returns:
             success (bool): whether rename was successful
         '''
+        autoswitch = False
+        if old_name == self.active_schedule:
+            autoswitch = True
         if old_name not in self.schedules or new_name in self.schedules:
             return False
         else:
@@ -72,6 +82,9 @@ class User():
             self.schedules.update({new_name : schedule})
             self.schedules.pop(old_name)
             schedule.name = new_name
+
+            if autoswitch:
+                self.active_schedule = new_name
             return True
 
     def __repr__(self):

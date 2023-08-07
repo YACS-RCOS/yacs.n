@@ -100,6 +100,23 @@ class Planner():
             self.output.print(f"Successfully switched to schedule {schedule_name}!")
             user.set_active_schedule(schedule_name)
             return
+        
+    def delete_schedule(self, user:User, schedule_name:str) -> None:
+        schedule = user.get_schedule(schedule_name)
+        if schedule is not None:
+            user.remove_schedule(schedule_name)
+            self.output.print(f"Deleting {schedule_name}, user's schedules: {user.get_schedule_names()}")
+        else:
+            self.output.print(f"Schedule {schedule_name} not found")
+
+    def rename_schedule(self, user:User, old_name, new_name) -> None:
+        schedule = user.get_schedule(old_name)
+        if schedule is not None:
+            user.rename_schedule(old_name, new_name)
+            self.output.print(f"Renamed schedule {old_name} to {new_name}")
+        else:
+            self.output.print(f"Schedule {old_name} not found")
+
 
     def schedules(self, user:User) -> list:
         ''' Get all of user's schedule
@@ -111,7 +128,7 @@ class Planner():
             list (list(Schedule)): returns a list of all schedule
                 objects
         '''
-        return user.schedules()
+        return user.get_schedule_names()
 
     def set_degree(self, user:User, degree_name:str) -> bool:
         ''' Changes user's active schedule's degree

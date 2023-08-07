@@ -11,7 +11,37 @@
         <div class="columns">
 
           <div class="column-left">
-            
+            <div ref="deletionPrompt" class="schedule-deletion-prompt" v-show="scheduleDeletionPrompt">
+              Confirm Deletion of {{ schedule_name }}?
+              <div class="schedule-deletion-prompt-options">
+                <span>
+                  <button class="schedule-confirm-delete" @click="commenceDeleteSchedule(schedule_name)">
+                    YES
+                  </button>
+                </span>
+                <span>
+                  <button class="schedule-deny-delete" @click="cancelDeleteSchedule">
+                    NO
+                  </button>
+                </span>
+              </div>
+            </div>
+
+            <div class="schedule-selection">
+              <button :ref="'renameSchedule'" v-bind:class="{'schedule-selection-button':schedule != schedule_name, 'schedule-selection-button-active':schedule == schedule_name}" v-for="(schedule, index) in schedules" :key="index" @click="setSchedule(schedule)">
+                <span class="schedule-button-content">
+                  <button class="schedule-selection-delete" @click.stop="promptDeleteSchedule(schedule)">
+                    &#10008;
+                  </button>
+                  <button class="schedule-selection-edit" @click="renameScheduleButton(schedule, index)">
+                    &#9998;
+                  </button>
+                  <span v-show="renaming_schedule != schedule">{{ schedule }}</span>
+                  <input :ref="'editScheduleNameInput'" v-show="renaming_schedule == schedule" class="edit-schedule-input" v-model="renaming_schedule_input" @keyup.enter="renameSchedule(schedule, renaming_schedule_input)"/>
+                </span>
+              </button>
+              <input class="new-schedule-input" placeholder="+ new schedule" v-model="new_schedule_input" @keyup.enter="setSchedule(new_schedule_input)"/>
+            </div>
             <div class="courses-grid">
               <div v-for="(semester, index) in courses" :key="index" 
                   v-bind:class="{'semester-block':hoverOverSemester!=index, 'semester-block-highlighted':hoverOverSemester==index}" 
@@ -20,7 +50,7 @@
                   @dragover.prevent 
                   @drop="schedulerDrop($event, index)">
                 <div class="semester-title-row">
-                  <span style="width: 96%;"><h3>Semester {{ index + 1 }}</h3></span>
+                  <span style="width: 100%;"><h3>Semester {{ index + 1 }}</h3></span>
                   <span style="color:#a1a7a8; margin-top:-8px; margin-right:-8px;" class="schedule-search">
                     <button
                       type="button"
@@ -104,6 +134,7 @@
 
           <div class="column-right">
             highlighted: {{ highlightedFulfillment }}
+            deletion: {{ scheduleDeletionPrompt }}
             <div>
               <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
             </div>
@@ -142,7 +173,13 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             main_loading: true,
             userid: 'testuser',
             degree: 'computer science',
+            schedules: [],
+            new_schedule_input: '',
+            renaming_schedule_input: '',
+            renaming_schedule: '',
+            schedule_button_index: -1,
             schedule_name: "new schedule",
+            scheduleDeletionPrompt: false,
             courses: [],
             cmdInput: '',
             requirement_groups: [],
@@ -224,6 +261,14 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             !this.$refs.searchModalContainer.contains(event.target)
           ) {
             this.toggleSearchModal(false);
+          }
+          if (this.$refs['renameSchedule'][this.schedule_button_index] && !this.$refs['renameSchedule'][this.schedule_button_index].contains(event.target)) {
+            this.renaming_schedule_input = '';
+            this.renaming_schedule = '';
+            console.log('clicked outside!!!')
+          }
+          if (this.$refs.deletionPrompt && !this.$refs.deletionPrompt.contains(event.target)) {
+            this.cancelDeleteSchedule();
           }
         },
         toggleSearchModal(on) {
@@ -349,6 +394,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         async fetch_data(fulfill = true, recommend = true) {
             this.loading = true;
+            this.getSchedules();
             // fetch fulfillment and recommendations
             this.print();
             if (fulfill) {
@@ -455,7 +501,96 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             });
             this.courses = await response.json();
             this.$refs.searchModal.importCourses(this.courses);
-        }
+        },
+        promptDeleteSchedule(schedule) {
+          document.removeEventListener('click', this.handleClickOutside);
+          document.addEventListener('click', this.handleClickOutside);
+          this.schedule_name = schedule;
+          this.scheduleDeletionPrompt = true;
+        },
+
+        cancelDeleteSchedule() {
+          this.scheduleDeletionPrompt = false;
+        },
+
+        commenceDeleteSchedule(schedule) {
+          this.scheduleDeletionPrompt = false;
+          this.deleteSchedule(schedule);
+        },
+
+        async renameScheduleButton(schedule, index) {
+          document.removeEventListener('click', this.handleClickOutside);
+          document.addEventListener('click', this.handleClickOutside);
+          this.renaming_schedule = schedule;
+          this.renaming_schedule_input = schedule;
+          this.schedule_button_index = index;
+          this.$nextTick(() => {
+            if (this.$refs['editScheduleNameInput'][this.schedule_button_index]) {
+              this.$refs['editScheduleNameInput'][this.schedule_button_index].focus();
+            }
+          });
+        },
+
+        async getSchedules() {
+          let userid = this.userid;
+          const response = await fetch('/api/dp/schedules/' + userid);
+          let schedule_data = await response.json();
+          this.schedules = schedule_data[0];
+          this.schedule_name = schedule_data[1];
+        },
+
+        async deleteSchedule(schedule_name) {
+          let userid = this.userid;
+          this.renaming_schedule = '';
+          this.renaming_schedule_input = '';
+          this.new_schedule_input = '';
+          await fetch('/api/dp/scheduledelete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userid, schedule_name}),
+          });
+          await this.getSchedules();
+          if (schedule_name == this.schedule_name && this.schedules.length > 0) {
+            await this.setSchedule(this.schedules[0]);
+          }
+        },
+
+        async setSchedule(schedule_name) {
+          let userid = this.userid;
+          if (schedule_name == this.schedule_name) {
+            return
+          }
+          this.renaming_schedule = '';
+          this.renaming_schedule_input = '';
+          this.new_schedule_input = '';
+          await fetch('/api/dp/schedule', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userid, schedule_name}),
+          });
+          this.new_schedule_input = '';
+          await this.fetch_data();
+        },
+
+        async renameSchedule(old_schedule_name, new_schedule_name) {
+          let userid = this.userid;
+          this.renaming_schedule = '';
+          this.renaming_schedule_input = '';
+          this.new_schedule_input = '';
+          await fetch('/api/dp/schedulerename', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userid, old_schedule_name, new_schedule_name}),
+          });
+          this.schedule_name = new_schedule_name;
+          await this.getSchedules();
+        },
     },
     async created() {
         this.main_loading = true;
@@ -489,6 +624,136 @@ import SearchBarModal from '../components/SearchBarModal.vue';
     font-size:0.9em;
     margin: 30px;
     color:#cadbdb;
+  }
+  .schedule-selection {
+    margin: 2px;
+    padding: 2px;
+    color:#d7dde3;
+  }
+  .schedule-button-content {
+    justify-items: left;
+    display: flex;
+  }
+  .schedule-selection-button {
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    min-width: 120px;
+    border: none;
+    padding: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 2px;
+    color:rgb(190, 199, 205);
+    background-color: rgba(51, 58, 61, 0.8);
+    transition: background-color 0.2s ease;
+  }
+  .schedule-selection-button:hover {
+    background-color: rgba(84, 92, 95, 0.8);
+  }
+
+  .schedule-selection-button-active {
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 120px;
+    border: solid 1px #74808a;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: 2px;
+    color:rgb(227, 234, 237);
+    background-color: rgba(91, 102, 106, 0.8);
+    transition: background-color 0.2s ease;
+  }
+  .schedule-selection-button-active:hover {
+    background-color: rgba(122, 132, 136, 0.8);
+  }
+  .schedule-selection-delete {
+    border-radius: 8px;
+    font-size: 10px;
+    width: 16px;
+    border: none;
+    margin: 1px;
+    padding: 0px;
+    color: #dc8664;
+    background-color:rgba(135, 150, 155, 0.1);
+  }
+  .schedule-selection-delete:hover {
+    background-color: rgba(135, 150, 155, 0.8);
+  }
+  .schedule-selection-edit {
+    border-radius: 8px;
+    font-size: 10px;
+    width: 16px;
+    border: none;
+    margin: 1px;
+    padding: 0px;
+    color: #b5b5d6;
+    background-color:rgba(135, 150, 155, 0.1);
+  }
+  .schedule-selection-edit:hover {
+    background-color: rgba(135, 150, 155, 0.8);
+  }
+  .edit-schedule-input {
+    font-size: 10px;
+    color:#89949d;
+    width: 70px;
+    border: none;
+    margin: 1px;
+  }
+  .new-schedule-input {
+    font-size: 11px;
+    color:#ced8e0;
+    background-color:#3f474e;
+    width: 120px;
+    border: none;
+    margin: 2px;
+    padding: 1px;
+    padding-right: 2px;
+    padding-left: 2px;
+    border-radius: 4px;
+  }
+  .schedule-deletion-prompt {
+    position: absolute;
+    z-index: 9999;
+    font-size: 18px;
+    font-weight: 700;
+    text-justify: center;
+    border: 2px solid rgba(161, 207, 224, 1 );
+    border-radius: 4px;
+    padding: 16px;
+    margin: 8px;
+    top: 180px;
+    color: #202121;
+    background-color:rgba(161, 207, 224, 0.7);
+  }
+  .schedule-deletion-prompt-options {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+  }
+  .schedule-confirm-delete {
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid rgb(218, 140, 106);
+    border-radius: 4px;
+    padding: 6px;
+    width: 64px;
+    margin: 4px;
+    color:#121313;
+    background-color:rgba(230, 165, 135, 0.85);
+  }
+  .schedule-deny-delete {
+    font-size: 16px;
+    font-weight: 600;
+    border: 2px solid rgba(212, 225, 224, 1);
+    border-radius: 4px;
+    padding: 6px;
+    width: 64px;
+    margin: 4px;
+    color:#171d1a;
+    background-color:rgba(212, 225, 224, 0.85);
   }
   .search-modal {
     position: absolute;
@@ -795,14 +1060,6 @@ import SearchBarModal from '../components/SearchBarModal.vue';
   .req-unfulfilled {
     color: rgb(255, 149, 122);
     background-color: #4f433e;
-  }
-
-  .schedule-selection {
-    margin: 4px;
-    padding: 4px;
-    text-align: left;
-    font-size: 1.5em;
-    color:#e3e8e4;
   }
 
   .details-panel {
