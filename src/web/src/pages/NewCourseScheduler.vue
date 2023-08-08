@@ -1,13 +1,14 @@
 <template>
   <b-container fluid class="py-3 h-100 main-body">
+    <!--course-list-sticky      sticky-component -->
     <b-row class="h-100">
       <div v-if="isNavOpen" class="col-md-3"></div>
       <div :class="[main]">
         <!--This is a button, an animated one-->
         <div
-          id="burger"
-          :class="{ active: isNavOpen }"
-          @click.prevent="toggleNav"
+            id="burger"
+            :class="{ active: isNavOpen }"
+            @click.prevent="toggleNav"
         >
           <slot>
             <button type="button" class="burger-button">
@@ -22,65 +23,65 @@
           </slot>
         </div>
         <div class="sidebar">
-          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
+          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>         :class="{'sidebar-panel-2': isSticky}"-->
           <transition name="slide">
-            <div v-if="isNavOpen" class="sidebar-panel">
+            <div v-if="isNavOpen" class="sidebar-panel" :style="this.scrollPosition <= 55.5 ? `margin-top: ${55.5-scrollPosition}px;` : `margin-top: ${0}px;`">
               <div class="sidebar-panal-nav" style="height: 100%;">
                 <b-col
-                  class="d-flex flex-column"
-                  ref="sidebar"
-                  style="height: 100%; padding: 1px;"
+                    class="d-flex flex-column"
+                    ref="sidebar"
+                    style="height: 100%; padding: 1px;"
                 >
                   <b-card no-body class="h-100">
                     <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                       <b-tab
-                        title="Course Search"
-                        active
-                        class="flex-grow-1 w-100"
-                        data-cy="course-search-tab"
+                          title="Course Search"
+                          active
+                          class="flex-grow-1 w-100"
+                          data-cy="course-search-tab"
                       >
                         <b-card-text class="d-flex flex-grow-1 w-100">
                           <CenterSpinner
-                            v-if="loading"
-                            class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                            :height="60"
-                            :fontSize="1"
-                            loadingMessage="Courses"
-                            :topSpacing="0"
+                              v-if="loading"
+                              class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                              :height="60"
+                              :fontSize="1"
+                              loadingMessage="Courses"
+                              :topSpacing="0"
                           />
 
                           <CourseList
-                            v-if="!loading"
-                            @addCourse="addCourse"
-                            @removeCourse="removeCourse"
-                            @showCourseInfo="showCourseInfo"
-                            class="w-100"
+                              v-if="!loading"
+                              @addCourse="addCourse"
+                              @removeCourse="removeCourse"
+                              @showCourseInfo="showCourseInfo"
+                              class="w-100"
                           />
                         </b-card-text>
                       </b-tab>
                       <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
                         <template v-slot:title>
                           <div
-                            class="text-center"
-                            data-cy="selected-courses-tab-header"
+                              class="text-center"
+                              data-cy="selected-courses-tab-header"
                           >
                             Selected Courses
                             <b-badge
-                              variant="light"
-                              data-cy="num-selected-courses"
+                                variant="light"
+                                data-cy="num-selected-courses"
                             >
                               {{ numSelectedCourses }}
                             </b-badge>
                           </div>
                         </template>
                         <b-card-text
-                          class="w-100 d-flex flex-grow-1 flex-column"
+                            class="w-100 d-flex flex-grow-1 flex-column"
                         >
                           <SelectedCourses
-                            :courses="selectedCourses"
-                            @removeCourse="removeCourse"
-                            @removeCourseSection="removeCourseSection"
-                            @addCourseSection="addCourseSection"
+                              :courses="selectedCourses"
+                              @removeCourse="removeCourse"
+                              @removeCourseSection="removeCourseSection"
+                              @addCourseSection="addCourseSection"
                           />
                         </b-card-text>
                       </b-tab>
@@ -93,26 +94,26 @@
           </transition>
         </div>
         <b-form-select
-          v-if="
+            v-if="
             !loading &&
             scheduler.scheduleSubsemesters &&
             scheduler.scheduleSubsemesters.length > 1
           "
-          v-model="selectedScheduleSubsemester"
-          :options="scheduler.scheduleSubsemesters"
-          text-field="display_string"
-          value-field="display_string"
+            v-model="selectedScheduleSubsemester"
+            :options="scheduler.scheduleSubsemesters"
+            text-field="display_string"
+            value-field="display_string"
         ></b-form-select>
         <div id="allScheduleData" class="justify-content-right">
           <div>
             <b-row>
               <b-col class="m-2">
                 <b-button
-                  @click="
+                    @click="
                     changeSchedule(-1);
                     updateIndexCookie();
                   "
-                  size="sm"
+                    size="sm"
                 >
                   Prev
                 </b-button>
@@ -132,17 +133,17 @@
               </b-col>
               <b-col class="m-2 text-right">
                 <b-button
-                  @click="
+                    @click="
                     changeSchedule(1);
                     updateIndexCookie();
                   "
-                  size="sm"
+                    size="sm"
                 >
                   Next
                 </b-button>
               </b-col>
             </b-row>
-            <Schedule v-if="loading" />
+            <Schedule v-if="loading"/>
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
             <b-row>
@@ -155,11 +156,11 @@
               <b-col md="3" justify="end">
                 <b-row>
                   <b-form-checkbox
-                    class="mt-2"
-                    size="sm"
-                    :checked="$store.state.colorBlindAssist"
-                    @change="toggleColors()"
-                    switch
+                      class="mt-2"
+                      size="sm"
+                      :checked="$store.state.colorBlindAssist"
+                      @change="toggleColors()"
+                      switch
                   >
                     Color Blind Assistance
                   </b-form-checkbox>
@@ -167,11 +168,11 @@
                 <b-row>
                   <b-dropdown text="Export Data" class="mt-2">
                     <b-dropdown-item @click="exportScheduleToIcs">
-                      <font-awesome-icon :icon="exportIcon" />
+                      <font-awesome-icon :icon="exportIcon"/>
                       Export To ICS
                     </b-dropdown-item>
                     <b-dropdown-item @click="exportScheduleToImage">
-                      <font-awesome-icon :icon="exportIcon" />
+                      <font-awesome-icon :icon="exportIcon"/>
                       Export To Image
                     </b-dropdown-item>
                   </b-dropdown>
@@ -184,63 +185,63 @@
     </b-row>
 
     <b-modal
-      id="courseInfoModal"
-      v-if="courseInfoModalCourse"
-      v-model="showCourseInfoModal"
-      :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
-      hide-footer
+        id="courseInfoModal"
+        v-if="courseInfoModalCourse"
+        v-model="showCourseInfoModal"
+        :title="courseInfoModalCourse.name + ' ' + courseInfoModalCourse.title"
+        hide-footer
     >
       <span v-if="courseInfoModalCourse.frequency">
         Offered: {{ courseInfoModalCourse.frequency }}
-        <br />
-        <br />
+        <br/>
+        <br/>
       </span>
       <span
-        v-if="
+          v-if="
           courseInfoModalCourse.min_credits == courseInfoModalCourse.max_credits
         "
       >
         Credits: {{ courseInfoModalCourse.min_credits }}
-        <br />
+        <br/>
       </span>
       <span v-else>
         Credits: {{ courseInfoModalCourse.min_credits }} -
         {{ courseInfoModalCourse.max_credits }}
-        <br />
+        <br/>
       </span>
       <span>
         {{
           generateRequirementsText(
-            courseInfoModalCourse.prerequisites,
-            courseInfoModalCourse.corequisites,
-            courseInfoModalCourse.raw_precoreqs
+              courseInfoModalCourse.prerequisites,
+              courseInfoModalCourse.corequisites,
+              courseInfoModalCourse.raw_precoreqs
           )
         }}
       </span>
       <span v-if="courseInfoModalCourse.description">
-        <br />
-        <br />
+        <br/>
+        <br/>
         {{ courseInfoModalCourse.description }}
       </span>
-      <br />
-      <br />
+      <br/>
+      <br/>
       <b-button
-        variant="primary"
-        @click="
+          variant="primary"
+          @click="
           toggleCourse(courseInfoModalCourse);
           showCourseInfoModal = !showCourseInfoModal;
         "
       >
         {{
           courseInfoModalCourse.selected
-            ? "Remove from schedule"
-            : "Add to schedule"
+              ? "Remove from schedule"
+              : "Add to schedule"
         }}
       </b-button>
       <b-button
-        class="ml-2"
-        variant="secondary"
-        @click="showCourseInfoModal = !showCourseInfoModal"
+          class="ml-2"
+          variant="secondary"
+          @click="showCourseInfoModal = !showCourseInfoModal"
       >
         Close
       </b-button>
@@ -249,7 +250,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import {mapGetters, mapState} from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
@@ -259,12 +260,12 @@ import CenterSpinnerComponent from "../components/CenterSpinner";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
 import allExportVariables from "@/assets/dark.scss";
 
-import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
-import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
+import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
+import {SelectedIndexCookie} from "../controllers/SelectedIndexCookie";
 
-import { userTypes } from "../store/modules/user";
+import {userTypes} from "../store/modules/user";
 
-import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+import {COURSES, TOGGLE_COLOR_BLIND_ASSIST} from "@/store";
 
 import {
   addStudentCourse,
@@ -279,7 +280,7 @@ import {
   withinDuration,
 } from "@/utils";
 
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
   for (let i = 0; i < 5; i++) {
@@ -325,9 +326,35 @@ export default {
       ],
       index: 0,
       loadedIndexCookie: 0,
+      isSticky: false,
+      scrollPosition: 0,
     };
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
+    handleScroll() {
+      //console.log("handScroll");
+      // const navbarHeight = 55.5;
+      // const scrollY = window.scrollY;
+      // console.log(navbarHeight + " " + scrollY);
+      // if (scrollY > navbarHeight) {
+      //   this.isSticky = true;
+      // } else {
+      //   this.isSticky = false;
+      // }
+      this.scrollPosition = window.scrollY;
+      //
+      // // Adjust the threshold as needed
+      // const threshold = 55.5;
+      //
+      // // Toggle the sticky class based on the scroll position
+      // this.isSticky = this.scrollPosition >= threshold;
+    },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {
@@ -345,13 +372,13 @@ export default {
     },
     exportScheduleToImage() {
       exportScheduleToImage(
-        Object.values(this.selectedCourses),
-        this.selectedSemester,
-        {
-          bgcolor: this.$store.state.darkMode
-            ? allExportVariables.bColor
-            : "white",
-        }
+          Object.values(this.selectedCourses),
+          this.selectedSemester,
+          {
+            bgcolor: this.$store.state.darkMode
+                ? allExportVariables.bColor
+                : "white",
+          }
       );
     },
     async loadStudentCourses() {
@@ -362,14 +389,14 @@ export default {
       this.scheduler = new SubSemesterScheduler();
       // Filter out "full" subsemester
       this.subsemesters
-        .filter(
-          (s, i, arr) =>
-            arr.length == 1 ||
-            !arr.every((o, oi) => oi == i || withinDuration(s, o))
-        )
-        .forEach((subsemester) => {
-          this.scheduler.addSubSemester(subsemester);
-        });
+          .filter(
+              (s, i, arr) =>
+                  arr.length == 1 ||
+                  !arr.every((o, oi) => oi == i || withinDuration(s, o))
+          )
+          .forEach((subsemester) => {
+            this.scheduler.addSubSemester(subsemester);
+          });
 
       if (this.scheduler.scheduleSubsemesters.length > 0) {
         this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
@@ -381,8 +408,8 @@ export default {
         course.selected = false;
 
         course.sections
-          .filter((section) => section.selected)
-          .forEach((section) => (section.selected = false));
+            .filter((section) => section.selected)
+            .forEach((section) => (section.selected = false));
       });
       this.selectedCourses = {};
 
@@ -393,8 +420,8 @@ export default {
           if (cid.semester == this.selectedSemester) {
             var c = this.courses.find(function (course) {
               return (
-                course.name == cid.course_name &&
-                course.semester == cid.semester
+                  course.name == cid.course_name &&
+                  course.semester == cid.semester
               );
             });
 
@@ -414,25 +441,25 @@ export default {
 
         try {
           selectedCoursesCookie
-            .semester(this.selectedSemester)
-            .selectedCourses.forEach((selectedCourse) => {
-              const course = this.courses.find(
+              .semester(this.selectedSemester)
+              .selectedCourses.forEach((selectedCourse) => {
+            const course = this.courses.find(
                 (course) => course.id === selectedCourse.id
-              );
+            );
 
-              this.$set(this.selectedCourses, course.id, course);
-              course.selected = true;
+            this.$set(this.selectedCourses, course.id, course);
+            course.selected = true;
 
-              selectedCourse.selectedSectionCrns.forEach(
+            selectedCourse.selectedSectionCrns.forEach(
                 (selectedSectionCrn) => {
                   const section = course.sections.find(
-                    (section) => section.crn === selectedSectionCrn
+                      (section) => section.crn === selectedSectionCrn
                   );
 
                   section.selected = true;
                 }
-              );
-            });
+            );
+          });
         } catch (err) {
           // If there is an error here, it might mean the data was changed,
           //  thus we need to reload the cookie
@@ -444,7 +471,7 @@ export default {
 
       try {
         this.index = selectedIndexCookie.semester(
-          this.selectedSemester
+            this.selectedSemester
         ).selectedIndex;
       } catch (err) {
         // If there is an error here, it might mean the data was changed,
@@ -464,12 +491,12 @@ export default {
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .addCourse(course)
-          .save();
+            .semester(this.selectedSemester)
+            .addCourse(course)
+            .save();
       }
       course.sections.forEach((section) =>
-        this.addCourseSection(course, section)
+          this.addCourseSection(course, section)
       );
     },
     addCourseSection(course, section) {
@@ -482,9 +509,9 @@ export default {
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .addCourseSection(course, section)
-          .save();
+            .semester(this.selectedSemester)
+            .addCourseSection(course, section)
+            .save();
       }
     },
     removeCourse(course) {
@@ -501,9 +528,9 @@ export default {
         });
       } else {
         SelectedCoursesCookie.load(this.$cookies)
-          .semester(this.selectedSemester)
-          .removeCourse(course)
-          .save();
+            .semester(this.selectedSemester)
+            .removeCourse(course)
+            .save();
       }
     },
     removeCourseSection(section) {
@@ -518,9 +545,9 @@ export default {
           });
         } else {
           SelectedCoursesCookie.load(this.$cookies)
-            .semester(this.selectedSemester)
-            .removeCourseSection(section)
-            .save();
+              .semester(this.selectedSemester)
+              .removeCourseSection(section)
+              .save();
         }
       }
     },
@@ -557,7 +584,7 @@ export default {
           ];
         }
         const result = this.generateSchedule(
-          Object.values(this.selectedCourses)
+            Object.values(this.selectedCourses)
         );
         if (!result.length) {
           throw new Error("conflict!");
@@ -601,28 +628,28 @@ export default {
       if (ret.length === 0) throw new Error("conflict!");
 
       return ret
-        .map((schedule) => {
-          const x = popped.sections.filter((s) => s.selected);
-          if (!x.length) throw new Error("no selection!");
-          return x
-            .map((section) => {
-              if (noConflict(schedule, section)) {
-                return addSection(schedule, section);
-              }
-              const name =
-                schedule.sections[0].department +
-                "-" +
-                schedule.sections[0].level;
-              if (!this.coursesConflicting.includes(popped.name))
-                this.coursesConflicting.push(popped.name);
-              if (!this.coursesConflicting.includes(name))
-                this.coursesConflicting.push(name);
-              this.coursesConflicting.sort();
-              return undefined;
-            })
-            .filter((x) => !!x);
-        })
-        .flat();
+          .map((schedule) => {
+            const x = popped.sections.filter((s) => s.selected);
+            if (!x.length) throw new Error("no selection!");
+            return x
+                .map((section) => {
+                  if (noConflict(schedule, section)) {
+                    return addSection(schedule, section);
+                  }
+                  const name =
+                      schedule.sections[0].department +
+                      "-" +
+                      schedule.sections[0].level;
+                  if (!this.coursesConflicting.includes(popped.name))
+                    this.coursesConflicting.push(popped.name);
+                  if (!this.coursesConflicting.includes(name))
+                    this.coursesConflicting.push(name);
+                  this.coursesConflicting.sort();
+                  return undefined;
+                })
+                .filter((x) => !!x);
+          })
+          .flat();
     },
     changeSchedule(step) {
       const l = this.possibilities.length;
@@ -640,15 +667,15 @@ export default {
     },
     updateIndexCookie() {
       SelectedIndexCookie.load(this.$cookies)
-        .semester(this.selectedSemester)
-        .updateIndex(this.index)
-        .save();
+          .semester(this.selectedSemester)
+          .updateIndex(this.index)
+          .save();
     },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
     ...mapGetters([COURSES]),
-    ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+    ...mapGetters({isLoggedIn: userTypes.getters.IS_LOGGED_IN}),
 
     loading() {
       return this.$store.state.isLoadingCourses;
@@ -656,13 +683,13 @@ export default {
 
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
-        (s) => s.display_string === this.selectedScheduleSubsemester
+          (s) => s.display_string === this.selectedScheduleSubsemester
       );
     },
     selectedSections() {
       return Object.values(this.selectedCourses)
-        .map((c) => c.sections.filter((s) => s.selected))
-        .flat();
+          .map((c) => c.sections.filter((s) => s.selected))
+          .flat();
     },
     /**
      * Returns list of CRNs for all selected sections
@@ -670,8 +697,8 @@ export default {
      */
     selectedCrns() {
       return (
-        this.possibilities[this.index] &&
-        this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
+          this.possibilities[this.index] &&
+          this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
       );
     },
     /**
@@ -693,10 +720,10 @@ export default {
     scheduleDisplayMessage() {
       if (this.possibilities.length === 1) {
         return this.possibilities[0].sections.length === 0
-          ? this.possibilities[0].conflict
-            ? 3
-            : 2
-          : 1;
+            ? this.possibilities[0].conflict
+                ? 3
+                : 2
+            : 1;
       }
       return 1;
     },
@@ -754,6 +781,7 @@ export default {
   flex-grow: 1;
   font-size: 15px;
 }
+
 // This makes it so active tabs are display:flex
 // The default is display:block
 .tab-content > .active {
@@ -820,8 +848,8 @@ sidebar-panel-nav {
   top: 0;
   height: 100vh;
   z-index: 999;
-  margin: 60px 0px 0px;
   width: 25%;
+  transition: top 0.1s ease-out;
 }
 
 .hidden {
@@ -860,8 +888,8 @@ button:focus {
   width: auto;
   margin-top: -1px;
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1),
-    opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1),
-    background-color 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1),
+  background-color 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .burger-bar--1 {
@@ -927,4 +955,17 @@ button:focus {
 #burger.active .burger-bar {
   background-color: #32aad8;
 }
+
+.sticky-component {
+  /* Your regular styles here */
+  transition: 0.0001s ease-in-out; /* Optional: Add a smooth transition effect */
+}
+
+.course-list-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Adjust the z-index as needed */
+  //margin-top: 55.5px;
+}
+
 </style>

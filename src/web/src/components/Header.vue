@@ -1,61 +1,63 @@
 <template>
   <b-navbar
-    id="header"
-    class="bg-white"
-    style="margin-bottom: 0 !important;"
-    toggleable="md"
-    type="primary"
-    variant="light"
+      id="header"
+      class="bg-white"
+      style="margin-bottom: 0 !important;"
+      toggleable="md"
+      type="primary"
+      variant="light"
   >
+    <!--:class="{'sticky-navbar': isSticky}"
+      sticky="{ boundary: true }"-->
     <b-navbar-brand
-      class="align-middle text-dark"
-      :to="{ name: 'CourseScheduler' }"
+        class="align-middle text-dark"
+        :to="{ name: 'CourseScheduler' }"
     >
       YACS
     </b-navbar-brand>
     <div>
       <b-dropdown
-        variant="outline-primary"
-        size="sm"
-        :text="selectedSemester"
-        class="m-md-2"
+          variant="outline-primary"
+          size="sm"
+          :text="selectedSemester"
+          class="m-md-2"
       >
         <b-dropdown-item
-          v-for="option in semesterOptions"
-          :key="option.value"
-          :value="option.value"
-          @click="selectSemester(option.value)"
+            v-for="option in semesterOptions"
+            :key="option.value"
+            :value="option.value"
+            @click="selectSemester(option.value)"
         >
           {{ option.value }}
         </b-dropdown-item>
       </b-dropdown>
     </div>
     <b-navbar-toggle
-      id="header-navbar-collapse-toggle"
-      target="header-navbar-collapse"
+        id="header-navbar-collapse-toggle"
+        target="header-navbar-collapse"
     >
-      <font-awesome-icon icon="bars" />
+      <font-awesome-icon icon="bars"/>
     </b-navbar-toggle>
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
-          <font-awesome-icon icon="calendar" />
+          <font-awesome-icon icon="calendar"/>
           Schedule
         </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
-          <font-awesome-icon icon="search" />
+          <font-awesome-icon icon="search"/>
           Explore
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
-          <font-awesome-icon icon="list" />
+          <font-awesome-icon icon="list"/>
           Pathways
         </b-nav-item>
         <b-nav-item :to="{ name: 'Finals' }">
-          <font-awesome-icon icon="file-alt" />
+          <font-awesome-icon icon="file-alt"/>
           Finals
         </b-nav-item>
         <b-nav-item :to="{ name: 'Professors' }">
-          <font-awesome-icon icon="address-book" />
+          <font-awesome-icon icon="address-book"/>
           Professors
         </b-nav-item>
       </b-navbar-nav>
@@ -63,20 +65,20 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-dropdown text="Color Mode" style="padding-right: 5px;">
           <b-dropdown-item
-            :class="this.darkMode === false ? 'drop-down-item' : ''"
-            @click="toggle_style(false)"
+              :class="this.darkMode === false ? 'drop-down-item' : ''"
+              @click="toggle_style(false)"
           >
             Light Mode
           </b-dropdown-item>
           <b-dropdown-item
-            :class="this.darkMode === true ? 'drop-down-item' : ''"
-            @click="toggle_style(true)"
+              :class="this.darkMode === true ? 'drop-down-item' : ''"
+              @click="toggle_style(true)"
           >
             Dark Mode
           </b-dropdown-item>
           <b-dropdown-item
-            :class="this.darkMode === null ? 'drop-down-item' : ''"
-            @click="toggle_device"
+              :class="this.darkMode === null ? 'drop-down-item' : ''"
+              @click="toggle_device"
           >
             Follow Device Theme
           </b-dropdown-item>
@@ -90,22 +92,22 @@
         <!-- If user has not logged in -->
         <template v-else>
           <b-button
-            id="login-button"
-            v-b-modal.login-modal
-            size="sm"
-            variant="secondary"
-            class="mr-md-2"
+              id="login-button"
+              v-b-modal.login-modal
+              size="sm"
+              variant="secondary"
+              class="mr-md-2"
           >
             Log In
           </b-button>
 
           <b-modal
-            id="login-modal"
-            ref="login-modal"
-            hide-footer
-            title="Log In"
+              id="login-modal"
+              ref="login-modal"
+              hide-footer
+              title="Log In"
           >
-            <LoginForm @submit="onLogIn()" />
+            <LoginForm @submit="onLogIn()"/>
           </b-modal>
         </template>
       </b-navbar-nav>
@@ -121,9 +123,9 @@ import {
   SAVE_DARK_MODE,
   RESET_DARK_MODE,
 } from "@/store";
-import { mapState, mapActions, mapGetters } from "vuex";
+import {mapState, mapActions, mapGetters} from "vuex";
 import LoginComponent from "@/components/Login";
-import { userTypes } from "../store/modules/user";
+import {userTypes} from "../store/modules/user";
 // import router from "@/routes";
 export default {
   name: "Header",
@@ -153,14 +155,14 @@ export default {
 
       //determines the default theme of user (either light or dark)
       const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches;
+          .matches;
 
       //if the button mode user pressed is opposite of the current color, then toggle
       // OR if the user was previously following their device theme and button pressed isn't their device theme, toggle
       if (
-        (mode === false && this.darkMode === true) ||
-        (mode === true && this.darkMode === false) ||
-        (this.darkMode == null && mode !== deviceTheme)
+          (mode === false && this.darkMode === true) ||
+          (mode === true && this.darkMode === false) ||
+          (this.darkMode == null && mode !== deviceTheme)
       ) {
         this.$store.commit(TOGGLE_DARK_MODE);
         this.$store.commit(SAVE_DARK_MODE);
@@ -219,10 +221,10 @@ export default {
       isLoggedIn: userTypes.getters.IS_LOGGED_IN,
       user: userTypes.getters.CURRENT_USER_INFO,
     }),
-    ...mapState({ sessionId: userTypes.state.SESSION_ID }),
+    ...mapState({sessionId: userTypes.state.SESSION_ID}),
     ...mapState(["semesters", "selectedSemester"]),
     semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
+      return this.semesters.map(({semester}) => ({
         text: semester,
         value: semester,
       }));
@@ -240,24 +242,29 @@ export default {
     margin-top: $spacer * 0.25;
   }
 }
+
 #header {
   .navbar-brand {
     font-size: 25px;
     font-weight: bold;
   }
+
   .nav-item {
     text-align: center;
   }
+
   .navbar-nav {
     font-size: 17px;
     font-weight: normal;
   }
+
   // centering of the dark mode toggle
   .inline-form,
   .form-inline {
     justify-content: center;
   }
 }
+
 //highlight current page in the navbar using class built into vue router
 .nav-item:not(.first) .router-link-active {
   border-radius: 5px;
@@ -270,10 +277,12 @@ export default {
   padding: calc(8px - 0.2em);
   border: 0.2em solid var(--dark-blue-secondary);
 }
+
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
   color: var(--dark-text-primary) !important;
 }
+
 .drop-down-item {
   background: hsl(211, 100%, 60%) !important;
 }
