@@ -116,7 +116,6 @@
 <script>
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
-import {SelectedCoursesCookie} from "../controllers/SelectedCoursesCookie";
 
 
 export default {
@@ -146,14 +145,7 @@ export default {
     };
   },
   mounted() {
-     try {
     this.initCourseOptions();
-    this.loadSelectedCoursesFromCookie();
-    console.log("coursesOnSchedule: ", this.coursesOnSchedule);
-    console.log("selectedCourses: ", this.selectedCourses);
-  } catch (error) {
-    console.error("An error occurred in the mounted() hook:", error);
-  }
   },
   methods: {
     formatExamDateTime(day, time) {
@@ -205,7 +197,6 @@ export default {
         this.selectedCourses.push(currCourse);
       }
       this.currCourse = null;
-      console.log(this.selectedCourses);
     },
     searchExams() {
       const examDetailsRaw = this.selectedCourses.flatMap((course) => {
@@ -263,11 +254,8 @@ export default {
 
       this.examDetails = Object.values(examDetailsGrouped);
 
-      console.log(this.examDetails);
     },
     deleteCourses() {
-      console.log(this.selectedCourses);
-      console.log(this.selectToDelete);
       for (let i = 0; i < this.selectToDelete.length; i++) {
         let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
         this.selectedCourses.splice(index, 1);
@@ -287,26 +275,6 @@ export default {
           return !this.selectedCourses.includes(option.value);
         }
       });
-    },
-    loadSelectedCoursesFromCookie() {
-      this.coursesOnSchedule = SelectedCoursesCookie.load(this.$cookies);
-      const groupedCourses = [];
-      for(let i = 0; i< this.coursesOnSchedule.length; i++){
-        const exam = this.coursesOnSchedule[i].$cookies._selectedSemesters[0];
-        const key =
-            exam.Department + " - " + exam.CourseCode + " - " + exam.Section;
-        if (!groupedCourses[key]) {
-          groupedCourses[key] = {
-            value: exam,
-            text: key,
-          };
-        } else if (exam.Section === "ALL SECTIONS") {
-          groupedCourses[key].value.Room += ", " + exam.Room;
-        }
-      }
-      console.log("GROUPED COURSES",groupedCourses);
-      //this.courseOptions = Object.values(groupedCourses);
-      this.selectedCourses.concat(Object.values(groupedCourses));
     },
   },
 };
