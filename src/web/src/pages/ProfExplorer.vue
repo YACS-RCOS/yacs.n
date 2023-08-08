@@ -33,11 +33,11 @@
     
     <template>
       <div class="search-bar-container">
-        <input type="text" v-model="searchQuery" placeholder="Search by name or subject">
-        <button @click="searchProfessors"> <font-awesome-icon icon="search" /> </button>
+        <input type="text" v-model="searchQuery" @keyup.enter="goPage(filteredProfessors[0])" placeholder="Search by name or subject">
+        <button @click="goPage(filteredProfessors[0])" > <font-awesome-icon icon="search" /> </button>
         <div v-if="searchQuery.length == 0"></div>
         <ul v-else>
-          <div class = "result" v-for="professor in filteredProfessors" :key="professor.Name">{{ professor.Name }}</div>
+          <div class = "result" v-for="professor in filteredProfessors" :key="professor.Name" @click="goPage(professor)" >{{ professor.Name }} - {{ professor.Department }}</div>
         </ul>
       </div>
     </template>
@@ -355,11 +355,12 @@ export default {
       return ret;
     },
     filteredProfessors() {
-      const query = this.searchQuery;
+      const query = this.searchQuery.toLowerCase();
+      console.log(query);
       return this.professors.filter(
         professor =>
-          professor.Name.includes(query) ||
-          professor.Department.includes(query)
+          professor.Name.toLowerCase().includes(query) ||
+          professor.Department.toLowerCase().includes(query)
       );
     },
   },
@@ -387,10 +388,15 @@ export default {
       this.$router.push("/professor/" + rcs);
     },
     searchProfessors() {
+      professor = this.filteredProfessors[0];
+      console.log(professor);
+      var rcs = professor["Email"].replace("@rpi.edu", "");
+      this.$router.push("/professor/" + rcs);
     },
   },
 };
 </script>
+
 
 <style>
 .gridContainer {
@@ -418,6 +424,7 @@ export default {
 
 .professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+
 }
 
 .search-bar-container {
@@ -445,11 +452,16 @@ export default {
 .search-bar-container .result{
   color: white;
   background-color: rgba(108, 90, 90, 0.15);
-  margin-left: 10%;
-  width: 71.8%;
+  margin-left: 133px;
+  width: 72%;
   padding: 10px;
   border: 2px solid;
-  border-color: hsl(211, 100%, 60%);;
+  border-color: rgba(108, 90, 90, 0.15);
+  
+}
+.search-bar-container .result:hover{
+  color: hsl(211, 100%, 60%);
+  cursor: pointer;
 }
 
 
