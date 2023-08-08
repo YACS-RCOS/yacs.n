@@ -168,12 +168,12 @@
         console.log(this.result);
       },
       removePathway() {
-        console.log("remove_pathway");
+        console.log("removePathway");
         this.result = removePathway(this.course);
         console.log(this.result);
       },
       removeCourse() {
-        console.log("remove_course");
+        console.log("removeCourse");
         this.result = removePathway(this.course);
         console.log(this.result);
       },
