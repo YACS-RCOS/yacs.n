@@ -77,6 +77,10 @@
           </div>
           
           <div class="column-center" ref="columnCenter">
+            <div v-if="degree == ''">
+              Please select your degree:
+              <CatalogTree :nodes="degrees" :label="''" :depth="0"></CatalogTree>
+            </div>
 
             <div class="requirements-orggrid">
               <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirement_groups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
@@ -133,8 +137,7 @@
           </div>
 
           <div class="column-right">
-            highlighted: {{ highlightedFulfillment }}
-            deletion: {{ scheduleDeletionPrompt }}
+            highlighted: {{ highlightedFulfillment }} <br>
             <div>
               <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
             </div>
@@ -165,6 +168,7 @@
 <script>
 
 import SearchBarModal from '../components/SearchBarModal.vue';
+import CatalogTree from '@/components/CatalogTree.vue';
 
   export default {
     data() {
@@ -417,6 +421,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             });
             let data = await response.json();
             this.degrees = data.degrees;
+            console.log(this.degrees)
             await fetch('/api/dp/schedule', {
                 method: 'POST',
                 headers: {
@@ -616,7 +621,7 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         await this.fetch_data();
         this.course_inputs = new Array(this.SEM_MAX).fill('');
     },
-    components: { SearchBarModal }
+    components: { SearchBarModal, CatalogTree }
 };
 </script>
   
