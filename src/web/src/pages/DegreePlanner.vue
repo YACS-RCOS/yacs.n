@@ -82,9 +82,9 @@
                         <h5>{{ recommendation.specifications }}</h5>
                       </div>
                       <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                        <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)">
-                          <font color = #a9a9a9> {{ course }} </font>
-                        </button>
+                          <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="recommendedDrag($event, course)">
+                              <font color="#a9a9a9"> {{ course }} </font>
+                          </button>
                       </div>
                       <br>
                     </div>
@@ -195,12 +195,19 @@
       schedulerDrop(event, dragToSemester) {
         event.preventDefault();
         if (this.dragElement != null) {
-          this.remove(this.dragFromSemester, this.dragElement, false, false);
-          this.add(dragToSemester, this.dragElement, false, false);
+            // Check if the dragged element is from recommended classes
+            if (this.dragFromSemester === -1) {
+                // Remove the course from recommendations
+                this.removeRecommended(this.dragElement);
+            } else {
+                this.remove(this.dragFromSemester, this.dragElement, false, false);
+            }
+            this.add(dragToSemester, this.dragElement, false, false);
         }
         this.hoverCounter--;
         this.hoverOverSemester = -1;
-      },
+    },
+
 
       schedulerDragEnter(event, hoverOverSemester) {
         event.preventDefault();
@@ -212,6 +219,33 @@
         this.hoverCounter--;
         if (this.hoverCounter == 0) {
           this.hoverOverSemester = -1;
+        }
+      },
+
+      recommendedDrag(event, course) {
+        this.dragElement = course;
+        event.dataTransfer.effectAllowed = "move";
+      },
+
+      recommendedDrop(event, course, dragToSemester) {
+        this.dragElement
+        event.preventDefault();
+        if (this.dragElement != null) {
+          this.remove(this.dragFromSemester, this.dragElement, false, false);
+          this.add(dragToSemester, this.dragElement, false, false);
+        }
+        this.hoverCounter--;
+        this.hoverOverSemester = -1;
+      },
+
+      removeRecommended(course) {
+        // Find and remove the course from recommendations
+        for (let fulfillmentName in this.recommendations) {
+            const fulfillment = this.recommendations[fulfillmentName];
+            const index = fulfillment.findIndex(item => item.fulfillment_set.includes(course));
+            if (index !== -1) {
+                fulfillment.splice(index, 1);
+            }
         }
       },
 
