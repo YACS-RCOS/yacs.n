@@ -34,29 +34,29 @@ class Professor:
         else:
             return False, "Email cannot be None."
 
-    def add_bulk_professor(self):
-        # Load the JSON data from a file
-        with open('Professors.json') as file:
-            data = json.load(file)
+    # def add_bulk_professor(self):
+    #     # Load the JSON data from a file
+    #     with open('Professors.json') as file:
+    #         data = json.load(file)
 
-        # Connect to the SQL database
-        conn = self.db.get_connection()
+    #     # Connect to the SQL database
+    #     conn = self.db.get_connection()
 
-        # Loop through each professor record in the JSON data
-        for record in data:
-            professor = Professor(email=record['Email'],
-                                name=record['Name'],
-                                phone_number=record['Phone'],
-                                department=record['Department'],
-                                portfolio=record['Portfolio'],
-                                office_hours_time='',
-                                rcs='')
-            conn.add(professor)
+    #     # Loop through each professor record in the JSON data
+    #     for record in data:
+    #         professor = Professor(email=record['Email'],
+    #                             name=record['Name'],
+    #                             phone_number=record['Phone'],
+    #                             department=record['Department'],
+    #                             portfolio=record['Portfolio'],
+    #                             office_hours_time='',
+    #                             rcs='')
+    #         conn.add(professor)
 
-        # Commit the changes to the database
-        conn.commit()
-        self.clear_cache()
-        return (True,None)
+    #     # Commit the changes to the database
+    #     conn.commit()
+    #     self.clear_cache()
+    #     return (True,None)
 
     def populate_from_json(self, json_data):
         # Connect to the database
@@ -175,17 +175,6 @@ class Professor:
                         email = %s
                 """
             return self.db_conn.execute(sql, (email,), True)
-        # if email is not None:
-        #     sql = """
-        #             select 
-        #                 * 
-        #             from 
-        #                 professor 
-        #             where 
-        #                 email = %s 
-        #         """ % email
-        #     email, error = self.db_conn.execute( sql, None, True)
-        #     return (email, None) if not error else (False, error)
 
     #seraches professors who are in a certain department
     def get_professors_by_department(self,department): 
@@ -235,7 +224,6 @@ class Professor:
             return (phone_number, None) if not error else (False, error)
 
     def get_professor_name_by_email(self, email):
-        #NEEDS TESTING after change
         if email is not None:
             sql = """
             SELECT

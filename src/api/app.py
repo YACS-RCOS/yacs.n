@@ -185,7 +185,6 @@ async def uploadJSON(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):  
     # Check to make sure the user has sent a file
-    print("in process")
     if not file:
         return Response("No file received", 400)
     
@@ -204,17 +203,8 @@ async def uploadJSON(
     except json.JSONDecodeError as e:
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
-    # Update semester infos based on isPubliclyVisible, hiding semester if needed
-    # professors = pd.read_json(json_data)
-    
-    # Populate DB from JSON
-    #professor_info.bulk_delete(json_data)
-    
-    print("TESTING")
-    print("START DUMPING")
     # Call populate_from_json method
     isSuccess, error = professor_info.populate_from_json(json_data)
-    print("SUCCESS DOES IT WORK?:",isSuccess, )
     if isSuccess:
         print("SUCCESS")
         return Response(status_code=200)
