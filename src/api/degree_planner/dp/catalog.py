@@ -1,6 +1,7 @@
 from .element import Element
 from .template import Template
 from ..io.output import Output
+from ..math.attributes import Attributes
 
 
 class Catalog():
@@ -12,6 +13,18 @@ class Catalog():
         self.tags = dict()
 
         self.debug = Output(Output.OUT.DEBUG)
+
+
+    def compile_template_attributes(self):
+        print(f'compiling attributes for all templates in catalog:')
+        attributes = Attributes()
+        for template in self.get_templates():
+            attributes = attributes + template.compile_attributes()
+
+        directory = attributes.to_directory()
+        print(f'directory: {directory}')
+        return directory
+            
 
     def add(self, items):
         '''add an element or template or an iterable of elements/templates'''

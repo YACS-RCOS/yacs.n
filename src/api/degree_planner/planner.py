@@ -129,6 +129,10 @@ class Planner():
                 objects
         '''
         return user.get_schedule_names()
+    
+    def degrees(self) -> dict:
+        degrees_directory = self.catalog.compile_template_attributes()
+        return degrees_directory
 
     def set_degree(self, user:User, degree_name:str) -> bool:
         ''' Changes user's active schedule's degree

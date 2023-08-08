@@ -1,9 +1,18 @@
+from ..math.attributes import Attributes
+
 class Template():
 
     def __init__(self, name):
         self.name = name
         self.requirements = list()
         self.groups = list()
+        self.attributes = Attributes()
+
+    def compile_attributes(self):
+        attributes = Attributes()
+        for attr in self.attributes.attributes_full_str_to_list.keys():
+            attributes.add_attribute(f"{attr}.{self.name}")
+        return attributes
 
     def __str__(self):
         return self.name

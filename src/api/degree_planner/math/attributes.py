@@ -3,6 +3,28 @@ class Attributes():
     def __init__(self):
         self.attributes_head_to_body_str = dict()
         self.attributes_full_str_to_list = dict()
+
+        self.DIR_ITEMS_CATEGORY = "$items"
+
+    def to_directory(self):
+        directory = dict()
+        for item in self.attributes_full_str_to_list.values():
+            self.to_directory_add_item(directory, item)
+        return directory
+
+    def to_directory_add_item(self, directory, item:list):
+        directory_traversal = directory
+        for i in range(len(item) - 1):
+            if item[i] not in directory_traversal:
+                directory_traversal.update({item[i]:{}})
+            directory_traversal = directory_traversal[item[i]]
+        
+        items_list = directory_traversal.get(self.DIR_ITEMS_CATEGORY, [])
+        #print(f"directory: {directory} traversal: {directory_traversal} items_list: {items_list} item: {item[-1]}")
+        items_list.append(item[-1])
+        items_list.sort()
+        directory_traversal.update({"$items":items_list})
+        #print(f"directory after: {directory} traversal: {directory_traversal} items_list: {items_list} item: {item[-1]}")
     
     def add_attribute(self, attr:str):
         attr = attr.casefold()
@@ -91,6 +113,14 @@ class Attributes():
             if head not in other.attributes_full_str_to_list:
                 return False
         return True
+    
+    def __add__(self, other):
+        attributes = Attributes()
+        for attr in self.attributes_full_str_to_list.keys():
+            attributes.add_attribute(attr)
+        for attr in other.attributes_full_str_to_list.keys():
+            attributes.add_attribute(attr)
+        return attributes
     
     def __iter__(self):
         for attr in self.attributes_full_str_to_list.keys():

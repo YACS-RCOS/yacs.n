@@ -172,7 +172,8 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             loading: true,
             main_loading: true,
             userid: 'testuser',
-            degree: 'computer science',
+            degree: '',
+            degrees: {},
             schedules: [],
             new_schedule_input: '',
             renaming_schedule_input: '',
@@ -406,15 +407,22 @@ import SearchBarModal from '../components/SearchBarModal.vue';
         },
         async newuser() {
             let userid = this.userid;
-            let degree = this.degree;
             let schedule_name = this.schedule_name;
-            let courses = {};
-            await fetch('/api/dp/newuser', {
+            const response = await fetch('/api/dp/newuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userid, degree, schedule_name, courses }),
+                body: JSON.stringify(userid),
+            });
+            let data = await response.json();
+            this.degrees = data.degrees;
+            await fetch('/api/dp/schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userid, schedule_name}),
             });
         },
         async get_fulfillment(attributes_replacement = null) {
@@ -501,6 +509,16 @@ import SearchBarModal from '../components/SearchBarModal.vue';
             });
             this.courses = await response.json();
             this.$refs.searchModal.importCourses(this.courses);
+        },
+        async setDegree(degree_name) {
+          let userid = this.userid;
+          await fetch('/api/dp/setdegree', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({userid, degree_name}),
+          });
         },
         promptDeleteSchedule(schedule) {
           document.removeEventListener('click', this.handleClickOutside);

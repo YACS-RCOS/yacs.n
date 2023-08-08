@@ -117,6 +117,11 @@ class parsing():
                     group_credit_requirements.update({template_name:template_group_credit_requirements})
                     continue
 
+                if requirement_name == 'attributes':
+                    for attribute in requirement_properties:
+                        template.attributes.add_attribute(attribute)
+                    continue
+
                 # templates within degree
                 requirement = Requirement(requirement_name)
                 requirement.importance = requirement_importance_counter

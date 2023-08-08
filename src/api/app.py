@@ -103,18 +103,19 @@ def is_admin_user(session):
     return False
 
 @app.post('/api/dp/newuser')
-async def dp_create_user(userid:str = Body(...), degree:str = Body(...), schedule_name:str = Body(...), courses:Dict[str, str] = Body(...)):
+async def dp_create_user(userid:str = Body(...)):
     planner.add_user(userid)
+
+    return {"degrees":planner.degrees()}
+
+
+@app.post('api/dp/setdegree')
+async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
     user = planner.get_user(userid)
-
-    query = ''
-    for course, semester in courses.items():
-        query += f'add, {semester}, {course},'
-    Command_Handler.input(planner, user, f'schedule, {schedule_name}')
-    Command_Handler.input(planner, user, query)
-    Command_Handler.input(planner, user, f'degree, {degree}')
-
-    return Response(content="added user successfully", status_code=200)
+    if user is None:
+        return Response(content="user not found")
+    
+    planner.set_degree(user, degree_name)
 
 
 @app.post('/api/dp/users/command')
@@ -276,6 +277,8 @@ async def dp_get_recommendation(userid:str):
     while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
         await asyncio.sleep(1)
         print(f'waiting for recommendation...  queued: {recommendation_results.get(userid, None) is not None}')
+        if recommendation_results.get(userid, None) is None:
+            return dict()
         i+=1
         if i > 20:
             print('timeout')

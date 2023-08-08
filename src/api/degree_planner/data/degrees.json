@@ -5,6 +5,7 @@
         }
     },
     "mechanical engineering":{
+        "attributes": ["Single Major.School of Engineering"],
         "engr - Introduction to Engineering Analysis": {
             "requires": 1,
             "replacement": false,
@@ -102,6 +103,7 @@
         }
     },
     "electrical engineering": {
+        "attributes": ["Single Major.School of Engineering"],
         "Core - Intro to ECSE": {
             "specifications":"subject.ecse & course_id.1010"
         },
@@ -213,6 +215,7 @@
             "Math": {"credits": 8, "oasis": true},
             "HASS": {"credits": 12, "oasis": true}
         },
+        "attributes": ["Single Major.School of Science"],
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
