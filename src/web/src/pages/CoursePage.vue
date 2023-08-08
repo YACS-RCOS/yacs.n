@@ -28,6 +28,11 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
+      <b-button
+        variant="primary"
+        @click="toggleCourse(course);"
+      > Info
+      </b-button>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
@@ -57,9 +62,19 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
-import { generateRequirementsText } from "@/utils";
+// import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+// import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+
+// import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import { getCourses } from "@/services/YacsService";
+
+// import {
+//   addStudentCourse,
+//   getStudentCourses,
+//   removeStudentCourse,
+// } from "@/services/YacsService";
 
 export default {
   components: {
@@ -90,7 +105,184 @@ export default {
     };
   },
   methods: {
-    generateRequirementsText,
+    toggleCourse(course) {
+      console.log(course);
+      // if (course.selected) {
+      //   this.removeCourse(course);
+      // } else {
+      //   this.addCourse(course);
+      // }
+    },
+    // async loadStudentCourses() {
+    //   if (!this.courses.length) {
+    //     return;
+    //   }
+
+    //   this.scheduler = new SubSemesterScheduler();
+    //   // Filter out "full" subsemester
+    //   this.subsemesters
+    //     .filter(
+    //       (s, i, arr) =>
+    //         arr.length == 1 ||
+    //         !arr.every((o, oi) => oi == i || withinDuration(s, o))
+    //     )
+    //     .forEach((subsemester) => {
+    //       this.scheduler.addSubSemester(subsemester);
+    //     });
+
+    //   if (this.scheduler.scheduleSubsemesters.length > 0) {
+    //     this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+    //   }
+
+    //   // Need to reset `selected` property on courses and sections,
+    //   // two sources of truth ugh
+    //   Object.values(this.selectedCourses).forEach((course) => {
+    //     course.selected = false;
+
+    //     course.sections
+    //       .filter((section) => section.selected)
+    //       .forEach((section) => (section.selected = false));
+    //   });
+    //   this.selectedCourses = {};
+
+    //   if (this.isLoggedIn) {
+    //     var cids = await getStudentCourses();
+
+    //     cids.forEach((cid) => {
+    //       if (cid.semester == this.selectedSemester) {
+    //         var c = this.courses.find(function (course) {
+    //           return (
+    //             course.name == cid.course_name &&
+    //             course.semester == cid.semester
+    //           );
+    //         });
+
+    //         if (cid.crn != "-1") {
+    //           var sect = c.sections.find(function (section) {
+    //             return section.crn == cid.crn;
+    //           });
+    //           sect.selected = true;
+    //         } else {
+    //           c.selected = true;
+    //           this.$set(this.selectedCourses, c.id, c);
+    //         }
+    //       }
+    //     });
+    //   } else {
+    //     const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+    //     try {
+    //       selectedCoursesCookie
+    //         .semester(this.selectedSemester)
+    //         .selectedCourses.forEach((selectedCourse) => {
+    //           const course = this.courses.find(
+    //             (course) => course.id === selectedCourse.id
+    //           );
+
+    //           this.$set(this.selectedCourses, course.id, course);
+    //           course.selected = true;
+
+    //           selectedCourse.selectedSectionCrns.forEach(
+    //             (selectedSectionCrn) => {
+    //               const section = course.sections.find(
+    //                 (section) => section.crn === selectedSectionCrn
+    //               );
+
+    //               section.selected = true;
+    //             }
+    //           );
+    //         });
+    //     } catch (err) {
+    //       // If there is an error here, it might mean the data was changed,
+    //       //  thus we need to reload the cookie
+    //       selectedCoursesCookie.clear().save();
+    //     }
+    //   }
+
+    //   const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
+
+    //   try {
+    //     this.index = selectedIndexCookie.semester(
+    //       this.selectedSemester
+    //     ).selectedIndex;
+    //   } catch (err) {
+    //     // If there is an error here, it might mean the data was changed,
+    //     //  thus we need to reload the cookie
+    //     selectedIndexCookie.clear().save();
+    //   }
+    //   this.loadedIndexCookie = 1;
+    // },
+    // addCourse(course) {
+    //   this.$set(this.selectedCourses, course.id, course);
+    //   course.selected = true;
+    //   if (this.isLoggedIn) {
+    //     addStudentCourse({
+    //       name: course.name,
+    //       semester: this.selectedSemester,
+    //       cid: "-1",
+    //     });
+    //   } else {
+    //     SelectedCoursesCookie.load(this.$cookies)
+    //       .semester(this.selectedSemester)
+    //       .addCourse(course)
+    //       .save();
+    //   }
+    //   course.sections.forEach((section) =>
+    //     this.addCourseSection(course, section)
+    //   );
+    // },
+    // addCourseSection(course, section) {
+    //   section.selected = true;
+    //   if (this.isLoggedIn) {
+    //     addStudentCourse({
+    //       name: course.name,
+    //       semester: this.selectedSemester,
+    //       cid: section.crn,
+    //     });
+    //   } else {
+    //     SelectedCoursesCookie.load(this.$cookies)
+    //       .semester(this.selectedSemester)
+    //       .addCourseSection(course, section)
+    //       .save();
+    //   }
+    // },
+    // removeCourse(course) {
+    //   this.$delete(this.selectedCourses, course.id);
+    //   course.selected = false;
+
+    //   course.sections.forEach((section) => this.removeCourseSection(section));
+
+    //   if (this.isLoggedIn) {
+    //     removeStudentCourse({
+    //       name: course.name,
+    //       semester: this.selectedSemester,
+    //       cid: null,
+    //     });
+    //   } else {
+    //     SelectedCoursesCookie.load(this.$cookies)
+    //       .semester(this.selectedSemester)
+    //       .removeCourse(course)
+    //       .save();
+    //   }
+    // },
+    // removeCourseSection(section) {
+    //   if (section.selected) {
+    //     section.selected = false;
+
+    //     if (this.isLoggedIn) {
+    //       removeStudentCourse({
+    //         name: section.department + "-" + section.level,
+    //         semester: this.selectedSemester,
+    //         cid: section.crn,
+    //       });
+    //     } else {
+    //       SelectedCoursesCookie.load(this.$cookies)
+    //         .semester(this.selectedSemester)
+    //         .removeCourseSection(section)
+    //         .save();
+    //     }
+    //   }
+    // },
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
@@ -124,6 +316,14 @@ export default {
     },
     courseObj() {
       return this.courses.find((course) => course.name === this.courseName);
+    },
+    semesterCourse() {
+      getCourses(this.selectedSemester, null, false).then(
+        (course_list) => {
+          console.log(course_list);
+          return course_list[0];
+        }
+      );
     },
     getCredits() {
       var credits;
