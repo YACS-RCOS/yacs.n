@@ -4,7 +4,7 @@
 
     <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
-      <b-button 
+      <b-button
         class="button"
         @click="listAlphabet()"
         style="
@@ -93,8 +93,7 @@
               </b-row>
             </b-col>
           </b-row>
-        </b-col>      
-        
+        </b-col>
       </b-row>
     </div>
     <CenterSpinner
@@ -169,13 +168,14 @@ export default {
     },
 
     // similar to schoolDepartmentObjects() but creating two columns
-    // of departments separated by alphabetical letters 
+    // of departments separated by alphabetical letters
     alphDepartmentObjects() {
-      let keyArr = Object.entries(this.alphDeptDict)
-        .map((alphDepartmentMapping) => ({
+      let keyArr = Object.entries(this.alphDeptDict).map(
+        (alphDepartmentMapping) => ({
           letter: alphDepartmentMapping[0],
           departments: alphDepartmentMapping[1],
-        }))
+        })
+      );
       let columnArr = [[], []];
       // separates into two columns based on number of letters
       for (let i = 0; i < keyArr.length; i++) {
@@ -213,10 +213,10 @@ export default {
 
     // similar to schoolsMajorDict() and deptClassDict()
     // map/set with a set of departments for each alphabetical letter
-    alphDeptDict(){
+    alphDeptDict() {
       let alphDeptDict = {};
-      for (const c of this.courses){
-        if (!alphDeptDict[c.department[0]]){
+      for (const c of this.courses) {
+        if (!alphDeptDict[c.department[0]]) {
           alphDeptDict[c.department[0]] = new Set();
         }
         alphDeptDict[c.department[0]].add(c.department);
@@ -269,5 +269,4 @@ export default {
 .button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
-
 </style>
