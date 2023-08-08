@@ -60,7 +60,7 @@
       <button @click="addProfTest()" class="btn btn-success">
         Add Prof Test
       </button>
-      <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button>
+      <!-- <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button> -->
       <button @click="removeProf()" class="btn btn-danger">Remove Prof</button>
       <button @click="BulkDelete()" class="btn btn-danger">Bulk Delete</button>
     </section>
@@ -134,9 +134,9 @@ export default {
       this.result = addProfessorsTest();
       console.log(this.result);
     },
-    BulkAdd() {
-      console.log("BulkAdd");
-    },
+    // // BulkAdd() {
+    // //   console.log("BulkAdd");
+    // },
     BulkDelete() {
       console.log("BulkDelete");
     },
