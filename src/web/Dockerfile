@@ -1,8 +1,10 @@
 FROM node:13-alpine as develop-stage
 WORKDIR /app
 
-RUN apk update && \
-    apk add --no-cache certbot python3-certbot-nginx
+RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install certbot
 
 COPY package*.json ./
 RUN npm install
