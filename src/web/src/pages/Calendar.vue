@@ -320,7 +320,7 @@ $hourFontSize: 0.5em;
   margin: 0 auto;
   margin-bottom: 3px;
   text-align: center;
-  font-size: 0.85vw;
+  font-size: 0.8em;
   font-variant: small-caps;
 }
 
