@@ -38,6 +38,7 @@
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
           md="6"
+          v-show="cateShow"
         >
           <b-row
             v-for="deptObj in deptCol"
@@ -129,9 +130,19 @@ export default {
           text: "Explore",
         },
       ],
+      cateShow: true,
+      alphShow: false,
     };
   },
   methods: {
+    listAlphabet() {
+      this.cateShow = false;
+      this.alphShow = true;
+    },
+    listDept() {
+      this.cateShow = true;
+      this.alphShow = false;
+    },
     generateRequirementsText,
   },
   computed: {
@@ -187,6 +198,7 @@ export default {
       }
       return schoolsMajorDict;
     },
+
     deptClassDict() {
       let deptClassDict = {};
       for (const c of this.courses) {
