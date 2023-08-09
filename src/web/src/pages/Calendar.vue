@@ -170,7 +170,7 @@ export default {
           }
         }
       }
-      // The conflicting exam date and time should be shown here as well with
+      // The conflicting exam date and time should be shown here as well with 
       // a pop up that shows which exams are conflicting and when.
       return conflicts.size > 0;
     },
