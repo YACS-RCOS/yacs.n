@@ -109,6 +109,7 @@ export default {
         STU: "Studio",
         null: "No Type",
       },
+      
     };
   },
   methods: {
@@ -153,6 +154,9 @@ export default {
     mapSessionType(type) {
       return this.sessionTypes[type] == null ? type : this.sessionTypes[type];
     },
+
+   
+    
   },
   computed: {
     hasConflict() {
@@ -271,6 +275,7 @@ export default {
     hourHeight() {
       return (60 * 100) / this.numMinutes;
     },
+
   },
   watch: {
     possibility(val) {
@@ -279,6 +284,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <style scoped lang="scss">
