@@ -1,5 +1,8 @@
 FROM node:13-alpine as develop-stage
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y certbot python3-certbot-nginx
+
 COPY package*.json ./
 RUN npm install
 COPY ./ .
