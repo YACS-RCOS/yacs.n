@@ -77,62 +77,64 @@
           </div>
           
           <div class="column-center" ref="columnCenter">
-            <div class="center-top-row">
-              <div ref="degreeSelect" style="width: 180px">
-                <button class="toggle-degree-selection-button" @click="toggleDegreeSelectionMenu">Degree Selection</button>
-                <div class="degree-selection-menu" v-if="openedDegreeSelectionMenu">
-                  <CatalogTree style="width: 50vw; margin-top: -10px" :nodes="degrees" :label="''" :depth="0" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="degree => setDegree(degree)"></CatalogTree>
+            <div v-if="schedule_name != ''">
+              <div class="center-top-row">
+                <div ref="degreeSelect" style="width: 180px">
+                  <button class="toggle-degree-selection-button" @click="toggleDegreeSelectionMenu">Degree Selection</button>
+                  <div class="degree-selection-menu" v-if="openedDegreeSelectionMenu">
+                    <CatalogTree style="width: 50vw; margin-top: -10px" :nodes="degrees" :label="''" :depth="0" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="degree" @setDegree="degree => setDegree(degree)"></CatalogTree>
+                  </div>
+                </div>
+                <div v-if="recommending" style="color: #727d80">
+                  ...loading recommendations
                 </div>
               </div>
-              <div v-if="recommending" style="color: #727d80">
-                ...loading recommendations
-              </div>
-            </div>
 
-            <div class="requirements-orggrid">
-              <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirement_groups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
-                <div v-if="true">
-                  <div class="group-heading">
-                    <span class="group-title"> {{ group.name }} </span> 
-                    <span v-if="group.minimum_requirements.credits > 0" 
-                      v-bind:class="{'group-credit-stats-fulfilled':get_tallied_amount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':get_tallied_amount(group.name, 'credits') < group.minimum_requirements.credits}">
-                      <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
-                  </div>
-                  <div v-for="(requirement, index) in group.requirements" :key="index">
-                    
-                    <div v-if="Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
-                      <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
-                        <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
-                          <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
-                            {{ format_alternative(alternative_choice) }}
+              <div class="requirements-orggrid">
+                <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirement_groups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
+                  <div v-if="true">
+                    <div class="group-heading">
+                      <span class="group-title"> {{ group.name }} </span> 
+                      <span v-if="group.minimum_requirements.credits > 0" 
+                        v-bind:class="{'group-credit-stats-fulfilled':get_tallied_amount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':get_tallied_amount(group.name, 'credits') < group.minimum_requirements.credits}">
+                        <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
+                    </div>
+                    <div v-for="(requirement, index) in group.requirements" :key="index">
+                      
+                      <div v-if="Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
+                        <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
+                          <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
+                            <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
+                              {{ format_alternative(alternative_choice) }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
+                        <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
+                          <div class="req-fulfillment-text">
+                            <span class="req-fulfillment-name"> {{ format_fulfillment_name(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
+                          </div>
+                        </div>
+
+                        <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
+                          <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                            &#10148; {{ course }}
                           </button>
                         </div>
                       </div>
-                    </div>
 
-                    <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
-                      <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
-                        <div class="req-fulfillment-text">
-                          <span class="req-fulfillment-name"> {{ format_fulfillment_name(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
-                        </div>
-                      </div>
-
-                      <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
-                        <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                          &#10148; {{ course }}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="req-recommendations" v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
-                      <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
-                        <div v-if="recommendations[requirement].length > 1">
-                          <h5>{{ recommendation.specifications }}</h5>
-                        </div>
-                        <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                          <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
-                            <font color = #a9a9a9> {{ course }} </font>
-                          </button>
+                      <div class="req-recommendations" v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
+                        <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
+                          <div v-if="recommendations[requirement].length > 1">
+                            <h5>{{ recommendation.specifications }}</h5>
+                          </div>
+                          <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
+                            <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
+                              <font color = #a9a9a9> {{ course }} </font>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -191,7 +193,8 @@ import CatalogTree from '@/components/CatalogTree.vue';
             renaming_schedule_input: '',
             renaming_schedule: '',
             schedule_button_index: -1,
-            schedule_name: "new schedule",
+            schedule_name: '',
+            defaultScheduleName: 'my schedule',
             scheduleDeletionPrompt: false,
             courses: [],
             cmdInput: '',
@@ -283,6 +286,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
         handleClickOutside(event) {
           // Check if the clicked element is outside both the input box and the results list
           if (
+            this.activeSemester >= 0 &&
             this.$refs['addButton${index}'][this.activeSemester] &&
             !this.$refs['addButton${index}'][this.activeSemester].contains(event.target) &&
             this.$refs.searchModalContainer &&
@@ -290,7 +294,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
           ) {
             this.toggleSearchModal(false);
           }
-          if (this.$refs['renameSchedule'][this.schedule_button_index] && !this.$refs['renameSchedule'][this.schedule_button_index].contains(event.target)) {
+          if (this.schedule_button_index >= 0 && this.$refs['renameSchedule'][this.schedule_button_index] && !this.$refs['renameSchedule'][this.schedule_button_index].contains(event.target)) {
             this.renaming_schedule_input = '';
             this.renaming_schedule = '';
             console.log('clicked outside!!!')
@@ -425,19 +429,30 @@ import CatalogTree from '@/components/CatalogTree.vue';
         },
         async fetch_data(fulfill = true, recommend = true) {
             this.loading = true;
-            this.getSchedules();
+            await this.getSchedules();
+            if (this.schedule_name == '') {
+              let schedule_name = this.defaultScheduleName;
+              let userid = this.userid;
+              await fetch('/api/dp/schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({userid, schedule_name}),
+              });
+              await this.getSchedules();
+            }
             // fetch fulfillment and recommendations
             this.print();
             if (fulfill) {
-                this.get_fulfillment().then(this.delayedFinishedLoading());
+              await this.get_fulfillment().then(this.delayedFinishedLoading());
             }
             if (recommend) {
-                this.get_recommendation();
+              await this.get_recommendation();
             }
         },
         async newuser() {
             let userid = this.userid;
-            let schedule_name = this.schedule_name;
             const response = await fetch('/api/dp/newuser', {
                 method: 'POST',
                 headers: {
@@ -447,14 +462,6 @@ import CatalogTree from '@/components/CatalogTree.vue';
             });
             let data = await response.json();
             this.degrees = data.degrees;
-            console.log(this.degrees)
-            await fetch('/api/dp/schedule', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({userid, schedule_name}),
-            });
         },
         async get_fulfillment(attributes_replacement = null) {
             let userid = this.userid;
@@ -550,7 +557,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
         },
         async setDegree(degree_name) {
           let userid = this.userid;
-          if (degree_name == this.degree) {
+          if (degree_name.toLowerCase() == this.degree.toLowerCase()) {
             return
           }
           this.degree = degree_name;
@@ -619,6 +626,10 @@ import CatalogTree from '@/components/CatalogTree.vue';
           await this.getSchedules();
           if (schedule_name == this.schedule_name && this.schedules.length > 0) {
             await this.setSchedule(this.schedules[0]);
+          }
+          if (this.schedules.length == 0) {
+            this.schedule_name = '';
+            this.courses = [];
           }
         },
 
@@ -726,7 +737,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
   }
   .schedule-selection-button {
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     min-width: 120px;
     border: none;
@@ -744,7 +755,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
 
   .schedule-selection-button-active {
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
     min-width: 120px;
     border: solid 1px #74808a;
@@ -773,7 +784,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
   }
   .schedule-selection-edit {
     border-radius: 8px;
-    font-size: 10px;
+    font-size: 11px;
     width: 16px;
     border: none;
     margin: 1px;
@@ -785,23 +796,27 @@ import CatalogTree from '@/components/CatalogTree.vue';
     background-color: rgba(135, 150, 155, 0.8);
   }
   .edit-schedule-input {
-    font-size: 10px;
+    font-size: 11px;
     color:#89949d;
     width: 70px;
     border: none;
     margin: 1px;
   }
   .new-schedule-input {
-    font-size: 11px;
+    font-size: 12px;
     color:#ced8e0;
     background-color:#3f474e;
-    width: 120px;
+    width: 130px;
     border: none;
     margin: 2px;
-    padding: 1px;
-    padding-right: 2px;
-    padding-left: 2px;
+    padding: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
     border-radius: 4px;
+  }
+  .new-schedule-input::placeholder {
+    color: #cad4db;
+    opacity: 0.7;
   }
   .schedule-deletion-prompt {
     position: absolute;

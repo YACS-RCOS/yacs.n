@@ -4,10 +4,10 @@
             <div v-if="label != itemFlag && label != tagFlag">
                 <div v-for="(next_nodes, node) in nodes" :key="node">
                     <div v-if="node == itemFlag">
-                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                     <div v-if="node != itemFlag" :style="getGridStyle()">
-                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                 </div>
             </div>
@@ -15,26 +15,26 @@
 
         <div v-if="label == itemFlag">
             <div v-for="(item, index) in nodes" :key="index">
-                <button class="degree-button" :style="getElementColor(item, 'backgroundColor', [0, -5, -10, -0.1])" type="button" @click="setDegree(item)">
+                <button v-bind:class="{'degree-button': selectedDegree != item.toLowerCase(), 'degree-button-selected': selectedDegree == item.toLowerCase()}" :style="getElementColor(item, 'backgroundColor', [0, -5, -10, -0.1])" type="button" @click="setDegree(item)">
                     {{ item }}
                 </button>
             </div>
         </div>
 
         <div v-if="depth != 0 && label != itemFlag" class="tree-branch" :style="getElementColor(tag, 'backgroundColor', [0,0,-5,-0.05])">
-            <div class="title" :style="[getElementColor(tag, 'backgroundColor', [0, -5, -20, -0.1]), getElementColor(label, 'color')]" v-if="label != itemFlag && label != tagFlag">
+            <div class="title" :style="getElementColor(label, 'color')" v-if="label != itemFlag && label != tagFlag">
                 {{ label }}
             </div>
             <div v-if="label != itemFlag && label != tagFlag">
                 <div :style="getGridStyle()">
                     <div v-for="(next_nodes, node) in extractNodes()" :key="node">
-                        <catalog-tree class="tree-branch-grid-item" :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree class="tree-branch-grid-item" :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                 </div>
                 <div v-for="(next_nodes, node) in extractItems()" :key="node">
                     <div>
                         <div>
-                            <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="setDegree"></catalog-tree>
+                            <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-    props: ['label', 'tags', 'nodes', 'depth', 'subjectColors', 'subjectGroupColors', 'resolutionDict'],
+    props: ['label', 'tags', 'nodes', 'depth', 'subjectColors', 'subjectGroupColors', 'resolutionDict', 'selectedDegree'],
     name: 'catalog-tree',
     data() {
       return {
@@ -128,6 +128,12 @@ export default {
             }
             else if (element in this.subjectGroupColors) {
                 element_color = this.subjectGroupColors[element];
+            }
+
+            if (element == this.selectedDegree) {
+                spice[1] = spice[1] - 10;
+                spice[2] = spice[2] + 20;
+                spice[3] = spice[3] + 0.1;
             }
 
             // setting the color
@@ -235,5 +241,16 @@ export default {
         border-radius: 12px;
         margin: 1px;
         color: #1f2121;
+    }
+    .degree-button-selected {
+        text-justify: left;
+        font-size: 14px;
+        font-weight: 600;
+        width: 100%;
+        border: solid 2px #9facac;
+        padding: 0px;
+        border-radius: 12px;
+        color: #2d3030;
+        margin: 1px;
     }
 </style>

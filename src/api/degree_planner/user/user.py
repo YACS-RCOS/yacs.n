@@ -52,6 +52,8 @@ class User():
         self.schedules.update({schedule_name : schedule})
 
     def remove_schedule(self, schedule_name) -> None:
+        if self.active_schedule == schedule_name:
+            self.active_schedule = ''
         result = self.schedules.pop(schedule_name, None)
         print(f"attempting to remove schedule {schedule_name}, result: {result}, schedules: {self.schedules}")
 

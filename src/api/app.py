@@ -142,6 +142,9 @@ async def dp_print(userid:str = Body(...)):
     if user is None:
         return Response(content="user not found")
     
+    if user.get_active_schedule() is None:
+        return {'courses': [], 'degree': ''}
+    
     courses_dict = user.get_active_schedule().courses
     course_list = [[]] * 12
     for semester, courses in courses_dict.dictionary.items():
@@ -163,6 +166,7 @@ async def dp_get_schedules(userid:str):
 
     schedules = planner.schedules(user)
     schedules.sort()
+    print(f"{schedules} {user.active_schedule}")
     return [schedules, user.active_schedule]
 
 
@@ -176,6 +180,9 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     user = planner.get_user(userid)
     if user is None:
         return Response(content="user not found")
+    
+    if user.get_active_schedule() is None:
+        return {}
 
     print(f'received wildcard resolution requirements: {attributes_replacement}')
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
@@ -255,7 +262,7 @@ async def dp_begin_recommendation_limited(userid:str):
         print(f'user {userid} not found')
         return Response(content="user not found")
     
-    if user.get_active_schedule().degree is None:
+    if user.get_active_schedule() is None or user.get_active_schedule().degree is None:
         return dict()
 
     taken_courses = user.get_active_schedule().get_courses()

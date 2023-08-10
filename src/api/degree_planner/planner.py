@@ -152,6 +152,10 @@ class Planner():
             self.output.print(f"invalid degree entered: {degree_name}")
             return False
         
+        if user.get_active_schedule() is None:
+            self.output.print(f"no schedule: {degree_name}")
+            return False
+        
         user.get_active_schedule().degree = degree
         self.output.print(f"set your degree to {degree.name}")
         return True
