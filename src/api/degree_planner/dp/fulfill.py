@@ -211,7 +211,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
     '''
     if return_all:
         end = timeit.default_timer()
-        logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
+        #logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
         return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, groups, return_all)
     
     grouped_requirements = group_requirements(requirements)

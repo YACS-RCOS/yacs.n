@@ -27,7 +27,7 @@ class Requirement():
 
         self.recommender_specifications = specifications
         self.hide_recommendations = False
-        self.display = None
+        self.display = False
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
@@ -60,8 +60,12 @@ class Requirement():
             if use_recommender_specifications:
                 good_match, conditions = specification_parsing.attr_fulfills_specification(self.recommender_specifications, element.attributes)
             elif use_original_specifications:
+                if self.original_formatted_specifications is None:
+                    self.original_formatted_specifications = self.specifications
                 good_match, conditions = specification_parsing.attr_fulfills_specification(self.original_formatted_specifications, element.attributes)
             else:
+                if self.specifications is None:
+                    self.specifications = self.original_formatted_specifications
                 good_match, conditions = specification_parsing.attr_fulfills_specification(self.specifications, element.attributes)
             if good_match:
                 for wildcard_orig, wildcard_resol in conditions.items():

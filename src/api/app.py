@@ -118,6 +118,23 @@ async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
     planner.set_degree(user, degree_name.casefold())
 
 
+@app.post('/api/dp/add')
+async def dp_add_course(userid:str = Body(...), semester:int = Body(...), course:str = Body(...)):
+    user = planner.get_user(userid)
+    if user is None:
+        return Response(content="user not found")
+    
+    planner.add_course(user, semester, course)
+
+@app.post('/api/dp/remove')
+async def dp_remove_course(userid:str = Body(...), semester:int = Body(...), course:str = Body(...)):
+    user = planner.get_user(userid)
+    if user is None:
+        return Response(content="user not found")
+    
+    planner.remove_course(user, semester, course)
+
+
 @app.post('/api/dp/print')
 async def dp_print(userid:str = Body(...)):
     randint = int(random.random() * 1000)
@@ -167,13 +184,13 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
         return Response(content="user not found")
     
     if user.get_active_schedule() is None:
-        return {}
+        return [{}, [], {}, {}, {}]
 
     print(f'received wildcard resolution requirements: {attributes_replacement}')
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
 
     if user.get_active_schedule().degree is None:
-        return {'No Degree Selected':[{'name':'No Degree Selected', 'content':False}]}
+        return [{}, [], {}, {}, {}]
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
@@ -185,27 +202,37 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     fulfillment_groups, tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
     fulfillment_groups = io.format_fulfillment_groups(fulfillment_groups)
     
-    display_requirements = {} # requirement: [[requirement, fulfillments]]
+    details_all_taken = {} # requirement: [[requirement, fulfillments]]
+    details_all_possible = {}
     for requirement in requirements:
-        if requirement.display is not None:
-            requirement = copy.copy(requirement)
-            requirement.specifications = requirement.display
-            requirement.replacement = True
+        if requirement.display:
             print(f'BEGINNING EVAL OF DISPLAY')
             requirement_fulfillment = dp_fulfill(taken_courses, [requirement], None, None, True)
+            requirement_max_fulfillment = dp_fulfill(planner.catalog.get_elements(), [requirement], None, None, True)
             #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
             #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
+
+            
             fulfillment_as_list = []
             for fulfillment_dict in requirement_fulfillment:
                 for resolved_requirement, fulfillment_set in fulfillment_dict.items():
-                    fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
-            display_requirements.update({requirement.name:fulfillment_as_list})
+                    if '*' not in resolved_requirement.specifications:
+                        fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
+            details_all_taken.update({requirement.name:fulfillment_as_list})
 
-    #print(f'display requirements: {display_requirements}')
+            fulfillment_as_list_max = []
+            for fulfillment_dict in requirement_max_fulfillment:
+                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
+                    if '*' not in resolved_requirement.specifications:
+                        fulfillment_as_list_max.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
+            details_all_possible.update({requirement.name:fulfillment_as_list_max})
+
+    #print(f'taken requirements: {details_all_taken}')
+    #print(f'all requirements: {details_all_possible}')
 
     print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
-    return [formatted_fulfillments, fulfillment_groups, tally, display_requirements]
+    return [formatted_fulfillments, fulfillment_groups, tally, details_all_taken, details_all_possible]
 
 @app.post('/api/dp/schedule')
 async def dp_switch_schedule(userid:str = Body(...), schedule_name:str = Body(...)):

@@ -254,18 +254,20 @@
         "Intensity - level 4 classes": {
             "requires": 4,
             "replacement": true,
-            "specifications":"level.4 & subject.csci & ~($cscore)"
+            "specifications":"level.4 & subject.csci & ~($cscore)",
+            "display": true
         },
         "Intensity - Communication Intensive": {
             "requires": 1,
             "replacement": true,
-            "specifications":"ci.true & subject.csci"
+            "specifications":"ci.true & subject.csci & level.4",
+            "display": true
         },
         "Concentration - Depth": {
             "requires": 3,
             "replacement": false,
             "specifications":"concentration.*1",
-            "display": "concentration.*"
+            "display": true
         },
         "Concentration - Breadth": {
             "requires": 1,
@@ -286,12 +288,14 @@
         "Math - Options I": {
             "requires": 1,
             "replacement": false,
-            "specifications":"subject.math & (course_id.2010 | course_id.4030 | course_id.4040 | course_id.4100 | course_id.4600)"
+            "specifications":"subject.math & (course_id.2010 | course_id.4030 | course_id.4040 | course_id.4100 | course_id.4600)",
+            "display": true
         },
         "Math - Options II": {
             "requires": 1,
             "replacement": false,
-            "specifications":"subject.math & level.2+ & ~course_id.2800"
+            "specifications":"subject.math & level.2+ & ~course_id.2800",
+            "display": true
         },
         "Science - Physics I": {
             "requires": 1,
@@ -306,22 +310,26 @@
         "Science - Electives": {
             "requires": 1,
             "replacement": true,
-            "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4-"
+            "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4-",
+            "display": true
         },
         "HASS - Elective level 4": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.4 & (subject.arts | subject.gsas)"
+            "specifications":"level.4 & (subject.arts | subject.gsas)",
+            "display": true
         },
         "HASS - Elective level 4 or 2": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.2+ & level.4- & (subject.arts | subject.gsas)"
+            "specifications":"level.2+ & level.4- & (subject.arts | subject.gsas)",
+            "display": true
         },
         "HASS - Elective level 4, 2, or 1": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.4- & (subject.arts | subject.gsas)"
+            "specifications":"level.4- & (subject.arts | subject.gsas)",
+            "display": true
         }
     },
     "electronic arts": {

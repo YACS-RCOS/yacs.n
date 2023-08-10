@@ -201,14 +201,15 @@ class Planner():
         '''
         
         # sanity checks
-        if not semester.isdigit() or int(semester) not in range(0, self.SEMESTERS_MAX):
+        if (not isinstance(semester, int) and not semester.isdigit()) or int(semester) not in range(0, self.SEMESTERS_MAX):
             self.output.error(f"Invalid semester {semester}, enter number between 0 and {self.SEMESTERS_MAX}")
             return
 
         # list of courses matching course_name
-        semester = int(semester)
+        if not isinstance(semester, int):
+            semester = int(semester)
         matched_course_names = self.find(course_name)
-
+        print(matched_course_names)
         if len(matched_course_names) != 1:
             return
 
@@ -231,11 +232,12 @@ class Planner():
                 then this list will be returned in the form of a list of Courses.
         '''
 
-        if not semester.isdigit() or int(semester) not in range(0, self.SEMESTERS_MAX):
+        if (not isinstance(semester, int) and not semester.isdigit()) or int(semester) not in range(0, self.SEMESTERS_MAX):
             self.output.error(f"Invalid semester {semester}, enter number between 0 and {self.SEMESTERS_MAX}")
             return
 
-        semester = int(semester)
+        if not isinstance(semester, int):
+            semester = int(semester)
         matched_course_names = self.find(course_name)
 
         if len(matched_course_names) != 1:
@@ -248,7 +250,7 @@ class Planner():
 
     def find(self, course_name:str) -> list:
         ''' returns matches as sorted list '''
-        possible_courses = self.course_search.search(course_name)
+        possible_courses = self.course_search.search(course_name.casefold())
         possible_courses.sort()
         return possible_courses
 

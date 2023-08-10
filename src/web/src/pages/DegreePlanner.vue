@@ -151,21 +151,39 @@
               <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
               <font color="#e6bc8a">Degree:</font> {{ degree }}
             </div>
-            
-            <div class="details-panel" v-for="(fulfillments, requirement) in display" :key="requirement">
-              <p> <font color="#707a7a">Details</font></p>
-              <h5>{{ requirement }}:</h5>
-              <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in fulfillments" :key="fulfillment_index">
-                {{ fulfillment[0] }}
-                <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
-                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                    &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
-                  </button>
+
+            <div v-if="getRequirementGroup(highlightedFulfillment) != null">
+
+              <div v-for="(requirement_name, index) in getRequirementGroup(highlightedFulfillment).requirements" :key="index">
+                <div v-if="detailsAllTakenCourses[requirement_name] && detailsAllTakenCourses[requirement_name].length != 0" class="details-panel">
+                  <p> <font color="#707a7a">Your Taken Courses:</font></p>
+                  <h5>{{ requirement_name }}:</h5>
+                  <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in detailsAllTakenCourses[requirement_name]" :key="fulfillment_index">
+                    {{ fulfillment[0] }}
+                    <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
+                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                        &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+                      </button>
+                    </div>
+                  </div>
                 </div>
+
+                <div v-if="detailsAllPossibleCourses[requirement_name] && detailsAllPossibleCourses[requirement_name].length != 0" class="details-panel">
+                  <p> <font color="#707a7a">All Possible Courses:</font></p>
+                  <h5>{{ requirement_name }}:</h5>
+                  <div class="details-wildcard-title" v-for="(fulfillment, max_fulfillment_index) in detailsAllPossibleCourses[requirement_name]" :key="max_fulfillment_index">
+                    {{ fulfillment[0] }}
+                    <div class="details-info" v-for="(course, max_index) in fulfillment[1]" :key="max_index">
+                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                        &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <br>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </b-container>
@@ -193,13 +211,14 @@ import CatalogTree from '@/components/CatalogTree.vue';
             defaultScheduleName: 'my schedule',
             scheduleDeletionPrompt: false,
             courses: [],
-            cmdInput: '',
             recommending: false,
             requirement_groups: [],
             tally: {},
             requirements: {},
             recommendations: {},
-            display: {},
+
+            detailsAllTakenCourses: {},
+            detailsAllPossibleCourses: {},
             SEM_MAX: 12,
             course_inputs: [],
             recommend_pause_token: 1,
@@ -221,6 +240,22 @@ import CatalogTree from '@/components/CatalogTree.vue';
         };
     },
     methods: {
+
+        getRequirementGroup(name, first_only=true) {
+          if (this.requirement_groups.length == 0) {
+            return null
+          }
+          let filteredGroup = this.requirement_groups.filter(group => group.name == name);
+
+          if (filteredGroup.length > 0) {
+            //console.log("returning " + JSON.stringify(filteredGroup))
+            if (first_only) {
+              return filteredGroup[0]
+            }
+            return filteredGroup
+          }
+          return null
+        },
         toggleDegreeSelectionMenu() {
           this.openedDegreeSelectionMenu = (!this.openedDegreeSelectionMenu);
         },
@@ -454,7 +489,8 @@ import CatalogTree from '@/components/CatalogTree.vue';
             this.requirements = fulfillment_tuple[0];
             this.requirement_groups = fulfillment_tuple[1];
             this.tally = fulfillment_tuple[2];
-            this.display = fulfillment_tuple[3];
+            this.detailsAllTakenCourses = fulfillment_tuple[3];
+            this.detailsAllPossibleCourses = fulfillment_tuple[4];
         },
         async get_recommendation() {
             let userid = this.userid;
@@ -472,7 +508,6 @@ import CatalogTree from '@/components/CatalogTree.vue';
         },
         async add(semester, course, fulfill = true, recommend = true, autoselect = false) {
             let userid = this.userid;
-            let command = "add, " + semester + ", " + course;
 
             if (autoselect) {
               if (course in this.$refs.searchModal.courseSelected) {
@@ -482,18 +517,17 @@ import CatalogTree from '@/components/CatalogTree.vue';
               }
             }
 
-            await fetch('/api/dp/users/command', {
+            await fetch('/api/dp/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userid, command }),
+                body: JSON.stringify({ userid, semester, course }),
             });
           await this.fetch_data(fulfill, recommend);
         },
         async remove(semester, course, fulfill = true, recommend = true, autoselect = false) {
             let userid = this.userid;
-            let command = "remove, " + semester + ", " + course;
 
             if (autoselect) {
               if (course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1) {
@@ -502,12 +536,12 @@ import CatalogTree from '@/components/CatalogTree.vue';
                 recommend = false;
               }
             }
-            await fetch('/api/dp/users/command', {
+            await fetch('/api/dp/remove', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userid, command }),
+                body: JSON.stringify({ userid, semester, course }),
             });
             await this.fetch_data(fulfill, recommend);
         },
@@ -1159,12 +1193,12 @@ import CatalogTree from '@/components/CatalogTree.vue';
   }
 
   .details-panel {
-    margin: 4px;
-    margin-top: 16px;
-    padding: 8px;
+    margin: 2px;
+    margin-top: 6px;
+    padding: 6px;
     border: 2px solid #43494f;
     border-radius: 8px;
-    font-size: 18px;
+    font-size: 14px;
     color: #b7c0c4;
     background-color: rgba(8, 26, 32, 0.35);
   }
