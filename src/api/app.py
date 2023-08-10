@@ -118,21 +118,6 @@ async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
     planner.set_degree(user, degree_name.casefold())
 
 
-@app.post('/api/dp/users/command')
-async def dp_run_command(userid:str = Body(...), command:str = Body(...)):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED COMMAND API CALL {randint}')
-
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
-    updates = Command_Handler.input(planner, user, command)
-    
-    print(f'== FINISHED COMMAND API CALL {randint}')
-    return updates
-
-
 @app.post('/api/dp/print')
 async def dp_print(userid:str = Body(...)):
     randint = int(random.random() * 1000)

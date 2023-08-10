@@ -147,10 +147,6 @@
 
           <div class="column-right">
             highlighted: {{ highlightedFulfillment }} <br>
-            selectionmenu: {{ openedDegreeSelectionMenu }}
-            <div>
-              <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
-            </div>
             <div class="schedule-selection">
               <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
               <font color="#e6bc8a">Degree:</font> {{ degree }}
@@ -397,14 +393,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
             }
             return this.tally[group_name][tally];
         },
-        async update_variables(variable_updates) {
-            // helper function that updates variables of this page from API reply
-            for (let [key, value] of Object.entries(variable_updates)) {
-                if (this[key] !== undefined) {
-                    this[key] = value;
-                }
-            }
-        },
+
         delayedFinishedLoading() {
           // Calling the method with a delay
           setTimeout(this.finishedLoading, 1200);
@@ -413,20 +402,6 @@ import CatalogTree from '@/components/CatalogTree.vue';
           this.main_loading = false;
         },
         // API CALLING
-        async dp_command() {
-            let command = this.cmdInput;
-            let userid = this.userid;
-            const updates = await fetch('/api/dp/users/command', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userid, command }),
-            });
-            let variable_updates = await updates.json();
-            this.update_variables(variable_updates).then(this.fetch_data());
-            this.cmdInput = "";
-        },
         async fetch_data(fulfill = true, recommend = true) {
             this.loading = true;
             await this.getSchedules();
@@ -507,15 +482,14 @@ import CatalogTree from '@/components/CatalogTree.vue';
               }
             }
 
-            const updates = await fetch('/api/dp/users/command', {
+            await fetch('/api/dp/users/command', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ userid, command }),
             });
-            let variable_updates = await updates.json();
-            this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
+          await this.fetch_data(fulfill, recommend);
         },
         async remove(semester, course, fulfill = true, recommend = true, autoselect = false) {
             let userid = this.userid;
@@ -528,15 +502,14 @@ import CatalogTree from '@/components/CatalogTree.vue';
                 recommend = false;
               }
             }
-            const updates = await fetch('/api/dp/users/command', {
+            await fetch('/api/dp/users/command', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ userid, command }),
             });
-            let variable_updates = await updates.json();
-            this.update_variables(variable_updates).then(this.fetch_data(fulfill, recommend));
+            await this.fetch_data(fulfill, recommend);
         },
         async print() {
             let userid = this.userid;
