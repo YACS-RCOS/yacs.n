@@ -5,7 +5,7 @@
         }
     },
     "mechanical engineering":{
-        "attributes": ["Single Major.School of Engineering"],
+        "attributes": ["Single Major.School of Engineering.Mechanical Engineering"],
         "engr - Introduction to Engineering Analysis": {
             "requires": 1,
             "replacement": false,
@@ -103,7 +103,7 @@
         }
     },
     "electrical engineering": {
-        "attributes": ["Single Major.School of Engineering"],
+        "attributes": ["Single Major.School of Engineering.Electrical Engineering", "Single Major.School of Engineering.$properties.tag=Engineering"],
         "Core - Intro to ECSE": {
             "specifications":"subject.ecse & course_id.1010"
         },
@@ -215,7 +215,7 @@
             "Math": {"credits": 8, "oasis": true},
             "HASS": {"credits": 12, "oasis": true}
         },
-        "attributes": ["Single Major.School of Science"],
+        "attributes": ["Single Major.School of Science.Computer Science", "Single Major.School of Science.$properties.tag=Science", "Single Major.$properties.color=rgba(61,64,69,0!dot8)", "Single Major.$properties.textColor=rgba(205,200,210,1)"],
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
@@ -323,6 +323,37 @@
             "replacement": false,
             "specifications":"level.4- & (subject.arts | subject.gsas)"
         }
+    },
+    "electronic arts": {
+        "attributes": ["Single Major.School of Humanities and Social Sciences.Electronic Arts", "Single Major.School of Humanities and Social Sciences.$properties.tag=Humanities"],
+        "Science - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & (course_id.1100 | course_id.1150)"
+        }
+    },
+    "architecture": {
+        "attributes": ["Single Major.School of Architecture.Architecture", "Single Major.School of Architecture.$properties.tag=Architecture"],
+        "Science - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & (course_id.1100 | course_id.1150)"
+        }
+    },
+    "Business and management": {
+        "attributes": ["Single Major.Lally School of Management.Business and Management", "Single Major.Lally School of Management.$properties.tag=Business"],
+        "HASS - Elective level 4": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"level.4 & (subject.arts | subject.gsas)"
+        }
+    },
+    "computer science + computer engineering": {
+        "attributes": ["Dual Major.School of Science.Computer Science + Computer Engineering", "Dual Major.School of Science.$properties.tag=Science", "Dual Major.$properties.color=rgba(67,60,65,0!dot8)", "Dual Major.$properties.textColor=rgba(205,195,210,1)"],
+        "Science - Physics I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.phys & (course_id.1100 | course_id.1150)"
+        }
     }
-
 }

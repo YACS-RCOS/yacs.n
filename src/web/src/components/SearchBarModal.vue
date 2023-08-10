@@ -12,7 +12,7 @@
         />
 
         <div class="subject-filter">
-          <div class="subject-group" :style="arrayToHSLBackground(subjectGroupColors[subject_group.title])" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          <div class="subject-group" :style="arrayToHSLBackground(subjectGroupColors[subject_group.title.toLowerCase()])" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
             {{ extractTitle(subject_group.title) }}<br>
             <button class="subject-buttons" :style="getSubjectButtonColor(subject)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
               {{ extractTitle(subject) }}
@@ -219,6 +219,7 @@ export default {
 
     onClose() {
       this.searchInput = '';
+      this.searchDisplayContext = 0;
       this.searchMatches = this.courses;
     },
 
@@ -228,7 +229,8 @@ export default {
     },
 
     debouncedsearch: debounce(function () {
-      this.search(10);
+      this.searchDisplayContext = 0;
+      this.search();
     }, 400),
 
     search(stop_count = -1) {
@@ -259,6 +261,7 @@ export default {
     },
 
     selectMatch(position) {
+      position = (this.searchContextSize * this.searchDisplayContext) + position;
       if (this.searchMatches.length == 0) {
         this.outputValue(this.searchInput)
       }
@@ -272,6 +275,7 @@ export default {
 
     filterCourses(subject) {
       this.courses = [];
+      this.searchDisplayContext = 0;
       if (subject == '' || this.filterSubject == subject) {
         this.filterSubject = '';
         this.courses = this.all_courses;
@@ -316,11 +320,13 @@ export default {
     computeSubjectColors() {
       for (let i = 0; i < this.subjectGroups.length; ++i) {
         let group = this.subjectGroups[i];
-        this.subjectGroupColors[group.title] = this.colorTextExtract(group.title, 0, 15, 70, 0.7, i / this.subjectGroups.length);
+        this.subjectGroupColors[group.title.toLowerCase()] = this.colorTextExtract(group.title, 0, 15, 70, 0.7, i / this.subjectGroups.length);
         for (let j = 0; j < group.elements.length; ++j) {
           this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 12 - j * 0.25, 70 - 5 + j * 0.2, 1, i / this.subjectGroups.length)
         }
       }
+      this.$emit('setSubjectColors', this.subjectColors);
+      this.$emit('setSubjectGroupColors', this.subjectGroupColors);
     }
   },
   async created() {

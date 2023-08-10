@@ -6,7 +6,7 @@
         <div @dragover.prevent @drop="schedulerRemove">
 
         <div ref="searchModalContainer" style="position: absolute; z-index: 9999;">
-          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal"></SearchBarModal>
+          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal" @setSubjectColors="setSubjectColors" @setSubjectGroupColors="setSubjectGroupColors"></SearchBarModal>
         </div>
         <div class="columns">
 
@@ -77,9 +77,16 @@
           </div>
           
           <div class="column-center" ref="columnCenter">
-            <div v-if="degree == ''">
-              Please select your degree:
-              <CatalogTree :nodes="degrees" :label="''" :depth="0"></CatalogTree>
+            <div class="center-top-row">
+              <div ref="degreeSelect" style="width: 180px">
+                <button class="toggle-degree-selection-button" @click="toggleDegreeSelectionMenu">Degree Selection</button>
+                <div class="degree-selection-menu" v-if="openedDegreeSelectionMenu">
+                  <CatalogTree style="width: 50vw; margin-top: -10px" :nodes="degrees" :label="''" :depth="0" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" @setDegree="degree => setDegree(degree)"></CatalogTree>
+                </div>
+              </div>
+              <div v-if="recommending" style="color: #727d80">
+                ...loading recommendations
+              </div>
             </div>
 
             <div class="requirements-orggrid">
@@ -138,6 +145,7 @@
 
           <div class="column-right">
             highlighted: {{ highlightedFulfillment }} <br>
+            selectionmenu: {{ openedDegreeSelectionMenu }}
             <div>
               <input class="text-input" v-model="cmdInput" type="text" placeholder="enter command for degree planner" @keyup.enter="dp_command">
             </div>
@@ -187,6 +195,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
             scheduleDeletionPrompt: false,
             courses: [],
             cmdInput: '',
+            recommending: false,
             requirement_groups: [],
             tally: {},
             requirements: {},
@@ -203,11 +212,25 @@ import CatalogTree from '@/components/CatalogTree.vue';
             activeSemester: -1,
             showSearchModal: false,
             highlightedFulfillment: null,
+            resolutionDict: {},
+            openedDegreeSelectionMenu: false,
+
+            subjectColors: {},
+            subjectGroupColors: {},
 
             wildcardRequirements: {},
         };
     },
     methods: {
+        toggleDegreeSelectionMenu() {
+          this.openedDegreeSelectionMenu = (!this.openedDegreeSelectionMenu);
+        },
+        setSubjectColors(colors) {
+          this.subjectColors = colors;
+        },
+        setSubjectGroupColors(colors) {
+          this.subjectGroupColors = colors;
+        },
         toggleHighlightFulfillment(group) {
           if (group == this.highlightedFulfillment) {
             this.highlightedFulfillment = null;
@@ -274,6 +297,9 @@ import CatalogTree from '@/components/CatalogTree.vue';
           }
           if (this.$refs.deletionPrompt && !this.$refs.deletionPrompt.contains(event.target)) {
             this.cancelDeleteSchedule();
+          }
+          if (this.$refs.degreeSelect && !this.$refs.degreeSelect.contains(event.target)) {
+            this.openedDegreeSelectionMenu = false;
           }
         },
         toggleSearchModal(on) {
@@ -450,11 +476,13 @@ import CatalogTree from '@/components/CatalogTree.vue';
         },
         async get_recommendation() {
             let userid = this.userid;
+            this.recommending = true;
             await fetch('/api/dp/recommend/' + userid, {
                 method: 'POST'
             });
             const response2 = await fetch('/api/dp/recommend/' + userid);
             this.recommendations = await response2.json().then(this.loading = false);
+            this.recommending = false;
         },
         async add_from_input(semester) {
             this.add(semester, this.course_inputs[semester]);
@@ -512,11 +540,24 @@ import CatalogTree from '@/components/CatalogTree.vue';
                 },
                 body: JSON.stringify(userid),
             });
-            this.courses = await response.json();
+            let userData = await response.json();
+            this.courses = userData['courses'];
+            this.degree = userData['degree'];
+            if (this.degree.length == 0) {
+              this.openedDegreeSelectionMenu = true;
+            }
             this.$refs.searchModal.importCourses(this.courses);
         },
         async setDegree(degree_name) {
           let userid = this.userid;
+          if (degree_name == this.degree) {
+            return
+          }
+          this.degree = degree_name;
+          if (this.openedDegreeSelectionMenu) {
+            this.openedDegreeSelectionMenu = false;
+          }
+          console.log('setting degree to ' + degree_name)
           await fetch('/api/dp/setdegree', {
             method: 'POST',
             headers: {
@@ -524,6 +565,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
             },
             body: JSON.stringify({userid, degree_name}),
           });
+          await this.fetch_data();
         },
         promptDeleteSchedule(schedule) {
           document.removeEventListener('click', this.handleClickOutside);
@@ -614,12 +656,33 @@ import CatalogTree from '@/components/CatalogTree.vue';
           this.schedule_name = new_schedule_name;
           await this.getSchedules();
         },
+
+        setResolutionDict() {
+          this.resolutionDict = {
+            "computer science": "CSCI",
+            "electrical engineering": "ECSE",
+            "mechanical engineering": "MANE",
+            "electronic arts": "ARTS",
+            "architecture": "ARCH",
+            "business and management": "MGMT",
+
+            "computer science + computer engineering": "CSCI",
+
+            "school of engineering": "engineering",
+            "school of science": "science",
+            "school of humanities": "humanities",
+            "school of architecture": "architecture",
+            "lally school of management": "business"
+          };
+        },
     },
     async created() {
         this.main_loading = true;
         await this.newuser();
         await this.fetch_data();
         this.course_inputs = new Array(this.SEM_MAX).fill('');
+        this.setResolutionDict();
+        document.addEventListener('click', this.handleClickOutside);
     },
     components: { SearchBarModal, CatalogTree }
 };
@@ -642,6 +705,10 @@ import CatalogTree from '@/components/CatalogTree.vue';
     justify-content: center;
     align-items: center;
     z-index: 9999;
+  }
+  .degree-selection-menu {
+    position: absolute;
+    z-index: 999;
   }
   .main-loading h1 {
     font-size:0.9em;
@@ -785,6 +852,21 @@ import CatalogTree from '@/components/CatalogTree.vue';
     border-radius: 4px;
     border-top: none;
   }
+  .toggle-degree-selection-button {
+    margin: 2px;
+    padding: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    color:#9faab2;
+    background-color: #323434;
+  }
+  .toggle-degree-selection-button:hover {
+    color:#a7aeb5;
+    background-color: #56585e;
+  }
   .schedule-search {
     justify-self: right;
     z-index: 999;
@@ -808,6 +890,9 @@ import CatalogTree from '@/components/CatalogTree.vue';
     background-color: #60666d;
   }
   .semester-title-row {
+    display: flex;
+  }
+  .center-top-row {
     display: flex;
   }
   .columns {

@@ -6,12 +6,12 @@ class Template():
         self.name = name
         self.requirements = list()
         self.groups = list()
-        self.attributes = Attributes()
+        self.attributes = Attributes(False)
 
     def compile_attributes(self):
-        attributes = Attributes()
+        attributes = Attributes(False)
         for attr in self.attributes.attributes_full_str_to_list.keys():
-            attributes.add_attribute(f"{attr}.{self.name}")
+            attributes.add_attribute(f"{attr}")
         return attributes
 
     def __str__(self):

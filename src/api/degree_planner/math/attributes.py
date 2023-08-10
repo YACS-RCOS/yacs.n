@@ -1,10 +1,11 @@
 class Attributes():
 
-    def __init__(self):
+    def __init__(self, casefold=True):
         self.attributes_head_to_body_str = dict()
         self.attributes_full_str_to_list = dict()
 
         self.DIR_ITEMS_CATEGORY = "$items"
+        self.casefold = casefold
 
     def to_directory(self):
         directory = dict()
@@ -27,7 +28,8 @@ class Attributes():
         #print(f"directory after: {directory} traversal: {directory_traversal} items_list: {items_list} item: {item[-1]}")
     
     def add_attribute(self, attr:str):
-        attr = attr.casefold()
+        if self.casefold:
+            attr = attr.casefold()
         attr_split = attr.split('.')
         self.attributes_full_str_to_list.update({attr:attr_split})
         for i in range(0, len(attr_split) + 1):
@@ -115,7 +117,7 @@ class Attributes():
         return True
     
     def __add__(self, other):
-        attributes = Attributes()
+        attributes = Attributes(self.casefold)
         for attr in self.attributes_full_str_to_list.keys():
             attributes.add_attribute(attr)
         for attr in other.attributes_full_str_to_list.keys():

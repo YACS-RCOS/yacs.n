@@ -17,7 +17,7 @@ class Catalog():
 
     def compile_template_attributes(self):
         print(f'compiling attributes for all templates in catalog:')
-        attributes = Attributes()
+        attributes = Attributes(False)
         for template in self.get_templates():
             attributes = attributes + template.compile_attributes()
 

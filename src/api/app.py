@@ -105,17 +105,17 @@ def is_admin_user(session):
 @app.post('/api/dp/newuser')
 async def dp_create_user(userid:str = Body(...)):
     planner.add_user(userid)
-
+    print(planner.degrees())
     return {"degrees":planner.degrees()}
 
 
-@app.post('api/dp/setdegree')
+@app.post('/api/dp/setdegree')
 async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
     user = planner.get_user(userid)
     if user is None:
         return Response(content="user not found")
     
-    planner.set_degree(user, degree_name)
+    planner.set_degree(user, degree_name.casefold())
 
 
 @app.post('/api/dp/users/command')
@@ -147,8 +147,12 @@ async def dp_print(userid:str = Body(...)):
     for semester, courses in courses_dict.dictionary.items():
         course_list[semester] = [str(c) for c in courses]
 
+    degree = ''
+    if user.get_active_schedule().degree is not None:
+        degree = user.get_active_schedule().degree.name
+
     print(f'== FINISHED PRINT API CALL {randint}')
-    return course_list
+    return {'courses': course_list, 'degree': degree}
 
 
 @app.get('/api/dp/schedules/{userid}')
