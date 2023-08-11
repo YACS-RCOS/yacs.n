@@ -37,7 +37,7 @@
         <button @click="goPage(filteredProfessors[0])" > <font-awesome-icon icon="search" /> </button>
         <div v-if="searchQuery.length == 0"></div>
         <ul v-else>
-          <div class = "result" v-for="professor in filteredProfessors" :key="professor.Name" @click="goPage(professor)" >{{ professor.Name }} - {{ professor.Department }}</div>
+          <div class = "result" v-for="professor in sortedProfSearch" :key="professor.Name" @click="goPage(professor)" >{{ professor.Name }} - {{ professor.Department }}</div>
         </ul>
       </div>
     </template>
@@ -197,6 +197,7 @@ export default {
       deptShow: false,
       alphShow: true,
       searchQuery: '',
+      searchResult: []
     };
   },
   computed: {
@@ -357,12 +358,18 @@ export default {
     filteredProfessors() {
       const query = this.searchQuery.toLowerCase();
       console.log(query);
-      return this.professors.filter(
+      this.searchResult = this.professors.filter(
         professor =>
           professor.Name.toLowerCase().includes(query) ||
           professor.Department.toLowerCase().includes(query)
       );
+      return this.searchResult
     },
+    sortedProfSearch(){
+      return this.filteredProfessors.slice().sort((a, b) => {
+        return a.Name.localeCompare(b.Name);
+      });
+    }
   },
 
   methods: {
