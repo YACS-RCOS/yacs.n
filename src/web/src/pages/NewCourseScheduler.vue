@@ -76,6 +76,12 @@
                         <b-card-text
                           class="w-100 d-flex flex-grow-1 flex-column"
                         >
+                        <div class="d-flex justify-content-start">
+                            <b-button v-if="hasSelectedCourses" @click="clearAllCourses" variant="danger" class="mt-3">
+                              Clear All
+                            </b-button>
+                          </div>
+
                           <SelectedCourses
                             :courses="selectedCourses"
                             @removeCourse="removeCourse"
@@ -644,6 +650,12 @@ export default {
         .updateIndex(this.index)
         .save();
     },
+    clearAllCourses() {
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.sections.forEach((section) => this.removeCourseSection(section));
+        this.removeCourse(course);
+      });
+    },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -699,6 +711,9 @@ export default {
           : 1;
       }
       return 1;
+    },
+    hasSelectedCourses() {
+      return Object.keys(this.selectedCourses).length > 0;
     },
   },
   watch: {

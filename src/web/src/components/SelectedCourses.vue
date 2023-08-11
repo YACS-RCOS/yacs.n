@@ -13,7 +13,6 @@
       <CourseListing :course="course" v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
-  <button @click="clearCourses" class="clear-button">Clear Courses</button>
 </template>
 
 <script>
@@ -29,11 +28,6 @@ export default {
   props: {
     courses: Object,
   },
-  methods: {
-    clearCourses() {
-      this.$emit('clear-courses');
-    }
-  }
 };
 </script>
 
@@ -53,8 +47,5 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 16px;
   padding: 20px;
-}
-.clear-button {
-  margin-top: 10px;
 }
 </style>
