@@ -239,36 +239,63 @@ def getCourseDescription(semester, department, courseNumber):
 # returns a dictionary where {key, value} = {department + course id, [capacity, number enrolled] }
 def getStudentsEnrolled(semester) -> dict:    
     enrolled_data = dict()
+    course_data = dict()
     link = getEnrollmentLink(semester)
 
     webpage_response = requests.Session().get(link)
     webpage = webpage_response.content
     soup = BeautifulSoup(webpage, "html.parser")
 
-    # rawbody = soup.find('td', class_='ntdefault')
     # tables = soup.findAll(lambda tag: tag.name=='table') 
     # for table in tables:
     #     rows = table.findAll(lambda tag: tag.name=='tr')
-    tables = soup.findChildren('table')
+    
+    # tables = soup.findChildren('table')
+    # table = soup.find(lambda tag: tag.name=='table') 
 
     # This will get the first (and only) table. Your page may have more.
-    table = tables[0]
+
+    rows = soup.findChildren(['tr', 'td'])
+    enrollment_list = list()
+    i = 0
+    for row in rows:
+        # table = tables[0]
    
     # print(table)
     # print(table.find_all('span'))
    
-    # You can find children with multiple tags by passing a list of strings
-    rows = table.findChildren(['tbody', 'tr', 'td', 'td'])
+        # You can find children with multiple tags by passing a list of strings
+        # rows = table.findChildren(['tr', 'td'])
+        # for row in rows:
+            # print(row)
+        
+        # while (idx < len(rows)):
+        
+        # for row in rows:
+        cells = row.findAll('span')
+        crn = re.compile(r'\b[0-9]{5} [A-Z]{4}-[0-9]{4}-[0-9]{2}\b')
+        for cell in cells: # get content of each cell in table
+            if (cell != None):
+                if (crn.match(cell.text)):
+                    course_data[cell.text].append()
+            #     print(i, cell.text)
+            #     # print(cells.text)
+            #     enrollment_list.append(cell.text)
+            # else:
+            #     print(i, '')
+            #     enrollment_list.append('') # place-holder in case the content is empty
+            # i += 1
+                    
+    # print("size: ", len(enrollment_list))
+    # each row (class) consists of 16 columns
+    idx = 0 # index of the name of the first course name
     
-    print(rows)
-    # for row in rows:
-        # cells = row.findChildren('td')
-        # print(row)
-        # span = cells.find("span")
-        # print(span.text)
-        # for cell in cells:
-        #     value = cell.string
-        #     # print("The value in this cell is %s" % value)
+    crn = re.compile(r'\b[0-9]{5} [A-Z]{4}-[0-9]{4}-[0-9]{2}\b')
+    while (idx < len(enrollment_list)):
+        if (crn.match(enrollment_list[idx])): # a course identifier (CRN) found (e.g. 80493 ADMN-1030-07)
+            enrolled_data[enrollment_list[idx]] = [(enrollment_list[idx + 11], enrollment_list[idx + 12])]
+            print(enrollment_list[idx], " has ", [(enrollment_list[idx + 11], enrollment_list[idx + 12])])
+        idx += 1
     # print(body)
 
 
