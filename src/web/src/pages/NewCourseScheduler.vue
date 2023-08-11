@@ -821,6 +821,10 @@ button:focus {
   outline: 0;
 }
 
+.nav-link.active {
+  cursor: default;
+}
+
 .burger-button {
   position: relative;
   height: 30px;
