@@ -1,7 +1,7 @@
 from celery import Celery
 from os import environ
 from degree_planner.dp.recommend import recommend
-from degree_planner.dp.fulfill import get_optimized_fulfillment, get_group_fulfillment
+from degree_planner.dp.fulfill import get_optimized_fulfillment, get_group_fulfillment, get_fulfillment_details
 from degree_planner.dp.requirement import Requirement
 
 celery_broker = 'redis://redis:6379/0'
@@ -27,6 +27,13 @@ def dp_fulfill(taken_courses, requirements, forced_wildcard_resolutions=None, gr
     return fulfillment
 
 @celery_app.task()
-def dp_fulfill_groups(fulfillments, groups, forced_groupings=None) -> list:
-    fulfillment_groups, tally = get_group_fulfillment(fulfillments, groups, forced_groupings)
-    return fulfillment_groups, tally
+def dp_fulfill_groups(fulfillments, groups, forced_groupings=None) -> dict:
+    ''' returns {'groups': , 'tally': }'''
+    fulfillment_groups = get_group_fulfillment(fulfillments, groups, forced_groupings)
+    return fulfillment_groups
+
+@celery_app.task()
+def dp_fulfill_details(all_courses, taken_courses, requirements) -> dict:
+    ''' returns {'details_all_taken': , 'details_all_possible':} '''
+    fulfillment_details = get_fulfillment_details(all_courses, taken_courses, requirements)
+    return fulfillment_details

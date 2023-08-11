@@ -178,7 +178,7 @@ def group_requirements(requirements) -> list:
 # MAIN FULFILLMENT FUNCTION
 ##############################################################################################
 
-def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=None) -> list:
+def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=None) -> dict:
     tallies = dict()
     for group in groups:
         group:Requirement_Group
@@ -197,7 +197,39 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
 
         tallies.update({group.name:tally})
 
-    return (groups, tallies)
+    return {"groups":groups, "tally": tallies}
+
+
+def get_fulfillment_details(all_courses, taken_courses, requirements) -> dict:
+    details_all_taken = {} # requirement: [[requirement, fulfillments]]
+    details_all_possible = {}
+    
+    for requirement in requirements:
+        if requirement.display:
+            print(f'BEGINNING EVAL OF DISPLAY')
+            requirement_fulfillment = get_fulfillment(taken_courses, [requirement], None, None, True)
+            requirement_max_fulfillment = get_fulfillment(all_courses, [requirement], None, None, True)
+            #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
+            #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
+
+            # list of fulfillment possiblities
+            # calculating from all taken courses
+            fulfillment_as_list = []
+            for fulfillment_dict in requirement_fulfillment:
+                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
+                    if '*' not in resolved_requirement.specifications:
+                        fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
+            details_all_taken.update({requirement.name:fulfillment_as_list})
+
+            # calculating from all possible courses
+            fulfillment_as_list_max = []
+            for fulfillment_dict in requirement_max_fulfillment:
+                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
+                    if '*' not in resolved_requirement.specifications:
+                        fulfillment_as_list_max.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
+            details_all_possible.update({requirement.name:fulfillment_as_list_max})
+
+    return {'details_all_possible': details_all_possible, 'details_all_taken': details_all_taken}
 
 
 def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False) -> dict:

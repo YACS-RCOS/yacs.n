@@ -38,7 +38,7 @@ import pandas as pd
 import copy
 from constants import Constants
 
-from celery_app import dp_recommend, dp_fulfill, dp_fulfill_groups
+from celery_app import dp_recommend, dp_fulfill, dp_fulfill_groups, dp_fulfill_details
 
 """
 NOTE: on caching
@@ -67,7 +67,8 @@ users = UserModel.User()
 planner = Planner(enable_tensorflow=False)
 planner.import_data()
 
-recommendation_results = dict() # {user: results dict}
+recommendation_results = dict() # {user: results}
+fulfillment_detail_results = dict() # {user: details}
 
 def rate_limited(seconds_interval):
     def decorator(func):
@@ -183,14 +184,11 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     if user is None:
         return Response(content="user not found")
     
-    if user.get_active_schedule() is None:
-        return [{}, [], {}, {}, {}]
+    if user.get_active_schedule() is None or user.get_active_schedule().degree is None:
+        return {'fulfillments': {}, 'groups': [], 'tally': {}}
 
     print(f'received wildcard resolution requirements: {attributes_replacement}')
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
-
-    if user.get_active_schedule().degree is None:
-        return [{}, [], {}, {}, {}]
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements
@@ -199,40 +197,40 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions, groups)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
-    fulfillment_groups, tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups)
-    fulfillment_groups = io.format_fulfillment_groups(fulfillment_groups)
-    
-    details_all_taken = {} # requirement: [[requirement, fulfillments]]
-    details_all_possible = {}
-    for requirement in requirements:
-        if requirement.display:
-            print(f'BEGINNING EVAL OF DISPLAY')
-            requirement_fulfillment = dp_fulfill(taken_courses, [requirement], None, None, True)
-            requirement_max_fulfillment = dp_fulfill(planner.catalog.get_elements(), [requirement], None, None, True)
-            #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
-            #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
+    # BEGIN DETAILS COMPUTATION ----
+    details = dp_fulfill_details.delay(set(planner.catalog.get_elements()), taken_courses, requirements)
+    fulfillment_detail_results.update({userid:details})
+    #-------------------------------
 
-            
-            fulfillment_as_list = []
-            for fulfillment_dict in requirement_fulfillment:
-                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
-                    if '*' not in resolved_requirement.specifications:
-                        fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
-            details_all_taken.update({requirement.name:fulfillment_as_list})
+    fulfillment_groups_and_tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups) # contains groups and tally
+    fulfillment_groups_and_tally.update({'groups': io.format_fulfillment_groups(fulfillment_groups_and_tally.get('groups'))}) # formats groups
 
-            fulfillment_as_list_max = []
-            for fulfillment_dict in requirement_max_fulfillment:
-                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
-                    if '*' not in resolved_requirement.specifications:
-                        fulfillment_as_list_max.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
-            details_all_possible.update({requirement.name:fulfillment_as_list_max})
+    fulfillment_groups_and_tally.update({'fulfillments': formatted_fulfillments}) # adds fulfillments
 
-    #print(f'taken requirements: {details_all_taken}')
-    #print(f'all requirements: {details_all_possible}')
-
-    print(f'tally: {tally}')
     print(f'== FINISHED FULFILLMENT API CALL {randint}')
-    return [formatted_fulfillments, fulfillment_groups, tally, details_all_taken, details_all_possible]
+    return fulfillment_groups_and_tally
+
+
+@app.get('/api/dp/fulfillmentdetails/{userid}')
+async def dp_get_fulfillment_details(userid:str):
+    user = planner.get_user(userid)
+    if user is None:
+        return Response(content="user not found")
+    
+    i = 0
+    while(fulfillment_detail_results.get(userid, None) is None or not fulfillment_detail_results.get(userid).ready()):
+        await asyncio.sleep(0.5)
+        print(f'waiting for fulfillment details...  queued: {fulfillment_detail_results.get(userid, None) is not None}')
+        if fulfillment_detail_results.get(userid, None) is None:
+            return {'details_all_taken': {}, 'details_all_possible': {}}
+        i+=1
+        if i > 20:
+            print('timeout')
+            return {'details_all_taken': {}, 'details_all_possible': {}}
+    
+    details = fulfillment_detail_results.get(userid).result
+    return details
+
 
 @app.post('/api/dp/schedule')
 async def dp_switch_schedule(userid:str = Body(...), schedule_name:str = Body(...)):
@@ -275,7 +273,7 @@ async def dp_begin_recommendation_limited(userid:str):
         return Response(content="user not found")
     
     if user.get_active_schedule() is None or user.get_active_schedule().degree is None:
-        return dict()
+        return
 
     taken_courses = user.get_active_schedule().get_courses()
     requirements = user.get_active_schedule().degree.requirements

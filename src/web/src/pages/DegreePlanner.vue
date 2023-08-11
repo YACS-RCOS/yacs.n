@@ -146,19 +146,19 @@
           </div>
 
           <div class="column-right">
-            <div class="schedule-selection">
+            <div class="schedule-selection" style="font-size: 16px;">
               <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
               <font color="#e6bc8a">Degree:</font> {{ degree }}
             </div>
 
             <div v-if="getRequirementGroup(highlightedFulfillment) == null">
-              <div style="margin-top: 100px; color: #455050; font-size: 20px; font-weight: 700">
+              <div style="margin-top: 100px; color: #545f5f; font-size: 20px; font-weight: 700">
                 Click on a Fulfillment Card to View Details!
               </div>
             </div>
 
             <div v-if="highlightedFulfillment == 'Core'">
-              <div style="margin-top: 100px; color: #455050; font-size: 16px; font-weight: 700">
+              <div style="margin-top: 100px; color: #545f5f; font-size: 16px; font-weight: 700">
                 Your Core Classes, All Info Are Already Displayed On Card
               </div>
             </div>
@@ -166,26 +166,37 @@
             <div v-if="getRequirementGroup(highlightedFulfillment) != null">
 
               <div v-for="(requirement_name, index) in getRequirementGroup(highlightedFulfillment).requirements" :key="index">
-                <div v-if="detailsAllTakenCourses[requirement_name] && detailsAllTakenCourses[requirement_name].length != 0" class="details-panel">
+                <div v-if="detailsAllTakenCourses[requirement_name] && (detailsAllTakenCourses[requirement_name].length != 0 || detailsAllPossibleCourses[requirement_name].length != 0)" class="details-panel">
+                  <div v-if="details_loading" style="color: #859393; font-size: 14px; font-weight: 600">
+                    loading details...
+                  </div>
                   <p> <font color="#707a7a">Your Taken Courses:</font></p>
                   <h5>{{ requirement_name }}:</h5>
                   <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in detailsAllTakenCourses[requirement_name]" :key="fulfillment_index">
                     {{ fulfillment[0] }}
                     <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
-                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
-                        &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+
+                      <button v-if="coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                        &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #85c07d; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #9db09b; font-weight: 600;">(applied)</span>
+                      </button>
+
+                      <button v-if="!coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                        &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #d07e7c; font-style: italic; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #b0a59b; font-weight: 600;"><br>applied to other requirements: <br>({{ coursePresentIn(course).join(', ') }})</span>
                       </button>
                     </div>
                   </div>
                 </div>
 
                 <div v-if="detailsAllPossibleCourses[requirement_name] && detailsAllPossibleCourses[requirement_name].length != 0" class="details-panel">
+                  <div v-if="details_loading" style="color: #859393; font-size: 14px; font-weight: 600">
+                    loading details...
+                  </div>
                   <p> <font color="#707a7a">All Possible Courses:</font></p>
                   <h5>{{ requirement_name }}:</h5>
                   <div class="details-wildcard-title" v-for="(fulfillment, max_fulfillment_index) in detailsAllPossibleCourses[requirement_name]" :key="max_fulfillment_index">
                     {{ fulfillment[0] }}
                     <div class="details-info" v-for="(course, max_index) in fulfillment[1]" :key="max_index">
-                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
                         &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                       </button>
                     </div>
@@ -210,6 +221,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
         return {
             loading: true,
             main_loading: true,
+            details_loading: false,
             userid: 'testuser',
             degree: '',
             degrees: {},
@@ -251,8 +263,18 @@ import CatalogTree from '@/components/CatalogTree.vue';
         };
     },
     methods: {
-
+        coursePresentIn(course) {
+          let presentIn = [];
+          for (const requirement in this.requirements) {
+            if (this.requirements[requirement].fulfillment_set.includes(course)) {
+              presentIn.push(requirement);
+            }
+          }
+          return presentIn
+        },
         getRequirementGroup(name, first_only=true) {
+          //console.log("detailsTaken: " + JSON.stringify(this.detailsAllTakenCourses));
+          //console.log("detailsPossible: " + JSON.stringify(this.detailsAllPossibleCourses));
           if (this.requirement_groups.length == 0) {
             return null
           }
@@ -440,9 +462,9 @@ import CatalogTree from '@/components/CatalogTree.vue';
             return this.tally[group_name][tally];
         },
 
-        delayedFinishedLoading() {
+        delayedFinishedLoading(timer=1000) {
           // Calling the method with a delay
-          setTimeout(this.finishedLoading, 1200);
+          setTimeout(this.finishedLoading, timer);
         },
         finishedLoading() {
           this.main_loading = false;
@@ -466,10 +488,11 @@ import CatalogTree from '@/components/CatalogTree.vue';
             // fetch fulfillment and recommendations
             this.print();
             if (fulfill) {
-              await this.get_fulfillment().then(this.delayedFinishedLoading());
+              this.get_fulfillment();
+              this.get_fulfillment_details().then(this.delayedFinishedLoading(700));
             }
             if (recommend) {
-              await this.get_recommendation();
+              this.get_recommendation();
             }
         },
         async newuser() {
@@ -496,12 +519,19 @@ import CatalogTree from '@/components/CatalogTree.vue';
                 },
                 body: JSON.stringify({ userid, attributes_replacement }),
             });
-            let fulfillment_tuple = await response1.json();
-            this.requirements = fulfillment_tuple[0];
-            this.requirement_groups = fulfillment_tuple[1];
-            this.tally = fulfillment_tuple[2];
-            this.detailsAllTakenCourses = fulfillment_tuple[3];
-            this.detailsAllPossibleCourses = fulfillment_tuple[4];
+            let fulfillment = await response1.json();
+            this.requirements = fulfillment.fulfillments;
+            this.requirement_groups = fulfillment.groups;
+            this.tally = fulfillment.tally;
+        },
+        async get_fulfillment_details() {
+          let userid = this.userid;
+          this.details_loading = true;
+          const response = await fetch('/api/dp/fulfillmentdetails/' + userid);
+          let results = await response.json();
+          this.detailsAllPossibleCourses = results.details_all_possible;
+          this.detailsAllTakenCourses = results.details_all_taken;
+          this.details_loading = false;
         },
         async get_recommendation() {
             let userid = this.userid;
