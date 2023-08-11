@@ -146,10 +146,21 @@
           </div>
 
           <div class="column-right">
-            highlighted: {{ highlightedFulfillment }} <br>
             <div class="schedule-selection">
               <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
               <font color="#e6bc8a">Degree:</font> {{ degree }}
+            </div>
+
+            <div v-if="getRequirementGroup(highlightedFulfillment) == null">
+              <div style="margin-top: 100px; color: #455050; font-size: 20px; font-weight: 700">
+                Click on a Fulfillment Card to View Details!
+              </div>
+            </div>
+
+            <div v-if="highlightedFulfillment == 'Core'">
+              <div style="margin-top: 100px; color: #455050; font-size: 16px; font-weight: 700">
+                Your Core Classes, All Info Are Already Displayed On Card
+              </div>
             </div>
 
             <div v-if="getRequirementGroup(highlightedFulfillment) != null">
