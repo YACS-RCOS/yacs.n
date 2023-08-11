@@ -24,38 +24,37 @@ class Pathway(Base):
         self.db_conn = db_conn
         self.cache = cache
 
-    def addPathway(self, pathway_name, course_name):
+    def addPathway(self, pathway_name, courses):
             if pathway_name is not None:
                 print(pathway_name)
                 return self.db_conn.execute("""
-            INSERT INTO 
-                #course_name -> category_name??
-                pathways (pathway_name, course_name)
+            INSERT INTO
+                pathways (pathway_name, courses)
             VALUES 
-                   (%(Pathway_name)s, %(Course_name)s)
+                   (%(Pathway_name)s, %(Courses)s)
             ON CONFLICT DO NOTHING
             ;
         """, {
                 "Pathway_name": pathway_name,
-                "Course_name": course_name,
+                "courses": courses,
             }
         , False)
             else:
                 return (False, "pathway cant be none")
             
-    def addCourse(self, pathway_name, course_name):
-            if course_name is not None:
-                print(course_name)
+    def addCourse(self, pathway_name, courses):
+            if courses is not None:
+                print(courses)
                 return self.db_conn.execute("""
             INSERT INTO 
-                pathways (pathway_name, course_name)
+                pathways (pathway_name, courses)
             VALUES 
-                   (%(Pathway_name)s, %(Course_name)s)
+                   (%(Pathway_name)s, %(Courses)s)
             ON CONFLICT DO NOTHING
             ;
         """, {
                 "Pathway_name": pathway_name,
-                "Course_name": course_name,
+                "courses": courses,
             }
         , False)
             else:
@@ -74,41 +73,41 @@ class Pathway(Base):
             return (False, "pathway cant be none")
         return (True, None)
     
-    def removeCourse(self, pathway_name, course_name):
-        if course_name is not None:
+    def removeCourse(self, pathway_name, courses):
+        if courses is not None:
             sql = """
                 DELETE FROM 
                     pathways
                 WHERE
-                    course_name = '{course_name}'
+                    courses = '{courses}'
                 """
             error = self.db_conn.execute(sql, None, False)
         else:
             return (False, "course cant be none")
         return (True, None)
 
-    def getPathway(self, course_name):
-        if course_name is not None:
+    def getPathway(self, courses):
+        if courses is not None:
             sql = """
                     select
-                        pathway_name
+                        *
                     from
                         pathways
                     where
-                        course_name = '%s'
-                    """ % course_name
-        pathway_name, error = self.db_conn.execute(sql, None, True)
-        return (pathway_name, None) if not error else (False, error)
+                courses = '%s'
+            """ 
+        courses, error = self.db_conn.execute(sql, (courses,), True)
+        return (courses, None) if not error else (False, error)
     
     def getCourse(self, pathway_name):
         if pathway_name is not None:
             sql = """
                     select
-                        course_name
+                        *
                     from
                         pathways
                     where
-                        pathway_name = '%s'
-                    """ % pathway_name
-        course_name, error = self.db_conn.execute(sql, None, True)
-        return (course_name, None) if not error else (False, error)
+                pathway_name = '%s'
+            """
+        pathway__name, error = self.db_conn.execute(sql, (pathway_name,), True)
+        return (pathway_name, None) if not error else (False, error)
