@@ -227,6 +227,7 @@
         @click="
           toggleCourse(courseInfoModalCourse);
           showCourseInfoModal = !showCourseInfoModal;
+
         "
       >
         {{
@@ -535,6 +536,7 @@ export default {
      * Emits removeCourse and addCourse events
      */
     toggleCourse(course) {
+      console.log(course);
       if (course.selected) {
         this.removeCourse(course);
       } else {
