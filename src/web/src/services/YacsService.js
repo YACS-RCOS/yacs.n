@@ -170,9 +170,11 @@ export const get_professor_info_by_rcs = (rcs) =>
 export const get_professor_info_by_email = (email) =>
   client.get("/professor/email/" + email).then((res) => res.data);
 
-export const getPathway = () =>
-  client.get("/pathway").then((res) => res.data);
+export const getPathway = (course) =>
+  client.get("/pathway" + course).then((res) => res.data);
 
-export const getPathwayName = (course) =>
-  client.get("/pathway/name/" + course).then((res) => res.data);
+export const getCourse = (pathway) =>
+  client.get("/course" + pathway).then((res) => res.data);
+
+
 

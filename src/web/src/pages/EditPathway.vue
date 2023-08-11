@@ -27,31 +27,26 @@
           <p id="result">{{ this.result }}</p>
         </div>
         <button @click="getPathway()" class="btn btn-primary">Get Pathway</button>
-        <button @click="getPathName()" class="btn btn-primary">
-          Get Pathway Name
-        </button>
+        <button @click="getCourse()" class="btn btn-primary">Get Course</button>
         <button @click="addPathway()" class="btn btn-success">Add Pathway</button>
-        <button @click="addPathwayTest()" class="btn btn-success">
-          Add Pathway Test
-        </button>
+        <button @click="addCourse()" class="btn btn-success">Add Course</button>
         <button @click="removePathway()" class="btn btn-danger">Remove Pathway</button>
+        <button @click="removeCourse()" class="btn btn-danger">Remove Course</button>
       </section>
     </b-container>
   </template>
   
   <script>
-  import json from "./pathwayV2.json";
-
   import {
     getPathway,
-    getCourses,
+    getCourse,
   } from "@/services/YacsService";
 
   import {
-    removePathway,
-    removeCourse,
     addPathway,
     addCourse,
+    removePathway,
+    removeCourse,
   } from "@/services/AdminService";
   
   export default {
@@ -60,69 +55,41 @@
 
     data() {
       return {
-        categories: json,
-        coursesShow: true,
-      };
-    },
-    computed: {
-      categoryCols() {
-        let ret = [];
-        let col1 = [];
-        let col2 = [];
-        for (var i = 0; i < this.categories.length; i++) {
-          if (i < this.categories.length / 2) {
-            col1.push(this.categories[i]);
-          } else {
-            col2.push(this.categories[i]);
-          }
-        }
-        ret.push(col1);
-        ret.push(col2);
-        return ret;
-      },
-    },
-    /*
-    data() {
-      return {
+        pathway: "",
         course: "",
-        
       };
     },
-    */
+    
 
     methods: {
-      listCourse() {
-        this.coursesShow = false;
-        this.pathwaysShow = false;
-      },
       getPathway() {
         console.log("getPathway");
-        this.result = getPathway();
+        this.result = getPathway(this.course);
         console.log(this.result);
       },
       getCourse() {
         console.log("getCourse");
-        this.result = getCourse(this.course);
+        this.result = getCourse(this.pathway);
         console.log(this.result);
       },
       removePathway() {
         console.log("removePathway");
-        this.result = removePathway(this.course);
+        this.result = removePathway(this.pathway);
         console.log(this.result);
       },
       removeCourse() {
         console.log("removeCourse");
-        this.result = removePathway(this.course);
+        this.result = removeCourse(this.course);
         console.log(this.result);
       },
       addPathway() {
         console.log("addPathway");
-        this.result = addPathway();
+        this.result = addPathway(this.pathway);
         console.log(this.result);
       },
       addCourse() {
         console.log("addPathway");
-        this.result = addPathway();
+        this.result = addCourse(this.course);
         console.log(this.result);
       },
     },
