@@ -36,11 +36,6 @@
             </li>
           </ul>
         </div>
-
-        <div class="suggestions">
-          <h3>Recommendations:</h3>
-          <p> none for now ;-; </p>
-        </div>
       </div>
   </div>
 </template>

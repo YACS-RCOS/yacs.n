@@ -21,15 +21,18 @@
             ></b-form-select>
           </b-form-group>
         </b-col>
-        <b-col>
-          <b-form-group label="Filter Department" for="department">
-            <b-form-select
-              v-model="selectedDepartment"
-              :options="departmentOptions"
-            ></b-form-select>
-          </b-form-group>
-        </b-col>
       </b-row>
+
+      <div class="subject-filter" v-if="subjectSelectionReady">
+        <div class="subject-group" :style="arrayToHSL('backgroundColor', subjectGroupColors[subject_group.title.toLowerCase()])" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          {{ extractTitle(subject_group.title) }}<br>
+          <button class="subject-buttons" :style="getSubjectButtonColor(subject)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCoursesBySubject(subject)">
+            {{ extractTitle(subject) }}
+          </button>
+          <br>
+        </div>
+      </div>
+
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
     <hr />
@@ -116,14 +119,106 @@ export default {
       selectedDepartment: null,
       courseList: null,
       debounceTime: 300,
+
+      subjectGroups: [],
+      subjectColors: {},
+      subjectGroupColors: {},
+      subjectSelectionReady: false,
     };
   },
-  created() {
+  async created() {
     getDepartments().then((departments) => {
       this.departmentOptions.push(...departments.map((d) => d.department));
     });
+    await this.fetchSubjectGroups();
+    this.computeSubjectColors();
+    this.subjectSelectionReady = true;
   },
   methods: {
+    filterCoursesBySubject(subject) {
+      if (this.selectedDepartment == null || this.selectedDepartment != subject) {
+        this.selectedDepartment = subject;
+      }      
+      else {
+        this.selectedDepartment = null;
+      }
+    },
+    getSubjectButtonColor(subject) {
+      const colors = this.subjectColors[subject];
+      console.log("colors: " + colors)
+      if (this.selectedDepartment != null && this.selectedDepartment == subject) {
+        return this.makeHSL('backgroundColor',colors[0] + 10, colors[1] + 30, colors[2] + 30)
+      }
+      return this.arrayToHSL('backgroundColor', colors)
+    },
+
+    extractColorHSL(element) {
+      if (element.includes("#")) {
+        return element.split("#")[1].split(",")
+      }
+      return []
+    },
+
+    extractTitle(element) {
+      return element.split('#')[0]
+    },
+
+    arrayToHSL(property, array) {
+      if (array.length == 4) {
+        return {
+          [property]: `hsla(${array[0]}, ${array[1]}%, ${array[2]}%, ${array[3]})`
+        };
+      }
+      return {
+        [property]: `hsl(${array[0]}, ${array[1]}%, ${array[2]}%)`
+      };
+    },
+
+    makeHSL(property, hue, saturation, lightness, alpha = -1) {
+      if (alpha != -1) {
+        return {
+          [property]: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
+        };
+      }
+      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
+      return {
+        [property]: `hsl(${hue}, ${saturation}%, ${lightness}%)`
+      };
+    },
+
+    colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, alpha = 1, index = -1) {
+      let colors = this.extractColorHSL(element);
+      if (colors.length == 3) {
+        return [(colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset), alpha]
+      }
+      if (index != -1) {
+        return [(index * 360 + hue_offset) % 360, saturation_offset, lightness_offset, alpha]
+      }
+      else {
+        return [hue_offset % 360, saturation_offset, lightness_offset, alpha]
+      }
+    },    
+    
+    async fetchSubjectGroups() {
+      const response = await fetch('/api/dp/subjectgroups');
+      this.subjectGroups = await response.json();
+    },
+
+    computeSubjectColors() {
+      for (let i = 0; i < this.subjectGroups.length; ++i) {
+        let group = this.subjectGroups[i];
+        this.subjectGroupColors[group.title.toLowerCase()] = this.colorTextExtract(group.title, 0, 15, 70, 0.7, i / this.subjectGroups.length);
+        for (let j = 0; j < group.elements.length; ++j) {
+          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 12 - j * 0.25, 70 - 5 + j * 0.2, 1, i / this.subjectGroups.length)
+        }
+      }
+      console.log(JSON.stringify(this.subjectGroupColors))
+      console.log(JSON.stringify(this.subjectColors))
+      console.log(JSON.stringify(this.subjectGroups))
+    },
+
+
+
     courseInfoModalToggle(course) {
       this.$emit("showCourseInfo", course);
     },
@@ -259,5 +354,44 @@ export default {
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 17px;
   padding: 20px;
+}
+
+.subject-filter {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.subject-group {
+  font-weight: 700;
+  font-size: 15px;
+  color: #141415;
+  border-radius: 4px;
+  padding: 6px;
+  padding-top: 4px;
+  padding-bottom: 2px;
+}
+
+.subject-buttons {
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  width: 43px;
+  padding: 0px;
+  font-weight: 600;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 2px;
+  margin-right: 2px;
+  color: #141415;
+  background-color:#141415;
+  transition: background-color 0.15s ease;
+  text-align: center;
+}
+.subject-buttons:hover {
+  background-color: rgb(80, 85, 87);
 }
 </style>
