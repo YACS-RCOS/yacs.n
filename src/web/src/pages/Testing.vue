@@ -9,7 +9,7 @@
         </div>
 
         <div v-else>
-            <b-container class="container" fluid>
+            <b-container class="container">
                 <b-row>
                     <b-col cols="8">
                         <b-row
@@ -23,30 +23,20 @@
                                 class="col"
                             >
                                 <div class="course">
-                                    <b data-cy="name">{{ course.name }}</b>
+                                    <b data-cy="name">{{ course.name }} - {{ course.title }}</b>
                                     <br />
-                                    {{ course.title }}
-                                    <br />
-                                    {{ course.max_credits }}
-                                    
-                                    <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}" v-model="selected">                 
-                                        <b-form-group id="course.id-group" label-for="course.id">
-                                            <b-form-select
-                                            id="course.id"
-                                            :options="grades"
-                                            required
-                                            class="select"
-                                            ></b-form-select>
-
-                                        </b-form-group>
-                                        
-                                    </b-form>
+                                    Credits: {{ course.max_credits }}
+                                    <div id="course.name">
+                                        {{ addCourse() }}
+                                    </div>
                                 </div>
                             </b-col>
                         </b-row>
+                        <button @click="calcGPA();">Calculate GPA</button>
                     </b-col>
                     <b-col align-self="stretch">
-                        <center>GPA</center>
+                        <h3><center>GPA</center></h3>
+                        <h3><center id="calculatedGPA"></center></h3>
                     </b-col>
                 </b-row>
             </b-container>
@@ -77,17 +67,19 @@ export default {
                 },
                 {
                     text: "GPA Calculator",
-                },
+                }
             ],
-            grades: [ { text: 'A', value: null }, { text: 'A-', value: null }, { text: 'B+', value: null }, { text: 'B', value: null }, { text: 'B-', value: null }, { text: 'C+', value: null }, { text: 'C', value: null }, { text: 'C-', value: null }, { text: 'D+', value: null }, { text: 'D', value: null }, { text: 'P', value: null }] ,
-            selected: "Select your grade",
+            counter: 0,
+            forms: [],
             selectedCourses: {},
             selectedScheduleSubsemester: null,
             loadedIndexCookie: 0,
+            addCourse(),
         };
     },
     // ,
     methods: {
+
         async loadStudentCourses() {
             this.selectedCourses = {};
             if (this.isLoggedIn) {
@@ -133,18 +125,89 @@ export default {
             
         },
 
-        // AddForm() {
-        //     const newForm = {
-        //     id: Date.now(),
-        //     name:``,
+        addCourse() {
+            let addNew = document.createElement("form");
+            addNew.classList.add("add_new", `key-${this.counter}`);
+            const form = `<b-form v-if="course.max_credits != 0" class="add_new key-${this.counter}">             
+                                <b-form-select label="Grade:" class="grades key-${this.counter}">
+                                    <b-form-select-option :value="null" disabled>-- Select your grade --</b-form-select-option>
+                                    <b-form-select-option value="4">A</b-form-select-option>
+                                    <b-form-select-option value="3.67">A-</b-form-select-option>
+                                    <b-form-select-option value="3.33">B+</b-form-select-option>
+                                    <b-form-select-option value="3">B</b-form-select-option>
+                                    <b-form-select-option value="2.67">B-</b-form-select-option>
+                                    <b-form-select-option value="2.33">C+</b-form-select-option>
+                                    <b-form-select-option value="2">C</b-form-select-option>
+                                    <b-form-select-option value="1.33">C-</b-form-select-option>
+                                    <b-form-select-option value="1">D+</b-form-select-option>
+                                    <b-form-select-option value="0.67">D</b-form-select-option>
+                                    <b-form-select-option value="0">F</b-form-select-option>
+                                    <b-form-select-option value="P">P</b-form-select-option>
+                                </b-form-select>
+                            </b-form>
+                        `;
+            addNew.innerHTML = form;
+            document.getElementById("{{ course.name }}").appendChild(addNew);
+            this.counter++;
+        },
 
-        //     }
-        //     this.forms.push(newForm);
-        // },
+        calcGPA() {
+            const finalGPA = document.getElementById("calculatedGPA");
+            const GRADESSELECT = document.querySelectorAll("b-form-select.grades");
+            const UNIT = document.querySelectorAll(".credit-units");
 
-        // removeForm(id) {
-        //     this.forms = this.forms.filter(form => form.id !== id);
-        // },
+            const listOfGrades = [];
+            const listOfUnits = [];
+            let totalUnits = 0;
+
+            GRADESSELECT.forEach((e) => {
+                let GRADES = e.options;
+                const selectedIndex = e.selectedIndex;
+                const selectedGrade = GRADES[selectedIndex];
+                const gradeValue = selectedGrade.text.toUpperCase();
+                listOfGrades.push(gradeValue);
+            });
+            console.log(listOfGrades);
+
+            UNIT.forEach((e) => {
+                const unitValue = parseInt(e.value);
+                totalUnits += unitValue;
+                listOfUnits.push(unitValue);
+            });
+            console.log(listOfUnits);
+
+            let totalEarnedUnits = 0;
+
+            for (let i = 0; i < listOfUnits.length; i++) {
+                if(listOfGrades[i] != "P"){
+                    totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+                }
+                else{
+                    totalUnits -= listOfUnits[i];
+                }
+
+            }
+            const gpa = totalEarnedUnits / totalUnits;
+
+            if (gpa >= 0){
+                finalGPA.textContent = "Your GPA is " + gpa.toFixed(2);
+            } else {
+                finalGPA.textContent = "Please enter your correct grade and credit units";
+            }
+        },
+
+        AddForm() {
+            const newForm = {
+            id: Date.now(),
+            name:``,
+
+            }
+            this.forms.push(newForm);
+        },
+
+        removeForm(id) {
+            this.forms = this.forms.filter(form => form.id !== id);
+        },
 
         // finClac(oldGPA,totCred,newGPA,curCred){
         //     let resultGPA = 0;
@@ -191,36 +254,6 @@ export default {
         //         return 0 * unit;
         //     }
 
-        // },
-
-        // addCourse() {
-        //     let addNew = document.createElement("form");
-        //     addNew.classList.add("add_new", `key-${this.counter}`);
-        //     const course_name = `
-        //     <form class="add_new key-${this.counter}">
-        //         <input type="text" placeholder="Course Code" class="courses key-${this.counter}" required>
-        //             <input type="number" placeholder="Credit Units" class="credit-units key-${this.counter}" required>
-        //             <select class="grade1 key-${this.counter}" required>
-        //         <option value="select">Select</option>
-        //         <option value="4.00">A</option>
-        //         <option value="3.67">A-</option>
-        //         <option value="3.33">B+</option>
-        //         <option value="3.00">B</option>
-        //         <option value="2.67">B-</option>
-        //         <option value="2.33">C+</option>
-        //         <option value="2.00">C</option>
-        //         <option value="2.33">C-</option>
-        //         <option value="1.33">D+</option>
-        //         <option value="1.00">D</option>
-        //         <option value="0.67">D-</option>
-        //         <option value="0.00">F</option>
-        //         <option value="">P</option>
-        //         </select>
-        //     </form>
-        //     `;
-        //     addNew.innerHTML = course_name;
-        //     document.getElementById("course-wrapper").appendChild(addNew);
-        //     this.counter++;
         // },
 
         // // removeCourse() {
@@ -395,53 +428,6 @@ export default {
         //     }
         // },
 
-        // calcCgpa() {
-        //     const CGPAPARAGRAPH = document.getElementById("cgpa-calc");
-        //     const GRADESSELECT = document.querySelectorAll("select.grade1");
-        //     const UNIT = document.querySelectorAll("input.credit-units");
-
-        //     //const courseReport = {};
-
-        //     const listOfGrades = [];
-        //     const listOfUnits = [];
-        //     let totalUnits = 0;
-
-        //     GRADESSELECT.forEach((e) => {
-        //         let GRADES = e.options;
-        //         const selectedIndex = e.selectedIndex;
-        //         const selectedGrade = GRADES[selectedIndex];
-        //         const gradeValue = selectedGrade.text.toUpperCase();
-        //         listOfGrades.push(gradeValue);
-        //     });
-        //     console.log(listOfGrades);
-
-        //     UNIT.forEach((e) => {
-        //         const unitValue = parseInt(e.value);
-        //         totalUnits += unitValue;
-        //         listOfUnits.push(unitValue);
-        //     });
-        //     console.log(listOfUnits);
-
-        //     let totalEarnedUnits = 0;
-
-        //     for (let i = 0; i < listOfUnits.length; i++) {
-        //         if(listOfGrades[i] != "P"){
-        //             totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
-        //         }
-        //         else{
-        //             totalUnits -= listOfUnits[i];
-        //         }
-
-        //     }
-        //     const gpa = totalEarnedUnits / totalUnits;
-
-        //     if (gpa >= 0){
-        //         CGPAPARAGRAPH.textContent = "Your GPA is " + gpa.toFixed(2);
-        //     } else {
-        //         CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";
-        //     }
-        // },
-
         // clearFormTotal(){
         //     const mainForm = document.querySelectorAll("form.add_new1");
         //    	mainForm.forEach((e) => {
@@ -498,26 +484,6 @@ export default {
         //         CGPAPARAGRAPH.textContent = "Please enter your correct grade and credit units";
         //     }
         // },
-
-        // // addAssignment(){
-        // //     let addNew = document.createElement("form");
-        // //     addNew.classList.add("add_new2", `key-${this.counter}`);
-        // //     const semester_name = `
-        // //     <form class="add_new2 key-${this.counter}">
-        // //         <input type="text" placeholder="Assignment/Exam" class="Assignment key-${this.counter}" optional>
-        // //         <input type="number" placeholder="Grade(%)" class="Percent key-${this.counter}" required>
-        // //         <input type="number" placeholder="Weight" class="Weight key-${this.counter}" required>
-
-        // //     </form>
-        // //     `;
-        // //     addNew.innerHTML = semester_name;
-        // //     document.getElementById("grade-wrapper").appendChild(addNew);
-        // //     this.counter++;
-        // // },
-        // // removeAssignment() {
-        // //     let mainForms = document.querySelectorAll("form.add_new2");
-        // //     mainForms[mainForms.length-1].remove();
-        // // },
 
     },
     computed: {
@@ -709,6 +675,7 @@ button {
 
 .container {
     max-width: 100%;
+    margin-bottom: 1rem;
 }
 
 .col {
