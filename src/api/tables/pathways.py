@@ -1,4 +1,5 @@
 from sqlalchemy import Column, ForeignKey
+from sqalchemy import relationship
 from sqlalchemy.dialects.postgresql import VARCHAR, TEXT, TSVECTOR
 
 from .database import Base
@@ -11,13 +12,9 @@ else:
 class Pathway(Base):
     __tablename__ = "pathway"
 
-    name = Column(VARCHAR(length=255))
-    description = TEXT
-    required_courses = Column(TSVECTOR, bool = False)
-    #foreign key for courses
-    courses = Column(TSVECTOR, ForeignKey("course.crn"))
-    compatible_minor = Column(TSVECTOR)
-
+    name = Column(VARCHAR(length=255), primary_key=True)
+    description = Column(TEXT)
+    compatible_minor = Column(VARCHAR(length=255))
     category_name = Column(VARCHAR(length=255), ForeignKey('categories.name'))
 
     def __init__(self, db_conn, cache):
@@ -111,3 +108,7 @@ class Pathway(Base):
             """
         pathway__name, error = self.db_conn.execute(sql, (pathway_name,), True)
         return (pathway_name, None) if not error else (False, error)
+    
+    course = relationship("Course", back_populates="pathway")
+    category_name = Column(VARCHAR(length=255), ForeignKey('categories.name'))
+    category = relationship("Category", back_populates="pathways")
