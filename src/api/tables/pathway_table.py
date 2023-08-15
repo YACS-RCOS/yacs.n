@@ -1,32 +1,36 @@
 import json
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from connection import db
 from category import Category
-from pathway import Pathway
+from pathways import Pathway
 from course import Course
-from database import Base
 
-# Load JSON data
-with open('pathwayV2.json', 'r') as json_file:
-    data = json.load(json_file)
+def create_category(name):
+    return Category(name=name)
 
-# Create a database connection
-engine = create_engine('your_database_connection_string')
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+def create_pathway(name, category):
+    return Pathway(name=name, category=category)
 
-# Iterate through JSON data and populate the database
-for item in data:
-    category = Category(name=item['Category Name'][0])
-    session.add(category)
-    
-    for pathway_data in item['Pathways']:
-        pathway = Pathway(name=pathway_data['Name'][0], category=category)
-        session.add(pathway)
-        
-        for course_name in pathway_data['Choose one of the following']:
-            course = Course(title=course_name, pathway=pathway)
-            session.add(course)
-    
-    session.commit()
+def create_course(name, pathway):
+    return Course(name=name, pathway=pathway)
+
+def populate_database(data):
+    for entry in data:
+        category_name = entry["Category Name"][0]
+        category = create_category(category_name)
+
+        for pathway_data in entry["Pathways"]:
+            pathway_name = pathway_data["Name"][0]
+            pathway = create_pathway(pathway_name, category)
+
+            for key, value in pathway_data.items():
+                if isinstance(value, list) and all(isinstance(course_name, str) for course_name in value):
+                    for course_name in value:
+                        course = create_course(course_name, pathway)
+                        db.execute("INSERT INTO courses (name, pathway_id) VALUES (%s, %s)", (course.name, course.pathway_id), isSELECT=False)
+
+    db.close()
+
+if __name__ == "__main__":
+    with open("pathwayV2.json", "r") as json_file:
+        data = json.load(json_file)
+        populate_database(data)

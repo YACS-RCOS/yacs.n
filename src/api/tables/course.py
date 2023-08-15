@@ -1,11 +1,11 @@
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, String, Integer
 from sqalchemy import relationship
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 
 from .database import Base
 
 class Course(Base):
-    __tablename__ = "course"
+    __tablename__ = "courses"
 
     #crn = Column(VARCHAR(length=255), primary_key=True)
     #section = Column(VARCHAR(length=255))
@@ -27,5 +27,7 @@ class Course(Base):
     #seats_total = Column(INTEGER)
     #tsv = Column(TSVECTOR)
 
-    pathway_name = Column(VARCHAR(length=255), ForeignKey('pathway_name'))
+    id = Column(Integer, primary_key=True)
+    pathway_id = Column(Integer, ForeignKey('pathways.id'))
+    name = Column(String)
     pathway = relationship("Pathway", back_populates="courses")
