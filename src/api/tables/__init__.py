@@ -15,5 +15,3 @@ from .professor import Professor
 from .database import Base
 from .database_session import SessionLocal
 
-from .category import Category
-from .pathway import Pathway

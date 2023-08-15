@@ -9,9 +9,7 @@ from .database import Base
 class Category(Base):
     __tablename__ = "categories"
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    pathways = relationship("Pathway", back_populates="category")
+    name = Column(String, primary_key=True)
 
     #name = Column(VARCHAR(length=255), primary_key=True)
     

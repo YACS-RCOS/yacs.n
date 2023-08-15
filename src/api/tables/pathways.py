@@ -14,9 +14,10 @@ class Pathway(Base):
     #compatible_minor = Column(VARCHAR(length=255))
     #category_name = Column(VARCHAR(length=255), ForeignKey('categories.name'))
 
-    id = Column(Integer, primary_key=True)
-    category_id = Column(Integer, ForeignKey('categories.id'))
-    name = Column(String)
+    id = Column(String, primary_key=True)
+    category_name = Column(String, ForeignKey('categories.name'))
+    compatible_minors = Column(String)
+
     category = relationship("Category", back_populates="pathways")
     courses = relationship("Course", back_populates="pathway")
 

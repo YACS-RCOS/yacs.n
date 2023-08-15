@@ -27,7 +27,6 @@ class Course(Base):
     #seats_total = Column(INTEGER)
     #tsv = Column(TSVECTOR)
 
-    id = Column(Integer, primary_key=True)
-    pathway_id = Column(Integer, ForeignKey('pathways.id'))
+    id = Column(String, primary_key=True)
     name = Column(String)
-    pathway = relationship("Pathway", back_populates="courses")
+    pathway_id = Column(String, ForeignKey('pathways.id'))
