@@ -1,36 +1,33 @@
 import json
-from connection import db
-from category import Category
-from pathways import Pathway
-from course import Course
+from .database_session import SessionLocal
+from .category import Category
+from .pathway import Pathway
+from .course import Course
 
-def create_category(name):
-    return Category(name=name)
+def populate_database():
+    with open('pathwayV2.json', 'r') as json_file:
+        data = json.load(json_file)
 
-def create_pathway(name, category):
-    return Pathway(name=name, category=category)
+    db = SessionLocal()
 
-def create_course(name, pathway):
-    return Course(name=name, pathway=pathway)
+    for category_data in data:
+        category_name = category_data['Category Name'][0]
+        category = Category(name=category_name)
+        db.add(category)
 
-def populate_database(data):
-    for entry in data:
-        category_name = entry["Category Name"][0]
-        category = create_category(category_name)
+        for pathway_data in category_data['Pathways']:
+            pathway_name = pathway_data['Name'][0]
+            compatible_minors = pathway_data.get('Compatible minor(s)', [])[0]
 
-        for pathway_data in entry["Pathways"]:
-            pathway_name = pathway_data["Name"][0]
-            pathway = create_pathway(pathway_name, category)
+            pathway = Pathway(id=pathway_name, category_name=category_name, compatible_minors=compatible_minors)
+            db.add(pathway)
 
-            for key, value in pathway_data.items():
-                if isinstance(value, list) and all(isinstance(course_name, str) for course_name in value):
-                    for course_name in value:
-                        course = create_course(course_name, pathway)
-                        db.execute("INSERT INTO courses (name, pathway_id) VALUES (%s, %s)", (course.name, course.pathway_id), isSELECT=False)
+            for course_name in pathway_data['Choose one of the following'] + pathway_data['Choose remaining credits from the following']:
+                course = Course(name=course_name, pathway_id=pathway_name)
+                db.add(course)
 
+    db.commit()
     db.close()
 
 if __name__ == "__main__":
-    with open("pathwayV2.json", "r") as json_file:
-        data = json.load(json_file)
-        populate_database(data)
+    populate_database()

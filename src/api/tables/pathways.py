@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
-from sqalchemy.orm import relationship
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import VARCHAR, TEXT, TSVECTOR
 
 from .course import Course
@@ -23,13 +23,6 @@ class Pathway(Base):
     #category_name = Column(VARCHAR(length=255), ForeignKey('categories.name'))
     #category = relationship("Category", back_populates="pathways")
 
-    def addCourse(self, course_name):
-        course = Course(name=course_name, pathway=self)
-        db.execute("INSERT INTO courses (name, pathway_id) VALUES (%s, %s)", (course.name, course.pathway_id), isSELECT=False)
-    
-    def removeCourse(self, course_name):
-        course_to_remove = next((course for course in self.courses if course.name == course_name), None)
-        if course_to_remove:
-            db.execute("DELETE FROM courses WHERE id = %s", (course_to_remove.id,), isSELECT=False)
+   
 
    
