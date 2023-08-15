@@ -3,7 +3,17 @@
       <section id="edits">
         <h2>Pathway Testing</h2>
         <div class="form-group">
-          <label for="PathwayName">PathwayName:</label>
+          <label for="CategoryName">Category Name:</label>
+          <input
+            v-model="CategoryName"
+            type="text"
+            class="form-control"
+            id="CategoryName"
+            placeholder="Enter a category name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="PathwayName">Pathway Name:</label>
           <input
             v-model="PathwayName"
             type="text"
@@ -13,7 +23,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="CourseName">CourseName:</label>
+          <label for="CourseName">Course Name:</label>
           <input
             v-model="CourseName"
             type="text"
@@ -55,6 +65,7 @@
 
     data() {
       return {
+        category: "",
         pathway: "",
         course: "",
       };
