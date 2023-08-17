@@ -1,8 +1,16 @@
 <template>
   <div class="feedback-form">
     <textarea v-model="feedback" :placeholder="placeholder"></textarea>
-    <div class="character-count">{{ remainingCharacters }} characters remaining</div>
-    <button @click="submitFeedback" :disabled="isSubmitting || !isValid">Submit Feedback</button>
+    <div class="character-count">
+      {{ remainingCharacters }} characters remaining
+      <span v-if="showWordCount"> ({{ wordCount }} words)</span>
+    </div>
+    <button @click="submitFeedback" :disabled="isSubmitting || !isValid">
+      {{ isSubmitting ? 'Submitting...' : 'Submit Feedback' }}
+    </button>
+    <div v-if="showSuccessMessage" class="success-message">
+      Thank you for your feedback!
+    </div>
   </div>
 </template>
 
@@ -13,16 +21,25 @@ export default {
       feedback: '',
       isSubmitting: false,
       maxCharacters: 300,
-      placeholder: 'Enter your feedback...'
+      placeholder: 'Enter your feedback...',
+      showWordCount: true,
+      showSuccessMessage: false,
     };
   },
   computed: {
     remainingCharacters() {
       return this.maxCharacters - this.feedback.length;
     },
+    wordCount() {
+      return this.feedback.trim().split(/\s+/).filter(word => word !== '').length;
+    },
     isValid() {
-      return this.feedback.trim() !== '' && this.feedback.length <= this.maxCharacters;
-    }
+      return (
+        this.feedback.trim() !== '' &&
+        this.feedback.length <= this.maxCharacters &&
+        this.wordCount <= 50
+      );
+    },
   },
   methods: {
     async submitFeedback() {
@@ -33,14 +50,18 @@ export default {
           await new Promise(resolve => setTimeout(resolve, 1000));
           this.$emit('submit', this.feedback);
           this.feedback = '';
+          this.showSuccessMessage = true;
+          setTimeout(() => {
+            this.showSuccessMessage = false;
+          }, 3000);
         } catch (error) {
           console.error('Error submitting feedback:', error);
         } finally {
           this.isSubmitting = false;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -74,5 +95,11 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.success-message {
+  margin-top: 10px;
+  color: #28a745;
+  font-weight: bold;
 }
 </style>
