@@ -12,36 +12,39 @@
             <b-container class="container">
                 <b-row>
                     <b-col cols="8">
-                        <b-row
-                            v-for="(courses, index) in courseObjects"
-                            :key="`deptCol-${index}`"
-                            align-v="stretch"
-                        >
-                            <b-col
-                                v-for="course in courses"
-                                :key="course.id"
-                                class="col"
-                            >
+                        <b-row v-for="(courses, index) in courseObjects" :key="`deptCol-${index}`" align-v="stretch">
+                            <b-col v-for="course in courses" :key="course.id" class="col">
                                 <div class="course">
                                     <b data-cy="name">{{ course.name }} - {{ course.title }}</b>
                                     <br />
                                     Credits: {{ course.max_credits }}
-                                    <div id="course.name">
-                                        {{ addCourse() }}
-                                    </div>
+                                    <br />
+                                    <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}" v-model="selected">                 
+                                        <b-form-group id="course.id-group" label-for="course.id">
+                                            <b-form-select
+                                                id="course.id"
+                                                :options="grades"
+                                                required
+                                                class="select"
+                                            ></b-form-select>
+                                        </b-form-group>
+                                    </b-form>
                                 </div>
                             </b-col>
                         </b-row>
-                        <button @click="calcGPA();">Calculate GPA</button>
+                        <button @click="">Calculate GPA</button>
                     </b-col>
                     <b-col align-self="stretch">
-                        <h3><center>GPA</center></h3>
-                        <h3><center id="calculatedGPA"></center></h3>
+                        <h3>
+                            <center>GPA</center>
+                        </h3>
+                        <h3>
+                            <center>grade goes here</center>
+                        </h3>
                     </b-col>
                 </b-row>
             </b-container>
         </div>
-
     </b-container>
 </template>
 
@@ -70,14 +73,24 @@ export default {
                 }
             ],
             counter: 0,
-            forms: [],
+            grades: [{ text: 'A', value: 4.00 },
+            { text: 'A-', value: 3.67 },
+            { text: 'B+', value: 3.33 },
+            { text: 'B', value: 3.00 },
+            { text: 'B-', value: 2.67 },
+            { text: 'C+', value: 2.33 },
+            { text: 'C', value: 2.00 },
+            { text: 'C-', value: 1.67 },
+            { text: 'D+', value: 1.33 },
+            { text: 'D', value: 1.00 },
+            { text: 'F', value: 0.00 },
+            { text: 'P', value: null }],
+            selected: "Select your grade",
             selectedCourses: {},
             selectedScheduleSubsemester: null,
             loadedIndexCookie: 0,
-            addCourse(),
         };
     },
-    // ,
     methods: {
 
         async loadStudentCourses() {
@@ -93,7 +106,6 @@ export default {
                                 course.semester == cid.semester
                             );
                         });
-
                         if (cid.crn != "-1") {
                             var sect = c.sections.find(function (section) {
                                 return section.crn == cid.crn;
@@ -122,92 +134,86 @@ export default {
                     selectedCoursesCookie.clear().save();
                 }
             }
-            
+
         },
 
         addCourse() {
             let addNew = document.createElement("form");
             addNew.classList.add("add_new", `key-${this.counter}`);
-            const form = `<b-form v-if="course.max_credits != 0" class="add_new key-${this.counter}">             
-                                <b-form-select label="Grade:" class="grades key-${this.counter}">
-                                    <b-form-select-option :value="null" disabled>-- Select your grade --</b-form-select-option>
-                                    <b-form-select-option value="4">A</b-form-select-option>
-                                    <b-form-select-option value="3.67">A-</b-form-select-option>
-                                    <b-form-select-option value="3.33">B+</b-form-select-option>
-                                    <b-form-select-option value="3">B</b-form-select-option>
-                                    <b-form-select-option value="2.67">B-</b-form-select-option>
-                                    <b-form-select-option value="2.33">C+</b-form-select-option>
-                                    <b-form-select-option value="2">C</b-form-select-option>
-                                    <b-form-select-option value="1.33">C-</b-form-select-option>
-                                    <b-form-select-option value="1">D+</b-form-select-option>
-                                    <b-form-select-option value="0.67">D</b-form-select-option>
-                                    <b-form-select-option value="0">F</b-form-select-option>
-                                    <b-form-select-option value="P">P</b-form-select-option>
-                                </b-form-select>
+            const form = `  <b-form v-if="course.max_credits != 0" id="" class="add_new key-${this.counter}" v-model="selected">                 
+                                <b-form-group id="course.id-group" label-for="course.id">
+                                    <b-form-select
+                                    id="course.id"
+                                    :options="grades"
+                                    required
+                                    class="select"
+                                    ></b-form-select>
+                                </b-form-group>
+                                        
                             </b-form>
                         `;
             addNew.innerHTML = form;
             document.getElementById("{{ course.name }}").appendChild(addNew);
-            this.counter++;
+            this.courses++;
         },
 
-        calcGPA() {
-            const finalGPA = document.getElementById("calculatedGPA");
-            const GRADESSELECT = document.querySelectorAll("b-form-select.grades");
-            const UNIT = document.querySelectorAll(".credit-units");
+        // calcGPA() {
+        //     const finalGPA = document.getElementById("calculatedGPA");
+        //     const GRADESSELECT = document.querySelectorAll("b-form-select.grades");
+        //     const UNIT = document.querySelectorAll(".credit-units");
 
-            const listOfGrades = [];
-            const listOfUnits = [];
-            let totalUnits = 0;
+        //     const listOfGrades = [];
+        //     const listOfUnits = [];
+        //     let totalUnits = 0;
 
-            GRADESSELECT.forEach((e) => {
-                let GRADES = e.options;
-                const selectedIndex = e.selectedIndex;
-                const selectedGrade = GRADES[selectedIndex];
-                const gradeValue = selectedGrade.text.toUpperCase();
-                listOfGrades.push(gradeValue);
-            });
-            console.log(listOfGrades);
+        //     GRADESSELECT.forEach((e) => {
+        //         let GRADES = e.options;
+        //         const selectedIndex = e.selectedIndex;
+        //         const selectedGrade = GRADES[selectedIndex];
+        //         const gradeValue = selectedGrade.text.toUpperCase();
+        //         listOfGrades.push(gradeValue);
+        //     });
+        //     console.log(listOfGrades);
 
-            UNIT.forEach((e) => {
-                const unitValue = parseInt(e.value);
-                totalUnits += unitValue;
-                listOfUnits.push(unitValue);
-            });
-            console.log(listOfUnits);
+        //     UNIT.forEach((e) => {
+        //         const unitValue = parseInt(e.value);
+        //         totalUnits += unitValue;
+        //         listOfUnits.push(unitValue);
+        //     });
+        //     console.log(listOfUnits);
 
-            let totalEarnedUnits = 0;
+        //     let totalEarnedUnits = 0;
 
-            for (let i = 0; i < listOfUnits.length; i++) {
-                if(listOfGrades[i] != "P"){
-                    totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
-                }
-                else{
-                    totalUnits -= listOfUnits[i];
-                }
+        //     for (let i = 0; i < listOfUnits.length; i++) {
+        //         if (listOfGrades[i] != "P") {
+        //             totalEarnedUnits += this.gradeCalc(listOfGrades[i], listOfUnits[i]);
+        //         }
+        //         else {
+        //             totalUnits -= listOfUnits[i];
+        //         }
 
-            }
-            const gpa = totalEarnedUnits / totalUnits;
+        //     }
+        //     const gpa = totalEarnedUnits / totalUnits;
 
-            if (gpa >= 0){
-                finalGPA.textContent = "Your GPA is " + gpa.toFixed(2);
-            } else {
-                finalGPA.textContent = "Please enter your correct grade and credit units";
-            }
-        },
+        //     if (gpa >= 0) {
+        //         finalGPA.textContent = "Your GPA is " + gpa.toFixed(2);
+        //     } else {
+        //         finalGPA.textContent = "Please enter your correct grade and credit units";
+        //     }
+        // },
 
-        AddForm() {
-            const newForm = {
-            id: Date.now(),
-            name:``,
+        // AddForm() {
+        //     const newForm = {
+        //         id: Date.now(),
+        //         name: ``,
 
-            }
-            this.forms.push(newForm);
-        },
+        //     }
+        //     this.forms.push(newForm);
+        // },
 
-        removeForm(id) {
-            this.forms = this.forms.filter(form => form.id !== id);
-        },
+        // removeForm(id) {
+        //     this.forms = this.forms.filter(form => form.id !== id);
+        // },
 
         // finClac(oldGPA,totCred,newGPA,curCred){
         //     let resultGPA = 0;
@@ -228,32 +234,7 @@ export default {
         // },
 
         // gradeCalc(grade, unit) {
-        //     if (grade === "A") {
-        //         return 4 * unit;
-        //     } else if (grade === "A-") {
-        //         return 3.67 * unit;
-        //     } else if (grade === "B+") {
-        //         return 3.33 * unit;
-        //     } else if (grade === "B") {
-        //         return 3 * unit;
-        //     } else if (grade === "B-") {
-        //         return 2.67 * unit;
-        //     } else if (grade === "C+") {
-        //         return 2.33 * unit;
-        //     } else if (grade === "C") {
-        //         return 2 * unit;
-        //     } else if (grade === "C-") {
-        //         return 1.67 * unit;
-        //     } else if (grade === "D+") {
-        //         return 1.33 * unit;
-        //     } else if (grade === "D") {
-        //         return 1 * unit;
-        //     } else if (grade === "D-") {
-        //         return .67 * unit;
-        //     } else if (grade === "F") {
-        //         return 0 * unit;
-        //     }
-
+        //     return grade * unit;
         // },
 
         // // removeCourse() {
@@ -496,24 +477,24 @@ export default {
             return this.$store.state.isLoadingCourses;
         },
 
-        courseObjects(){
+        courseObjects() {
             let rowArr = [];
             let rowNum = 0, counter = 0;
-            let courses = Object.values(this.selectedCourses).sort((a,b) => a.name - b.name);
+            let courses = Object.values(this.selectedCourses).sort((a, b) => a.name - b.name);
             for (let i = 0; i < courses.length; i++) {
-                if(counter === 0){
+                if (counter === 0) {
                     rowArr.push([]);
                 }
                 counter = counter + 1;
                 rowArr[rowNum].push(courses[i]);
-                if(counter === 2){
+                if (counter === 2) {
                     counter = 0;
                     rowNum = rowNum + 1;
                 }
             }
             return rowArr;
         }
-    
+
     },
     watch: {
         courses: {
@@ -685,5 +666,4 @@ button {
 .select {
     width: -webkit-fill-available;
 }
-
 </style>
