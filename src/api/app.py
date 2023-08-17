@@ -21,6 +21,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.dp_schedules as DpSchedules
 
 from degree_planner.planner import Planner
 from degree_planner.math.dictionary_array import Dict_Array
@@ -63,6 +64,7 @@ course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 professor_info =  All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
+dp_schedules = DpSchedules.Dp_schedules(db_conn)
 
 planner = Planner(enable_tensorflow=False)
 planner.import_data()
@@ -159,6 +161,17 @@ async def dp_print(userid:str = Body(...)):
 
     print(f'== FINISHED PRINT API CALL {randint}')
     return {'courses': course_list, 'degree': degree}
+
+@app.get('/api/dp/testschedule')
+async def dp_test_schedule():
+    scheduleid = 'potato'
+    courses_taken = [['CSCI 1200', 'ARTS 2070'], ['CSCI 2300']]
+    degree = 'computer science'
+
+    dp_schedules.update(scheduleid, courses_taken, degree)
+
+    results = dp_schedules.get_schedule(scheduleid)
+    print(f'schedule SQL results: \n{results}')
 
 
 @app.get('/api/dp/schedules/{userid}')

@@ -38,8 +38,6 @@
         </div>
 
         <div class="suggestions">
-          <h3>Recommendations:</h3>
-          <p> none for now ;-; </p>
         </div>
       </div>
   </div>
@@ -370,7 +368,7 @@ export default {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 245px;
+  max-height: 255px;
   background-color: rgba(30, 32, 33, 0.7);
   list-style: none;
   margin-top: 2px;

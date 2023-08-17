@@ -159,7 +159,7 @@
 
             <div v-if="highlightedFulfillment == 'Core'">
               <div style="margin-top: 100px; color: #545f5f; font-size: 16px; font-weight: 700">
-                Your Core Classes, All Info Are Already Displayed On Card
+                Your Core Classes, Info Displayed On Card
               </div>
             </div>
 
