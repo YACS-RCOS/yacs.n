@@ -10,6 +10,7 @@ from typing import Dict, Optional
 import asyncio
 import random
 import time
+import json
 
 from api_models import *
 import db.connection as connection
@@ -28,6 +29,8 @@ from degree_planner.math.dictionary_array import Dict_Array
 from degree_planner.math.sorting import sorting
 from degree_planner.dp.command_handler import Command_Handler
 from degree_planner.dp.requirement import Requirement
+
+from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status
 
 import controller.user as user_controller
 import controller.session as session_controller
@@ -108,8 +111,36 @@ def is_admin_user(session):
 @app.post('/api/dp/newuser')
 async def dp_create_user(userid:str = Body(...)):
     planner.add_user(userid)
-    print(planner.degrees())
+    await dp_load_schedules(userid)
     return {"degrees":planner.degrees()}
+
+@app.get('/api/dp/redisstat')
+async def dp_redis_status():
+    return get_redis_status()
+
+async def dp_load_schedules(userid:str):
+    user = planner.get_user(userid)
+    schedules = await get_user_schedules(userid)
+    print(f'found user schedules {schedules}')
+    for schedule_name in schedules:
+        schedule_name = schedule_name[len(userid) + 1:]
+        schedule_data = await wrapper_get_schedule(userid, schedule_name)
+        planner.schedule(user, schedule_name)
+        planner.set_degree(user, schedule_data['degree'])
+        for semester, courses in schedule_data['courses'].items():
+            for course in courses:
+                planner.add_course(user, semester, course)
+
+async def dp_save_schedules(userid:str, schedule=None):
+    user = planner.get_user(userid)
+    schedules = planner.schedule_data(user)
+    for schedule_name, schedule_data in schedules.items():
+        if schedule is not None and schedule != schedule_name:
+            continue
+        await wrapper_save_schedule(userid, schedule_name, schedule_data)
+
+async def dp_redis_delete_schedule(userid:str, schedule_name):
+    await wrapper_delete_schedule(userid, schedule_name)
 
 
 @app.post('/api/dp/setdegree')
@@ -119,6 +150,7 @@ async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
         return Response(content="user not found")
     
     planner.set_degree(user, degree_name.casefold())
+    await dp_save_schedules(userid, user.active_schedule)
 
 
 @app.post('/api/dp/add')
@@ -128,6 +160,7 @@ async def dp_add_course(userid:str = Body(...), semester:int = Body(...), course
         return Response(content="user not found")
     
     planner.add_course(user, semester, course)
+    await dp_save_schedules(userid, user.active_schedule)
 
 @app.post('/api/dp/remove')
 async def dp_remove_course(userid:str = Body(...), semester:int = Body(...), course:str = Body(...)):
@@ -136,6 +169,7 @@ async def dp_remove_course(userid:str = Body(...), semester:int = Body(...), cou
         return Response(content="user not found")
     
     planner.remove_course(user, semester, course)
+    await dp_save_schedules(userid, user.active_schedule)
 
 
 @app.post('/api/dp/print')
@@ -263,6 +297,8 @@ async def dp_delete_schedule(userid:str = Body(...), schedule_name:str = Body(..
         return Response(content="user not found")
     
     planner.delete_schedule(user, schedule_name)
+    await dp_redis_delete_schedule(userid, schedule_name)
+
 
 
 @app.post('/api/dp/schedulerename')
@@ -273,6 +309,8 @@ async def dp_rename_schedule(userid:str = Body(...), old_schedule_name:str = Bod
         return Response(content="user not found")
     
     planner.rename_schedule(user, old_schedule_name, new_schedule_name)
+    await dp_redis_delete_schedule(userid, old_schedule_name)
+    await dp_save_schedules(userid, new_schedule_name)
 
 
 @rate_limited(4)

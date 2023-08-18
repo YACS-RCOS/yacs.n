@@ -6,6 +6,7 @@ from .io.output import Output
 from .io.parse import parsing
 from .dp.catalog import Catalog
 from .math.search import Search
+from .math.dictionary_array import Dict_Array
 from .user.user import User
 from .dp.recommend import recommend
 from .dp.fulfill import get_fulfillment, get_optimized_fulfillment
@@ -129,6 +130,23 @@ class Planner():
                 objects
         '''
         return user.get_schedule_names()
+    
+    def schedule_data(self, user:User) -> dict:
+        '''
+        Returns: {schedule_name: {'courses': {semester: [courses]}, 'degree': degree_name}}
+        '''
+        schedules = {}
+        for schedule_name, schedule in user.schedules.items():
+            degree_name = ''
+            if schedule.degree is not None:
+                degree_name = schedule.degree.name
+            courses = schedule.courses
+            
+            courses_strings = Dict_Array(list_type='list')
+            for semester, course_list in courses.dictionary.items():
+                courses_strings.extend_elements(semester, [e.name for e in course_list])
+            schedules.update({schedule_name:{'courses':courses_strings.dictionary, 'degree': degree_name}})
+        return schedules
     
     def degrees(self) -> dict:
         degrees_directory = self.catalog.compile_template_attributes()

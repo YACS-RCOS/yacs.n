@@ -6,6 +6,7 @@ version: "3.4"
 volumes:
   web_node_modules:
   postgres_data:
+  redis_data:
 
 services:
   yacs_nginx:
@@ -56,9 +57,21 @@ services:
       - POSTGRES_USER=yacs
       - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
 
-  redis:
+  redis-celery:
     image: redis:latest
-    container_name: yacs_redis
+    container_name: yacs_redis_celery
+    ports:
+      - "6379:6379"
+
+  redis-userdata:
+    image: redis:latest
+    container_name: yacs_redis_userdata
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis-persistent.conf:/usr/local/etc/redis/redis.conf
+      - redis_data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
 
   celery:
     container_name: yacs_celery
@@ -73,5 +86,5 @@ services:
     volumes:
       - ./src/api:/app
     depends_on:
-      - redis
+      - redis-celery
 
