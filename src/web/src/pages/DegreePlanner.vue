@@ -473,23 +473,21 @@ import CatalogTree from '@/components/CatalogTree.vue';
         async fetch_data(fulfill = true, recommend = true) {
             this.loading = true;
             await this.getSchedules();
-            if (this.schedule_name == '') {
-              let schedule_name = this.defaultScheduleName;
-              let userid = this.userid;
-              await fetch('/api/dp/schedule', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({userid, schedule_name}),
-              });
+            if (this.schedule_name == '' && this.schedules.length == 0) {
+              // create new default schedule if no schedules
+              await this.setSchedule(this.defaultScheduleName);
+              await this.getSchedules();
+            }
+            else if (this.schedule_name == '' && this.schedules.length > 0) {
+              // otherwise, set the active schedule to the first schedule in the user's schedule list
+              await this.setSchedule(this.schedules[0]);
               await this.getSchedules();
             }
             // fetch fulfillment and recommendations
             this.print();
             if (fulfill) {
               this.get_fulfillment();
-              this.get_fulfillment_details().then(this.delayedFinishedLoading(700));
+              this.get_fulfillment_details().then(this.delayedFinishedLoading(800));
             }
             if (recommend) {
               this.get_recommendation();

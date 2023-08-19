@@ -152,7 +152,7 @@ class Planner():
         degrees_directory = self.catalog.compile_template_attributes()
         return degrees_directory
 
-    def set_degree(self, user:User, degree_name:str) -> bool:
+    def set_degree(self, user:User, degree_name:str, schedule=None) -> bool:
         ''' Changes user's active schedule's degree
 
         Args:
@@ -169,6 +169,10 @@ class Planner():
         if degree is None:
             self.output.print(f"invalid degree entered: {degree_name}")
             return False
+        
+        if schedule is not None:
+            schedule.degree = degree
+            return True
         
         if user.get_active_schedule() is None:
             self.output.print(f"no schedule: {degree_name}")
@@ -205,7 +209,7 @@ class Planner():
         recommendation = recommend(schedule.get_courses(), self.catalog, schedule.degree.requirements, custom_tags=custom_tags)
         return recommendation
 
-    def add_course(self, user:User, semester, course_name:str):
+    def add_course(self, user:User, semester, course_name:str, schedule=None):
         ''' Add course to user's schedule
 
         Args:
@@ -233,7 +237,11 @@ class Planner():
 
         # at this point, returned_courses have exactly one course, so we can perform the addition immediately
         course = matched_course_names[0]
-        user.get_active_schedule().add_course(semester, self.catalog.get_element(course))
+        if schedule is None:
+            schedule = user.get_active_schedule()
+            if schedule is None:
+                return
+        schedule.add_course(semester, self.catalog.get_element(course))
         self.output.debug(f"Added course {course} to semester {semester}")
 
 

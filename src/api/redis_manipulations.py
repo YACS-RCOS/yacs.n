@@ -31,6 +31,18 @@ async def remove_user_schedule(userid:str, schedule_id:str):
     schedule_ids.remove(schedule_id)
     await set_user_schedules(userid, schedule_ids)
 
+async def delete_user(userid:str):
+    schedule_ids = await get_user_schedules(userid)
+    for schedule_id in schedule_ids:
+        await delete_schedule(schedule_id)
+    redis_client.delete(f'user:{userid}')
+
+async def purify():
+    all_keys = redis_client.keys('*')
+    for key in all_keys:
+        redis_client.delete(key)
+        print(f'deleted entry with key {key}')
+
 
 '''
 SCHEDULE DATA
@@ -74,6 +86,11 @@ async def wrapper_delete_schedule(userid:str, schedule_name:str):
 
 def get_schedule_id(userid:str, schedule_name:str):
     return f'{userid}:{schedule_name}'
+
+def get_schedule_name(schedule_id:str):
+    if ':' in schedule_id:
+        return schedule_id[schedule_id.find(':') + 1:]
+    return schedule_id
 
 def get_redis_status():
     all_keys = redis_client.keys('*')

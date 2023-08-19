@@ -29,8 +29,9 @@ from degree_planner.math.dictionary_array import Dict_Array
 from degree_planner.math.sorting import sorting
 from degree_planner.dp.command_handler import Command_Handler
 from degree_planner.dp.requirement import Requirement
+from degree_planner.user.schedule import Schedule
 
-from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status
+from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status, get_schedule_name, purify
 
 import controller.user as user_controller
 import controller.session as session_controller
@@ -118,20 +119,29 @@ async def dp_create_user(userid:str = Body(...)):
 async def dp_redis_status():
     return get_redis_status()
 
+@app.get('/api/dp/redispurify')
+async def dp_redis_purify():
+    await purify()
+
 async def dp_load_schedules(userid:str):
     user = planner.get_user(userid)
     schedules = await get_user_schedules(userid)
-    print(f'found user schedules {schedules}')
-    for schedule_name in schedules:
-        schedule_name = schedule_name[len(userid) + 1:]
+
+    for schedule_id in schedules:
+        schedule_name = get_schedule_name(schedule_id)
+
+        # dictionary of schedule data
         schedule_data = await wrapper_get_schedule(userid, schedule_name)
-        planner.schedule(user, schedule_name)
-        planner.set_degree(user, schedule_data['degree'])
+
+        # create new schedule object and add it to user
+        schedule = Schedule(schedule_name)
+        planner.set_degree(user, schedule_data['degree'], schedule=schedule)
         for semester, courses in schedule_data['courses'].items():
             for course in courses:
-                planner.add_course(user, semester, course)
+                planner.add_course(user, semester, course, schedule)
+        user.add_schedule(schedule_name, schedule)
 
-async def dp_save_schedules(userid:str, schedule=None):
+async def dp_save_schedules(userid:str, schedule:str=None):
     user = planner.get_user(userid)
     schedules = planner.schedule_data(user)
     for schedule_name, schedule_data in schedules.items():
