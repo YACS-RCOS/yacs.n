@@ -414,12 +414,12 @@ Vue.use(VueCookies)
         schedulerDrop(event, dragToSemester) {
             event.preventDefault();
             if (this.dragElement != null) {
-                if (this.dragFromSemester != -1) {
+                if (this.dragFromSemester == -1) {
+                    this.add(dragToSemester, this.dragElement, true, true, true);
+                }
+                else if (this.dragFromSemester != -1 && this.dragFromSemester != dragToSemester) {
                     this.remove(this.dragFromSemester, this.dragElement, false, false);
                     this.add(dragToSemester, this.dragElement, false, false);
-                }
-                else {
-                    this.add(dragToSemester, this.dragElement, true, true, true);
                 }
             }
             this.hoverCounter = 0;
