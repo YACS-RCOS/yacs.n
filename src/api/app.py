@@ -5,12 +5,11 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
-from fastapi import Depends
 from typing import Dict, Optional
 import asyncio
 import random
 import time
-import json
+import uuid
 
 from api_models import *
 import db.connection as connection
@@ -26,12 +25,10 @@ import db.dp_schedules as DpSchedules
 
 from degree_planner.planner import Planner
 from degree_planner.math.dictionary_array import Dict_Array
-from degree_planner.math.sorting import sorting
-from degree_planner.dp.command_handler import Command_Handler
 from degree_planner.dp.requirement import Requirement
 from degree_planner.user.schedule import Schedule
 
-from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status, get_schedule_name, purify
+from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status, get_schedule_name, purify, has_user
 
 import controller.user as user_controller
 import controller.session as session_controller
@@ -56,7 +53,6 @@ app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
 
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
-
 
 # - init interfaces to db
 db_conn = connection.db
@@ -109,11 +105,28 @@ def is_admin_user(session):
         return True
     return False
 
-@app.post('/api/dp/newuser')
-async def dp_create_user(userid:str = Body(...)):
+@app.get("/api/dp/newuser")
+async def dp_new_user():
+    # Generate a token and userid
+    userid = str(uuid.uuid4())
     planner.add_user(userid)
-    await dp_load_schedules(userid)
+    return {'userid': userid}
+
+# TODO: add IP detection to avoid spam
+@app.get('/api/dp/info')
+async def dp_info():
     return {"degrees":planner.degrees()}
+
+
+@app.get('/api/dp/loaduser/{userid}')
+async def dp_load_user(userid:str):
+    if not has_user(userid):
+        return {'hasuser': False}
+    if planner.get_user(userid) is None:
+        planner.add_user(userid)
+    await dp_load_schedules(userid)
+    return {'hasuser': True}
+
 
 @app.get('/api/dp/redisstat')
 async def dp_redis_status():

@@ -215,6 +215,9 @@
 
 import SearchBarModal from '../components/SearchBarModal.vue';
 import CatalogTree from '@/components/CatalogTree.vue';
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
   export default {
     data() {
@@ -263,6 +266,16 @@ import CatalogTree from '@/components/CatalogTree.vue';
         };
     },
     methods: {
+        setUserid(userid) {
+          this.$cookies.set("userid", userid, "366d");
+        },
+        getUserid() {
+          const userid = this.$cookies.get("userid");
+          return userid
+        },
+        delUserid() {
+          this.$cookies.remove("userid");
+        },
         coursePresentIn(course) {
           let presentIn = [];
           for (const requirement in this.requirements) {
@@ -494,15 +507,34 @@ import CatalogTree from '@/components/CatalogTree.vue';
             }
         },
         async newuser() {
-            let userid = this.userid;
-            const response = await fetch('/api/dp/newuser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userid),
-            });
-            let data = await response.json();
+          const response = await fetch('/api/dp/newuser');
+          let userData = await response.json();
+          this.userid = userData.userid;
+          this.setUserid(this.userid);
+          console.log('making new user, id is ' + this.userid);
+        },
+        async loaduser() {
+            // new user
+            if (this.getUserid() == null) {
+              await this.newuser();
+            }
+
+            // already has id
+            else {
+              let userid = this.getUserid();
+              const response = await fetch('/api/dp/loaduser/' + userid);
+              let userfound = await response.json();
+              if (userfound.hasuser) {
+                this.userid = userid;
+                console.log('loaded returning user id ' + userid);
+              } else {
+                await this.newuser();
+              }
+            }
+
+            // get data
+            const infoResponse = await fetch('/api/dp/info'); 
+            let data = await infoResponse.json();
             this.degrees = data.degrees;
         },
         async get_fulfillment(attributes_replacement = null) {
@@ -735,7 +767,7 @@ import CatalogTree from '@/components/CatalogTree.vue';
     },
     async created() {
         this.main_loading = true;
-        await this.newuser();
+        await this.loaduser();
         await this.fetch_data();
         this.course_inputs = new Array(this.SEM_MAX).fill('');
         this.setResolutionDict();

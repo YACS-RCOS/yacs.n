@@ -6,6 +6,9 @@ redis_client = redis.StrictRedis(host='redis-userdata', port=6379, db=0)
 '''
 USER'S SCHEDULE_IDS
 '''
+async def has_user(userid:str) -> bool:
+    redis_client.exists(f'user:{userid}')
+
 async def get_user_schedules(userid:str) -> set:
     retrieved_user = redis_client.get(f'user:{userid}')
 
@@ -52,7 +55,6 @@ async def get_schedule(schedule_id:str):
     retrieved_schedule = redis_client.get(f'schedule:{schedule_id}')
     if retrieved_schedule:
         schedule = json.loads(retrieved_schedule)
-        print(f'retrieved data of schedule {schedule_id}: {schedule}')
         return schedule
 
 async def save_schedule(schedule_id:str, schedule_data):

@@ -231,7 +231,6 @@ class Planner():
         if not isinstance(semester, int):
             semester = int(semester)
         matched_course_names = self.find(course_name)
-        print(matched_course_names)
         if len(matched_course_names) != 1:
             return
 
