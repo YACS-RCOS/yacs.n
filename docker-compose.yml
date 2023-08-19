@@ -30,3 +30,36 @@ services:
     container_name: yacs_db
     image: postgres:12-alpine
 
+  redis-celery:
+    image: redis:latest
+    container_name: yacs_redis_celery
+    ports:
+      - "6379:6379"
+
+  redis-userdata:
+    image: redis:latest
+    container_name: yacs_redis_userdata
+    ports:
+      - "6380:6379"
+    volumes:
+      - ./redis-persistent.conf:/usr/local/etc/redis/redis.conf
+      - redis_data:/data
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  celery:
+    container_name: yacs_celery
+    build:
+      context: ./src/api/worker/
+      dockerfile: Dockerfile
+    environment:
+      - CELERY_BROKER=redis://redis-celery:6379/0
+      - CELERY_BACKEND=redis://redis-celery:6379/1
+      - CELERY_ACCEPT_CONTENT=pickle
+      - CELERY_TASK_SERIALIZER=pickle
+      - CELERY_RESULT_SERIALIZER=pickle
+      - CELERY_RESULT_EXPIRES=60
+    command: celery -A celery_app worker --loglevel=info
+    volumes:
+      - ./src/api:/app
+    depends_on:
+      - redis-celery
