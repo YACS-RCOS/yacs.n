@@ -48,6 +48,8 @@ class parsing():
                     for e in attr_val:
                         element.attributes.add_attribute(f"{attr}.{e}")
                 else:
+                    if attr == 'credits' and not attr_val.isdigit():
+                        attr_val = '0'
                     element.attributes.add_attribute(f"{attr}.{attr_val}")
             catalog.add(element)
 

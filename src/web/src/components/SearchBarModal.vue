@@ -75,7 +75,7 @@ export default {
       this.$emit('courseDrag', course);
     },
     importCourses(courses) {
-      this.courseSelected = [];
+      this.courseSelected = {};
       for (let semester = 0; semester < courses.length; ++semester) {
         for (let i = 0; i < courses[semester].length; ++i) {
           const course_name = courses[semester][i];

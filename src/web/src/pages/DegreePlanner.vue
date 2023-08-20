@@ -40,33 +40,33 @@
                   <input :ref="'editScheduleNameInput'" v-show="renaming_schedule == schedule" class="edit-schedule-input" v-model="renaming_schedule_input" @keyup.enter="renameSchedule(schedule, renaming_schedule_input)"/>
                 </span>
               </button>
-              <input class="new-schedule-input" placeholder="+ new schedule" v-model="new_schedule_input" @keyup.enter="setSchedule(new_schedule_input)"/>
+              <input class="new-schedule-input" placeholder="+ new schedule" v-model="new_schedule_input" @keyup.enter="addSchedule(new_schedule_input)"/>
             </div>
             <div class="courses-grid">
-              <div v-for="(semester, index) in courses" :key="index" 
-                  v-bind:class="{'semester-block':hoverOverSemester!=index, 'semester-block-highlighted':hoverOverSemester==index}" 
-                  @dragenter="schedulerDragEnter($event, index)" 
+              <div v-for="(semester, semester_index) in getSchedule(schedule_name)" :key="semester_index" 
+                  v-bind:class="{'semester-block':hoverOverSemester!=semester_index, 'semester-block-highlighted':hoverOverSemester==semester_index}" 
+                  @dragenter="schedulerDragEnter($event, semester_index)" 
                   @dragleave="schedulerDragLeave()" 
                   @dragover.prevent 
-                  @drop="schedulerDrop($event, index)">
+                  @drop="schedulerDrop($event, semester_index)">
                 <div class="semester-title-row">
-                  <span style="width: 100%;"><h3>Semester {{ index + 1 }}</h3></span>
+                  <span style="width: 100%;"><h3>Semester {{ semester_index + 1 }}</h3></span>
                   <span style="color:#a1a7a8; margin-top:-8px; margin-right:-8px;" class="schedule-search">
                     <button
                       type="button"
                       :ref="'addButton${index}'"
                       class="search-open"
-                      @click="onClick(index)">
+                      @click="addCourseModal(semester_index)">
                       &#10010;
                     </button>
                   </span>
                 </div>
 
-                <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="course_index">
-                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, index)">
+                <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="`${semester_index}-${course_index}`">
+                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, semester_index)">
                     <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                   </button>
-                  <button class="course-remove-button" type="button" @click="remove(index, course, true, true, true)">
+                  <button class="course-remove-button" type="button" @click="remove(semester_index, course, true, true)">
                     <font color="#b05f6e">&#10008;</font>
                   </button>
                 </div>
@@ -229,6 +229,7 @@ Vue.use(VueCookies)
             degree: '',
             degrees: {},
             schedules: [],
+            scheduleData: {},
             new_schedule_input: '',
             renaming_schedule_input: '',
             renaming_schedule: '',
@@ -236,17 +237,16 @@ Vue.use(VueCookies)
             schedule_name: '',
             defaultScheduleName: 'my schedule',
             scheduleDeletionPrompt: false,
-            courses: [],
             recommending: false,
             requirement_groups: [],
             tally: {},
             requirements: {},
             recommendations: {},
+            switchedSchedule: true,
 
             detailsAllTakenCourses: {},
             detailsAllPossibleCourses: {},
             SEM_MAX: 12,
-            course_inputs: [],
             recommend_pause_token: 1,
             dragElement: null,
             dragFromSemester: 0,
@@ -266,17 +266,114 @@ Vue.use(VueCookies)
         };
     },
     methods: {
-        setUserid(userid) {
-          this.$cookies.set("userid", userid, "366d");
+        ////////////////////////////////////////////////
+        // COOKIES
+        ////////////////////////////////////////////////
+
+        loaduser() {
+          let schedules = this.getFromLocalStorage('schedules');
+          if (schedules) {
+            this.schedules = JSON.parse(schedules);
+          }
+          for (let i = 0; i < this.schedules.length; ++i) {
+            let key = 's:' + this.schedules[i];
+            let courseData = this.getFromLocalStorage(key);
+            courseData = JSON.parse(courseData);
+            if (courseData && courseData.courses && courseData.degree) {
+              this.scheduleData[this.schedules[i]] = courseData;
+            } else {
+              this.removeFromLocalStorage(key);
+            }
+          }
+          if (this.schedules.length > 0) {
+            this.setSchedule(this.schedules[0]);
+          } else {
+            this.addSchedule(this.defaultScheduleName);
+            this.setSchedule(this.defaultScheduleName);
+          }
         },
-        getUserid() {
-          const userid = this.$cookies.get("userid");
-          return userid
+
+        saveuser() {
+          this.cleanseSchedules();
+          this.saveToLocalStorage('schedules', JSON.stringify(this.schedules));
+          for (let i = 0; i < this.schedules.length; ++i) {
+            this.saveToLocalStorage('s:' + this.schedules[i], JSON.stringify(this.scheduleData[this.schedules[i]]));
+          }
         },
-        delUserid() {
-          this.$cookies.remove("userid");
+
+        cleanseSchedules() {
+          const keys = [];
+          for (let i = 0; i < localStorage.length; i++) {
+              keys.push(localStorage.key(i));
+          }
+          console.log('all localstorage keys: ' + keys);
+          // delete all previously saved schedule data
+          keys.forEach(key => {
+            if (key.startsWith('s:')) {
+              this.removeFromLocalStorage(key);
+            }
+          });
         },
+
+        saveToLocalStorage(key, value) {
+            try {
+              localStorage.setItem(key, value);
+              return true;
+            } catch (error) {
+              console.error("Failed to save to localStorage:", error);
+              return false;
+            }
+        },
+        getFromLocalStorage(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch (error) {
+                console.error("Failed to retrieve from localStorage:", error);
+                return null;
+            }
+        },
+        removeFromLocalStorage(key) {
+            try {
+                localStorage.removeItem(key);
+                return true;
+            } catch (error) {
+                console.error("Failed to remove from localStorage:", error);
+                return false;
+            }
+        },
+
+        updateCookie(key, value, duration="366d") {
+          this.$cookies.set(key, value, duration);
+        },
+
+        removeCookie(key) {
+          this.$cookies.remove(key);
+        },
+
+        getCookie(key) {
+          const value = this.$cookies.get(key);
+          return value
+        },
+
+        ////////////////////////////////////////////////
+        // LOGIC HELPERS
+        ////////////////////////////////////////////////
+
+        getAllCourses(schedule) {
+          let courses = [];
+          if (!this.scheduleData[schedule]) {
+            return courses
+          }
+          for (let i = 0; i < this.scheduleData[schedule].courses.length; ++i) {
+            for (let j = 0; j < this.scheduleData[schedule].courses[i].length; ++j) {
+              courses.push(this.scheduleData[schedule].courses[i][j]);
+            }
+          }
+          return courses
+        },
+
         coursePresentIn(course) {
+          // returns the list of requirements that the course is present in
           let presentIn = [];
           for (const requirement in this.requirements) {
             if (this.requirements[requirement].fulfillment_set.includes(course)) {
@@ -286,79 +383,19 @@ Vue.use(VueCookies)
           return presentIn
         },
         getRequirementGroup(name, first_only=true) {
-          //console.log("detailsTaken: " + JSON.stringify(this.detailsAllTakenCourses));
-          //console.log("detailsPossible: " + JSON.stringify(this.detailsAllPossibleCourses));
+          // gets requirement group by name
           if (this.requirement_groups.length == 0) {
             return null
           }
           let filteredGroup = this.requirement_groups.filter(group => group.name == name);
 
           if (filteredGroup.length > 0) {
-            //console.log("returning " + JSON.stringify(filteredGroup))
             if (first_only) {
               return filteredGroup[0]
             }
             return filteredGroup
           }
           return null
-        },
-        toggleDegreeSelectionMenu() {
-          this.openedDegreeSelectionMenu = (!this.openedDegreeSelectionMenu);
-        },
-        setSubjectColors(colors) {
-          this.subjectColors = colors;
-        },
-        setSubjectGroupColors(colors) {
-          this.subjectGroupColors = colors;
-        },
-        toggleHighlightFulfillment(group) {
-          if (group == this.highlightedFulfillment) {
-            this.highlightedFulfillment = null;
-          } else {
-            this.highlightedFulfillment = group;
-          }
-        },
-        toggleWildcardRequirement(alternative_orig, alternative_choice) {
-          // don't recalculate if the user spams the original button
-          if ((!(alternative_orig in this.wildcardRequirements) && alternative_choice == alternative_orig) || (alternative_orig in this.wildcardRequirements && this.wildcardRequirements[alternative_orig] == alternative_choice)) {
-            return
-          }
-          if (alternative_orig == alternative_choice) {
-            delete this.wildcardRequirements[alternative_orig];
-          } else {
-            this.wildcardRequirements[alternative_orig] = alternative_choice
-          }
-          this.get_fulfillment(this.wildcardRequirements);
-        },
-        chosenAlternative(alternative_orig) {
-          if (alternative_orig in this.wildcardRequirements) {
-            return this.wildcardRequirements[alternative_orig]
-          }
-          return alternative_orig
-        },
-        
-        schedulerDragFromModal(course) {
-          this.schedulerDrag(null, course, -1);
-        },
-
-        onClick(semester) {
-          if (this.showSearchModal && this.activeSemester == semester) {
-            this.toggleSearchModal(false);
-            return
-          }
-          this.activeSemester = semester;
-          this.toggleSearchModal(true);
-          this.$refs.searchModal.onClick(semester);
-          document.removeEventListener('click', this.handleClickOutside);
-          document.addEventListener('click', this.handleClickOutside);
-          this.$nextTick(() => {
-            const targetDiv = this.$refs.columnCenter;
-            const targetDivRect = targetDiv.getBoundingClientRect();
-            const searchModal = this.$refs.searchModalContainer;
-            searchModal.style.left = targetDivRect.left + 'px';
-            searchModal.style.top = targetDivRect.top - searchModal.offsetHeight + 'px';
-            //console.log("search modal: " + searchModal.style.left + ", " + searchModal.style.top);
-          });
         },
         handleClickOutside(event) {
           // Check if the clicked element is outside both the input box and the results list
@@ -383,6 +420,41 @@ Vue.use(VueCookies)
             this.openedDegreeSelectionMenu = false;
           }
         },
+        get_tallied_amount(group_name, tally) {
+            if (this.tally[group_name][tally] == null) {
+                return 0;
+            }
+            return this.tally[group_name][tally];
+        },
+
+        ////////////////////////////////////////////////
+        // RENDERING HELPERS
+        ////////////////////////////////////////////////
+
+        delayedFinishedLoading(timer=1000) {
+          // Calling the method with a delay
+          setTimeout(this.finishedLoading, timer);
+        },
+        finishedLoading() {
+          this.main_loading = false;
+        },
+
+        toggleDegreeSelectionMenu() {
+          this.openedDegreeSelectionMenu = (!this.openedDegreeSelectionMenu);
+        },
+        setSubjectColors(colors) {
+          this.subjectColors = colors;
+        },
+        setSubjectGroupColors(colors) {
+          this.subjectGroupColors = colors;
+        },
+        toggleHighlightFulfillment(group) {
+          if (group == this.highlightedFulfillment) {
+            this.highlightedFulfillment = null;
+          } else {
+            this.highlightedFulfillment = group;
+          }
+        },
         toggleSearchModal(on) {
           this.showSearchModal = on;
           this.$refs.searchModal.showDropdown = on;
@@ -390,19 +462,85 @@ Vue.use(VueCookies)
             this.$refs.searchModal.onClose();
           }
         },
+
+        format_alternative(str) {
+            if (str.includes('*')) {
+                str = str.split('*')[0] + " automatically select";
+            }
+            str = str.replace('.', ': ');
+            return str;
+        },
+        format_fulfillment_name(str) {
+            if (str.includes('-')) {
+                str = str.substring(str.indexOf('-') + 1);
+            }
+            return str;
+        },
+
+        ////////////////////////////////////////////////
+        // USER ACTIONS
+        ////////////////////////////////////////////////
+
+        // wildcards
+
+        toggleWildcardRequirement(alternative_orig, alternative_choice) {
+          // don't recalculate if the user spams the original button
+          if ((!(alternative_orig in this.wildcardRequirements) && alternative_choice == alternative_orig) || (alternative_orig in this.wildcardRequirements && this.wildcardRequirements[alternative_orig] == alternative_choice)) {
+            return
+          }
+          if (alternative_orig == alternative_choice) {
+            delete this.wildcardRequirements[alternative_orig];
+          } else {
+            this.wildcardRequirements[alternative_orig] = alternative_choice
+          }
+          this.get_fulfillment(this.wildcardRequirements);
+        },
+        chosenAlternative(alternative_orig) {
+          if (alternative_orig in this.wildcardRequirements) {
+            return this.wildcardRequirements[alternative_orig]
+          }
+          return alternative_orig
+        },
+
+        // scheduler
+        
+        schedulerDragFromModal(course) {
+          this.schedulerDrag(null, course, -1);
+        },
+        addCourseModal(semester) {
+          if (this.showSearchModal && this.activeSemester == semester) {
+            this.toggleSearchModal(false);
+            return
+          }
+          this.activeSemester = semester;
+          this.toggleSearchModal(true);
+          if (this.switchedSchedule) {
+            this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+            this.switchedSchedule = false;
+          }
+          this.$refs.searchModal.onClick(semester);
+          document.removeEventListener('click', this.handleClickOutside);
+          document.addEventListener('click', this.handleClickOutside);
+          this.$nextTick(() => {
+            const targetDiv = this.$refs.columnCenter;
+            const targetDivRect = targetDiv.getBoundingClientRect();
+            const searchModal = this.$refs.searchModalContainer;
+            searchModal.style.left = targetDivRect.left + 'px';
+            searchModal.style.top = targetDivRect.top - searchModal.offsetHeight + 'px';
+          });
+        },
         modalAdd(semester, course) {
-          if (this.courses[semester].includes(course)) {
-            this.remove(semester, course, true, true, true);
+          if (this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+            this.remove(semester, course, true, true);
           }
           else {
-            this.add(semester, course, true, true, true);
+            this.add(semester, course, true, true);
           }
 
           if (this.$refs.searchModal.closeModalOnSelection) {
             this.toggleSearchModal(false);
           }
         },
-        // HELPER FUNCTIONS
         schedulerDrag(event, item, semester) {
             this.dragElement = item;
             this.dragFromSemester = semester;
@@ -415,7 +553,7 @@ Vue.use(VueCookies)
             event.preventDefault();
             if (this.dragElement != null) {
                 if (this.dragFromSemester == -1) {
-                    this.add(dragToSemester, this.dragElement, true, true, true);
+                    this.add(dragToSemester, this.dragElement, true, true);
                 }
                 else if (this.dragFromSemester != -1 && this.dragFromSemester != dragToSemester) {
                     this.remove(this.dragFromSemester, this.dragElement, false, false);
@@ -435,7 +573,7 @@ Vue.use(VueCookies)
           event.preventDefault();
           if (this.dragElement != null) {
               if (this.dragFromSemester != -1) {
-                  this.remove(this.dragFromSemester, this.dragElement, true, true, true);
+                  this.remove(this.dragFromSemester, this.dragElement, true, true);
               }
           }
           this.hoverOverSemester = -1;
@@ -455,49 +593,47 @@ Vue.use(VueCookies)
             let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
             this.$router.push("/explore/" + page);
         },
-        format_alternative(str) {
-            if (str.includes('*')) {
-                str = str.split('*')[0] + " automatically select";
-            }
-            str = str.replace('.', ': ');
-            return str;
+
+        add(semester, course, fulfill = true, recommend = true) {
+          if (this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+            return
+          }
+          console.log('adding course to semester ' + semester);
+          this.scheduleData[this.schedule_name].courses[semester].push(course);
+          this.$forceUpdate();
+          this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+            
+          // skips fulfill/recommend if this course occurs multiple times
+          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1)) {
+            this.fetch_data(fulfill, recommend);
+          }
+
+          this.saveuser();
         },
-        format_fulfillment_name(str) {
-            if (str.includes('-')) {
-                str = str.substring(str.indexOf('-') + 1);
-            }
-            return str;
-        },
-        get_tallied_amount(group_name, tally) {
-            if (this.tally[group_name][tally] == null) {
-                return 0;
-            }
-            return this.tally[group_name][tally];
+        remove(semester, course, fulfill = true, recommend = true) {
+          if (!this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+            return
+          }
+          console.log('removing course to semester ' + semester);
+          const index = [this.scheduleData[this.schedule_name].courses[semester].indexOf(course)];
+          this.scheduleData[this.schedule_name].courses[semester].splice(index, 1);
+          this.$forceUpdate();
+          this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+            
+          // skips fulfill/recommend if this course still occurs
+          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 0)) {
+            this.fetch_data(fulfill, recommend);
+          }
+          
+          this.saveuser();
         },
 
-        delayedFinishedLoading(timer=1000) {
-          // Calling the method with a delay
-          setTimeout(this.finishedLoading, timer);
-        },
-        finishedLoading() {
-          this.main_loading = false;
-        },
+        ////////////////////////////////////////////////
         // API CALLING
+        ////////////////////////////////////////////////
+
         async fetch_data(fulfill = true, recommend = true) {
             this.loading = true;
-            await this.getSchedules();
-            if (this.schedule_name == '' && this.schedules.length == 0) {
-              // create new default schedule if no schedules
-              await this.setSchedule(this.defaultScheduleName);
-              await this.getSchedules();
-            }
-            else if (this.schedule_name == '' && this.schedules.length > 0) {
-              // otherwise, set the active schedule to the first schedule in the user's schedule list
-              await this.setSchedule(this.schedules[0]);
-              await this.getSchedules();
-            }
-            // fetch fulfillment and recommendations
-            this.print();
             if (fulfill) {
               this.get_fulfillment();
               this.get_fulfillment_details().then(this.delayedFinishedLoading(800));
@@ -506,50 +642,22 @@ Vue.use(VueCookies)
               this.get_recommendation();
             }
         },
-        async newuser() {
-          const response = await fetch('/api/dp/newuser');
-          let userData = await response.json();
-          this.userid = userData.userid;
-          this.setUserid(this.userid);
-          console.log('making new user, id is ' + this.userid);
-        },
-        async loaduser() {
-            // new user
-            if (this.getUserid() == null) {
-              await this.newuser();
-            }
 
-            // already has id
-            else {
-              let userid = this.getUserid();
-              const response = await fetch('/api/dp/loaduser/' + userid);
-              let userfound = await response.json();
-              if (userfound.hasuser) {
-                this.userid = userid;
-                console.log('loaded returning user id ' + userid);
-              } else {
-                await this.newuser();
-              }
-            }
-
-            // get data
-            const infoResponse = await fetch('/api/dp/info'); 
-            let data = await infoResponse.json();
-            this.degrees = data.degrees;
-        },
         async get_fulfillment(attributes_replacement = null) {
             let userid = this.userid;
+            let degree_name = this.degree;
+            let taken_courses = this.getAllCourses(this.schedule_name);
             if (attributes_replacement == null) {
                 attributes_replacement = {};
             }
-            const response1 = await fetch('/api/dp/fulfillment', {
+            const response = await fetch('/api/dp/fulfillment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userid, attributes_replacement }),
+                body: JSON.stringify({ userid, degree_name, taken_courses, attributes_replacement }),
             });
-            let fulfillment = await response1.json();
+            let fulfillment = await response.json();
             this.requirements = fulfillment.fulfillments;
             this.requirement_groups = fulfillment.groups;
             this.tally = fulfillment.tally;
@@ -563,94 +671,47 @@ Vue.use(VueCookies)
           this.detailsAllTakenCourses = results.details_all_taken;
           this.details_loading = false;
         },
-        async get_recommendation() {
-            let userid = this.userid;
+        async get_recommendation() { 
             this.recommending = true;
-            await fetch('/api/dp/recommend/' + userid, {
-                method: 'POST'
+            let userid = this.userid;
+            let degree_name = this.degree;
+            let taken_courses = this.getAllCourses(this.schedule_name);
+            await fetch('/api/dp/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userid, degree_name, taken_courses }),
             });
             const response2 = await fetch('/api/dp/recommend/' + userid);
             this.recommendations = await response2.json().then(this.loading = false);
             this.recommending = false;
         },
-        async add_from_input(semester) {
-            this.add(semester, this.course_inputs[semester]);
-            this.course_inputs[semester] = "";
+        async get_info() {
+          const response  = await fetch('/api/dp/info');
+          const responseData = await response.json();
+          this.degrees = responseData.degrees;
         },
-        async add(semester, course, fulfill = true, recommend = true, autoselect = false) {
-            let userid = this.userid;
 
-            if (autoselect) {
-              if (course in this.$refs.searchModal.courseSelected) {
-                console.log("autoskipping fulfillment & recommend");
-                fulfill = false;
-                recommend = false;
-              }
-            }
-
-            await fetch('/api/dp/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userid, semester, course }),
-            });
-          await this.fetch_data(fulfill, recommend);
-        },
-        async remove(semester, course, fulfill = true, recommend = true, autoselect = false) {
-            let userid = this.userid;
-
-            if (autoselect) {
-              if (course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1) {
-                console.log("autoskipping fulfillment & recommend");
-                fulfill = false;
-                recommend = false;
-              }
-            }
-            await fetch('/api/dp/remove', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userid, semester, course }),
-            });
-            await this.fetch_data(fulfill, recommend);
-        },
-        async print() {
-            let userid = this.userid;
-            const response = await fetch('/api/dp/print', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userid),
-            });
-            let userData = await response.json();
-            this.courses = userData['courses'];
-            this.degree = userData['degree'];
-            if (this.degree.length == 0) {
-              this.openedDegreeSelectionMenu = true;
-            }
-            this.$refs.searchModal.importCourses(this.courses);
-        },
-        async setDegree(degree_name) {
-          let userid = this.userid;
+        setDegree(degree_name) {
           if (degree_name.toLowerCase() == this.degree.toLowerCase()) {
             return
           }
           this.degree = degree_name;
+          if (this.scheduleData[this.schedule_name]) {
+            this.scheduleData[this.schedule_name].degree = this.degree;
+          }
           if (this.openedDegreeSelectionMenu) {
             this.openedDegreeSelectionMenu = false;
           }
           console.log('setting degree to ' + degree_name)
-          await fetch('/api/dp/setdegree', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, degree_name}),
-          });
-          await this.fetch_data();
+          this.fetch_data();
+        },
+        getDegree() {
+          if (!this.scheduleData[this.schedule_name]) {
+            return ''
+          }
+          return this.scheduleData[this.schedule_name].degree
         },
         promptDeleteSchedule(schedule) {
           document.removeEventListener('click', this.handleClickOutside);
@@ -668,9 +729,10 @@ Vue.use(VueCookies)
           this.deleteSchedule(schedule);
         },
 
-        async renameScheduleButton(schedule, index) {
+        renameScheduleButton(schedule, index) {
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
+          console.log('toggled rename schedule selection');
           this.renaming_schedule = schedule;
           this.renaming_schedule_input = schedule;
           this.schedule_button_index = index;
@@ -681,69 +743,67 @@ Vue.use(VueCookies)
           });
         },
 
-        async getSchedules() {
-          let userid = this.userid;
-          const response = await fetch('/api/dp/schedules/' + userid);
-          let schedule_data = await response.json();
-          this.schedules = schedule_data[0];
-          this.schedule_name = schedule_data[1];
+        addSchedule(schedule_name, courseData = null) {
+          if (this.schedules.includes(schedule_name)) {
+            this.setSchedule(schedule_name);
+            return
+          }
+          if (courseData == null) {
+            let courseDataCourses = [];
+            for (let i = 0; i < this.SEM_MAX; i++) {
+              courseDataCourses.push([]);
+            }
+            courseData = {'courses': courseDataCourses, 'degree': ''};
+          }
+          this.schedules.push(schedule_name);
+          this.scheduleData[schedule_name] = courseData;
+          this.setSchedule(schedule_name);
+
+          this.saveuser();
         },
 
-        async deleteSchedule(schedule_name) {
-          let userid = this.userid;
-          this.renaming_schedule = '';
-          this.renaming_schedule_input = '';
-          this.new_schedule_input = '';
-          await fetch('/api/dp/scheduledelete', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, schedule_name}),
-          });
-          await this.getSchedules();
+        deleteSchedule(schedule_name) {
+          delete this.scheduleData[schedule_name];
+          this.schedules.splice([this.schedules.indexOf(schedule_name)], 1);
           if (schedule_name == this.schedule_name && this.schedules.length > 0) {
-            await this.setSchedule(this.schedules[0]);
+            this.setSchedule(this.schedules[0]);
           }
           if (this.schedules.length == 0) {
             this.schedule_name = '';
-            this.courses = [];
           }
+          this.renaming_schedule = '';
+          this.renaming_schedule_input = '';
+          this.new_schedule_input = '';
+
+          this.saveuser();
         },
 
-        async setSchedule(schedule_name) {
-          let userid = this.userid;
-          if (schedule_name == this.schedule_name) {
+        setSchedule(schedule_name) {
+          if (this.schedule_name == schedule_name) {
             return
           }
+          this.schedule_name = schedule_name;
+          this.degree = this.getDegree();
           this.renaming_schedule = '';
           this.renaming_schedule_input = '';
           this.new_schedule_input = '';
-          await fetch('/api/dp/schedule', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, schedule_name}),
-          });
-          this.new_schedule_input = '';
-          await this.fetch_data();
+          this.switchedSchedule = true;
+          this.fetch_data();
         },
 
-        async renameSchedule(old_schedule_name, new_schedule_name) {
-          let userid = this.userid;
-          this.renaming_schedule = '';
-          this.renaming_schedule_input = '';
-          this.new_schedule_input = '';
-          await fetch('/api/dp/schedulerename', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({userid, old_schedule_name, new_schedule_name}),
-          });
+        renameSchedule(old_schedule_name, new_schedule_name) {
+          this.addSchedule(new_schedule_name, this.scheduleData[old_schedule_name]);
+          this.deleteSchedule(old_schedule_name);
           this.schedule_name = new_schedule_name;
-          await this.getSchedules();
+
+          this.saveuser();
+        },
+
+        getSchedule(schedule_name) {
+          if (!(this.scheduleData[schedule_name] && this.scheduleData[schedule_name].courses)) {
+            return [];
+          }
+          return this.scheduleData[schedule_name].courses;
         },
 
         setResolutionDict() {
@@ -767,10 +827,13 @@ Vue.use(VueCookies)
     },
     async created() {
         this.main_loading = true;
-        await this.loaduser();
+        this.loaduser();
+        await this.get_info();
         await this.fetch_data();
-        this.course_inputs = new Array(this.SEM_MAX).fill('');
         this.setResolutionDict();
+        if (this.degree.length == 0) {
+          this.openedDegreeSelectionMenu = true;
+        }
         document.addEventListener('click', this.handleClickOutside);
     },
     components: { SearchBarModal, CatalogTree }

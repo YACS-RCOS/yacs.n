@@ -151,6 +151,10 @@ class Planner():
     def degrees(self) -> dict:
         degrees_directory = self.catalog.compile_template_attributes()
         return degrees_directory
+    
+    def get_degree(self, degree_name:str):
+        degree = self.catalog.get_template(degree_name.casefold())
+        return degree
 
     def set_degree(self, user:User, degree_name:str, schedule=None) -> bool:
         ''' Changes user's active schedule's degree

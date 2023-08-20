@@ -28,7 +28,7 @@ from degree_planner.math.dictionary_array import Dict_Array
 from degree_planner.dp.requirement import Requirement
 from degree_planner.user.schedule import Schedule
 
-from redis_manipulations import wrapper_delete_schedule, wrapper_get_schedule, wrapper_save_schedule, get_user_schedules, get_redis_status, get_schedule_name, purify, has_user
+from redis_manipulations import get_redis_status, purify, get_schedule, save_schedule, delete_schedule
 
 import controller.user as user_controller
 import controller.session as session_controller
@@ -105,28 +105,11 @@ def is_admin_user(session):
         return True
     return False
 
-@app.get("/api/dp/newuser")
-async def dp_new_user():
-    # Generate a token and userid
-    userid = str(uuid.uuid4())
-    planner.add_user(userid)
-    return {'userid': userid}
-
-# TODO: add IP detection to avoid spam
-@app.get('/api/dp/info')
-async def dp_info():
-    return {"degrees":planner.degrees()}
 
 
-@app.get('/api/dp/loaduser/{userid}')
-async def dp_load_user(userid:str):
-    if not has_user(userid):
-        return {'hasuser': False}
-    if planner.get_user(userid) is None:
-        planner.add_user(userid)
-    await dp_load_schedules(userid)
-    return {'hasuser': True}
-
+##########################################################################
+##########################################################################
+'''=======================DELETE BEFORE MERGING========================'''
 
 @app.get('/api/dp/redisstat')
 async def dp_redis_status():
@@ -136,133 +119,61 @@ async def dp_redis_status():
 async def dp_redis_purify():
     await purify()
 
-async def dp_load_schedules(userid:str):
-    user = planner.get_user(userid)
-    schedules = await get_user_schedules(userid)
-
-    for schedule_id in schedules:
-        schedule_name = get_schedule_name(schedule_id)
-
-        # dictionary of schedule data
-        schedule_data = await wrapper_get_schedule(userid, schedule_name)
-
-        # create new schedule object and add it to user
-        schedule = Schedule(schedule_name)
-        planner.set_degree(user, schedule_data['degree'], schedule=schedule)
-        for semester, courses in schedule_data['courses'].items():
-            for course in courses:
-                planner.add_course(user, semester, course, schedule)
-        user.add_schedule(schedule_name, schedule)
-
-async def dp_save_schedules(userid:str, schedule:str=None):
-    user = planner.get_user(userid)
-    schedules = planner.schedule_data(user)
-    for schedule_name, schedule_data in schedules.items():
-        if schedule is not None and schedule != schedule_name:
-            continue
-        await wrapper_save_schedule(userid, schedule_name, schedule_data)
-
-async def dp_redis_delete_schedule(userid:str, schedule_name):
-    await wrapper_delete_schedule(userid, schedule_name)
+'''===================================================================='''
+##########################################################################
+##########################################################################
 
 
-@app.post('/api/dp/setdegree')
-async def dp_set_degree(userid:str = Body(...), degree_name:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
+
+async def dp_redis_delete_schedule(scheduleid):
+    await delete_schedule(scheduleid)
+
+@app.get('/api/dp/info')
+async def dp_info():
+    return {"degrees":planner.degrees()}
+
+@app.get('/api/dp/getschedule/{scheduleid}')
+async def dp_get_schedule(scheduleid:str):
+    # dictionary of schedule data
+    schedule_data = await get_schedule(scheduleid)
+    return schedule_data
+
+@app.post('api/dp/saveschedule')
+async def dp_save_schedule(schedule_data:dict = Body(...)):
+    # verify schedule_data structure: {'name':schedule_name, 'courses':course_names, 'degree':degree_name}
+    if not len(schedule_data) == 3:
+        return False
+    if not isinstance(str, schedule_data.get('name', None)):
+        return False
+    if not isinstance(list, schedule_data.get('courses', None)):
+        return False
+    for course in schedule_data.get('courses'):
+        if not isinstance(str, course):
+            return False
+    if not isinstance(str, schedule_data.get('degree', None)):
+        return False
     
-    planner.set_degree(user, degree_name.casefold())
-    await dp_save_schedules(userid, user.active_schedule)
-
-
-@app.post('/api/dp/add')
-async def dp_add_course(userid:str = Body(...), semester:int = Body(...), course:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
-    planner.add_course(user, semester, course)
-    await dp_save_schedules(userid, user.active_schedule)
-
-@app.post('/api/dp/remove')
-async def dp_remove_course(userid:str = Body(...), semester:int = Body(...), course:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
-    planner.remove_course(user, semester, course)
-    await dp_save_schedules(userid, user.active_schedule)
-
-
-@app.post('/api/dp/print')
-async def dp_print(userid:str = Body(...)):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED PRINT API CALL {randint}')
-
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
-    if user.get_active_schedule() is None:
-        return {'courses': [], 'degree': ''}
-    
-    courses_dict = user.get_active_schedule().courses
-    course_list = [[]] * 12
-    for semester, courses in courses_dict.dictionary.items():
-        course_list[semester] = [str(c) for c in courses]
-
-    degree = ''
-    if user.get_active_schedule().degree is not None:
-        degree = user.get_active_schedule().degree.name
-
-    print(f'== FINISHED PRINT API CALL {randint}')
-    return {'courses': course_list, 'degree': degree}
-
-@app.get('/api/dp/testschedule')
-async def dp_test_schedule():
-    scheduleid = 'potato'
-    courses_taken = [['CSCI 1200', 'ARTS 2070'], ['CSCI 2300']]
-    degree = 'computer science'
-
-    dp_schedules.update(scheduleid, courses_taken, degree)
-
-    results = dp_schedules.get_schedule(scheduleid)
-    print(f'schedule SQL results: \n{results}')
-
-
-@app.get('/api/dp/schedules/{userid}')
-async def dp_get_schedules(userid:str):
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-
-    schedules = planner.schedules(user)
-    schedules.sort()
-    print(f"{schedules} {user.active_schedule}")
-    return [schedules, user.active_schedule]
-
-
+    save_schedule(schedule_data.get('name'), schedule_data)
 
 @app.post('/api/dp/fulfillment')
-async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict = Body(...)):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED FULFILLMENT API CALL {randint}')
-
+async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...), attributes_replacement:dict = Body(...)):
     io = planner.output
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
-    if user.get_active_schedule() is None or user.get_active_schedule().degree is None:
-        return {'fulfillments': {}, 'groups': [], 'tally': {}}
 
-    print(f'received wildcard resolution requirements: {attributes_replacement}')
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
+    degree = planner.get_degree(degree_name)
+    if degree is None:
+        return {'fulfillments': {}, 'groups': [], 'tally': {}}
+    
+    requirements = degree.requirements
+    groups = degree.groups
 
-    taken_courses = user.get_active_schedule().get_courses()
-    requirements = user.get_active_schedule().degree.requirements
-    groups = user.get_active_schedule().degree.groups
+    taken_courses_convert_to_elements = []
+    for course in taken_courses:
+        element = planner.catalog.get_element(course)
+        if element is None:
+            continue
+        taken_courses_convert_to_elements.append(element)
+    taken_courses = taken_courses_convert_to_elements
 
     fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions, groups)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
@@ -272,21 +183,14 @@ async def dp_get_fulfillment(userid:str = Body(...), attributes_replacement:dict
     fulfillment_detail_results.update({userid:details})
     #-------------------------------
 
-    fulfillment_groups_and_tally = dp_fulfill_groups(fulfillment, user.get_active_schedule().degree.groups) # contains groups and tally
+    fulfillment_groups_and_tally = dp_fulfill_groups(fulfillment, groups) # contains groups and tally
     fulfillment_groups_and_tally.update({'groups': io.format_fulfillment_groups(fulfillment_groups_and_tally.get('groups'))}) # formats groups
-
     fulfillment_groups_and_tally.update({'fulfillments': formatted_fulfillments}) # adds fulfillments
 
-    print(f'== FINISHED FULFILLMENT API CALL {randint}')
     return fulfillment_groups_and_tally
-
 
 @app.get('/api/dp/fulfillmentdetails/{userid}')
 async def dp_get_fulfillment_details(userid:str):
-    user = planner.get_user(userid)
-    if user is None:
-        return Response(content="user not found")
-    
     i = 0
     while(fulfillment_detail_results.get(userid, None) is None or not fulfillment_detail_results.get(userid).ready()):
         await asyncio.sleep(0.5)
@@ -301,81 +205,39 @@ async def dp_get_fulfillment_details(userid:str):
     details = fulfillment_detail_results.get(userid).result
     return details
 
-
-@app.post('/api/dp/schedule')
-async def dp_switch_schedule(userid:str = Body(...), schedule_name:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        print(f'user {userid} not found')
-        return Response(content="user not found")
-    
-    planner.schedule(user, schedule_name)
-
-
-@app.post('/api/dp/scheduledelete')
-async def dp_delete_schedule(userid:str = Body(...), schedule_name:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        print(f'user {userid} not found')
-        return Response(content="user not found")
-    
-    planner.delete_schedule(user, schedule_name)
-    await dp_redis_delete_schedule(userid, schedule_name)
-
-
-
-@app.post('/api/dp/schedulerename')
-async def dp_rename_schedule(userid:str = Body(...), old_schedule_name:str = Body(...), new_schedule_name:str = Body(...)):
-    user = planner.get_user(userid)
-    if user is None:
-        print(f'user {userid} not found')
-        return Response(content="user not found")
-    
-    planner.rename_schedule(user, old_schedule_name, new_schedule_name)
-    await dp_redis_delete_schedule(userid, old_schedule_name)
-    await dp_save_schedules(userid, new_schedule_name)
-
-
-@rate_limited(4)
-async def dp_begin_recommendation_limited(userid:str):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED BEGIN RECOMMENDATION API CALL {randint}')
-
-    user = planner.get_user(userid)
-    if user is None:
-        print(f'user {userid} not found')
-        return Response(content="user not found")
-    
-    if user.get_active_schedule() is None or user.get_active_schedule().degree is None:
+@rate_limited(3)
+async def dp_begin_recommendation_limited(userid:str, degree_name:str, taken_courses:list):
+    degree = planner.get_degree(degree_name)
+    if degree is None:
         return
+    requirements = degree.requirements
 
-    taken_courses = user.get_active_schedule().get_courses()
-    requirements = user.get_active_schedule().degree.requirements
+    taken_courses_convert_to_elements = []
+    for course in taken_courses:
+        element = planner.catalog.get_element(course)
+        if element is None:
+            continue
+        taken_courses_convert_to_elements.append(element)
+    taken_courses = taken_courses_convert_to_elements
 
     recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements, specification_sets=Requirement.specification_sets)
     recommendation_results.update({userid:recommendation})
-    print(f'== FINISHED BEGIN RECOMMENDATION API CALL {randint}')
     
-
-@app.post('/api/dp/recommend/{userid}')
-async def dp_begin_recommendation(userid:str):
-    await dp_begin_recommendation_limited(userid)
-    
+@app.post('/api/dp/recommend')
+async def dp_begin_recommendation(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...)):
+    await dp_begin_recommendation_limited(userid, degree_name, taken_courses)
 
 @app.get('/api/dp/recommend/{userid}')
 async def dp_get_recommendation(userid:str):
-    randint = int(random.random() * 1000)
-    print(f'== RECEIVED GET RECOMMENDATION API CALL {randint}')
-
     io = planner.output
     i = 0
     while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         print(f'waiting for recommendation...  queued: {recommendation_results.get(userid, None) is not None}')
         if recommendation_results.get(userid, None) is None:
             return dict()
         i+=1
-        if i > 20:
+        if i > 40:
             print('timeout')
             return dict()
     
@@ -389,10 +251,7 @@ async def dp_get_recommendation(userid:str):
         results.add(recommendation['name'], recommendation)
 
     results.sort_elements('get', ("courses_fulfilled",), True)
-
-    print(f'== FINISHED GET RECOMMENDATION API CALL {randint}')
     return results.dictionary
-
 
 @app.get('/api/dp/courses/{lowercase}')
 async def dp_get_courses(lowercase:bool):
@@ -404,17 +263,9 @@ async def dp_get_courses(lowercase:bool):
     courses.sort()
     return courses
 
-
 @app.get('/api/dp/subjectgroups')
 async def dp_get_subject_groups():
     return planner.subject_groups
-
-
-@app.post('/api/dp/search')
-async def dp_course_search(course=Body(...)):
-    list_courses = planner.find(course)
-    return list_courses
-
 
 @app.get('/')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
