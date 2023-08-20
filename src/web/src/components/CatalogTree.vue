@@ -4,17 +4,17 @@
             <div v-if="label != itemFlag && label != tagFlag">
                 <div v-for="(next_nodes, node) in nodes" :key="node">
                     <div v-if="node == itemFlag">
-                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :labelAliases="labelAliases" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                     <div v-if="node != itemFlag" :style="getGridStyle()">
-                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :labelAliases="labelAliases" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                 </div>
             </div>
         </div>
 
         <div v-if="label == itemFlag">
-            <div v-for="(item, index) in nodes" :key="index">
+            <div v-for="(item, item_index) in nodes" :key="item_index">
                 <button v-bind:class="{'degree-button': selectedDegree != item.toLowerCase(), 'degree-button-selected': selectedDegree == item.toLowerCase()}" :style="getElementColor(item, 'backgroundColor', [0, -5, -10, -0.1])" type="button" @click="setDegree(item)">
                     {{ item }}
                 </button>
@@ -28,13 +28,13 @@
             <div v-if="label != itemFlag && label != tagFlag">
                 <div :style="getGridStyle()">
                     <div v-for="(next_nodes, node) in extractNodes()" :key="node">
-                        <catalog-tree class="tree-branch-grid-item" :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
+                        <catalog-tree class="tree-branch-grid-item" :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :labelAliases="labelAliases" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                     </div>
                 </div>
                 <div v-for="(next_nodes, node) in extractItems()" :key="node">
                     <div>
                         <div>
-                            <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
+                            <catalog-tree :nodes="next_nodes" :label="node" :depth="depth + 1" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :labelAliases="labelAliases" :selectedDegree="selectedDegree" @setDegree="setDegree"></catalog-tree>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
 <script>
 export default {
-    props: ['label', 'tags', 'nodes', 'depth', 'subjectColors', 'subjectGroupColors', 'resolutionDict', 'selectedDegree'],
+    props: ['label', 'tags', 'nodes', 'depth', 'subjectColors', 'subjectGroupColors', 'labelAliases', 'selectedDegree'],
     name: 'catalog-tree',
     data() {
       return {
@@ -112,8 +112,8 @@ export default {
             if (spice == null) {
                 spice = [0,0,0,0];
             }
-            if (this.resolutionDict && element in this.resolutionDict) {
-                element = this.resolutionDict[element];
+            if (this.labelAliases && element in this.labelAliases) {
+                element = this.labelAliases[element];
             }
             if (element == '' && this.color == '') {
                 return this.makeHSLColor(0,0,0,0)

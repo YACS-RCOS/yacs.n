@@ -1,21 +1,21 @@
 <template>
     <b-container fluid>
-        <div class="main-loading" v-if="main_loading">
+        <div class="main-loading" v-if="mainLoading">
           YACS<h1>&#32; &#32;Degree Planner</h1>
         </div>
         <div @dragover.prevent @drop="schedulerRemove">
 
         <div ref="searchModalContainer" style="position: absolute; z-index: 9999;">
-          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @courseDrag="schedulerDragFromModal" @setSubjectColors="setSubjectColors" @setSubjectGroupColors="setSubjectGroupColors"></SearchBarModal>
+          <SearchBarModal ref="searchModal" @result="results => modalAdd(activeSemester, results)" @dragover.prevent @elementDragStart="schedulerDragFromModal" @setSubjectColors="setSubjectColors" @setSubjectGroupColors="setSubjectGroupColors"></SearchBarModal>
         </div>
         <div class="columns">
 
           <div class="column-left">
             <div ref="deletionPrompt" class="schedule-deletion-prompt" v-show="scheduleDeletionPrompt">
-              Confirm Deletion of {{ schedule_name }}?
+              Confirm Deletion of {{ scheduleSelected }}?
               <div class="schedule-deletion-prompt-options">
                 <span>
-                  <button class="schedule-confirm-delete" @click="commenceDeleteSchedule(schedule_name)">
+                  <button class="schedule-confirm-delete" @click="commenceDeleteSchedule(scheduleSelected)">
                     YES
                   </button>
                 </span>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="schedule-selection">
-              <button :ref="'renameSchedule'" v-bind:class="{'schedule-selection-button':schedule != schedule_name, 'schedule-selection-button-active':schedule == schedule_name}" v-for="(schedule, index) in schedules" :key="index" @click="setSchedule(schedule)">
+              <button :ref="'renameSchedule'" v-bind:class="{'schedule-selection-button':schedule != scheduleSelected, 'schedule-selection-button-active':schedule == scheduleSelected}" v-for="(schedule, index) in schedules" :key="index" @click="setSchedule(schedule)">
                 <span class="schedule-button-content">
                   <button class="schedule-selection-delete" @click.stop="promptDeleteSchedule(schedule)">
                     &#10008;
@@ -36,14 +36,14 @@
                   <button class="schedule-selection-edit" @click="renameScheduleButton(schedule, index)">
                     &#9998;
                   </button>
-                  <span v-show="renaming_schedule != schedule">{{ schedule }}</span>
-                  <input :ref="'editScheduleNameInput'" v-show="renaming_schedule == schedule" class="edit-schedule-input" v-model="renaming_schedule_input" @keyup.enter="renameSchedule(schedule, renaming_schedule_input)"/>
+                  <span v-show="scheduleBeingRenamed != schedule">{{ schedule }}</span>
+                  <input :ref="'editScheduleNameInput'" v-show="scheduleBeingRenamed == schedule" class="edit-schedule-input" v-model="renameScheduleInputField" @keyup.enter="renameSchedule(schedule, renameScheduleInputField)"/>
                 </span>
               </button>
-              <input class="new-schedule-input" placeholder="+ new schedule" v-model="new_schedule_input" @keyup.enter="addSchedule(new_schedule_input)"/>
+              <input class="new-schedule-input" placeholder="+ new schedule" v-model="newScheduleInputField" @keyup.enter="addSchedule(newScheduleInputField)"/>
             </div>
             <div class="courses-grid">
-              <div v-for="(semester, semester_index) in getSchedule(schedule_name)" :key="semester_index" 
+              <div v-for="(semester, semester_index) in getSchedule(scheduleSelected)" :key="semester_index" 
                   v-bind:class="{'semester-block':hoverOverSemester!=semester_index, 'semester-block-highlighted':hoverOverSemester==semester_index}" 
                   @dragenter="schedulerDragEnter($event, semester_index)" 
                   @dragleave="schedulerDragLeave()" 
@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="`${semester_index}-${course_index}`">
-                  <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, semester_index)">
+                  <button class="course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, semester_index)">
                     <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                   </button>
                   <button class="course-remove-button" type="button" @click="remove(semester_index, course, true, true)">
@@ -77,27 +77,27 @@
           </div>
           
           <div class="column-center" ref="columnCenter">
-            <div v-if="schedule_name != ''">
+            <div v-if="scheduleSelected != ''">
               <div class="center-top-row">
                 <div ref="degreeSelect" style="width: 180px">
                   <button class="toggle-degree-selection-button" @click="toggleDegreeSelectionMenu">Degree Selection</button>
                   <div class="degree-selection-menu" v-if="openedDegreeSelectionMenu">
-                    <CatalogTree style="width: 50vw; margin-top: -10px" :nodes="degrees" :label="''" :depth="0" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :resolutionDict="resolutionDict" :selectedDegree="degree" @setDegree="degree => setDegree(degree)"></CatalogTree>
+                    <CatalogTree style="width: 50vw; margin-top: -10px" :nodes="degrees" :label="''" :depth="0" :subjectColors="subjectColors" :subjectGroupColors="subjectGroupColors" :labelAliases="labelAliases" :selectedDegree="degreeSelected" @setDegree="degree => setDegree(degree)"></CatalogTree>
                   </div>
                 </div>
-                <div v-if="recommending" style="color: #727d80">
+                <div v-if="recommendationsLoading" style="color: #727d80">
                   ...loading recommendations
                 </div>
               </div>
 
               <div class="requirements-orggrid">
-                <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirement_groups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
+                <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirementGroups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
                   <div v-if="true">
                     <div class="group-heading">
                       <span class="group-title"> {{ group.name }} </span> 
                       <span v-if="group.minimum_requirements.credits > 0" 
-                        v-bind:class="{'group-credit-stats-fulfilled':get_tallied_amount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':get_tallied_amount(group.name, 'credits') < group.minimum_requirements.credits}">
-                        <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ get_tallied_amount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
+                        v-bind:class="{'group-credit-stats-fulfilled':getTalliedAmount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':getTalliedAmount(group.name, 'credits') < group.minimum_requirements.credits}">
+                        <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ getTalliedAmount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
                     </div>
                     <div v-for="(requirement, index) in group.requirements" :key="index">
                       
@@ -105,7 +105,7 @@
                         <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
                           <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
                             <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
-                              {{ format_alternative(alternative_choice) }}
+                              {{ formatAlternativeButtonText(alternative_choice) }}
                             </button>
                           </div>
                         </div>
@@ -114,12 +114,12 @@
                       <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
                         <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
                           <div class="req-fulfillment-text">
-                            <span class="req-fulfillment-name"> {{ format_fulfillment_name(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
+                            <span class="req-fulfillment-name"> {{ formatFulfillmentName(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
                           </div>
                         </div>
 
                         <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
-                          <button class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                          <button class="course-buttons" type="button" @click="goToCoursePage(course)">
                             &#10148; {{ course }}
                           </button>
                         </div>
@@ -131,7 +131,7 @@
                             <h5>{{ recommendation.specifications }}</h5>
                           </div>
                           <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                            <button class="minimal-course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
+                            <button class="minimal-course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
                               <font color = #a9a9a9> {{ course }} </font>
                             </button>
                           </div>
@@ -147,8 +147,8 @@
 
           <div class="column-right">
             <div class="schedule-selection" style="font-size: 16px;">
-              <font color="#eb8d75">Schedule:</font> {{ schedule_name }} <br>
-              <font color="#e6bc8a">Degree:</font> {{ degree }}
+              <font color="#eb8d75">Schedule:</font> {{ scheduleSelected }} <br>
+              <font color="#e6bc8a">Degree:</font> {{ degreeSelected }}
             </div>
 
             <div v-if="getRequirementGroup(highlightedFulfillment) == null">
@@ -167,7 +167,7 @@
 
               <div v-for="(requirement_name, index) in getRequirementGroup(highlightedFulfillment).requirements" :key="index">
                 <div v-if="detailsAllTakenCourses[requirement_name] && (detailsAllTakenCourses[requirement_name].length != 0 || detailsAllPossibleCourses[requirement_name].length != 0)" class="details-panel">
-                  <div v-if="details_loading" style="color: #859393; font-size: 14px; font-weight: 600">
+                  <div v-if="detailsLoading" style="color: #859393; font-size: 14px; font-weight: 600">
                     loading details...
                   </div>
                   <p> <font color="#707a7a">Your Taken Courses:</font></p>
@@ -176,11 +176,11 @@
                     {{ fulfillment[0] }}
                     <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
 
-                      <button v-if="coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                      <button v-if="coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
                         &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #85c07d; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #9db09b; font-weight: 600;">(applied)</span>
                       </button>
 
-                      <button v-if="!coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="navigate_to_course_page(course)">
+                      <button v-if="!coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
                         &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #d07e7c; font-style: italic; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #b0a59b; font-weight: 600;"><br>applied to other requirements: <br>({{ coursePresentIn(course).join(', ') }})</span>
                       </button>
                     </div>
@@ -188,7 +188,7 @@
                 </div>
 
                 <div v-if="detailsAllPossibleCourses[requirement_name] && detailsAllPossibleCourses[requirement_name].length != 0" class="details-panel">
-                  <div v-if="details_loading" style="color: #859393; font-size: 14px; font-weight: 600">
+                  <div v-if="detailsLoading" style="color: #859393; font-size: 14px; font-weight: 600">
                     loading details...
                   </div>
                   <p> <font color="#707a7a">All Possible Courses:</font></p>
@@ -196,7 +196,7 @@
                   <div class="details-wildcard-title" v-for="(fulfillment, max_fulfillment_index) in detailsAllPossibleCourses[requirement_name]" :key="max_fulfillment_index">
                     {{ fulfillment[0] }}
                     <div class="details-info" v-for="(course, max_index) in fulfillment[1]" :key="max_index">
-                      <button class="course-buttons" type="button" @click="navigate_to_course_page(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
+                      <button class="course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
                         &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
                       </button>
                     </div>
@@ -223,47 +223,55 @@ Vue.use(VueCookies);
   export default {
     data() {
         return {
-            loading: true,
-            main_loading: true,
-            details_loading: false,
-            userid: 'testuser',
-            degree: '',
-            degrees: {},
-            schedules: [],
-            scheduleData: {},
-            new_schedule_input: '',
-            renaming_schedule_input: '',
-            renaming_schedule: '',
-            schedule_button_index: -1,
-            schedule_name: '',
-            defaultScheduleName: 'my schedule',
-            scheduleDeletionPrompt: false,
-            recommending: false,
-            requirement_groups: [],
-            tally: {},
-            requirements: {},
-            recommendations: {},
-            switchedSchedule: true,
+          /* -------- FLAGS AND MENU TOGGLES -------- */
+          mainLoading: true,
+          detailsLoading: false,
+          recommendationsLoading: false,
+          scheduleDeletionPrompt: false,
+          openedDegreeSelectionMenu: false,
+          highlightedFulfillment: null,
+          switchedSchedule: true, // flag indicates schedule has switched and to recompute certain calculations
 
-            detailsAllTakenCourses: {},
-            detailsAllPossibleCourses: {},
-            SEM_MAX: 12,
-            recommend_pause_token: 1,
-            dragElement: null,
-            dragFromSemester: 0,
-            hoverOverSemester: -1,
-            lastDropInsideZone: false,
-            hoverCounter: 0, // to fix the problem where hovering over child elements creates a dragenter + dragleave event
-            activeSemester: -1,
-            showSearchModal: false,
-            highlightedFulfillment: null,
-            resolutionDict: {},
-            openedDegreeSelectionMenu: false,
+          // scheduler flags
+          dragElement: null,
+          dragFromSemester: -1,
+          hoverOverSemester: -1,
+          lastDropInsideZone: false, // indicates if course is dropped within scheduler (since dropping outside means removal)
+          hoverCounter: 0, // entering child elements creates a dragenter + dragleave event
+          activeSemester: -1,
+          showSearchModal: false,
+          scheduleBeingRenamed: '', // stores the name of the schedule currently being renamed
+          scheduleBeingRenamedIndex: -1, // stores the index of the schedule being modified for the sake of tracking clickOutside
 
-            subjectColors: {},
-            subjectGroupColors: {},
+          /* -------- DEFAULTS AND COMPUTED PROPERTIES -------- */
+          defaultScheduleName: 'my schedule',
+          SemestersMax: 12,
+          labelAliases: {},
+          subjectColors: {},
+          subjectGroupColors: {},
 
-            wildcardRequirements: {},
+          /* -------- USERDATA -------- */
+          userid: 'nulluser',
+
+          schedules: [], // a flat structure, can be replaced by a folder structure
+          scheduleSelected: '',
+          
+          degrees: {}, // follow a folder structure
+          degreeSelected: '',
+
+          scheduleData: {}, // a dictionary of schedules containing course information and degree information for each schedule
+          wildcardRequirements: {},
+
+          requirementGroups: [],
+          tally: {},
+          requirements: {},
+          recommendations: {},
+          detailsAllTakenCourses: {},
+          detailsAllPossibleCourses: {},
+
+          /* -------- INPUT FIELDS -------- */
+          newScheduleInputField: '',
+          renameScheduleInputField: '',
         };
     },
     methods: {
@@ -279,7 +287,8 @@ Vue.use(VueCookies);
           return hashHex;
         },
         async beginTemporarySession() {
-          console.log('beginning session solving for hash');
+          console.log('registering new accountless session');
+          let start = performance.now();
           const response = await fetch("/api/dp/newuser");
           const hashdata = await response.json();
           const hash = hashdata.hashhead;
@@ -289,13 +298,14 @@ Vue.use(VueCookies);
             suffix++;
           }
           this.userid = hash + suffix.toString();
-          console.log('FOUND SOLUTION: ' + this.userid + "with hash " + (await this.computeHash(hash + suffix.toString())));
+          let end = performance.now();
+          console.log(`registered with USERID: ${this.userid} in ${end - start} milliseconds`);
         },
         ////////////////////////////////////////////////
         // COOKIES
         ////////////////////////////////////////////////
 
-        loaduser() {
+        loadUser() {
           let userid = this.getFromLocalStorage('userid');
           if (userid) {
             this.userid = userid;
@@ -439,15 +449,15 @@ Vue.use(VueCookies);
           }
           return presentIn
         },
-        getRequirementGroup(name, first_only=true) {
+        getRequirementGroup(name, firstOnly=true) {
           // gets requirement group by name
-          if (this.requirement_groups.length == 0) {
+          if (this.requirementGroups.length == 0) {
             return null
           }
-          let filteredGroup = this.requirement_groups.filter(group => group.name == name);
+          let filteredGroup = this.requirementGroups.filter(group => group.name == name);
 
           if (filteredGroup.length > 0) {
-            if (first_only) {
+            if (firstOnly) {
               return filteredGroup[0]
             }
             return filteredGroup
@@ -465,10 +475,9 @@ Vue.use(VueCookies);
           ) {
             this.toggleSearchModal(false);
           }
-          if (this.schedule_button_index >= 0 && this.$refs['renameSchedule'][this.schedule_button_index] && !this.$refs['renameSchedule'][this.schedule_button_index].contains(event.target)) {
-            this.renaming_schedule_input = '';
-            this.renaming_schedule = '';
-            console.log('clicked outside!!!')
+          if (this.scheduleBeingRenamedIndex >= 0 && this.$refs['renameSchedule'][this.scheduleBeingRenamedIndex] && !this.$refs['renameSchedule'][this.scheduleBeingRenamedIndex].contains(event.target)) {
+            this.renameScheduleInputField = '';
+            this.scheduleBeingRenamed = '';
           }
           if (this.$refs.deletionPrompt && !this.$refs.deletionPrompt.contains(event.target)) {
             this.cancelDeleteSchedule();
@@ -477,11 +486,11 @@ Vue.use(VueCookies);
             this.openedDegreeSelectionMenu = false;
           }
         },
-        get_tallied_amount(group_name, tally) {
-            if (this.tally[group_name][tally] == null) {
+        getTalliedAmount(groupName, tally) {
+            if (this.tally[groupName][tally] == null) {
                 return 0;
             }
-            return this.tally[group_name][tally];
+            return this.tally[groupName][tally];
         },
 
         ////////////////////////////////////////////////
@@ -493,7 +502,7 @@ Vue.use(VueCookies);
           setTimeout(this.finishedLoading, timer);
         },
         finishedLoading() {
-          this.main_loading = false;
+          this.mainLoading = false;
         },
 
         toggleDegreeSelectionMenu() {
@@ -514,24 +523,41 @@ Vue.use(VueCookies);
         },
         toggleSearchModal(on) {
           this.showSearchModal = on;
-          this.$refs.searchModal.showDropdown = on;
+          this.$refs.searchModal.showSelf = on;
           if (!on) {
             this.$refs.searchModal.onClose();
           }
         },
 
-        format_alternative(str) {
+        formatAlternativeButtonText(str) {
             if (str.includes('*')) {
                 str = str.split('*')[0] + " automatically select";
             }
             str = str.replace('.', ': ');
             return str;
         },
-        format_fulfillment_name(str) {
+        formatFulfillmentName(str) {
             if (str.includes('-')) {
                 str = str.substring(str.indexOf('-') + 1);
             }
             return str;
+        },
+
+        generateSearchOccurrences() {
+          const courses = this.scheduleData[this.scheduleSelected].courses;
+          let elementSelectionOccurrences = {};
+          for (let semester = 0; semester < courses.length; ++semester) {
+            for (let i = 0; i < courses[semester].length; ++i) {
+              const course_name = courses[semester][i];
+              if (course_name in elementSelectionOccurrences) {
+                elementSelectionOccurrences[course_name].push(semester + 1);
+              }
+              else {
+                elementSelectionOccurrences[course_name] = [semester + 1];
+              }
+            }
+          }
+          return elementSelectionOccurrences
         },
 
         ////////////////////////////////////////////////
@@ -550,7 +576,7 @@ Vue.use(VueCookies);
           } else {
             this.wildcardRequirements[alternative_orig] = alternative_choice
           }
-          this.get_fulfillment(this.wildcardRequirements);
+          this.getFulfillment(this.wildcardRequirements);
         },
         chosenAlternative(alternative_orig) {
           if (alternative_orig in this.wildcardRequirements) {
@@ -572,10 +598,10 @@ Vue.use(VueCookies);
           this.activeSemester = semester;
           this.toggleSearchModal(true);
           if (this.switchedSchedule) {
-            this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+            this.$refs.searchModal.elementSelectionOccurrences = this.generateSearchOccurrences();
             this.switchedSchedule = false;
           }
-          this.$refs.searchModal.onClick(semester);
+          this.$refs.searchModal.onOpen("SEMESTER " + (semester + 1).toString());
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
           this.$nextTick(() => {
@@ -587,7 +613,7 @@ Vue.use(VueCookies);
           });
         },
         modalAdd(semester, course) {
-          if (this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+          if (this.scheduleData[this.scheduleSelected].courses[semester].includes(course)) {
             this.remove(semester, course, true, true);
           }
           else {
@@ -645,38 +671,38 @@ Vue.use(VueCookies);
                 this.hoverOverSemester = -1;
             }
         },
-        navigate_to_course_page(course) {
+        goToCoursePage(course) {
             let page = course.substring(0, 4).toUpperCase() + "/" + course.substring(0, 4).toUpperCase() + "-" + course.substring(5, 9);
             this.$router.push("/explore/" + page);
         },
 
         add(semester, course, fulfill = true, recommend = true) {
-          if (this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+          if (this.scheduleData[this.scheduleSelected].courses[semester].includes(course)) {
             return
           }
-          this.scheduleData[this.schedule_name].courses[semester].push(course);
+          this.scheduleData[this.scheduleSelected].courses[semester].push(course);
           this.$forceUpdate();
-          this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+          this.$refs.searchModal.elementSelectionOccurrences = this.generateSearchOccurrences();
             
           // skips fulfill/recommend if this course occurs multiple times
-          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1) && (fulfill || recommend)) {
-            this.fetch_data(fulfill, recommend);
+          if (!(course in this.$refs.searchModal.elementSelectionOccurrences && this.$refs.searchModal.elementSelectionOccurrences[course].length > 1) && (fulfill || recommend)) {
+            this.queryCalculations(fulfill, recommend);
           }
 
           this.saveuser();
         },
         remove(semester, course, fulfill = true, recommend = true) {
-          if (!this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
+          if (!this.scheduleData[this.scheduleSelected].courses[semester].includes(course)) {
             return
           }
-          const index = [this.scheduleData[this.schedule_name].courses[semester].indexOf(course)];
-          this.scheduleData[this.schedule_name].courses[semester].splice(index, 1);
+          const index = [this.scheduleData[this.scheduleSelected].courses[semester].indexOf(course)];
+          this.scheduleData[this.scheduleSelected].courses[semester].splice(index, 1);
           this.$forceUpdate();
-          this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
+          this.$refs.searchModal.elementSelectionOccurrences = this.generateSearchOccurrences();
             
           // skips fulfill/recommend if this course still occurs
-          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 0) && (fulfill || recommend)) {
-            this.fetch_data(fulfill, recommend);
+          if (!(course in this.$refs.searchModal.elementSelectionOccurrences && this.$refs.searchModal.elementSelectionOccurrences[course].length > 0) && (fulfill || recommend)) {
+            this.queryCalculations(fulfill, recommend);
           }
           
           this.saveuser();
@@ -695,31 +721,30 @@ Vue.use(VueCookies);
           return responseJson.valid
         },
 
-        async fetch_data(fulfill = true, recommend = true) {
+        async queryCalculations(fulfill = true, recommend = true) {
             // performs fulfillment call first before validation. This ensures that if our ID is valid,
             // fulfillment is underway without needing to wait for a validation call.
             // validation call then occurs after fulfillment call, and if it fails, we revalidate and rerun this function.
-            this.loading = true;
             if (fulfill) {
-              this.get_fulfillment();
-              this.get_fulfillment_details();
+              this.getFulfillment();
+              this.getFulfillmentDetails();
             }
             let valid = await this.validateSession();
             if (!valid) {
-              await this.fetch_data(fulfill, recommend);
+              await this.queryCalculations(fulfill, recommend);
               return
             }
             if (recommend) {
-              this.get_recommendation();
+              this.getRecommendations();
             }
         },
 
-        async get_fulfillment(attributes_replacement = null) {
+        async getFulfillment(attributes_replacement = null) {
             let userid = this.userid;
-            let degree_name = this.degree;
-            let taken_courses = this.getAllCourses(this.schedule_name);
+            let degree_name = this.degreeSelected;
+            let taken_courses = this.getAllCourses(this.scheduleSelected);
             if (attributes_replacement == null) {
-                attributes_replacement = {};
+              attributes_replacement = {};
             }
             const response = await fetch('/api/dp/fulfillment', {
                 method: 'POST',
@@ -731,30 +756,30 @@ Vue.use(VueCookies);
             const fulfillment = await response.json();
             if (fulfillment) {
               this.requirements = fulfillment.fulfillments;
-              this.requirement_groups = fulfillment.groups;
+              this.requirementGroups = fulfillment.groups;
               this.tally = fulfillment.tally;
             }
             else {
               this.requirements = {};
-              this.requirement_groups = [];
+              this.requirementGroups = [];
             }
         },
-        async get_fulfillment_details() {
+        async getFulfillmentDetails() {
           let userid = this.userid;
-          this.details_loading = true;
+          this.detailsLoading = true;
           const response = await fetch('/api/dp/fulfillmentdetails/' + userid);
           const results = await response.json();
           if (results) {
             this.detailsAllPossibleCourses = results.details_all_possible;
             this.detailsAllTakenCourses = results.details_all_taken;
           }
-          this.details_loading = false;
+          this.detailsLoading = false;
         },
-        async get_recommendation() { 
-            this.recommending = true;
+        async getRecommendations() { 
+            this.recommendationsLoading = true;
             let userid = this.userid;
-            let degree_name = this.degree;
-            let taken_courses = this.getAllCourses(this.schedule_name);
+            let degree_name = this.degreeSelected;
+            let taken_courses = this.getAllCourses(this.scheduleSelected);
             await fetch('/api/dp/recommend', {
                 method: 'POST',
                 headers: {
@@ -763,44 +788,44 @@ Vue.use(VueCookies);
                 body: JSON.stringify({ userid, degree_name, taken_courses }),
             });
             const response2 = await fetch('/api/dp/recommend/' + userid);
-            const recommendations = await response2.json().then(this.loading = false);
+            const recommendations = await response2.json();
             if (recommendations) {
               this.recommendations = recommendations;
             }
-            this.recommending = false;
+            this.recommendationsLoading = false;
         },
-        async get_info() {
+        async getInfo() {
           const response  = await fetch('/api/dp/info');
           const responseData = await response.json();
           this.degrees = responseData.degrees;
         },
 
-        setDegree(degree_name, fetch_data=true) {
-          if (degree_name.toLowerCase() == this.degree.toLowerCase()) {
+        setDegree(degreeName, queryCalculations=true) {
+          if (degreeName.toLowerCase() == this.degreeSelected.toLowerCase()) {
             return
           }
-          this.degree = degree_name;
-          if (this.scheduleData[this.schedule_name]) {
-            this.scheduleData[this.schedule_name].degree = this.degree;
+          this.degreeSelected = degreeName;
+          if (this.scheduleData[this.scheduleSelected]) {
+            this.scheduleData[this.scheduleSelected].degree = this.degreeSelected;
           }
           if (this.openedDegreeSelectionMenu) {
             this.openedDegreeSelectionMenu = false;
           }
-          console.log('setting degree to ' + degree_name)
-          if (fetch_data) {
-            this.fetch_data();
+          console.log('setting degree to ' + degreeName)
+          if (queryCalculations) {
+            this.queryCalculations();
           }
         },
         getDegree() {
-          if (!this.scheduleData[this.schedule_name]) {
+          if (!this.scheduleData[this.scheduleSelected]) {
             return ''
           }
-          return this.scheduleData[this.schedule_name].degree
+          return this.scheduleData[this.scheduleSelected].degree
         },
         promptDeleteSchedule(schedule) {
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
-          this.schedule_name = schedule;
+          this.scheduleSelected = schedule;
           this.scheduleDeletionPrompt = true;
         },
 
@@ -816,86 +841,86 @@ Vue.use(VueCookies);
         renameScheduleButton(schedule, index) {
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
-          this.renaming_schedule = schedule;
-          this.renaming_schedule_input = schedule;
-          this.schedule_button_index = index;
+          this.scheduleBeingRenamed = schedule;
+          this.renameScheduleInputField = schedule;
+          this.scheduleBeingRenamedIndex = index;
           this.$nextTick(() => {
-            if (this.$refs['editScheduleNameInput'][this.schedule_button_index]) {
-              this.$refs['editScheduleNameInput'][this.schedule_button_index].focus();
+            if (this.$refs['editScheduleNameInput'][this.scheduleBeingRenamedIndex]) {
+              this.$refs['editScheduleNameInput'][this.scheduleBeingRenamedIndex].focus();
             }
           });
         },
 
-        addSchedule(schedule_name, courseData = null) {
-          if (this.schedules.includes(schedule_name)) {
-            this.setSchedule(schedule_name);
+        addSchedule(scheduleName, courseData = null) {
+          if (this.schedules.includes(scheduleName)) {
+            this.setSchedule(scheduleName);
             return
           }
           if (courseData == null) {
             let courseDataCourses = [];
-            for (let i = 0; i < this.SEM_MAX; i++) {
+            for (let i = 0; i < this.SemestersMax; i++) {
               courseDataCourses.push([]);
             }
             courseData = {'courses': courseDataCourses, 'degree': ''};
           }
-          this.schedules.push(schedule_name);
-          this.scheduleData[schedule_name] = courseData;
-          this.setSchedule(schedule_name);
+          this.schedules.push(scheduleName);
+          this.scheduleData[scheduleName] = courseData;
+          this.setSchedule(scheduleName);
 
           this.saveuser();
         },
 
-        deleteSchedule(schedule_name) {
-          delete this.scheduleData[schedule_name];
-          this.schedules.splice([this.schedules.indexOf(schedule_name)], 1);
-          if (schedule_name == this.schedule_name && this.schedules.length > 0) {
+        deleteSchedule(scheduleName) {
+          delete this.scheduleData[scheduleName];
+          this.schedules.splice([this.schedules.indexOf(scheduleName)], 1);
+          if (scheduleName == this.scheduleSelected && this.schedules.length > 0) {
             this.setSchedule(this.schedules[0]);
           }
           if (this.schedules.length == 0) {
-            this.schedule_name = '';
+            this.scheduleSelected = '';
           }
-          this.renaming_schedule = '';
-          this.renaming_schedule_input = '';
-          this.new_schedule_input = '';
+          this.scheduleBeingRenamed = '';
+          this.renameScheduleInputField = '';
+          this.newScheduleInputField = '';
 
           this.saveuser();
         },
 
-        setSchedule(schedule_name, fetch_data=true) {
-          if (this.schedule_name == schedule_name) {
+        setSchedule(scheduleName, queryCalculations=true) {
+          if (this.scheduleSelected == scheduleName) {
             return
           }
-          this.schedule_name = schedule_name;
-          this.degree = this.getDegree();
-          this.renaming_schedule = '';
-          this.renaming_schedule_input = '';
-          this.new_schedule_input = '';
+          this.scheduleSelected = scheduleName;
+          this.degreeSelected = this.getDegree();
+          this.scheduleBeingRenamed = '';
+          this.renameScheduleInputField = '';
+          this.newScheduleInputField = '';
           this.switchedSchedule = true;
-          if (fetch_data) {
-            this.fetch_data();
+          if (queryCalculations) {
+            this.queryCalculations();
           }
         },
 
-        renameSchedule(old_schedule_name, new_schedule_name) {
-          if (old_schedule_name == new_schedule_name || this.schedules.includes(new_schedule_name)) {
+        renameSchedule(oldScheduleName, newScheduleName) {
+          if (oldScheduleName == newScheduleName || this.schedules.includes(newScheduleName)) {
             return
           }
-          this.addSchedule(new_schedule_name, this.scheduleData[old_schedule_name]);
-          this.deleteSchedule(old_schedule_name);
-          this.schedule_name = new_schedule_name;
+          this.addSchedule(newScheduleName, this.scheduleData[oldScheduleName]);
+          this.deleteSchedule(oldScheduleName);
+          this.scheduleSelected = newScheduleName;
 
           this.saveuser();
         },
 
-        getSchedule(schedule_name) {
-          if (!(this.scheduleData[schedule_name] && this.scheduleData[schedule_name].courses)) {
+        getSchedule(scheduleName) {
+          if (!(this.scheduleData[scheduleName] && this.scheduleData[scheduleName].courses)) {
             return [];
           }
-          return this.scheduleData[schedule_name].courses;
+          return this.scheduleData[scheduleName].courses;
         },
 
-        setResolutionDict() {
-          this.resolutionDict = {
+        setlabelAliases() {
+          this.labelAliases = {
             "computer science": "CSCI",
             "electrical engineering": "ECSE",
             "mechanical engineering": "MANE",
@@ -914,16 +939,19 @@ Vue.use(VueCookies);
         },
     },
     async created() {
-        this.main_loading = true;
+        console.log('DEGREE PLANNER - PROJECT OVERLORD / YACS.N 2023');
+        
+        this.mainLoading = true;
         this.loadUserid();
         await this.validateSession();
         this.saveUserid();
+        console.log('session validated');
 
-        this.loaduser();
-        await this.get_info();
-        await this.fetch_data();
-        this.setResolutionDict();
-        if (this.degree.length == 0) {
+        this.loadUser();
+        await this.getInfo();
+        await this.queryCalculations();
+        this.setlabelAliases();
+        if (this.degreeSelected.length == 0) {
           this.openedDegreeSelectionMenu = true;
         }
         document.addEventListener('click', this.handleClickOutside);

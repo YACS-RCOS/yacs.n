@@ -1,7 +1,7 @@
 <template>
   <div>
-      <div v-if="showDropdown" ref="resultsList" class="results">
-        <h3>SEMESTER {{ selectedSemester + 1 }}</h3>
+      <div v-if="showSelf" ref="resultsList" class="results">
+        <h3>{{ bannerText }}</h3>
         <input
           ref="searchBar"
           class="search-input"
@@ -12,9 +12,9 @@
         />
 
         <div class="subject-filter">
-          <div class="subject-group" :style="arrayToHSLBackground(subjectGroupColors[subject_group.title.toLowerCase()])" v-for="(subject_group, subject_group_index) in subjectGroups" :key="subject_group_index">
+          <div class="subject-group" :style="arrayToHSLBackground(searchFilterGroupColors[subject_group.title.toLowerCase()])" v-for="(subject_group, subject_group_index) in searchFilterGroups" :key="subject_group_index">
             {{ extractTitle(subject_group.title) }}<br>
-            <button class="subject-buttons" :style="getSubjectButtonColor(subject)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterCourses(subject)">
+            <button class="subject-buttons" :style="getFilterColor(subject)" type="button" v-for="(subject, subject_index) in subject_group.elements" :key="subject_index" @click="filterElement(subject)">
               {{ extractTitle(subject) }}
             </button>
             <br>
@@ -26,10 +26,10 @@
             <li v-show="searchContextSize < searchMatches.length && searchDisplayContext > 0" @click="decrementSearchPage">
               <span class="search-traversal-button">PREVIOUS</span>
             </li>
-            <li v-for="(course, index) in searchMatches.slice(searchDisplayContext * searchContextSize, (searchDisplayContext + 1) * searchContextSize)" :key="index" @click="selectMatch(index)" draggable="true" @dragstart="courseDrag($event, course.display_name)">
-              <span class="search-result" :style="getCourseFrontColor(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
-              <span v-bind:class="{'search-result-body':!(course.display_name in courseSelected), 'search-result-body-selected':course.display_name in courseSelected}" :style="getCourseBackColor(course.display_name)"> {{ course.display_name.substring(10) }} </span>
-              <span class="selected-tag" v-show="course.display_name in courseSelected"> (selected in semester {{ getSemestersPresentIn(course.display_name) }}) </span>
+            <li v-for="(course, index) in searchMatches.slice(searchDisplayContext * searchContextSize, (searchDisplayContext + 1) * searchContextSize)" :key="index" @click="selectMatch(index)" draggable="true" @dragstart="elementDragStart($event, course.display_name)">
+              <span class="search-result" :style="getElementColorFront(course.search_name)"> {{ course.display_name.substring(0, 10) }} </span> 
+              <span v-bind:class="{'search-result-body':!(course.display_name in elementSelectionOccurrences), 'search-result-body-selected':course.display_name in elementSelectionOccurrences}" :style="getElementColorRear(course.display_name)"> {{ course.display_name.substring(10) }} </span>
+              <span class="selected-tag" v-show="course.display_name in elementSelectionOccurrences"> (selected in semester {{ getElementOccurrences(course.display_name) }}) </span>
             </li>
             <li v-show="(searchDisplayContext + 1) * searchContextSize < searchMatches.length" @click="incrementSearchPage">
               <span class="search-traversal-button" >NEXT</span>
@@ -49,46 +49,37 @@ import debounce from 'lodash/debounce';
 export default {
   data() {
     return {
-      all_courses: [],
-      courses: [],
-      courseRecType: {}, // course can be (1) core, (2) useful
-      courseSelected: {},
-      subjectGroups: [],
-      subjectColors: {},
-      subjectGroupColors: {},
-      filterSubject: '',
-
-      searchInput: '',
-      searchMatches: [],
+      /* -------- PARAMETERS -------- */
       searchDisplayContext: 0,
       searchContextSize: 50,
-      showDropdown: false,
-      selectedSemester: -1,
-
       closeModalOnSelection: false,
+
+      /* -------- SEARCH ELEMENTS -------- */
+      allElements: [],
+      elementSearchPool: [],
+      elementType: {}, // course can be (1) core, (2) useful
+      elementSelectionOccurrences: {},
+
+      /* -------- SEARCH FILTERS -------- */
+      searchFilterGroups: [],
+      searchFilterColors: {},
+      searchFilterGroupColors: {},
+      filterBy: '',
+
+      /* -------- FLAGS AND INPUTS -------- */
+      showSelf: false,
+      bannerText: -1,
+      searchInput: '',
+      searchMatches: [],
     };
   },
 
   methods: {
-    courseDrag(event, course) {
+    elementDragStart(event, element) {
       event.dataTransfer.effectAllowed = "move";
-      this.$emit('courseDrag', course);
+      this.$emit('elementDragStart', element);
     },
-    importCourses(courses) {
-      this.courseSelected = {};
-      for (let semester = 0; semester < courses.length; ++semester) {
-        for (let i = 0; i < courses[semester].length; ++i) {
-          const course_name = courses[semester][i];
-          if (course_name in this.courseSelected) {
-            this.courseSelected[course_name].push(semester + 1);
-          }
-          else {
-            this.courseSelected[course_name] = [semester + 1];
-          }
-          //console.log(this.courseSelected[course_name]);
-        }
-      }
-    },
+
     incrementSearchPage() {
       //this.$refs.searchMatchList.scrollTop = 0;
       if ((this.searchDisplayContext + 1) * this.searchContextSize < this.searchMatches.length) {
@@ -100,11 +91,11 @@ export default {
         this.searchDisplayContext--;
       }
     },
-    getSemestersPresentIn(course) {
-      if (!(course in this.courseSelected)) {
+    getElementOccurrences(element) {
+      if (!(element in this.elementSelectionOccurrences)) {
         return
       }
-      return this.courseSelected[course].join(', ')
+      return this.elementSelectionOccurrences[element].join(', ')
     },
     sumAsciiValues(word) {
       let sum = 0;
@@ -113,25 +104,25 @@ export default {
       }
       return sum;
     },
-    getCourseFrontColor(course){
-      const type = this.courseRecType[course];
-      if (type == "core" || course.startsWith("csci 1200")) {
+    getElementColorFront(element){
+      const type = this.elementType[element];
+      if (type == "core" || element.startsWith("csci 1200")) {
         return this.makeHSLColor(20, 85, 70)
       } 
-      else if (type == "useful" || course.startsWith("csci 4220")) {
+      else if (type == "useful" || element.startsWith("csci 4220")) {
         return this.makeHSLColor(90, 75, 65)
       }
       return this.makeHSLColor(40, 55, 70)
     },
-    getCourseBackColor(course){
-      if (course in this.courseSelected) {
+    getElementColorRear(element){
+      if (element in this.elementSelectionOccurrences) {
         return this.makeHSLColor(90, 55, 75)
       }
       return this.makeHSLColor(40, 0, 100)
     },
-    getSubjectButtonColor(subject) {
-      const colors = this.subjectColors[subject];
-      if (this.filterSubject == subject) {
+    getFilterColor(filter) {
+      const colors = this.searchFilterColors[filter];
+      if (this.filterBy == filter) {
         return this.makeHSLBackground(colors[0] + 10, colors[1] + 30, colors[2] + 30)
       }
       return this.arrayToHSLBackground(colors)
@@ -161,7 +152,6 @@ export default {
     },
 
     makeHSLColor(hue, saturation, lightness, alpha=-1) {
-      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
       if (alpha != -1) {
         return {
           color: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
@@ -178,13 +168,12 @@ export default {
           backgroundColor: `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`
         };
       }
-      // console.log("hue: " + hue + " sat:" + saturation + " light: " + lightness);
       return {
         backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`
       };
     },
 
-    colorTextExtract(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, alpha = 1, index = -1) {
+    generateElementColor(element, hue_offset = 0, saturation_offset = 0, lightness_offset = 0, alpha = 1, index = -1) {
       let colors = this.extractColorHSL(element);
       if (colors.length == 3) {
         return [(colors[0] + hue_offset) % 360, (colors[1] + saturation_offset), (colors[2] + lightness_offset), alpha]
@@ -203,26 +192,25 @@ export default {
       };
     },
 
-    outputValue(val) {
+    outputResult(val) {
       // Increment the value and emit an event to notify the parent
       this.$emit('result', val);
     },
 
-    onClick(semester) {
+    onOpen(bannerText) {
       this.$nextTick(() => {
         this.$refs.searchBar.focus();
       });
-      this.selectedSemester = semester;
+      this.bannerText = bannerText;
     },
 
     onClose() {
       this.searchInput = '';
       this.searchDisplayContext = 0;
-      this.searchMatches = this.courses;
+      this.searchMatches = this.elementSearchPool;
     },
 
     inputHandler() {
-      //this.showDropdown = true;
       this.debouncedsearch();
     },
 
@@ -231,24 +219,19 @@ export default {
       this.search();
     }, 400),
 
-    search(stop_count = -1) {
-      let input = this.searchInput
+    search(count = -1) {
+      let input = this.searchInput;
       input = input.toLowerCase();
-      console.log('performed search')
-      if (stop_count == -1) {
-        this.searchMatches = this.courses.filter(course => course.search_name.includes(input));
+      if (count == -1) {
+        this.searchMatches = this.elementSearchPool.filter(element => element.search_name.includes(input));
       } else {
         this.searchMatches = [];
-        for (let i = 0; i < this.courses.length && this.searchMatches.length < stop_count; ++i) {
-          if (this.courses[i].search_name.includes(input)) {
-            this.searchMatches.push(this.courses[i]);
+        for (let i = 0; i < this.elementSearchPool.length && this.searchMatches.length < count; ++i) {
+          if (this.elementSearchPool[i].search_name.includes(input)) {
+            this.searchMatches.push(this.elementSearchPool[i]);
           }
         }
       }
-    },
-
-    async searchAlternative() {
-      this.searchMatches = await this.searchOnline(this.searchInput);
     },
 
     selectEnter() {
@@ -261,76 +244,59 @@ export default {
     selectMatch(position) {
       position = (this.searchContextSize * this.searchDisplayContext) + position;
       if (this.searchMatches.length == 0) {
-        this.outputValue(this.searchInput)
+        this.outputResult(this.searchInput);
       }
       else if (position < this.searchMatches.length) {
-        this.outputValue(this.searchMatches[position].display_name)
+        this.outputResult(this.searchMatches[position].display_name);
       }
-      //if (this.closeModalOnSelection) {
-      //  this.showDropdown = false;
-      //}
     },
 
-    filterCourses(subject) {
-      this.courses = [];
+    filterElement(subject) {
+      this.elementSearchPool = [];
       this.searchDisplayContext = 0;
-      if (subject == '' || this.filterSubject == subject) {
-        this.filterSubject = '';
-        this.courses = this.all_courses;
+      if (subject == '' || this.filterBy == subject) {
+        this.filterBy = '';
+        this.elementSearchPool = this.allElements;
       }
       else {
-        this.filterSubject = subject;
+        this.filterBy = subject;
         subject = subject.toLowerCase();
-        this.courses = this.all_courses.filter(course => course.search_name.startsWith(subject));
+        this.elementSearchPool = this.allElements.filter(course => course.search_name.startsWith(subject));
       }
       this.search();
-    },
-
-    async searchOnline(input) {
-      // uses degree planner's own searching algorithm, requires api call so more taxing on the backend
-      // uses a fast token matching algorithm rather than exact filtering
-      const response = await fetch('/api/dp/search', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(input),
-      });
-      let matches = await response.json();
-      return matches
     },
 
     async fetchElements() {
       const response = await fetch('/api/dp/courses/false');
       let course_list = await response.json();
       for (let i = 0; i < course_list.length; ++i) {
-        this.all_courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
-        this.courses.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()})
+        this.allElements.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()});
+        this.elementSearchPool.push({display_name: course_list[i], search_name: course_list[i].toLowerCase()});
       }
-      this.searchMatches = this.courses;
+      this.searchMatches = this.elementSearchPool;
     },
 
-    async fetchSubjectGroups() {
+    async fetchSearchFilterGroups() {
       const response = await fetch('/api/dp/subjectgroups');
-      this.subjectGroups = await response.json();
+      this.searchFilterGroups = await response.json();
     },
 
-    computeSubjectColors() {
-      for (let i = 0; i < this.subjectGroups.length; ++i) {
-        let group = this.subjectGroups[i];
-        this.subjectGroupColors[group.title.toLowerCase()] = this.colorTextExtract(group.title, 0, 15, 70, 0.7, i / this.subjectGroups.length);
+    computeSearchFilterColors() {
+      for (let i = 0; i < this.searchFilterGroups.length; ++i) {
+        let group = this.searchFilterGroups[i];
+        this.searchFilterGroupColors[group.title.toLowerCase()] = this.generateElementColor(group.title, 0, 15, 70, 0.7, i / this.searchFilterGroups.length);
         for (let j = 0; j < group.elements.length; ++j) {
-          this.subjectColors[group.elements[j]] = this.colorTextExtract(group.title, j, 12 - j * 0.25, 70 - 5 + j * 0.2, 1, i / this.subjectGroups.length)
+          this.searchFilterColors[group.elements[j]] = this.generateElementColor(group.title, j, 12 - j * 0.25, 70 - 5 + j * 0.2, 1, i / this.searchFilterGroups.length);
         }
       }
-      this.$emit('setSubjectColors', this.subjectColors);
-      this.$emit('setSubjectGroupColors', this.subjectGroupColors);
+      this.$emit('setSubjectColors', this.searchFilterColors);
+      this.$emit('setSubjectGroupColors', this.searchFilterGroupColors);
     }
   },
   async created() {
     await this.fetchElements();
-    await this.fetchSubjectGroups();
-    this.computeSubjectColors();
+    await this.fetchSearchFilterGroups();
+    this.computeSearchFilterColors();
   },  
 };
 </script>
