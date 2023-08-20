@@ -215,9 +215,10 @@
 
 import SearchBarModal from '../components/SearchBarModal.vue';
 import CatalogTree from '@/components/CatalogTree.vue';
-import Vue from 'vue'
-import VueCookies from 'vue-cookies'
-Vue.use(VueCookies)
+import Vue from 'vue';
+import VueCookies from 'vue-cookies';
+
+Vue.use(VueCookies);
 
   export default {
     data() {
@@ -266,35 +267,87 @@ Vue.use(VueCookies)
         };
     },
     methods: {
+        async computeHash(inputString) {
+          const encoder = new TextEncoder();
+          const string = encoder.encode(inputString);
+          const hashBuffer = await crypto.subtle.digest('SHA-256', string);
+
+          // Convert hash to hexadecimal
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+          return hashHex;
+        },
+        async beginTemporarySession() {
+          console.log('beginning session solving for hash');
+          const response = await fetch("/api/dp/newuser");
+          const hashdata = await response.json();
+          const hash = hashdata.hashhead;
+          const difficulty = hashdata.difficulty;
+          let suffix = 1;
+          while ((await this.computeHash(hash + suffix.toString())).substring(0, difficulty.length) != difficulty) {
+            suffix++;
+          }
+          this.userid = hash + suffix.toString();
+          console.log('FOUND SOLUTION: ' + this.userid + "with hash " + (await this.computeHash(hash + suffix.toString())));
+        },
         ////////////////////////////////////////////////
         // COOKIES
         ////////////////////////////////////////////////
 
         loaduser() {
+          let userid = this.getFromLocalStorage('userid');
+          if (userid) {
+            this.userid = userid;
+          }
           let schedules = this.getFromLocalStorage('schedules');
           if (schedules) {
             this.schedules = JSON.parse(schedules);
           }
+          let hangingSchedules = [];
           for (let i = 0; i < this.schedules.length; ++i) {
             let key = 's:' + this.schedules[i];
-            let courseData = this.getFromLocalStorage(key);
-            courseData = JSON.parse(courseData);
-            if (courseData && courseData.courses && courseData.degree) {
-              this.scheduleData[this.schedules[i]] = courseData;
+            const courseData = this.getFromLocalStorage(key);
+            if (courseData == null) {
+              hangingSchedules.push(this.schedules[i]);
             } else {
-              this.removeFromLocalStorage(key);
+              let courseDataJson = JSON.parse(courseData);
+              if (courseDataJson && courseDataJson.courses && courseDataJson.degree != null) {
+                this.scheduleData[this.schedules[i]] = courseDataJson;
+              } else {
+                this.removeFromLocalStorage(key);
+                hangingSchedules.push(this.schedules[i]);
+              }
             }
           }
+
+          for (let i = 0; i < hangingSchedules.length; ++i) {
+            this.schedules.splice(this.schedules.indexOf(hangingSchedules[i]), 1);
+            console.log('removed excess ' + hangingSchedules[i]);
+          }
+
           if (this.schedules.length > 0) {
-            this.setSchedule(this.schedules[0]);
+            this.setSchedule(this.schedules[0], false);
           } else {
             this.addSchedule(this.defaultScheduleName);
-            this.setSchedule(this.defaultScheduleName);
+            this.setSchedule(this.defaultScheduleName, false);
           }
+        },
+
+        loadUserid() {
+          let userid = this.getFromLocalStorage('userid');
+          if (userid) {
+            this.userid = userid;
+          }
+        },
+
+        saveUserid() {
+          this.saveToLocalStorage('userid', this.userid);
         },
 
         saveuser() {
           this.cleanseSchedules();
+          this.saveToLocalStorage('userid', this.userid);
           this.saveToLocalStorage('schedules', JSON.stringify(this.schedules));
           for (let i = 0; i < this.schedules.length; ++i) {
             this.saveToLocalStorage('s:' + this.schedules[i], JSON.stringify(this.scheduleData[this.schedules[i]]));
@@ -305,8 +358,8 @@ Vue.use(VueCookies)
           const keys = [];
           for (let i = 0; i < localStorage.length; i++) {
               keys.push(localStorage.key(i));
+              // console.log('localstorage: ' + localStorage.key(i) + ' DATA: ' + this.getFromLocalStorage(localStorage.key(i)));
           }
-          console.log('all localstorage keys: ' + keys);
           // delete all previously saved schedule data
           keys.forEach(key => {
             if (key.startsWith('s:')) {
@@ -326,7 +379,11 @@ Vue.use(VueCookies)
         },
         getFromLocalStorage(key) {
             try {
-                return localStorage.getItem(key);
+                const value = localStorage.getItem(key);
+                if (value == "undefined") {
+                  return undefined;
+                }
+                return value;
             } catch (error) {
                 console.error("Failed to retrieve from localStorage:", error);
                 return null;
@@ -569,7 +626,6 @@ Vue.use(VueCookies)
           if (this.dragFromSemester == -1 || this.hoverOverSemester != -1 || this.lastDropInsideZone) {
             return
           }
-          console.log("remove function scrubbing");
           event.preventDefault();
           if (this.dragElement != null) {
               if (this.dragFromSemester != -1) {
@@ -598,13 +654,12 @@ Vue.use(VueCookies)
           if (this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
             return
           }
-          console.log('adding course to semester ' + semester);
           this.scheduleData[this.schedule_name].courses[semester].push(course);
           this.$forceUpdate();
           this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
             
           // skips fulfill/recommend if this course occurs multiple times
-          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1)) {
+          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 1) && (fulfill || recommend)) {
             this.fetch_data(fulfill, recommend);
           }
 
@@ -614,14 +669,13 @@ Vue.use(VueCookies)
           if (!this.scheduleData[this.schedule_name].courses[semester].includes(course)) {
             return
           }
-          console.log('removing course to semester ' + semester);
           const index = [this.scheduleData[this.schedule_name].courses[semester].indexOf(course)];
           this.scheduleData[this.schedule_name].courses[semester].splice(index, 1);
           this.$forceUpdate();
           this.$refs.searchModal.importCourses(this.scheduleData[this.schedule_name].courses);
             
           // skips fulfill/recommend if this course still occurs
-          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 0)) {
+          if (!(course in this.$refs.searchModal.courseSelected && this.$refs.searchModal.courseSelected[course].length > 0) && (fulfill || recommend)) {
             this.fetch_data(fulfill, recommend);
           }
           
@@ -632,11 +686,28 @@ Vue.use(VueCookies)
         // API CALLING
         ////////////////////////////////////////////////
 
+        async validateSession() {
+          const response = await fetch('/api/dp/validateid/' + this.userid);
+          const responseJson = await response.json();
+          if (!responseJson.valid) {
+            await this.beginTemporarySession();
+          }
+          return responseJson.valid
+        },
+
         async fetch_data(fulfill = true, recommend = true) {
+            // performs fulfillment call first before validation. This ensures that if our ID is valid,
+            // fulfillment is underway without needing to wait for a validation call.
+            // validation call then occurs after fulfillment call, and if it fails, we revalidate and rerun this function.
             this.loading = true;
             if (fulfill) {
               this.get_fulfillment();
-              this.get_fulfillment_details().then(this.delayedFinishedLoading(800));
+              this.get_fulfillment_details();
+            }
+            let valid = await this.validateSession();
+            if (!valid) {
+              await this.fetch_data(fulfill, recommend);
+              return
             }
             if (recommend) {
               this.get_recommendation();
@@ -657,18 +728,26 @@ Vue.use(VueCookies)
                 },
                 body: JSON.stringify({ userid, degree_name, taken_courses, attributes_replacement }),
             });
-            let fulfillment = await response.json();
-            this.requirements = fulfillment.fulfillments;
-            this.requirement_groups = fulfillment.groups;
-            this.tally = fulfillment.tally;
+            const fulfillment = await response.json();
+            if (fulfillment) {
+              this.requirements = fulfillment.fulfillments;
+              this.requirement_groups = fulfillment.groups;
+              this.tally = fulfillment.tally;
+            }
+            else {
+              this.requirements = {};
+              this.requirement_groups = [];
+            }
         },
         async get_fulfillment_details() {
           let userid = this.userid;
           this.details_loading = true;
           const response = await fetch('/api/dp/fulfillmentdetails/' + userid);
-          let results = await response.json();
-          this.detailsAllPossibleCourses = results.details_all_possible;
-          this.detailsAllTakenCourses = results.details_all_taken;
+          const results = await response.json();
+          if (results) {
+            this.detailsAllPossibleCourses = results.details_all_possible;
+            this.detailsAllTakenCourses = results.details_all_taken;
+          }
           this.details_loading = false;
         },
         async get_recommendation() { 
@@ -684,7 +763,10 @@ Vue.use(VueCookies)
                 body: JSON.stringify({ userid, degree_name, taken_courses }),
             });
             const response2 = await fetch('/api/dp/recommend/' + userid);
-            this.recommendations = await response2.json().then(this.loading = false);
+            const recommendations = await response2.json().then(this.loading = false);
+            if (recommendations) {
+              this.recommendations = recommendations;
+            }
             this.recommending = false;
         },
         async get_info() {
@@ -693,7 +775,7 @@ Vue.use(VueCookies)
           this.degrees = responseData.degrees;
         },
 
-        setDegree(degree_name) {
+        setDegree(degree_name, fetch_data=true) {
           if (degree_name.toLowerCase() == this.degree.toLowerCase()) {
             return
           }
@@ -705,7 +787,9 @@ Vue.use(VueCookies)
             this.openedDegreeSelectionMenu = false;
           }
           console.log('setting degree to ' + degree_name)
-          this.fetch_data();
+          if (fetch_data) {
+            this.fetch_data();
+          }
         },
         getDegree() {
           if (!this.scheduleData[this.schedule_name]) {
@@ -732,7 +816,6 @@ Vue.use(VueCookies)
         renameScheduleButton(schedule, index) {
           document.removeEventListener('click', this.handleClickOutside);
           document.addEventListener('click', this.handleClickOutside);
-          console.log('toggled rename schedule selection');
           this.renaming_schedule = schedule;
           this.renaming_schedule_input = schedule;
           this.schedule_button_index = index;
@@ -778,7 +861,7 @@ Vue.use(VueCookies)
           this.saveuser();
         },
 
-        setSchedule(schedule_name) {
+        setSchedule(schedule_name, fetch_data=true) {
           if (this.schedule_name == schedule_name) {
             return
           }
@@ -788,10 +871,15 @@ Vue.use(VueCookies)
           this.renaming_schedule_input = '';
           this.new_schedule_input = '';
           this.switchedSchedule = true;
-          this.fetch_data();
+          if (fetch_data) {
+            this.fetch_data();
+          }
         },
 
         renameSchedule(old_schedule_name, new_schedule_name) {
+          if (old_schedule_name == new_schedule_name || this.schedules.includes(new_schedule_name)) {
+            return
+          }
           this.addSchedule(new_schedule_name, this.scheduleData[old_schedule_name]);
           this.deleteSchedule(old_schedule_name);
           this.schedule_name = new_schedule_name;
@@ -827,6 +915,10 @@ Vue.use(VueCookies)
     },
     async created() {
         this.main_loading = true;
+        this.loadUserid();
+        await this.validateSession();
+        this.saveUserid();
+
         this.loaduser();
         await this.get_info();
         await this.fetch_data();
@@ -835,6 +927,7 @@ Vue.use(VueCookies)
           this.openedDegreeSelectionMenu = true;
         }
         document.addEventListener('click', this.handleClickOutside);
+        this.finishedLoading();
     },
     components: { SearchBarModal, CatalogTree }
 };

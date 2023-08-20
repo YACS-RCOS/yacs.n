@@ -10,6 +10,7 @@ import asyncio
 import random
 import time
 import uuid
+import hashlib
 
 from api_models import *
 import db.connection as connection
@@ -68,6 +69,11 @@ dp_schedules = DpSchedules.Dp_schedules(db_conn)
 
 planner = Planner(enable_tensorflow=False)
 planner.import_data()
+
+hash_heads = set()
+hash_heads_queue = []
+MAX_HASH_HEADS = 10000
+difficulty = '000'
 
 recommendation_results = dict() # {user: results}
 fulfillment_detail_results = dict() # {user: details}
@@ -128,6 +134,42 @@ async def dp_redis_purify():
 async def dp_redis_delete_schedule(scheduleid):
     await delete_schedule(scheduleid)
 
+@app.get("/api/dp/newuser")
+async def dp_new_user():
+    # Generate a token and userid
+    global hash_heads
+    global hash_heads_queue
+
+    hashhead = str(uuid.uuid4())
+    while hashhead in hash_heads:
+        print(f'AN ASTRONOMICALLY UNLIKELY EVENT HAS OCCURRED (uuid4 collision)')
+        hashhead = str(uuid.uuid4())
+    hash_heads.add(hashhead)
+    hash_heads_queue.append(hashhead)
+
+    if len(hash_heads_queue) > MAX_HASH_HEADS:
+        for discardedHash in hash_heads_queue[:int(MAX_HASH_HEADS / 2)]:
+            hash_heads.remove(discardedHash)
+        hash_heads_queue = hash_heads_queue[int(MAX_HASH_HEADS / 2):]
+    global difficulty
+    # print(f'beginning new session with hashhead {hashhead}')
+    return {'hashhead': hashhead, 'difficulty': difficulty}
+
+# a dead simple rate limiter that will probably give a security analyst a stroke
+def valid_hash(hashval:str):
+    if len(hashval) < 36:
+        return False
+    if hashval[0:36] not in hash_heads:
+        return False
+
+    input_bytes = hashval.encode('utf-8')
+    return (hashlib.sha256(input_bytes).hexdigest()[0:len(difficulty)] == difficulty)
+
+@app.get("/api/dp/validateid/{userid}")
+async def dp_validate_id(userid:str):
+    print(f'user attempted to validate id {userid}: {valid_hash(userid)}! current valid heads: {hash_heads}')
+    return {'valid': valid_hash(userid)}
+
 @app.get('/api/dp/info')
 async def dp_info():
     return {"degrees":planner.degrees()}
@@ -157,12 +199,15 @@ async def dp_save_schedule(schedule_data:dict = Body(...)):
 
 @app.post('/api/dp/fulfillment')
 async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...), attributes_replacement:dict = Body(...)):
+    if not valid_hash(userid):
+        return None
+    
     io = planner.output
 
     wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
     degree = planner.get_degree(degree_name)
     if degree is None:
-        return {'fulfillments': {}, 'groups': [], 'tally': {}}
+        return None
     
     requirements = degree.requirements
     groups = degree.groups
@@ -191,16 +236,19 @@ async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...)
 
 @app.get('/api/dp/fulfillmentdetails/{userid}')
 async def dp_get_fulfillment_details(userid:str):
+    if not valid_hash(userid):
+        return None
+    
     i = 0
     while(fulfillment_detail_results.get(userid, None) is None or not fulfillment_detail_results.get(userid).ready()):
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
         print(f'waiting for fulfillment details...  queued: {fulfillment_detail_results.get(userid, None) is not None}')
         if fulfillment_detail_results.get(userid, None) is None:
-            return {'details_all_taken': {}, 'details_all_possible': {}}
+            return None
         i+=1
         if i > 20:
             print('timeout')
-            return {'details_all_taken': {}, 'details_all_possible': {}}
+            return None
     
     details = fulfillment_detail_results.get(userid).result
     return details
@@ -225,21 +273,26 @@ async def dp_begin_recommendation_limited(userid:str, degree_name:str, taken_cou
     
 @app.post('/api/dp/recommend')
 async def dp_begin_recommendation(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...)):
+    if not valid_hash(userid):
+        return
     await dp_begin_recommendation_limited(userid, degree_name, taken_courses)
 
 @app.get('/api/dp/recommend/{userid}')
 async def dp_get_recommendation(userid:str):
+    if not valid_hash(userid):
+        return None
+    
     io = planner.output
     i = 0
     while(recommendation_results.get(userid, None) is None or not recommendation_results.get(userid).ready()):
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
         print(f'waiting for recommendation...  queued: {recommendation_results.get(userid, None) is not None}')
         if recommendation_results.get(userid, None) is None:
-            return dict()
+            return None
         i+=1
         if i > 40:
             print('timeout')
-            return dict()
+            return None
     
     recommendation = recommendation_results.get(userid).result
     formatted_recommendations = io.format_recommendations(recommendation)

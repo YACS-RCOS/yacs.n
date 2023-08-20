@@ -26,8 +26,6 @@
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.12",
     "vue-cookies": "^1.7.4",
-    "sortablejs": "^1.15.0",
-    "vuedraggable": "^2.24.3",
     "vue-html2canvas": "0.0.4",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.5.1",
