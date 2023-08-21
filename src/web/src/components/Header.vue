@@ -39,20 +39,23 @@
     <b-collapse id="header-navbar-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item :to="{ name: 'CourseScheduler' }" class="first">
-          <font-awesome-icon icon="calendar" />
-          Schedule
+          <span style="color:#a4bd92; font-weight: 600;"><font-awesome-icon icon="calendar" />
+          Schedule</span>
         </b-nav-item>
         <b-nav-item :to="{ name: 'CourseExplorer' }">
-          <font-awesome-icon icon="search" />
-          Explore
+          <span style="color:#92bda3; font-weight: 600;"><font-awesome-icon icon="search" />
+          Explore</span>
         </b-nav-item>
         <b-nav-item :to="{ name: 'Pathway' }">
-          <font-awesome-icon icon="list" />
-          Pathways
+          <span style="color:#92bdbd; font-weight: 600;"><font-awesome-icon icon="list" />
+          Pathways</span>
         </b-nav-item>
         <b-nav-item :to="{ name: 'Finals' }">
-          <font-awesome-icon icon="file-alt" />
-          Finals
+          <span style="color:#92aabd; font-weight: 600;"><font-awesome-icon icon="file-alt" />
+          Finals</span>
+        </b-nav-item>
+        <b-nav-item :to="{ name: 'DegreePlanner' }" @click="toggle_style(true)">
+          <span style="color:#bd92b4; font-weight: 600;"><font-awesome-icon icon="check" /> {{ dpNavTextDegree }}{{ dpNavTextPlanner }}<span style="color:#af6aa0; font-size: 14px; font-weight: 700;"> (beta) </span></span>
         </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
@@ -130,13 +133,17 @@ export default {
     return {
       darkMode: this.$store.getters.darkModeState, //false for light mode, true for dark mode
       notify: false,
+
+      dpNavTextDegree: 'D',
+      dpNavTextPlanner: 'P',
     };
   },
   mounted() {
     if (this.$cookies.get(COOKIE_DARK_MODE) === null) {
       this.darkMode = null;
-      this.notify = true;
+      this.notify = false;
     }
+    this.renderDpIconText();
   },
   methods: {
     ...mapActions([SELECT_SEMESTER]),
@@ -209,6 +216,21 @@ export default {
         toaster: "b-toaster-top-center",
       });
     },
+
+    delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
+    async renderDpIconText() {
+      let dpNavTextDegreeTarget = 'Degree ';
+      let dpNavTextPlannerTarget = 'Planner ';
+      await this.delay(900);
+      for (let i = 1; i < 8; i++) {
+        await this.delay(40);
+        this.dpNavTextDegree = dpNavTextDegreeTarget.substring(0, i);
+        this.dpNavTextPlanner = dpNavTextPlannerTarget.substring(0, i);
+      }
+    },
   },
   computed: {
     ...mapGetters({
@@ -256,15 +278,17 @@ export default {
 }
 //highlight current page in the navbar using class built into vue router
 .nav-item:not(.first) .router-link-active {
+  background-color: hsla(195, 10%, 31%, 0.5);
   border-radius: 5px;
   padding: calc(8px - 0.2em);
-  border: 0.2em solid var(--dark-blue-secondary);
+  border: 0.2em solid hsla(197, 6%, 47%, 0.626);
 }
 
 .nav-item.first .router-link-exact-active {
+  background-color: hsla(195, 10%, 31%, 0.5);
   border-radius: 5px;
   padding: calc(8px - 0.2em);
-  border: 0.2em solid var(--dark-blue-secondary);
+  border: 0.2em solid hsla(197, 6%, 47%, 0.626);
 }
 // no idea why but need to manually set this for it to show up
 .dark #header-navbar-collapse-toggle {
