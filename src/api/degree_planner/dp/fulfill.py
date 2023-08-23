@@ -151,7 +151,7 @@ def group_requirements(requirements) -> list:
     wildcardless_requirements = list()
     for requirement in requirements:
         wildcards = requirement.wildcards()
-        if not len(wildcards):
+        if not len(wildcards) and '*' not in requirement.name:
             wildcardless_requirements.append(requirement)
             continue
         graph.add_node(requirement, False)
