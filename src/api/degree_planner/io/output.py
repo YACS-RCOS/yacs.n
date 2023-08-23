@@ -273,9 +273,13 @@ class Output():
             formatted.update({'fulfillment_set':fulfillment_set})
             wildcard_resolutions = fulfillment.requirement.wildcard_resolutions(taken_courses, True, True)
             wildcard_resolutions.convert_list_type('list')
+            if fulfillment.requirement.track_resolutions is not None:
+                wildcard_resolutions.extend(fulfillment.requirement.track_resolutions)
             for key, _ in wildcard_resolutions.dictionary.items():
                 wildcard_resolutions.insert(key, key, 0)
+
             formatted.update({'wildcard_resolutions':wildcard_resolutions.dictionary})
+            
 
             formatted_fulfillments.update({formatted['name']:formatted})
         

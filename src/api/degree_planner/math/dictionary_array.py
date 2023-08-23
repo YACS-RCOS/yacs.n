@@ -112,8 +112,12 @@ class Dict_Array():
 
         merges two dict arrays together
         '''
-        for key, elements in other.dictionary.items():
-            self.extend_elements(key, elements, overwrite)
+        if isinstance(other, dict):
+            for key, elements in other.items():
+                self.extend_elements(key, elements, overwrite)
+        else:
+            for key, elements in other.dictionary.items():
+                self.extend_elements(key, elements, overwrite)
 
 
     def remove(self, key, element=None, suppress_error=False) -> None:

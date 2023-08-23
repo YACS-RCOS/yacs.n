@@ -29,6 +29,7 @@ class Requirement():
         self.hide_recommendations = False
         self.display = False
         self.skip = False
+        self.track_resolutions = None
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
@@ -172,8 +173,6 @@ class specification_parsing():
             return True, {}
         if not specification_parsing.parse_attribute(specifications, target_attribute, conditions):
             return False, {}
-        if len(conditions):
-            print(f'============== FOUND CONDITIONS {conditions}')
         return True, conditions
 
     @staticmethod

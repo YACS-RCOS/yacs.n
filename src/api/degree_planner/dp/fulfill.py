@@ -184,9 +184,18 @@ def group_requirements(requirements) -> list:
 
 def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=None) -> dict:
     tallies = dict()
+    new_groups = []
     for group in groups:
+        group = copy.copy(group)
         group:Requirement_Group
         tally = dict()
+        # remake group requirements:
+        group.requirements = []
+        for requirement in fulfillments.keys():
+            if (requirement.name.split('-')[0].strip().casefold() == group.name.casefold()):
+                group.requirements.append(requirement)
+
+        group.requirements = sorted(group.requirements, key=lambda obj: obj.importance, reverse=True)
         
         for requirement in group.requirements:
             requirement:Requirement
@@ -200,8 +209,9 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
                     tally.update({minimum:int(element.attr('credits')) + tally.get(minimum, 0)})
 
         tallies.update({group.name:tally})
+        new_groups.append(group)
 
-    return {"groups":groups, "tally": tallies}
+    return {"groups":new_groups, "tally": tallies}
 
 
 def get_fulfillment_details(all_courses, taken_courses, requirements) -> dict:
@@ -236,12 +246,12 @@ def get_fulfillment_details(all_courses, taken_courses, requirements) -> dict:
     return {'details_all_possible': details_all_possible, 'details_all_taken': details_all_taken}
 
 
-def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False) -> dict:
+def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
 
     start = timeit.default_timer()
     
     if return_all:
-        return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, groups, return_all)
+        return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions=forced_wildcard_resolutions, groups=groups, return_all=return_all, relevant_templates=relevant_templates)
     
     ''' 
     segments templates into groups where:
@@ -258,7 +268,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
         # add wildcardless requirements to each group such that they can engage in trading/stealing optimizations
         # linearly increases runtime, which is fine since this process is to avoid the exponential growth of multiple wilcards
         requirement_group.update(wildcardless_requirements)
-        fulfillments = get_fulfillment(elements_selected, requirement_group, forced_wildcard_resolutions)
+        fulfillments = get_fulfillment(elements_selected, requirement_group, forced_wildcard_resolutions=forced_wildcard_resolutions, relevant_templates=relevant_templates)
 
         # use these wildcard resolutions that led to a local best
         for requirement in fulfillments.keys():
@@ -267,7 +277,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
             resolved_requirements.append(requirement)
     
     # at this point, we obtained resolved_requirements, which represents all the requirements with resolved wildcards to use
-    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions, groups, return_all)
+    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions=forced_wildcard_resolutions, groups=groups, return_all=return_all, relevant_templates=relevant_templates)
 
     end = timeit.default_timer()
     logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
@@ -275,7 +285,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
     return fulfillments
 
 
-def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False) -> dict:
+def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
     '''
     Returns:
         fulfillment: { Requirement: Fulfillment_Status }
@@ -288,10 +298,10 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         for group in groups:
             # print(f'group {group} :{group.separate_fulfillment}')
             if group.separate_fulfillment:
-                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions, None, return_all)
+                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions, None, return_all, relevant_templates)
                 fulfillments.update(fulfillment)
                 requirements = requirements.difference(group.requirements)
-        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all))
+        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all, relevant_templates))
         return fulfillments
     
     '''
@@ -329,22 +339,67 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         requirement:Requirement
         wildcard_resolutions.extend(requirement.wildcard_resolutions(elements_selected))
 
+
+    if relevant_templates is not None:
+        # find resolutions for requirement names
+        template_names = Attributes()
+        for template in relevant_templates:
+            template_names.add_attribute(template.name)
+
+        for requirement in requirements:
+            requirement:Requirement
+
+            # we found a requirement that needs substitution
+            if '*' in requirement.name:
+                resolvable, resolution_options = specification_parsing.attr_fulfills_specification(requirement.name.casefold(), template_names)
+                if not resolvable:
+                    continue
+                #print(f'options: {resolution_options}')
+                wildcard_resolutions.extend(resolution_options)
+                requirement.track_resolutions = resolution_options
+
     if forced_wildcard_resolutions is not None and len(forced_wildcard_resolutions):
         # forced wildcard resolutions should not contain wildcards in resolution, will remove them
         forced_wildcard_resolutions.prune(lambda x : '*' in x)
         wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
+
+    print(f'wildcard resolutions: {wildcard_resolutions}')
 
     wildcard_combos = generate_resolution_combos(wildcard_resolutions)
 
     potential_fulfillments = list()
 
     for wildcard_combo in wildcard_combos:
-        requirement_set = [requirement for requirement in requirements if not requirement.skip]
+        requirement_set = copy.deepcopy(requirements)
+        new_requirement_set = []
 
         # replace template set attributes with this resolution combination
         for requirement in requirement_set:
             for old_attr, new_attr in wildcard_combo.items():
                 requirement.replace_specifications(old_attr, new_attr)
+
+        print(f'requirements before substitution: {requirement_set}')
+        
+        # replace requirement with requirements from specified template
+        for requirement in requirement_set:
+            resolved = False
+            for old_attr, new_attr in wildcard_combo.items():
+                if requirement.name.casefold() == old_attr:
+                    template = [t for t in relevant_templates if t.name.casefold() == new_attr]
+                    if len(template) == 1:
+                        extended_requirements = template[0].requirements
+                        for extend_requirement in extended_requirements:
+                            extend_requirement.track_resolutions = requirement.track_resolutions
+                            break
+                        new_requirement_set.extend(extended_requirements)
+                        resolved = True
+                    break
+            if not resolved:
+                new_requirement_set.append(requirement)
+        requirement_set = new_requirement_set
+
+        print(f'requirements after substitution: {requirement_set}')
+
 
         # all courses that fulfills each template
         max_fulfillments = dict()

@@ -219,8 +219,9 @@ async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...)
             continue
         taken_courses_convert_to_elements.append(element)
     taken_courses = taken_courses_convert_to_elements
+    templates = planner.catalog.get_templates()
 
-    fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions, groups)
+    fulfillment = dp_fulfill(taken_courses, requirements, wildcard_resolutions, groups, False, templates)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
     # BEGIN DETAILS COMPUTATION ----

@@ -101,7 +101,7 @@
                     </div>
                     <div v-for="(requirement, index) in group.requirements" :key="index">
                       
-                      <div v-if="Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
+                      <div v-if="requirements[requirement].wildcard_resolutions && Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
                         <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
                           <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
                             <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
@@ -726,7 +726,7 @@ Vue.use(VueCookies);
             // fulfillment is underway without needing to wait for a validation call.
             // validation call then occurs after fulfillment call, and if it fails, we revalidate and rerun this function.
             if (fulfill) {
-              this.getFulfillment();
+              this.getFulfillment(this.wildcardRequirements);
               this.getFulfillmentDetails();
             }
             let valid = await this.validateSession();

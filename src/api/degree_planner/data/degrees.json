@@ -275,30 +275,7 @@
             "specifications":"concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },
-        "Focus Track.AI.1": {
-            "requires": 1,
-            "replacement": true,
-            "specifications":"csci.4100",
-            "skip": true
-        },
-        "Focus Track.AI.2": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"concentration.ai",
-            "skip": true
-        },
-        "Focus Track.Algo.1": {
-            "requires": 1,
-            "replacement": true,
-            "specifications":"csci.4020",
-            "skip": true
-        },
-        "Focus Track.Algo.2": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"concentration.theory and algorithms",
-            "skip": true
-        },
+        "Focus Track -.*track": {},
         "Math - Calculus 1": {
             "requires": 1,
             "replacement": false,
@@ -354,6 +331,35 @@
             "replacement": false,
             "specifications":"level.4- & (subject.arts | subject.gsas)",
             "display": true
+        }
+    },
+    "Focus Track -.AI": {
+        "Focus Track - AI Core": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"subject.csci & course_id.4100"
+        },
+        "Focus Track - AI Concentration": {
+            "requires": 3,
+            "replacement": true,
+            "specifications":"concentration.ai"
+        }
+    },
+    "Focus Track -.Algorithms": {
+        "Focus Track - Algorithms Core": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"subject.csci & course_id.4020"
+        },
+        "Focus Track - Algorithms Core2": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"subject.csci & course_id.4040"
+        },
+        "Focus Track - Algorithms Concentration": {
+            "requires": 3,
+            "replacement": true,
+            "specifications":"concentration.theory and algorithms"
         }
     },
     "electronic arts": {
