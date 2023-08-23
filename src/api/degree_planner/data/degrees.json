@@ -210,12 +210,15 @@
     },
     "computer science": {
         "groups": {
-            "Intensity": {"credits": 16},
-            "Concentration": {"credits": 16, "oasis": true},
-            "Math": {"credits": 8, "oasis": true},
-            "HASS": {"credits": 12, "oasis": true}
+            "Focus Track": {"credits": 30},
+            "HASS Pathway": {"credits": 12}
         },
         "attributes": ["Single Major.School of Science.Computer Science", "Single Major.School of Science.$properties.tag=Science", "Single Major.$properties.color=rgba(61,64,69,0!dot8)", "Single Major.$properties.textColor=rgba(205,200,210,1)"],
+        "Core - Computer Science I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.csci & course_id.1100) | (subject.csci & level.4)"
+        },
         "Core - Data Structures": {
             "requires": 1,
             "replacement": false,
@@ -241,40 +244,6 @@
             "replacement": false,
             "specifications":"subject.csci & course_id.2600"
         },
-        "Core - Programming Languages": {
-            "requires": 1,
-            "replacement": false,
-            "specifications":"subject.csci & course_id.4430"
-        },
-        "Core - Operating Systems": {
-            "requires": 1,
-            "replacement": false,
-            "specifications":"subject.csci & course_id.4210"
-        },
-        "Intensity - level 4 classes": {
-            "requires": 4,
-            "replacement": true,
-            "specifications":"level.4 & subject.csci & ~($cscore)",
-            "display": true
-        },
-        "Intensity - Communication Intensive": {
-            "requires": 1,
-            "replacement": true,
-            "specifications":"ci.true & subject.csci & level.4",
-            "display": true
-        },
-        "Concentration - Depth": {
-            "requires": 3,
-            "replacement": false,
-            "specifications":"concentration.*1",
-            "display": true
-        },
-        "Concentration - Breadth": {
-            "requires": 1,
-            "replacement": false,
-            "specifications":"concentration.*2 & (@concentration.*2 != @concentration.*1)",
-            "hide recommendations": true
-        },
         "Focus Track -.*track": {},
         "Math - Calculus 1": {
             "requires": 1,
@@ -286,80 +255,256 @@
             "replacement": false,
             "specifications":"subject.math & course_id.1020"
         },
-        "Math - Options I": {
+        "Science - Biology": {
             "requires": 1,
             "replacement": false,
-            "specifications":"subject.math & (course_id.2010 | course_id.4030 | course_id.4040 | course_id.4100 | course_id.4600)",
-            "display": true
+            "specifications":"subject.biol & course_id.1010"
         },
-        "Math - Options II": {
-            "requires": 1,
+        "Science - Biology Labs": {
+            "requires": 2,
             "replacement": false,
-            "specifications":"subject.math & level.2+ & ~course_id.2800",
-            "display": true
+            "specifications":"subject.biol & (course_id.1015 | course_id.1016)"
         },
         "Science - Physics I": {
             "requires": 1,
             "replacement": false,
-            "specifications":"subject.phys & (course_id.1100 | course_id.1150)"
-        },
-        "Science - Physics II": {
-            "requires": 1,
-            "replacement": false,
-            "specifications":"subject.phys & (course_id.1200 | course_id.1250)"
+            "specifications":"subject.phys & course_id.1100"
         },
         "Science - Electives": {
             "requires": 1,
             "replacement": true,
-            "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4-",
+            "specifications":"(subject.phys | subject.biol | subject.chem | subject.erth | subject.astr) & level.4- & ~(subject.erth & course_id.1030)",
             "display": true
         },
-        "HASS - Elective level 4": {
+        "HASS Pathway -.*hass": {}
+    },
+    "Focus Track -.Systems and Software": {
+        "Focus Track - Math Option I": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.4 & (subject.arts | subject.gsas)",
+            "specifications":"(subject.math & (course_id.2010 | course_id.4030 | course_id.4100 | course_id.4140)) | (subject.matp & course_id.4600)",
             "display": true
         },
-        "HASS - Elective level 4 or 2": {
+        "Focus Track - Math Option II": {
             "requires": 1,
             "replacement": false,
-            "specifications":"level.2+ & level.4- & (subject.arts | subject.gsas)",
+            "specifications":"(subject.math | subject.matp) & level.2+",
             "display": true
         },
-        "HASS - Elective level 4, 2, or 1": {
-            "requires": 1,
+        "Focus Track - CSCI 4000 Level Requirements": {
+            "requires": 2,
             "replacement": false,
-            "specifications":"level.4- & (subject.arts | subject.gsas)",
+            "specifications":"subject.csci & (course_id.4210 | course_id.4430)",
+            "display": true
+        },
+        "Focus Track - Depth Electives": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"concentration.systems and software",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 2": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"subject.csci & level.4",
             "display": true
         }
     },
-    "Focus Track -.AI": {
-        "Focus Track - AI Core": {
+    "Focus Track -.Theory and Algorithms": {
+        "Focus Track - Math Option I": {
             "requires": 1,
-            "replacement": true,
-            "specifications":"subject.csci & course_id.4100"
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010",
+            "display": true
         },
-        "Focus Track - AI Concentration": {
-            "requires": 3,
-            "replacement": true,
-            "specifications":"concentration.ai"
+        "Focus Track - Math Option II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.math | subject.matp) & level.4",
+            "display": true
+        },
+        "Focus Track - CSCI 4000 Level Requirements 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4020 | course_id.4420)",
+            "display": true
+        },
+        "Focus Track - CSCI 4000 Level Requirements 2": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4210 | course_id.4320 | course_id.4430)",
+            "display": true
+        },
+        "Focus Track - Depth Electives": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"concentration.theory and algorithms",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.math | subject.matp) & level.4",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 2": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & level.4",
+            "display": true
         }
     },
-    "Focus Track -.Algorithms": {
-        "Focus Track - Algorithms Core": {
+    "Focus Track -.Artifical Intelligence": {
+        "Focus Track - Math Option I": {
             "requires": 1,
-            "replacement": true,
-            "specifications":"subject.csci & course_id.4020"
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010",
+            "display": true
         },
-        "Focus Track - Algorithms Core2": {
+        "Focus Track - Math Option II": {
             "requires": 1,
-            "replacement": true,
-            "specifications":"subject.csci & course_id.4040"
+            "replacement": false,
+            "specifications":"(subject.math | subject.matp) & level.4",
+            "display": true
         },
-        "Focus Track - Algorithms Concentration": {
+        "Focus Track - CSCI 4000 Level Requirements 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4100 | course_id.4150 | course_id.4350 | course_id.4390)",
+            "display": true
+        },
+        "Focus Track - CSCI 4000 Level Requirements 2": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4210 | course_id.4320 | course_id.4380)",
+            "display": true
+        },
+        "Focus Track - Depth Electives": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4100 | course_id.4150 | course_id.4270 | course_id.4380 | course_id.4390)",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 1": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"concentration.ai",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 2": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.csci & level.4",
+            "display": true
+        }
+    },
+    "Focus Track -.Vision, Graphics, Robotics, Visualization": {
+        "Focus Track - Math Option I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"subject.math & course_id.2010",
+            "display": true
+        },
+        "Focus Track - Math Option II": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.math | subject.matp) & level.2+",
+            "display": true
+        },
+        "Focus Track - CSCI 4000 Level Requirements": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4020 | course_id.4210 | course_id.4430)",
+            "display": true
+        },
+        "Focus Track - Depth Electives": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"subject.csci & (course_id.4270 | course_id.4320 | course_id.4480 | course_id.4530 | course_id.4550 | course_id.4560)",
+            "display": true
+        },
+        "Focus Track - Breadth Electives 1": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"subject.csci & level.4",
+            "display": true
+        }
+    },
+    "HASS Pathway -.Creative Design and Innovation": {
+        "HASS Pathway - Creative Design and Innovation I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.ihss & (course_id.1960 | course_id.1170 | course_id.1700 | course_id.1040)) | (subject.arts & (course_id.1020 | course_id.1030 | course_id.1380))"
+        },
+        "HASS Pathway - Creative Design and Innovation II": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"(subject.comm & (course_id.4960 | course_id.2570 | course_id.2660 | course_id.4320 | course_id.4460 | course_id.4960)) | (subject.arts & (course_id.4960 | course_id.2210 | course_id.2220 | course_id.3280 | course_id.2700 | course_id.2960 | course_id.4210)) | (subject.cogs & (course_id.2120 | course_id.4620)) | (subject.psyc & (course_id.2220))"
+        }
+    },
+    "HASS Pathway -.Electronic Arts": {
+        "HASS Pathway - Electronic Arts I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.ihss & (course_id.1960 | course_id.1030 | course_id.1040)) | (subject.arts & (course_id.1020 | course_id.1050))"
+        },
+        "HASS Pathway - Electronic Arts II": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"(subject.arts & (course_id.4960 | course_id.2040 | course_id.2060 | course_id.2070 | course_id.2230 | course_id.2700 | course_id.4060 | course_id.4070 | course_id.4090 | course_id.4860))"
+        }
+    },
+    "HASS Pathway -.Graphic Design": {
+        "HASS Pathway - Graphic Design I": {
             "requires": 3,
             "replacement": true,
-            "specifications":"concentration.theory and algorithms"
+            "specifications":"(subject.ihss & (course_id.1560 | course_id.1562)) | (subject.comm & (course_id.2520 | course_id.2570 | course_id.2660 | course_id.4320 | course_id.4460 | course_id.4970 | course_id.4730 | course_id.4690 | course_id.4880)) | (subject.writ & course_id.1110)"
+        },
+        "HASS Pathway - Graphic Design level 4000": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"(subject.comm & (course_id.2520 | course_id.2570 | course_id.2660 | course_id.4320 | course_id.4460 | course_id.4970 | course_id.4730 | course_id.4690 | course_id.4880)) & level.4"
+        }
+    },
+    "HASS Pathway -.Studio Arts": {
+        "HASS Pathway - Studio Arts I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.arts & (course_id.1050 | course_id.2540))"
+        },
+        "HASS Pathway - Studio Arts II": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"(subject.arts & (course_id.1200 | course_id.2200 | course_id.2210 | course_id.2220 | course_id.4200 | course_id.4210 | course_id.4220 | course_id.4260))"
+        }
+    },
+    "HASS Pathway -.Artificial Intelligence": {
+        "HASS Pathway - Artifical Intelligence I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.cogs & (course_id.2120))"
+        },
+        "HASS Pathway - Artifical Intelligence II": {
+            "requires": 2,
+            "replacement": false,
+            "specifications":"(subject.phil & (course_id.4960 | course_id.4961)) | (subject.cogs & (course_id.4960 | course_id.4210 | course_id.4410 | course_id.4420 | course_id.4640 | course_id.4880)) | (subject.ihss & (course_id.1972 | course_id.1140 | course_id.1235))"
+        }
+    },
+    "HASS Pathway -.Behavioral and Cognitive Neroscience": {
+        "HASS Pathway - Behavioral and Cognitive Neroscience I": {
+            "requires": 1,
+            "replacement": false,
+            "specifications":"(subject.psyc & (course_id.1200))"
+        },
+        "HASS Pathway - Behavioral and Cognitive Neroscience II": {
+            "requires": 2,
+            "replacement": true,
+            "specifications":"(subject.ihss & course_id.1960) | (subject.cogs & (course_id.4330 | course_id.4360 | course_id.4600 | course_id.4610 | course_id.4700)) | (subject.psyc & (course_id.4330 | course_id.4360 | course_id.4500 | course_id.4600 | course_id.4610 | course_id.4700))"
+        },
+        "HASS Pathway - Behavioral and Cognitive Neroscience 4000 level": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"(subject.cogs & (course_id.4330 | course_id.4360 | course_id.4600 | course_id.4610 | course_id.4700)) | (subject.psyc & (course_id.4330 | course_id.4360 | course_id.4500 | course_id.4600 | course_id.4610 | course_id.4700))"
         }
     },
     "electronic arts": {

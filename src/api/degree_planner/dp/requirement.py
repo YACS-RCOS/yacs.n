@@ -27,7 +27,7 @@ class Requirement():
 
         self.recommender_specifications = specifications
         self.hide_recommendations = False
-        self.display = False
+        self.display = True
         self.skip = False
         self.track_resolutions = None
 
