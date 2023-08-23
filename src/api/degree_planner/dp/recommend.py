@@ -3,9 +3,9 @@ from .catalog import Catalog
 from .fulfillment_status import Fulfillment_Status
 from ..math.sorting import sorting
 from ..recommender.recommender import Recommender
-from .fulfill import get_branched_element_match
+from .fulfill import get_branched_element_match, get_optimized_fulfillment
 
-def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=None, enable_tensorflow=False) -> dict:
+def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=None, enable_tensorflow=False, attributes_replacement=None) -> dict:
     '''
     gives possible courses to take
 
@@ -23,7 +23,9 @@ def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=
     recommendation = dict() # {best template : {alternative template : fulfillment list}}
     # note that best template == alternative template if best template does not contain wildcards
 
-    for requirement in requirements:
+    fulfillment = get_optimized_fulfillment(elements_selected, requirements, attributes_replacement, relevant_templates=catalog.get_templates())
+
+    for requirement in fulfillment.keys():
         print(f'  RECOMMENDER --- SOLVING requirement {requirement}')
         # here we receive the list of fulfillment sets from get course match
         matches = get_branched_element_match(requirement, catalog.get_elements())

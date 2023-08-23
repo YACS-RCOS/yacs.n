@@ -16,9 +16,9 @@ celery_app.conf.update(
 )
 
 @celery_app.task()
-def dp_recommend(taken_courses, catalog, requirements, custom_tags=None, specification_sets=None) -> dict:
+def dp_recommend(taken_courses, catalog, requirements, custom_tags=None, specification_sets=None, attributes_replacement=None) -> dict:
     Requirement.specification_sets = specification_sets
-    recommendation = recommend(taken_courses, catalog, requirements, custom_tags)
+    recommendation = recommend(taken_courses, catalog, requirements, custom_tags, attributes_replacement=attributes_replacement)
     return recommendation
 
 @celery_app.task()
@@ -33,7 +33,7 @@ def dp_fulfill_groups(fulfillments, groups, forced_groupings=None) -> dict:
     return fulfillment_groups
 
 @celery_app.task()
-def dp_fulfill_details(all_courses, taken_courses, requirements) -> dict:
+def dp_fulfill_details(taken_courses, catalog, requirements, attributes_replacement=None) -> dict:
     ''' returns {'details_all_taken': , 'details_all_possible':} '''
-    fulfillment_details = get_fulfillment_details(all_courses, taken_courses, requirements)
+    fulfillment_details = get_fulfillment_details(taken_courses, catalog, requirements, attributes_replacement)
     return fulfillment_details

@@ -214,15 +214,17 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
     return {"groups":new_groups, "tally": tallies}
 
 
-def get_fulfillment_details(all_courses, taken_courses, requirements) -> dict:
+def get_fulfillment_details(elements_selected, catalog, requirements, attributes_replacement:Dict_Array=None) -> dict:
     details_all_taken = {} # requirement: [[requirement, fulfillments]]
     details_all_possible = {}
+
+    fulfillment = get_optimized_fulfillment(elements_selected, requirements, attributes_replacement, relevant_templates=catalog.get_templates())
     
-    for requirement in requirements:
+    for requirement in fulfillment.keys():
         if requirement.display:
             print(f'BEGINNING EVAL OF DISPLAY')
-            requirement_fulfillment = get_fulfillment(taken_courses, [requirement], None, None, True)
-            requirement_max_fulfillment = get_fulfillment(all_courses, [requirement], None, None, True)
+            requirement_fulfillment = get_fulfillment(elements_selected, [requirement], None, None, True)
+            requirement_max_fulfillment = get_fulfillment(set(catalog.get_elements()), [requirement], None, None, True)
             #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
             #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
 
@@ -242,6 +244,8 @@ def get_fulfillment_details(all_courses, taken_courses, requirements) -> dict:
                     if '*' not in resolved_requirement.specifications:
                         fulfillment_as_list_max.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
             details_all_possible.update({requirement.name:fulfillment_as_list_max})
+    
+    #print(f'fulfillment details: \n{details_all_possible} \n\n{details_all_taken}')
 
     return {'details_all_possible': details_all_possible, 'details_all_taken': details_all_taken}
 
@@ -378,7 +382,7 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
             for old_attr, new_attr in wildcard_combo.items():
                 requirement.replace_specifications(old_attr, new_attr)
 
-        print(f'requirements before substitution: {requirement_set}')
+        #print(f'requirements before substitution: {requirement_set}')
         
         # replace requirement with requirements from specified template
         for requirement in requirement_set:
@@ -398,7 +402,7 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
                 new_requirement_set.append(requirement)
         requirement_set = new_requirement_set
 
-        print(f'requirements after substitution: {requirement_set}')
+        #print(f'requirements after substitution: {requirement_set}')
 
 
         # all courses that fulfills each template

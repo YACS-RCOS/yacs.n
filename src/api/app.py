@@ -225,8 +225,7 @@ async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...)
     formatted_fulfillments = io.format_fulfillments_dict(fulfillment, taken_courses)
 
     # BEGIN DETAILS COMPUTATION ----
-    details = dp_fulfill_details.delay(set(planner.catalog.get_elements()), taken_courses, requirements)
-    fulfillment_detail_results.update({userid:details})
+    await dp_begin_fulfillment_details(userid, taken_courses, planner.catalog, requirements, wildcard_resolutions)
     #-------------------------------
 
     fulfillment_groups_and_tally = dp_fulfill_groups(fulfillment, groups) # contains groups and tally
@@ -234,6 +233,12 @@ async def dp_get_fulfillment(userid:str = Body(...), degree_name:str = Body(...)
     fulfillment_groups_and_tally.update({'fulfillments': formatted_fulfillments}) # adds fulfillments
 
     return fulfillment_groups_and_tally
+
+@rate_limited(3)
+async def dp_begin_fulfillment_details(userid:str, taken_courses, catalog, requirements, wildcard_resolutions):
+    details = dp_fulfill_details.delay(taken_courses, catalog, requirements, wildcard_resolutions)
+    fulfillment_detail_results.update({userid:details})
+
 
 @app.get('/api/dp/fulfillmentdetails/{userid}')
 async def dp_get_fulfillment_details(userid:str):
@@ -255,11 +260,12 @@ async def dp_get_fulfillment_details(userid:str):
     return details
 
 @rate_limited(3)
-async def dp_begin_recommendation_limited(userid:str, degree_name:str, taken_courses:list):
+async def dp_begin_recommendation_limited(userid:str, degree_name:str, taken_courses:list, attributes_replacement:dict):
     degree = planner.get_degree(degree_name)
     if degree is None:
         return
     requirements = degree.requirements
+    wildcard_resolutions = Dict_Array(attributes_replacement, list_type='list')
 
     taken_courses_convert_to_elements = []
     for course in taken_courses:
@@ -269,14 +275,14 @@ async def dp_begin_recommendation_limited(userid:str, degree_name:str, taken_cou
         taken_courses_convert_to_elements.append(element)
     taken_courses = taken_courses_convert_to_elements
 
-    recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements, specification_sets=Requirement.specification_sets)
+    recommendation = dp_recommend.delay(taken_courses, planner.catalog, requirements, specification_sets=Requirement.specification_sets, attributes_replacement=wildcard_resolutions)
     recommendation_results.update({userid:recommendation})
     
 @app.post('/api/dp/recommend')
-async def dp_begin_recommendation(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...)):
+async def dp_begin_recommendation(userid:str = Body(...), degree_name:str = Body(...), taken_courses:list = Body(...), attributes_replacement:dict = Body(...)):
     if not valid_hash(userid):
         return
-    await dp_begin_recommendation_limited(userid, degree_name, taken_courses)
+    await dp_begin_recommendation_limited(userid, degree_name, taken_courses, attributes_replacement)
 
 @app.get('/api/dp/recommend/{userid}')
 async def dp_get_recommendation(userid:str):
@@ -297,6 +303,7 @@ async def dp_get_recommendation(userid:str):
     
     recommendation = recommendation_results.get(userid).result
     formatted_recommendations = io.format_recommendations(recommendation)
+    #print(f'RECOMMENDATIONS: {formatted_recommendations}')
     results = Dict_Array(list_type='list')
 
     # formatted recommendations is a list of dictionaries with each dictionary being a recommendation, containing

@@ -534,6 +534,8 @@ Vue.use(VueCookies);
                 str = str.split('*')[0] + " automatically select";
             }
             str = str.replace('.', ': ');
+            str = str.replace(' -', '');
+            str = str.replace('-', '');
             return str;
         },
         formatFulfillmentName(str) {
@@ -576,7 +578,7 @@ Vue.use(VueCookies);
           } else {
             this.wildcardRequirements[alternative_orig] = alternative_choice
           }
-          this.getFulfillment(this.wildcardRequirements);
+          this.queryCalculations(true, true);
         },
         chosenAlternative(alternative_orig) {
           if (alternative_orig in this.wildcardRequirements) {
@@ -771,6 +773,7 @@ Vue.use(VueCookies);
           const results = await response.json();
           if (results) {
             this.detailsAllPossibleCourses = results.details_all_possible;
+            //console.log(`detailsAllPossible: ${JSON.stringify(this.detailsAllPossibleCourses)}`)
             this.detailsAllTakenCourses = results.details_all_taken;
           }
           this.detailsLoading = false;
@@ -779,13 +782,14 @@ Vue.use(VueCookies);
             this.recommendationsLoading = true;
             let userid = this.userid;
             let degree_name = this.degreeSelected;
+            let attributes_replacement = this.wildcardRequirements;
             let taken_courses = this.getAllCourses(this.scheduleSelected);
             await fetch('/api/dp/recommend', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userid, degree_name, taken_courses }),
+                body: JSON.stringify({ userid, degree_name, taken_courses, attributes_replacement }),
             });
             const response2 = await fetch('/api/dp/recommend/' + userid);
             const recommendations = await response2.json();
