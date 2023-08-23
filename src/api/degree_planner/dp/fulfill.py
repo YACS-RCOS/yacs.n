@@ -12,6 +12,7 @@ from ..dp.requirement import Requirement, specification_parsing
 from ..dp.fulfillment_status import Fulfillment_Status
 from ..io.output import Output
 from ..dp.requirement_group import Requirement_Group
+from ..math.attributes import Attributes
 
 class Bind_Type(Enum):
     NR = False
@@ -34,6 +35,9 @@ def get_element_match(requirement:Requirement, elements:set) -> list:
 
 def get_branched_element_match(requirement:Requirement, elements:set) -> list:
     '''
+    DEPRECATED, PLEASE USE specification_parsing IN REQUIREMENT.PY TO FIND ALL WILDCARD RESOLUTIONS
+
+    
     Finds all elements that fulfills the given requirement
 
     Wildcards (*) may be used to dictate the fact that all courses within this template's fulfillment
@@ -236,16 +240,14 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
 
     start = timeit.default_timer()
     
+    if return_all:
+        return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, groups, return_all)
+    
     ''' 
     segments templates into groups where:
         - all templates that share the same wildcard will be in the same group
         - first group will be all templates without wildcards
     '''
-    if return_all:
-        end = timeit.default_timer()
-        #logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
-        return get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, groups, return_all)
-    
     grouped_requirements = group_requirements(requirements)
     wildcardless_requirements = grouped_requirements[0]
     logging.debug(f'requirement groups: {[[r.name for r in e] for e in grouped_requirements]}')
@@ -279,6 +281,8 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         fulfillment: { Requirement: Fulfillment_Status }
     '''
     requirements = set(requirements)
+
+    # unpack requirements
     if groups is not None:
         fulfillments = {}
         for group in groups:
@@ -289,6 +293,35 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
                 requirements = requirements.difference(group.requirements)
         fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all))
         return fulfillments
+    
+    '''
+    # generate attribute search for requirements
+    requirement_names = Attributes()
+    for requirement in requirements:
+        requirement:Requirement
+        if '*' not in requirement.name:
+            requirement_names.add_attribute(requirement.name)
+    
+    # resolve wildcards
+    for requirement in requirements:
+        requirement:Requirement
+
+        # we found a requirement that needs substitution
+        if '*' in requirement.name:
+            resolvable, resolution_options = specification_parsing.attr_fulfills_specification(requirement.name, requirement_names)
+            if not resolvable:
+                continue
+            print(f'resolution options: {resolution_options}')
+            resolution_tracks = Dict_Array()
+            for option in resolution_options:
+                resolution_tracks.add(option.split('.')[0], requirement.name[:requirement.name.index('*')] + option)
+            print(f'resolution tracks: {resolution_tracks}')
+            for track, track_items in resolution_tracks.dictionary.items():
+                new_requirements = []
+                for track_item in track_items:
+                    new_requirements
+    '''
+
 
     wildcard_resolutions = Dict_Array(list_type='set')
 
@@ -306,7 +339,7 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
     potential_fulfillments = list()
 
     for wildcard_combo in wildcard_combos:
-        requirement_set = copy.deepcopy(requirements)
+        requirement_set = [requirement for requirement in requirements if not requirement.skip]
 
         # replace template set attributes with this resolution combination
         for requirement in requirement_set:

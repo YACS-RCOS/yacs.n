@@ -157,6 +157,9 @@ class parsing():
                     elif group_name == 'display':
                         requirement.display = group_properties
 
+                    elif group_name == 'skip':
+                        requirement.skip = group_properties
+
                 requirement.original_specifications = requirement.specifications
                 wildcard_diff_counter = requirement.wildcard_differentiate(wildcard_diff_counter)
 

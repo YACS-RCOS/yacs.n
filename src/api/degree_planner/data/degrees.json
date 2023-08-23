@@ -275,6 +275,30 @@
             "specifications":"concentration.*2 & (@concentration.*2 != @concentration.*1)",
             "hide recommendations": true
         },
+        "Focus Track.AI.1": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"csci.4100",
+            "skip": true
+        },
+        "Focus Track.AI.2": {
+            "requires": 3,
+            "replacement": true,
+            "specifications":"concentration.ai",
+            "skip": true
+        },
+        "Focus Track.Algo.1": {
+            "requires": 1,
+            "replacement": true,
+            "specifications":"csci.4020",
+            "skip": true
+        },
+        "Focus Track.Algo.2": {
+            "requires": 3,
+            "replacement": true,
+            "specifications":"concentration.theory and algorithms",
+            "skip": true
+        },
         "Math - Calculus 1": {
             "requires": 1,
             "replacement": false,

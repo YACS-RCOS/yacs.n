@@ -28,12 +28,25 @@ class Requirement():
         self.recommender_specifications = specifications
         self.hide_recommendations = False
         self.display = False
+        self.skip = False
 
         self.elements_required = elements_required
         self.elements_fulfilled = 0
         self.credits_required = credits_required
         self.replacement = replacement
         self.importance = 0 # used internally by degree, higher the number the more important it is
+
+        '''
+        print(f'TESTING===')
+        attr = Attributes()
+        attr.add_attribute('task.A')
+        attr.add_attribute('task.C')
+        attr.add_attribute('task.B')
+        attr2 = Attributes()
+        attr2.add_attribute('banana.pudding')
+        print(specification_parsing.attr_fulfills_specification('task.*', attr))
+        print(specification_parsing.attr_fulfills_specification('task.*', attr2))
+        '''
 
     def add_specification(self, specification):
         if len(self.specifications):
@@ -73,7 +86,7 @@ class Requirement():
         return resolutions
 
     def wildcard_differentiate(self, begin_counter):
-
+        ''' DEPRECATED, WILDCARDS WILL BECOME VARIABLES AND THUS DISTINCTNESS IS IMPLIED TO BE THE RESPONSIBILITY OF THE USER '''
         star_index = -1
         while self.specifications.find('*', star_index + 1) != -1:
             star_index = self.specifications.find('*', star_index + 1)
@@ -159,6 +172,8 @@ class specification_parsing():
             return True, {}
         if not specification_parsing.parse_attribute(specifications, target_attribute, conditions):
             return False, {}
+        if len(conditions):
+            print(f'============== FOUND CONDITIONS {conditions}')
         return True, conditions
 
     @staticmethod
