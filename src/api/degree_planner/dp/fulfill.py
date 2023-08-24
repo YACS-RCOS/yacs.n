@@ -81,7 +81,7 @@ def get_branched_element_match(requirement:Requirement, elements:set) -> list:
     if not len(all_conditions):
         fulfillment_sets.append(curr_fulfillment)
 
-    print(f'all conditions: {all_conditions}')
+    #print(f'all conditions: {all_conditions}')
 
     # if there are wildcard branching needed (we only need to pop the first one, the rest is handled by the following recursive calls
     # as each recursive call only needs to handle one)
@@ -222,7 +222,6 @@ def get_fulfillment_details(elements_selected, catalog, requirements, attributes
     
     for requirement in fulfillment.keys():
         if requirement.display:
-            print(f'BEGINNING EVAL OF DISPLAY')
             requirement_fulfillment = get_fulfillment(elements_selected, [requirement], None, None, True)
             requirement_max_fulfillment = get_fulfillment(set(catalog.get_elements()), [requirement], None, None, True)
             #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
@@ -307,43 +306,16 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
                 requirements = requirements.difference(group.requirements)
         fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all, relevant_templates))
         return fulfillments
-    
-    '''
-    # generate attribute search for requirements
-    requirement_names = Attributes()
-    for requirement in requirements:
-        requirement:Requirement
-        if '*' not in requirement.name:
-            requirement_names.add_attribute(requirement.name)
-    
-    # resolve wildcards
-    for requirement in requirements:
-        requirement:Requirement
 
-        # we found a requirement that needs substitution
-        if '*' in requirement.name:
-            resolvable, resolution_options = specification_parsing.attr_fulfills_specification(requirement.name, requirement_names)
-            if not resolvable:
-                continue
-            print(f'resolution options: {resolution_options}')
-            resolution_tracks = Dict_Array()
-            for option in resolution_options:
-                resolution_tracks.add(option.split('.')[0], requirement.name[:requirement.name.index('*')] + option)
-            print(f'resolution tracks: {resolution_tracks}')
-            for track, track_items in resolution_tracks.dictionary.items():
-                new_requirements = []
-                for track_item in track_items:
-                    new_requirements
-    '''
-
-
+    # calculate the wildcard resolutions
     wildcard_resolutions = Dict_Array(list_type='set')
 
+    # find resolutions in requirement specifications
     for requirement in requirements:
         requirement:Requirement
         wildcard_resolutions.extend(requirement.wildcard_resolutions(elements_selected))
 
-
+    # find resolutions in requirement names and match to template names
     if relevant_templates is not None:
         # find resolutions for requirement names
         template_names = Attributes()
@@ -358,7 +330,6 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
                 resolvable, resolution_options = specification_parsing.attr_fulfills_specification(requirement.name.casefold(), template_names)
                 if not resolvable:
                     continue
-                #print(f'options: {resolution_options}')
                 wildcard_resolutions.extend(resolution_options)
                 requirement.track_resolutions = resolution_options
 
@@ -367,7 +338,7 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         forced_wildcard_resolutions.prune(lambda x : '*' in x)
         wildcard_resolutions.extend(forced_wildcard_resolutions, overwrite=True)
 
-    print(f'wildcard resolutions: {wildcard_resolutions}')
+    #print(f'wildcard resolutions: {wildcard_resolutions}')
 
     wildcard_combos = generate_resolution_combos(wildcard_resolutions)
 

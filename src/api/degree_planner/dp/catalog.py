@@ -22,7 +22,7 @@ class Catalog():
             attributes = attributes + template.compile_attributes()
 
         directory = attributes.to_directory()
-        print(f'directory: {directory}')
+        #print(f'directory: {directory}')
         return directory
             
 
