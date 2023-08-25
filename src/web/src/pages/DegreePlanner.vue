@@ -64,10 +64,10 @@
 
                 <div class="schedule-button-container" v-for="(course, course_index) in semester" :key="`${semester_index}-${course_index}`">
                   <button class="course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, semester_index)">
-                    <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+                    <span style="color:#ffc680">{{ course.substring(0, 10) }}</span> <span style="color: #dae0e1;">{{ course.substring(10) }}</span>
                   </button>
                   <button class="course-remove-button" type="button" @click="remove(semester_index, course, true, true)">
-                    <font color="#b05f6e">&#10008;</font>
+                    <span style="color:#b05f6e">&#10008;</span>
                   </button>
                 </div>
 
@@ -97,7 +97,7 @@
                       <span class="group-title"> {{ group.name }} </span> 
                       <span v-if="group.minimum_requirements.credits > 0" 
                         v-bind:class="{'group-credit-stats-fulfilled':getTalliedAmount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':getTalliedAmount(group.name, 'credits') < group.minimum_requirements.credits}">
-                        <font color="#707a7a"> credits:&nbsp;&nbsp; </font> {{ getTalliedAmount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
+                        <span style="color:#707a7a"> credits:&nbsp;&nbsp; </span> {{ getTalliedAmount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
                     </div>
                     <div v-for="(requirement, index) in group.requirements" :key="index">
                       
@@ -120,7 +120,7 @@
 
                         <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
                           <button class="course-buttons" type="button" @click="goToCoursePage(course)">
-                            &#10148; {{ course }}
+                            <span style="color:#e4ded5">{{ course.substring(0, 10) }}</span> <span style="color: #e6e8e9;">{{ course.substring(10) }}</span>
                           </button>
                         </div>
                       </div>
@@ -132,7 +132,7 @@
                           </div>
                           <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
                             <button class="minimal-course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
-                              <font color = #a9a9a9> {{ course }} </font>
+                              <span style="color:#a9a9a9"> {{ course }} </span>
                             </button>
                           </div>
                         </div>
@@ -147,8 +147,8 @@
 
           <div class="column-right">
             <div class="schedule-selection" style="font-size: 16px;">
-              <font color="#eb8d75">Schedule:</font> {{ scheduleSelected }} <br>
-              <font color="#e6bc8a">Degree:</font> {{ degreeSelected }}
+              <span style="color:#eb8d75">Schedule:</span> {{ scheduleSelected }} <br>
+              <span style="color:#e6bc8a">Degree:</span> {{ degreeSelected }}
             </div>
 
             <div v-if="getRequirementGroup(highlightedFulfillment) == null">
@@ -157,52 +157,32 @@
               </div>
             </div>
 
-            <div v-if="highlightedFulfillment == 'Core'">
-              <div style="margin-top: 100px; color: #545f5f; font-size: 16px; font-weight: 700">
-                Your Core Classes, Info Displayed On Card
-              </div>
-            </div>
-
             <div v-if="getRequirementGroup(highlightedFulfillment) != null">
 
               <div v-for="(requirement_name, index) in getRequirementGroup(highlightedFulfillment).requirements" :key="index">
-                <div v-if="detailsAllTakenCourses[requirement_name] && (detailsAllTakenCourses[requirement_name].length != 0 || detailsAllPossibleCourses[requirement_name].length != 0)" class="details-panel">
-                  <div v-if="detailsLoading" style="color: #859393; font-size: 14px; font-weight: 600">
-                    loading details...
-                  </div>
-                  <p> <font color="#707a7a">Your Taken Courses:</font></p>
-                  <h5>{{ requirement_name }}:</h5>
-                  <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in detailsAllTakenCourses[requirement_name]" :key="fulfillment_index">
-                    {{ fulfillment[0] }}
-                    <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
-
-                      <button v-if="coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
-                        &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #85c07d; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #9db09b; font-weight: 600;">(applied)</span>
-                      </button>
-
-                      <button v-if="!coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
-                        &#10148; <span style="color: #b89d7b; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #d07e7c; font-style: italic; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #b0a59b; font-weight: 600;"><br>applied to other requirements: <br>({{ coursePresentIn(course).join(', ') }})</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
                 <div v-if="detailsAllPossibleCourses[requirement_name] && detailsAllPossibleCourses[requirement_name].length != 0" class="details-panel">
                   <div v-if="detailsLoading" style="color: #859393; font-size: 14px; font-weight: 600">
                     loading details...
                   </div>
-                  <p> <font color="#707a7a">All Possible Courses:</font></p>
                   <h5>{{ requirement_name }}:</h5>
-                  <div class="details-wildcard-title" v-for="(fulfillment, max_fulfillment_index) in detailsAllPossibleCourses[requirement_name]" :key="max_fulfillment_index">
+                  <div class="details-wildcard-title" v-for="(fulfillment, fulfillment_index) in detailsAllPossibleCourses[requirement_name]" :key="fulfillment_index">
                     {{ fulfillment[0] }}
-                    <div class="details-info" v-for="(course, max_index) in fulfillment[1]" :key="max_index">
-                      <button class="course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
-                        &#10148; <font color="#ffc680">{{ course.substring(0, 10) }}</font> {{ course.substring(10) }}
+                    <div class="details-info" v-for="(course, index) in fulfillment[1]" :key="index">
+
+                      <button v-if="coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
+                        <span style="color: #ffc680; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #85c07d; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #9db09b; font-weight: 600;">(applied)</span>
+                      </button>
+
+                      <button v-if="coursePresentIn(course).length > 0 && !coursePresentIn(course).includes(requirement_name)" class="course-buttons" type="button" @click="goToCoursePage(course)">
+                        <span style="color: #c0a17c; font-weight: 600;">{{ course.substring(0, 10) }}</span> <span style="color: #ded190; font-style: italic; font-weight: 600;">{{ course.substring(10) }}</span> <span style="color: #b0a59b; font-weight: 600;">applied to: ({{ coursePresentIn(course).join(', ') }})</span>
+                      </button>
+
+                      <button v-if="coursePresentIn(course).length == 0" class="course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
+                        <span style="color:#c0a17c">{{ course.substring(0, 10) }}</span> {{ course.substring(10) }}
                       </button>
                     </div>
                   </div>
                 </div>
-                <br>
               </div>
             </div>
           </div>
@@ -1182,22 +1162,22 @@ Vue.use(VueCookies);
     width: 100%;
   }
   .column-left {
-    flex: 7;
+    flex: 8;
     overflow-y: auto;
-    padding: 8px;
+    padding: 4px;
     border: 1px solid #171d1a;
     background-color:#272a2c;
     font-size: 0.8em;
     min-width: 400px;
-    max-width: 600px;
+    max-width: 650px;
   }
   .column-left::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
   .column-center {
-    flex: 12;
+    flex: 11;
     overflow-y: auto;
-    padding: 6px;
+    padding: 4px;
     background-color:rgb(36, 37, 40);
     justify-content: center;
     border: 1px solid #171d1a;
@@ -1206,23 +1186,23 @@ Vue.use(VueCookies);
     display: none; /* Chrome, Safari and Opera */
   }
   .column-right {
-    flex: 4;
+    flex: 5;
     overflow-y: auto;
-    padding: 8px;
+    padding: 4px;
     border: 1px solid #171d1a;
     background-color:#272a2c;
     font-size: 0.8em;
     min-width: 280px;
-    max-width: 400px;
+    max-width: 450px;
   }
   .column-right::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
   .requirements-orggrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     justify-content: center;
-    gap: 2px;
+    gap: 1px;
   }
   .courses-grid {
     display: grid;
@@ -1232,9 +1212,9 @@ Vue.use(VueCookies);
   }
   .semester-block {
     border: 2px solid #43494f;
-    border-radius: 8px;
-    padding: 8px;
-    margin: 4px;
+    border-radius: 6px;
+    padding: 6px;
+    margin: 2px;
     font-size: 0.75em;
     background-color: rgba(8, 26, 32, 0.35);
   }
@@ -1244,9 +1224,9 @@ Vue.use(VueCookies);
   }
   .semester-block-highlighted {
     border: 2px solid #43494f;
-    border-radius: 8px;
-    padding: 8px;
-    margin: 4px;
+    border-radius: 6px;
+    padding: 6px;
+    margin: 2px;
     font-size: 0.75em;
     background-color: rgba(69, 94, 104, 0.35);
     position: relative;
@@ -1268,9 +1248,9 @@ Vue.use(VueCookies);
   .fulfillment-org-block {
     border: 2px solid #43494f;
     border-radius: 8px;
-    padding: 8px;
+    padding: 6px;
     margin: 2px;
-    width: 345px;
+    width: 320px;
     min-height: 60px;
     align-items: center;
     font-size: 0.65em;
@@ -1284,9 +1264,9 @@ Vue.use(VueCookies);
   .fulfillment-org-block-highlighted {
     border: 2px solid #676b70;
     border-radius: 8px;
-    padding: 8px;
+    padding: 6px;
     margin: 2px;
-    width: 345px;
+    width: 320px;
     min-height: 60px;
     align-items: center;
     font-size: 0.65em;
@@ -1454,12 +1434,15 @@ Vue.use(VueCookies);
   .details-panel {
     margin: 2px;
     margin-top: 6px;
-    padding: 6px;
+    padding: 2px;
     border: 2px solid #43494f;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13px;
     color: #b7c0c4;
     background-color: rgba(8, 26, 32, 0.35);
+  }
+  .details-panel h5 {
+    font-size: 16px;
   }
   .details-wildcard-title {
     font-size: 10px;
