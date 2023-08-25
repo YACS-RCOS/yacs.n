@@ -131,7 +131,7 @@ class Requirement():
     def __eq__(self, other):
         if not isinstance(other, Requirement):
             return False
-        return self.name == other.name
+        return (self.name == other.name) and (self.specifications == other.specifications)
     
     def __lt__(self, other):
         if not isinstance(other, Requirement):

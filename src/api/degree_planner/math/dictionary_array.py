@@ -210,3 +210,12 @@ class Dict_Array():
 
     def __repr__(self):
         return str(self.dictionary)
+    
+    def __eq__(self, other):
+        return self.dictionary == other.dictionary
+    
+    def __hash__(self):
+        hashed = 0
+        for key in self.dictionary.keys():
+            hashed += hash(str(key))
+        return hashed

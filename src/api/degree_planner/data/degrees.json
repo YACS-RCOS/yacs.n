@@ -303,7 +303,7 @@
             "specifications":"concentration.systems and software",
             "display": true
         },
-        "Focus Track - Breadth Electives 2": {
+        "Focus Track - Breadth Electives": {
             "requires": 2,
             "replacement": false,
             "specifications":"subject.csci & level.4",
@@ -423,7 +423,7 @@
             "specifications":"subject.csci & (course_id.4270 | course_id.4320 | course_id.4480 | course_id.4530 | course_id.4550 | course_id.4560)",
             "display": true
         },
-        "Focus Track - Breadth Electives 1": {
+        "Focus Track - Breadth Electives": {
             "requires": 2,
             "replacement": false,
             "specifications":"subject.csci & level.4",

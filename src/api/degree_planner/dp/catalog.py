@@ -11,7 +11,7 @@ class Catalog():
         self.elements = dict()
         self.templates = dict()
         self.tags = dict()
-
+        self.id = 10
         self.debug = Output(Output.OUT.DEBUG)
 
 
@@ -84,3 +84,9 @@ class Catalog():
     
     def __str__(self):
         return f"catalog: {len(self.elements)} elements, {len(self.templates)} templates"
+    
+    def __hash__(self):
+        return self.id
+    
+    def __eq__(self, other):
+        return self.id == other.id

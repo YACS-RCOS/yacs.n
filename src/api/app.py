@@ -247,7 +247,7 @@ async def dp_get_fulfillment_details(userid:str):
     
     i = 0
     while(fulfillment_detail_results.get(userid, None) is None or not fulfillment_detail_results.get(userid).ready()):
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         print(f'waiting for fulfillment details...  queued: {fulfillment_detail_results.get(userid, None) is not None}')
         if fulfillment_detail_results.get(userid, None) is None:
             return None

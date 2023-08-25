@@ -1,11 +1,13 @@
 import timeit
+from functools import lru_cache
 from .catalog import Catalog
 from .fulfillment_status import Fulfillment_Status
 from ..math.sorting import sorting
 from ..recommender.recommender import Recommender
 from .fulfill import get_branched_element_match, get_optimized_fulfillment
 
-def recommend(elements_selected, catalog:Catalog, requirements:set, custom_tags=None, enable_tensorflow=False, attributes_replacement=None) -> dict:
+@lru_cache(maxsize=100)
+def recommend(elements_selected, catalog:Catalog, requirements, custom_tags=None, enable_tensorflow=False, attributes_replacement=None) -> dict:
     '''
     gives possible courses to take
 

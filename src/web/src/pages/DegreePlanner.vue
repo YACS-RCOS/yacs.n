@@ -246,7 +246,6 @@ Vue.use(VueCookies);
           tally: {},
           requirements: {},
           recommendations: {},
-          detailsAllTakenCourses: {},
           detailsAllPossibleCourses: {},
 
           /* -------- INPUT FIELDS -------- */
@@ -753,8 +752,6 @@ Vue.use(VueCookies);
           const results = await response.json();
           if (results) {
             this.detailsAllPossibleCourses = results.details_all_possible;
-            //console.log(`detailsAllPossible: ${JSON.stringify(this.detailsAllPossibleCourses)}`)
-            this.detailsAllTakenCourses = results.details_all_taken;
           }
           this.detailsLoading = false;
         },

@@ -2,6 +2,7 @@ import copy
 import logging
 import timeit
 from enum import Enum
+from functools import lru_cache
 
 from ..math.dictionary_array import Dict_Array
 from ..math.array_math import array_functions as af
@@ -215,27 +216,14 @@ def get_group_fulfillment(fulfillments:dict, groups:list, forced_groupings:dict=
 
 
 def get_fulfillment_details(elements_selected, catalog, requirements, attributes_replacement:Dict_Array=None) -> dict:
-    details_all_taken = {} # requirement: [[requirement, fulfillments]]
     details_all_possible = {}
 
-    fulfillment = get_optimized_fulfillment(elements_selected, requirements, attributes_replacement, relevant_templates=catalog.get_templates())
+    fulfillment = get_optimized_fulfillment(elements_selected, requirements, attributes_replacement, relevant_templates=tuple(catalog.get_templates()))
     
     for requirement in fulfillment.keys():
         if requirement.display:
-            requirement_fulfillment = get_fulfillment(elements_selected, [requirement], None, None, True)
-            requirement_max_fulfillment = get_fulfillment(set(catalog.get_elements()), [requirement], None, None, True)
-            #print(f'calculating display based on requirement {requirement.specifications} {requirement.display} courses {taken_courses}')
-            #print(f'requirement_fulfillment_list: {requirement_fulfillment}')
-
-            # list of fulfillment possiblities
-            # calculating from all taken courses
-            fulfillment_as_list = []
-            for fulfillment_dict in requirement_fulfillment:
-                for resolved_requirement, fulfillment_set in fulfillment_dict.items():
-                    if '*' not in resolved_requirement.specifications:
-                        fulfillment_as_list.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
-            details_all_taken.update({requirement.name:fulfillment_as_list})
-
+            requirement_max_fulfillment = get_fulfillment(tuple(catalog.get_elements()), tuple([requirement]), None, None, True)
+            
             # calculating from all possible courses
             fulfillment_as_list_max = []
             for fulfillment_dict in requirement_max_fulfillment:
@@ -244,12 +232,12 @@ def get_fulfillment_details(elements_selected, catalog, requirements, attributes
                         fulfillment_as_list_max.append([resolved_requirement.specifications, [e.name for e in fulfillment_set.fulfillment_set]])
             details_all_possible.update({requirement.name:fulfillment_as_list_max})
     
-    #print(f'fulfillment details: \n{details_all_possible} \n\n{details_all_taken}')
+    #print(f'fulfillment details: \n{details_all_possible}')
 
-    return {'details_all_possible': details_all_possible, 'details_all_taken': details_all_taken}
+    return {'details_all_possible': details_all_possible}
 
 
-def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
+def get_optimized_fulfillment(elements_selected, requirements, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
 
     start = timeit.default_timer()
     
@@ -271,7 +259,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
         # add wildcardless requirements to each group such that they can engage in trading/stealing optimizations
         # linearly increases runtime, which is fine since this process is to avoid the exponential growth of multiple wilcards
         requirement_group.update(wildcardless_requirements)
-        fulfillments = get_fulfillment(elements_selected, requirement_group, forced_wildcard_resolutions=forced_wildcard_resolutions, relevant_templates=relevant_templates)
+        fulfillments = get_fulfillment(elements_selected, tuple(requirement_group), forced_wildcard_resolutions=forced_wildcard_resolutions, relevant_templates=relevant_templates)
 
         # use these wildcard resolutions that led to a local best
         for requirement in fulfillments.keys():
@@ -280,7 +268,7 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
             resolved_requirements.append(requirement)
     
     # at this point, we obtained resolved_requirements, which represents all the requirements with resolved wildcards to use
-    fulfillments = get_fulfillment(elements_selected, resolved_requirements, forced_wildcard_resolutions=forced_wildcard_resolutions, groups=groups, return_all=return_all, relevant_templates=relevant_templates)
+    fulfillments = get_fulfillment(elements_selected, tuple(resolved_requirements), forced_wildcard_resolutions=forced_wildcard_resolutions, groups=groups, return_all=return_all, relevant_templates=relevant_templates)
 
     end = timeit.default_timer()
     logging.warn(f'\n------------------------------fulfillment runtime: {end - start}\n')
@@ -288,7 +276,8 @@ def get_optimized_fulfillment(elements_selected:set, requirements:set, forced_wi
     return fulfillments
 
 
-def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
+@lru_cache(maxsize=100)
+def get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions:Dict_Array=None, groups=None, return_all=False, relevant_templates=None) -> dict:
     '''
     Returns:
         fulfillment: { Requirement: Fulfillment_Status }
@@ -301,10 +290,10 @@ def get_fulfillment(elements_selected:set, requirements:set, forced_wildcard_res
         for group in groups:
             # print(f'group {group} :{group.separate_fulfillment}')
             if group.separate_fulfillment:
-                fulfillment = get_fulfillment(elements_selected, group.requirements, forced_wildcard_resolutions, None, return_all, relevant_templates)
+                fulfillment = get_fulfillment(elements_selected, tuple(group.requirements), forced_wildcard_resolutions, None, return_all, relevant_templates)
                 fulfillments.update(fulfillment)
                 requirements = requirements.difference(group.requirements)
-        fulfillments.update(get_fulfillment(elements_selected, requirements, forced_wildcard_resolutions, None, return_all, relevant_templates))
+        fulfillments.update(get_fulfillment(elements_selected, tuple(requirements), forced_wildcard_resolutions, None, return_all, relevant_templates))
         return fulfillments
 
     # calculate the wildcard resolutions
