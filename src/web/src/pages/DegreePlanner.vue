@@ -92,49 +92,62 @@
 
               <div class="requirements-orggrid">
                 <div v-bind:class="{'fulfillment-org-block-highlighted':highlightedFulfillment == group.name, 'fulfillment-org-block':highlightedFulfillment != group.name}" v-for="(group, group_index) in requirementGroups" :key="group_index" @click="toggleHighlightFulfillment(group.name)">
-                  <div v-if="true">
-                    <div class="group-heading">
-                      <span class="group-title"> {{ group.name }} </span> 
-                      <span v-if="group.minimum_requirements.credits > 0" 
-                        v-bind:class="{'group-credit-stats-fulfilled':getTalliedAmount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':getTalliedAmount(group.name, 'credits') < group.minimum_requirements.credits}">
-                        <span style="color:#707a7a"> credits:&nbsp;&nbsp; </span> {{ getTalliedAmount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
-                    </div>
-                    <div v-for="(requirement, index) in group.requirements" :key="index">
-                      
-                      <div v-if="requirements[requirement].wildcard_resolutions && Object.keys(requirements[requirement].wildcard_resolutions).length > 0">
-                        <div v-for="(alternative_choices, alternative_orig) in requirements[requirement].wildcard_resolutions" :key="alternative_orig">
-                          <div v-for="(alternative_choice, alternative_choice_index) in alternative_choices" :key="alternative_choice_index">
-                            <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative_orig) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative_orig) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative_orig, alternative_choice)">
+                  <div class="group-heading">
+                    <span class="group-title"> {{ group.name }} </span> 
+                    <span v-if="group.minimum_requirements.credits > 0" 
+                      v-bind:class="{'group-credit-stats-fulfilled':getTalliedAmount(group.name, 'credits') >= group.minimum_requirements.credits, 'group-credit-stats-unfulfilled':getTalliedAmount(group.name, 'credits') < group.minimum_requirements.credits}">
+                      <span style="color:#707a7a"> credits:&nbsp;&nbsp; </span> {{ getTalliedAmount(group.name, 'credits') }} / {{ group.minimum_requirements.credits }} </span>
+                  </div>
+                  <div v-for="(requirement, index) in group.requirements" :key="index">
+
+                    <div v-for="(alternative, alternative_index) in requirements[requirement].wildcard_resolutions" :key="alternative_index">
+
+                      <div :ref="`alternativesMenu${group.name}`" v-show="alternative.alternatives.length > 5">
+                        <button class="alternative-buttons-selected" type="button" @click.stop="toggleAlternativeMenu(group.name)">
+                          View Choices
+                        </button>
+                        
+                        <div v-if="openedAlternativesMenu == group.name" class="alternative-menu">
+                          <div v-for="(alternative_choice, alternative_choice_index) in alternative.alternatives" :key="alternative_choice_index">
+                            <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative.original) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative.original) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative.original, alternative_choice)">
                               {{ formatAlternativeButtonText(alternative_choice) }}
                             </button>
                           </div>
                         </div>
                       </div>
 
-                      <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
-                        <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
-                          <div class="req-fulfillment-text">
-                            <span class="req-fulfillment-name"> {{ formatFulfillmentName(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
-                          </div>
-                        </div>
-
-                        <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
-                          <button class="course-buttons" type="button" @click="goToCoursePage(course)">
-                            <span style="color:#e4ded5">{{ course.substring(0, 10) }}</span> <span style="color: #e6e8e9;">{{ course.substring(10) }}</span>
+                      <div v-if="alternative.alternatives.length <= 5">
+                        <div v-for="(alternative_choice, alternative_choice_index) in alternative.alternatives" :key="alternative_choice_index">
+                          <button v-bind:class="{'alternative-buttons':chosenAlternative(alternative.original) != alternative_choice, 'alternative-buttons-selected':chosenAlternative(alternative.original) == alternative_choice}" type="button" @click.stop="toggleWildcardRequirement(alternative.original, alternative_choice)">
+                            {{ formatAlternativeButtonText(alternative_choice) }}
                           </button>
                         </div>
                       </div>
+                    </div>
 
-                      <div class="req-recommendations" v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
-                        <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
-                          <div v-if="recommendations[requirement].length > 1">
-                            <h5>{{ recommendation.specifications }}</h5>
-                          </div>
-                          <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
-                            <button class="minimal-course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
-                              <span style="color:#a9a9a9"> {{ course }} </span>
-                            </button>
-                          </div>
+                    <div v-bind:class="{'minimal-fulfillment':requirements[requirement].actual_count >= requirements[requirement].required_count, 'minimal-unfulfilled-fulfillment':requirements[requirement].actual_count < requirements[requirement].required_count}">
+                      <div v-bind:class="{'req-fulfilled':requirements[requirement].actual_count >= requirements[requirement].required_count, 'req-unfulfilled':requirements[requirement].actual_count < requirements[requirement].required_count}">
+                        <div class="req-fulfillment-text">
+                          <span class="req-fulfillment-name"> {{ formatFulfillmentName(requirements[requirement].name) }} </span> <span class="req-fulfillment-count"> {{ requirements[requirement].actual_count }} / {{ requirements[requirement].required_count }}</span>
+                        </div>
+                      </div>
+
+                      <div v-for="(course, index) in requirements[requirement].fulfillment_set" :key="index">
+                        <button class="course-buttons" type="button" @click="goToCoursePage(course)">
+                          <span style="color:#e4ded5">{{ course.substring(0, 10) }}</span> <span style="color: #e6e8e9;">{{ course.substring(10) }}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="req-recommendations" v-if="requirement in recommendations && recommendations[requirement].length > 0 && recommendations[requirement][0].fulfillment_set.length > 0">
+                      <div class="minimal-recommendations" v-for="(recommendation, recommendation_index) in recommendations[requirement]" :key="recommendation_index">
+                        <div v-if="recommendations[requirement].length > 1">
+                          <h5>{{ recommendation.specifications }}</h5>
+                        </div>
+                        <div class="minimal-recommendations-courses" v-for="(course, index) in recommendation.fulfillment_set" :key="index">
+                          <button class="minimal-course-buttons" type="button" @click="goToCoursePage(course)" draggable="true" @dragstart="schedulerDrag($event, course, -1)">
+                            <span style="color:#a9a9a9"> {{ course }} </span>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -211,6 +224,7 @@ Vue.use(VueCookies);
           openedDegreeSelectionMenu: false,
           highlightedFulfillment: null,
           switchedSchedule: true, // flag indicates schedule has switched and to recompute certain calculations
+          openedAlternativesMenu: '',
 
           // scheduler flags
           dragElement: null,
@@ -464,6 +478,9 @@ Vue.use(VueCookies);
           if (this.$refs.degreeSelect && !this.$refs.degreeSelect.contains(event.target)) {
             this.openedDegreeSelectionMenu = false;
           }
+          if (this.$refs[`alternativesMenu${this.openedAlternativesMenu}`] && !this.$refs[`alternativesMenu${this.openedAlternativesMenu}`][0].contains(event.target)) {
+            this.openedAlternativesMenu = '';
+          }
         },
         getTalliedAmount(groupName, tally) {
             if (this.tally[groupName][tally] == null) {
@@ -564,6 +581,14 @@ Vue.use(VueCookies);
             return this.wildcardRequirements[alternative_orig]
           }
           return alternative_orig
+        },
+        toggleAlternativeMenu(requirement) {
+          if (this.openedAlternativesMenu == '') {
+            this.openedAlternativesMenu = requirement;
+          }
+          else {
+            this.openedAlternativesMenu = '';
+          }
         },
 
         // scheduler
@@ -1379,6 +1404,16 @@ Vue.use(VueCookies);
   .course-remove-button:hover {
     background-color: rgba(13, 23, 26, 0.78);
   }
+  .alternative-menu {
+    position: absolute;
+    width: 334px;
+    background-color: rgba(39, 43, 44, 0.75);
+    list-style: none;
+    padding: 8px;
+    border-radius: 4px;
+    border: 2px solid #565a5c;
+    backdrop-filter: blur(4px);
+  }
   .alternative-buttons {
     border-radius: 4px;
     width: 99%;
@@ -1409,6 +1444,20 @@ Vue.use(VueCookies);
     background-color:#74808a;
     color: #f7faff;
     border: 1px solid #c0d6da;
+  }
+  .alternative-buttons-expand {
+    border-radius: 4px;
+    width: 99%;
+    border: none;
+    padding: 2px;
+    margin: 1px;
+    font-size: 11px;
+    color:#cfd8d9;
+    background-color: #1e1f1f;
+    transition: background-color 0.2s ease;
+  }
+  .alternative-buttons-expand:hover {
+    background-color:#3a3b3d;
   }
   .recommendations {
     padding: 4px;

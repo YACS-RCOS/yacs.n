@@ -34,6 +34,6 @@ def dp_fulfill_groups(fulfillments, groups, forced_groupings=None) -> dict:
 
 @celery_app.task()
 def dp_fulfill_details(taken_courses, catalog, requirements, attributes_replacement=None) -> dict:
-    ''' returns {'details_all_taken': , 'details_all_possible':} '''
+    ''' returns {'details_all_possible':} '''
     fulfillment_details = get_fulfillment_details(tuple(taken_courses), catalog, tuple(requirements), attributes_replacement)
     return fulfillment_details
