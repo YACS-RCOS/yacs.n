@@ -6,10 +6,13 @@ const UploadCsvPage = () => import("./pages/UploadCsv");
 const EditSemestersPage = () => import("./pages/EditSemesters");
 const CourseExplorerPage = () => import("./pages/CourseExplorer");
 const CoursePage = () => import("./pages/CoursePage");
+const ProfExplorer = () => import("./pages/ProfExplorer");
+const ProfPage = () => import("./pages/ProfPage");
 const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
+const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
 
 var router = new VueRouter({
   routes: [
@@ -41,6 +44,11 @@ var router = new VueRouter({
           name: "Pathway",
         },
         {
+          path: "/FinalExamScheduler",
+          component: FinalExamScheduler,
+          name: "Finals",
+        },
+        {
           path: "/explore/:subject",
           component: SubjectExplorerPage,
           name: "SubjectExplorer",
@@ -50,6 +58,18 @@ var router = new VueRouter({
           path: "/explore/:subject/:course",
           component: CoursePage,
           name: "CoursePage",
+          props: true,
+        },
+        {
+          path: "/professor",
+          component: ProfExplorer,
+          name: "Professors",
+          props: true,
+        },
+        {
+          path: "/professor/:rcs",
+          component: ProfPage,
+          name: "ProfPage",
           props: true,
         },
       ],

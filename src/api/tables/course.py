@@ -1,4 +1,4 @@
-from sqlalchemy import Column, PrimaryKeyConstraint
+from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 
 from .database import Base
