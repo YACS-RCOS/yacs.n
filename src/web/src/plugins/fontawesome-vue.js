@@ -11,6 +11,7 @@ import {
   faList,
   faBars,
   faSearch,
+  faAddressBook,
   faFileAlt,
   faQuestionCircle,
   faAddressBook,
@@ -26,6 +27,7 @@ library.add(
   faSearch,
   faAddressBook,
   faFileAlt,
+  faFileAlt
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
