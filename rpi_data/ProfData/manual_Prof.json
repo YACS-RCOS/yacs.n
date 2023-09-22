@@ -1,0 +1,27 @@
+{
+    "linhar": {
+        "Name": "Robert Linhardt",
+        "Title": "",
+        "Email": "linhar@rpi.edu",
+        "Phone": "518-276-3404",
+        "Department": "Ann and John H. Broadbent, Jr. ’59 Senior Constellation Professor of Biocatalysis and Metabolic Engineering",
+        "Portfolio": "",
+        "Profile Page": "https://faculty.rpi.edu/Robert-Linhardt"
+    },"duttap": {
+        "Name": "Partha Dutta",
+        "Title": "Professor Emeritus",
+        "Email": "duttap@rpi.edu",
+        "Phone": "518-491-9364",
+        "Department": "Electrical, Computer, and Systems Engineering",
+        "Portfolio": "",
+        "Profile Page": "https://faculty.rpi.edu/Partha-Dutta"
+    },"wallaw": {
+        "Name": "William Wallace",
+        "Title": "Professor Emeritus",
+        "Email": "wallaw@rpi.edu",
+        "Phone": "",
+        "Department": "Industrial and Systems Engineering",
+        "Portfolio": "",
+        "Profile Page": "https://faculty.rpi.edu/William-Wallace"
+    }
+}
