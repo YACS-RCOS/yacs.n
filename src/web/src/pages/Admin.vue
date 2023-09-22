@@ -7,6 +7,9 @@
     <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
       Import Courses via CSV
     </a>
+    <a v-b-modal.majorsModal class="text-primary d-block" style="cursor: pointer;">
+      Import Majors via JSON
+    </a>
     <a
       v-b-modal.editSemestersModal
       class="text-primary"
@@ -32,6 +35,9 @@
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
     </b-modal>
+    <b-modal id="majorsModal" title="Import Majors via JSON" size="xl">
+      <UploadMajors />
+    </b-modal>
     <b-modal id="editSemestersModal" title="Edit Semesters" size="xl">
       <EditSemesters />
     </b-modal>
@@ -53,6 +59,7 @@
 
 <script>
 import UploadCsv from "@/pages/UploadCsv";
+import UploadMajors from "@/pages/UploadMajors";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
@@ -60,6 +67,7 @@ import EditProfessors from "@/pages/EditProfessors";
 export default {
   name: "AdminPage",
   components: {
+    UploadMajors,
     UploadCsv,
     EditSemesters,
     SetDefault,
