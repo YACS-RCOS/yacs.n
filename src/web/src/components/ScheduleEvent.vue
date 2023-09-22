@@ -19,6 +19,8 @@
       <span data-cy="location">{{ props.location }}</span>
       <br />
       <span data-cy="instructor">{{ props.instructor }}</span>
+      <br/>
+      <span data-cy="seats">{{ props.seats}}</span>
     </div>
     <b-popover
       :title="props.name + ' – ' + props.section"
@@ -51,6 +53,8 @@
       <br />
       <span data-cy="crn">{{ props.crn }}</span>
       <br />
+      <b>Seats</b>
+      <span data-cy="seats left">{{ props.seats}}</span>
     </b-popover>
   </div>
 </template>

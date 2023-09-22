@@ -37,6 +37,7 @@
             :crn="session.crn"
             :section="session.section"
             :semester="session.semester"
+            :seats="section.seats_open"
             :name="section.department + ' ' + section.level"
             :sessionType="mapSessionType(session.session_type)"
             :instructor="
