@@ -10,9 +10,7 @@
 
 4. Type in the posgtre password (“easy_dev_pass”)
 
-5. Use \dt+ to give an in depth description of all the tables
-
-6. Select * from “tablename” to check columns of the table ( you can also type column
+5. Select * from “tablename”; to check columns of the table ( you can also type column
 
 names instead of * to see the entire column )
 
