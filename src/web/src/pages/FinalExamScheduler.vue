@@ -35,11 +35,11 @@
                 ></b-form-select>
               </b-form-group>
 
-              <b-button class="mt-3" variant="outline-success" block
+              <b-button class="mt-3" variant="success" block
                         @click="currCourse ? ($bvModal.hide('add-modal-id'), addCourse(currCourse), searchExams()) : null">
                 Confirm
               </b-button>
-              <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('add-modal-id')">
+              <b-button class="mt-3" variant="danger" block @click="$bvModal.hide('add-modal-id')">
                 Cancel
               </b-button>
 
@@ -67,11 +67,11 @@
                 </b-form-checkbox-group>
               </b-form-group>
 
-              <b-button class="mt-3" variant="outline-success" block
+              <b-button class="mt-3" variant="success" block
                         @click="$bvModal.hide('delete-modal-id'); deleteCourses()">
                 Confirm
               </b-button>
-              <b-button class="mt-3" variant="outline-danger" block @click="$bvModal.hide('delete-modal-id')">
+              <b-button class="mt-3" variant="danger" block @click="$bvModal.hide('delete-modal-id')">
                 Cancel
               </b-button>
 
