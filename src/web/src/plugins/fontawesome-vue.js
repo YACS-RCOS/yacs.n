@@ -11,8 +11,10 @@ import {
   faList,
   faBars,
   faSearch,
+  faAddressBook,
   faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
 
 library.add(
   faPaperPlane,
@@ -21,6 +23,7 @@ library.add(
   faList,
   faBars,
   faSearch,
+  faAddressBook,
   faFileAlt
 );
 
