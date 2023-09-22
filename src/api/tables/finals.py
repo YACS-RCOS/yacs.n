@@ -13,8 +13,3 @@ class Finals(Base):
     dayOfWeek = Column(VARCHAR(length=255), nullable=False)
     day = Column(VARCHAR(legnth=255), nullable=False)
     hour = Column(VARCHAR(length=255), nullable=False)
-
-
-    
-
-    # rcs = Column(VARCHAR(length=255), nullable = True)

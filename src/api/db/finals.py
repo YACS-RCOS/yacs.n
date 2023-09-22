@@ -1,3 +1,20 @@
+'''
+add_final - Sam
+add_bulk_final - Sam
+* remove_final - Sam
+* clear_cache - Sam
+* bulk_delete - Sam
+* get_info_by_courseCode - Sam
+* get_info_by_courseCodeSection - Abdul
+* get_info_by_department - Abdul
+* get_info_by_date - Abdul
+* get_info_by_DOW - Abdul
+* get_all_final_info - Abdul
+* 
+'''
+
+
+
 import csv
 import json
 from psycopg2.extras import RealDictCursor
