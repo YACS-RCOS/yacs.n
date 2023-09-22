@@ -58,6 +58,10 @@
           <font-awesome-icon icon="address-book" />
           Professors
         </b-nav-item>
+        <b-nav-item :to="{ name: 'FAQs' }">
+          <font-awesome-icon icon="question-circle" />
+          FAQs
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">

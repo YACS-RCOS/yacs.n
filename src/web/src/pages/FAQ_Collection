@@ -1,0 +1,39 @@
+Q. What is YACS and what is its mission? 
+A. YACS (Yet Another Course Scheduler) is a web-based application designed to assist students in scheduling and planning their courses at academic institutions.
+It provides features such as course catalog browsing, schedule building, and course availability information. YACS aims to simplify the course selection
+process, allowing students to efficiently organize their academic schedules.
+
+___________________________________________________________________________________________________________
+Q: How can I use the Schedule feature in YACS?
+A: The Schedule feature in YACS helps you plan your course schedule ahead of time. Follow these steps to use this feature:
+
+    1.Click the Schedule navbar on the top of the page
+    2.Add courses to your schedule by searching for them in the course catalog or using other available options.
+    3.Arrange the courses in your preferred time slots or based on your schedule requirements.
+    4.YACS will display your scheduled courses, allowing you to visualize your timetable and make adjustments if needed.
+
+___________________________________________________________________________________________________________
+Q: What is the Explore feature in YACS?
+A: The Explore feature in YACS allows you to browse various majors offered at RPI and view the courses available for a given semester. Here's how to use it:
+
+    1.Click the Explore navbar on the top of the page
+    2.Choose the major you want to explore from the available options.
+    3.YACS will display the courses associated with the selected major for the specified semester.
+    4.You can further explore each course for detailed information such as descriptions, prerequisites, and offered sections.
+
+___________________________________________________________________________________________________________
+Q: How can I use the Pathways Navigation feature in YACS?
+A: The Pathway Navigation feature in YACS helps you navigate through the pathways provided by RPI and determine which courses you need to take to fulfill pathway requirements. To use this feature, follow these steps:
+
+    1.Click the Pathways button on the top of the page
+    2.Select the pathway you are interested in or that aligns with your academic goals.
+    3.YACS will display the pathway requirements and the courses available to fulfill each requirement.
+    4.Explore the recommended course options and plan your academic path accordingly.
+
+___________________________________________________________________________________________________________
+Q: How can I use the Finals feature in YACS?
+A: The Finals feature in YACS allows you to enter your courses and generate your final exam schedule. To use this feature, follow these steps:
+
+    1.Click the Finals button on the top of the page
+    2.Enter the courses you are enrolled in for the semester. Once you finishing adding your courses, hit Search.
+    3.YACS will generate your final exam schedule, displaying the date, time, and location of each exam.

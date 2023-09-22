@@ -254,6 +254,17 @@
   .breadcrumb {
     background-color: var(--dark-secondary) !important;
   }
+
+  .faq-item h3 {
+    color: var(--dark-text-primary) !important;
+  }
+
+  .faq-item p {
+    color: var(--dark-text-primary) !important;
+  }
+  .faq-item:hover {
+    border-color: var(--dark-blue-primary) !important;
+  }
 }
 
 /*
