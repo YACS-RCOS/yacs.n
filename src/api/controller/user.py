@@ -4,6 +4,8 @@ import view.message as msg
 from common import *
 from api_models import *
 
+from src.api.common import encrypt
+
 
 def get_user_info(session_id):
     users = UserModel()

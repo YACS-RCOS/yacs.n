@@ -4,6 +4,8 @@ from db.user import User as UserModel
 from datetime import datetime
 import view.message as msg
 
+from src.api.common import encrypt
+
 
 def delete_session(form):
     if not assert_keys_in_form_exist(form, ['sessionID']):

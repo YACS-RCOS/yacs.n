@@ -1,4 +1,6 @@
 # import hashlib
+import hashlib
+
 import bcrypt
 
 def assert_keys_in_form_exist(form, keys):
@@ -20,14 +22,14 @@ def assert_keys_in_form_exist(form, keys):
 
     return True
 
-# def encrypt(str):
-#     """
-#     Encrypt the string using SHA256
-#     :param str: string to be encrypted
-#     :return: SHA256 encrypted string
-#     """
-#     encrypt_str = hashlib.sha256(str.encode()).hexdigest()
-#     return encrypt_str
+def encrypt(str):
+    """
+    Encrypt the string using SHA256
+    :param str: string to be encrypted
+    :return: SHA256 encrypted string
+    """
+    encrypt_str = hashlib.sha256(str.encode()).hexdigest()
+    return encrypt_str
 
 def hash_password(password):
     """
