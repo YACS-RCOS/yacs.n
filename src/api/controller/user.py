@@ -1,10 +1,8 @@
-from db.user import User as UserModel
-from db.session import Session as SessionModel
-import view.message as msg
-from common import *
-from api_models import *
-
-from src.api.common import encrypt
+from src.api.db.user import User as UserModel
+from src.api.db.session import Session as SessionModel
+import src.api.view.message as msg
+from src.api.common import *
+from src.api.api_models import *
 
 
 def get_user_info(session_id):
