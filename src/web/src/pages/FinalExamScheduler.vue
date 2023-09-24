@@ -4,24 +4,21 @@
     <b-row class="justify-content-md-center">
       <b-col md="5">
         <b-card title="Final Exam Schedule">
-
           <b-form @submit.prevent="searchExams">
-            <div
-                v-for="(course, index) in selectedCourses"
-                :key="index"
-                class="mb-3"
-            >
-              <b-form-group :label="'Course ' + (index + 1)">
-                <b-form-select
-                    @change="searchExams"
-                    v-model="selectedCourses[index]"
-                    :options="filterCourses(index)"
-                ></b-form-select>
+            
+            <template>
+              <!-- COURSES CURRENTLY SELECTED AND DISPLAYED -->
+              <div v-for="(course, index) in selectedCourses" :key="index" class="mb-3">
+                <div class="d-flex align-items-center">
+                  <b-form-group :label="'Course ' + (index + 1)" class="flex-grow-1">
+                    <b-form-select @change="searchExams" v-model="selectedCourses[index]" :options="filterCourses(index)"></b-form-select>
+                  </b-form-group>
+                  <b-button @click="deleteCourse(index)" variant="danger" class="delete-button ml-2 mt-3">X</b-button>
+                </div>
+              </div>
+            </template>
 
-              </b-form-group>
-            </div>
-
-
+             <!-- ADD COURSE BUTTON FOR ADDING NEW COURSE -->
             <b-button @click="$bvModal.show('add-modal-id')" variant="primary">Add Course</b-button>
 
             <b-modal id="add-modal-id" hide-footer title="Add Course"
@@ -34,7 +31,8 @@
                     :options="filterCourses()"
                 ></b-form-select>
               </b-form-group>
-
+              
+              <!-- CONFIRM / CANCEL BUTTONS WITHIN ADD CLASS -->
               <b-button class="mt-3" variant="success" block
                         @click="currCourse ? ($bvModal.hide('add-modal-id'), addCourse(currCourse), searchExams()) : null">
                 Confirm
@@ -44,40 +42,10 @@
               </b-button>
 
             </b-modal>
-            <!--<b-button @click="addCourse" variant="primary">Add Course</b-button>-->
-
-            <!--            <b-button type="submit" variant="success" class="ml-3">-->
-            <!--              Search-->
-            <!--            </b-button>-->
-
-            <b-button :disabled="this.selectedCourses.length===0" @click="$bvModal.show('delete-modal-id')"
-                      variant="danger"
-                      class="ml-3">Delete
-            </b-button>
-            <b-modal id="delete-modal-id" hide-footer title="Delete Course"
-                     @close="$bvModal.hide('delete-modal-id')"
-                     @keydown.esc="$bvModal.hide('delete-modal-id')">
-
-
-              <b-form-group :label="''">
-                <b-form-checkbox-group v-model="selectToDelete" v-for="(course, index) in selectedCourses" :key="index">
-                  <b-form-checkbox type="radio" :value="course || index">
-                    {{ (course ? (course.CourseCode + " - " + course.Section) : 'No Course Selected') }}
-                  </b-form-checkbox>
-                </b-form-checkbox-group>
-              </b-form-group>
-
-              <b-button class="mt-3" variant="success" block
-                        @click="$bvModal.hide('delete-modal-id'); deleteCourses()">
-                Confirm
-              </b-button>
-              <b-button class="mt-3" variant="danger" block @click="$bvModal.hide('delete-modal-id')">
-                Cancel
-              </b-button>
-
-            </b-modal>
 
           </b-form>
+
+          <!-- EXAM DETAILS CARD -->
           <b-card v-if="examDetails && this.selectedCourses.length!==0" class="mt-3">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
@@ -255,18 +223,13 @@ export default {
       this.examDetails = Object.values(examDetailsGrouped);
 
     },
-    deleteCourses() {
-      for (let i = 0; i < this.selectToDelete.length; i++) {
-        let index = this.selectedCourses.indexOf(this.selectToDelete[i]);
-        this.selectedCourses.splice(index, 1);
-      }
 
-      for (let i = 0; i < this.selectToDelete.length; i++) {
-        this.selectToDelete.splice(i, 1);
-      }
-
+    deleteCourse(index) {
+      // Remove the course from selectedCourses using the removeCourse method
+      this.selectedCourses.splice(index, 1);
       this.searchExams();
     },
+
     filterCourses(index) {
       return this.courseOptions.filter(option => {
         if (index !== undefined) {
@@ -281,17 +244,6 @@ export default {
 </script>
 
 <style>
-.pathway-button {
-  display: inline-block;
-  background: white;
-  border-style: none;
-  text-align: justify;
-  width: 95%;
-}
-
-.pathway-button:hover {
-  background: rgba(108, 90, 90, 0.15) !important;
-}
 
 .text-left {
   position: absolute;
@@ -308,4 +260,5 @@ export default {
   width: 20%;
   position: relative;
 }
+
 </style>
