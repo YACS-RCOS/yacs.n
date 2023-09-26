@@ -14,8 +14,6 @@ export const getUserInfo = (sessionID) => client.get(`/user/${sessionID}`);
 
 export const signup = (userInfo) => client.post("/user", userInfo);
 
-export const modifyUser = (userInfo) => client.put("/user", userInfo)
-
 export const logout = (sessionId) =>
   client.delete("/session", {
     data: {

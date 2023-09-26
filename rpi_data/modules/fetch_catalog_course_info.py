@@ -3,7 +3,7 @@ import threading #https://docs.python.org/3/library/threading.html
 import unicodedata
 import re
 import regex #https://www.dataquest.io/blog/regex-cheatsheet/
-import json
+import json 
 from datetime import date
 from time import time
 from threading import Lock
@@ -106,7 +106,6 @@ class acalog_client():
     def __init__(self, api_key):
         self.search_endpoint = "http://rpi.apis.acalog.com/v2/search/courses"
         self.course_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?options[full]=1&method=getItems&type=courses"
-        self.program_detail_endpoint = "https://rpi.apis.acalog.com/v2/search/programs?method=search&options[limit]=0"
         self.catalog_detail_endpoint = "http://rpi.apis.acalog.com/v2/content?key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&method=getCatalogs"
         self.api_key = api_key
         self.api_response_format = "xml"
@@ -156,6 +155,7 @@ class acalog_client():
                 raise Error("XML document is missing root element. Invalid.")
             self._catalog_root = match.group("root")
             self._course_details_xml_strs.append(allow_for_extension_regex.sub("", course_details_xml_str))
+
 
     def _course_xml_ids_to_url_params(self, all_ids_xml):
         only_ids = SoupStrainer("id")
@@ -270,23 +270,6 @@ class acalog_client():
             tree = etree.parse(StringIO(courses_xml_str), parser)
             tree.write("courses21.xml", pretty_print=True)
         return self._get_all_courses(courses_xml_str)
-    
-    def get_all_majors(self):
-        reqstr = self.program_detail_endpoint + f"&key={self.api_key}&catalog={self.catalog_id}&query=type:"
-        courses = {
-            "Baccalaureate":[],
-            "Masters":[],
-            "Doctoral":[]
-        }
-        for x in courses.keys():
-            res = req.get(reqstr + x)
-            tree = etree.parse(StringIO(res.content.decode().replace('encoding="utf-8"', '', 1)))
-            root = tree.getroot()
-            for name in root.findall('./search/results/result/name'):
-                courses[x].append(name.text)
-        
-        return courses
-        
 
 def main():
     c = acalog_client(acalog_api_key)

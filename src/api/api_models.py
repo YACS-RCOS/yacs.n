@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 from typing import Optional
-from typing import List
 
 
 class SessionPydantic(BaseModel):
@@ -20,9 +19,8 @@ class updateUser(BaseModel):
     sessionID:str
     email:str
     phone:str
-    password:str
-    newpassword:Optional[str] = None
-    major: List[str]
+    newPassword:str
+    major:str
     degree:str
 
 class UserPydantic(BaseModel):
@@ -30,7 +28,7 @@ class UserPydantic(BaseModel):
      email: str
      phone: str
      password: str
-     major: List[str]
+     major: str
      degree: str
 
 class UserDeletePydantic(BaseModel):
@@ -47,3 +45,6 @@ class SubsemesterPydantic(BaseModel):
 
 class DefaultSemesterSetPydantic(BaseModel):
     default: str
+
+
+    

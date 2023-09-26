@@ -1,5 +1,5 @@
 from sqlalchemy import Column, PrimaryKeyConstraint
-from sqlalchemy.dialects.postgresql import TEXT, INTEGER, BOOLEAN, JSON
+from sqlalchemy.dialects.postgresql import TEXT, INTEGER, BOOLEAN
 
 from .database import Base
 
@@ -11,7 +11,7 @@ class UserAccount(Base):
     email = Column(TEXT, nullable=False, unique=True)
     phone = Column(TEXT)
     password = Column(TEXT)
-    major = Column(JSON)
+    major = Column(TEXT)
     degree = Column(TEXT)
     enable = Column(BOOLEAN, default=True)
     admin = Column(BOOLEAN, default=False)

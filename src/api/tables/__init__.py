@@ -3,7 +3,6 @@ from .course_corequisite import CourseCorequisite
 from .course_prerequisite import CoursePrerequisite
 from .course_session import CourseSession
 from .course import Course
-from .major import Major
 from .event import Event
 from .semester_date_range import SemesterDateRange
 from .semester_info import SemesterInfo

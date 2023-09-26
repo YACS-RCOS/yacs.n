@@ -20,7 +20,7 @@
       ></b-form-input>
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
-    <div v-if="this.allowSignup">
+    <div>
       <b-button-group size="md">
         <button
           style="padding-left: 0; padding-right: 0; padding-top: 12px;"
@@ -53,12 +53,6 @@ import { userTypes } from "../store/modules/user";
 
 export default {
   name: "Login",
-  props:{
-    allowSignup: {
-      type: Boolean,
-      default: true
-    }
-  },
   components: {
     SignUpForm: SignUpComponent,
   },

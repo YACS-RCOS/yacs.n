@@ -38,14 +38,23 @@
         ></b-form-input>
       </b-form-group>
 
-      <degree-picker
-        :degree="form.degree"
-        :major="form.major"
-        @update:degree="newval => form.degree = newval"
-        @update:major="newval => form.major = newval"
-      ></degree-picker>
+      <b-form-group id="input-group-5" label="Degree:" label-for="input-5">
+        <b-form-select
+          id="input-5"
+          v-model="form.degree"
+          :options="degrees"
+        ></b-form-select>
+      </b-form-group>
 
-      <button class="btn-primary btn w-100" type="submit">
+      <b-form-group id="input-group-6" label="Major:" label-for="input-6">
+        <b-form-input
+          id="input-6"
+          v-model="form.major"
+          placeholder="Eg. CSCI or ITWS"
+        ></b-form-input>
+      </b-form-group>
+
+      <button type="submit" class="btn-primary btn w-100">
         Finish Sign Up!
       </button>
     </b-form>
@@ -55,11 +64,8 @@
 <script>
 import { signup } from "@/services/UserService";
 import { userTypes } from "../store/modules/user";
-import DegreePicker from "@/components/DegreePicker";
-
 export default {
   name: "SignUp",
-  components: { DegreePicker },
   data() {
     return {
       form: {
@@ -68,9 +74,14 @@ export default {
         phone: "",
         password: "",
         degree: "",
-        major: [null]
+        major: "",
       },
-      show: true
+      degrees: [
+        { text: "Select One", value: null },
+        "Undergraduate",
+        "Graduate",
+      ],
+      show: true,
     };
   },
   methods: {
@@ -103,7 +114,7 @@ export default {
       }
 
       this.$emit("submit");
-    }
+    },
   },
 };
 </script>
