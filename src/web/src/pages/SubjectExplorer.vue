@@ -1,11 +1,14 @@
 <template>
+  
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    
     <b-row class="justify-content-center">
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
     <!-- left column of courses -->
+    
     <b-row v-if="!isLoadingCourses && courses.length > 0">
       <b-col cols="6">
         <b-row
@@ -347,7 +350,7 @@ export default {
       } else {
         this.addCourse(course);
       }
-      course.selected = !course.selected; // Toggle the selected state
+      console.log(course);
     },
     getSchedules() {
       const oldLength = this.possibilities.length;
