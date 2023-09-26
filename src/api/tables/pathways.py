@@ -6,9 +6,12 @@ from .database import Base
 class Pathway(Base):
     __tablename__ = "pathway"
 
-    name = Column(VARCHAR(length=255))
-    description = TEXT
-    required_courses = Column(TSVECTOR, bool = False)
-    #foreign key for courses
-    courses = Column(TSVECTOR, ForeignKey("course.crn"))
-    compatible_minor = Column(TSVECTOR)
+    # name = Column(VARCHAR(length=255))
+    # description = TEXT
+    # required_courses = Column(TSVECTOR, bool = False)
+    # #foreign key for courses
+    # courses = Column(TSVECTOR, ForeignKey("course.crn"))
+    # compatible_minor = Column(TSVECTOR)
+
+    pathway_name = Column(VARCHAR(length=255), primary_key = True, nullable=False)
+    category_name = Column(VARCHAR(length=255), nullable=False)
