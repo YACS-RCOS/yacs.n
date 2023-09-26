@@ -17,6 +17,28 @@ class Professor:
         self.db_conn = db_conn
         self.cache = cache
 
+    def add_final(self, department, courseCode,
+                  section, room, dof, day, hour):
+        if department is None:
+            return (False, "Department cannot be none")
+        elif courseCode is None:
+            return (False, "Course code cannot be none")
+        elif section is None:
+            return (False, "Section cannot be none")
+        elif room is None:
+            return (False, "Room cannot be none")
+        elif dof is None:
+            return (False, "Day of Week cannot be none")
+        elif day is None:
+            return (False, "Day cannot be none")
+        elif hour is None:
+            return (False, "Hour cannot be none")
+        else:
+            query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
+            values = (department, courseCode, section, room, dof, day, hour)
+            cursor = self.db_conn.cursor()
+            return cursor.execute(query, values)
+        
     def add_professor(self, first_name, last_name, email, phone, dep, office, 
         classes, office_time, rcs):
             if email is not None:
