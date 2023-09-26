@@ -130,7 +130,6 @@ export default {
   },
   data() {
     return {
-      selectedCourses: {},
       subject: this.$route.params.subject, // subject object from CourseExplorer
       breadcrumbNav: [
         {
@@ -344,14 +343,19 @@ export default {
      * Toggle course selected state
      * Emits removeCourse and addCourse events
      */
-    toggleCourse(course) {
-      if (course.selected) {
-        this.removeCourse(course);
-      } else {
-        this.addCourse(course);
-      }
-      console.log(course);
-    },
+     toggleCourse(course) {
+        if (course.selected) {
+          // Remove course
+          this.removeCourse(course);
+          this.$store.dispatch('removeCourse', course);
+          // Additional logic (e.g., also remove sections associated with the course) can go here.
+        } else {
+          // Add course
+          this.addCourse(course);
+          this.$store.dispatch('addCourse', course);
+          // Additional logic (e.g., also add sections associated with the course) can go here.
+        }
+      },
     getSchedules() {
       const oldLength = this.possibilities.length;
       try {
@@ -416,6 +420,7 @@ export default {
   computed: {
     ...mapState(["isLoadingCourses"]),
     ...mapGetters(["courses"]),
+    ...mapGetters(['selectedCourses']),
     //courseColumns[0] corresponds to left column, [1] to right column
     courseColumns() {
       let leftColumn = [];

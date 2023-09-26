@@ -48,6 +48,7 @@ const store = new Vuex.Store({
     semesters: [],
     subsemesters: [],
     departments: [],
+    selectedCourses: {},
   },
   getters: {
     [COURSES]: (state) => Object.values(state.coursesById),
@@ -58,6 +59,7 @@ const store = new Vuex.Store({
     colorBlindAssistState: (state) => {
       return state.colorBlindAssist;
     },
+    selectedCourses: state => state.selectedCourses,
   },
   mutations: {
     [TOGGLE_DARK_MODE](state, isDarkMode = null) {
@@ -120,6 +122,12 @@ const store = new Vuex.Store({
     },
     [SET_SEMESTERS](state, semesters) {
       state.semesters = semesters;
+    },
+    ADD_COURSE(state, course) {
+      Vue.set(state.selectedCourses, course.id, course);
+    },
+    REMOVE_COURSE(state, course) {
+      Vue.delete(state.selectedCourses, course.id, course);
     },
   },
   actions: {
@@ -209,6 +217,12 @@ const store = new Vuex.Store({
       });
 
       commit(SET_DEPARTMENTS, departments);
+    },
+    addCourse({commit},course){
+      commit('ADD_COURSE',course);
+    },
+    removeCourse({commit, course}){
+      commit('REMOVE_COURSE',course);
     },
   },
   modules: {
