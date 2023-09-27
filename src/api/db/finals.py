@@ -36,6 +36,10 @@ class Professor:
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
+        cursor = self.db_conn.cursor()
+        query = "SELECT COUNT(*) FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + str(section) + ";"
+        cursor.execute(query)
+        records = cursor.fetchone()
         if department is None:
             return (False, "Department cannot be none")
         elif courseCode is None:
@@ -50,42 +54,72 @@ class Professor:
             return (False, "Day cannot be none")
         elif hour is None:
             return (False, "Hour cannot be none")
+        elif (records[0] > 0):
+            return(False, "A record with the same Course Code and Section exists")
         else:
             query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
             values = (department, courseCode, section, room, dof, day, hour)
             cursor = self.db_conn.cursor()
-            return cursor.execute(query, values)
+            cursor.execute(query, values)
+            self.db_conn.commit()
+            return(True, "Final has been added")
         
-    def add_professor(self, first_name, last_name, email, phone, dep, office, 
-        classes, office_time, rcs):
-            if email is not None:
-                print(email)
-                return self.db_conn.execute("""
-            INSERT INTO 
-                professor (first_name, last_name, email, phone_number, 
-                department, office_room, classes, office_hours_time, rcs)
-            VALUES 
-                   (%(First_name)s, %(Last_name)s, %(Phone_number)s, %(Email)s,
-                   %(Dep)s, %(Office_room)s, %(Classes)s, %(Office_time)s, %(Rcs_id)s)
-            ON CONFLICT DO NOTHING
-            ;
-        """, {
-                "First_name": first_name,
-                "Last_name": last_name,
-                "Email": email, 
-                "Phone_number": phone,
-                "Dep": dep, 
-                "Office_room": office, 
-                "Classes": classes,
-                "Office_time": office_time,
-                "Rcs_id": rcs
-            }
-        , False)
-            else:
-                return (False, "email cant be none")
+    def get_all_final_info(self):
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals;"
+        cursor.execute(query)
+        return cursor.fetchall()
 
+    def get_info_by_courseCode(self, courseCode):
+        if courseCode is None:
+            return(False, "Course Code cannot be none")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\';"
+        cursor.execute(query)
+        return cursor.fetchall()
 
-
+    def get_info_by_courseCodeSection(self, courseCode, section):
+        if courseCode is None:
+            return(False, "Course Code cannot be none")
+        elif section is None:
+            return(False, "Section cannot be None")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + str(section) + ";"
+        cursor.execute(query)
+        return cursor.fetchall()
+    
+    def get_info_by_day(self, day):
+        if day is None:
+            return (False, "Date cannot be none")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE Day = \'" + day + "\';"
+        cursor.execute(query)
+        return cursor.fetchall()
+    
+    def get_info_by_department(self, department):
+        if department is None:
+            return(False, "Department cannot be none")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE Deparment = \'" + department + "\';"
+        cursor.execute(query)
+        return cursor.fetchall()
+    
+    def get_info_by_DOW(self, DOW):
+        if DOW is None:
+            return(False, "Day of Week cannot be none")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE DayOfWeek = \'" + DOW + "\';"
+        cursor.execute(query)
+        return cursor.fetchall()
+    
+    def get_info_by_hour(self, hour):
+        if hour is None:
+            return(False, "Hour cannot be None")
+        cursor = self.db_conn.cursor()
+        query = "SELECT * FROM finals WHERE Hour = \'" + hour + "\';"
+        cursor.execute(query)
+        return cursor.fetchall()
+        
 def add_bulk_professor(self):
     # Load the JSON data from a file
     with open('Professors.json') as file:
