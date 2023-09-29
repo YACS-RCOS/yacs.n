@@ -18,6 +18,22 @@ class Finals:
         self.db_conn = db_conn
         self.cache = cache
 
+    def add_bulk_final(self):
+        list = []
+
+        file  = "Finals.json"
+        with open(file, "r") as json_file:
+            data = json.load(json_file)
+
+        for i in data:
+            if i['Section'] == "(ALL SECTIONS)":
+                section = "AllSections"
+            else:
+                section = i['Section']
+            list.append(self.add_final(i['Department'], i['CourseCode'], section, i['Room'], i['DayOfWeek'], i['Day'], i['Hour']))
+        self.db_conn.commit()
+        return list
+
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
         cursor = self.db_conn.cursor()
@@ -126,33 +142,5 @@ class Finals:
         self.db_conn.commit()
         return(True, str(cursor.rowcount) + " row(s) deleted")
     
-    def add_bulk_professor(self):
-        # Load the JSON data from a file
-        with open('Professors.json') as file:
-            data = json.load(file)
-
-        # Connect to the SQL database
-        conn = self.db.get_connection()
-
-        # Loop through each professor record in the JSON data
-        for record in data:
-            professor = Professor(email=record['Email'],
-                                first_name=record['Name'],
-                                phone_number=record['Phone'],
-                                department=record['Department'],
-                                office_room=record['Portfolio'],
-                                office_hours_time='',
-                                rcs='')
-            conn.add(professor)
-
-        # Commit the changes to the database
-        conn.commit()
-        self.clear_cache()
-        return (True,None)
 
 
-    
-if __name__ == "__main__":
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
-    courses = Professor(connection.db)
-    courses.populate_from_csv(csv_text)
