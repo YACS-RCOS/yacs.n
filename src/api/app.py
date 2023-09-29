@@ -17,6 +17,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.finals as Finals
 import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
@@ -374,3 +375,6 @@ async def uploadHandler(file: UploadFile = File(...)):
     else:
         print(error)
         return Response(error.__str__(), status_code=500)
+
+
+')
