@@ -376,5 +376,19 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
 
+@app.get('/api/finals/{department}')
+async def get_finals_by_department(department: str):
+    finals, error = Finals.get_finals_by_department(department)
+    return finals if not error else Response(content=error, status_code=500)
 
-')
+
+#get by day of week (DOW)
+@app.get('/api/finals/{DOW}')
+async def get_finals_by_DOW(DOW: str):
+    finals, error = Finals.get_finals_by_DOW(DOW)
+    return finals if not error else Response(content=error, status_code=500)
+
+@app.get('api/finals/{hour}')
+async def get_finals_by_hour(hour: str):
+    finals, error = Finals.get_finals_by_hour(hour)
+    return finals if not error else Response(content=error, status_code=500)
