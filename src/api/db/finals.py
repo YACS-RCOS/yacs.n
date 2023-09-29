@@ -44,9 +44,8 @@ class Finals:
             query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
             values = (department, courseCode, section, room, dof, day, hour)
             cursor = self.db_conn.cursor()
-            cursor.execute(query, values)
-            self.db_conn.commit()
-            return(True, "Final has been added")
+            info, error = cursor.execute(query, values, True)
+            return (info, None) if not error else (False, error)
         
     def clear_cache(self):
         try:
@@ -62,16 +61,16 @@ class Finals:
     def get_all_final_info(self):
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals;"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
 
     def get_info_by_courseCode(self, courseCode):
         if courseCode is None:
             return(False, "Course Code cannot be none")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\';"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
 
     def get_info_by_courseCodeSection(self, courseCode, section):
         if courseCode is None:
@@ -80,40 +79,40 @@ class Finals:
             return(False, "Section cannot be None")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + section + ";"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
     
     def get_info_by_day(self, day):
         if day is None:
             return (False, "Date cannot be none")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE Day = \'" + day + "\';"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
     
     def get_info_by_department(self, department):
         if department is None:
             return(False, "Department cannot be none")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE Deparment = \'" + department + "\';"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
     
     def get_info_by_DOW(self, DOW):
         if DOW is None:
             return(False, "Day of Week cannot be none")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE DayOfWeek = \'" + DOW + "\';"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
     
     def get_info_by_hour(self, hour):
         if hour is None:
             return(False, "Hour cannot be None")
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE Hour = \'" + hour + "\';"
-        cursor.execute(query)
-        return cursor.fetchall()
+        info, error = cursor.execute(query, None, True)
+        return (info, None) if not error else (False, error)
         
     def remove_final(self, courseCode, section):
         if courseCode is None:
