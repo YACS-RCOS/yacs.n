@@ -49,6 +49,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 professor_info =  All_professors.Professor(db_conn, FastAPICache)
+finals_info = Finals.Finals(db_conn, FastAPICache)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -378,17 +379,17 @@ async def uploadHandler(file: UploadFile = File(...)):
 
 @app.get('/api/finals/{department}')
 async def get_finals_by_department(department: str):
-    finals, error = Finals.get_finals_by_department(department)
+    finals, error = finals_info.get_finals_by_department(department)
     return finals if not error else Response(content=error, status_code=500)
 
 
 #get by day of week (DOW)
 @app.get('/api/finals/{DOW}')
 async def get_finals_by_DOW(DOW: str):
-    finals, error = Finals.get_finals_by_DOW(DOW)
+    finals, error = finals_info.get_finals_by_DOW(DOW)
     return finals if not error else Response(content=error, status_code=500)
 
 @app.get('api/finals/{hour}')
 async def get_finals_by_hour(hour: str):
-    finals, error = Finals.get_finals_by_hour(hour)
+    finals, error = finals_info.get_finals_by_hour(hour)
     return finals if not error else Response(content=error, status_code=500)
