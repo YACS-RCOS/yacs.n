@@ -84,7 +84,7 @@ class Professor:
         elif section is None:
             return(False, "Section cannot be None")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + str(section) + ";"
+        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + section + ";"
         cursor.execute(query)
         return cursor.fetchall()
     
