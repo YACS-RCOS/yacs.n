@@ -7,7 +7,7 @@ class Professor(Base):
     __tablename__ = "professor"
 
     Email = Column(VARCHAR(length=255), primary_key=True, nullable=False)
-    Name = Column(VARCHAR(length=255), nullable = True) #try changign datatype to stirng
+    Name = Column(VARCHAR(length=255), nullable = True) 
     Title = Column(VARCHAR(length=255), nullable=True)
     Phone_number = Column(VARCHAR(length=255), nullable=True) 
     Department = Column(VARCHAR(length=255), nullable=True)
