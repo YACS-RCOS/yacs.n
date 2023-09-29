@@ -513,9 +513,9 @@
    "Hour": "11:30AM-2:30PM"
  },
  {
-   "Department": "COMMUNICATION COMM",
-   "CourseCode": "4540 (ALL",
-   "Section": "SECTIONS)",
+   "Department": "COMMUNICATION",
+   "CourseCode": "COMM 4540",
+   "Section": "(ALL SECTIONS)",
    "Room": "SAGE 3101",
    "DayOfWeek": "Wednesday",
    "Day": "3-May",
