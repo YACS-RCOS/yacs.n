@@ -221,9 +221,10 @@ const store = new Vuex.Store({
     addCourse({commit},course){
       commit('ADD_COURSE',course);
     },
-    removeCourse({commit, course}){
-      commit('REMOVE_COURSE',course);
+    removeCourse({commit}, course){
+      commit('REMOVE_COURSE', course);
     },
+   
   },
   modules: {
     [USER_NAMESPACE]: userModule,

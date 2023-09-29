@@ -159,7 +159,7 @@ export default {
     toggleColors() {
       this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
     },
-
+    
     async loadStudentCourses() {
       if (!this.courses.length) {
         return;
@@ -258,6 +258,9 @@ export default {
         selectedIndexCookie.clear().save();
       }
       this.loadedIndexCookie = 1;
+    },
+    mounted(){
+      this.loadStudentCourses();
     },
     addCourse(course) {
       this.$set(this.selectedCourses, course.id, course);
