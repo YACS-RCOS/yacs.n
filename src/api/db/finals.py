@@ -64,6 +64,17 @@ class Professor:
             self.db_conn.commit()
             return(True, "Final has been added")
         
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
+        
     def get_all_final_info(self):
         cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals;"
@@ -120,29 +131,41 @@ class Professor:
         cursor.execute(query)
         return cursor.fetchall()
         
-def add_bulk_professor(self):
-    # Load the JSON data from a file
-    with open('Professors.json') as file:
-        data = json.load(file)
+    def remove_final(self, courseCode, section):
+        if courseCode is None:
+            return (False, "Course Code cannot be none")
+        elif section is None:
+            return (False, "Section cannot be none")
+        
+        query = "DELETE FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = \'" + section + "\';"
+        cursor = self.db_conn.cursor()
+        cursor.execute(query)
+        self.db_conn.commit()
+        return(True, str(cursor.rowcount) + " row(s) deleted")
+    
+    def add_bulk_professor(self):
+        # Load the JSON data from a file
+        with open('Professors.json') as file:
+            data = json.load(file)
 
-    # Connect to the SQL database
-    conn = self.db.get_connection()
+        # Connect to the SQL database
+        conn = self.db.get_connection()
 
-    # Loop through each professor record in the JSON data
-    for record in data:
-        professor = Professor(email=record['Email'],
-                            first_name=record['Name'],
-                            phone_number=record['Phone'],
-                            department=record['Department'],
-                            office_room=record['Portfolio'],
-                            office_hours_time='',
-                            rcs='')
-        conn.add(professor)
+        # Loop through each professor record in the JSON data
+        for record in data:
+            professor = Professor(email=record['Email'],
+                                first_name=record['Name'],
+                                phone_number=record['Phone'],
+                                department=record['Department'],
+                                office_room=record['Portfolio'],
+                                office_hours_time='',
+                                rcs='')
+            conn.add(professor)
 
-    # Commit the changes to the database
-    conn.commit()
-    self.clear_cache()
-    return (True,None)
+        # Commit the changes to the database
+        conn.commit()
+        self.clear_cache()
+        return (True,None)
 
 
     
