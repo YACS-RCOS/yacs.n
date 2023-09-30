@@ -179,7 +179,7 @@
                     "LANG 1XXX",
                     "LANG 2XXX"
                 ],
-                "Choose remaining credits from the following​​​​, with at least 4 credits at the 4000-level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "LANG 4XXX",
                     "IHSS 1492 - Language and Culture",
                     "COGS 4340 - The Linguistics of Computational Linguistics",
@@ -201,7 +201,7 @@
                 "Choose remaining credits from the following": [
                     "IHSS 1140 - Minds and Machines",
                     "IHSS 1235 - Are Humans Rational?",
-                    "IHSS 1972 AI & Society",
+                    "IHSS 1972 - AI & Society",
                     "COGS 4330 - Introduction to Cognitive Neuroscience",
                     "COGS 4600 - Cognition and the Brain",
                     "PSYC 4350 - Mathematical Methods in Psychological Science",
@@ -209,7 +209,7 @@
                     "PSYC 4410 - Sensation and Perception",
                     "PHIL 4961 - Intermediate Formal Logic & AI"
                 ],
-                "4000-level COGS ElectiveCompatible minor(s)": [
+                "Compatible minor(s)": [
                     "Cognitive Science Minor"
                 ]
             },
@@ -220,7 +220,7 @@
                 "Required": [
                     "PSYC 1200 - Introduction to Psychological Science"
                 ],
-                "Choose remaining credits from the following, with at least 4 credits at the 4000 level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "IHSS 19XX – Understanding Empathy",
                     "PSYC 2XXX",
                     "PSYC 4XXX",
@@ -258,7 +258,7 @@
                     "IHSS 1700 - Songwriting Workshop",
                     "IHSS 1720 - Music and Nature"
                 ],
-                "Choose remaining credits from the following​​​​, with at least 4 credits at the 4000 level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "ARTS 2310 - Rensselaer Concert Choir Credit Hours 1 (course can be repeated multiple times for credit)",
                     "ARTS 2960 - Topics in the Arts Credit Hours 2 to 4(Private Lessons, Credit Hours 1)",
                     "COGS 4610 - Stress and the Brain",
@@ -320,7 +320,7 @@
                 "Name": [
                     "Literature and Creative Writing"
                 ],
-                "Choose 12 credits from the following, at least 4 credits at the 4000 level": [
+                "Choose 12 credits from the following, with at least 4 credits at the 4000-level": [
                     "LITR XXXX",
                     "WRIT 1XXX",
                     "WRIT 2XXX",
@@ -345,7 +345,7 @@
                 "Name": [
                     "Strategic Communication"
                 ],
-                "Choose 12 credits of the following, with at least 4 credits at the 4000 level": [
+                "Choose 12 credits from the following, with at least 4 credits at the 4000-level": [
                     "COMM 1XXX",
                     "COMM 2XXX",
                     "IHSS 19XX – Writing and Society",
@@ -405,7 +405,7 @@
                 "Required": [
                     "STSO 2300 - Environment and Society"
                 ],
-                "Choose remaining credits from the following must complete at least 4 credits at the 4000-level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "IHSS 1960 - Designing Climate Justice",
                     "STSO 1110 - Science, Technology, and Society",
                     "IHSS 1110 - Nature/Society",
@@ -440,12 +440,12 @@
                     "ECON 1200 - Introductory Economics",
                     "IHSS 1200 - Principles of Economics"
                 ],
-                "Choose other one of the following": [
+                "Choose another one of the following": [
                     "ECON 2XXX",
                     "ECON 2010 - Intermediate Microeconomic Theory",
                     "ECON 2020 - Intermediate Macroeconomic Theory"
                 ],
-                "Choose remaining credits from": [
+                "Choose remaining credits from the following": [
                     "ECON 4XXX"
                 ],
                 "Compatible minor(s)": [
@@ -472,11 +472,11 @@
                 "Name": [
                     "Economics of Decision-Making"
                 ],
-                "Choose of of the following": [
+                "Choose one of the following": [
                     "IHSS 1200 - Principles of Economics",
                     "ECON 1200 - Introductory Economics"
                 ],
-                "Remaining credits from the following": [
+                "Choose remaining credits from the following": [
                     "ECON 4220 - Applied Game Theory",
                     "ECON 4270 - Behavioral Economics",
                     "ECON 4340 - Behavioral Financial Economics",
@@ -567,7 +567,7 @@
                 "Required": [
                     "ITWS 2210 - Introduction to Human Computer Interaction"
                 ],
-                "Choose One of the following": [
+                "Choose one of the following": [
                     "IHSS 1220 - IT and Society",
                     "ITWS 1220 - IT and Society"
                 ],
@@ -591,7 +591,7 @@
                 "Name": [
                     "Interactive Media/Data Design"
                 ],
-                "Choose 12 credits from the following, with at least 4 credits at the 4000 level": [
+                "Choose 12 credits from the following, with at least 4 credits at the 4000-level": [
                     "IHSS 1560 - Media and Society",
                     "WRIT 1110 - Writing in Context",
                     "COMM 2520 - Communication Theory and Practice",
@@ -655,7 +655,7 @@
                 "Name": [
                     "Foreign Language"
                 ],
-                "Choose 12 credits from the following, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level": [
+                "Choose 12 credits from the following course prefixes, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level": [
                     "LANG 1XXX",
                     "LANG 2XXX",
                     "LANG 4XXX"
@@ -799,7 +799,7 @@
                     "IHSS 1180 - The Art of Listening",
                     "IHSS 1040 - Documentary in the 21st Century Identity Production"
                 ],
-                "Choose remaining credits from the following, with at least 4 credits at the 4000 level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "ARTS 2010 - Intermediate Video",
                     "ARTS 2540 - The Multimedia Century",
                     "ARTS 4040 - Rethinking Documentary Video Production",
@@ -828,7 +828,7 @@
                 "Name": [
                     "Extent and Limits of Rationality"
                 ],
-                "Select 12 credits from the following": [
+                "Choose 12 credits from the following": [
                     "IHSS 1140 - Minds and Machines",
                     "IHSS 1180 - The Art of Listening",
                     "IHSS 1200 - Principles of Economics",
@@ -853,7 +853,7 @@
                 "Name": [
                     "Logical Thinking"
                 ],
-                "Choose 12 credits from a choice of the following​​​​, with at least 4 credits at the 4000-level": [
+                "Choose 12 credits from the following, with at least 4 credits at the 4000-level": [
                     "IHSS 1140 - Minds and Machines",
                     "IHSS 1235 - Are Humans Rational?",
                     "PSYC 2100 - Critical Thinking",
@@ -883,7 +883,7 @@
                     "PHIL 2140 - Introduction to Logic",
                     "PSYC 2100 - Critical Thinking"
                 ],
-                "Choose remaining credits from the following with at least 4 credits at the 4000-level": [
+                "Choose remaining credits from the following, with at least 4 credits at the 4000-level": [
                     "PHIL 2XXX",
                     "PHIL 4XXX",
                     "PHIL 2100 - Critical Thinking",
@@ -1106,7 +1106,7 @@
                 "Name": [
                     "Science, Technology, and Society"
                 ],
-                "Choose one of the following a minimum of 4 credits must be completed at the 4000-level": [
+                "Choose 12 credits from the following, with at least 4 credits at the 4000-level": [
                     "STSO 4XXX",
                     "STSO 1110 - Science, Technology, and Society",
                     "ITWS 1220 - IT and Society",
@@ -1131,7 +1131,7 @@
                 "Name": [
                     "Transfer Student Arts and Humanitity"
                 ],
-                "Choose 12 credits of the following course prefixes, with at least 8 credit hours at, or above, the 2000 level and at least 3 credit hours at the 4000 level": [
+                "Choose 12 credits from the following course prefixes, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level": [
                     "ARTS XXXX",
                     "COMM XXXX",
                     "GSAS XXXX",
@@ -1145,9 +1145,9 @@
             },
             {
                 "Name": [
-                    "Transfer Student Social Sciece"
+                    "Transfer Student Social Science"
                 ],
-                "Choose 12 credits of the following course prefixes, with at least 8 credit hours at, or above, the 2000 level and at least 3 credit hours at the 4000 level": [
+                "Choose 12 credits from the following course prefixes, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level": [
                     "COGS XXXX",
                     "ECON XXXX",
                     "GSAS XXXX",
