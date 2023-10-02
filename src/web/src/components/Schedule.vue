@@ -93,7 +93,7 @@ export default {
   },
   props: {
     possibility: {
-      default: () => [],
+      default: () => [], 
     },
   },
   data() {
