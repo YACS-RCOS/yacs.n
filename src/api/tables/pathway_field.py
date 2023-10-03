@@ -17,9 +17,7 @@ class pathway_field():
     desc_course_level = Column(VARCHAR(length=255), primary_key=False, nullable=True)  # Ex: ... 4000 level
 
 
-if __name__ == "__main__":
-    with open('../../web/src/pages/pathwayV2.json') as file:
-        data = json.load(file)
+def printPathways(data):
     total_keys = set()
     for category in data:
         print('Category:', category["Category Name"][0])
@@ -31,3 +29,45 @@ if __name__ == "__main__":
                     print('       ', key + ':')
                     for course in pathway[key]:
                         print('           ', course)
+
+
+def printKeys(data):
+    total_keys = set()
+    print('Keys:')
+    for category in data:
+        for pathway in category['Pathways']:
+            for key in pathway.keys():
+                total_keys.add(key)
+    for key in sorted(total_keys):
+        print(' ', key)
+
+
+def loadFields(fields):
+    fields.clear()
+    fields['Choose one'] = list()
+    fields['Choose one'].append('Choose one of the following')
+    fields['Choose one'].append('Choose another one of the following')
+    fields['Choose x'] = list()
+    fields['Choose x'].append('Choose 12 credits from the following')
+    fields['Choose x'].append('Choose 12 credits from the following course prefixes, with at least 8 credit hours at, or above, the 2000-level and at least 3 credit hours at the 4000-level')
+    fields['Choose x'].append('Choose 12 credits from the following, with at least 4 credits at the 4000-level')
+    fields['Choose x'].append('Choose 4 credits from the following')
+    fields['Choose remaining'] = list()
+    fields['Choose remaining'].append('Choose remaining credits from the following')
+    fields['Choose remaining'].append('Choose remaining credits from the following, with at least 4 credits at the 4000-level')
+    fields['Required'] = list()
+    fields['Required'].append('Required')
+
+
+if __name__ == "__main__":
+    with open('../../web/src/pages/pathwayV2.json') as file:
+        data = json.load(file)
+    printKeys(data)
+    fields = dict()
+    loadFields(fields)
+    '''
+    for i in fields:
+        print(i)
+        for j in fields[i]:
+            print(' ', j)
+    '''
