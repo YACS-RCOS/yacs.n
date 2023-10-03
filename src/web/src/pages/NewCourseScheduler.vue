@@ -116,6 +116,7 @@
                 >
                   Prev
                 </b-button>
+                <button @click="exportToGoogleCalendar">Export to Google Calendar</button>
               </b-col>
               <b-col cols="8" class="m-2 text-center">
                 <span v-if="scheduleDisplayMessage === 2">
@@ -247,8 +248,10 @@
 </template>
 
 <script>
+
 import { mapGetters, mapState } from "vuex";
 
+import ics from 'ics';
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
 import SelectedCoursesComponent from "@/components/SelectedCourses";
@@ -325,6 +328,41 @@ export default {
     };
   },
   methods: {
+    exportToGoogleCalendar() {
+      // Create an array of events that represent the schedule
+      const events = [
+        {
+          title: 'Class 1',
+          start: [2022, 9, 1, 10, 0],
+          end: [2022, 9, 1, 12, 0],
+          description: 'This is class 1',
+          location: 'Room 101',
+        },
+        {
+          title: 'Class 2',
+          start: [2022, 9, 3, 10, 0],
+          end: [2022, 9, 3, 12, 0],
+          description: 'This is class 2',
+          location: 'Room 102',
+        },
+      ];
+
+      // Generate an iCalendar file using the events array
+      ics.createEvents(events, (error, value) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        // Create a link that the user can click to download the iCalendar file
+        const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'schedule.ics';
+        link.click();
+      });
+    },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {
