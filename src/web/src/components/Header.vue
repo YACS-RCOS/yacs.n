@@ -233,7 +233,7 @@ export default {
       }
 
       // If years are the same, compare semesters
-      const seasons = ['SPRING', 'SUMMER', 'FALL'];
+      const seasons = ['FALL', 'SUMMER', 'SPRING'];
       return seasons.indexOf(seasonA) - seasons.indexOf(seasonB);
     });
 
