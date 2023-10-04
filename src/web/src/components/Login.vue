@@ -18,7 +18,7 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="buttonDiv"></div>
     <b-button type="submit" variant="primary">Submit</b-button>
     <div>
       <b-button-group size="md">
@@ -65,11 +65,21 @@ export default {
     };
   },
   mounted() {
-    let recaptchaScript = document.createElement('script')
-    recaptchaScript.setAttribute('src', '"https://apis.google.com/js/platform.js"')
-    document.head.appendChild(recaptchaScript)
+    window.google.accounts.id.initialize({
+        client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
+        callback: this.handleCredentialResponse
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    window.google.accounts.id.prompt(); // also display the One Tap dialog
   },
   methods: {
+    // FIXME: change scopes. make this act the same as a normal login. add logout functionality.
+    handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+    },
     async onSubmit(evt) {
       evt.preventDefault();
       
