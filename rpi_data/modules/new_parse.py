@@ -8,29 +8,45 @@ import requests
 import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 import time
 from bs4 import BeautifulSoup as bs
 import pdb
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 
-URL = "http://sis.rpi.edu"
+def login(driver):
+    URL = "http://sis.rpi.edu"
+    
+    driver.get(URL)
+    driver.implicitly_wait(2)
+    username_box = driver.find_element(by=By.NAME, value = "j_username")
+    password_box = driver.find_element(by=By.NAME, value = "j_password")
+    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
+    username = input("Enter Username: ")
+    password = input("Enter Password: ")
+    username_box.send_keys(username)
+    password_box.send_keys(password)
+    submit.click()
+    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly
+        print("User or Password Incorrect.")
+        username_box = driver.find_element(by=By.NAME, value = "j_username")
+        password_box = driver.find_element(by=By.NAME, value = "j_password")
+        submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
+        username = input("Enter Username: ")
+        password = input("Enter Password: ")
+        username_box.clear()
+        username_box.send_keys(username)
+        password_box.send_keys(password)
+        submit.click()
+    #wait = WebDriverWait(driver, timeout=10)
+    #wait.until(lambda d : driver.find_elements(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText())
+    #duo_code = driver.find_element(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText()
+    print("Check for your DUO code on the browser instance and answer the prompt") #work towards making this nearly automatic
+    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
+        time.sleep(1)
 
-driver = webdriver.Chrome()
-driver.get(URL)
-driver.implicitly_wait(1)
-username_box = driver.find_element(by=By.NAME, value = "j_username")
-password_box = driver.find_element(by=By.NAME, value = "j_password")
-submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
-username = input("Enter Username: ")
-password = input("Enter Password: ")
-username_box.send_keys(username)
-password_box.send_keys(password)
-submit.click()
-#
-#
-#
-#
+
 def getCoursesInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
@@ -75,4 +91,7 @@ def stuff2(code, semester):
     
 def main():
     allCodes = getCoursesInMajor("202201", "CSCI")
-#main()
+driver = webdriver.Chrome()
+login(driver)
+main()
+
