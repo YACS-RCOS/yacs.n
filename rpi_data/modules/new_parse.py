@@ -1,22 +1,27 @@
+# py get-pip.py
+# pip install requests
+# pip install bs4
+# pip install selenium
+
+
 import requests
+import selenium as sel
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
 from bs4 import BeautifulSoup as bs
 
-URL = "https://sis.rpi.edu"
+URL = "http://sis.rpi.edu"
 
-login = input("Input Your User: ")
-password = input("Input Your Password: ")
-
-with requests.session() as s:
-    req = s.get(URL).text
-    html = bs(req, "html.parser")
-    token = html.find("input", {"name" : "csrf_token"}).attrs["value"]
-    payload = {
-        "csrf_token" : token,
-        "j_username" : login,
-        "j_password" : password,
-        "_eventId_proceed" : ""
-    }
-    
-    res = s.post(URL, data = payload)
-    new_req = s.get(s.url).text
-    
+driver = webdriver.Chrome()
+driver.get(URL)
+driver.implicitly_wait(1)
+username_box = driver.find_element(by=By.NAME, value = "j_username")
+password_box = driver.find_element(by=By.NAME, value = "j_password")
+submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
+username = input("Enter Username: ")
+password = input("Enter Password: ")
+username_box.send_keys(username)
+password_box.send_keys(password)
+submit.click()
+time.sleep(5)
