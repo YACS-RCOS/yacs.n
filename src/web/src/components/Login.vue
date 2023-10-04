@@ -18,8 +18,8 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
-    <div id="buttonDiv"></div>
     <b-button type="submit" variant="primary">Submit</b-button>
+    <div id="buttonDiv"></div>
     <div>
       <b-button-group size="md">
         <button
