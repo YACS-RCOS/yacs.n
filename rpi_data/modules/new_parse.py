@@ -59,17 +59,14 @@ def getCoursesInMajor(semester, subject):
     #get all of the course codes
     table = soup.find('table', class_='datadisplaytable')
     codes = table.find_all("a")
-    allCodes = []
-    print(len(codes))
-    
+    allCodes = []    
     for text in codes:
         #text is a long attribute tag, but we don't need all of it.
         #The text is returned as: CSCI 1100 Computer... but we only need the course code, or the 5-9th characters
         allCodes.append(text.text[5:9])
     #However this returns text if there is an a tag that isn't a course code
     #Such as CS1, which has an a tag which lists all of the sections of CS1, but only some classes have
-    #this tag, because why not
-    #So we need to get rid of these strings
+    #this link, because why not. So we need to get rid of these strings
     for i in range(allCodes.count("re")):
         allCodes.remove("re")
     return allCodes
@@ -80,18 +77,39 @@ def stuff(allCodes, semester):
         stuff2(code, semester)
         
 def stuff2(code, semester):
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202209&subj_in=CSCI&crse_in={code}&schd_in=L"
+    #eventually we will try to generalize this, but for now I want to just get the stuff for one single page.
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202209&subj_in=CSCI&crse_in=2500&schd_in=L"
     session = requests.Session()
     webres = session.get(url)
     page = webres.content
     soup = bs(page, "html.parser")
     table = soup.find('table', class_='datadisplaytable')
-    #There are two types of table rows in the table, titles, which hold the links to sections
-    #as well as the CRNS, and defaults, which hold the credits, times, days, and locations
-    
+    #There are two types of table rows in the table: titles, which hold the links to sections
+    #as well as the CRNS; and defaults, which hold the credits, times, days, and locations
+    rows = table.find_all("tr")
+    seatcurr = seatmax = seatremain = crn = section = 0
+    credits = timestart = timeend = 0
+    classtype = days = location = professor = ""
+    pdb.set_trace()
+    for row in rows:
+        if row.get("class") == "ddtitle":
+            print(row.string)
+            #getEnrollInfo(row, seatcurr, seatmax, seatremain, crn, section)
+        elif row.has_attr("dddefault"):
+            print(row.string)
+            #getGenInfo(row, credits, timestart, timeend, classtype, days, location, professor)
+        #:sob:
+        elif row.has_attr("datadisplaytable"):
+            print(row.string)
+        else:
+            print("Error")
+    courses = []
+    return courses
+#We may not need allCodes, and stuff, becasue it looks like getting info from the old way will be extremely annoying
+#Who knows though, but for now those methods will be commented out as we explore diff ways to scrape.
 def main():
-    allCodes = getCoursesInMajor("202201", "CSCI")
-driver = webdriver.Chrome()
-login(driver)
+    driver = webdriver.Chrome()
+    login(driver)
+    #allCodes = getCoursesInMajor("202201", "CSCI")
+    #stuff(allCodes, "202209")
 main()
-
