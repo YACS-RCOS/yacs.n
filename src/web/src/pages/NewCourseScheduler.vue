@@ -146,7 +146,10 @@
 
             <b-row>
               <b-col class="m-2">
-                <h5>CRNs: {{ selectedCrns }}</h5>
+                <h5>CRNs:</h5>
+                <div v-for="crn in crns" :key="crn">
+                  <span @click="copyToClipboard(crn)" style="cursor: pointer;">{{ crn }}</span>
+                </div>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
 
@@ -628,6 +631,19 @@ export default {
         .updateIndex(this.index)
         .save();
     },
+
+    copyToClipboard(crn) {
+      navigator.clipboard.writeText(crn)
+        .then(() => {
+          this.showCopyConfirmation();
+        })
+        .catch((err) => {
+          console.error('Unable to copy to clipboard: ', err);
+        });
+    },
+    showCopyConfirmation() {
+      alert("CRN copied to clipboard!");
+    },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -648,16 +664,14 @@ export default {
         .map((c) => c.sections.filter((s) => s.selected))
         .flat();
     },
+    
     /**
-     * Returns list of CRNs for all selected sections
-     * @returns {string}
+     * Generate an array of CRNs from this.possibilities[this.index].sections
      */
-    selectedCrns() {
-      return (
-        this.possibilities[this.index] &&
-        this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
-      );
+    crns() {
+      return this.possibilities[this.index].sections.map((s) => s.crn);
     },
+
     /**
      * Returns sum of credits being taken from all selected sections
      */
