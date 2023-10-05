@@ -147,7 +147,7 @@
             <b-row>
               <b-col class="m-2">
                 <div style="display: inline-block;">
-                  <h5 style="display: inline; margin: 0;">CRNs:</h5>
+                  <h5 style="display: inline; margin: 0;">CRNs: </h5>
                   <span v-for="(crn, index) in getCrns" :key="index">
                     <h5
                       @click="copyToClipboard(crn)"
