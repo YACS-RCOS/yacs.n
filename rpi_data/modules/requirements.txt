@@ -4,3 +4,4 @@ requests
 lxml
 regex
 pyyaml
+selenium
