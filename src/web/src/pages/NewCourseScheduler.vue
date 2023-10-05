@@ -145,23 +145,23 @@
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
             <b-row>
-              <!-- <b-col class="m-2">
-                <h5>CRNs:</h5>
-                <div v-for="crn in getCrns" :key="crn">
-                  <span @click="copyToClipboard(crn)" style="cursor: pointer;">{{ crn }}</span>
-                </div>
-                <h5>Credits: {{ totalCredits }}</h5>
-              </b-col> -->
               <b-col class="m-2">
                 <div style="display: inline-block;">
-                  <h5 style="display: inline; margin: 0;">CRNs: </h5>
+                  <h5 style="display: inline; margin: 0;">CRNs:</h5>
                   <span v-for="(crn, index) in getCrns" :key="index">
-                    <h5 @click="copyToClipboard(crn)" style="cursor: pointer; display: inline; margin: 0; padding: 0;">{{ crn }}</h5>
+                    <h5
+                      @click="copyToClipboard(crn)"
+                      style="cursor: pointer; display: inline; margin: 0; padding: 0;"
+                      :title="'Click to Copy ' + crn"
+                    >
+                      {{ crn }}
+                    </h5>
                     <span v-if="index !== getCrns.length - 1">, </span>
                   </span>
                 </div>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
+
 
               <b-col md="3" justify="end">
                 <b-row>
@@ -669,6 +669,7 @@ export default {
         (s) => s.display_string === this.selectedScheduleSubsemester
       );
     },
+
     selectedSections() {
       return Object.values(this.selectedCourses)
         .map((c) => c.sections.filter((s) => s.selected))
