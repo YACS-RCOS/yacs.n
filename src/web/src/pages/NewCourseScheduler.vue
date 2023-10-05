@@ -158,9 +158,11 @@
                     </h5>
                     <span v-if="index !== getCrns.length - 1">, </span>
                   </span>
+                  <span v-if="crnCopied" style="color: green; margin-left: 10px;">Copied!</span>
                 </div>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
+
 
 
               <b-col md="3" justify="end">
@@ -335,6 +337,7 @@ export default {
       ],
       index: 0,
       loadedIndexCookie: 0,
+      crnCopied: false,
     };
   },
   methods: {
@@ -645,16 +648,17 @@ export default {
     copyToClipboard(crn) {
       navigator.clipboard.writeText(crn)
         .then(() => {
-          this.showCopyConfirmation();
+          this.crnCopied = true;
+          setTimeout(() => {
+            this.crnCopied = false;
+          }, 2000); // Hide the message after 2 seconds (adjust the delay as needed)
         })
         .catch((err) => {
           console.error('Unable to copy to clipboard: ', err);
         });
     },
-    showCopyConfirmation() {
-      alert("CRN copied to clipboard!");
-    },
   },
+  
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
     ...mapGetters([COURSES]),
