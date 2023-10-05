@@ -145,10 +145,20 @@
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
 
             <b-row>
-              <b-col class="m-2">
+              <!-- <b-col class="m-2">
                 <h5>CRNs:</h5>
-                <div v-for="crn in crns" :key="crn">
+                <div v-for="crn in getCrns" :key="crn">
                   <span @click="copyToClipboard(crn)" style="cursor: pointer;">{{ crn }}</span>
+                </div>
+                <h5>Credits: {{ totalCredits }}</h5>
+              </b-col> -->
+              <b-col class="m-2">
+                <div style="display: inline-block;">
+                  <h5 style="display: inline; margin: 0;">CRNs: </h5>
+                  <span v-for="(crn, index) in getCrns" :key="index">
+                    <h5 @click="copyToClipboard(crn)" style="cursor: pointer; display: inline; margin: 0; padding: 0;">{{ crn }}</h5>
+                    <span v-if="index !== getCrns.length - 1">, </span>
+                  </span>
                 </div>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
@@ -668,7 +678,7 @@ export default {
     /**
      * Generate an array of CRNs from this.possibilities[this.index].sections
      */
-    crns() {
+    getCrns() {
       return this.possibilities[this.index].sections.map((s) => s.crn);
     },
 
