@@ -87,6 +87,8 @@ def parseCourseTable(driver):
     html = driver.page_source
     time.sleep(20)
 
+
+
 #We will need this later to get pre and coreqs, but for now we don't use it
 def getCoursesInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
@@ -173,9 +175,10 @@ def main():
     options.add_argument("--remote-debugging-port=9222")
     #driver = webdriver.Chrome(options = options)
     #login(driver)
+    #sisCourseSearch(driver, "fall2023")
     #url = "https://sis.rpi.edu"
     getMajorCourseInfo(" ")
     #allCodes = getCoursesInMajor("202201", "CSCI")
+    
 main()
-driver = webdriver.Chrome()
-sisCourseSearch(driver, "fall2023")
+
