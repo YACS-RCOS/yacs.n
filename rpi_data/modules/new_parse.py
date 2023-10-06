@@ -88,7 +88,7 @@ def getMajorCourseInfo(url : str) -> list[list[str]]:
         if len(data) != 0:
             courses.append(processRow(data))
     return courses
-#Given a row, process the data in said row except the select and attribute columns
+#Given a row, process the data in said row including crn, course code, days, seats, etc
 def processRow(data) -> list[str]:
     info = []
     #Ok so there are a bunch of cases to deal with, the big ones are the 
@@ -105,27 +105,34 @@ def processRow(data) -> list[str]:
     #info[18] is teachers, need to format
     #info[19] are days of sem, prob need to remove, who knows
     #info[20] is location
-    pdb.set_trace()
     #Remove index[4] because it's probably useless
     info.pop(4)
     #Format profs by removing some styling that is included
     info[17] = formatTeachers(info[17])
+    info = formatTimes(info)
     return info
 #For now we just return the first prof that shows up, we will prob need to fix this in the future
 def formatTeachers(profs : str) -> str:
-    #profs is returned as a navigable string so we need to convert it back to a regular one
+    #profs is given as a navigable string so we need to convert it back to a regular one
     tmp = str(profs[0].string)
     return (tmp[:-1])
-#We may not need allCodes, and stuff, becasue it looks like getting info from the old way will be extremely annoying
-#Who knows though, but for now those methods will be commented out as we explore diff ways to scrape
+#We need to split the time into a starting and ending time, we could do it later, but it's prob easier to do it here
+def formatTimes(info):
+    pdb.set_trace()
+    tmp = str(info[7][0])
+    start = tmp[:7]
+    end = tmp[:8]
+    info.insert(7,start)
+    info.insert(8,start)
+    info.pop(9)
 def main():
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--headless")
     options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome(options = options)
-    login(driver)
+    #driver = webdriver.Chrome(options = options)
+    #login(driver)
     #url = "https://sis.rpi.edu"
     getMajorCourseInfo(" ")
     #allCodes = getCoursesInMajor("202201", "CSCI")
