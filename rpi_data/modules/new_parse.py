@@ -13,6 +13,7 @@ from selenium.webdriver.chrome.options import Options
 import time
 from bs4 import BeautifulSoup as bs
 import pdb
+import copy
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 
@@ -82,23 +83,26 @@ def getMajorCourseInfo(url : str) -> list[list[str]]:
     table = soup.find('table', class_='datadisplaytable')
     rows = table.find_all("tr")
     courses = []
+    prevrow = []
     for row in rows:
         #The first two rows in the page have th tags not td's, so we need to ignore them.
         data = row.find_all("td")
+        
         if len(data) != 0:
-            courses.append(processRow(data))
+            courses.append(processRow(data, prevrow))
+            prevrow = copy.deepcopy(courses[len(courses)-1])
+            pdb.set_trace()
+    pdb.set_trace()
     return courses
 #Given a row, process the data in said row including crn, course code, days, seats, etc
-def processRow(data) -> list[str]:
+def processRow(data, prevrow) -> list[str]:
     info = []
-    #Ok so there are a bunch of cases to deal with, the big ones are the 
     for i in range(1, len(data) - 1, 1):
+        #Maybe we don't need this? will need to test later
         if(data[i].find('a')):
-            #Why is there a difference between .content and .contents
             info.append(data[i].find('a').contents)
         else:
             info.append(data[i].contents)
-    
     # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - irrelevant?, 5 - credits, 6 - class name 
     #info[7] is days, info[8] is time
     #info[9] - info[17] are cap, act, rem, etc
@@ -107,9 +111,23 @@ def processRow(data) -> list[str]:
     #info[20] is location
     #Remove index[4] because it's probably useless
     info.pop(4)
+    if str(info[0][0].string) == '\xa0':
+        info = processSpecial(info, prevrow)
+        return info
     #Format profs by removing some styling that is included
     info[17] = formatTeachers(info[17])
     info = formatTimes(info)
+    return info
+#Ok so this is very hardcoded, will prbo need to redo later on
+#But for now, it takes a lab block, test block, or seminar? and fills in the missing info for it
+def processSpecial(info, prevrow):
+    tmp = formatTimes(info)
+    info = prevrow
+    info[6] = tmp[6]
+    info[7] = tmp[7]
+    info[8] = tmp[8]
+    info[18] = str(tmp[18][0].text)
+    info[20] = str(tmp[20][0].text)
     return info
 #For now we just return the first prof that shows up, we will prob need to fix this in the future
 def formatTeachers(profs : str) -> str:
@@ -118,13 +136,14 @@ def formatTeachers(profs : str) -> str:
     return (tmp[:-1])
 #We need to split the time into a starting and ending time, we could do it later, but it's prob easier to do it here
 def formatTimes(info):
-    pdb.set_trace()
+    #pdb.set_trace()
     tmp = str(info[7][0])
-    start = tmp[:7]
-    end = tmp[:8]
+    start = tmp[:8]
+    end = tmp[9:]
     info.insert(7,start)
-    info.insert(8,start)
+    info.insert(8,end)
     info.pop(9)
+    return info
 def main():
     options = Options()
     options.add_argument("--no-sandbox")
