@@ -8,6 +8,8 @@ import requests
 import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
@@ -18,7 +20,6 @@ import pdb
 
 def login(driver):
     URL = "http://sis.rpi.edu"
-    
     driver.get(URL)
     driver.implicitly_wait(2)
     username_box = driver.find_element(by=By.NAME, value = "j_username")
@@ -86,6 +87,7 @@ def parseCourseTable(driver):
     html = driver.page_source
     time.sleep(20)
 
+#We will need this later to get pre and coreqs, but for now we don't use it
 def getCoursesInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
@@ -98,40 +100,82 @@ def getCoursesInMajor(semester, subject):
     #get all of the course codes
     table = soup.find('table', class_='datadisplaytable')
     codes = table.find_all("a")
-    allCodes = []
-    print(len(codes))
-    
+    allCodes = []    
     for text in codes:
         #text is a long attribute tag, but we don't need all of it.
         #The text is returned as: CSCI 1100 Computer... but we only need the course code, or the 5-9th characters
         allCodes.append(text.text[5:9])
     #However this returns text if there is an a tag that isn't a course code
     #Such as CS1, which has an a tag which lists all of the sections of CS1, but only some classes have
-    #this tag, because why not
-    #So we need to get rid of these strings
+    #this link, because why not. So we need to get rid of these strings
     for i in range(allCodes.count("re")):
         allCodes.remove("re")
     return allCodes
-#Given a list of the codes, get the relevent information about each course
-#This includes things such as CRN, seats and seats per section, times, location, etc
-def stuff(allCodes, semester):
-    for code in allCodes:
-        stuff2(code, semester)
-        
-def stuff2(code, semester):
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202209&subj_in=CSCI&crse_in={code}&schd_in=L"
-    session = requests.Session()
-    webres = session.get(url)
-    page = webres.content
-    soup = bs(page, "html.parser")
+#Given the url of a major, parse the info of that major (for now the url doesn't do anything, just use a file from sis to test)
+def getMajorCourseInfo(url : str) -> list[list[str]]:
+    #session = requests.Session()
+    #webres = session.get(url)
+    #page = webres.content
+    #soup = bs(page, "html.parser")
+    with open("test.html") as fp:
+        soup = bs(fp, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
-    #There are two types of table rows in the table, titles, which hold the links to sections
-    #as well as the CRNS, and defaults, which hold the credits, times, days, and locations
+    rows = table.find_all("tr")
+    courses = []
+    for row in rows:
+        #The first two rows in the page have th tags not td's, so we need to ignore them.
+        data = row.find_all("td")
+        if len(data) != 0:
+            courses.append(processRow(data))
+    return courses
+#Given a row, process the data in said row including crn, course code, days, seats, etc
+def processRow(data) -> list[str]:
+    info = []
+    #Ok so there are a bunch of cases to deal with, the big ones are the 
+    for i in range(1, len(data) - 1, 1):
+        if(data[i].find('a')):
+            #Why is there a difference between .content and .contents
+            info.append(data[i].find('a').contents)
+        else:
+            info.append(data[i].contents)
     
+    # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - irrelevant?, 5 - credits, 6 - class name 
+    #info[7] is days, info[8] is time
+    #info[9] - info[17] are cap, act, rem, etc
+    #info[18] is teachers, need to format
+    #info[19] are days of sem, prob need to remove, who knows
+    #info[20] is location
+    #Remove index[4] because it's probably useless
+    info.pop(4)
+    #Format profs by removing some styling that is included
+    info[17] = formatTeachers(info[17])
+    info = formatTimes(info)
+    return info
+#For now we just return the first prof that shows up, we will prob need to fix this in the future
+def formatTeachers(profs : str) -> str:
+    #profs is given as a navigable string so we need to convert it back to a regular one
+    tmp = str(profs[0].string)
+    return (tmp[:-1])
+#We need to split the time into a starting and ending time, we could do it later, but it's prob easier to do it here
+def formatTimes(info):
+    pdb.set_trace()
+    tmp = str(info[7][0])
+    start = tmp[:7]
+    end = tmp[:8]
+    info.insert(7,start)
+    info.insert(8,start)
+    info.pop(9)
 def main():
-    allCodes = getCoursesInMajor("202201", "CSCI")
+    options = Options()
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless")
+    options.add_argument("--remote-debugging-port=9222")
+    #driver = webdriver.Chrome(options = options)
+    #login(driver)
+    #url = "https://sis.rpi.edu"
+    getMajorCourseInfo(" ")
+    #allCodes = getCoursesInMajor("202201", "CSCI")
+main()
 driver = webdriver.Chrome()
-login(driver)
-#main()
 sisCourseSearch(driver, "fall2023")
-
