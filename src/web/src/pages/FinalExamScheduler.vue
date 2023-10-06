@@ -51,7 +51,16 @@
         </b-card>
       </b-col>
       <b-col md="7">
-        <calendar :exam-details="examDetails"></calendar>
+          <calendar :exam-details="examDetails"></calendar>
+          <b-row class="justify-content-end">
+            <b-dropdown text="Export Data" class="mt-2">
+              <b-dropdown-item @click="exportScheduleToIcs">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To ICS
+              </b-dropdown-item>
+            </b-dropdown>
+          </b-row>
+
       </b-col>
     </b-row>
   </b-container>
@@ -60,6 +69,10 @@
 <script>
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
+import {
+  exportScheduleToIcs,
+} from "@/utils";
+
 
 export default {
   components: {
@@ -192,6 +205,9 @@ export default {
       this.examDetails = Object.values(examDetailsGrouped);
 
       console.log(this.examDetails);
+    },
+    exportScheduleToIcs() {
+      exportScheduleToIcs(Object.values(this.possibilities[this.index]));
     },
   },
 };
