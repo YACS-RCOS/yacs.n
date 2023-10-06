@@ -39,25 +39,30 @@ class Pathway:
 
 
 
-def add_bulk_pathways(self):
-    # Load the JSON data from a file
-    with open('../../web/src/pages/pathwayV2.json') as file:
-        data = json.load(file)
+    def add_bulk_pathways(self):
+        # Load the JSON data from a file
+        with open('../../web/src/pages/pathwayV2.json') as file:
+            data = json.load(file)
 
-    # Connect to the SQL database
-    conn = self.db.get_connection()
+        # Connect to the SQL database
+        conn = self.db.get_connection()
 
-    # Loop through each pathways in json file
-    for category in data:
-        for pathway in category['Pathways']:
-            pathway = Pathway(pathway_category = category["Category Name"][0],
-                              pathway_name = pathway["Name"][0])
-            conn.add(pathway)
+        # Loop through each pathways in json file
+        try:
+            for category in data:
+                for pathway in category['Pathways']:
+                    pathway = Pathway(pathway_category = category["Category Name"][0],
+                                      pathway_name = pathway["Name"][0])
+                    conn.add(pathway)
 
-    # Commit the changes to the database
-    conn.commit()
-    self.clear_cache()
-    return (True,None)
+            # Commit the changes to the database
+            conn.commit()
+            self.clear_cache()
+            return (True,None)
+        except Exception as e:
+            print("THIS IS THE EXCEPTION:", e)
+            conn.rollback()
+            return (False, e)
 
 
 
@@ -66,4 +71,4 @@ def add_bulk_pathways(self):
 #     pathways = Pathway(connection.db)
 #     pathways.populate_from_csv(csv_text)
 
-add_bulk_pathways()
+#add_bulk_pathways()
