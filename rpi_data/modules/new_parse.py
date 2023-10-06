@@ -8,12 +8,13 @@ import requests
 import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
 import pdb
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
+#term format: spring2023
 
 def login(driver):
     URL = "http://sis.rpi.edu"
@@ -46,6 +47,44 @@ def login(driver):
     while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
         time.sleep(1)
 
+def sisCourseSearch(driver, term):
+    url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
+    driver.get(url)
+    select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
+    basevalue = 200000
+    while True:
+        try:
+            if ("spring" in term):
+                basevalue += 1
+            elif ("fall" in term):
+                basevalue += 9
+            elif ("summer" in term):
+                basevalue += 5
+            else:
+                raise Exception("term not found")
+        except:
+            term = input("Your term may be incorrect, enter the correct term here:")
+        else:
+            break
+    year = int(term[-2])*10 + int(term[-1])
+    basevalue += year * 100
+    select.select_by_value(str(basevalue))
+    driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
+    subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
+    subjects = subject_select.options
+    for i in range(len(subjects)):
+        subject_select.select_by_index(i)
+        driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
+        parseCourseTable(driver)
+        driver.get(url)
+        select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
+        select.select_by_value(str(basevalue))
+        driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
+        subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
+        
+def parseCourseTable(driver):
+    html = driver.page_source
+    time.sleep(20)
 
 def getCoursesInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
@@ -93,5 +132,6 @@ def main():
     allCodes = getCoursesInMajor("202201", "CSCI")
 driver = webdriver.Chrome()
 login(driver)
-main()
+#main()
+sisCourseSearch(driver, "fall2023")
 
