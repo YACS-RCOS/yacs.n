@@ -29,6 +29,14 @@
       Edit Professors
     </a>
 
+    <a
+      v-b-modal.addPathwayDatabase
+      class="text-primary d-block"
+      style="cursor: pointer;"
+    >
+      Add Pathway Database
+    </a>
+
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
     </b-modal>
@@ -40,6 +48,9 @@
     </b-modal>
     <b-modal id="editProfessors" title="Edit Professors" size="xl">
       <EditProfessors />
+    </b-modal>
+    <b-modal id="addPathwayDatabase" title="Add Pathway Database" size="xl">
+      <AddPathways />
     </b-modal>
 
     <!-- Footer of Admin Panel -->
@@ -56,10 +67,12 @@ import UploadCsv from "@/pages/UploadCsv";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
+import AddPathways from "@/pages/AddPathways";
 
 export default {
   name: "AdminPage",
   components: {
+    AddPathways,
     UploadCsv,
     EditSemesters,
     SetDefault,
