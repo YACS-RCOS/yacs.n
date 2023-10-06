@@ -21,7 +21,7 @@
         class="m-md-2"
       >
         <b-dropdown-item
-          v-for="option in semesterOptions"
+          v-for="option in orderedSemesters"
           :key="option.value"
           :value="option.value"
           @click="selectSemester(option.value)"
@@ -194,6 +194,25 @@ export default {
           variant: "danger",
         });
       }
+    },
+    orderedSemesters() {
+      const semesters = this.semesterOptions;
+      let order = {};
+      for (let semester of semesters) {
+        let key = str.match(/\d+/)[0];
+        if ('spring' in semester.toLowerCase()) {
+          key += 1;
+        }
+        if ('summer' in semester.toLowerCase()) {
+          key += 2;
+        }
+        if ('fall' in semester.toLowerCase()) {
+          key += 3;
+        }
+        order[key] = semester;
+      }
+      let ordered_list = Object.keys(obj).sort().map(key => obj[key]);
+      return ordered_list
     },
     unFollowDeviceTheme() {
       this.$bvToast.toast(`No Longer Following Device Theme`, {
