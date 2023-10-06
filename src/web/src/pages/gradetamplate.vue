@@ -68,8 +68,8 @@
 </template>
 
 <script>
-import { getDegreeTemplate } from "../services/YacsService";
-//import DepartmentListComponenet from "@/components/DepartmentList";
+import { getDegreeTemplate } from "@/services/YacsService";
+//import DepartmentListComponenet from "@/components/DepartmentList.vue"
 import draggable from "vuedraggable";
 export default {
   name: "DegreeTemplates",

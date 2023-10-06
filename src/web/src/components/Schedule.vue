@@ -59,10 +59,10 @@
               height: 'calc(' + eventHeight(session) + 'vh - 1px)',
               'min-height': eventHeight(session, minHeight) - 1 + 'px',
               backgroundColor: getBackgroundColor(
-                section.department + '-' + section.level
+                section.department + '-' + section.level,
               ),
               borderColor: getBorderColor(
-                section.department + '-' + section.level
+                section.department + '-' + section.level,
               ),
               color: getTextColor(section.department + '-' + section.level),
               width: 'calc(100% - 1px)',
@@ -90,7 +90,7 @@ import {
   getTextColor,
 } from "@/services/ColorService";
 
-import ScheduleEventComponent from "@/components/ScheduleEvent";
+import ScheduleEventComponent from "@/components/ScheduleEvent.vue";
 
 export default {
   name: "Schedule",

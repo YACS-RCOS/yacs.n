@@ -80,8 +80,8 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import CenterSpinnerComponent from "../components/CenterSpinner";
-import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
+import CourseSectionsOpenBadge from "@/components/CourseSectionsOpenBadge.vue";
 
 export default {
   name: "SubjectExplorer",
@@ -119,7 +119,7 @@ export default {
 
       //Obtain All Courses Such That Department Matches The Subject Name.
       const allTempData = this.courses.filter(
-        (c) => c.department === this.subject
+        (c) => c.department === this.subject,
       );
       for (let k = 0; k < allTempData.length; k++) {
         if (k % 2 == 0) leftColumn.push(allTempData[k]);

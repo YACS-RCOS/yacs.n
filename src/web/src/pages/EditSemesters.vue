@@ -13,7 +13,7 @@
           "
           :semesterInfo="
             semesterInfos.find(
-              (sem_info) => sem_info.semester === standardSemesterName
+              (sem_info) => sem_info.semester === standardSemesterName,
             )
           "
         />
@@ -25,7 +25,7 @@
 <script>
 import { getSubSemesters } from "@/services/YacsService";
 import { getAllSemesterInfo } from "@/services/AdminService";
-import EditSemesterDateNameBinding from "@/components/EditSemesterDateNameBinding";
+import EditSemesterDateNameBinding from "@/components/EditSemesterDateNameBinding.vue";
 
 export default {
   name: "EditSemesters",
@@ -44,7 +44,7 @@ export default {
     getSubSemesters().then((subsemesters) => {
       this.subsemesters = subsemesters;
       this.standardSemesterNames = new Set(
-        subsemesters.map((subsemester) => subsemester.semester_name)
+        subsemesters.map((subsemester) => subsemester.semester_name),
       );
     });
     getAllSemesterInfo().then((sem_infos) => {

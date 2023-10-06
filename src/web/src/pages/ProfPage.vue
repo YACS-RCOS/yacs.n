@@ -49,7 +49,7 @@
 
 <script>
 import json from "./Professors.json";
-import CenterSpinnerComponent from "../components/CenterSpinner.vue";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
 
 export default {
   components: {
@@ -78,7 +78,7 @@ export default {
   computed: {
     prof() {
       return this.professors.find(
-        (p) => p.Email.replace("@rpi.edu", "") === this.rcs
+        (p) => p.Email.replace("@rpi.edu", "") === this.rcs,
       );
     },
   },

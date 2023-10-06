@@ -58,8 +58,8 @@
 import { mapGetters, mapState } from "vuex";
 import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
-import CenterSpinnerComponent from "../components/CenterSpinner.vue";
-import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
+import CourseSectionsOpenBadge from "@/components/CourseSectionsOpenBadge.vue";
 
 export default {
   components: {
@@ -115,7 +115,7 @@ export default {
           course_name,
           '">',
           course_name,
-          "</a>"
+          "</a>",
         );
         let aftertext = precoreqtext.slice(index + 9);
         precoreqtext = beforetext.concat(link, aftertext);
@@ -129,7 +129,7 @@ export default {
       var credits;
       if (this.courseObj.min_credits != this.courseObj.max_credits) {
         credits = [this.courseObj.min_credits, this.courseObj.max_credits].join(
-          "-"
+          "-",
         );
       } else {
         credits = this.courseObj.min_credits;

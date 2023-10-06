@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and department order -->
-    <div style="float: left;" class="w-10">
+    <div style="float: left" class="w-10">
       <b-button
         @click="listAlphabet()"
         style="
@@ -37,7 +37,7 @@
         <div class="block text-left" v-if="showProf != null" md="10">
           <h3
             class="text-center"
-            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
+            style="color: #007bff; margin-top: -5px; margin-bottom: 5px"
           >
             {{ showProf.Name }}
           </h3>
@@ -45,7 +45,7 @@
           <div v-for="(item, itemName) in showProf" :key="itemName">
             <h4
               v-if="itemName != 'Name'"
-              style="color: #3395ff; margin-top: -20px;"
+              style="color: #3395ff; margin-top: -20px"
             >
               {{ itemName + ": " }}
             </h4>
@@ -163,7 +163,7 @@
 
 <script>
 import json from "./Professors.json";
-import CenterSpinnerComponent from "../components/CenterSpinner";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
 
 export default {
   name: "Professor",

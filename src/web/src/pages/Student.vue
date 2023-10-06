@@ -9,8 +9,8 @@
 <script>
 import store from "@/store";
 import { SELECT_SEMESTER } from "@/store";
-import HeaderComponent from "@/components/Header";
-import FooterComponent from "@/components/Footer";
+import HeaderComponent from "@/components/Header.vue";
+import FooterComponent from "@/components/Footer.vue";
 import { userTypes } from "@/store/modules/user";
 
 export default {

@@ -2,7 +2,7 @@
   <b-navbar
     id="header"
     class="bg-white"
-    style="margin-bottom: 0 !important;"
+    style="margin-bottom: 0 !important"
     toggleable="md"
     type="primary"
     variant="light"
@@ -61,7 +61,7 @@
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-dropdown text="Color Mode" style="padding-right: 5px;">
+        <b-nav-dropdown text="Color Mode" style="padding-right: 5px">
           <b-dropdown-item
             :class="this.darkMode === false ? 'drop-down-item' : ''"
             @click="toggle_style(false)"
@@ -122,8 +122,8 @@ import {
   RESET_DARK_MODE,
 } from "@/store";
 import { mapState, mapActions, mapGetters } from "vuex";
-import LoginComponent from "@/components/Login";
-import { userTypes } from "../store/modules/user";
+import LoginComponent from "@/components/Login.vue";
+import { userTypes } from "@/store/modules/user";
 // import router from "@/routes";
 export default {
   name: "Header",
@@ -152,8 +152,9 @@ export default {
       }
 
       //determines the default theme of user (either light or dark)
-      const deviceTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches;
+      const deviceTheme = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
 
       //if the button mode user pressed is opposite of the current color, then toggle
       // OR if the user was previously following their device theme and button pressed isn't their device theme, toggle

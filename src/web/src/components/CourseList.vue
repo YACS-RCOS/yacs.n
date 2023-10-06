@@ -96,7 +96,7 @@ import { DAY_SHORTNAMES } from "@/utils";
 
 import { getCourses, getDepartments } from "@/services/YacsService";
 
-import CourseListingComponent from "@/components/CourseListing";
+import CourseListingComponent from "@/components/CourseListing.vue";
 
 import { DynamicScroller, DynamicScrollerItem } from "vue-virtual-scroller";
 
@@ -134,7 +134,7 @@ export default {
       getCourses(this.selectedSemester, this.textSearch, false).then(
         (course_list) => {
           this.courseList = course_list;
-        }
+        },
       );
     },
     checkFunction(courseInput, textSearch) {
@@ -159,7 +159,7 @@ export default {
             (this.selectedSubsemester.date_start.getTime() ===
               course.date_start.getTime() &&
               this.selectedSubsemester.date_end.getTime() ===
-                course.date_end.getTime()))
+                course.date_end.getTime())),
       );
     },
   },
@@ -177,7 +177,7 @@ export default {
     },
     departmentOptions() {
       return [{ text: "All", value: null }].concat(
-        ...this.departments.map(({ department }) => department)
+        ...this.departments.map(({ department }) => department),
       );
     },
 
@@ -186,7 +186,7 @@ export default {
       options.push(
         ...this.subsemesters.map((subsemester) => {
           return { text: subsemester.display_string, value: subsemester };
-        })
+        }),
       );
       // Once we get new data for the <select>, v-model will retain its old value.
       // Need to update this value after receving new data to keep values consistent.
@@ -210,14 +210,14 @@ export default {
           (course.full_title &&
             course.full_title.toUpperCase() ===
               this.textSearch.toUpperCase()) ||
-          course.title.toUpperCase() === this.textSearch.toUpperCase()
+          course.title.toUpperCase() === this.textSearch.toUpperCase(),
       );
 
       const fullListFiltered = this.filterSection(this.fullList);
       const containString = fullListFiltered.filter(
         (course) =>
           this.checkFunction(course.title, this.textSearch) ||
-          this.checkFunction(course.department + course.level, this.textSearch)
+          this.checkFunction(course.department + course.level, this.textSearch),
       );
 
       if (find) {

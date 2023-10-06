@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and category order -->
-    <div style="float: left;" class="w-10">
+    <div style="float: left" class="w-10">
       <b-button
         @click="listAlphabet()"
         style="
@@ -34,13 +34,13 @@
         <div class="block text-left" v-if="showPath != null" md="10">
           <h3
             class="text-center"
-            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
+            style="color: #007bff; margin-top: -5px; margin-bottom: 5px"
           >
             {{ showPath.Name[0] }}
           </h3>
           <br />
           <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
+            <h4 style="color: #3395ff; margin-top: -20px">
               {{ itemName + ": " }}
             </h4>
             <li
@@ -162,7 +162,7 @@
 
 <script>
 import json from "./pathwayV2.json";
-import CenterSpinnerComponent from "../components/CenterSpinner";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
 
 export default {
   name: "Pathway",
@@ -308,7 +308,7 @@ export default {
         this.$router.push("/explore/" + subject);
       } else {
         this.$router.push(
-          "/explore/" + subject + "/" + subject + "-" + courseID
+          "/explore/" + subject + "/" + subject + "-" + courseID,
         );
       }
     },

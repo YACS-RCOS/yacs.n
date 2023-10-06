@@ -25,11 +25,11 @@
           <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
-              <div class="sidebar-panal-nav" style="height: 100%;">
+              <div class="sidebar-panal-nav" style="height: 100%">
                 <b-col
                   class="d-flex flex-column"
                   ref="sidebar"
-                  style="height: 100%; padding: 1px;"
+                  style="height: 100%; padding: 1px"
                 >
                   <b-card no-body class="h-100">
                     <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
@@ -211,7 +211,7 @@
           generateRequirementsText(
             courseInfoModalCourse.prerequisites,
             courseInfoModalCourse.corequisites,
-            courseInfoModalCourse.raw_precoreqs
+            courseInfoModalCourse.raw_precoreqs,
           )
         }}
       </span>
@@ -250,17 +250,17 @@
 import { mapGetters, mapState } from "vuex";
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
-import ScheduleComponent from "@/components/Schedule";
-import SelectedCoursesComponent from "@/components/SelectedCourses";
-import CourseListComponent from "@/components/CourseList";
-import CenterSpinnerComponent from "../components/CenterSpinner";
+import ScheduleComponent from "@/components/Schedule.vue";
+import SelectedCoursesComponent from "@/components/SelectedCourses.vue";
+import CourseListComponent from "@/components/CourseList.vue";
+import CenterSpinnerComponent from "@/components/CenterSpinner.vue";
 import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
-import allExportVariables from "@/assets/dark.scss";
+import allExportVariables from "@/assets/dark.scss?inline"; //
 
-import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
-import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
+import { SelectedCoursesCookie } from "@/controllers/SelectedCoursesCookie";
+import { SelectedIndexCookie } from "@/controllers/SelectedIndexCookie";
 
-import { userTypes } from "../store/modules/user";
+import { userTypes } from "@/store/modules/user";
 
 import { COURSES, TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
 
@@ -348,7 +348,7 @@ export default {
           bgcolor: this.$store.state.darkMode
             ? allExportVariables.bColor
             : "white",
-        }
+        },
       );
     },
     async loadStudentCourses() {
@@ -362,14 +362,15 @@ export default {
         .filter(
           (s, i, arr) =>
             arr.length == 1 ||
-            !arr.every((o, oi) => oi == i || withinDuration(s, o))
+            !arr.every((o, oi) => oi == i || withinDuration(s, o)),
         )
         .forEach((subsemester) => {
           this.scheduler.addSubSemester(subsemester);
         });
 
       if (this.scheduler.scheduleSubsemesters.length > 0) {
-        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+        this.selectedScheduleSubsemester =
+          this.scheduler.scheduleSubsemesters[0].display_string;
       }
 
       // Need to reset `selected` property on courses and sections,
@@ -414,7 +415,7 @@ export default {
             .semester(this.selectedSemester)
             .selectedCourses.forEach((selectedCourse) => {
               const course = this.courses.find(
-                (course) => course.id === selectedCourse.id
+                (course) => course.id === selectedCourse.id,
               );
 
               this.$set(this.selectedCourses, course.id, course);
@@ -423,11 +424,11 @@ export default {
               selectedCourse.selectedSectionCrns.forEach(
                 (selectedSectionCrn) => {
                   const section = course.sections.find(
-                    (section) => section.crn === selectedSectionCrn
+                    (section) => section.crn === selectedSectionCrn,
                   );
 
                   section.selected = true;
-                }
+                },
               );
             });
         } catch (err) {
@@ -441,7 +442,7 @@ export default {
 
       try {
         this.index = selectedIndexCookie.semester(
-          this.selectedSemester
+          this.selectedSemester,
         ).selectedIndex;
       } catch (err) {
         // If there is an error here, it might mean the data was changed,
@@ -466,7 +467,7 @@ export default {
           .save();
       }
       course.sections.forEach((section) =>
-        this.addCourseSection(course, section)
+        this.addCourseSection(course, section),
       );
     },
     addCourseSection(course, section) {
@@ -553,7 +554,7 @@ export default {
           ];
         }
         const result = this.generateSchedule(
-          Object.values(this.selectedCourses)
+          Object.values(this.selectedCourses),
         );
         if (!result.length) {
           throw new Error("conflict!");
@@ -640,7 +641,7 @@ export default {
 
     selectedScheduleIndex() {
       return this.scheduler.scheduleSubsemesters.findIndex(
-        (s) => s.display_string === this.selectedScheduleSubsemester
+        (s) => s.display_string === this.selectedScheduleSubsemester,
       );
     },
     selectedSections() {
@@ -843,7 +844,8 @@ button:focus {
   height: 2px;
   width: auto;
   margin-top: -1px;
-  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1),
+  transition:
+    transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1),
     opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1),
     background-color 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }

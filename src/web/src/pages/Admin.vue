@@ -4,27 +4,27 @@
     <hr />
     <br />
 
-    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
+    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer">
       Import Courses via CSV
     </a>
     <a
       v-b-modal.editSemestersModal
       class="text-primary"
-      style="cursor: pointer;"
+      style="cursor: pointer"
     >
       Edit Semesters
     </a>
     <a
       v-b-modal.defaultModal
       class="text-primary d-block"
-      style="cursor: pointer;"
+      style="cursor: pointer"
     >
       Set Default Semester
     </a>
     <a
       v-b-modal.editProfessors
       class="text-primary d-block"
-      style="cursor: pointer;"
+      style="cursor: pointer"
     >
       Edit Professors
     </a>
@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import UploadCsv from "@/pages/UploadCsv";
-import EditSemesters from "@/pages/EditSemesters";
-import SetDefault from "@/pages/SetDefault";
-import EditProfessors from "@/pages/EditProfessors";
+import UploadCsv from "@/pages/UploadCsv.vue";
+import EditSemesters from "@/pages/EditSemesters.vue";
+import SetDefault from "@/pages/SetDefault.vue";
+import EditProfessors from "@/pages/EditProfessors.vue";
 
 export default {
   name: "AdminPage",

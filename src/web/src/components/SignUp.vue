@@ -63,7 +63,7 @@
 
 <script>
 import { signup } from "@/services/UserService";
-import { userTypes } from "../store/modules/user";
+import { userTypes } from "@/store/modules/user";
 export default {
   name: "SignUp",
   data() {

@@ -18,7 +18,7 @@
 <script>
 import "@/typedef";
 
-import CourseListingComponent from "@/components/CourseListing";
+import CourseListingComponent from "@/components/CourseListing.vue";
 
 export default {
   name: "SelectedCourses",

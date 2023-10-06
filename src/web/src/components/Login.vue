@@ -23,7 +23,7 @@
     <div>
       <b-button-group size="md">
         <button
-          style="padding-left: 0; padding-right: 0; padding-top: 12px;"
+          style="padding-left: 0; padding-right: 0; padding-top: 12px"
           type="button"
           disabled="disabled"
           class="btn btn-link disabled"
@@ -34,7 +34,7 @@
           id="signup-button"
           v-b-modal.signup-modal
           variant="link"
-          style="padding-top: 12px;"
+          style="padding-top: 12px"
         >
           Sign up now.
         </b-button>
@@ -48,8 +48,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import SignUpComponent from "@/components/SignUp";
-import { userTypes } from "../store/modules/user";
+import SignUpComponent from "@/components/SignUp.vue";
+import { userTypes } from "@/store/modules/user";
 
 export default {
   name: "Login",
