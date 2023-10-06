@@ -37,32 +37,56 @@ class Pathway:
             else:
                 return (False, "pathway_name cannot be none")
 
-
-
-    def add_bulk_pathways(self):
+    def add_bulk_pathways(self, file = '../../web/src/pages/pathwayV2.json'):
         # Load the JSON data from a file
-        with open('../../web/src/pages/pathwayV2.json') as file:
-            data = json.load(file)
+        json_data = json.load(open(file))
 
         # Connect to the SQL database
-        conn = self.db.get_connection()
+        conn = self.db_conn.get_connection()
 
-        # Loop through each pathways in json file
-        try:
-            for category in data:
-                for pathway in category['Pathways']:
-                    pathway = Pathway(pathway_category = category["Category Name"][0],
-                                      pathway_name = pathway["Name"][0])
-                    conn.add(pathway)
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            try:
+                # Iterate over each entry in the JSON data
+                for entry in json_data:
+                    try:
+                        # pathway_name
+                        # category_name
 
-            # Commit the changes to the database
+                        # Insert professor data into the 'professor' table
+                        transaction.execute(
+                            """
+                            INSERT INTO pathway (
+                                pathway_name,
+                                category_name
+                            )
+                            VALUES (
+                                NULLIF(%(pathway_name)s, ''),
+                                NULLIF(%(category_name)s, '')  
+                            )
+                            ON CONFLICT DO NOTHING;
+                            """,
+                            {
+                                "pathway_name": entry['pathway_name'],
+                                "category_name": entry['category_name']
+                            }
+                        )
+                    except Exception as e:
+                        # Roll back the transaction and return the exception if an error occurs
+                        print("THIS IS THE EXCEPTION:", e)
+                        conn.rollback()
+                        return (False, e)
+            except ValueError as ve:
+                # Return an error message if the JSON data is invalid
+                return (False, f"Invalid JSON data: {str(ve)}")
+
+            # Commit the transaction if all entries are inserted successfully
             conn.commit()
+
+            # Invalidate cache to ensure new data is retrieved
             self.clear_cache()
-            return (True,None)
-        except Exception as e:
-            print("THIS IS THE EXCEPTION:", e)
-            conn.rollback()
-            return (False, e)
+
+            # Return success status and no error
+            return True, None
 
 
 
