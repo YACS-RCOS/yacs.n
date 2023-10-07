@@ -5,6 +5,7 @@
       <b-col md="5">
         <b-card title="Final Exam Schedule">
           <b-form @submit.prevent="searchExams">
+            
             <div
               v-for="(course, index) in selectedCourses"
               :key="index"
@@ -16,13 +17,19 @@
                   :options="courseOptions"
                 ></b-form-select>
               </b-form-group>
+
+              <b-button @click="deleteCourse(index)" variant="danger" class="ml-3">Delete</b-button>
+            
             </div>
             <b-button @click="addCourse" variant="primary">Add Course</b-button>
+
+            <b-button @click="deleteallCourse" variant="danger" class="ml-3">Delete ALL</b-button>
+            
             <b-button type="submit" variant="success" class="ml-3">
               Search
             </b-button>
           </b-form>
-          <b-card v-if="examDetails" class="mt-3">
+          <b-card v-if="examDetails.length > 0" class="mt-3">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
               <div>
@@ -135,8 +142,18 @@ export default {
     addCourse() {
       this.selectedCourses.push(null);
     },
+
+    deleteCourse(index) {
+      this.selectedCourses.splice(index, 1);
+    },
+    deleteallCourse() {
+      this.selectedCourses = [];
+    },
+
     searchExams() {
-      const examDetailsRaw = this.selectedCourses.flatMap((course) => {
+      const examDetailsRaw = this.selectedCourses
+      .filter((course) => course !== null)
+      .flatMap((course) => {
         return this.exams
           .filter(
             (exam) =>
