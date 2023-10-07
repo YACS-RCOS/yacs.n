@@ -20,11 +20,20 @@
         :text="selectedSemester"
         class="m-md-2"
       >
+<!-- reorder the secheduling semester by year followed by year -->
+        <!--loop through years and render a header for each year-->
+        <!--loop through semesters for each year-->
+          <!--in the script>> create  a function that would sort from 
+          semesterOptions by year would retrive semesters for a specific year-->
         <b-dropdown-item
           v-for="option in semesterOptions"
           :key="option.value"
           :value="option.value"
           @click="selectSemester(option.value)"
+          
+
+
+          
         >
           {{ option.value }}
         </b-dropdown-item>
@@ -221,6 +230,7 @@ export default {
     }),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
     ...mapState(["semesters", "selectedSemester"]),
+//possibility where I can reorder the semesters
     semesterOptions() {
       return this.semesters.map(({ semester }) => ({
         text: semester,
