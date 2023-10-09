@@ -13,8 +13,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
+import pandas as pd
 import pdb
 import copy
+import course.py
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -97,112 +99,6 @@ def parseReqsAndDesc(driver, basevalue): #needs to return a list
     info = list() #[Short-Name, Full-Name, Description, raw pre/coreq text, prereq, coreq, School]
      
 
-
-
-#Given a semester and a major, get the pre and coreqs for every class in that major
-def getReqsInMajor(semester, subject):
-    #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
-    #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
-    #create soup scraper
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202309&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
-    session = requests.Session()
-    webres = session.get(url)
-    page = webres.content
-    soup = bs(page, "html.parser")
-    table = soup.find('table', class_='datadisplaytable')
-    codes = table.find_all("a")
-    allReqs = []
-    key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in="
-    for link in codes:
-        if key in link['href']:
-            major = link.text[:4]
-            code = link.text[5:9]
-            link = ("https://sis.rpi.edu" + link['href'])
-            allReqs.append(getReqFromLink(link, code, major))
-    for req in allReqs:
-        print(req)
-        print('\n')
-    return allReqs
-#Given a link,return the pre and co reqs for that class. Also return the major and course code to identify the class
-def getReqFromLink(link, courseCode, major):
-    session = requests.Session()
-    webres = session.get(link)
-    page = webres.content
-    soup = bs(page, "html.parser")
-    classInfo = soup.text
-    key = "Prerequisites/Corequisites"
-    prereqs = ""
-    coreqs = ""
-    raw = ""
-    if key in classInfo:
-        #pdb.set_trace()
-        whenKey = "When Offered"
-        combo = classInfo[classInfo.find(key)+ len(key): classInfo.find(whenKey)]
-        #Split the prereqs and coreqs if neccesary
-        combo = combo.rstrip()
-        coKey = "Corequisite"
-        preKey = "Prerequisite"
-        if coKey in combo and preKey in combo:
-            coreqs = combo[combo.find(coKey) + len(coKey):]
-            prereqs = combo[len(preKey): combo.find(coKey)]
-        elif coKey in combo:
-            coreqs = combo[combo.find(coKey) + len(coKey):]
-        elif preKey in combo:
-            prereqs = combo[len(preKey):]
-        else:
-            #Fairly rare situation, happens when someone forgot to put in the words prerequiste or corequisite into a class
-            #See csci-4350 for fall 2022
-            prereqs = combo
-        raw = classInfo.rfind(preKey)
-        prereqs = prereqs[prereqs.find(' ')+1:]
-        coreqs = coreqs[coreqs.find(' ')+1:]
-    return "P" + prereqs + "C" + coreqs + "raw" + raw + " " + courseCode + '-' + major
-#Given the url of a major, parse the info for every course in that major(for now the url doesn't do anything, just use a file from sis to test)
-def getMajorCourseInfo(url : str) -> list[list[str]]:
-    #session = requests.Session()
-    #webres = session.get(url)
-    #page = webres.content
-    #soup = bs(page, "html.parser")
-    with open("test.html") as fp:
-        soup = bs(fp, 'html.parser')
-    table = soup.find('table', class_='datadisplaytable')
-    rows = table.find_all("tr")
-    courses = []
-    prevrow = []
-    for row in rows:
-        data = row.find_all("td")
-        if len(data) != 0:
-            courses.append(processRow(data, prevrow))
-            prevrow = copy.deepcopy(courses[len(courses)-1])
-    return courses
-#Given a row, process the data in said row including crn, course code, days, seats, etc
-def processRow(data, prevrow) -> list[str]:
-    info = []
-    for i in range(1, len(data) - 1, 1):
-        #Maybe we don't need this? will need to test later
-        if(data[i].find('a')):
-            info.append(data[i].find('a').text)
-        else:
-            info.append(data[i].text)
-    # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
-    #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
-    #info[18] is teachers, need to format, info[19] are days of sem, info[20] is location
-    #Remove index[4] because most classes are on campus, with only some grad and admin courses not being so
-    #Note that this will shift the above info down by 1
-    info.pop(4)
-    if str(info[0]) == '\xa0':
-        info = processSpecial(info, prevrow)
-        return info
-    #Some admin and grad courses won't have days of the week
-    if (info[6] == '\xa0'):
-        info[6] = "TBA"
-    info[17] = formatTeachers(info[17])
-    formatTimes(info)
-    #Remove waitlist and crosslist stuff
-    info = info[:12] + info[18:]
-    #Split date into 2 :sob:
-    info.pop(13)
-    return info
 #Ok so this is very hardcoded, will prbo need to redo later on
 #But for now, it takes a lab block, test block, or seminar? and fills in the missing info for it
 def processSpecial(info, prevrow):
@@ -216,8 +112,7 @@ def processSpecial(info, prevrow):
     info[12] = (tmp[18])
     info[13] = (tmp[20])
     return info
-#Given a string contaings the profs for a class, return a string containing only the last names of the profs, with the primary
-#instructor being the first prof (hopefully)
+#Given a string contaings the profs for a class, return a string containing only the last names of the profs
 def formatTeachers(profs : str) -> str:
     #pdb.set_trace()
     index = profs.find("(P)")
@@ -249,9 +144,125 @@ def formatTimes(info : list[str]) -> list[str]:
     info.insert(8,end)
     info.pop(9)
     return info
+#Given a row, process the data in said row including crn, course code, days, seats, etc
+def processRow(data, prevrow) -> list[str]:
+    info = []
+    for i in range(1, len(data) - 1, 1):
+        #Maybe we don't need this? will need to test later
+        if(data[i].find('a')):
+            info.append(data[i].find('a').text)
+        else:
+            info.append(data[i].text)
+    # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
+    #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
+    #info[18] is teachers, need to format, info[19] are days of sem, info[20] is location
+    #Remove index[4] because most classes are on campus, with only some grad and admin courses not being so
+    #Note that this will shift the above info down by 1
+    info.pop(4)
+    if str(info[0]) == '\xa0':
+        info = processSpecial(info, prevrow)
+        return info
+    #Some admin and grad courses won't have days of the week
+    if (info[6] == '\xa0'):
+        info[6] = "TBA"
+    info[17] = formatTeachers(info[17])
+    formatTimes(info)
+    #Remove waitlist and crosslist stuff
+    info = info[:12] + info[18:]
+    #Split date into 2 :sob:
+    info.pop(13)
+    return info
+#Given the url of a major, parse the info for every course in that major(for now the url doesn't do anything, just use a file from sis to test)
+def getMajorCourseInfo(url : str) -> list[list[str]]:
+    #session = requests.Session()
+    #webres = session.get(url)
+    #page = webres.content
+    #soup = bs(page, "html.parser")
+    with open("test.html") as fp:
+        soup = bs(fp, 'html.parser')
+    table = soup.find('table', class_='datadisplaytable')
+    rows = table.find_all("tr")
+    courses = []
+    prevrow = []
+    for row in rows:
+        data = row.find_all("td")
+        if len(data) != 0:
+            courses.append(processRow(data, prevrow))
+            prevrow = copy.deepcopy(courses[len(courses)-1])
+    return courses
+#Given a semester and a major, get the pre and coreqs for every class in that major
+#Given a link,return the pre and co reqs for that class. Also return the major and course code to identify the class
+def getReqFromLink(link, courseCode, major):
+    session = requests.Session()
+    webres = session.get(link)
+    page = webres.content
+    soup = bs(page, "html.parser")
+    body = soup.find('td', class_='ntdefault')
+    classInfo = body.text.strip('\n\n').split('\n\n')
+    key = "Prerequisites/Corequisites"
+    preKey = "Prerequisite"
+    prereqs = ""
+    coreqs = ""
+    raw = ""
+    
+    desc = classInfo[0]
+    #In the future replace with regex or something that isn't so hardcoded
+    #If the description starts with a number, set it to nothing, basically only for weird courses
+    #like 0 credit ones or topic ones or ones most people aren't taking 
+    if desc.strip()[0].isdigit():
+        desc = ""
+    for i in range(1, len(classInfo)):
+        if key in classInfo[i].strip():
+            #pdb.set_trace()
+            combo = classInfo[i].strip()
+            combo = combo[len(key):]
+            coKey = "Corequisite"
+            if coKey in combo and preKey in combo:
+                coreqs = combo[combo.find(coKey) + len(coKey):]
+                prereqs = combo[len(preKey): combo.find(coKey)]
+            elif coKey in combo:
+                coreqs = combo[combo.find(coKey) + len(coKey):]
+            elif preKey in combo:
+                prereqs = combo[len(preKey):]
+            else:
+                #Default case where someone forgets the words we're looking for
+                #Note that there are still more edge cases(looking at you csci 6560)
+                prereqs = combo
+            prereqs = prereqs[prereqs.find(' '):].strip()
+            coreqs = coreqs[coreqs.find(' '):].strip()
+        if classInfo[i].strip() == (preKey + "s:"):
+            #pdb.set_trace()
+            raw = classInfo[i+1].strip()
+    return "P" + prereqs + "C" + coreqs + "raw" + raw + " " + courseCode + '-' + major + " desc " + desc
+def getReqsInMajor(semester, subject):
+    #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
+    #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
+    #create soup scraper
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202309&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
+    session = requests.Session()
+    webres = session.get(url)
+    page = webres.content
+    soup = bs(page, "html.parser")
+    table = soup.find('table', class_='datadisplaytable')
+    codes = table.find_all("a")
+    allReqs = []
+    key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in="
+    for link in codes:
+        if key in link['href']:
+            major = link.text[:4]
+            code = link.text[5:9]
+            link = ("https://sis.rpi.edu" + link['href'])
+            allReqs.append(getReqFromLink(link, code, major))
+    return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
 def getPreCoReqs(semester):
     reqs = getReqsInMajor(semester, "CSCI")
+#Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
+def combineInfo(courses, reqs):
+    pdb.set_trace()
+    comb = dict()
+    for course in courses:
+        comb
 def main():
     options = Options()
     options.add_argument("--no-sandbox")
@@ -262,6 +273,7 @@ def main():
     #login(driver)
     #sisCourseSearch(driver, "fall2023")
     #url = "https://sis.rpi.edu"
+    allInfo = None
     getMajorCourseInfo(" ")
     getPreCoReqs("202201")
 main()
