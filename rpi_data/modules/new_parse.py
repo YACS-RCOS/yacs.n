@@ -22,7 +22,7 @@ import copy
 def login(driver):
     URL = "http://sis.rpi.edu"
     driver.get(URL)
-    driver.implicitly_wait(2)
+    driver.implicitly_wait(.5)
     username_box = driver.find_element(by=By.NAME, value = "j_username")
     password_box = driver.find_element(by=By.NAME, value = "j_password")
     submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
@@ -53,8 +53,8 @@ def sisCourseSearch(driver, term):
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
-    basevalue = 200000
-    while True:
+    basevalue = 200000 #this number will represent the term we are looking at
+    while True: #this will add the term code to the last digit, making sure that the term exists
         try:
             if ("spring" in term):
                 basevalue += 1
@@ -68,8 +68,8 @@ def sisCourseSearch(driver, term):
             term = input("Your term may be incorrect, enter the correct term here:")
         else:
             break
-    year = int(term[-2])*10 + int(term[-1])
-    basevalue += year * 100
+    year = int(term[-2])*10 + int(term[-1]) #this is the last two digits of the year TODO: 
+    basevalue += year * 100 #this makes the basevalue show our year
     select.select_by_value(str(basevalue))
     driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
     subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
@@ -77,7 +77,8 @@ def sisCourseSearch(driver, term):
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        parseCourseTable(driver)
+        parseCourseTable(driver) #TODO: replace with parser for first part of csv (probably getCoursesInMajor())
+        parseReqsAndDesc(driver, basevalue) #TODO: make sure this goes in the right place, probably in getCoursesInMajor
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
@@ -87,6 +88,14 @@ def sisCourseSearch(driver, term):
 def parseCourseTable(driver):
     html = driver.page_source
     time.sleep(20)
+
+def parseReqsAndDesc(driver, basevalue): #needs to return a list 
+    url = 'https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=' + str(basevalue) +'&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=' #subject code needs to be appended to end before go
+    subj_codes = ['ADMN','ARCH', 'ARTS'] #TODO: finish listing these... by hand...
+    schools = [] #TODO: also probably do this.. by hand..
+    driver.get(url)
+    info = list() #[Short-Name, Full-Name, Description, raw pre/coreq text, prereq, coreq, School]
+     
 
 
 
