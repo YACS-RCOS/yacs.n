@@ -420,7 +420,10 @@ async def get_finals_by_hour(hour: str):
     return finals if not error else Response(content=error, status_code=500)
 
 #delete by course code and section
-@app.delete('api/finals/remove/')
+@app.delete('api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     message, error = finals_info.remove_final(courseCode, section)
     return message if not error else Response(content=error, status_code=500)
+
+#delete all finals
+@
