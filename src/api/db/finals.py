@@ -35,6 +35,22 @@ class Finals:
         self.clear_cache()
         return list
 
+    def remove_bulk_final(self, file):
+        list = []
+
+        with open(file, "r") as json_file:
+            data = json.load(json_file)
+
+        for i in data:
+            if i['Section'] == "(ALL SECTIONS)":
+                section = "AllSections"
+            else:
+                section = i['Section']
+            list.append(self.remove_final(i['CourseCode'], section))
+        self.db_conn.commit()
+        self.clear_cache()
+        return list
+
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
         cursor = self.db_conn.cursor()
