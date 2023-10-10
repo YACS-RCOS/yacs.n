@@ -57,6 +57,10 @@
       <button type="submit" class="btn-primary btn w-100">
         Finish Sign Up!
       </button>
+      <!-- Added Google Signup Button -->
+      <button @click="authenticateWithGoogle" class="btn-primary btn w-100 mt-2">
+        Sign Up with Google
+      </button>
     </b-form>
   </div>
 </template>
@@ -99,22 +103,23 @@ export default {
         this.$emit("submit");
         return;
       }
-
+    }, // <-- added closing brace for onSubmit method
+    async authenticateWithGoogle() {
       try {
-        await this.$store.dispatch(userTypes.actions.LOGIN, {
-          email: this.form["email"],
-          password: this.form["password"],
-        });
-      } catch (err) {
-        this.$bvToast.toast(err, {
-          title: "Login failed!",
+        const googleUser = await this.$gAuth.signIn();
+        const token = googleUser.getAuthResponse().id_token;
+        const profile = googleUser.getBasicProfile();
+
+        this.form.email = profile.getEmail();
+        await this.onSubmit();
+      } catch (error) {
+        this.$bvToast.toast("Google authentication failed!", {
+          title: "Signup failed!",
           variant: "danger",
           noAutoHide: true,
         });
       }
-
-      this.$emit("submit");
-    },
+    }
   },
 };
 </script>

@@ -29,6 +29,7 @@
     "vue-html2canvas": "0.0.4",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.5.1",
+    "vue-google-oauth2": "latest",
     "vue-virtual-scroller": "^1.0.10",
     "vuex": "^3.6.2"
   },

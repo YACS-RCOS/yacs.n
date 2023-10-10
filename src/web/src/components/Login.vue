@@ -20,6 +20,11 @@
       ></b-form-input>
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
+
+    <!-- New Google Login Button -->
+    <b-button @click="authenticateWithGoogle" variant="primary">
+      Login with Google
+    </b-button>
     <div>
       <b-button-group size="md">
         <button
@@ -66,6 +71,26 @@ export default {
     };
   },
   methods: {
+    // New Google authentication method
+    async authenticateWithGoogle() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        const token = googleUser.getAuthResponse().id_token;
+        const profile = googleUser.getBasicProfile();
+
+        this.form.email = profile.getEmail();
+        // You might want to send the token to your server to verify its authenticity and then authenticate the user. 
+        // For now, I'll just run the onSubmit function to give an idea.
+        await this.onSubmit();
+      } catch (error) {
+        this.$bvToast.toast("Google authentication failed!", {
+          title: "Login failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+      }
+    },
+  
     async onSubmit(evt) {
       evt.preventDefault();
 
