@@ -49,7 +49,7 @@ class Course:
             word[0].upper()
         return ''.join(tmp)
 
-    def addReqs(self, desc, raw, pre, co):
+    def addReqs(self, pre, co, raw, desc):
         self.desc = desc
         self.raw = raw
         self.pre = pre
