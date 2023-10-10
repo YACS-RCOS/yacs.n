@@ -16,7 +16,7 @@ from bs4 import BeautifulSoup as bs
 import pandas as pd
 import pdb
 import copy
-import course.py
+from course import Course
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -213,7 +213,7 @@ def getMajorCourseInfo(url : str) -> list[list[str]]:
     #webres = session.get(url)
     #page = webres.content
     #soup = bs(page, "html.parser")
-    with open("test.html") as fp:
+    with open("cscitest.html") as fp:
         soup = bs(fp, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
     rows = table.find_all("tr")
@@ -261,14 +261,14 @@ def getReqFromLink(link, courseCode, major):
                 prereqs = combo[len(preKey):]
             else:
                 #Default case where someone forgets the words we're looking for
-                #Note that there are still more edge cases(looking at you csci 6560)
+                #Note that there are still more edge cases(looking at you csci 6560 and 2110)
                 prereqs = combo
             prereqs = prereqs[prereqs.find(' '):].strip()
             coreqs = coreqs[coreqs.find(' '):].strip()
         if classInfo[i].strip() == (preKey + "s:"):
             #pdb.set_trace()
             raw = classInfo[i+1].strip()
-    return "P" + prereqs + "C" + coreqs + "raw" + raw + " " + courseCode + '-' + major + " desc " + desc
+    return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
 def getReqsInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
@@ -280,24 +280,45 @@ def getReqsInMajor(semester, subject):
     soup = bs(page, "html.parser")
     table = soup.find('table', class_='datadisplaytable')
     codes = table.find_all("a")
-    allReqs = []
+    allReqs = dict()
     key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in="
     for link in codes:
         if key in link['href']:
             major = link.text[:4]
             code = link.text[5:9]
             link = ("https://sis.rpi.edu" + link['href'])
-            allReqs.append(getReqFromLink(link, code, major))
+            codeKey = major + '-' + code
+            allReqs[codeKey] = (getReqFromLink(link, code, major))
     return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
+#Very slow, need to speed up
 def getPreCoReqs(semester):
     reqs = getReqsInMajor(semester, "CSCI")
+    return reqs
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
 def combineInfo(courses, reqs):
+    print("Combining info")
     pdb.set_trace()
-    comb = dict()
+    #A dictionary that stores the courses using major and code as a key, ie "CSCI-1100":[65489,CSCI,1100,01,4.000,...]
+    comb = []
+    ckey = "%?$"
+    pkey = "%!#"
+    cokey = "$@^"
+    dkey = "()!"
+    rkey = "?^*"
+    pdb.set_trace()
     for course in courses:
-        comb
+        c = Course(course)
+        if c.short in reqs:
+            result = reqs[c.short]
+            prereq = result[req.find(pkey) + len(pkey):req.find(cokey)]
+            coreq = result[req.find(cokey) + len(cokey):req.find(rkey)]
+            raw = result[req.find(rkey) + len(rkey):req.find(ckey)]
+            desc = result[req.find(dkey) + len(dkey):]
+            c.addReqs(prereq, coreq, raw, desc)
+        else:
+            print("error")
+        comb.append(c)
 def main():
     options = Options()
     options.add_argument("--no-sandbox")
@@ -307,9 +328,12 @@ def main():
     #driver = webdriver.Chrome(options = options)
     #login(driver)
     #sisCourseSearch(driver, "fall2023")
-    #url = "https://sis.rpi.edu"
+    url = "https://sis.rpi.edu"
     allInfo = None
-    getMajorCourseInfo(" ")
-    getPreCoReqs("202201")
+    print("Getting course info")
+    courses = getMajorCourseInfo(" ")
+    print("Getting co reqs")
+    reqs = getPreCoReqs("202201")
+    combineInfo(courses, reqs)
 main()
 
