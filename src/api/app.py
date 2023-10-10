@@ -426,4 +426,4 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     return message if not error else Response(content=error, status_code=500)
 
 #delete all finals
-@
+
