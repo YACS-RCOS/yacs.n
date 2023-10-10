@@ -135,7 +135,6 @@ def findAllSubjectCodes(driver):
 #But for now, it takes a lab block, test block, or seminar? and fills in the missing info for it
 def processSpecial(info, prevrow):
     tmp = formatTimes(info)
-    #pdb.set_trace()
     tmp[18] = formatTeachers(tmp[18])
     info = prevrow
     info[6] = tmp[6]
@@ -146,7 +145,6 @@ def processSpecial(info, prevrow):
     return info
 #Given a string contaings the profs for a class, return a string containing only the last names of the profs
 def formatTeachers(profs : str) -> str:
-    #pdb.set_trace()
     index = profs.find("(P)")
     if profs == "TBA":
         #If the prof is tba we can just return
@@ -202,8 +200,13 @@ def processRow(data, prevrow) -> list[str]:
     #Remove waitlist and crosslist stuff
     info = info[:12] + info[18:]
     #Split date into 2 :sob:
-    info.pop(13)
+    formatDate(info)
     return info
+def formatDate(info):
+    splitDate = info[13].split('-')
+    info.insert(13, splitDate[0])
+    info.insert(14, splitDate[1])
+    info.pop(15)
 #Given the url of a major, parse the info for every course in that major(for now the url doesn't do anything, just use a file from sis to test)
 def getMajorCourseInfo(url : str) -> list[list[str]]:
     #session = requests.Session()
@@ -245,7 +248,6 @@ def getReqFromLink(link, courseCode, major):
         desc = ""
     for i in range(1, len(classInfo)):
         if key in classInfo[i].strip():
-            #pdb.set_trace()
             combo = classInfo[i].strip()
             combo = combo[len(key):]
             coKey = "Corequisite"
@@ -263,14 +265,14 @@ def getReqFromLink(link, courseCode, major):
             prereqs = prereqs[prereqs.find(' '):].strip()
             coreqs = coreqs[coreqs.find(' '):].strip()
         if classInfo[i].strip() == (preKey + "s:"):
-            #pdb.set_trace()
             raw = classInfo[i+1].strip()
     return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
 def getReqsInMajor(semester, subject):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
     #create soup scraper
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202309&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=CSCI"
+    
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202309&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(subject)
     session = requests.Session()
     webres = session.get(url)
     page = webres.content
@@ -295,7 +297,6 @@ def getPreCoReqs(semester):
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
 def combineInfo(courses, reqs):
     print("Combining info")
-    pdb.set_trace()
     #A dictionary that stores the courses using major and code as a key, ie "CSCI-1100":[65489,CSCI,1100,01,4.000,...]
     comb = []
     ckey = "%?$"
@@ -308,14 +309,17 @@ def combineInfo(courses, reqs):
         c = Course(course)
         if c.short in reqs:
             result = reqs[c.short]
-            prereq = result[req.find(pkey) + len(pkey):req.find(cokey)]
-            coreq = result[req.find(cokey) + len(cokey):req.find(rkey)]
-            raw = result[req.find(rkey) + len(rkey):req.find(ckey)]
-            desc = result[req.find(dkey) + len(dkey):]
+            prereq = result[result.find(pkey) + len(pkey):result.find(cokey)].strip()
+            coreq = result[result.find(cokey) + len(cokey):result.find(rkey)].strip()
+            raw = result[result.find(rkey) + len(rkey):result.find(ckey)].strip()
+            desc = result[result.find(dkey) + len(dkey):].strip()
             c.addReqs(prereq, coreq, raw, desc)
         else:
             print("error")
         comb.append(c)
+    comb.sort()
+    pdb.set_trace()
+    return comb
 def main():
     options = Options()
     options.add_argument("--no-sandbox")
@@ -331,6 +335,6 @@ def main():
     courses = getMajorCourseInfo(" ")
     print("Getting co reqs")
     reqs = getPreCoReqs("202201")
-    combineInfo(courses, reqs)
+    comb = combineInfo(courses, reqs)
 main()
 
