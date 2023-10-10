@@ -138,10 +138,14 @@ class Finals:
             return (False, "Section cannot be none")
         
         query = "DELETE FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = \'" + section + "\';"
-        cursor = self.db_conn.cursor()
-        cursor.execute(query)
-        self.db_conn.commit()
-        return(True, str(cursor.rowcount) + " row(s) deleted")
+
+        cursor = self.db_connect_cursor()
+        info, error = cursor.execute(query, None, True)
+        message = ""
+        if not error:
+            message = str(cursor.rowcount) + " row(s) deleted"
+        
+        return(message, None) if not error else (False, error)
     
 
 
