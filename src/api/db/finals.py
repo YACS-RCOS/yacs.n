@@ -18,10 +18,10 @@ class Finals:
         self.db_conn = db_conn
         self.cache = cache
 
-    def add_bulk_final(self):
+    def add_bulk_final(self, file):
         list = []
 
-        file  = "Finals.json"
+        #file  = "Finals.json"
         with open(file, "r") as json_file:
             data = json.load(json_file)
 
@@ -32,6 +32,7 @@ class Finals:
                 section = i['Section']
             list.append(self.add_final(i['Department'], i['CourseCode'], section, i['Room'], i['DayOfWeek'], i['Day'], i['Hour']))
         self.db_conn.commit()
+        self.clear_cache()
         return list
 
     def add_final(self, department, courseCode,
@@ -55,7 +56,7 @@ class Finals:
         elif hour is None:
             return (False, "Hour cannot be none")
         elif (records[0] > 0):
-            return(False, "A record with the same Course Code and Section exists")
+            return(False, "A record with the Course Code" + courseCode + " and Section = " + section + " already exists")
         else:
             query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
             values = (department, courseCode, section, room, dof, day, hour)
