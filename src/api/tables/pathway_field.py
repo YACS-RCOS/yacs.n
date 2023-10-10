@@ -65,9 +65,7 @@ if __name__ == "__main__":
     printKeys(data)
     fields = dict()
     loadFields(fields)
-    '''
-    for i in fields:
-        print(i)
-        for j in fields[i]:
-            print(' ', j)
-    '''
+
+    for i in data:
+        for j in i['Pathways']:
+            print(j["Name"][0], "     ", i['Category Name'][0])

@@ -39,7 +39,7 @@ class Pathway:
 
     def add_bulk_pathways(self, file = '../../web/src/pages/pathwayV2.json'):
         # Load the JSON data from a file
-        json_data = json.load(open(file))
+        json_data = json.load(open(file, 'r'))
 
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
@@ -48,33 +48,34 @@ class Pathway:
             try:
                 # Iterate over each entry in the JSON data
                 for entry in json_data:
-                    try:
-                        # pathway_name
-                        # category_name
+                    for sub in entry['Pathway']:
+                        try:
+                            # pathway_name
+                            # category_name
 
-                        # Insert professor data into the 'professor' table
-                        transaction.execute(
-                            """
-                            INSERT INTO pathway (
-                                pathway_name,
-                                category_name
+                            # Insert professor data into the 'professor' table
+                            transaction.execute(
+                                """
+                                INSERT INTO pathway (
+                                    pathway_name,
+                                    category_name
+                                )
+                                VALUES (
+                                    NULLIF(%(pathway_name)s, ''),
+                                    NULLIF(%(category_name)s, '')  
+                                )
+                                ON CONFLICT DO NOTHING;
+                                """,
+                                {
+                                    "pathway_name": sub['Name'][0],
+                                    "category_name": entry['Category Name'][0]
+                                }
                             )
-                            VALUES (
-                                NULLIF(%(pathway_name)s, ''),
-                                NULLIF(%(category_name)s, '')  
-                            )
-                            ON CONFLICT DO NOTHING;
-                            """,
-                            {
-                                "pathway_name": entry['pathway_name'],
-                                "category_name": entry['category_name']
-                            }
-                        )
-                    except Exception as e:
-                        # Roll back the transaction and return the exception if an error occurs
-                        print("THIS IS THE EXCEPTION:", e)
-                        conn.rollback()
-                        return (False, e)
+                        except Exception as e:
+                            # Roll back the transaction and return the exception if an error occurs
+                            print("THIS IS THE EXCEPTION:", e)
+                            conn.rollback()
+                            return (False, e)
             except ValueError as ve:
                 # Return an error message if the JSON data is invalid
                 return (False, f"Invalid JSON data: {str(ve)}")
@@ -90,9 +91,9 @@ class Pathway:
 
 
 
-# if __name__ == "__main__":
-#     csv_text = open('../../../src/web/src/pages/pathwayV2.json', 'r')
-#     pathways = Pathway(connection.db)
-#     pathways.populate_from_csv(csv_text)
+if __name__ == "__main__":
+    json_text = open('../../../src/web/src/pages/pathwayV2.json', 'r')
+    pathways = Pathway(connection.db)
+#     pathways.populate_from_csv(json_text)
 
-#add_bulk_pathways()
+    pathways.add_bulk_pathways('../../../src/web/src/pages/pathwayV2.json')
