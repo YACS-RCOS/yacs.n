@@ -93,10 +93,45 @@ def parseCourseTable(driver):
 
 def parseReqsAndDesc(driver, basevalue): #needs to return a list 
     url = 'https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=' + str(basevalue) +'&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=' #subject code needs to be appended to end before go
-    subj_codes = ['ADMN','ARCH', 'ARTS'] #TODO: finish listing these... by hand...
-    schools = [] #TODO: also probably do this.. by hand..
+    course_codes_dict  = findAllSubjectCodes(driver)
+    subj_codes = [info[0] for info in course_codes_dict.values()]
+    schools = course_codes_dict.keys()
     driver.get(url)
     info = list() #[Short-Name, Full-Name, Description, raw pre/coreq text, prereq, coreq, School]
+     
+def findAllSubjectCodes(driver):
+    url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search'
+    driver.get(url)
+    code_school_dict = dict()
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
+    ptag = soup.find_all('p')
+    look_at = []
+    for all in ptag:
+        if all.find('strong'):
+            look_at.append(all)
+    for all in look_at:
+        school = ""
+        for tags in all:
+            if tags.name == "strong":
+                school = tags.text
+                school_first = school.split(' ')
+                school_final = list()
+                for i in school_first:
+                    if '(' in i:
+                        break
+                    school_final.append(i)
+                school = " ".join(school_final)
+                code_school_dict[school] = list()
+                continue
+            line = tags.text.strip()
+            if line is '':
+                continue
+            if "\xa0" in line:
+                line = line.replace("\xa0", ' ')
+            info = line.split(' ')
+            code_school_dict[school].append([info[0], " ".join(info)])
+    return code_school_dict
      
 
 #Ok so this is very hardcoded, will prbo need to redo later on
