@@ -23,32 +23,29 @@ from course import Course
 
 def login(driver):
     URL = "http://sis.rpi.edu"
-    driver.get(URL)
+    driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
     driver.implicitly_wait(.5)
-    username_box = driver.find_element(by=By.NAME, value = "j_username")
-    password_box = driver.find_element(by=By.NAME, value = "j_password")
-    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
-    username = input("Enter Username: ")
+    username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
+    password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
+    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button
+    username = input("Enter Username: ") # take user input of user and password
     password = input("Enter Password: ")
-    username_box.send_keys(username)
-    password_box.send_keys(password)
-    submit.click()
-    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly
+    username_box.send_keys(username) # enters the username
+    password_box.send_keys(password) # enters the password
+    submit.click() # click the submit button
+    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly, the loop will be entered as you aren't on the duo verfication website (redo what we did before)
         print("User or Password Incorrect.")
-        username_box = driver.find_element(by=By.NAME, value = "j_username")
+        username_box = driver.find_element(by=By.NAME, value = "j_username") # we have to redefine the variables because the webpage reloads
         password_box = driver.find_element(by=By.NAME, value = "j_password")
         submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
         username = input("Enter Username: ")
         password = input("Enter Password: ")
-        username_box.clear()
+        username_box.clear() # the username box by default has your previous username entered, so we clear it
         username_box.send_keys(username)
         password_box.send_keys(password)
         submit.click()
-    #wait = WebDriverWait(driver, timeout=10)
-    #wait.until(lambda d : driver.find_elements(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText())
-    #duo_code = driver.find_element(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText()
-    print("Check for your DUO code on the browser instance and answer the prompt") #work towards making this nearly automatic
-    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
+    print("Check for your DUO code on the browser instance and answer the prompt (Remember to trust/not trust the device)") #work towards making this nearly automatic
+    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): #check that the user has inputted their duo code and that it redirected to the sis main page
         time.sleep(1)
 
 def sisCourseSearch(driver, term):
