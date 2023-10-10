@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { uploadCsv } from "@/services/AdminService";
+import { addPathways } from "@/services/AdminService";
 
 export default {
   name: "AddPathways",
@@ -54,7 +54,7 @@ export default {
         this.$emit("loading");
         if (formData.get("file") && formData.get("file").name) {
           let filename = formData.get("file").name;
-          uploadCsv(formData)
+          addPathways(formData)
             .then((response) => {
               console.log(response);
               // Axios will only enter this block if the status code is 2xx,
@@ -84,7 +84,7 @@ export default {
               );
             });
         } else {
-          this.$bvToast.toast(`Must upload a CSV file`, {
+          this.$bvToast.toast(`Must upload a JSON file`, {
             title: "Validation Error",
             variant: "danger",
             noAutoHide: false,

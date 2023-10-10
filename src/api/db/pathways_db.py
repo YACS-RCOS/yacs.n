@@ -24,7 +24,7 @@ class Pathway:
                 print(pathway_name)
                 return self.db_conn.execute("""
             INSERT INTO
-                pathway (pathway_name, category_name)
+                Pathway (pathway_name, category_name)
             VALUES
                    (%(Pathway_name)s, %(Category_name)s)
             ON CONFLICT DO NOTHING
@@ -37,9 +37,9 @@ class Pathway:
             else:
                 return (False, "pathway_name cannot be none")
 
-    def add_bulk_pathways(self, file = '../../web/src/pages/pathwayV2.json'):
+    def add_bulk_pathways(self, json_data):
         # Load the JSON data from a file
-        json_data = json.load(open(file, 'r'))
+        #json_data = json.load(open(file, 'r'))
 
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
@@ -48,7 +48,7 @@ class Pathway:
             try:
                 # Iterate over each entry in the JSON data
                 for entry in json_data:
-                    for sub in entry['Pathway']:
+                    for sub in entry['Pathways']:
                         try:
                             # pathway_name
                             # category_name
@@ -56,7 +56,7 @@ class Pathway:
                             # Insert professor data into the 'professor' table
                             transaction.execute(
                                 """
-                                INSERT INTO pathway (
+                                INSERT INTO Pathway (
                                     pathway_name,
                                     category_name
                                 )

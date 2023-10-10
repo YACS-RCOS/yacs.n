@@ -401,7 +401,7 @@ async def bulkPathwayUpload(
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
     # Call populate_from_json method
-    isSuccess, error = pathway_info.add_bulk_pathways()
+    isSuccess, error = pathway_info.add_bulk_pathways(json_data)
     if isSuccess:
         print("SUCCESS")
         return Response(status_code=200)

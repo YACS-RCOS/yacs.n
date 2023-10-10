@@ -8,7 +8,7 @@ export const uploadCsv = (formData) =>
   client.post("/bulkCourseUpload", formData);
 
 export const addPathways = (formData) =>
-  client.post("/api/bulkPathwayUpload", formData);
+  client.post("/bulkPathwayUpload", formData);
 
 export const mapDateRangeToSemesterPart = (formData) =>
   client.post("/mapDateRangeToSemesterPart", formData);
