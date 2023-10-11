@@ -1,3 +1,4 @@
+import time
 class Course:
     name:str
     credits:int
@@ -23,6 +24,7 @@ class Course:
     pre:str
     co:str
     major:str
+    school:str
     #Info will be an array of strings: 
     # [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
     def __init__(self, info):
@@ -60,7 +62,8 @@ class Course:
     def print(self,):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
-    
+    def addSchool(self, school):
+        self.school = school
     def __lt__(self, other):
         if self.major < other.major:
             return (self.major < other.major)
@@ -68,8 +71,10 @@ class Course:
             return self.code < other.code
         if self.section < other.section:
             return self.section < other.section
-        if other.time == "TBA":
+        if self.stime == "TBA" and other.stime == "TBA":
             return True
-        if self.time == "TBA":
+        if other.stime == "TBA":
+            return True
+        if self.stime == "TBA":
             return False
-        return self.time < other.time
+        return time.strptime(self.stime) < time.strptime(self.etime)
