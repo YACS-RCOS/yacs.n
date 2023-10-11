@@ -23,7 +23,8 @@ class Course:
     pre:str
     co:str
     major:str
-    #Info will be an array of strings: [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
+    #Info will be an array of strings: 
+    # [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
     def __init__(self, info):
         self.crn = info[0]
         self.major = info[1]
@@ -38,7 +39,9 @@ class Course:
         self.curr = info[10]
         self.rem = info[11]
         self.profs = info[12]
-        self.loc = info[13]
+        self.sdate = info[13]
+        self.enddate = info[14]
+        self.loc = info[15]
         self.long = self.processName(self.name)
         self.short = self.major + '-' + self.code
     
@@ -57,3 +60,16 @@ class Course:
     def print(self,):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
+    
+    def __lt__(self, other):
+        if self.major < other.major:
+            return (self.major < other.major)
+        if self.code < other.code:
+            return self.code < other.code
+        if self.section < other.section:
+            return self.section < other.section
+        if other.time == "TBA":
+            return True
+        if self.time == "TBA":
+            return False
+        return self.time < other.time
