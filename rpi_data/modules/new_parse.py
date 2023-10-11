@@ -23,32 +23,29 @@ from course import Course
 
 def login(driver):
     URL = "http://sis.rpi.edu"
-    driver.get(URL)
+    driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
     driver.implicitly_wait(.5)
-    username_box = driver.find_element(by=By.NAME, value = "j_username")
-    password_box = driver.find_element(by=By.NAME, value = "j_password")
-    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
-    username = input("Enter Username: ")
+    username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
+    password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
+    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button
+    username = input("Enter Username: ") # take user input of user and password
     password = input("Enter Password: ")
-    username_box.send_keys(username)
-    password_box.send_keys(password)
-    submit.click()
-    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly
+    username_box.send_keys(username) # enters the username
+    password_box.send_keys(password) # enters the password
+    submit.click() # click the submit button
+    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly, the loop will be entered as you aren't on the duo verfication website (redo what we did before)
         print("User or Password Incorrect.")
-        username_box = driver.find_element(by=By.NAME, value = "j_username")
+        username_box = driver.find_element(by=By.NAME, value = "j_username") # we have to redefine the variables because the webpage reloads
         password_box = driver.find_element(by=By.NAME, value = "j_password")
         submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
         username = input("Enter Username: ")
         password = input("Enter Password: ")
-        username_box.clear()
+        username_box.clear() # the username box by default has your previous username entered, so we clear it
         username_box.send_keys(username)
         password_box.send_keys(password)
         submit.click()
-    #wait = WebDriverWait(driver, timeout=10)
-    #wait.until(lambda d : driver.find_elements(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText())
-    #duo_code = driver.find_element(by = By.CLASS_NAME, value = "row display-flex align-flex-justify-content-center verification-code").getText()
-    print("Check for your DUO code on the browser instance and answer the prompt") #work towards making this nearly automatic
-    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
+    print("Check for your DUO code on the browser instance and answer the prompt (Remember to trust/not trust the device)") #work towards making this nearly automatic
+    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): #check that the user has inputted their duo code and that it redirected to the sis main page
         time.sleep(1)
 
 def sisCourseSearch(driver, term):
@@ -80,7 +77,7 @@ def sisCourseSearch(driver, term):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         parseCourseTable(driver) #TODO: replace with parser for first part of csv (probably getCoursesInMajor())
-        parseReqsAndDesc(driver, basevalue) #TODO: make sure this goes in the right place, probably in getCoursesInMajor
+        parseReqsAndDesc(driver, basevalue) #TODO: That function is a placeholder
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
@@ -91,23 +88,23 @@ def parseCourseTable(driver):
     html = driver.page_source
     time.sleep(20)
 
-def parseReqsAndDesc(driver, basevalue): #needs to return a list 
+def parseReqsAndDesc(driver, basevalue):
     url = 'https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=' + str(basevalue) +'&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=' #subject code needs to be appended to end before go
     course_codes_dict  = findAllSubjectCodes(driver)
     subj_codes = [info[0] for info in course_codes_dict.values()]
     schools = course_codes_dict.keys()
     driver.get(url)
-    info = list() #[Short-Name, Full-Name, Description, raw pre/coreq text, prereq, coreq, School]
+    info = list()
      
 def findAllSubjectCodes(driver):
-    url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search'
+    url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
-    code_school_dict = dict()
+    code_school_dict = dict() # We store in a dictionary of schools ask keys with lists of subject codes and full subject names as values
     html = driver.page_source
     soup = bs(html, 'html.parser')
-    ptag = soup.find_all('p')
+    ptag = soup.find_all('p') # Entire text of page basically
     look_at = []
-    for all in ptag:
+    for all in ptag: # finds all things that are important
         if all.find('strong'):
             look_at.append(all)
     for all in look_at:
