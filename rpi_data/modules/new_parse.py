@@ -80,7 +80,7 @@ def sisCourseSearch(driver, term):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         parseCourseTable(driver) #TODO: replace with parser for first part of csv (probably getCoursesInMajor())
-        parseReqsAndDesc(driver, basevalue) #TODO: make sure this goes in the right place, probably in getCoursesInMajor
+        parseReqsAndDesc(driver, basevalue) #TODO: That function is a placeholder
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
@@ -91,23 +91,23 @@ def parseCourseTable(driver):
     html = driver.page_source
     time.sleep(20)
 
-def parseReqsAndDesc(driver, basevalue): #needs to return a list 
+def parseReqsAndDesc(driver, basevalue):
     url = 'https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=' + str(basevalue) +'&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=' #subject code needs to be appended to end before go
     course_codes_dict  = findAllSubjectCodes(driver)
     subj_codes = [info[0] for info in course_codes_dict.values()]
     schools = course_codes_dict.keys()
     driver.get(url)
-    info = list() #[Short-Name, Full-Name, Description, raw pre/coreq text, prereq, coreq, School]
+    info = list()
      
 def findAllSubjectCodes(driver):
-    url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search'
+    url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
-    code_school_dict = dict()
+    code_school_dict = dict() # We store in a dictionary of schools ask keys with lists of subject codes and full subject names as values
     html = driver.page_source
     soup = bs(html, 'html.parser')
-    ptag = soup.find_all('p')
+    ptag = soup.find_all('p') # Entire text of page basically
     look_at = []
-    for all in ptag:
+    for all in ptag: # finds all things that are important
         if all.find('strong'):
             look_at.append(all)
     for all in look_at:
