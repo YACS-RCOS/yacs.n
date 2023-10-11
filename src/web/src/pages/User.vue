@@ -1,47 +1,115 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <b-container v-if="isLoggedIn" id="user-info-box" class="border">
+    <b-container v-if="isLoggedIn" id="user-info-box">
       <h1 class="text-center">Hi, {{ user.name }}!</h1>
-      <b-row v-for="(data, label) in userData" :key="label" class="user-row">
-        <b-form inline style="width: 100%" @submit.prevent="finishedit(label, true)" @reset.prevent="finishedit(label,false)">
-          <b-col class="user-col-left">
-            {{ rendername(label) }}:
+
+      <b-row class="user-row">
+        <b-col class="user-col-left">
+          <p style="font-weight: bold;">Name:</p>
+        </b-col>
+      </b-row>
+      <b-row class="user-row">
+        <b-form inline style="width: 100%" @submit.prevent="finishedit('name', true)" @reset.prevent="finishedit('name', false)">
+          <b-col class="user-col-left" v-if="!userData.name.editing">
+            <b-input
+            :ref="user.name"
+            v-model="currentinput.name"
+            @click.prevent="startediting('name')"
+            style="border: 1px solid #ccc; padding: 5px; width: 100%; cursor: pointer;"
+            ></b-input>         
           </b-col>
-          <template v-if="data.editing">
-            <b-col class="user-col-center">
-              <b-input
-                :ref="label"
-                v-model="currentinput[label]"
-                :required="data.required"
-                :type="data.type"
-                autofocus
-                @keydown.esc="finishedit(label,false)"
-              ></b-input>
-            </b-col>
-            <b-col class="user-col-right">
-              <b-button type="reset" variant="danger">Cancel</b-button>
-              <b-button type="submit" variant="success">Done</b-button>
-            </b-col>
-          </template>
-          <template v-else>
-            <b-col class="user-col-center">
-              <p :class="changed(label)">{{ rendervalue(form[label]) }}</p>
-            </b-col>
-            <b-col class="user-col-right">
-              <b-button
-                @click.prevent="startediting(label)"
-              >Edit
-              </b-button>
-            </b-col>
-          </template>
+          <b-col class="user-col-left" v-else>
+            <b-input
+              :ref="user.name"
+              v-model="currentinput.name"
+              :required="userData.name.required"
+              :type="userData.name.type"
+              autofocus
+              @keydown.esc="finishedit('name', false)"
+              style="border: 1px solid #ccc; width: 100%;"
+            ></b-input>
+          </b-col>
+          <b-col class="user-col-right" v-if="userData.name.editing">
+            <b-button type="reset" variant="danger" @click="finishedit('name', false)">Cancel</b-button>
+            <b-button type="submit" variant="success" @click="finishedit('name', true)">Done</b-button>
+          </b-col>
         </b-form>
+      </b-row>
+
+      <b-row class="user-row">
+        <b-col class="user-col-left">
+          <p style="font-weight: bold;">Email:</p>
+        </b-col>
+      </b-row>
+      <b-row class="user-row">
+        <b-form inline style="width: 100%" @submit.prevent="finishedit('email', true)" @reset.prevent="finishedit('email', false)">
+          <b-col class="user-col-left" v-if="!userData.email.editing">
+            <b-input
+            :ref="user.email"
+            v-model="currentinput.email"
+            @click.prevent="startediting('email')"
+            style="border: 1px solid #ccc; padding: 5px; width: 100%; cursor: pointer;"
+            ></b-input>
+          </b-col>
+          <b-col class="user-col-left" v-else>
+            <b-input
+              :ref="user.email"
+              v-model="currentinput.email"
+              :required="userData.email.required"
+              :type="userData.email.type"
+              autofocus
+              @keydown.esc="finishedit('email', false)"
+              style="border: 1px solid #ccc; width: 100%;"
+            ></b-input>
+          </b-col>
+          <b-col class="user-col-right" v-if="userData.email.editing" >
+            <b-button type="reset" variant="danger" @click="finishedit('email', false)">Cancel</b-button>
+            <b-button type="submit" variant="success" @click="finishedit('email', true)">Done</b-button>
+          </b-col>
+        </b-form>
+      </b-row>
+
+      <b-row class="user-row">
+        <b-col class="user-col-left">
+          <p style="font-weight: bold;">Phone Number:</p>
+        </b-col>
+      </b-row>
+      <b-row class="user-row">
+        <b-form inline style="width: 100%" @submit.prevent="finishedit('phone', true)" @reset.prevent="finishedit('phone', false)">
+          <b-col class="user-col-left" v-if="!userData.phone.editing">
+            <b-input
+            :ref="user.phone"
+            v-model="currentinput.phone"
+            @click.prevent="startediting('phone')"
+            style="border: 1px solid #ccc; padding: 5px; width: 100%; cursor: pointer;"
+            ></b-input>
+          </b-col>
+          <b-col class="user-col-left" v-else>
+            <b-input
+              :ref="user.phone"
+              v-model="currentinput.phone"
+              :required="userData.phone.required"
+              :type="userData.phone.type"
+              autofocus
+              @keydown.esc="finishedit('phone', false)"
+              style="border: 1px solid #ccc; width: 100%;"
+            ></b-input>
+          </b-col>
+          <b-col class="user-col-right" v-if="userData.phone.editing" >
+            <b-button type="reset" variant="danger" @click="finishedit('phone', false)">Cancel</b-button>
+            <b-button type="submit" variant="success" @click="finishedit('phone', true)">Done</b-button>
+          </b-col>
+        </b-form>
+      </b-row>
+
+      <b-row class="user-row">
+        <b-col class="user-col-left">
+          <p style="font-weight: bold;">Change Password:</p>
+        </b-col>
       </b-row>
       <b-row class="user-row">
         <b-col class="user-col-left">
-          Password:
-        </b-col>
-        <b-col class="user-col-center">
           <p :class="form.newpassword!=undefined?'user-changed-info':''">{{ form.newpassword != undefined ? renderpassword(form.newpassword) : "&lt;unchanged&gt;" }}</p>
         </b-col>
         <b-col class="user-col-right">
@@ -50,9 +118,11 @@
       </b-row>
       <b-row class="user-row">
         <b-col class="user-col-left">
-          Current Degree:
+          <p style="font-weight: bold;">Current Degree:</p>
         </b-col>
-        <b-col class="user-col-center">
+      </b-row>
+      <b-row class="user-row">
+        <b-col class="user-col-left">
           <div :class="changed('degree')" class="degreelabel">{{ form.degree }}</div>
           <div class="degreelabel">
             <div v-for="(name, i) in form.major" :key="name" :class="changed_major(i) +  ' degreelabel'">{{ name }}<br/></div>
@@ -71,16 +141,16 @@
     <h1 v-else class="text-center">You should log in first.</h1>
 
     <b-modal id="degreepicker"
-             cancel-variant="danger"
-             ok-title="Done"
-             ok-variant="success"
-             size="xl"
-             static
-             title="Pick Degree and Major:"
-             @cancel="degreemodalHandlecancel"
-             @close="degreemodalHandlecancel"
-             @hide="degreemodalHandlecancel"
-             @ok="degreemodalHandleok">
+      cancel-variant="danger"
+      ok-title="Done"
+      ok-variant="success"
+      size="xl"
+      static
+      title="Pick Degree and Major:"
+      @cancel="degreemodalHandlecancel"
+      @close="degreemodalHandlecancel"
+      @hide="degreemodalHandlecancel"
+      @ok="degreemodalHandleok">
       <b-form ref="degreeform">
         <degree-picker
           :degree="currentinput.degree"
@@ -91,13 +161,13 @@
       </b-form>
     </b-modal>
     <b-modal id="login"
-             ref="login-modal"
-             cancel-variant="danger"
-             ok-title="Submit Changes"
-             ok-variant="success"
-             title="Please enter your password to continue"
-             @hide="form.password = ''"
-             @ok.prevent="loginmodalHandleok">
+      ref="login-modal"
+      cancel-variant="danger"
+      ok-title="Submit Changes"
+      ok-variant="success"
+      title="Please enter your password to continue"
+      @hide="form.password = ''"
+      @ok.prevent="loginmodalHandleok">
       <b-form ref="loginform" @submit.prevent="$refs['login-modal'].hide('ok')" @reset.prevent="$refs['login-modal'].hide('cancel')">
         <b-row>
           <b-col>
@@ -112,12 +182,12 @@
       </b-form>
     </b-modal>
     <b-modal id="newpassword-modal"
-             ref="newpassword-modal"
-             cancel-variant="danger"
-             ok-title="Done"
-             ok-variant="success"
-             title="Please enter a new password"
-             @hide="newpasswordmodalHandleevent">
+      ref="newpassword-modal"
+      cancel-variant="danger"
+      ok-title="Done"
+      ok-variant="success"
+      title="Please enter a new password"
+      @hide="newpasswordmodalHandleevent">
       <b-form @submit.prevent="$refs['newpassword-modal'].hide('ok')" @reset.prevent="$refs['newpassword-modal'].hide('cancel')">
         <b-row>
           <b-col>
@@ -242,7 +312,7 @@ export default {
       this.currentinput.newpassword = "";
     },
     onReset() {
-      for(var key of Object.keys(this.userData)){
+      for(const key of Object.keys(this.userData)){
         this.userData[key]["editing"] = false;
       }
       this.form = JSON.parse(JSON.stringify(this.user));
@@ -259,7 +329,6 @@ export default {
           title: "Updating user information failed",
           variant: "danger"
         });
-        return;
       } else {
         this.$bvToast.toast("Your information has been updated.", {
           title: "Updating user information success",
@@ -268,7 +337,6 @@ export default {
         this.form.newpassword = undefined;
         this.$store.commit(userTypes.mutations.SET_USER_INFO, this.form);
         this.$refs["login-modal"].hide();
-        return;
       }
     }
   }
@@ -280,48 +348,48 @@ export default {
   padding: 1em;
   margin-top: 2em;
   margin-bottom: 2em;
-  width: 50%;
+  width: 65%;
   min-width: max-content;
-
-}
-
-#user-info-box .user-row {
-  padding: 0.2em;
-  margin: 0.2em 0em;
 }
 
 #user-info-box .user-row .col {
-  /*min-width: max-content;*/
-  /*width: 33%;*/
   min-height: 2.5em;
+  display: flex;
+  align-items: center;
 }
 
 #user-info-box .user-row .user-col-left {
-  justify-content: right;
-}
-
-#user-info-box .user-row .user-col-center {
-  justify-content: center;
-  display: grid;
-}
-
-#user-info-box .user-row .user-col-center .degreelabel {
-  display: block;
-  text-align: center;
+  justify-content: left;
+  font-size: large;
+  flex: 0 0 65%;
 }
 
 #user-info-box .user-row .user-col-right {
-  justify-content: left;
+  justify-content: right;
+  flex: 0 0 35%;
+}
+
+#user-info-box .user-row .user-col-right b-input {
+  border: 1px solid var(--primary);
+}
+
+#user-info-box .user-row .user-col-left b-input {
+  border: 1px solid var(--primary);
 }
 
 #user-info-box .user-row .user-col-right * {
   margin-right: 1em;
 }
 
+#user-info-box .user-row .user-col-left .degreelabel {
+  display: block;
+  text-align: center;
+  margin: 0.5em;
+}
+
 #user-info-box .user-row .user-changed-info {
   color: var(--warning);
 }
-
 
 #user-info-box .user-row * {
   text-align: center;
