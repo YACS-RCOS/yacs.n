@@ -49,6 +49,7 @@ def login(driver):
         time.sleep(1)
 
 def sisCourseSearch(driver, term):
+    info = list()
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
@@ -73,16 +74,24 @@ def sisCourseSearch(driver, term):
     driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
     subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
     subjects = subject_select.options
+    subject = ""
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        parseCourseTable(driver) #TODO: replace with parser for first part of csv (probably getCoursesInMajor())
-        parseReqsAndDesc(driver, basevalue) #TODO: That function is a placeholder
+        print("Getting course info")
+        courses = getMajorCourseInfo(driver)
+        subject = courses[0][1]
+        print("Getting co reqs: " + subject)
+        reqs = getPreCoReqs(str(basevalue), subject)
+        comb = combineInfo(courses, reqs)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
+        [info.append(i) for i in comb]
+    
+    return info
         
 def parseCourseTable(driver):
     html = driver.page_source
@@ -179,6 +188,8 @@ def processRow(data, prevrow) -> list[str]:
     info = []
     for i in range(1, len(data) - 1, 1):
         #Maybe we don't need this? will need to test later
+        if(data[i].has_attr("colspan")):
+            info.append("TBA") # The time seems to be none, TBA is a good placeholder for now
         if(data[i].find('a')):
             info.append(data[i].find('a').text)
         else:
@@ -208,13 +219,9 @@ def formatDate(info):
     info.insert(14, splitDate[1])
     info.pop(15)
 #Given the url of a major, parse the info for every course in that major(for now the url doesn't do anything, just use a file from sis to test)
-def getMajorCourseInfo(url : str) -> list[list[str]]:
-    #session = requests.Session()
-    #webres = session.get(url)
-    #page = webres.content
-    #soup = bs(page, "html.parser")
-    with open("cscitest.html") as fp:
-        soup = bs(fp, 'html.parser')
+def getMajorCourseInfo(driver) -> list[list[str]]:
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
     rows = table.find_all("tr")
     courses = []
@@ -272,7 +279,7 @@ def getReqsInMajor(semester, subject):
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py
     #create soup scraper
     
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=202309&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(subject)
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(semester, subject)
     session = requests.Session()
     webres = session.get(url)
     page = webres.content
@@ -280,7 +287,7 @@ def getReqsInMajor(semester, subject):
     table = soup.find('table', class_='datadisplaytable')
     codes = table.find_all("a")
     allReqs = dict()
-    key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in="
+    key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in=" + semester
     for link in codes:
         if key in link['href']:
             major = link.text[:4]
@@ -291,8 +298,8 @@ def getReqsInMajor(semester, subject):
     return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
 #Very slow, need to speed up
-def getPreCoReqs(semester):
-    reqs = getReqsInMajor(semester, "CSCI")
+def getPreCoReqs(semester, subject):
+    reqs = getReqsInMajor(semester, subject)
     return reqs
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
 def combineInfo(courses, reqs):
@@ -304,7 +311,6 @@ def combineInfo(courses, reqs):
     cokey = "$@^"
     dkey = "()!"
     rkey = "?^*"
-    pdb.set_trace()
     for course in courses:
         c = Course(course)
         if c.short in reqs:
@@ -318,23 +324,16 @@ def combineInfo(courses, reqs):
             print("error")
         comb.append(c)
     comb.sort()
-    pdb.set_trace()
     return comb
 def main():
     options = Options()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--headless")
-    options.add_argument("--remote-debugging-port=9222")
-    #driver = webdriver.Chrome(options = options)
-    #login(driver)
-    #sisCourseSearch(driver, "fall2023")
-    url = "https://sis.rpi.edu"
-    allInfo = None
-    print("Getting course info")
-    courses = getMajorCourseInfo(" ")
-    print("Getting co reqs")
-    reqs = getPreCoReqs("202201")
-    comb = combineInfo(courses, reqs)
+    #options.add_argument("--no-sandbox")
+    #options.add_argument("--disable-dev-shm-usage")
+    #options.add_argument("--headless")
+    #options.add_argument("--remote-debugging-port=9222")
+    driver = webdriver.Chrome()
+    login(driver)
+    final = sisCourseSearch(driver, "fall2023")
+   
 main()
 
