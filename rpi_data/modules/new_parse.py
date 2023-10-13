@@ -221,12 +221,18 @@ def processRow(data, prevrow) -> list[str]:
     info = info[:12] + info[18:]
     #Split date into 2 :sob:
     formatDate(info)
+    #Some classes have a credit value ranging from 0-12
+    if '-' in info[4]:
+        #pdb.set_trace()
+        info[4] = formatCredits(info)
     return info
 def formatDate(info):
     splitDate = info[13].split('-')
     info.insert(13, splitDate[0])
     info.insert(14, splitDate[1])
     info.pop(15)
+def formatCredits(info):
+    return info[4].split('-')[1]
 #Given the url of a major, parse the info for every course in that major
 def getMajorCourseInfo(driver) -> list[list[str]]:
     html = driver.page_source

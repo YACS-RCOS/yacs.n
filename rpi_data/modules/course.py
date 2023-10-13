@@ -92,10 +92,10 @@ class Course:
         retList.append(self.short)
         retList.append(self.long)
         retList.append(self.desc)
-        retList.append(self.raw)
-        retList.append(" ")
-        retList.append(self.pre)
-        retList.append(self.co)
+        retList.append(self.raw + "a")
+        retList.append("a")
+        retList.append(self.pre + "a")
+        retList.append(self.co + "a")
         retList.append(self.school)
         return retList
     def addSchool(self, school):
