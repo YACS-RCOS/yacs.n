@@ -82,7 +82,7 @@ def sisCourseSearch(driver, term):
         courses = getMajorCourseInfo(driver)
         subject = courses[0][1]
         print("Getting co reqs: " + subject)
-        reqs = getPreCoReqs(str(basevalue), subject)
+        reqs = getReqsInMajor(str(basevalue), subject)
         comb = combineInfo(courses, reqs)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
@@ -131,7 +131,7 @@ def findAllSubjectCodes(driver):
                 code_school_dict[school] = list()
                 continue
             line = tags.text.strip()
-            if line is '':
+            if line == '':
                 continue
             if "\xa0" in line:
                 line = line.replace("\xa0", ' ')
@@ -142,7 +142,7 @@ def findAllSubjectCodes(driver):
 
 #Ok so this is very hardcoded, will prbo need to redo later on
 #But for now, it takes a lab block, test block, or seminar? and fills in the missing info for it
-def processSpecial(info, prevrow):
+def processSpecial(info, prevrow) -> list[str]:
     tmp = formatTimes(info)
     tmp[18] = formatTeachers(tmp[18])
     info = prevrow
@@ -218,10 +218,12 @@ def formatDate(info):
     info.insert(13, splitDate[0])
     info.insert(14, splitDate[1])
     info.pop(15)
-#Given the url of a major, parse the info for every course in that major(for now the url doesn't do anything, just use a file from sis to test)
-def getMajorCourseInfo(driver) -> list[list[str]]:
-    html = driver.page_source
-    soup = bs(html, 'html.parser')
+#Given the url of a major, parse the info for every course in that major
+def getMajorCourseInfo() -> list[list[str]]:
+    with open("cscitest.html") as fp:
+        soup = bs(fp, 'html.parser')
+    #html = driver.page_source
+    #soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
     rows = table.find_all("tr")
     courses = []
@@ -284,6 +286,7 @@ def getReqsInMajor(semester, subject):
     webres = session.get(url)
     page = webres.content
     soup = bs(page, "html.parser")
+    
     table = soup.find('table', class_='datadisplaytable')
     codes = table.find_all("a")
     allReqs = dict()
@@ -298,13 +301,9 @@ def getReqsInMajor(semester, subject):
     return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
 #Very slow, need to speed up
-def getPreCoReqs(semester, subject):
-    reqs = getReqsInMajor(semester, subject)
-    return reqs
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
 def combineInfo(courses, reqs, school):
     print("Combining info")
-    #A dictionary that stores the courses using major and code as a key, ie "CSCI-1100":[65489,CSCI,1100,01,4.000,...]
     comb = []
     ckey = "%?$"
     pkey = "%!#"
@@ -326,16 +325,39 @@ def combineInfo(courses, reqs, school):
             sys.exit()
         comb.append(c)
     comb.sort()
+    writeCSV(comb, "test.csv")
     return comb
+#Given a list of courses, write the courses to a csv
+def writeCSV(info:list, filename: str):
+    pdb.set_trace()
+    #Ok we're missing course type, offer frequency
+    #Idk what to do about those yet
+    columnNames = ['course_name', 'course_credit_hours', 
+        'course_days_of_the_week', 'course_start_time', 'course_end_time', 
+        'course_instructor', 'course_location', 'course_max_enroll', 'course_enrolled', 
+        'course_remained', 'course_department', 'course_start_date', 'course_end_date', 
+        'semester', 'course_crn', 'course_level', 'course_section', 'short_name', 'full_name', 
+        'description', 'raw_precoreqs', 'prerequisites', 'corequisites', 
+        'school']
+    decomposed = [[]] * len(info)
+    for i in range(0, len(info), 1):
+        decomposed[i] = info[i].decompose()
+    pdb.set_trace()
+    df = pd.DataFrame(decomposed, columns = columnNames)
+    df.to_csv(filename, index=False)
+    
 def main():
     options = Options()
     #options.add_argument("--no-sandbox")
     #options.add_argument("--disable-dev-shm-usage")
     #options.add_argument("--headless")
     #options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome()
-    login(driver)
-    final = sisCourseSearch(driver, "fall2023")
-   
+    #driver = webdriver.Chrome()
+    #login(driver)
+    #final = sisCourseSearch(driver, "fall2023")
+    stuff = getMajorCourseInfo()
+    stuff2 = getReqsInMajor("202309", "CSCI")
+    stuff3 = combineInfo(stuff, stuff2, "Computer Science")
+    writeCSV(stuff3, "test.csv")
 main()
 

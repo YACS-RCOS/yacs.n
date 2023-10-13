@@ -1,3 +1,4 @@
+import inspect
 import time
 class Course:
     name:str
@@ -46,6 +47,7 @@ class Course:
         self.loc = info[15]
         self.long = self.processName(self.name)
         self.short = self.major + '-' + self.code
+        self.sem = "FALL 2023"
     
     def processName(self, name:str) -> str:
         tmp = name.split()
@@ -59,9 +61,39 @@ class Course:
         self.raw = raw
         self.pre = pre
         self.co = co
-    def print(self,):
+    def print(self):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
+    #Turn the class back into a list. 
+    #Because of the diffs in how we store vs how we want it to be, need to do a lot of swapping
+    #Maybe there's a diff way than doing this, hopefully there is
+    def decompose(self) -> list[str]:
+        retList = []
+        retList.append(self.name)
+        retList.append(self.credits)
+        retList.append(self.days)
+        retList.append(self.stime)
+        retList.append(self.etime)
+        retList.append(self.profs)
+        retList.append(self.loc)
+        retList.append(self.max)
+        retList.append(self.curr)
+        retList.append(self.rem)
+        retList.append(self.major)
+        retList.append(self.sdate)
+        retList.append(self.enddate)
+        retList.append(self.sem)
+        retList.append(self.crn)
+        retList.append(self.code)
+        retList.append(self.section)
+        retList.append(self.short)
+        retList.append(self.long)
+        retList.append(self.desc)
+        retList.append(self.raw)
+        retList.append(self.pre)
+        retList.append(self.co)
+        retList.append(self.school)
+        return retList
     def addSchool(self, school):
         self.school = school
     def __lt__(self, other):
@@ -71,8 +103,11 @@ class Course:
             return self.code < other.code
         if self.section < other.section:
             return self.section < other.section
-        if other.time == "TBA":
+        if other.stime == "TBA":
             return True
         if self.stime == "TBA":
             return False
-        return self.time < other.time
+        if self.stime < other.stime:
+            return self.stime < other.stime
+        return self.etime < other.etime
+ 
