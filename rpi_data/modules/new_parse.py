@@ -17,6 +17,8 @@ import pandas as pd
 import pdb
 import copy
 from course import Course
+from concurrent.futures import ThreadPoolExecutor
+import sys
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -50,6 +52,7 @@ def login(driver):
 
 def sisCourseSearch(driver, term):
     info = list()
+    course_codes_dict = findAllSubjectCodes(driver)
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
@@ -76,15 +79,22 @@ def sisCourseSearch(driver, term):
     subjects = subject_select.options
     subject = ""
     for i in range(len(subjects)):
+        start = time.time()
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         print("Getting course info")
         courses = getMajorCourseInfo(driver)
         subject = courses[0][1]
+        if (subject not in course_codes_dict.keys()):
+            school = "Interdisciplinary and Other"
+        else:
+            school = course_codes_dict[subject]
         print("Getting co reqs: " + subject)
         reqs = getReqsInMajor(str(basevalue), subject)
-        comb = combineInfo(courses, reqs)
+        comb = combineInfo(courses, reqs, school)
         driver.get(url)
+        end = time.time()
+        print("Time for " + subject +": " + str(end - start))
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
@@ -128,7 +138,6 @@ def findAllSubjectCodes(driver):
                         break
                     school_final.append(i)
                 school = " ".join(school_final)
-                code_school_dict[school] = list()
                 continue
             line = tags.text.strip()
             if line == '':
@@ -136,7 +145,7 @@ def findAllSubjectCodes(driver):
             if "\xa0" in line:
                 line = line.replace("\xa0", ' ')
             info = line.split(' ')
-            code_school_dict[school].append([info[0], " ".join(info)])
+            code_school_dict[info[0]] = school
     return code_school_dict
      
 
@@ -236,9 +245,7 @@ def getMajorCourseInfo() -> list[list[str]]:
     return courses
 #Given a semester and a major, get the pre and coreqs for every class in that major
 #Given a link,return the pre and co reqs for that class. Also return the major and course code to identify the class
-def getReqFromLink(link, courseCode, major):
-    session = requests.Session()
-    webres = session.get(link)
+def getReqFromLink(webres, courseCode, major): #this takes nearly no time    
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
@@ -291,13 +298,25 @@ def getReqsInMajor(semester, subject):
     codes = table.find_all("a")
     allReqs = dict()
     key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in=" + semester
+    url_list = list()
     for link in codes:
         if key in link['href']:
-            major = link.text[:4]
-            code = link.text[5:9]
             link = ("https://sis.rpi.edu" + link['href'])
-            codeKey = major + '-' + code
-            allReqs[codeKey] = (getReqFromLink(link, code, major))
+            url_list.append(link)
+    sessions = list()
+    start = time.time()
+    with ThreadPoolExecutor(max_workers=50) as pool:
+        sessions = list(pool.map(get_url, url_list))
+    end = time.time()
+    print(str(end - start))
+    i = 0
+    for session in sessions:
+        link = url_list[i]
+        major = link[:4]
+        code = link[5:9]
+        codeKey = major + '-' + code
+        allReqs[codeKey] = (getReqFromLink(session, code, major))
+        i += 1
     return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
 #Very slow, need to speed up
@@ -346,18 +365,23 @@ def writeCSV(info:list, filename: str):
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
     
+
+def get_url(url):
+    session = requests.Session()
+    return session.get(url)
+
 def main():
     options = Options()
     #options.add_argument("--no-sandbox")
     #options.add_argument("--disable-dev-shm-usage")
     #options.add_argument("--headless")
     #options.add_argument("--remote-debugging-port=9222")
-    #driver = webdriver.Chrome()
-    #login(driver)
-    #final = sisCourseSearch(driver, "fall2023")
-    stuff = getMajorCourseInfo()
-    stuff2 = getReqsInMajor("202309", "CSCI")
-    stuff3 = combineInfo(stuff, stuff2, "Computer Science")
-    writeCSV(stuff3, "test.csv")
+    driver = webdriver.Chrome()
+    login(driver)
+    start = time.time()
+    final = sisCourseSearch(driver, "fall2023")
+    end = time.time()
+    print("Total Elapsed: " + str(end - start))
+   
 main()
 
