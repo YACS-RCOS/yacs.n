@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <b-badge
     :variant="$options.getSeatStatusVariant(props.seatsOpen, props.seatsTotal)"
   >

@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <div
     class="schedule-event"
     data-cy="schedule-event"

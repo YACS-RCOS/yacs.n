@@ -1,4 +1,4 @@
-<template functional>
+<template>
   <b-badge
     v-if="$options.getNumOpenSections(props.course) > 0"
     variant="success"
@@ -8,9 +8,7 @@
     }}
     Sections Open
   </b-badge>
-  <b-badge v-else variant="danger">
-    All Sections Full
-  </b-badge>
+  <b-badge v-else variant="danger">All Sections Full</b-badge>
 </template>
 <script>
 export default {
