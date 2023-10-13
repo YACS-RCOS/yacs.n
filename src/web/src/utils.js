@@ -344,19 +344,17 @@ export const exportFinalToIcs = (selectedSections) => {
       }
 
       calendarFinals.addEvent(
-        `${course.CourseCode}-${course.Section}`,
-        `${course.CourseCode} Final Exam`,
-        course.Room,
+        `${course.Department} ${course.CourseCode}-${course.Section}`,
+        `${course.Department} Final Exam`,
+        // course.Room,
         startDate,
         endDate,
         {
           freq: "ONCE",
           interval: 1,
-          until: endDate,
         }
       );
     });
-    console.log(calendarFinals);
     calendarFinals.download(`${semester.replace(/\s+/g, "_")}_Final_Exams`);
   } catch (error) {
     alert("Error exporting final exams to ICS: " + error.message);
