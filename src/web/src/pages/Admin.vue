@@ -28,10 +28,13 @@
     >
       Edit Professors
     </a>
-    <a v-b-modal.jsonModal class="text-primary d-block" style="cursor: pointer;">
+    <a
+      v-b-modal.jsonModal
+      class="text-primary d-block"
+      style="cursor: pointer;"
+    >
       Import Professors via JSON
     </a>
-    
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
@@ -48,7 +51,6 @@
     <b-modal id="jsonModal" title="Import Professors via JSON" size="xl">
       <UploadJson />
     </b-modal>
-
 
     <!-- Footer of Admin Panel -->
     <br />
