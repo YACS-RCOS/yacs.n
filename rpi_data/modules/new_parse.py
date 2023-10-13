@@ -316,7 +316,7 @@ def getPreCoReqs(semester, subject):
     reqs = getReqsInMajor(semester, subject)
     return reqs
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
-def combineInfo(courses, reqs):
+def combineInfo(courses, reqs, school):
     print("Combining info")
     #A dictionary that stores the courses using major and code as a key, ie "CSCI-1100":[65489,CSCI,1100,01,4.000,...]
     comb = []
@@ -327,6 +327,7 @@ def combineInfo(courses, reqs):
     rkey = "?^*"
     for course in courses:
         c = Course(course)
+        c.addSchool(school)
         if c.short in reqs:
             result = reqs[c.short]
             prereq = result[result.find(pkey) + len(pkey):result.find(cokey)].strip()
@@ -336,6 +337,7 @@ def combineInfo(courses, reqs):
             c.addReqs(prereq, coreq, raw, desc)
         else:
             print("error")
+            sys.exit()
         comb.append(c)
     comb.sort()
     return comb
