@@ -18,6 +18,7 @@ import pdb
 import copy
 from course import Course
 from concurrent.futures import ThreadPoolExecutor
+import sys
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -51,6 +52,7 @@ def login(driver):
 
 def sisCourseSearch(driver, term):
     info = list()
+    course_codes_dict = findAllSubjectCodes(driver)
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
@@ -83,9 +85,13 @@ def sisCourseSearch(driver, term):
         print("Getting course info")
         courses = getMajorCourseInfo(driver)
         subject = courses[0][1]
+        if (subject not in course_codes_dict.keys()):
+            school = "Interdisciplinary and Other"
+        else:
+            school = course_codes_dict[subject]
         print("Getting co reqs: " + subject)
         reqs = getPreCoReqs(str(basevalue), subject)
-        comb = combineInfo(courses, reqs)
+        comb = combineInfo(courses, reqs, school)
         driver.get(url)
         end = time.time()
         print("Time for " + subject +": " + str(end - start))
@@ -132,7 +138,6 @@ def findAllSubjectCodes(driver):
                         break
                     school_final.append(i)
                 school = " ".join(school_final)
-                code_school_dict[school] = list()
                 continue
             line = tags.text.strip()
             if line is '':
@@ -140,7 +145,7 @@ def findAllSubjectCodes(driver):
             if "\xa0" in line:
                 line = line.replace("\xa0", ' ')
             info = line.split(' ')
-            code_school_dict[school].append([info[0], " ".join(info)])
+            code_school_dict[info[0]] = school
     return code_school_dict
      
 
