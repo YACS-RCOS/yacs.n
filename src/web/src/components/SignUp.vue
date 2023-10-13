@@ -57,10 +57,10 @@
       <button type="submit" class="btn-primary btn w-100">
         Finish Sign Up!
       </button>
-      <!-- Added Google Signup Button -->
-      <button @click="authenticateWithGoogle" class="btn-primary btn w-100 mt-2">
-        Sign Up with Google
-      </button>
+      <button @click="initiateGoogleOneTap" class="btn-primary btn w-100 mt-2">
+   Sign Up with Google
+</button>
+
     </b-form>
   </div>
 </template>
@@ -103,23 +103,40 @@ export default {
         this.$emit("submit");
         return;
       }
-    }, // <-- added closing brace for onSubmit method
-    async authenticateWithGoogle() {
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        const token = googleUser.getAuthResponse().id_token;
-        const profile = googleUser.getBasicProfile();
 
-        this.form.email = profile.getEmail();
-        await this.onSubmit();
-      } catch (error) {
-        this.$bvToast.toast("Google authentication failed!", {
-          title: "Signup failed!",
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGIN, {
+          email: this.form["email"],
+          password: this.form["password"],
+        });
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
           variant: "danger",
           noAutoHide: true,
         });
       }
-    }
+
+      this.$emit("submit");
+    },
+    initiateGoogleOneTap() {
+        window.google.accounts.id.initialize({
+            client_id: '302186506311-fi566mm7fd80opbcj64vfn4atg9dom5g.apps.googleusercontent.com',
+            callback: this.handleGoogleResponse
+        });
+
+        window.google.accounts.id.prompt(); // This triggers the One Tap UI
+    },
+
+    handleGoogleResponse(response) {
+        // This function will be triggered after the user selects an account.
+        // You can extract user information from the `response` object.
+        
+        this.form.email = response.getBasicProfile().getEmail();
+
+        // Then, proceed with your sign-up or authentication process.
+        this.onSubmit();
+    },
   },
 };
 </script>

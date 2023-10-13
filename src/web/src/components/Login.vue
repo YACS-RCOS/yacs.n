@@ -20,11 +20,9 @@
       ></b-form-input>
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
-
-    <!-- New Google Login Button -->
-    <b-button @click="authenticateWithGoogle" variant="primary">
-      Login with Google
-    </b-button>
+    <b-button @click="initiateGoogleOneTap" variant="primary">
+    Login with Google
+</b-button>
     <div>
       <b-button-group size="md">
         <button
@@ -71,26 +69,6 @@ export default {
     };
   },
   methods: {
-    // New Google authentication method
-    async authenticateWithGoogle() {
-      try {
-        const googleUser = await this.$gAuth.signIn();
-        const token = googleUser.getAuthResponse().id_token;
-        const profile = googleUser.getBasicProfile();
-
-        this.form.email = profile.getEmail();
-        // You might want to send the token to your server to verify its authenticity and then authenticate the user. 
-        // For now, I'll just run the onSubmit function to give an idea.
-        await this.onSubmit();
-      } catch (error) {
-        this.$bvToast.toast("Google authentication failed!", {
-          title: "Login failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-      }
-    },
-  
     async onSubmit(evt) {
       evt.preventDefault();
 
@@ -109,6 +87,24 @@ export default {
           variant: "danger",
         });
       }
+    },
+    initiateGoogleOneTap() {
+        window.google.accounts.id.initialize({
+            client_id: '833663758121-q7cmerlh8h174ti2o17rldis1gb050n8.apps.googleusercontent.com',
+            callback: this.handleGoogleResponse
+        });
+
+        window.google.accounts.id.prompt(); // This triggers the One Tap UI
+    },
+
+    handleGoogleResponse(response) {
+        // This function will be triggered after the user selects an account.
+        // You can extract user information from the `response` object.
+        
+        this.form.email = response.getBasicProfile().getEmail();
+
+        // Then, proceed with your login or authentication process.
+        this.onSubmit();
     },
     onSignUp() {
       this.$refs["signup-modal"].hide();

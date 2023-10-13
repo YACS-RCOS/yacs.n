@@ -58,6 +58,7 @@
           <font-awesome-icon icon="address-book" />
           Professors
         </b-nav-item>
+        
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">

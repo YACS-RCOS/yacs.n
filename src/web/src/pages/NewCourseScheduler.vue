@@ -116,6 +116,9 @@
                 >
                   Prev
                 </b-button>
+                <b-button @click="initiateGoogleOneTap" variant="primary">
+  Login with Google
+</b-button>
                 <button @click="addToGoogleCalendar">Export to Google Calendar</button>
               </b-col>
               <b-col cols="8" class="m-2 text-center">
@@ -307,6 +310,7 @@ export default {
   },
   data() {
     return {
+      tokenFromOneTap: null,
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
@@ -329,40 +333,44 @@ export default {
   },
   methods: {
 
-    async authenticateWithGoogle() {
-    return new Promise((resolve, reject) => {
-        this.$gAuth.signIn().then(
-            googleUser => {
-                const token = googleUser.getAuthResponse().access_token;
-                resolve(token);
-            },
-            error => {
-                console.error("Failed to authenticate with Google: ", error);
-                reject(error);
-            }
-        );
+    initiateGoogleOneTap() {
+    google.accounts.id.initialize({
+      client_id: '833663758121-q7cmerlh8h174ti2o17rldis1gb050n8.apps.googleusercontent.com',
+      callback: this.handleCredentialResponse
     });
+    google.accounts.id.prompt(); // This will display the One Tap prompt
+  },
+  handleCredentialResponse(response) {
+  // You can send the response to your backend to verify and authenticate the user
+  this.tokenFromOneTap = response.credential;  // Save the token
 },
 
-    async addToGoogleCalendar() {
-        const token = await this.authenticateWithGoogle(); // You'll need to implement this
-        const calendarEvent = this.formatScheduleForGoogleCalendar(); // You'll need to implement this
 
-        const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(calendarEvent),
-        });
+  async addToGoogleCalendar() {
+  if (!this.tokenFromOneTap) {
+    alert('Please authenticate with Google first!');
+    return;
+  }
+  
+  const token = this.tokenFromOneTap; // Assuming you saved the token from One Tap to a data property
+  const calendarEvent = this.formatScheduleForGoogleCalendar(); // Assuming you have this method
 
-        if(response.ok) {
-            alert("Schedule added to Google Calendar!");
-        } else {
-            alert("Failed to add to Google Calendar.");
-        }
+  const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify(calendarEvent),
+  });
+
+  if (response.ok) {
+    alert("Schedule added to Google Calendar!");
+  } else {
+    alert("Failed to add to Google Calendar.");
+  }
+},
+
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {
