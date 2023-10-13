@@ -1,4 +1,4 @@
-FROM node:13-alpine as develop-stage
+FROM node:current-alpine as develop-stage
 WORKDIR /app
 
 COPY package*.json ./

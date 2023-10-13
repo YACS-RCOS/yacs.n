@@ -21,7 +21,7 @@ services:
   yacs_web:
     build:
       target: develop-stage
-    command: npm run serve
+    command: npm run dev
     ports:
       - 8080:8080
     volumes:
