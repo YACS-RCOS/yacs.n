@@ -18,8 +18,13 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
+<<<<<<< HEAD
     <b-button type="submit" variant="primary">Submit</b-button>
     <div class="buttonDiv" data-onsuccess="onSignIn"></div>
+=======
+    <div id="buttonDiv"></div>
+    <b-button type="submit" variant="primary">Submit</b-button>
+>>>>>>> parent of 71a4bfa (Google login button)
     <div>
       <b-button-group size="md">
         <button
