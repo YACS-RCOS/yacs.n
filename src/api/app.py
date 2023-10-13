@@ -443,6 +443,13 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     return message if not error else Response(content=error, status_code=500)
 
 
+#update by course code and section:
+@app.put('api/finals/update')
+async def update_final_by_courseCodeSection(courseCode: str, section: str, column: str, value: str):
+    message, error = finals_info.update_final(courseCode, section, column, value)
+    return message if not error else(Response(content = error, status_code=500))
+    
+
 #delete all finals
 # @app.delete('/api/finals/removeBulkFinal')
 # async def removeBulkFinals(file : UploadFile):
