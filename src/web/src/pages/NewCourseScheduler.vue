@@ -767,7 +767,6 @@ sidebar-panel-nav {
   font-size: 1.5rem;
   display: block;
   padding-bottom: 0.5em;
-}
 
 #export-ics-button {
   background: #3d4959 !important;
@@ -806,6 +805,7 @@ sidebar-panel-nav {
   z-index: 999;
   margin: 60px 0px 0px;
   width: 25%;
+}
 }
 
 .hidden {
