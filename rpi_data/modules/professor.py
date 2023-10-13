@@ -4,6 +4,7 @@ import requests
 with open('Professors.json') as f:
     data =json.load(f)
 
+
 def scrape_info(url):
     response =requests.get(url)
     soup = BeautifulSoup(response.content,'html.parser')
@@ -18,7 +19,6 @@ def scrape_info(url):
     
 for professor in data:
     name = professor['Name']
-    print(name)
     title = professor['Title']
     email = professor['Email']
     phone =professor['Phone']
