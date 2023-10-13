@@ -71,10 +71,8 @@ class Course:
             return self.code < other.code
         if self.section < other.section:
             return self.section < other.section
-        if self.stime == "TBA" and other.stime == "TBA":
-            return True
-        if other.stime == "TBA":
+        if other.time == "TBA":
             return True
         if self.stime == "TBA":
             return False
-        return time.strptime(self.stime) < time.strptime(self.etime)
+        return self.time < other.time
