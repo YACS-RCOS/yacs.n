@@ -443,13 +443,13 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     return message if not error else Response(content=error, status_code=500)
 
 
-delete all finals
-@app.delete('/api/finals/removeBulkFinal')
-async def removeBulkFinals(file : UploadFile):
-    if not file:
-        return Response("No file received", 400)
-    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
-        return Response("File must have json extension", 400)
+#delete all finals
+# @app.delete('/api/finals/removeBulkFinal')
+# async def removeBulkFinals(file : UploadFile):
+#     if not file:
+#         return Response("No file received", 400)
+#     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+#         return Response("File must have json extension", 400)
     
     finals, error = finals_info.remove_bulk_final(file)
     return finals if not error else Response(content=error, status_code=500)
