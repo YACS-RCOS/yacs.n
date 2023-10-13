@@ -54,13 +54,12 @@
           <calendar :exam-details="examDetails"></calendar>
           <b-row class="justify-content-end">
             <b-dropdown text="Export Data" class="mt-2">
-              <b-dropdown-item @click="exportScheduleToIcs">
+              <b-dropdown-item @click="exportFinalToIcs">
                 <font-awesome-icon :icon="exportIcon" />
-                Export To ICS
+                  Export To ICS
               </b-dropdown-item>
             </b-dropdown>
           </b-row>
-
       </b-col>
     </b-row>
   </b-container>
@@ -70,8 +69,9 @@
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
 import {
-  exportScheduleToIcs,
+  exportFinalToIcs,
 } from "@/utils";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 
 export default {
@@ -95,6 +95,7 @@ export default {
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
+      exportIcon: faPaperPlane,
     };
   },
   mounted() {
@@ -206,8 +207,9 @@ export default {
 
       console.log(this.examDetails);
     },
-    exportScheduleToIcs() {
-      exportScheduleToIcs(Object.values(this.possibilities[this.index]));
+    
+    exportFinalToIcs() {
+      exportFinalToIcs(this.selectedCourses);
     },
   },
 };
