@@ -28,6 +28,10 @@
     >
       Edit Professors
     </a>
+    <a v-b-modal.jsonModal class="text-primary d-block" style="cursor: pointer;">
+      Import Professors via JSON
+    </a>
+    
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
@@ -41,6 +45,10 @@
     <b-modal id="editProfessors" title="Edit Professors" size="xl">
       <EditProfessors />
     </b-modal>
+    <b-modal id="jsonModal" title="Import Professors via JSON" size="xl">
+      <UploadJson />
+    </b-modal>
+
 
     <!-- Footer of Admin Panel -->
     <br />
@@ -56,6 +64,7 @@ import UploadCsv from "@/pages/UploadCsv";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
+import UploadJson from "@/pages/UploadJson.vue";
 
 export default {
   name: "AdminPage",
@@ -64,6 +73,7 @@ export default {
     EditSemesters,
     SetDefault,
     EditProfessors,
+    UploadJson,
     // ManageAccounts,
   },
   data() {

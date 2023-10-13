@@ -53,6 +53,7 @@ class Courses:
         for semester in semesters:
             _, error = self.delete_by_semester(semester)
             if error:
+                print("ERROR")
                 print(error)
                 return error
         # on success, invalidate cache

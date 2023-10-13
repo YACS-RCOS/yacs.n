@@ -10,3 +10,6 @@ node_modules/
 *.ipynb*
 courses20.xml
 .coverage
+compose-dev.yaml
+rpi_data/get-summer-2023-2.sh
+rpi_data/summer-20232.csv
