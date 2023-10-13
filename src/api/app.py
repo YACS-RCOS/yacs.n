@@ -453,3 +453,9 @@ async def removeBulkFinals(file : UploadFile):
     
     finals, error = finals_info.remove_bulk_final(file)
     return finals if not error else Response(content=error, status_code=500)
+
+#update by course code and section:
+@app.put('api/finals/update')
+async def update_final_by_courseCodeSection(courseCode: str, section: str, column: str, value: str):
+    message, error = finals_info.update_final(courseCode, section, column, value)
+    return message if not error else(Response(content = error, status_code=500))
