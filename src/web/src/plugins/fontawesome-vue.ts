@@ -1,18 +1,16 @@
-import Vue from "vue";
-
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 // This allows for tree-shaking to minimize bundle size
 import {
-  faPaperPlane,
-  faMoon,
-  faCalendar,
-  faList,
-  faBars,
-  faSearch,
   faAddressBook,
+  faBars,
+  faCalendar,
   faFileAlt,
+  faList,
+  faMoon,
+  faPaperPlane,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -23,7 +21,7 @@ library.add(
   faBars,
   faSearch,
   faAddressBook,
-  faFileAlt
+  faFileAlt,
 );
 
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+export default FontAwesomeIcon;

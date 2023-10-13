@@ -1,12 +1,9 @@
-import "@/typedef";
+// import "@/typedef";
 
 import axios from "axios";
 
 import { localToUTCDate, readableDate } from "@/utils";
-
-const client = axios.create({
-  baseURL: "/api",
-});
+import { api } from "./baseService";
 
 /**
  * Accesses the YACS API
@@ -41,7 +38,7 @@ export const _getCourseIdentifier = (courseObj) => {
 };
 
 export const newGetCourses = (semester, search = null) =>
-  client.get("/class", { params: { semester, search } });
+  api.get("/class", { params: { semester, search } });
 
 const parseSession = (sessions) => {
   let ret = [0, 0, 0, 0, 0];
@@ -50,7 +47,7 @@ const parseSession = (sessions) => {
       let a = session["time_start"].split(":").map((a) => Number.parseInt(a));
       let b = session["time_end"].split(":").map((a) => Number.parseInt(a));
       const duration = Math.abs(
-        (b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0)
+        (b[0] - a[0]) * 2 + (a[1] < 30 ? 1 : 0) + (b[1] >= 30 ? 1 : 0),
       );
       const end = (20 - b[0]) * 2 + (b[1] < 30 ? 1 : 0);
       // generate 1 in bits for duration
@@ -69,7 +66,7 @@ const parseSession = (sessions) => {
  * @returns {Promise<Course[]>}
  */
 export const getCourses = (semester, search = null, filter = true) =>
-  client.get("/class", { params: { semester, search } }).then(({ data }) => {
+  api.get("/class", { params: { semester, search } }).then(({ data }) => {
     let courses = data.map((c) => {
       c.date_start = localToUTCDate(new Date(c.date_start));
       c.date_end = localToUTCDate(new Date(c.date_end));
@@ -99,7 +96,7 @@ export const getCourses = (semester, search = null, filter = true) =>
  * @returns {Promise<Department>}
  */
 export const getDepartments = () =>
-  client.get("/department").then(({ data }) => {
+  api.get("/department").then(({ data }) => {
     return data;
   });
 /**
@@ -107,7 +104,7 @@ export const getDepartments = () =>
  * @returns {Promise<Subsemester[]>}
  */
 export const getSubSemesters = (semester) =>
-  client
+  api
     .get("/subsemester", {
       params: {
         semester: semester,
@@ -116,7 +113,7 @@ export const getSubSemesters = (semester) =>
     .then(({ data }) => {
       return data.map((subsemester) => {
         subsemester.date_start = localToUTCDate(
-          new Date(subsemester.date_start)
+          new Date(subsemester.date_start),
         );
         subsemester.date_end = localToUTCDate(new Date(subsemester.date_end));
         subsemester.date_start_display = readableDate(subsemester.date_start);
@@ -131,41 +128,40 @@ export const getSubSemesters = (semester) =>
       });
     });
 
-export const getSemesters = () =>
-  client.get("/semester").then((res) => res.data);
+export const getSemesters = () => api.get("/semester").then((res) => res.data);
 
 export const addStudentCourse = (course_info) =>
-  client.post("/user/course", course_info).then(({ data }) => {
+  api.post("/user/course", course_info).then(({ data }) => {
     return data;
   });
 
 export const removeStudentCourse = (course_info) =>
-  client
+  api
     .delete("/user/course", {
       data: course_info,
     })
     .then((res) => res.data);
 
 export const getStudentCourses = () =>
-  client.get("/user/course").then((res) => res.data);
+  api.get("/user/course").then((res) => res.data);
 
 export const getProfessors = () =>
-  client.get("/professor").then((res) => res.data);
+  api.get("/professor").then((res) => res.data);
 
 export const get_professor_name_by_email = (email) =>
-  client.get("/professor/name/" + email).then((res) => res.data);
+  api.get("/professor/name/" + email).then((res) => res.data);
 
 export const get_professor_from_department = (department) =>
-  client.get("/professor/department/" + department).then((res) => res.data);
+  api.get("/professor/department/" + department).then((res) => res.data);
 
 export const get_office_hours = (email) =>
-  client.get("/professor/office_hours/" + email).then((res) => res.data);
+  api.get("/professor/office_hours/" + email).then((res) => res.data);
 
 export const get_professor_phone_number_by_email = (email) =>
-  client.get("/professor/phone_number/" + email).then((res) => res.data);
+  api.get("/professor/phone_number/" + email).then((res) => res.data);
 
 export const get_professor_info_by_rcs = (rcs) =>
-  client.get("/professor/rcs/" + rcs).then((res) => res.data);
+  api.get("/professor/rcs/" + rcs).then((res) => res.data);
 
 export const get_professor_info_by_email = (email) =>
-  client.get("/professor/email/" + email).then((res) => res.data);
+  api.get("/professor/email/" + email).then((res) => res.data);

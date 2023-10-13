@@ -1,7 +1,5 @@
 import "@/typedef";
 
-import Vue from "vue";
-
 import { login, logout, getUserInfo } from "@/services/UserService";
 
 import { prefixNamespacedTypes } from "@/utils";
@@ -69,11 +67,11 @@ const mutations = {
 /** @type {import("vuex").ActionTree<UserModuleState, any>} */
 const actions = {
   async [types.actions.LOAD_SESSION_COOKIE]({ commit, dispatch }) {
-    if (!Vue.$cookies.isKey(USER_SESSION_ID_COOKIE_KEY)) {
+    if (!inject("$cookies").isKey(USER_SESSION_ID_COOKIE_KEY)) {
       return;
     }
 
-    const sessionId = Vue.$cookies.get(USER_SESSION_ID_COOKIE_KEY);
+    const sessionId = inject("$cookies").get(USER_SESSION_ID_COOKIE_KEY);
 
     await dispatch(types.actions.LOAD_USER_INFO, sessionId);
 
@@ -96,13 +94,13 @@ const actions = {
 
     await dispatch(types.actions.LOAD_USER_INFO, content.sessionID);
 
-    Vue.$cookies.set(USER_SESSION_ID_COOKIE_KEY, content.sessionID);
+    inject("$cookies").set(USER_SESSION_ID_COOKIE_KEY, content.sessionID);
 
     commit(types.mutations.SET_SESSION_ID, content.sessionID);
   },
   async [types.actions.LOAD_USER_INFO](
     { commit, dispatch, getters },
-    sessionId
+    sessionId,
   ) {
     try {
       const {
@@ -145,7 +143,7 @@ const actions = {
     commit(types.mutations.SET_SESSION_ID, null);
     commit(types.mutations.SET_USER_INFO, null);
 
-    Vue.$cookies.remove(USER_SESSION_ID_COOKIE_KEY);
+    inject("$cookies").remove(USER_SESSION_ID_COOKIE_KEY);
   },
 };
 

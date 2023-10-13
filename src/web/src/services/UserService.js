@@ -1,21 +1,18 @@
 import axios from "axios";
+import { api } from "./baseService";
 
-const client = axios.create({
-  baseURL: "/api",
-});
-
-export const login = (userInfo) => client.post("/session", userInfo);
+export const login = (userInfo) => api.post("/session", userInfo);
 
 /**
  *
  * @param {string} sessionID
  */
-export const getUserInfo = (sessionID) => client.get(`/user/${sessionID}`);
+export const getUserInfo = (sessionID) => api.get(`/user/${sessionID}`);
 
-export const signup = (userInfo) => client.post("/user", userInfo);
+export const signup = (userInfo) => api.post("/user", userInfo);
 
 export const logout = (sessionId) =>
-  client.delete("/session", {
+  api.delete("/session", {
     data: {
       sessionID: sessionId,
     },

@@ -1,29 +1,25 @@
 import axios from "axios";
+import { api } from "./baseService";
 
-const client = axios.create({
-  baseURL: "/api",
-});
-
-export const uploadCsv = (formData) =>
-  client.post("/bulkCourseUpload", formData);
+export const uploadCsv = (formData) => api.post("/bulkCourseUpload", formData);
 
 export const mapDateRangeToSemesterPart = (formData) =>
-  client.post("/mapDateRangeToSemesterPart", formData);
+  api.post("/mapDateRangeToSemesterPart", formData);
 
 export const updateSemester = (semester) =>
-  client.post("/defaultsemesterset", { default: semester });
+  api.post("/defaultsemesterset", { default: semester });
 
 export const getAllSemesterInfo = () =>
-  client.get("/semesterInfo").then((res) => res.data);
+  api.get("/semesterInfo").then((res) => res.data);
 
 export const getDefaultSemester = () =>
-  client.get("/defaultsemester").then((res) => res.data);
+  api.get("/defaultsemester").then((res) => res.data);
 
 export const remove_professor = (email) =>
-  client.delete("/professor/remove/" + email).then((res) => res.data);
+  api.delete("/professor/remove/" + email).then((res) => res.data);
 
 export const addProfessors = (msg) =>
-  client.post("/professor/add/" + msg).then((res) => res.data);
+  api.post("/professor/add/" + msg).then((res) => res.data);
 
 export const addProfessorsTest = () =>
-  client.post("/professor/add/test").then((res) => res.data);
+  api.post("/professor/add/test").then((res) => res.data);

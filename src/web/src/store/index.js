@@ -1,4 +1,3 @@
-import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 
@@ -11,8 +10,6 @@ import { userModule, USER_NAMESPACE } from "./modules/user";
 const client = axios.create({
   baseURL: "/api",
 });
-
-Vue.use(Vuex);
 
 // Constants are UPPER_SNAKE_CASE but we set the values to
 //  camelCase so when using mapMutations, mapActions, etc.

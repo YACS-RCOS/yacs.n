@@ -1,20 +1,22 @@
-import VueRouter from "vue-router";
-const AdminPage = () => import("./pages/Admin");
-const StudentPage = () => import("./pages/Student");
-const CourseSchedulerPage = () => import("./pages/NewCourseScheduler"); /**/
-const UploadCsvPage = () => import("./pages/UploadCsv");
-const EditSemestersPage = () => import("./pages/EditSemesters");
-const CourseExplorerPage = () => import("./pages/CourseExplorer");
-const CoursePage = () => import("./pages/CoursePage");
-const ProfExplorer = () => import("./pages/ProfExplorer");
-const ProfPage = () => import("./pages/ProfPage");
-const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
-const PathwayPage = () => import("./pages/Pathway");
-const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
-const NotFoundPage = () => import("./pages/NotFound");
-const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
+import { createRouter, createWebHistory } from "vue-router";
 
-var router = new VueRouter({
+import AdminPage from "@/pages/Admin.vue";
+import StudentPage from "@/pages/Student.vue";
+import CourseSchedulerPage from "@/pages/NewCourseScheduler.vue";
+import UploadCsvPage from "@/pages/UploadCsv.vue";
+import EditSemestersPage from "@/pages/EditSemesters.vue";
+import CourseExplorerPage from "@/pages/CourseExplorer.vue";
+import CoursePage from "@/pages/CoursePage.vue";
+import ProfExplorer from "@/pages/ProfExplorer.vue";
+import ProfPage from "@/pages/ProfPage.vue";
+import DegreeTemplatesPage from "@/pages/DegreeTemplates.vue";
+import PathwayPage from "@/pages/Pathway.vue";
+import SubjectExplorerPage from "@/pages/SubjectExplorer.vue";
+import NotFoundPage from "@/pages/NotFound.vue";
+import FinalExamScheduler from "@/pages/FinalExamScheduler.vue";
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
@@ -90,12 +92,11 @@ var router = new VueRouter({
       name: "EditSemesters",
     },
     {
-      path: "*",
+      path: "/*404",
       component: NotFoundPage,
       name: "NotFound",
     },
   ],
-  mode: "history",
 });
 
 export default router;
