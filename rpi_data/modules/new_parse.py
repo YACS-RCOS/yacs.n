@@ -91,7 +91,7 @@ def sisCourseSearch(driver, term):
             school = course_codes_dict[subject]
         print("Getting co reqs: " + subject)
         reqs = getReqsInMajor(str(basevalue), subject)
-        comb = combineInfo(courses, reqs, school)
+        comb = combineInfo(courses, reqs, school, term)
         driver.get(url)
         end = time.time()
         print("Time for " + subject +": " + str(end - start))
@@ -228,11 +228,9 @@ def formatDate(info):
     info.insert(14, splitDate[1])
     info.pop(15)
 #Given the url of a major, parse the info for every course in that major
-def getMajorCourseInfo() -> list[list[str]]:
-    with open("cscitest.html") as fp:
-        soup = bs(fp, 'html.parser')
-    #html = driver.page_source
-    #soup = bs(html, 'html.parser')
+def getMajorCourseInfo(driver) -> list[list[str]]:
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
     rows = table.find_all("tr")
     courses = []
@@ -255,7 +253,6 @@ def getReqFromLink(webres, courseCode, major): #this takes nearly no time
     prereqs = ""
     coreqs = ""
     raw = ""
-    
     desc = classInfo[0]
     #In the future replace with regex or something that isn't so hardcoded
     #If the description starts with a number, set it to nothing, basically only for weird courses
@@ -312,8 +309,8 @@ def getReqsInMajor(semester, subject):
     i = 0
     for session in sessions:
         link = url_list[i]
-        major = link[:4]
-        code = link[5:9]
+        major = link[link.find("subj_code_in=") + len("subj_code_in="):link.find("subj_code_in=") + len("subj_code_in=") + 4]
+        code = link[link.find("crse_numb_in=") + len("crse_numb_in="):]
         codeKey = major + '-' + code
         allReqs[codeKey] = (getReqFromLink(session, code, major))
         i += 1
@@ -321,7 +318,7 @@ def getReqsInMajor(semester, subject):
 #Given a semester, get the pre and co reqs for every class in that semester
 #Very slow, need to speed up
 #Given the info about courses (crn, seats, etc), and prereqs and desc, combine the two into one dataframe
-def combineInfo(courses, reqs, school):
+def combineInfo(courses:list, reqs:dict, school:str, semester:str):
     print("Combining info")
     comb = []
     ckey = "%?$"
@@ -329,9 +326,18 @@ def combineInfo(courses, reqs, school):
     cokey = "$@^"
     dkey = "()!"
     rkey = "?^*"
+    sem = semester
+    index = 0
+    #This maybe works? idk
+    for letter in sem:
+        if not letter.isdigit():
+            letter = letter.upper()
+            index += 1
+    sem = sem[:index] + " " + sem[index:]
     for course in courses:
         c = Course(course)
         c.addSchool(school)
+        c.addSemester(sem)
         if c.short in reqs:
             result = reqs[c.short]
             prereq = result[result.find(pkey) + len(pkey):result.find(cokey)].strip()
@@ -340,23 +346,23 @@ def combineInfo(courses, reqs, school):
             desc = result[result.find(dkey) + len(dkey):].strip()
             c.addReqs(prereq, coreq, raw, desc)
         else:
+            #pdb.set_trace()
             print("error")
-            sys.exit()
+            #sys.exit()
         comb.append(c)
     comb.sort()
-    writeCSV(comb, "test.csv")
     return comb
 #Given a list of courses, write the courses to a csv
 def writeCSV(info:list, filename: str):
     pdb.set_trace()
     #Ok we're missing course type, offer frequency
     #Idk what to do about those yet
-    columnNames = ['course_name', 'course_credit_hours', 
+    columnNames = ['course_name', 'course_type', 'course_credit_hours', 
         'course_days_of_the_week', 'course_start_time', 'course_end_time', 
         'course_instructor', 'course_location', 'course_max_enroll', 'course_enrolled', 
         'course_remained', 'course_department', 'course_start_date', 'course_end_date', 
         'semester', 'course_crn', 'course_level', 'course_section', 'short_name', 'full_name', 
-        'description', 'raw_precoreqs', 'prerequisites', 'corequisites', 
+        'description', 'raw_precoreqs','offer_frequency', 'prerequisites', 'corequisites', 
         'school']
     decomposed = [[]] * len(info)
     for i in range(0, len(info), 1):
@@ -376,11 +382,12 @@ def main():
     #options.add_argument("--disable-dev-shm-usage")
     #options.add_argument("--headless")
     #options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Chrome()
+    driver = webdriver.Firefox()
     login(driver)
     start = time.time()
     final = sisCourseSearch(driver, "fall2023")
     end = time.time()
+    writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
 main()

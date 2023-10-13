@@ -26,6 +26,7 @@ class Course:
     co:str
     major:str
     school:str
+    lec:str
     #Info will be an array of strings: 
     # [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
     def __init__(self, info):
@@ -47,7 +48,7 @@ class Course:
         self.loc = info[15]
         self.long = self.processName(self.name)
         self.short = self.major + '-' + self.code
-        self.sem = "FALL 2023"
+        self.lec = "LEC"
     
     def processName(self, name:str) -> str:
         tmp = name.split()
@@ -55,8 +56,9 @@ class Course:
             word.lower()
             word[0].upper()
         return ''.join(tmp)
-
-    def addReqs(self, pre, co, raw, desc):
+    def addSemester(self, semester):
+        self.sem = semester
+    def addReqs(self, pre, co, raw, desc: str = ""):
         self.desc = desc
         self.raw = raw
         self.pre = pre
@@ -70,6 +72,7 @@ class Course:
     def decompose(self) -> list[str]:
         retList = []
         retList.append(self.name)
+        retList.append(self.lec)
         retList.append(self.credits)
         retList.append(self.days)
         retList.append(self.stime)
@@ -90,6 +93,7 @@ class Course:
         retList.append(self.long)
         retList.append(self.desc)
         retList.append(self.raw)
+        retList.append(" ")
         retList.append(self.pre)
         retList.append(self.co)
         retList.append(self.school)
