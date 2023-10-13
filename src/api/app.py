@@ -442,6 +442,7 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     message, error = finals_info.remove_final(courseCode, section)
     return message if not error else Response(content=error, status_code=500)
 
+
 #delete all finals
 # @app.delete('/api/finals/removeBulkFinal')
 # async def removeBulkFinals(file : UploadFile):
