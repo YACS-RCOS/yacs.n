@@ -5,7 +5,10 @@ import asyncio
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-#from your_module import Professor, Base
+
+##!!!!!!!!!!!!!!!!!!!!
+## TO UPDATE WITH NEW PATHWAYS/CATEGORIES, CHANGE JSON FILE AT BOTTOM OF PAGE
+##!!!!!!!!!!!!!!!!!!!!
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -20,27 +23,23 @@ class Pathway:
         self.cache = cache
 
     def add_pathway(self, pathway_name, category_name):
-            if pathway_name is not None:
-                print(pathway_name)
-                return self.db_conn.execute("""
+        if pathway_name is not None:
+            print(pathway_name)
+            return self.db_conn.execute("""
             INSERT INTO
-                Pathway (pathway_name, category_name)
+                pathway (pathway_name, category_name)
             VALUES
-                   (%(Pathway_name)s, %(Category_name)s)
+                   (%(pathway_name)s, %(category_name)s)
             ON CONFLICT DO NOTHING
             ;
         """, {
-                "Pathway_name": pathway_name,
-                "Category_name": category_name
-            }
-        , False)
-            else:
-                return (False, "pathway_name cannot be none")
+                "pathway_name": pathway_name,
+                "category_name": category_name
+            }, False)
+        else:
+            return (False, "pathway_name cannot be none")
 
-    def add_bulk_pathways(self, json_data):
-        # Load the JSON data from a file
-        #json_data = json.load(open(file, 'r'))
-
+    def add_bulk_pathways(self, json_data): #function is called in app.py
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
 
@@ -50,13 +49,11 @@ class Pathway:
                 for entry in json_data:
                     for sub in entry['Pathways']:
                         try:
-                            # pathway_name
-                            # category_name
 
-                            # Insert professor data into the 'professor' table
+                            # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
                             transaction.execute(
                                 """
-                                INSERT INTO Pathway (
+                                INSERT INTO pathway (
                                     pathway_name,
                                     category_name
                                 )
@@ -89,11 +86,18 @@ class Pathway:
             # Return success status and no error
             return True, None
 
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
 
 
 if __name__ == "__main__":
-    json_text = open('../../../src/web/src/pages/pathwayV2.json', 'r')
     pathways = Pathway(connection.db)
-#     pathways.populate_from_csv(json_text)
-
-    pathways.add_bulk_pathways('../../../src/web/src/pages/pathwayV2.json')
+    pathways.add_bulk_pathways('../../../src/web/src/pages/pathwayV2.json') #CHANGE FILE HERE IF NEEDED

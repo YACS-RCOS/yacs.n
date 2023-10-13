@@ -54,7 +54,7 @@ export default {
         this.$emit("loading");
         if (formData.get("file") && formData.get("file").name) {
           let filename = formData.get("file").name;
-          addPathways(formData)
+          addPathways(formData) //RUNS API CALL THROUGH "../services/AdminService.js"
             .then((response) => {
               console.log(response);
               // Axios will only enter this block if the status code is 2xx,
