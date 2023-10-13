@@ -20,8 +20,13 @@
     </b-form-group>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <b-button type="submit" variant="primary">Submit</b-button>
     <div class="buttonDiv" data-onsuccess="onSignIn"></div>
+=======
+    <div id="buttonDiv"></div>
+    <b-button type="submit" variant="primary">Submit</b-button>
+>>>>>>> parent of 71a4bfa (Google login button)
 =======
     <div id="buttonDiv"></div>
     <b-button type="submit" variant="primary">Submit</b-button>
