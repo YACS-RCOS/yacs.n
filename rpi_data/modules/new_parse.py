@@ -17,6 +17,7 @@ import pandas as pd
 import pdb
 import copy
 from course import Course
+from concurrent.futures import ThreadPoolExecutor
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -76,6 +77,7 @@ def sisCourseSearch(driver, term):
     subjects = subject_select.options
     subject = ""
     for i in range(len(subjects)):
+        start = time.time()
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         print("Getting course info")
@@ -85,6 +87,8 @@ def sisCourseSearch(driver, term):
         reqs = getPreCoReqs(str(basevalue), subject)
         comb = combineInfo(courses, reqs)
         driver.get(url)
+        end = time.time()
+        print("Time for " + subject +": " + str(end - start))
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
@@ -234,9 +238,7 @@ def getMajorCourseInfo(driver) -> list[list[str]]:
     return courses
 #Given a semester and a major, get the pre and coreqs for every class in that major
 #Given a link,return the pre and co reqs for that class. Also return the major and course code to identify the class
-def getReqFromLink(link, courseCode, major):
-    session = requests.Session()
-    webres = session.get(link)
+def getReqFromLink(webres, courseCode, major):
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
@@ -288,13 +290,25 @@ def getReqsInMajor(semester, subject):
     codes = table.find_all("a")
     allReqs = dict()
     key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in=" + semester
+    url_list = list()
     for link in codes:
         if key in link['href']:
-            major = link.text[:4]
-            code = link.text[5:9]
             link = ("https://sis.rpi.edu" + link['href'])
-            codeKey = major + '-' + code
-            allReqs[codeKey] = (getReqFromLink(link, code, major))
+            url_list.append(link)
+    sessions = list()
+    start = time.time()
+    with ThreadPoolExecutor(max_workers=50) as pool:
+        sessions = list(pool.map(get_url, url_list))
+    end = time.time()
+    print(str(end - start))
+    i = 0
+    for session in sessions:
+        link = url_list[i]
+        major = link[:4]
+        code = link[5:9]
+        codeKey = major + '-' + code
+        allReqs[codeKey] = (getReqFromLink(session, code, major))
+        i += 1
     return allReqs
 #Given a semester, get the pre and co reqs for every class in that semester
 #Very slow, need to speed up
@@ -325,6 +339,11 @@ def combineInfo(courses, reqs):
         comb.append(c)
     comb.sort()
     return comb
+
+def get_url(url):
+    session = requests.Session()
+    return session.get(url)
+
 def main():
     options = Options()
     #options.add_argument("--no-sandbox")
@@ -333,7 +352,10 @@ def main():
     #options.add_argument("--remote-debugging-port=9222")
     driver = webdriver.Chrome()
     login(driver)
+    start = time.time()
     final = sisCourseSearch(driver, "fall2023")
+    end = time.time()
+    print("Total Elapsed: " + str(end - start))
    
 main()
 
