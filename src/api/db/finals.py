@@ -14,6 +14,10 @@ else:
     from . import connection
 
 class Finals:
+    global columns, crr
+    columns = ["department", "coursecode", "section", "room", "dayofweek", "day", "hour"]
+    crr = ["department", "courseCode", "section", "room", "dayOfWeek", "day", "hour"]
+
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
@@ -54,7 +58,7 @@ class Finals:
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
         cursor = self.db_conn.cursor()
-        query = "SELECT COUNT(*) FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + str(section) + ";"
+        query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
         cursor.execute(query)
         records = cursor.fetchone()
         if department is None:
@@ -101,7 +105,7 @@ class Finals:
         if courseCode is None:
             return(False, "Course Code cannot be none")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\';"
+        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\';"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
 
@@ -111,7 +115,7 @@ class Finals:
         elif section is None:
             return(False, "Section cannot be None")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = " + section + ";"
+        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + section + ";"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
     
@@ -119,7 +123,7 @@ class Finals:
         if day is None:
             return (False, "Date cannot be none")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE Day = \'" + day + "\';"
+        query = "SELECT * FROM finals WHERE day = \'" + day + "\';"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
     
@@ -127,7 +131,7 @@ class Finals:
         if department is None:
             return(False, "Department cannot be none")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE Deparment = \'" + department + "\';"
+        query = "SELECT * FROM finals WHERE deparment = \'" + department + "\';"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
     
@@ -135,7 +139,7 @@ class Finals:
         if DOW is None:
             return(False, "Day of Week cannot be none")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE DayOfWeek = \'" + DOW + "\';"
+        query = "SELECT * FROM finals WHERE dayOfWeek = \'" + DOW + "\';"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
     
@@ -143,7 +147,7 @@ class Finals:
         if hour is None:
             return(False, "Hour cannot be None")
         cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals WHERE Hour = \'" + hour + "\';"
+        query = "SELECT * FROM finals WHERE hour = \'" + hour + "\';"
         info, error = cursor.execute(query, None, True)
         return (info, None) if not error else (False, error)
         
@@ -153,9 +157,9 @@ class Finals:
         elif section is None:
             return (False, "Section cannot be none")
         
-        query = "DELETE FROM finals WHERE CourseCode = \'" + courseCode + "\' AND Section = \'" + section + "\';"
+        query = "DELETE FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
 
-        cursor = self.db_connect_cursor()
+        cursor = self.db_conn.cursor()
         info, error = cursor.execute(query, None, True)
         message = ""
         if not error:
@@ -163,5 +167,25 @@ class Finals:
         
         return(message, None) if not error else (False, error)
     
+    def findCol(self, column):
+        i=0
+        for cols in columns:
+            if cols.lower() == column:
+                return (True, crr[i])
+            i+=1
+        return (False, column)
 
-
+    def update_final(self, courseCode, section, column : str, value : str):
+        if courseCode is None:
+            return (False, "CourseCode cannot be none")
+        elif section is None:
+            return (False, "Section cannot be none")
+        
+        error, column = self.findCol(column)
+        if error:
+            query = "UPDATE finals SET " + column + " = \'" + value + "\' WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
+            cursor = self.db_conn.cursor()
+            info, error = cursor.execute(query, None, True)
+            return (info, None) if not error else (False, error)
+        else:
+            return (False, "Column does not exist")
