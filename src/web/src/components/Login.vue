@@ -89,8 +89,9 @@ export default {
       }
     },
     initiateGoogleOneTap() {
+        
         window.google.accounts.id.initialize({
-            client_id: '833663758121-q7cmerlh8h174ti2o17rldis1gb050n8.apps.googleusercontent.com',
+            client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
             callback: this.handleGoogleResponse
         });
 

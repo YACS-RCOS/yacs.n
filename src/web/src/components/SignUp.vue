@@ -121,7 +121,7 @@ export default {
     },
     initiateGoogleOneTap() {
         window.google.accounts.id.initialize({
-            client_id: '302186506311-fi566mm7fd80opbcj64vfn4atg9dom5g.apps.googleusercontent.com',
+            client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
             callback: this.handleGoogleResponse
         });
 
