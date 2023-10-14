@@ -2,6 +2,23 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
+
+
+    <!-- Search Bar -->
+    <div class="mb-3">
+      <b-form-group label="Search">
+        <b-input
+          v-model="searchTerm"
+          @input="search"
+          placeholder="Search for professor or department"
+        ></b-input>
+      </b-form-group>
+      <b-button @click="searchTypeSwitch" class="mt-2">
+        {{ searchType === 'professor' ? 'Search by Department' : 'Search by Professor' }}
+      </b-button>
+    </div>
+
+
     <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
       <b-button
@@ -185,9 +202,37 @@ export default {
       showProf: null,
       deptShow: false,
       alphShow: true,
+
+      searchTerm: "", // New data property for search term
+      searchType: "professor", // New data property for search type
+
     };
   },
   computed: {
+
+
+    filteredData() {
+      // Filtered and sorted data based on the search term and type
+      let filteredData = this.professors;
+      if (this.searchTerm) {
+        const searchTermLower = this.searchTerm.toLowerCase();
+        if (this.searchType === "professor") {
+          filteredData = filteredData.filter((prof) => {
+            return prof.Name.toLowerCase().includes(searchTermLower);
+          });
+        } else if (this.searchType === "department") {
+          filteredData = filteredData.filter((prof) => {
+            return (
+              prof.Department.toLowerCase().includes(searchTermLower) ||
+              prof.Portfolio.toLowerCase().includes(searchTermLower)
+            );
+          });
+        }
+      }
+      return filteredData;
+    },
+
+
     departmentCols() {
       // create list of departments
       var half_length = Math.ceil(this.professors.length / 2);
@@ -366,6 +411,44 @@ export default {
       var rcs = professor["Email"].replace("@rpi.edu", "");
       this.$router.push("/professor/" + rcs);
     },
+
+    
+    // Switch between searching professors and departments
+    searchTypeSwitch() {
+      this.searchType = this.searchType === "professor" ? "department" : "professor";
+      this.search(); // Perform search when switching type
+    },
+
+    // Search based on the search term and type
+    search() {
+      // Triggered when the search term or type changes
+      // The filteredData computed property is automatically updated
+      let filteredData = this.professors;
+
+      if (this.searchTerm) {
+        const searchTermLower = this.searchTerm.toLowerCase();
+
+        // Check the search type and filter the data accordingly
+        if (this.searchType === "professor") {
+          // Filter professors by name
+          filteredData = filteredData.filter((prof) => {
+            return prof.Name.toLowerCase().includes(searchTermLower);
+          });
+        } else if (this.searchType === "department") {
+          // Filter professors by department or portfolio
+          filteredData = filteredData.filter((prof) => {
+            return (
+              prof.Department.toLowerCase().includes(searchTermLower) ||
+              prof.Portfolio.toLowerCase().includes(searchTermLower)
+            );
+          });
+        }
+      }
+
+      // Update the filteredData computed property with the filtered results
+      this.filteredData = filteredData;
+    },
+
   },
 };
 </script>
