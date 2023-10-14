@@ -346,12 +346,13 @@ export const exportFinalToIcs = (selectedSections) => {
       calendarFinals.addEvent(
         `${course.Department} ${course.CourseCode}-${course.Section}`,
         `${course.Department} Final Exam`,
-        // course.Room,
+        course.Room,
         startDate,
         endDate,
         {
-          freq: "ONCE",
+          freq: "DAILY",
           interval: 1,
+          until: endDate,
         }
       );
     });
