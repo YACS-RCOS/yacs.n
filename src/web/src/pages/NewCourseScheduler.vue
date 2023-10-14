@@ -281,11 +281,10 @@ import {
   exportScheduleToImage,
   generateRequirementsText,
   withinDuration,
+  DATE_TIME_FORMAT,
 } from "@/utils";
 
-import { format } from 'date-fns';
-import { google } from 'googleapis';
-import { DATE_TIME_FORMAT } from './utils';
+
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
@@ -338,8 +337,9 @@ export default {
 
     initiateGoogleOneTap() {
     google.accounts.id.initialize({
-      client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse
+      client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
+      callback: this.handleCredentialResponse,
+      oauth_scopes: ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events'],
     });
     google.accounts.id.prompt(); // This will display the One Tap prompt
   },
@@ -348,60 +348,80 @@ export default {
   this.tokenFromOneTap = response.credential;  // Save the token
 },
 
-
-formatScheduleForGoogleCalendar(schedule) {
-  if (!Array.isArray(schedule)) {
-    return [];
-  }
-
-  const formattedSchedule = schedule.map((course) => {
-    const startDateTime = new Date(course.start_time);
-    const endDateTime = new Date(course.end_time);
-
-    const formattedStartDateTime = format(startDateTime, DATE_TIME_FORMAT);
-    const formattedEndDateTime = format(endDateTime, DATE_TIME_FORMAT);
-
-    return {
-      summary: course.course_name,
-      location: course.location,
-      description: course.description,
-      start: {
-        dateTime: formattedStartDateTime,
-        timeZone: 'America/New_York'
-      },
-      end: {
-        dateTime: formattedEndDateTime,
-        timeZone: 'America/New_York'
-      }
-    };
-  });
-
-  return formattedSchedule;
-},
-  async addToGoogleCalendar() {
-  if (!this.tokenFromOneTap) {
-    alert('Please authenticate with Google first!');
-    return;
-  }
-  
-  const token = this.tokenFromOneTap; // Assuming you saved the token from One Tap to a data property
-  const calendarEvent = this.formatScheduleForGoogleCalendar(); // Assuming you have this method
-
-  const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
+    formatDate(date, formatString) {
+      const z = (n) => (n < 10 ? '0' : '') + n;
+      return formatString
+        .replace('YYYY', date.getFullYear())
+        .replace('MM', z(date.getMonth() + 1))
+        .replace('DD', z(date.getDate()))
+        .replace('HH', z(date.getHours()))
+        .replace('mm', z(date.getMinutes()))
+        .replace('ss', z(date.getSeconds()));
     },
-    body: JSON.stringify(calendarEvent),
-  });
 
-  if (response.ok) {
-    alert("Schedule added to Google Calendar!");
-  } else {
-    alert("Failed to add to Google Calendar.");
-  }
-},
+    formatScheduleForGoogleCalendar(schedule) {
+      if (!Array.isArray(schedule)) {
+        return [];
+      }
+
+      const formattedSchedule = schedule.map((course) => {
+        const startDateTime = new Date(course.start_time);
+        const endDateTime = new Date(course.end_time);
+
+        // Note: DATE_TIME_FORMAT should be defined somewhere in your component or imported from somewhere
+        const formattedStartDateTime = this.formatDate(startDateTime, DATE_TIME_FORMAT); 
+        const formattedEndDateTime = this.formatDate(endDateTime, DATE_TIME_FORMAT);
+
+        return {
+          summary: course.course_name,
+          location: course.location,
+          description: course.description,
+          start: {
+            dateTime: formattedStartDateTime,
+            timeZone: 'America/New_York'
+          },
+          end: {
+            dateTime: formattedEndDateTime,
+            timeZone: 'America/New_York'
+          }
+        };
+      });
+
+      return formattedSchedule;
+    },
+    async addToGoogleCalendar() {
+      if (!this.tokenFromOneTap) {
+        alert('Please authenticate with Google first!');
+        return;
+      }
+      
+      const token = this.tokenFromOneTap;
+      console.log(token);
+      const calendarEvent = this.formatScheduleForGoogleCalendar();
+
+      try {
+        const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(calendarEvent),
+        });
+
+        if (response.ok) {
+          alert("Schedule added to Google Calendar!");
+        } else {
+          // Log the response status and text for debugging purposes
+          console.error(`Error: ${response.status}, ${response.statusText}`);
+          alert("Failed to add to Google Calendar.");
+        }
+      } catch (error) {
+        // Log any errors that occur during the fetch
+        console.error("Fetch Error: ", error);
+        alert("An error occurred while trying to add to Google Calendar.");
+      }
+    },
 
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
