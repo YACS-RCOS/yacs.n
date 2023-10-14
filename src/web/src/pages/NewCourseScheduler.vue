@@ -283,6 +283,9 @@ import {
   withinDuration,
 } from "@/utils";
 
+import { format } from 'date-fns';
+import { google } from 'googleapis';
+import { DATE_TIME_FORMAT } from './utils';
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const noConflict = (p, section) => {
@@ -346,6 +349,35 @@ export default {
 },
 
 
+formatScheduleForGoogleCalendar(schedule) {
+  if (!Array.isArray(schedule)) {
+    return [];
+  }
+
+  const formattedSchedule = schedule.map((course) => {
+    const startDateTime = new Date(course.start_time);
+    const endDateTime = new Date(course.end_time);
+
+    const formattedStartDateTime = format(startDateTime, DATE_TIME_FORMAT);
+    const formattedEndDateTime = format(endDateTime, DATE_TIME_FORMAT);
+
+    return {
+      summary: course.course_name,
+      location: course.location,
+      description: course.description,
+      start: {
+        dateTime: formattedStartDateTime,
+        timeZone: 'America/New_York'
+      },
+      end: {
+        dateTime: formattedEndDateTime,
+        timeZone: 'America/New_York'
+      }
+    };
+  });
+
+  return formattedSchedule;
+},
   async addToGoogleCalendar() {
   if (!this.tokenFromOneTap) {
     alert('Please authenticate with Google first!');
