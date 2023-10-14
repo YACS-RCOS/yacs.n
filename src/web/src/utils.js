@@ -305,7 +305,7 @@ export const exportScheduleToIcs = (selectedSections) => {
  * Export all selected final exam sections to ICS
  */
 export const exportFinalToIcs = (selectedSections) => {
-  if (!Array.isArray(selectedSections) || selectedSections.length === 0) {
+  if (!Array.isArray(selectedSections) || selectedSections.length == 0) {
     alert("No final exam sections found for export to ICS.");
     return;
   }

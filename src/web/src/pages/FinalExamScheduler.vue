@@ -53,10 +53,10 @@
       <b-col md="7">
           <calendar :exam-details="examDetails"></calendar>
           <b-row class="justify-content-end">
-            <b-dropdown text="Export Data" class="mt-2">
+            <b-dropdown text="Export Data" class="mt-2" right="false" left="true">
               <b-dropdown-item @click="exportFinalToIcs">
                 <font-awesome-icon :icon="exportIcon" />
-                  Export To ICS
+                Export To ICS
               </b-dropdown-item>
             </b-dropdown>
           </b-row>
