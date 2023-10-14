@@ -305,7 +305,7 @@ export const exportScheduleToIcs = (selectedSections) => {
  * Export all selected final exam sections to ICS
  */
 export const exportFinalToIcs = (selectedSections) => {
-  if (!Array.isArray(selectedSections) || selectedSections.length == 0) {
+  if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
     alert("No final exam sections found for export to ICS.");
     return;
   }
@@ -313,53 +313,49 @@ export const exportFinalToIcs = (selectedSections) => {
   let calendarFinals = window.ics();
   let semester = "current";
 
-  try {
-    selectedSections.forEach((course) => {
-      const startTime = course.Hour.split("-")[0].trim();
-      const endTime = course.Hour.split("-")[1].trim();
+  selectedSections.forEach((course) => {
+    const startTime = course.Hour.split("-")[0].trim();
+    const endTime = course.Hour.split("-")[1].trim();
 
-      const examDate = new Date(course.Day);
-      const startDate = new Date(examDate);
+    const examDate = new Date(course.Day);
+    const startDate = new Date(examDate);
 
-      let startHour = parseInt(startTime.split(":")[0]);
-      let startMinute = parseInt(startTime.split(":")[1].substring(0, 2));
+    let startHour = parseInt(startTime.split(":")[0]);
+    let startMinute = parseInt(startTime.split(":")[1].substring(0, 2));
 
-      startDate.setHours(startHour);
-      startDate.setMinutes(startMinute);
-      startDate.setFullYear(new Date().getFullYear());
-      if (startTime.split(":")[1].substring(2) === "PM") {
-        startDate.setHours(startDate.getHours() + 12);
+    startDate.setHours(startHour);
+    startDate.setMinutes(startMinute);
+    startDate.setFullYear(new Date().getFullYear());
+    if (startTime.split(":")[1].substring(2) === "PM") {
+      startDate.setHours(startDate.getHours() + 12);
+    }
+
+    const endDate = new Date(examDate);
+
+    let endHour = parseInt(endTime.split(":")[0]);
+    let endMinute = parseInt(endTime.split(":")[1].substring(0, 2));
+    
+    endDate.setHours(endHour);
+    endDate.setMinutes(endMinute);
+    endDate.setFullYear(new Date().getFullYear());
+    if (endTime.split(":")[1].substring(2) === "PM") {
+      endDate.setHours(endDate.getHours() + 12);
+    }
+
+    calendarFinals.addEvent(
+      `${course.Department} ${course.CourseCode}-${course.Section}`,
+      `${course.Department} Final Exam`,
+      course.Room,
+      startDate,
+      endDate,
+      {
+        freq: "DAILY",
+        interval: 1,
+        until: endDate,
       }
-
-      const endDate = new Date(examDate);
-
-      let endHour = parseInt(endTime.split(":")[0]);
-      let endMinute = parseInt(endTime.split(":")[1].substring(0, 2));
-      
-      endDate.setHours(endHour);
-      endDate.setMinutes(endMinute);
-      endDate.setFullYear(new Date().getFullYear());
-      if (endTime.split(":")[1].substring(2) === "PM") {
-        endDate.setHours(endDate.getHours() + 12);
-      }
-
-      calendarFinals.addEvent(
-        `${course.Department} ${course.CourseCode}-${course.Section}`,
-        `${course.Department} Final Exam`,
-        course.Room,
-        startDate,
-        endDate,
-        {
-          freq: "DAILY",
-          interval: 1,
-          until: endDate,
-        }
-      );
-    });
-    calendarFinals.download(`${semester.replace(/\s+/g, "_")}_Final_Exams`);
-  } catch (error) {
-    alert("Error exporting final exams to ICS: " + error.message);
-  }
+    );
+  });
+  calendarFinals.download(`${semester.replace(/\s+/g, "_")}_Final_Exams`);
 };
 
 
