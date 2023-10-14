@@ -19,21 +19,14 @@
         size="sm"
         :text="selectedSemester"
         class="m-md-2"
+
+
       >
-<!-- reorder the secheduling semester by year followed by year -->
-        <!--loop through years and render a header for each year-->
-        <!--loop through semesters for each year-->
-          <!--in the script>> create  a function that would sort from 
-          semesterOptions by year would retrive semesters for a specific year-->
         <b-dropdown-item
-          v-for="option in semesterOptions"
+          v-for="option in sortedSemesterOptions"
           :key="option.value"
           :value="option.value"
           @click="selectSemester(option.value)"
-          
-
-
-          
         >
           {{ option.value }}
         </b-dropdown-item>
@@ -236,6 +229,26 @@ export default {
         text: semester,
         value: semester,
       }));
+    },
+    sortedSemesterOptions() {
+      // Sort the semesterOptions array by year and semester
+      return this.semesterOptions.slice().sort((a, b) => {
+        // Extract year and semester from the value (e.g., "Fall 2023")
+        const yearA = a.value.split(' ')[1];
+        const yearB = b.value.split(' ')[1];
+        
+        // Compare years
+        if (yearA !== yearB) {
+          return yearA - yearB; // Assuming years are integers
+        }
+        
+        // If years are the same, compare semesters
+        const semesterOrder = ['Spring', 'Summer', 'Fall']; // Define the order of semesters
+        const semesterA = semesterOrder.indexOf(a.value.split(' ')[0]);
+        const semesterB = semesterOrder.indexOf(b.value.split(' ')[0]);
+
+        return semesterA - semesterB;
+      });
     },
   },
 };
