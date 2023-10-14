@@ -121,7 +121,7 @@ export default {
     },
     initiateGoogleOneTap() {
         window.google.accounts.id.initialize({
-            client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
+          client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
             callback: this.handleGoogleResponse
         });
 
@@ -129,13 +129,19 @@ export default {
     },
 
     handleGoogleResponse(response) {
-        // This function will be triggered after the user selects an account.
-        // You can extract user information from the `response` object.
-        
-        this.form.email = response.getBasicProfile().getEmail();
+      // Extract user information from the response object
+      const profile = response.getProfile();
+      const firstname = profile.getName().split(" ")[0];
+      const email = profile.getEmail();
+      const password = response.getAuthResponse().id_token;
 
-        // Then, proceed with your sign-up or authentication process.
-        this.onSubmit();
+      // Set the form field values
+      this.form.firstname = firstname;
+      this.form.email = email;
+      this.form.password = password;
+
+      // Submit the form
+      this.onSubmit();
     },
   },
 };
