@@ -100,7 +100,9 @@ def sisCourseSearch(driver, term):
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
         [info.append(i) for i in comb]
-    
+    info.sort()
+    #Because we end up sorting in reverse order, we need to reverse the list to get the correct order
+    info.reverse()
     return info
         
 def parseCourseTable(driver):
@@ -149,7 +151,6 @@ def findAllSubjectCodes(driver):
     return code_school_dict
      
 
-#Ok so this is very hardcoded, will prbo need to redo later on
 #But for now, it takes a lab block, test block, or seminar? and fills in the missing info for it
 def processSpecial(info, prevrow) -> list[str]:
     tmp = formatTimes(info)
@@ -170,13 +171,12 @@ def formatTeachers(profs : str) -> str:
     #Remove the (P)
     if index != -1:
         profs = profs[:index-1] + profs[index + 3:]
-    #Split the last to get the last names, then reconstruct profs, can prob optimize by merging the 1st and 2nd loop
+    #Split the profs into diff arrays, then get the last name and return that
     tmp = profs.split(',')
+    profs = ""
     for i in range(0, len(tmp), 1):
         tmp[i] = tmp[i].split()[len(tmp[i].split()) -1]
-    profs = ""
-    for prof in tmp:
-        profs += (prof + "/")
+        profs += tmp[i] + "/"
     profs = profs[:len(profs)-1]
     return profs
 #We need to split the time into a starting and ending time, we could do it later, but it's prob easier to do it here
@@ -219,11 +219,10 @@ def processRow(data, prevrow) -> list[str]:
     formatTimes(info)
     #Remove waitlist and crosslist stuff
     info = info[:12] + info[18:]
-    #Split date into 2 :sob:
+    #Split the date into start and end date
     formatDate(info)
     #Some classes have a credit value ranging from 0-12
     if '-' in info[4]:
-        #pdb.set_trace()
         info[4] = formatCredits(info)
     return info
 def formatDate(info):
@@ -352,15 +351,11 @@ def combineInfo(courses:list, reqs:dict, school:str, semester:str):
             desc = result[result.find(dkey) + len(dkey):].strip()
             c.addReqs(prereq, coreq, raw, desc)
         else:
-            #pdb.set_trace()
             print("error")
-            #sys.exit()
         comb.append(c)
-    comb.sort()
     return comb
 #Given a list of courses, write the courses to a csv
 def writeCSV(info:list, filename: str):
-    pdb.set_trace()
     #Ok we're missing course type, offer frequency
     #Idk what to do about those yet
     columnNames = ['course_name', 'course_type', 'course_credit_hours', 
@@ -373,7 +368,6 @@ def writeCSV(info:list, filename: str):
     decomposed = [[]] * len(info)
     for i in range(0, len(info), 1):
         decomposed[i] = info[i].decompose()
-    pdb.set_trace()
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
     
