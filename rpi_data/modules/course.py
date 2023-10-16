@@ -92,26 +92,20 @@ class Course:
         retList.append(self.short)
         retList.append(self.long)
         retList.append(self.desc)
-        retList.append(self.raw)
-        retList.append(" ")
-        retList.append(self.pre)
-        retList.append(self.co)
+        retList.append(self.raw + "a")
+        retList.append("a")
+        retList.append(self.pre + "a")
+        retList.append(self.co + "a")
         retList.append(self.school)
         return retList
     def addSchool(self, school):
         self.school = school
     def __lt__(self, other):
-        if self.major < other.major:
-            return (self.major < other.major)
-        if self.code < other.code:
-            return self.code < other.code
-        if self.section < other.section:
-            return self.section < other.section
-        if other.stime == "TBA":
-            return True
-        if self.stime == "TBA":
-            return False
-        if self.stime < other.stime:
-            return self.stime < other.stime
-        return self.etime < other.etime
- 
+        #Note that we will maybe need to compare times? Idk how to handle the case where the classes
+        #are the same (ie lab, lecture, test) so at the moment the lecture appears last.
+        #  So far we just sort in reverse order.
+        if self.major > other.major:
+            return self.major > other.major
+        if self.code > other.code:
+            return self.code > other.code
+        return self.section > other.section
