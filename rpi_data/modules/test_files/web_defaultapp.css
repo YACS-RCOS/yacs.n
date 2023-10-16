@@ -483,7 +483,7 @@ font-family:  Verdana,Arial Narrow, helvetica, sans-serif;
 font-weight: normal;
 font-size: 90%;
 font-style: normal;
-color:#660099;;
+color:#660099;
 text-decoration: none;
 }
 
@@ -1213,7 +1213,6 @@ vertical-align: top;
 /* ======================================================== */
 TABLE TD.pltitle {
 font-family: Verdana,Arial Narrow,  helvetica, sans-serif;
-font-weight: normal;
 font-size: 90%;
 font-weight: bold;
 }
@@ -1749,7 +1748,7 @@ DIV.pageheaderdiv1 {
   border-color: #fff;
   border-style: none;
   border-width: 0;
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
   text-align: left;
   /* background: transparent url("http://www.rpi.edu/dept/cct/temp/sisRensselaer.png") top right no-repeat; */
   background: transparent url("/rpi_images/sisRensselaer.png") top right no-repeat;
@@ -1759,7 +1758,7 @@ DIV.pageheaderdiv1 {
   display: none;
 }
 div.headerlinksdiv {
-  margin: 2em 1em 1em 1em;
+  margin: 2em 1em 1em;
 }
 div.headerlinksdiv2 {
   margin-left: 1em;
@@ -1781,7 +1780,7 @@ TABLE TD.pldefault {
 }
 table td.pldefault b {
   display: block;
-  margin: 0 0 0.25em 0;
+  margin: 0 0 0.25em;
 }
 h1 {
   color: #EEEEEE;
@@ -1793,7 +1792,7 @@ h1 {
 h2 {
   text-align: left;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0.5em 1em 0 1em;
+  margin: 0.5em 1em 0;
 }
 .taboff,
 .tabon {
