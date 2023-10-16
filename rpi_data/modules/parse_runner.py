@@ -75,5 +75,5 @@ if __name__ == "__main__":
         courses = courseUpdate(driver, term, courses)
         parser.writeCSV(courses, csv_name)
         time.sleep(20)
-
+#
 
