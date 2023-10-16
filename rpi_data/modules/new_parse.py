@@ -243,7 +243,7 @@ def getMajorCourseInfo(driver) -> list[list[str]]:
     return courses
 #Given a semester and a major, get the pre and coreqs for every class in that major
 #Given a link,return the pre and co reqs for that class. Also return the major and course code to identify the class
-def getReqFromLink(webres, courseCode, major): #this takes nearly no time    
+def getReqFromLink(webres, courseCode, major):
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
@@ -354,7 +354,7 @@ def combineInfo(courses:list, reqs:dict, school:str, semester:str):
     return comb
 #Given a list of courses, write the courses to a csv
 def writeCSV(info:list, filename: str):
-    pdb.set_trace()
+    #pdb.set_trace()
     #Ok we're missing course type, offer frequency
     #Idk what to do about those yet
     columnNames = ['course_name', 'course_type', 'course_credit_hours', 
@@ -367,7 +367,7 @@ def writeCSV(info:list, filename: str):
     decomposed = [[]] * len(info)
     for i in range(0, len(info), 1):
         decomposed[i] = info[i].decompose()
-    pdb.set_trace()
+    #pdb.set_trace()
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
     
@@ -390,5 +390,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
-main()
+#main()
 
