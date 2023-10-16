@@ -92,6 +92,7 @@
             </div>
           </transition>
         </div>
+        <div class="schedule_body">
         <b-form-select
           v-if="
             !loading &&
@@ -178,6 +179,7 @@
             </b-row>
           </div>
         </div>
+      </div>
       </div>
     </b-row>
 
@@ -731,6 +733,7 @@ export default {
   text-decoration: none;
   display: block;
   transition: 0.3s;
+  overflow: hidden;
 }
 
 .tab-content {
@@ -767,6 +770,8 @@ sidebar-panel-nav {
   font-size: 1.5rem;
   display: block;
   padding-bottom: 0.5em;
+  overflow: hidden;
+}
 
 #export-ics-button {
   background: #3d4959 !important;
@@ -792,6 +797,7 @@ sidebar-panel-nav {
   top: 0;
   left: 0;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .sidebar-panel {
@@ -802,10 +808,10 @@ sidebar-panel-nav {
   left: 0;
   top: 0;
   height: 100vh;
-  z-index: 999;
+  z-index: 998;
   margin: 60px 0px 0px;
   width: 25%;
-}
+  overflow: hidden;
 }
 
 .hidden {
@@ -911,4 +917,11 @@ button:focus {
 #burger.active .burger-bar {
   background-color: #32aad8;
 }
+
+@media (max-width: 768px) {
+  body .sidebar-panel {
+    width: 100%;
+  }
+}
+
 </style>
