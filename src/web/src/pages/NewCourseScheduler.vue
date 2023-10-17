@@ -922,6 +922,9 @@ button:focus {
   body .sidebar-panel {
     width: 100%;
   }
+  body .burger-button {
+    position: fixed;
+  }
 }
 
 </style>
