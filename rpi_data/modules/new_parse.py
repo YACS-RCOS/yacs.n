@@ -19,6 +19,7 @@ import copy
 from course import Course
 from concurrent.futures import ThreadPoolExecutor
 import sys
+import datetime
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -183,15 +184,23 @@ def formatTeachers(profs : str) -> str:
 def formatTimes(info : list[str]) -> list[str]:
     #Special case where the time is tba
     if(info[7] == "TBA"):
-        info.insert(8, "TBA")
+        info.insert(8, "")
+        info[7] = ""
         return info
-    tmp = info[7]
-    start = tmp[:8]
-    end = tmp[9:]
+    #Split the time in two, and then insert the split times as the start and end time
+    splitTime = info[7].split('-')
+    start = splitTime[0]
+    end = splitTime[1]
     info.insert(7,start)
     info.insert(8,end)
+    #Pop to remove original time
     info.pop(9)
     return info
+#splitTime = info[7].split('-')
+    #stime = datetime.datetime.strptime(splitTime[0], '%I:%M %p')
+    #etime = datetime.datetime.strptime(splitTime[1], '%I:%M %p')
+    #info.insert(7,stime.date())
+    #info.insert(8,etime.date())
 #Given a row, process the data in said row including crn, course code, days, seats, etc
 def processRow(data, prevrow) -> list[str]:
     info = []
@@ -214,7 +223,7 @@ def processRow(data, prevrow) -> list[str]:
         return info
     #Some admin and grad courses won't have days of the week
     if (info[6] == '\xa0'):
-        info[6] = "TBA"
+        info[6] = ""
     info[17] = formatTeachers(info[17])
     formatTimes(info)
     #Remove waitlist and crosslist stuff
@@ -253,6 +262,9 @@ def getReqFromLink(webres, courseCode, major): #this takes nearly no time
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
     classInfo = body.text.strip('\n\n').split('\n\n')
+    for i in range(0,len(classInfo),1):
+        while '\n' in classInfo[i]:
+            classInfo[i] = classInfo[i].replace('\n','')
     key = "Prerequisites/Corequisites"
     preKey = "Prerequisite"
     prereqs = ""

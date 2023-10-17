@@ -1,5 +1,5 @@
-import inspect
 import time
+import pdb
 class Course:
     name:str
     credits:int
@@ -52,10 +52,11 @@ class Course:
     
     def processName(self, name:str) -> str:
         tmp = name.split()
-        for word in tmp:
-            word.lower()
-            word[0].upper()
-        return ''.join(tmp)
+        for i in range(0, len(tmp), 1):
+            if not tmp[i].isalpha():
+                continue 
+            tmp[i]= tmp[i][:1].upper() + tmp[i][1:].lower()
+        return ' '.join(tmp)
     def addSemester(self, semester):
         self.sem = semester
     def addReqs(self, pre, co, raw, desc: str = ""):
