@@ -14,7 +14,7 @@ import {
   faAddressBook,
   faFileAlt,
   faQuestionCircle,
-  faAddressBook,
+  // faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
