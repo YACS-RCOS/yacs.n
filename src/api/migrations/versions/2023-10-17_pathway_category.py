@@ -10,19 +10,13 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '85de5f210bb7' #so far, just randomly created an 'unique id' with 12 hex characters
-down_revision = '95cb2a021aa9' #grab value from previous version file
+revision = '12ab3c456dd7' #so far, just randomly created an 'unique id' with 12 hex characters
+down_revision = '85de5f210bb7' #grab value from previous version file
 branch_labels = None
 depends_on = None
 
 
 def upgrade():
-    op.create_table('pathway',
-    sa.Column('pathway_name', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('category_name', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('pathway_name')
-    )
-
     op.create_table('pathway_category',
     sa.Column('category_name', sa.VARCHAR(length=255), nullable=False),
     sa.PrimaryKeyConstraint('category_name')

@@ -13,6 +13,7 @@ import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.professor as All_professors
 import db.pathways_db as All_Pathways
+import db.pathway_category as All_Pathway_Categories
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -50,6 +51,7 @@ course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 pathway_info = All_Pathways.Pathway(db_conn, FastAPICache)
+pathway_category_info = All_Pathway_Categories.Pathway_Category(db_conn, FastAPICache)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -377,6 +379,14 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
 
+def getResponse(isSuccess, error, databaseName):
+    message = ""
+    for i in range(len(isSuccess)):
+        if isSuccess[i]:
+            message += databaseName[i] + "WAS SUCCESSFUL" + "\n"
+        else:
+            message += databaseName[i] + "IS NOT WORKING - ERROR:" + error[i] + "\n"
+    return message
 @app.post('/api/bulkPathwayUpload')
 async def bulkPathwayUpload(
         isPubliclyVisible: str = Form(...),
@@ -400,13 +410,21 @@ async def bulkPathwayUpload(
     except json.JSONDecodeError as e:
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
-    # Call populate_from_json method
+    Success = []
+    Error = []
+    DatabaseName = []
+
+    # Call add_bulk_pathways method
     isSuccess, error = pathway_info.add_bulk_pathways(json_data)
-    if isSuccess:
-        print("SUCCESS")
-        return Response(status_code=200)
-    else:
-        print("NOT WORKING")
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    Success.append(isSuccess)
+    Error.append(error)
+    DatabaseName.append("pathway")
+    # Call add_bulk_category method
+    isSuccess, error = pathway_category_info.add_bulk_category(json_data)
+    Success.append(isSuccess)
+    Error.append(error)
+    DatabaseName.append("pathway_category")
+
+    return getResponse(Success, Error, DatabaseName)
+
 
