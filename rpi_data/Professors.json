@@ -217,7 +217,7 @@
         "Department": "Biological Sciences",
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Seemanti-Ramanath",
-        "Teaching": "greater than 6,000 students, BIOL 1010 - Introduction to Biology, What is life?, BIOL 1015 - Introduction to Biology Lab, BIOL 1961 - Sense and Signal, How does life work?, BIOL 2940 - Introduction to Biology Undergraduate Mentor I, II and III, UGM, BIOL 2960 - Human Evolution Lab, What makes a human?, , FALL 2023 BIOL 1015 Labs, Summer 2023 BIOL 1015 Labs"
+        "Teaching": "greater than 6,000 students, BIOL 1010 - Introduction to Biology, What is life?, BIOL 1015 - Introduction to Biology Lab, Ecology: \u00a0Students identify specimens in local Albany stream water samples\u00a0ex situ at RPI Walker Labs, generating datasets of community taxa., Bio-Statistics: \u00a0Students compute Shannon's Diversity Index, EPT index, and J index to understand species richness and evenness in the above limnological community samples, and perform a Student's TTest to evaluate their datasets, and compare the health of two of our local Albany streams., Cell Biology 1: \u00a0Students travel into our invisible (to the naked eye) world, by using Light Microscopy to visualize living eukaryotic cells at the micron-scale level in pond scum. \u00a0They compare these observations with those of prokaryotic (bacterial) cells in yogurt and other common fermented foods., Cell Biology 2: \u00a0Students compute and compare cell cycle phase durations in animal (Ascaris) and plant (Allium) cells., Genetics: \u00a0Students understand Mendelian Inheritance Patterns by examining the genetic information flow patterns in\u00a0in vivo data, using fruit flies as their model organism., Molecular Biology: \u00a0Students extract DNA, and visualize\u00a0in vitro PCR amplified DNA data., Evolution: \u00a0Students generate in silico phylogenetic trees from ungulate megafaunal morphological data., Bio-Chemistry: \u00a0Students move biochemical structures, on an AI learning Platform, to understand how amino acid monomers join together to form protein polymers, and predict biochemical outcomes of a mutation., Bio-Informatics: \u00a0Students learn to use software to visualize protein crystals at the nano-scale level in data stored in PDB, NCBI and in other public databases., ArtX projects enable students to create innovative projects via their favorite medium of art, such as storytelling, cartoons, painting, dance, music, drama, or via their favorite interests, such as, sports, math, architecture, economics, material science, engineering, AI, or coding, with the goal of making connections between newly-learned Biology concepts, and their major field of study., BIOL 1961 - Sense and Signal, How does life work?, BIOL 2940 - Introduction to Biology Undergraduate Mentor I, II and III, UGM, BIOL 2960 - Human Evolution Lab, What makes a human?, "
     },
     {
         "Name": "Georgi Shablovsky",
@@ -327,7 +327,7 @@
         "Department": "",
         "Portfolio": "Office for Research",
         "Profile Page": "https://faculty.rpi.edu/Jonathan-Dordick",
-        "Teaching": "Honors, Awards, and Lectureships, Plenary and Keynote Addresses, Recent Publications:, 6, 37, 6, 116, 3, 15, 10, 16, 104, 105, 69, 12, 64, 330, 11, 16, 4, 19, 19, 93, 15, 74, 73, The Dordick Group"
+        "Teaching": "Not available"
     },
     {
         "Name": "George Makhatadze",
@@ -637,7 +637,7 @@
         "Department": "Cognitive Science",
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Alicia-Walf",
-        "Teaching": "Behavioral Neuroscience, Cognition and the Brain, Hormones, Brain, and Behavior, Intergroup Dialogue: Imagined future/realities, Introduction to Cognitive Neuroscience, Introduction to Psychological Science, Sensibilities, , Stress and the Brain, Understanding Empathy, Well-being: Creating a Toolbox, Well-being: Cultivating Curiosity, Teaching and Research Awards:, Teaching and Research Funding:, Travel Awards:, Invited talks:, , Recent poster presentations:, Video & TV interviews:, Podcasts:"
+        "Teaching": "Behavioral Neuroscience, Cognition and the Brain, Hormones, Brain, and Behavior, Intergroup Dialogue: Imagined future/realities, Introduction to Cognitive Neuroscience, Introduction to Psychological Science, Sensibilities, , Stress and the Brain, Understanding Empathy, Well-being: Creating a Toolbox, Well-being: Cultivating Curiosity, Psychological Science Program Coordinator, Pre-health Committee"
     },
     {
         "Name": "Mei Si",
@@ -977,7 +977,7 @@
         "Department": "Materials Science and Engineering",
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ravishankar-Sundararaman",
-        "Teaching": "Advanced electronic properties of materials (MTLE-6120), Material Informatics and Data Science (MTLE/CSCI-4730/6730), Materials Science for Engineers (ENGR 1600), Programming for Materials Engineers (MTLE 2960), Modeling and Analysis of Uncertainty (ENGR 2600), Fall 2022, Summer 2022, Spring 2022"
+        "Teaching": "Advanced electronic properties of materials (MTLE-6120), Material Informatics and Data Science (MTLE/CSCI-4730/6730), Materials Science for Engineers (ENGR 1600), Programming for Materials Engineers (MTLE 2960), Modeling and Analysis of Uncertainty (ENGR 2600), Fall 2022: Materials Informatics and Data Science, Fall 2022, Summer 2022: Modeling and Analysis of Uncertainty, Summer 2022, Spring 2022:Advanced electronic properties of MaterialsProgramming for Materials Engineers, Spring 2022, Advanced electronic properties of Materials, Programming for Materials Engineers"
     },
     {
         "Name": "Paul Keblinski",
@@ -1037,7 +1037,7 @@
         "Department": "Civil and Environmental Engineering",
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Tathagata-Bhaduri",
-        "Teaching": "Bhaduri, Tathagata, Tathagata Bhaduri, Bhaduri, Tathagata, Bhaduri, Tathagata, Tathagata Bhaduri"
+        "Teaching": "Not available"
     },
     {
         "Name": "Matt Oehlschlaeger",
@@ -1107,7 +1107,7 @@
         "Department": "Earth and Environmental Sciences",
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Sarah-Cadieux",
-        "Teaching": "Not available"
+        "Teaching": "Geology 1: Earth's Interior (Fall), Geology 2: Earth's Surface (Spring), Introduction to Geobiology (Fall), Environmental Seminar (Spring), One Mile of the Hudson River (Fall), Earth's Climate: Past, Present and Future (Spring)"
     },
     {
         "Name": "Sasha Wagner",
@@ -1367,7 +1367,7 @@
         "Department": "GSAS",
         "Portfolio": "School of Humanities, Arts and  Social Sciences (HASS)",
         "Profile Page": "https://faculty.rpi.edu/Nicholas-Mizer",
-        "Teaching": "2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2007, Books and Book Chapters, Articles"
+        "Teaching": "Not available"
     },
     {
         "Name": "Eric Ameres",
@@ -1477,7 +1477,7 @@
         "Department": "Lighting Research Center",
         "Portfolio": "School of Architecture",
         "Profile Page": "https://faculty.rpi.edu/Nadarajah-Narendran",
-        "Teaching": "Most cited publications"
+        "Teaching": "Not available"
     },
     {
         "Name": "Clint Ballinger",
@@ -1507,7 +1507,7 @@
         "Department": "",
         "Portfolio": "Lally School of Management",
         "Profile Page": "https://faculty.rpi.edu/Jonathan-McKinney",
-        "Teaching": "AWARDS - PROFESSIONAL, AWARDS \u2013 ACADEMIC, AWARDS \u2013 PERSONAL"
+        "Teaching": "Not available"
     },
     {
         "Name": "Bill Francis",
@@ -1607,7 +1607,7 @@
         "Department": "Mathematical Sciences",
         "Portfolio": "School of Science",
         "Profile Page": "https://faculty.rpi.edu/Belmiro-Galo-da-Silva",
-        "Teaching": "32"
+        "Teaching": "Not available"
     },
     {
         "Name": "Gregor Kovacic",
@@ -1667,7 +1667,7 @@
         "Department": "Mechanical, Aerospace and Nuclear Engineering",
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Karthik-Panneerselvam",
-        "Teaching": "ResearchGate Profile:, Selected Publications:"
+        "Teaching": "Not available"
     },
     {
         "Name": "Kevin Housley",
@@ -1867,7 +1867,7 @@
         "Department": "Biomedical Engineering",
         "Portfolio": "School of Engineering",
         "Profile Page": "https://faculty.rpi.edu/Ge-Wang",
-        "Teaching": "Ge Wang\u2019s Biography for Wikipedia, Ge Wang, \u738b\u9769, Career Achievements, Most Impactful Work \u2013 Spiral Cone-beam CT, AI-empowered Breakthrough \u2013 Deep Tomographic Imaging, , Other Innovations, Societal Fellowships, Selected Research and Teaching Awards, Publications, Funding, and Presentations, Employment, Alma Mater, References, "
+        "Teaching": "Professor Wang developed the first undergraduate and graduate courses on medical imaging in the deep learning framework and promotes online teaching. He gave numerous talks and seminars internationally, including the 2021 SPIE O+P Plenary on deep imaging and popular science talks on CT and AI. His TEDEd lesson \u201cHow X-rays see through your skin\u201d received more than 1.5M views. The book he and his coauthors wrote on \"Machine Learning for Tomographic Imaging\" is the first in the field and received over 33K downloads in the first three months. More presentations include AI@NIH, MRI, AI-Plenary, AI-Keynote,\u00a0CT4Layman, AI@Stanford, AI-Stability, SPIE Plenary,\u00a0SPIE Plenary\u00a0Interview, Shanghai Tech BME, and Sigma Xi Chubb Award Speech, YouTube and B-station."
     },
     {
         "Name": "Jason Jacobskind",

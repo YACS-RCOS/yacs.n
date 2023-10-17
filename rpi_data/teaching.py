@@ -37,18 +37,29 @@ def extract_courses_from_html(url):
     html_content = response.text
     soup = BeautifulSoup(html_content, 'html.parser')
     
-    # Find the teaching header
+    # Find the teaching header or "current course" tage
     teaching_header = soup.find('h2', class_='red sans-alt text-uppercase', string='Teaching')
-    
-    if not teaching_header:
+    current_course_tag = soup.find('strong', string=re.compile("Current Course", re.IGNORECASE))
+
+    startpoint=teaching_header or current_course_tag
+
+    if not startpoint:
         return []
 
     courses = []
-    for strong_tag in teaching_header.find_all_next('strong'):
+    for sibling in startpoint.find_all_next():
         # If you hit another header, stop
-        if any(sibling.name and sibling.name.startswith('h') for sibling in strong_tag.find_next_siblings(limit =1)):
+        if sibling.name and sibling.name.startswith('h'):
             break
-        courses.append(strong_tag.text.strip())
+
+        # If it's a <strong> tag and not a "Current Course" indicator, consider it a course name
+        if sibling.name == 'strong' and sibling.text.strip().lower() != "current course":
+            courses.append(sibling.text.strip())
+        # If it's a paragraph or a list item, consider it as a potential course title
+        elif sibling.name in ['li']:
+            text = sibling.text.strip()
+            if text:  # To ensure non-empty strings
+                courses.append(text)
     return courses
 
 
