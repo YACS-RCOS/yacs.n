@@ -5,7 +5,10 @@ import asyncio
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-#from your_module import Professor, Base
+
+##!!!!!!!!!!!!!!!!!!!!
+## TO UPDATE WITH NEW PATHWAYS/CATEGORIES, CHANGE JSON FILE AT BOTTOM OF PAGE
+##!!!!!!!!!!!!!!!!!!!!
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -13,32 +16,92 @@ if __name__ == "__main__":
 else:
     from . import connection
 
-class pathway_minors:
+
+class Pathway_minors:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
 
-def add_bulk_minor(self):
-    # Load the JSON data from a file
-    with open('../../web/src/pages/pathwayV2.json') as file:
-        data = json.load(file)
+    def add_pathway_minor(self, pathway_name, minor_name):
+        if minor_name is not None:
+            print(minor_name)
+            return self.db_conn.execute("""
+            INSERT INTO
+                pathway_minor (minor_name, pathway_name)
+            VALUES
+                   (%(minor_name)s, %(pathway_name)s)
+            ON CONFLICT DO NOTHING
+            ;
+        """, {
+                "minor_name": minor_name,
+                "pathway_name": pathway_name
 
-    # Connect to the SQL database
-    conn = self.db.get_connection()
+            }, False)
+        else:
+            return (False, "minor_name cannot be none")
 
-    for record in data:
-        for p in i['Pathways']:
-            if 'Compatible minor(s)' in p.keys():
-                for min in p['Compatible minor(s)']:
-                    print(min)
-                    print(p['Name'][0])
-                    minor = pathway_minors(pathway=p['Name'][0],
-                                            minor=min
-                                            )
-                    conn.add(minor)
-        # Commit the changes to the database
-    conn.commit()
-    self.clear_cache()
-    return (True, None)
+    def add_bulk_pathways_minor(self, json_data): #function is called in app.py
+        # Connect to the SQL database
+        conn = self.db_conn.get_connection()
 
-add_bulk_minor()
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            try:
+                # Iterate over each entry in the JSON data
+                for entry in json_data:
+                    for sub in entry['Pathways']:
+                        if 'Compatible minor(s)' in sub.keys():
+                            for min in p['Compatible minor(s)']:
+
+                                try:
+                                    # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
+                                    transaction.execute(
+                                        """
+                                        INSERT INTO minor (
+                                            minor_name, 
+                                            pathway_name
+                                            
+                                        )
+                                        VALUES (
+                                            NULLIF(%(minor_name)s, ''),
+                                            NULLIF(%(pathway_name)s, '')  
+                                        )
+                                        ON CONFLICT DO NOTHING;
+                                        """,
+                                        {
+                                            "pathway_name": sub['Name'][0],
+                                            "minor_name": min
+                                        }
+                                    )
+                                except Exception as e:
+                                    # Roll back the transaction and return the exception if an error occurs
+                                    print("THIS IS THE EXCEPTION:", e)
+                                    conn.rollback()
+                                    return (False, e)
+            except ValueError as ve:
+                # Return an error message if the JSON data is invalid
+                return (False, f"Invalid JSON data: {str(ve)}")
+
+            # Commit the transaction if all entries are inserted successfully
+            conn.commit()
+
+            # Invalidate cache to ensure new data is retrieved
+            self.clear_cache()
+
+            # Return success status and no error
+            return True, None
+
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
+
+
+if __name__ == "__main__":
+    minor = pathway_minors(connection.db)
+    pathways.add_bulk_pathways('../../../src/web/src/pages/pathwayV2.json') #CHANGE FILE HERE IF NEEDED
