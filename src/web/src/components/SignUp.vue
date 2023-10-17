@@ -24,10 +24,6 @@
         ></b-form-input>
       </b-form-group>
 
-      <!-- <b-form-group id="input-group-3" label="Phone Number:" label-for="input-3">
-        <b-form-input id="input-3" v-model="form.phone" required placeholder="Enter your phone number"></b-form-input>
-      </b-form-group> -->
-
       <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input
           type="password"
@@ -58,9 +54,8 @@
         Finish Sign Up!
       </button>
       <button @click="initiateGoogleOneTap" class="btn-primary btn w-100 mt-2">
-   Sign Up with Google
-</button>
-
+        Sign Up with Google
+      </button>
     </b-form>
   </div>
 </template>
@@ -68,6 +63,7 @@
 <script>
 import { signup } from "@/services/UserService";
 import { userTypes } from "../store/modules/user";
+
 export default {
   name: "SignUp",
   data() {
@@ -75,7 +71,6 @@ export default {
       form: {
         email: "",
         name: "",
-        phone: "",
         password: "",
         degree: "",
         major: "",
@@ -121,28 +116,61 @@ export default {
     },
     initiateGoogleOneTap() {
         window.google.accounts.id.initialize({
-          client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
+            client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
             callback: this.handleGoogleResponse
         });
 
         window.google.accounts.id.prompt(); // This triggers the One Tap UI
     },
 
-    handleGoogleResponse(response) {
-      // Extract user information from the response object
-      const profile = response.getProfile();
-      const firstname = profile.getName().split(" ")[0];
-      const email = profile.getEmail();
-      const password = response.getAuthResponse().id_token;
+    async handleGoogleResponse(response) {
+      // Extract user information from the ID token
+      const idToken = response.credential;
+      const decodedData = this.decodeIdToken(idToken);
 
-      // Set the form field values
-      this.form.firstname = firstname;
-      this.form.email = email;
-      this.form.password = password;
+      // Set the required form field values
+      this.form.name = decodedData.name;
+      this.form.email = decodedData.email;
+      // Note: Ideally, you shouldn't set a password for users signing in with Google.
+      // For this demonstration, I'm using the ID token, but consider changing this approach.
+      this.form.password = idToken;
 
-      // Submit the form
-      this.onSubmit();
+      // Automatically create the account
+      const {
+        data: { success, errMsg },
+      } = await signup(this.form);
+
+      if (!success) {
+        this.$bvToast.toast(errMsg || "Unknown error", {
+          title: "Signup failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+        return;
+      }
+
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGIN, {
+          email: this.form["email"],
+          password: this.form["password"],
+        });
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
+          variant: "danger",
+          noAutoHide: true,
+        });
+      }
     },
+
+    decodeIdToken(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonData = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonData);
+    }
   },
 };
 </script>
