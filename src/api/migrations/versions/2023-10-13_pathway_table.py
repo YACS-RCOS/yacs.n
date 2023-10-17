@@ -1,7 +1,7 @@
-"""Professor_table
+"""Pathway table
 
-Revision ID: 95cb2a021aa9
-Revises: 54df4fb8dfe9
+Revision ID: 85de5f210bb7
+Revises: 95cb2a021aa9
 Create Date: 2023-04-06 00:55:10.389370
 
 """
