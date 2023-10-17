@@ -1,6 +1,6 @@
 import json
 from bs4 import BeautifulSoup
-import requests
+import request
 with open('Professors.json') as f:
     data =json.load(f)
 
@@ -11,7 +11,7 @@ def scrape_info(url):
     titles_list = soup.select('.doc-title.serif a')
     titles = [title.text.strip() for title in titles_list]
     print(titles)  
-      
+
     if not link:
         return None
     teaching_url = link['href'] if link.has_attr('href') else None
