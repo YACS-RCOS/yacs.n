@@ -18,18 +18,28 @@ class pathway_field():
 
 
 def printPathways(data):
-    total_keys = set()
-    for category in data:
-        print('Category:', category["Category Name"][0])
-        for pathway in category['Pathways']:
-            print('    Pathway:', pathway["Name"][0])
-            for key in pathway.keys():
-                total_keys.add(key)
-                if key != 'Name':
-                    print('       ', key + ':')
-                    for course in pathway[key]:
-                        print('           ', course)
-
+    for entry in data:
+        for sub in entry['Pathways']:
+            for key in sub.keys():
+                if key != 'Name' and key != 'Compatible minor(s)':
+                    for course in sub[key]:
+                        print(course)
+                        d_code = ''
+                        c_code = ''
+                        c_name = ''
+                        tokens = course.split('-')
+                        if len(tokens) == 1:
+                            print(tokens[0])
+                            tokens = tokens[0].split()
+                            d_code = tokens[0]
+                            c_code = tokens[1]
+                        else:
+                            dept_and_code = tokens[0].split()
+                            d_code = dept_and_code[0]
+                            c_code = dept_and_code[1]
+                            c_name = tokens[1].strip()
+                        print('"' + d_code + '", "' + c_code + '", "' + c_name + '"')
+                        print()
 
 def printKeys(data):
     total_keys = set()
@@ -66,6 +76,8 @@ if __name__ == "__main__":
     fields = dict()
     loadFields(fields)
 
-    for i in data:
-        for j in i['Pathways']:
-            print(j["Name"][0], "     ", i['Category Name'][0])
+    # for i in data:
+    #     for j in i['Pathways']:
+    #         print(j["Name"][0], "     ", i['Category Name'][0])
+
+    printPathways(data)

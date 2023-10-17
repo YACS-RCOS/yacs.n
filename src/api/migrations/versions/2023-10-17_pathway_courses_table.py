@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'abcdabcd12345678'  # randomly created an 'unique id' with 12 hex characters
+revision = 'abcd12345678'  # randomly created an 'unique id' with 12 hex characters
 down_revision = '85de5f210bb7'  # grab value from previous version file
 branch_labels = None
 depends_on = None
@@ -18,12 +18,12 @@ depends_on = None
 
 def upgrade():
     op.create_table('courses',
-    sa.Column('course_name', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('course_code', sa.INT, nullable=False),
     sa.Column('dept_code', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('course_name'),
+    sa.Column('course_code', sa.VARCHAR(length=4), nullable=False),
+    sa.Column('course_name', sa.VARCHAR(length=255), nullable=True),
+    sa.PrimaryKeyConstraint('dept_code'),
     sa.PrimaryKeyConstraint('course_code'),
-    sa.PrimaryKeyConstraint('dept_code')
+    sa.PrimaryKeyConstraint('course_name')
     )
 
 
