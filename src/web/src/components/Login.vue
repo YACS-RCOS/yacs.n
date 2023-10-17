@@ -89,6 +89,7 @@ export default {
 
         try {
             await this.$store.dispatch(userTypes.actions.LOGIN, loginData);
+            this.$store.commit('SET_AUTHENTICATED', true);
 
             this.$bvToast.toast(`You are now logged in!`, {
               title: `Welcome ${this.user.name}`,

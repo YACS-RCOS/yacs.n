@@ -116,10 +116,6 @@
                 >
                   Prev
                 </b-button>
-                <b-button @click="initiateGoogleOneTap" variant="primary">
-  Login with Google
-</b-button>
-                <button @click="addToGoogleCalendar">Export to Google Calendar</button>
               </b-col>
               <b-col cols="8" class="m-2 text-center">
                 <span v-if="scheduleDisplayMessage === 2">
@@ -167,6 +163,24 @@
                   </b-form-checkbox>
                 </b-row>
                 <b-row>
+                <!-- Login with Google button -->
+                <b-col cols="auto" class="mr-2">
+                  <b-button
+                    v-if="!isAuthenticated"
+                    @click="initiateGoogleOneTap"
+                    variant="primary"
+                  >
+                    Login with Google
+                  </b-button>
+                </b-col>
+
+                <!-- Export to Google Calendar button -->
+                <b-col cols="auto" class="mr-2">
+                  <button @click="addToGoogleCalendar">Export to Google Calendar</button>
+                </b-col>
+
+                <!-- Export Data dropdown -->
+                <b-col cols="auto">
                   <b-dropdown text="Export Data" class="mt-2">
                     <b-dropdown-item @click="exportScheduleToIcs">
                       <font-awesome-icon :icon="exportIcon" />
@@ -177,7 +191,8 @@
                       Export To Image
                     </b-dropdown-item>
                   </b-dropdown>
-                </b-row>
+                </b-col>
+              </b-row>
               </b-col>
             </b-row>
           </div>
@@ -344,9 +359,10 @@ export default {
     google.accounts.id.prompt(); // This will display the One Tap prompt
   },
   handleCredentialResponse(response) {
-  // You can send the response to your backend to verify and authenticate the user
-  this.tokenFromOneTap = response.credential;  // Save the token
-},
+    // You can send the response to your backend to verify and authenticate the user
+    this.tokenFromOneTap = response.credential;  // Save the token
+    this.$store.commit('SET_AUTHENTICATED', true);
+  },
 
     formatDate(date, formatString) {
       const z = (n) => (n < 10 ? '0' : '') + n;

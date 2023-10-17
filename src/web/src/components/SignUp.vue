@@ -150,6 +150,7 @@ export default {
       }
 
       try {
+        this.$store.commit('SET_AUTHENTICATED', true);
         await this.$store.dispatch(userTypes.actions.LOGIN, {
           email: this.form["email"],
           password: this.form["password"],
