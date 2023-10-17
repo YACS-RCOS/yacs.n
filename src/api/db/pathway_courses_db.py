@@ -17,7 +17,7 @@ else:
     from . import connection
 
 
-class HASSCourse:
+class PathwayCourse:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
@@ -27,7 +27,7 @@ class HASSCourse:
             print(course_name)
             return self.db_conn.execute("""
             INSERT INTO
-                courses (course_name, course_code, dept_code)
+                pathway_courses(course_name, course_code, dept_code)
             VALUES
                    (%(course_name)s, %(course_code)s, %(dept_code)s)
             ON CONFLICT DO NOTHING
@@ -40,7 +40,7 @@ class HASSCourse:
         else:
             return (False, "course_name cannot be none")
 
-    def add_bulk_courses(self, json_data):  # function is called in app.py
+    def add_bulk_pathway_courses(self, json_data):  # function is called in app.py
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
 
@@ -54,7 +54,7 @@ class HASSCourse:
                                 for course in sub[key]:
                                     d_code = ''
                                     c_code = ''
-                                    c_name = ''
+                                    c_name = ' '
                                     tokens = course.split('-')
                                     if len(tokens) == 1:
                                         print(tokens[0])
@@ -70,7 +70,7 @@ class HASSCourse:
                                         # Insert course name, code, and department into "courses" table (tables/courses.py)
                                         transaction.execute(
                                             """
-                                            INSERT INTO courses (
+                                            INSERT INTO pathway_courses (
                                                 dept_code,
                                                 course_code,
                                                 course_name
@@ -119,5 +119,5 @@ class HASSCourse:
 
 
 if __name__ == "__main__":
-    pathways = HASSCourse(connection.db)
-    pathways.add_bulk_courses('../../../src/web/src/pages/pathwayV2.json')  # CHANGE FILE HERE IF NEEDED
+    pathways = PathwayCourse(connection.db)
+    pathways.add_bulk_pathway_courses('../../../src/web/src/pages/pathwayV2.json')  # CHANGE FILE HERE IF NEEDED
