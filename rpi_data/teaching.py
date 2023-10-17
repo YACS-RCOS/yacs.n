@@ -3,8 +3,30 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-with open('Professors.json') as f:
-    data = json.load(f)
+def update_all_professors_courses():
+    # Load existing data from the JSON file
+    with open('Professors.json', 'r') as f:
+        data = json.load(f)
+    
+    # Iterate through each professor and update their "Teaching" field
+    for professor in data:
+        # Assuming the URL to scrape is in the 'Profile Page' field
+        url = professor['Profile Page']
+        
+        # If there's no URL, skip scraping for this professor
+        if not url:
+            continue
+
+        courses = extract_courses_from_html(url)
+        if courses:
+            professor['Teaching'] = ', '.join(courses)
+        else:
+            professor['Teaching'] = "Not available"
+
+    # Save the updated data back to the JSON file
+    with open('Professors.json', 'w') as f:
+        json.dump(data, f, indent=4)
+
 
 #testing html: https://faculty.rpi.edu/kathleen-galloway
 #testing html: https://faculty.rpi.edu/keith-fraser
@@ -32,6 +54,7 @@ def extract_courses_from_html(url):
 
 # testing 
 # it work but also scrape the thing beside the course name 
-url ="https://faculty.rpi.edu/kathleen-galloway"
-course = extract_courses_from_html(url)
-print(course)
+# url ="https://faculty.rpi.edu/kathleen-galloway"
+# course = extract_courses_from_html(url)
+# print(course)
+update_all_professors_courses()
