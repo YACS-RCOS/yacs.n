@@ -33,7 +33,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="addMsg">Add message:</label>
+        <label for="addMsg">Testing</label>
         <input
           v-model="addMsg"
           type="text"
@@ -46,30 +46,21 @@
         <label for="result">Result:</label>
         <p id="result">{{ this.result }}</p>
       </div>
-      <button @click="getProf()" class="btn btn-primary">Get Prof</button>
+      <button @click="getProf()" class="btn btn-primary">Professors</button>
       <button @click="getProfName()" class="btn btn-primary">
-        Get Prof Name
+        Professor Name
       </button>
       <button @click="getProfDepartment()" class="btn btn-primary">
-        Get Prof Department
-      </button>
-      <button @click="getOfficeHours()" class="btn btn-primary">
-        Get Prof Office Hours
+        Department
       </button>
       <button @click="getProfNumberByEmail()" class="btn btn-primary">
-        Get Prof Number By Email
-      </button>
-      <button @click="get_professor_info_by_rcs()" class="btn btn-primary">
-        Get Prof By Rcs
-      </button>
-      <button @click="getProfByEmail()" class="btn btn-primary">
-        Get Prof By Email
+        Phone Number
       </button>
       <button @click="addProf()" class="btn btn-success">Add Prof</button>
       <button @click="addProfTest()" class="btn btn-success">
         Add Prof Test
       </button>
-      <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button>
+      <!-- <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button> -->
       <button @click="removeProf()" class="btn btn-danger">Remove Prof</button>
       <button @click="BulkDelete()" class="btn btn-danger">Bulk Delete</button>
     </section>
@@ -81,9 +72,7 @@ import {
   getProfessors,
   get_professor_name_by_email,
   get_professor_from_department,
-  get_office_hours,
   get_professor_phone_number_by_email,
-  get_professor_info_by_rcs,
   get_professor_info_by_email,
 } from "@/services/YacsService";
 import {
@@ -120,19 +109,9 @@ export default {
       this.result = get_professor_from_department(this.department);
       console.log(this.result);
     },
-    getOfficeHours() {
-      console.log("get_office_hours");
-      this.result = get_office_hours(this.email);
-      console.log(this.result);
-    },
     getProfNumberByEmail() {
       console.log("get_professor_phone_number_by_email");
       this.result = get_professor_phone_number_by_email(this.email);
-      console.log(this.result);
-    },
-    get_professor_info_by_rcs() {
-      console.log("get_professor_info_by_rcs");
-      this.result = get_professor_info_by_rcs(this.rcs);
       console.log(this.result);
     },
     getProfByEmail() {
@@ -155,9 +134,9 @@ export default {
       this.result = addProfessorsTest();
       console.log(this.result);
     },
-    BulkAdd() {
-      console.log("BulkAdd");
-    },
+    // // BulkAdd() {
+    // //   console.log("BulkAdd");
+    // },
     BulkDelete() {
       console.log("BulkDelete");
     },
