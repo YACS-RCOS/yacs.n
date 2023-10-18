@@ -230,17 +230,23 @@ def processRow(data, prevrow) -> list[str]:
     info = info[:12] + info[18:]
     #Split the date into start and end date
     formatDate(info)
-    #Some classes have a credit value ranging from 0-12
-    if '-' in info[4]:
-        info[4] = formatCredits(info)
+    #Some classes have a credit value ranging from 0-12    
+    info[4] = formatCredits(info)
     return info
 def formatDate(info):
+    key = "2023-"
     splitDate = info[13].split('-')
-    info.insert(13, splitDate[0])
-    info.insert(14, splitDate[1])
+    sdate = splitDate[0].split('/')
+    sdate = '-'.join(sdate)
+    enddate = splitDate[1].split('/')
+    enddate = '-'.join(enddate)
+    info.insert(13, key + sdate)
+    info.insert(14, key + enddate)
     info.pop(15)
 def formatCredits(info):
-    return info[4].split('-')[1]
+    if '-' in info[4]:
+        return int(float(info[4].split('-')[1]))
+    return int(float(info[4]))
 #Given the url of a major, parse the info for every course in that major
 def getMajorCourseInfo(driver) -> list[list[str]]:
     html = driver.page_source
@@ -402,5 +408,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
-#main()
+main()
 

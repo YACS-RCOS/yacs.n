@@ -58,7 +58,7 @@ class Course:
             tmp[i]= tmp[i][:1].upper() + tmp[i][1:].lower()
         return ' '.join(tmp)
     def addSemester(self, semester):
-        self.sem = semester
+        self.sem = semester.upper()
     def addReqs(self, pre, co, raw, desc: str = ""):
         self.desc = desc
         self.raw = raw
