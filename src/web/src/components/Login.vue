@@ -58,53 +58,38 @@ export default {
     SignUpForm: SignUpComponent,
   },
   data() {
-      return {
-        form: {
-          email: "",
-          password: "",
-          token: null // Store the Google ID token here
-        },
-        showForm: true,
-      };
+    return {
+      form: {
+        email: "",
+        password: "",
+      },
+      showForm: true,
+    };
   },
   methods: {
     async onSubmit(evt) {
+      if (evt) {
         evt.preventDefault();
+      }
+      try {
+        await this.$store.dispatch(userTypes.actions.LOGIN, this.form);
 
-        let loginData;
-        if (this.form.token) { 
-            // If logging in with Google
-            loginData = {
-                token: this.form.token,
-                type: "google"
-            };
-        } else {
-            // Standard email/password login
-            loginData = {
-                email: this.form.email,
-                password: this.form.password,
-                type: "standard"
-            };
-        }
+        this.$bvToast.toast(`You are now logged in!`, {
+          title: `Welcome ${this.user.name}`,
+          variant: "success",
+        });
 
-        try {
-            await this.$store.dispatch(userTypes.actions.LOGIN, loginData);
-            this.$store.commit('SET_AUTHENTICATED', true);
-
-            this.$bvToast.toast(`You are now logged in!`, {
-              title: `Welcome ${this.user.name}`,
-              variant: "success",
-            });
-
-            this.$emit("submit");
-        } catch (err) {
-            this.$bvToast.toast(err, {
-              title: "Login failed!",
-              variant: "danger",
-            });
-        }
+        this.$emit("submit");
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
+          variant: "danger",
+        });
+      }
     },
-
+    onSignUp() {
+      this.$refs["signup-modal"].hide();
+    },
     initiateGoogleOneTap() {
         window.google.accounts.id.initialize({
             client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
@@ -114,20 +99,27 @@ export default {
         window.google.accounts.id.prompt(); // This triggers the One Tap UI
     },
 
-    handleGoogleResponse(response) {
-        // Get the ID token from the Google response
-        const idToken = response.credential;
+    async handleGoogleResponse(response) {
+      // Extract user information from the ID token
+      const idToken = response.credential;
+      const decodedData = this.decodeIdToken(idToken);
 
-        // Update the form data
-        this.form.email = response.getBasicProfile().getEmail();
-        this.form.token = idToken; // Use a new property to store the token
+      // Set the required form field values
+      
+      this.form.email = decodedData.email;
+      this.form.password = decodedData.name+decodedData.email;
 
-        // Then, proceed with your login or authentication process.
-        this.onSubmit();
+      // Automatically create the account
+      await this.onSubmit();
     },
 
-    onSignUp() {
-      this.$refs["signup-modal"].hide();
+    decodeIdToken(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonData = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonData);
     },
     onReset(evt) {
       evt.preventDefault();

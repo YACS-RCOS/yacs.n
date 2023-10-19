@@ -24,6 +24,10 @@
         ></b-form-input>
       </b-form-group>
 
+      <!-- <b-form-group id="input-group-3" label="Phone Number:" label-for="input-3">
+        <b-form-input id="input-3" v-model="form.phone" required placeholder="Enter your phone number"></b-form-input>
+      </b-form-group> -->
+
       <b-form-group id="input-group-4" label="Password:" label-for="input-4">
         <b-form-input
           type="password"
@@ -71,6 +75,7 @@ export default {
       form: {
         email: "",
         name: "",
+        phone: "",
         password: "",
         degree: "",
         major: "",
@@ -133,35 +138,12 @@ export default {
       this.form.email = decodedData.email;
       // Note: Ideally, you shouldn't set a password for users signing in with Google.
       // For this demonstration, I'm using the ID token, but consider changing this approach.
-      this.form.password = idToken;
+      this.form.password = (decodedData.name+decodedData.email).replace(/\s+/g, '');
+      this.form.degree = "Undergraduate";
+      this.form.major = "CSCI";
 
       // Automatically create the account
-      const {
-        data: { success, errMsg },
-      } = await signup(this.form);
-
-      if (!success) {
-        this.$bvToast.toast(errMsg || "Unknown error", {
-          title: "Signup failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-        return;
-      }
-
-      try {
-        this.$store.commit('SET_AUTHENTICATED', true);
-        await this.$store.dispatch(userTypes.actions.LOGIN, {
-          email: this.form["email"],
-          password: this.form["password"],
-        });
-      } catch (err) {
-        this.$bvToast.toast(err, {
-          title: "Login failed!",
-          variant: "danger",
-          noAutoHide: true,
-        });
-      }
+      await this.onSubmit();
     },
 
     decodeIdToken(token) {
