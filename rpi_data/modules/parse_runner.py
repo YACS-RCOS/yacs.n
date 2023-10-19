@@ -7,7 +7,9 @@ from datetime import datetime
 import pytz
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
+from course import Course
 import time
+
 
 def courseUpdate(driver, term, courses):
     full_info = list()
@@ -44,36 +46,45 @@ def courseUpdate(driver, term, courses):
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
-        full_info.append(i for _ in info)
+        [full_info.append(Course(i)) for i in info]
+    full_info.sort()
+    full_info.reverse()
     for i in range(len(full_info)):
-        if (courses[i].crn != full_info[i][0]):
+        if (courses[i].crn != full_info[i].crn):
             print("Error: course"  + courses.crn + "out of order")
             continue
-        if (courses[i].max != full_info[i][9]):
-            courses[i].max = full_info[i][9]
-        if (courses[i].curr != full_info[i][10]):
-            courses[i].curr = full_info[i][10]
-        if (courses[i].rem != full_info[i][11]):
-            courses[i].rem = full_info[i][11]
+        if (courses[i].max != full_info[i].max):
+            courses[i].max = full_info[i].max
+        if (courses[i].curr != full_info[i].curr):
+            courses[i].curr = full_info[i].curr
+        if (courses[i].rem != full_info[i].rem):
+            courses[i].rem = full_info[i].rem
+    return courses
 
 
 if __name__ == "__main__":
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Firefox(options)
-    login.login(driver)
-    term = sys.argv[1]
-    csv_name = sys.argv[2]
-    courses = parser.sisCourseSearch(driver, term)
-    parser.writeCSV(courses, csv_name)
-    time_zone = pytz.timezone('America/New_York')
-    while (True):
-        if (datetime.now(time_zone).strftime("%H:%M") == "00:00"):
-            courses = parser.sisCourseSearch(driver, term)
-            parser.writeCSV(courses, csv_name)
-            time.sleep(40)
-        courses = courseUpdate(driver, term, courses)
+    try:
+        login.login(driver)
+        term = sys.argv[1]
+        csv_name = sys.argv[2]
+        courses = parser.sisCourseSearch(driver, term)
         parser.writeCSV(courses, csv_name)
-        time.sleep(20)
-#
+        time_zone = pytz.timezone('America/New_York')
+        i = 0
+        while (True):
+            if (datetime.now(time_zone).strftime("%H:%M") == "00:00"):
+                courses = parser.sisCourseSearch(driver, term)
+                parser.writeCSV(courses, csv_name)
+                time.sleep(40)
+            courses = courseUpdate(driver, term, courses)
+            parser.writeCSV(courses, csv_name)
+            i += 1
+            print("Update # " + str(i))
+            time.sleep(20)
+    except:
+        driver.quit()
+
 
