@@ -5,11 +5,6 @@ import asyncio
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-
-##!!!!!!!!!!!!!!!!!!!!
-## TO UPDATE WITH NEW PATHWAYS/CATEGORIES, CHANGE JSON FILE AT BOTTOM OF PAGE
-##!!!!!!!!!!!!!!!!!!!!
-
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
     import connection
@@ -17,30 +12,30 @@ else:
     from . import connection
 
 
-class Pathway_minors:
+class PathwayMinors:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
 
-    def add_pathway_minor(self, pathway_name, minor_name):
-        if minor_name is not None:
-            print(minor_name)
+    def add_pathway_minor(self, minor, pathway):
+        if minor is not None:
+            print(minor)
             return self.db_conn.execute("""
             INSERT INTO
-                pathway_minor (minor_name, pathway_name)
+                pathway_minors (minor, pathway)
             VALUES
-                   (%(minor_name)s, %(pathway_name)s)
+                   (%(minor)s, %(pathway)s)
             ON CONFLICT DO NOTHING
             ;
         """, {
-                "minor_name": minor_name,
-                "pathway_name": pathway_name
+                "minor": minor,
+                "pathway": pathway
 
             }, False)
         else:
-            return (False, "minor_name cannot be none")
+            return (False, "minor cannot be none")
 
-    def add_bulk_pathways_minor(self, json_data): #function is called in app.py
+    def add_bulk_pathway_minors(self, json_data): #function is called in app.py
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
 
@@ -50,26 +45,25 @@ class Pathway_minors:
                 for entry in json_data:
                     for sub in entry['Pathways']:
                         if 'Compatible minor(s)' in sub.keys():
-                            for min in p['Compatible minor(s)']:
-
+                            for min in sub['Compatible minor(s)']:
                                 try:
                                     # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
                                     transaction.execute(
                                         """
-                                        INSERT INTO minor (
-                                            minor_name, 
-                                            pathway_name
-                                            
+                                        INSERT INTO pathway_minors (
+                                            minor,
+                                            pathway
+
                                         )
                                         VALUES (
-                                            NULLIF(%(minor_name)s, ''),
-                                            NULLIF(%(pathway_name)s, '')  
+                                            NULLIF(%(minor)s, ''),
+                                            NULLIF(%(pathway)s, '')
                                         )
                                         ON CONFLICT DO NOTHING;
                                         """,
                                         {
-                                            "pathway_name": sub['Name'][0],
-                                            "minor_name": min
+                                            "pathway": sub['Name'][0],
+                                            "minor": min
                                         }
                                     )
                                 except Exception as e:
@@ -103,5 +97,5 @@ class Pathway_minors:
 
 
 if __name__ == "__main__":
-    minor = pathway_minors(connection.db)
-    pathways.add_bulk_pathways('../../../src/web/src/pages/pathwayV2.json') #CHANGE FILE HERE IF NEEDED
+    minor = Pathway_minors(connection.db)
+    minor.add_bulk_pathway_minor('../../../src/web/src/pages/pathwayV2.json') #CHANGE FILE HERE IF NEEDED
