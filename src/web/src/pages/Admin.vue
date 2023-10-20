@@ -66,7 +66,7 @@ import UploadCsv from "@/pages/UploadCsv";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
-import EditFinals from "@/pages/EditFinals"
+import EditFinals from "@/pages/EditFinals";
 
 export default {
   name: "AdminPage",
