@@ -95,7 +95,6 @@ export default {
   methods: {
     async userStats() {
       let stats = await getUserStats();
-      console.log(stats.data.content.total_users)
       this.total_users = stats.data.content.total_users
     },
   },

@@ -1,4 +1,5 @@
 from db.model import *
+import json
 
 class User(Model):
     def __init__(self):
@@ -65,8 +66,8 @@ class User(Model):
         return self.db.execute(sql, args, False)[0]
     # TODO:
     def get_all_users(self):
+        # Note to devs: this method is rather slow. need to find a faster method later.
         sql = """   
                 SELECT count(*) FROM public.user_account;
               """
-        print("asd")
-        return self.db.execute(sql, True)[0][0].count
+        return self.db.execute(sql, True)[0][0]['count']
