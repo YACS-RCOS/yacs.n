@@ -366,8 +366,14 @@ def combineInfo(courses:list, reqs:dict, school:str, semester:str):
             prereq = result[result.find(pkey) + len(pkey):result.find(cokey)].strip()
             coreq = result[result.find(cokey) + len(cokey):result.find(rkey)].strip()
             raw = result[result.find(rkey) + len(rkey):result.find(ckey)].strip()
+            tmpPre = []
+            tmpCo = []
+            if len(prereq) > 3:
+                tmpPre = prereq.split("and")
+            if len(coreq) > 3:
+                tmpCo = coreq.split("and")
             desc = result[result.find(dkey) + len(dkey):].strip()
-            c.addReqs(prereq, coreq, raw, desc)
+            c.addReqs(tmpPre, tmpCo, raw, desc)
         else:
             print("error")
         comb.append(c)

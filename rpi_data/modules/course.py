@@ -1,5 +1,6 @@
 import time
 import pdb
+import copy
 class Course:
     name:str
     credits:int
@@ -22,8 +23,8 @@ class Course:
     long:str
     desc:str 
     raw:str
-    pre:str
-    co:str
+    pre:list
+    co:list
     major:str
     school:str
     lec:str
@@ -59,11 +60,11 @@ class Course:
         return ' '.join(tmp)
     def addSemester(self, semester):
         self.sem = semester.upper()
-    def addReqs(self, pre, co, raw, desc: str = ""):
+    def addReqs(self, pre:list=[], co:list=[], raw:str="", desc: str=""):
         self.desc = desc
         self.raw = raw
-        self.pre = pre
-        self.co = co
+        self.pre = copy.deepcopy(pre)
+        self.co = copy.deepcopy(co)
     def print(self):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
@@ -93,10 +94,10 @@ class Course:
         retList.append(self.short)
         retList.append(self.long)
         retList.append(self.desc)
-        retList.append(self.raw + "a")
-        retList.append("a")
-        retList.append(self.pre + "a")
-        retList.append(self.co + "a")
+        retList.append(self.raw)
+        retList.append("")
+        retList.append(self.pre)
+        retList.append(self.co)
         retList.append(self.school)
         return retList
     def addSchool(self, school):
