@@ -24,7 +24,6 @@ class Pathway:
 
     def add_pathway(self, pathway_name, category_name):
         if pathway_name is not None:
-            print(pathway_name)
             return self.db_conn.execute("""
             INSERT INTO
                 pathway (pathway_name, category_name)

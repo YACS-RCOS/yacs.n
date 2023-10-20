@@ -16,6 +16,7 @@ import db.pathways_db as All_Pathways
 import db.pathway_category as All_Pathway_Categories
 import db.pathway_courses_db as All_Pathway_Courses
 import db.pathway_minors as All_Pathway_Minors
+import db.pathway_field as All_Pathway_Fields
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -56,6 +57,7 @@ pathway_info = All_Pathways.Pathway(db_conn, FastAPICache)
 pathway_category_info = All_Pathway_Categories.Pathway_Category(db_conn, FastAPICache)
 pathway_course_info = All_Pathway_Courses.PathwayCourse(db_conn, FastAPICache)
 pathway_minor_info = All_Pathway_Minors.PathwayMinors(db_conn, FastAPICache)
+pathway_field_info = All_Pathway_Fields.Pathway_Field(db_conn, FastAPICache)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -438,6 +440,11 @@ async def bulkPathwayUpload(
     Success.append(isSuccess)
     Error.append(error)
     DatabaseName.append("pathway_minors")
+
+    isSuccess, error = pathway_field_info.add_bulk_fields(json_data)
+    Success.append(isSuccess)
+    Error.append(error)
+    DatabaseName.append("pathway_field")
 
     return getResponse(Success, Error, DatabaseName)
 
