@@ -158,14 +158,8 @@ export const get_professor_name_by_email = (email) =>
 export const get_professor_from_department = (department) =>
   client.get("/professor/department/" + department).then((res) => res.data);
 
-export const get_office_hours = (email) =>
-  client.get("/professor/office_hours/" + email).then((res) => res.data);
-
 export const get_professor_phone_number_by_email = (email) =>
   client.get("/professor/phone_number/" + email).then((res) => res.data);
-
-export const get_professor_info_by_rcs = (rcs) =>
-  client.get("/professor/rcs/" + rcs).then((res) => res.data);
 
 export const get_professor_info_by_email = (email) =>
   client.get("/professor/email/" + email).then((res) => res.data);
