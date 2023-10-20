@@ -1,6 +1,8 @@
 import json
 from bs4 import BeautifulSoup
-import request
+import requests
+import re 
+
 with open('Professors.json') as f:
     data =json.load(f)
 
@@ -23,8 +25,9 @@ def scrape_info(url):
     
     # extract the classes. The exact method will depend on the structure of the webpage.
     classes_list = soup.find_all('li', class_='class-item')
-    classes = [item.text for item in classes_list]
-    
+    #classes = [item.text for item in classes_list]
+    pattern = re.compile(r'[A-Z]+\s\d{4} - [A-Za-z\s]+')
+    classes = [re.search(pattern, item.text).group() for item in classes_list if re.search(pattern, item.text)]
     return classes
     
 for professor in data:

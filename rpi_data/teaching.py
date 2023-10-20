@@ -47,6 +47,7 @@ def extract_courses_from_html(url):
         return []
 
     courses = []
+    
     for sibling in startpoint.find_all_next():
         # If you hit another header, stop
         if sibling.name and sibling.name.startswith('h'):
@@ -57,6 +58,10 @@ def extract_courses_from_html(url):
             courses.append(sibling.text.strip())
         # If it's a paragraph or a list item, consider it as a potential course title
         elif sibling.name in ['li']:
+            text = sibling.text.strip()
+            if text:  # To ensure non-empty strings
+                courses.append(text)
+        elif sibling.name == 'span' and sibling.get('lang') == 'EN' and sibling.get('xml:lang') == 'EN':
             text = sibling.text.strip()
             if text:  # To ensure non-empty strings
                 courses.append(text)
