@@ -246,6 +246,10 @@ async def get_student_courses(request: Request):
     courses, error = course_select.get_selection(request.session['user']['user_id'])
     return courses if not error else Response(error, status_code=500)
 
+# TODO:
+@app.get('/api/user/stats')
+async def get_user_stats():
+    return user_controller.get_user_stats()
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):

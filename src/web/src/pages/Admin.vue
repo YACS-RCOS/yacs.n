@@ -51,8 +51,12 @@
     <b-modal id="jsonModal" title="Import Professors via JSON" size="xl">
       <UploadJson />
     </b-modal>
-
-    <!-- Footer of Admin Panel -->
+    <br />
+    <hr />
+    <h2>User Statistics</h2>
+    <hr />
+    <br />
+    Total Users: {{ this.total_users }}
     <br />
     <hr />
     <br />
@@ -68,6 +72,8 @@ import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
 import UploadJson from "@/pages/UploadJson.vue";
 
+import { getUserStats } from "@/services/UserService";
+
 export default {
   name: "AdminPage",
   components: {
@@ -79,7 +85,19 @@ export default {
     // ManageAccounts,
   },
   data() {
-    return {};
+    return {
+      total_users:"",
+    };
+  },
+  mounted() {
+    this.userStats();
+  },
+  methods: {
+    async userStats() {
+      let stats = await getUserStats();
+      console.log(stats.data.content.total_users)
+      this.total_users = stats.data.content.total_users
+    },
   },
 };
 </script>
