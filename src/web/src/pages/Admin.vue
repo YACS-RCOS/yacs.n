@@ -28,6 +28,13 @@
     >
       Edit Professors
     </a>
+    <a
+      v-b-modal.editFinals
+      class="text-primary d-block"
+      style="cursor: pointer;"
+    >
+      Edit Finals
+    </a>
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
@@ -40,6 +47,9 @@
     </b-modal>
     <b-modal id="editProfessors" title="Edit Professors" size="xl">
       <EditProfessors />
+    </b-modal>
+    <b-modal id="editFinals" title="Edit Finals" size="xl">
+      <EditFinals />
     </b-modal>
 
     <!-- Footer of Admin Panel -->
@@ -56,6 +66,7 @@ import UploadCsv from "@/pages/UploadCsv";
 import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
+import EditFinals from "@/pages/EditFinals"
 
 export default {
   name: "AdminPage",

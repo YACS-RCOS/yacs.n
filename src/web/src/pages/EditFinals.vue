@@ -93,7 +93,7 @@ import {
 } from "@/services/AdminService";
 
 export default {
-  name: "EditProfessors",
+  name: "EditFinals",
   props: {},
   data() {
     return {
