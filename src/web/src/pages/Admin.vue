@@ -75,6 +75,7 @@ export default {
     EditSemesters,
     SetDefault,
     EditProfessors,
+    EditFinals,
     // ManageAccounts,
   },
   data() {
