@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-container v-if="isLoggedIn" id="user-info-box">
       <h1 class="text-center">Hi, {{ user.name }}!</h1>
-
+      
       <b-row class="user-row">
         <b-col class="user-col-left">
           <p style="font-weight: bold;">Name:</p>
@@ -133,6 +133,7 @@
         </b-col>
       </b-row>
       <b-row style="margin-top: 1em">
+        <b-button v-b-modal.delete class="align-self-center m-auto" style="width: 10em" variant="warning" >Delete Account</b-button>
         <b-button class="align-self-center m-auto" style="width: 10em" variant="danger" @click="onReset">Undo Changes</b-button>
         <b-button v-b-modal.login class="align-self-center m-auto" variant="success">Submit Changes...</b-button>
       </b-row>
@@ -181,6 +182,27 @@
         </b-row>
       </b-form>
     </b-modal>
+    <b-modal id="delete"
+      ref="delete-modal"
+      cancel-variant="secondary"
+      ok-title="Delete Account"
+      ok-variant="danger"
+      title="Please enter your password to confirm account deletion"
+      @hide="form.password = ''"
+      @ok.prevent="deletemodalHandleok">
+      <b-form ref="deleteform" @submit.prevent="$refs['delete-modal'].hide('ok')" @reset.prevent="$refs['delete-modal'].hide('cancel')">
+        <b-row>
+          <b-col>
+            <b-form-input
+              v-model="form.password"
+              autofocus
+              required
+              type="password"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+      </b-form>
+    </b-modal>
     <b-modal id="newpassword-modal"
       ref="newpassword-modal"
       cancel-variant="danger"
@@ -209,7 +231,9 @@ import { mapGetters } from "vuex";
 import DegreePicker from "@/components/DegreePicker";
 import router from "@/routes";
 import { modifyUser } from "@/services/UserService";
+import { deleteUser } from "@/services/UserService";
 import {getStudentCourses} from "@/services/YacsService";
+import store from '@/store';
 
 export default {
   name: "User",
@@ -305,6 +329,13 @@ export default {
         this.$refs["loginform"].reportValidity();
       }
     },
+    deletemodalHandleok() {
+      if(this.$refs["deleteform"].checkValidity()) {
+        this.onDelete();
+      } else {
+        this.$refs["deleteform"].reportValidity();
+      }
+    },
     newpasswordmodalHandleevent(bvModalEvent) {
       if(bvModalEvent.trigger == "ok") {
         this.form.newpassword = this.currentinput.newpassword.length == 0 ? undefined : this.currentinput.newpassword;
@@ -338,7 +369,28 @@ export default {
         this.$store.commit(userTypes.mutations.SET_USER_INFO, this.form);
         this.$refs["login-modal"].hide();
       }
-    }
+    },
+    async onDelete() {
+      this.form.sessionID = this.$store.state.user.sessionId;
+      let {
+        data: { success, errMsg }
+      } = await deleteUser(this.form);
+
+      if (!success) {
+        this.$bvToast.toast(errMsg || "Unknown error", {
+          title: "Account deletion failed",
+          variant: "danger"
+        });
+        return;
+      } else {
+        this.$bvToast.toast("Your account has been deleted.", {
+          title: "Account deletion success",
+          variant: "success"
+        });
+      }
+      store.dispatch(userTypes.actions.LOGOUT);
+      this.$refs["delete-modal"].hide();
+    },
   }
 };
 </script>
