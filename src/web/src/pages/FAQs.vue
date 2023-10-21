@@ -5,6 +5,11 @@
       <div v-for="(question, index) in faqData" :key="index" class="faq-item">
         <div class="question-wrapper" @click="toggleAnswer(index)">
           <h3>{{ question.title }}</h3>
+          <div class="dropdown-indicator" :class="{ 'open': question.isOpen }">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+            <path d="M10 15l-6-6h12z"/>
+          </svg>
+        </div>
         </div>
         <div class="divider"></div>
         <div class="answer-wrapper" :class="{ 'open': question.isOpen }">
@@ -138,5 +143,18 @@ h1 {
 
 .faq-item.open p {
   opacity: 1;
+}
+
+.dropdown-indicator {
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.open .dropdown-indicator {
+  transform: rotate(180deg);
 }
 </style>
