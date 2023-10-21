@@ -3,93 +3,108 @@
     <section id="edits">
       <h2>Finals Testing</h2>
       <div class="form-group">
-        <label for="email">Email:</label>
+        <label for="deparmtent">Department:</label>
         <input
-          v-model="email"
-          type="email"
-          class="form-control"
-          id="email"
-          placeholder="Enter email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="rcs">RCS:</label>
-        <input
-          v-model="rcs"
-          type="text"
-          class="form-control"
-          id="rcs"
-          placeholder="Enter RCS"
-        />
-      </div>
-      <div class="form-group">
-        <label for="department">Department:</label>
-        <input
-          v-model="department"
+          v-model="deparmtent"
           type="text"
           class="form-control"
           id="department"
-          placeholder="Enter department"
+          placeholder="Enter Department"
         />
       </div>
       <div class="form-group">
-        <label for="addMsg">Add message:</label>
+        <label for="courseCode">Course Code:</label>
         <input
-          v-model="addMsg"
+          v-model="courseCode"
           type="text"
           class="form-control"
-          id="addMsg"
-          placeholder="Enter message"
+          id="courseCode"
+          placeholder="Enter Course Code"
+        />
+      </div>
+      <div class="form-group">
+        <label for="section">Section:</label>
+        <input
+          v-model="section"
+          type="text"
+          class="form-control"
+          id="section"
+          placeholder="Enter Section"
+        />
+      </div>
+      <div class="form-group">
+        <label for="room">Room:</label>
+        <input
+          v-model="room"
+          type="text"
+          class="form-control"
+          id="room"
+          placeholder="Enter Room"
+        />
+      </div>
+      <div class="form-group">
+        <label for="dayOfWeek">Day Of Week:</label>
+        <input
+          v-model="dayOfWeek"
+          type="text"
+          class="form-control"
+          id="dayOfWeek"
+          placeholder="Enter Day Of Week"
+        />
+      </div>
+      <div class="form-group">
+        <label for="day">Day:</label>
+        <input
+          v-model="day"
+          type="text"
+          class="form-control"
+          id="day"
+          placeholder="Enter Day"
+        />
+      </div>
+      <div class="form-group">
+        <label for="hour">Hour:</label>
+        <input
+          v-model="hour"
+          type="text"
+          class="form-control"
+          id="hour"
+          placeholder="Enter Hour"
         />
       </div>
       <div class="form-group">
         <label for="result">Result:</label>
         <p id="result">{{ this.result }}</p>
       </div>
-      <button @click="getProf()" class="btn btn-primary">Get Prof</button>
-      <button @click="getProfName()" class="btn btn-primary">
-        Get Prof Name
-      </button>
-      <button @click="getProfDepartment()" class="btn btn-primary">
-        Get Prof Department
-      </button>
-      <button @click="getOfficeHours()" class="btn btn-primary">
-        Get Prof Office Hours
-      </button>
-      <button @click="getProfNumberByEmail()" class="btn btn-primary">
-        Get Prof Number By Email
-      </button>
-      <button @click="get_professor_info_by_rcs()" class="btn btn-primary">
-        Get Prof By Rcs
-      </button>
-      <button @click="getProfByEmail()" class="btn btn-primary">
-        Get Prof By Email
-      </button>
-      <button @click="addProf()" class="btn btn-success">Add Prof</button>
-      <button @click="addProfTest()" class="btn btn-success">
-        Add Prof Test
-      </button>
-      <button @click="BulkAdd()" class="btn btn-success">Bulk Add</button>
-      <button @click="removeProf()" class="btn btn-danger">Remove Prof</button>
-      <button @click="BulkDelete()" class="btn btn-danger">Bulk Delete</button>
+      <button @click="get_all_final_info()" class="btn btn-primary">Get All Finals</button>
+      <button @click="get_info_by_DOW()" class="btn btn-primary">Get Final by DayOfWeek</button>
+      <button @click="get_info_by_courseCode()" class="btn btn-primary">Get Final by CourseCode</button>
+      <button @click="get_info_by_courseCodeSection()" class="btn btn-primary">Get Final by CourseCodeSection</button>
+      <button @click="get_info_by_day()" class="btn btn-primary">Get Final by Day</button>
+      <button @click="get_info_by_department()" class="btn btn-primary">Get Final by Department</button>
+      <button @click="get_info_by_hour()" class="btn btn-primary">Get Final by Hour</button>
+      <button @click="add_final()" class="btn btn-success">Add Final</button>
+      <button @click="remove_final()" class="btn btn-danger">Remove Final</button>
     </section>
   </b-container>
 </template>
 
 <script>
 import {
-  getProfessors,
-  get_professor_name_by_email,
-  get_professor_from_department,
-  get_office_hours,
-  get_professor_phone_number_by_email,
-  get_professor_info_by_rcs,
-  get_professor_info_by_email,
+  get_all_final_info,
+  get_info_by_courseCode,
+  get_info_by_courseCodeSection,
+  get_info_by_day,
+  get_info_by_department,
+  get_info_by_DOW,
+  get_info_by_hour,
 } from "@/services/YacsService";
 import {
-  remove_professor,
-  addProfessors,
-  addProfessorsTest,
+  // add_bulk_final,
+  // remove_bulk_final,
+  add_final,
+  remove_final,
+  // update_final,
 } from "@/services/AdminService";
 
 export default {
@@ -97,70 +112,66 @@ export default {
   props: {},
   data() {
     return {
-      email: "",
-      rcs: "",
-      department: "",
-      addMsg: "",
-      result: "",
+      deparmtent: "",
+      courseCode: "",
+      section: "",
+      room: "",
+      dayOfWeek: "",
+      day: "",
+      hour: "",
     };
   },
   methods: {
-    getProf() {
-      console.log("getProfessors");
-      this.result = getProfessors();
+    get_all_final_info() {
+      console.log("get_all_final_info");
+      this.result = get_all_final_info();
       console.log(this.result);
     },
-    getProfName() {
-      console.log("get_professor_name");
-      this.result = get_professor_name_by_email(this.email);
+    get_info_by_DOW() {
+      console.log("get_info_by_DOW");
+      this.result = get_info_by_DOW(this.dayOfWeek);
       console.log(this.result);
     },
-    getProfDepartment() {
-      console.log("get_professor_from_department");
-      this.result = get_professor_from_department(this.department);
+    get_info_by_courseCode() {
+      console.log("get_info_by_courseCode");
+      this.result = get_info_by_courseCode(this.courseCode);
       console.log(this.result);
     },
-    getOfficeHours() {
-      console.log("get_office_hours");
-      this.result = get_office_hours(this.email);
+    get_info_by_courseCodeSection() {
+      console.log("get_info_by_courseCodeSection");
+      this.result = get_info_by_courseCodeSection(this.courseCode, this.section);
       console.log(this.result);
     },
-    getProfNumberByEmail() {
-      console.log("get_professor_phone_number_by_email");
-      this.result = get_professor_phone_number_by_email(this.email);
+    get_info_by_day() {
+      console.log("get_info_by_day");
+      this.result = get_info_by_day(this.day);
       console.log(this.result);
     },
-    get_professor_info_by_rcs() {
-      console.log("get_professor_info_by_rcs");
-      this.result = get_professor_info_by_rcs(this.rcs);
+    get_info_by_department() {
+      console.log("get_info_by_department");
+      this.result = get_info_by_department(this.deparmtent);
       console.log(this.result);
     },
-    getProfByEmail() {
-      console.log("get_professor_info_by_email");
-      this.result = get_professor_info_by_email(this.email);
+    get_info_by_hour() {
+      console.log("get_info_by_hour");
+      this.result = get_info_by_hour(this.hour);
       console.log(this.result);
     },
-    removeProf() {
-      console.log("remove_professor");
-      this.result = remove_professor(this.email);
+    add_final() {
+      console.log("add_final");
+      this.result = add_final(this.deparmtent, this.courseCode, this.section, this.room, this.dayOfWeek, this.day, this.hour);
       console.log(this.result);
     },
-    addProf() {
-      console.log("addProfessors");
-      this.result = addProfessors(this.addMsg);
+    remove_final() {
+      console.log("remove_final");
+      this.result = remove_final(this.courseCode, this.section);
       console.log(this.result);
     },
-    addProfTest() {
-      console.log("addProfessorsTest");
-      this.result = addProfessorsTest();
-      console.log(this.result);
-    },
-    BulkAdd() {
-      console.log("BulkAdd");
-    },
-    BulkDelete() {
-      console.log("BulkDelete");
-    },
+    // update_final() {
+    //   console.log("update_final");
+    //   this.result = update_final(this.courseCode, this.section, this.column, this.value);
+    //   console.log(this.result);
+    // }
   },
 };
 </script>
