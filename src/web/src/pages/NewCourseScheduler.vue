@@ -333,7 +333,8 @@ export default {
       scheduler: null,
       exportIcon: faPaperPlane,
       main: "col-md-9",
-
+      gapiInited: false,
+      gisInited: false,
       isNavOpen: true, //for sidebar open check
 
       courseInfoModalCourse: null,
@@ -347,6 +348,10 @@ export default {
       index: 0,
       loadedIndexCookie: 0,
     };
+  },
+  mounted() {
+    this.gapiLoaded();
+    this.gisLoaded();
   },
   methods: {
 
@@ -438,7 +443,78 @@ export default {
         alert("An error occurred while trying to add to Google Calendar.");
       }
     },
+    gapiLoaded() {
+      const gapi = window.gapi;
+      gapi.load('client', this.initializeGapiClient);
+    },
+    async initializeGapiClient() {
+      const gapi = window.gapi;
+      const API_KEY = "AIzaSyAdRgGTX-mDqUz1nWNFUzs9flnQjo3A5sc";
+      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
 
+      await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: [DISCOVERY_DOC],
+      });
+      this.gapiInited = true;
+
+      // Auto-authorize if a valid token exists
+      const accessToken = localStorage.getItem('access_token');
+      const expiresIn = localStorage.getItem('expires_in');
+      if (accessToken && expiresIn) {
+        gapi.client.setToken({
+          access_token: accessToken,
+          expires_in: expiresIn,
+        });
+        this.listUpcomingEvents();
+      }
+    },
+    gisLoaded() {
+      const google = window.google;
+      const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
+      const SCOPES = "https://www.googleapis.com/auth/calendar";
+
+      google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: this.handleAuthCallback,
+      });
+      this.gisInited = true;
+    },
+    handleAuthCallback(resp) {
+      if (resp.error) {
+        console.error(resp.error);
+        return;
+      }
+
+      // Assuming you want to fetch and list events after authentication
+      this.listUpcomingEvents();
+      
+      const { access_token, expires_in } = gapi.client.getToken();
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('expires_in', expires_in);
+    },
+    listUpcomingEvents() {
+      // Adapted from the React function. You can make the necessary changes.
+      const gapi = window.gapi;
+      const request = {
+        'calendarId': 'primary',
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 10,
+        'orderBy': 'startTime',
+      };
+      gapi.client.calendar.events.list(request).then(response => {
+        const events = response.result.items;
+        if (!events || events.length === 0) {
+          console.log('No events found.');
+          return;
+        }
+        // Just logging the events for now, you can handle it however you want
+        console.log(events);
+      });
+    },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {
