@@ -9,7 +9,11 @@ def parse_pdf(pdf_path):
         
     return text
 
-# Provide the PDF file path
+'''
+Provide the PDF file path
+To use it on your local machine, just replcae the direcotry with the directory
+of where your final exam schedule PDF is. 
+'''
 pdf_path = r'C:\Users\sundaj\Dropbox\PC\Desktop\final_subject.pdf'
 
 # Extract text from the PDF using PDFMiner
@@ -74,10 +78,11 @@ for i in range(len(finals)):
         for j in range(len(department)):
             
             '''
-            
             If we automate getting the final exam schedule (logging into Box) then 
-            this will be of use to get the semesters. Currently have to get final
-            schedule manually.
+            the if statements (checking the month) will be of use to get the semesters. 
+            Currently have to get final schedule manually from box.
+            
+            If Final is in December, then its Fall Sem, otherwise its Spring Sem
             
             '''
             
@@ -98,10 +103,53 @@ for i in range(len(finals)):
             # Join the list back together without the Time component.
             new_date = " ".join(split_date)
             
+            # Split the Course (NAME/ID) and the Section
+            split_course = courses[j].strip().split(" ")
+
+            '''
+            
+            Need an if statement because of the class 
+            Department: PHYSICS, Course: ENGR / CHEM / ISCI / PHYS 1600
+            Seems to be the only one without a section
+            The last element seems to be the only of size 4, 
+            so hardcoding it like this should fix the abnormality.
+            
+            Also there are parts like "(SEC 9 - 12)" so the if statements
+            account for that. 
+            
+            '''
+            
+            # This takes care of the weird Physics Class Case
+            if len(split_course[-1]) == 4:
+                section = "(ALL SECTIONS)"
+                new_course = " ".join(split_course)
+            
+            # This takes care of the weird case of (ALL) besides
+            # of (ALL SECTIONS). 
+            elif "(ALL)" in split_course:
+                section = "(ALL SECTIONS)"
+                split_course.pop()
+                new_course = " ".join(split_course)
+                
+            # This takes care of the sections that are numbers
+            elif len(split_course[-1]) == 2:
+                section = split_course[-1]
+                split_course.pop()
+                new_course = " ".join(split_course)
+            
+            # This should take care of everything else
+            else: 
+                new_course = split_course[0] + " " + split_course[1]
+                split_course.pop(0)
+                split_course.pop(0)
+                section = " ".join(split_course).strip()
+                
+                
             entry = {
                 
                 "Department": department[j],
-                "Course": courses[j],
+                "Course": new_course,
+                "Section": section,
                 "Location": location[j],
                 "Date": new_date,
                 "Time": time,
@@ -115,8 +163,8 @@ for i in range(len(finals)):
                 json_file.write(json.dumps(entry) + '\n')
             
 
-
 json_file.close()
+
 
 '''
 {
