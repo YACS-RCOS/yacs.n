@@ -169,3 +169,6 @@ export const get_professor_info_by_rcs = (rcs) =>
 
 export const get_professor_info_by_email = (email) =>
   client.get("/professor/email/" + email).then((res) => res.data);
+
+export const get_all_final_info = () =>
+    client.get("/finals/all").then((res) => res.data);

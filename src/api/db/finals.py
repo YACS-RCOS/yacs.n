@@ -1,6 +1,7 @@
 
 import csv
 import json
+from fastapi.encoders import jsonable_encoder
 from psycopg2.extras import RealDictCursor
 import asyncio
 from sqlalchemy import create_engine
@@ -24,8 +25,6 @@ class Finals:
 
     def add_bulk_final(self, file):
         list = []
-
-        #file  = "Finals.json"
         with open(file, "r") as json_file:
             data = json.load(json_file)
 
@@ -57,10 +56,8 @@ class Finals:
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
-        cursor = self.db_conn.cursor()
         query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
-        cursor.execute(query)
-        records = cursor.fetchone()
+        records = self.db_conn.execute(query)
         if department is None:
             return (False, "Department cannot be none")
         elif courseCode is None:
@@ -80,9 +77,7 @@ class Finals:
         else:
             query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
             values = (department, courseCode, section, room, dof, day, hour)
-            cursor = self.db_conn.cursor()
-            info, error = cursor.execute(query, values, True)
-            return (info, None) if not error else (False, error)
+            return self.db_conn.execute(query, values, True)
         
     def clear_cache(self):
         try:
@@ -96,76 +91,53 @@ class Finals:
             asyncio.run(self.cache.clear("API_CACHE"))
         
     def get_all_final_info(self):
-        cursor = self.db_conn.cursor()
-        query = "SELECT * FROM finals;"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
-
+        return self.db_conn.execute("SELECT * FROM finals;", None, True)
+        
     def get_info_by_courseCode(self, courseCode):
         if courseCode is None:
             return(False, "Course Code cannot be none")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\';"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
 
     def get_info_by_courseCodeSection(self, courseCode, section):
         if courseCode is None:
             return(False, "Course Code cannot be none")
         elif section is None:
             return(False, "Section cannot be None")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + section + ";"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
     
     def get_info_by_day(self, day):
         if day is None:
             return (False, "Date cannot be none")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE day = \'" + day + "\';"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
     
     def get_info_by_department(self, department):
         if department is None:
             return(False, "Department cannot be none")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE deparment = \'" + department + "\';"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
     
     def get_info_by_DOW(self, DOW):
         if DOW is None:
             return(False, "Day of Week cannot be none")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE dayOfWeek = \'" + DOW + "\';"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
     
     def get_info_by_hour(self, hour):
         if hour is None:
             return(False, "Hour cannot be None")
-        cursor = self.db_conn.cursor()
         query = "SELECT * FROM finals WHERE hour = \'" + hour + "\';"
-        info, error = cursor.execute(query, None, True)
-        return (info, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
         
     def remove_final(self, courseCode, section):
         if courseCode is None:
             return (False, "Course Code cannot be none")
         elif section is None:
             return (False, "Section cannot be none")
-        
         query = "DELETE FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
-
-        cursor = self.db_conn.cursor()
-        info, error = cursor.execute(query, None, True)
-        message = ""
-        if not error:
-            message = str(cursor.rowcount) + " row(s) deleted"
-        
-        return(message, None) if not error else (False, error)
+        return self.db_conn.execute(query, None, True)
     
     def findCol(self, column):
         i=0
@@ -184,8 +156,6 @@ class Finals:
         error, column = self.findCol(column)
         if error:
             query = "UPDATE finals SET " + column + " = \'" + value + "\' WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
-            cursor = self.db_conn.cursor()
-            info, error = cursor.execute(query, None, True)
-            return (info, None) if not error else (False, error)
+            return self.db_conn.execute(query, None, True)
         else:
             return (False, "Column does not exist")

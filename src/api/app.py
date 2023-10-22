@@ -440,6 +440,7 @@ async def get_finals_by_hour(hour: str):
 @app.delete('api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     message, error = finals_info.remove_final(courseCode, section)
+    finals_info.db_conn.commit()
     return message if not error else Response(content=error, status_code=500)
 
 
@@ -458,4 +459,5 @@ async def removeBulkFinals(file : UploadFile):
 @app.put('api/finals/update')
 async def update_final_by_courseCodeSection(courseCode: str, section: str, column: str, value: str):
     message, error = finals_info.update_final(courseCode, section, column, value)
+    finals_info.db_conn.commit()
     return message if not error else(Response(content = error, status_code=500))
