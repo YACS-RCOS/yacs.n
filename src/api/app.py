@@ -421,7 +421,7 @@ async def get_days(day: str):
 #get by department
 @app.get('/api/finals/department/{department}')
 async def get_finals_by_department(department: str):
-    finals, error = finals_info.get_finals_by_department(department)
+    finals, error = finals_info.get_info_by_department(department)
     return finals if not error else Response(content=error, status_code=500)
 
 #get by day of week (DOW)

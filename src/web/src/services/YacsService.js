@@ -172,3 +172,21 @@ export const get_professor_info_by_email = (email) =>
 
 export const get_all_final_info = () =>
     client.get("/finals/all").then((res) => res.data);
+
+export const get_info_by_DOW = (day_of_week) =>
+    client.get("/finals/dow/" + day_of_week).then((res) => res.data);
+
+export const get_info_by_courseCode = (courseCode) =>
+  client.get("/finals/courseCode/" + courseCode).then((res) => res.data);
+
+export const get_info_by_courseCodeSection = (courseCode, section) =>
+  client.get("/finals/courseCodeSection" + "?courseCode=\"" + courseCode + "\"&&section=\"" + section + "\"").then((res) => res.data);
+
+export const get_info_by_day = (day) =>
+  client.get("/finals/day/" + day).then((res) => res.data);
+
+export const get_info_by_department = (department) =>
+  client.get("/finals/department/" + department).then((res) => res.data);
+
+export const get_info_by_hour = (hour) =>
+  client.get("/finals/hour/" + hour).then((res) => res.data);

@@ -116,7 +116,7 @@ class Finals:
     def get_info_by_department(self, department):
         if department is None:
             return(False, "Department cannot be none")
-        query = "SELECT * FROM finals WHERE deparment = \'" + department + "\';"
+        query = "SELECT * FROM finals WHERE department = \'" + department + "\';"
         return self.db_conn.execute(query, None, True)
     
     def get_info_by_DOW(self, DOW):
