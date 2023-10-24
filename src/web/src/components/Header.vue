@@ -50,13 +50,13 @@
           <font-awesome-icon icon="list" />
           Pathways
         </b-nav-item>
-        <b-nav-item :to="{ name: 'Finals' }">
-          <font-awesome-icon icon="file-alt" />
-          Finals
-        </b-nav-item>
         <b-nav-item :to="{ name: 'Professors' }">
           <font-awesome-icon icon="address-book" />
           Professors
+        </b-nav-item>
+        <b-nav-item :to="{ name: 'Finals' }">
+          <font-awesome-icon icon="file-alt" />
+          Finals
         </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->

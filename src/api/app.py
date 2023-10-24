@@ -183,6 +183,7 @@ async def uploadHandler(
     isPubliclyVisible: str = Form(...), file: UploadFile = File(...)
 ):
     # check for user files
+    print("in process")
     if not file:
         return Response("No file received", 400)
     if (
@@ -212,108 +213,41 @@ async def uploadHandler(
         print(error)
         return Response(error.__str__(), status_code=500)
 
-
-@app.post("/api/mapDateRangeToSemesterPart")
-async def map_date_range_to_semester_part_handler(request: Request):
-    # This depends on date_start, date_end, and semester_part_name being
-    # ordered since each field has multiple entries. They should be ordered
-    # as each dict entry has the value of list. But if it doesn't work,
-    # look into parameter_storage_class which will change the default
-    # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
-    form = await request.form()
-    if form:
-        # If checkbox is false, then, by design, it is not included in the form data.
-        is_publicly_visible = form.get("isPubliclyVisible", default=False)
-        semester_title = form.get("semesterTitle")
-        semester_part_names = form.getlist("semester_part_name")
-        start_dates = form.getlist("date_start")
-        end_dates = form.getlist("date_end")
-        if (
-            start_dates
-            and end_dates
-            and semester_part_names
-            and is_publicly_visible is not None
-            and semester_title
-        ):
-            _, error = date_range_map.insert_all(
-                start_dates, end_dates, semester_part_names
-            )
-            semester_info.upsert(semester_title, is_publicly_visible)
-            if not error:
-                return Response(status_code=200)
-            else:
-                return Response(error, status_code=500)
-    return Response("Did not receive proper form data", status_code=500)
-
-
-@app.post("/api/majorsUpload")
-async def majors_upload_handler(file: UploadFile = File(...)):
-    # check for user files
+@app.post('/api/bulkProfessorUpload')
+async def uploadJSON(
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):  
+    # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
-    if (
-        file.filename.find(".") == -1
-        or file.filename.rsplit(".", 1)[1].lower() != "json"
-    ):
-        return Response("File must have json extension", 400)
-
-    # get file
+    
+    # Check that we receive a JSON file
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have JSON extension", 400)
+    
+    # Get file contents
     contents = await file.read()
-    file = StringIO(contents.decode())
+    
+    # Load JSON data
+    try:
+        #convert string to python dict
+        json_data = json.loads(contents.decode('utf-8'))
+        # print(json_data)
+    except json.JSONDecodeError as e:
+        return Response(f"Invalid JSON data: {str(e)}", 400)
 
-    jsonfile = json.load(file)
-    error = None
-
-    # this is the format from the course suggestions branch
-    if jsonfile is list:
-        majorfile = pd.read_json(file)
-        majorlist = majorfile.get("Major")
-        # Populate DB from File
-
-        majors.reset_majors()
-        for major in majorlist:
-            majors.upsert(
-                major, "B"
-            )  # we have no way of determining which major is which due to limitations in this format
-
-    # this is the json format where each major name is  listed by major type
-    else:
-        print(jsonfile)
-        majors.reset_majors()
-        for type in jsonfile.keys():
-            for major in jsonfile[type]:
-                majors.upsert(major, type[0])
-
-    if not error:
+    # Call populate_from_json method
+    isSuccess, error = professor_info.populate_from_json(json_data)
+    if isSuccess:
+        print("SUCCESS")
         return Response(status_code=200)
     else:
+        print("NOT WORKING")
         print(error)
-        return Response(error, status_code=500)
+        return Response(error.__str__(), status_code=500)
 
 
-@app.get("/api/majors")
-@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_majors():
-    error = None
-    majorlist = {
-        "B": [],
-        "M": [],
-        "D": [],
-    }
-
-    for type in majorlist.keys():
-        majorlistsql, error = majors.list_majors_in_degreetype(type)
-
-        if error:
-            break
-
-        for majordict in majorlistsql:
-            majorlist[type].append(majordict.get("major"))
-
-    return majorlist if not error else Response(error, status_code=500)
-
-
-@app.post("/api/mapDateRangeToSemesterPart")
+@app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
     # This depends on date_start, date_end, and semester_part_name being
     # ordered since each field has multiple entries. They should be ordered
@@ -500,26 +434,11 @@ async def get_all_professors():
     return db_list if not error else Response(error, status_code=500)
 
 
-@app.get("/api/professor/office_hours/{email}")
-async def get_office_hours(email: str):
-    professor_office_hours, error = professor_info.get_office_hours_by_email(email)
-    return (
-        professor_office_hours
-        if not error
-        else Response(content=error, status_code=500)
-    )
-
-
-@app.get("/api/professor/phone_number/{email}")
+@app.get('/api/professor/phone_number/{email}')
 async def get_professor_phone_number_by_email(email: str):
+    
     phone_number, error = professor_info.get_professor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
-
-
-@app.get("/api/professor/rcs/{rcs}")
-async def get_professor_info_by_rcs(rcs: str):
-    professor_rcs, error = professor_info.get_professor_info_by_rcs(rcs)
-    return professor_rcs if not error else Response(content=error, status_code=500)
 
 
 @app.get("/api/professor/email/{email}")
@@ -569,26 +488,3 @@ async def remove_professor(email: str):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
-
-
-# Parses the data from the .csv data files
-@app.post("/api/bulkProfUpload")
-async def uploadHandler(file: UploadFile = File(...)):
-    # check for user files
-    if not file:
-        return Response("No file received", 400)
-    if (
-        file.filename.find(".") == -1
-        or file.filename.rsplit(".", 1)[1].lower() != "csv"
-    ):
-        return Response("File must have csv extension", 400)
-    # get file
-    contents = await file.read()
-    csv_file = StringIO(contents.decode())
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    # Populate DB from CSV
-    if isSuccess:
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
