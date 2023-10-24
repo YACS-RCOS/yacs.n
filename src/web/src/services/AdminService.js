@@ -27,3 +27,6 @@ export const addProfessors = (msg) =>
 
 export const addProfessorsTest = () =>
   client.post("/professor/add/test").then((res) => res.data);
+
+export const add_final = (msg) =>
+  client.post("/finals/addFinal/" + msg).then((res) => res.data);

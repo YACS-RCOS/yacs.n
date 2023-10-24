@@ -22,6 +22,7 @@ const client = axios.create({
  * This Is Likely Due To Two Course Objects Having The Same Identifier.
  * Thus, Should Revise The Following Code, If Necessary.
  */
+
 export const _getCourseIdentifier = (courseObj) => {
   return `
     ${courseObj.crn}
@@ -180,7 +181,7 @@ export const get_info_by_courseCode = (courseCode) =>
   client.get("/finals/courseCode/" + courseCode).then((res) => res.data);
 
 export const get_info_by_courseCodeSection = (courseCode, section) =>
-  client.get("/finals/courseCodeSection" + "?courseCode=\"" + courseCode + "\"&&section=\"" + section + "\"").then((res) => res.data);
+  client.get("/finals/courseCodeSection?courseCode=" + courseCode + "&section=" + section).then((res) => res.data);
 
 export const get_info_by_day = (day) =>
   client.get("/finals/day/" + day).then((res) => res.data);

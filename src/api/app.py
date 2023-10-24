@@ -377,7 +377,7 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
     
-@app.post('api/finals/addBulkFinals')
+@app.post('/api/finals/addBulkFinals')
 async def addBulkFinals(file : UploadFile):
     if not file:
         return Response("No file received", 400)
@@ -407,7 +407,7 @@ async def get_courseCode(courseCode: str):
     return (finals) if not error else Response(content=error, status_code=500)
 
 #get by courseCode and section
-@app.get('api/finals/courseCodeSection')
+@app.get('/api/finals/courseCodeSection')
 async def get_courseCodeSection(courseCode: str, section: str):
     finals, error = finals_info.get_info_by_courseCodeSection(courseCode, section)
     return finals if not error else Response(content=error, status=500)
@@ -427,17 +427,17 @@ async def get_finals_by_department(department: str):
 #get by day of week (DOW)
 @app.get('/api/finals/dow/{DOW}')
 async def get_finals_by_DOW(DOW: str):
-    finals, error = finals_info.get_finals_by_DOW(DOW)
+    finals, error = finals_info.get_info_by_DOW(DOW)
     return finals if not error else Response(content=error, status_code=500)
 
 #get by hour
-@app.get('api/finals/hour/{hour}')
+@app.get('/api/finals/hour/{hour}')
 async def get_finals_by_hour(hour: str):
-    finals, error = finals_info.get_finals_by_hour(hour)
+    finals, error = finals_info.get_info_by_hour(hour)
     return finals if not error else Response(content=error, status_code=500)
 
 #delete by course code and section
-@app.delete('api/finals/remove')
+@app.delete('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     message, error = finals_info.remove_final(courseCode, section)
     finals_info.db_conn.commit()
@@ -456,7 +456,7 @@ async def removeBulkFinals(file : UploadFile):
     return finals if not error else Response(content=error, status_code=500)
 
 #update by course code and section:
-@app.put('api/finals/update')
+@app.put('/api/finals/update')
 async def update_final_by_courseCodeSection(courseCode: str, section: str, column: str, value: str):
     message, error = finals_info.update_final(courseCode, section, column, value)
     finals_info.db_conn.commit()

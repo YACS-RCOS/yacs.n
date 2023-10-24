@@ -104,7 +104,7 @@ class Finals:
             return(False, "Course Code cannot be none")
         elif section is None:
             return(False, "Section cannot be None")
-        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + section + ";"
+        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
         return self.db_conn.execute(query, None, True)
     
     def get_info_by_day(self, day):
