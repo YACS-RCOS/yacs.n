@@ -30,3 +30,15 @@ export const addProfessorsTest = () =>
 
 export const add_final = (msg) =>
   client.post("/finals/addFinal/" + msg).then((res) => res.data);
+
+export const add_bulk_final = (file) =>
+  client.post("/finals/addBulkFinals?file=" + file).then((res) => res.data);
+
+export const remove_bulk_final = (file) =>
+  client.delete("/finals/removeBulkFinal?file=" + file).then((res) => res.data);
+
+export const remove_final = (courseCode, section) =>
+  client.delete("/finals/remove?courseCode=" + courseCode + "&section=" + section).then((res) => res.data);
+
+export const update_final = (courseCode, section, column, val) =>
+  client.put("/finals/update?courseCode=" + courseCode + "&section=" + section + "&column=" + column + "&value=" + val).then((res) => res.data);

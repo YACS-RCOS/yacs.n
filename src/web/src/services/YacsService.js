@@ -191,3 +191,6 @@ export const get_info_by_department = (department) =>
 
 export const get_info_by_hour = (hour) =>
   client.get("/finals/hour/" + hour).then((res) => res.data);
+
+export const get_info_by_room = (room) =>
+    client.get("/finals/room/" + room).then((res) => res.data);

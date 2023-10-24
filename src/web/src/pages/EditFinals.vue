@@ -73,6 +73,36 @@
         />
       </div>
       <div class="form-group">
+        <label for="hour">File:</label>
+        <input
+          v-model="file"
+          type="text"
+          class="form-control"
+          id="file"
+          placeholder="Enter File Name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="updateColumn">Update Column:</label>
+        <input
+          v-model="updateColumn"
+          type="text"
+          class="form-control"
+          id="updateColumn"
+          placeholder="Enter Column Name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="updateVal">Update Value:</label>
+        <input
+          v-model="updateVal"
+          type="text"
+          class="form-control"
+          id="updateVal"
+          placeholder="Enter Update Value"
+        />
+      </div>
+      <div class="form-group">
         <label for="result">Result:</label>
         <p id="result">{{ this.result }}</p>
       </div>
@@ -83,8 +113,12 @@
       <button @click="get_info_by_day()" class="btn btn-primary">Get Final by Day</button>
       <button @click="get_info_by_department()" class="btn btn-primary">Get Final by Department</button>
       <button @click="get_info_by_hour()" class="btn btn-primary">Get Final by Hour</button>
+      <button @click="get_info_by_room()" class="btn btn-primary">Get Final by Room</button>
       <button @click="add_final()" class="btn btn-success">Add Final</button>
+      <button @click="add_bulk_final()" class="btn btn-success">Add Bulk Final</button>
       <button @click="remove_final()" class="btn btn-danger">Remove Final</button>
+      <button @click="remove_bulk_final()" class="btn btn-danger">Remove Bulk Final</button>
+      <button @click="update_final()" class="btn btn-primary">Update Final</button>
     </section>
   </b-container>
 </template>
@@ -98,13 +132,14 @@ import {
   get_info_by_department,
   get_info_by_DOW,
   get_info_by_hour,
+  get_info_by_room,
 } from "@/services/YacsService";
 import {
-  // add_bulk_final,
-  // remove_bulk_final,
+  add_bulk_final,
+  remove_bulk_final,
   add_final,
   remove_final,
-  // update_final,
+  update_final,
 } from "@/services/AdminService";
 
 export default {
@@ -157,10 +192,20 @@ export default {
       this.result = get_info_by_hour(this.hour);
       console.log(this.result);
     },
+    get_info_by_room() {
+      console.log("get_info_by_room");
+      this.result = get_info_by_room(this.room);
+      console.log(this.result);
+    },
     add_final() {
       console.log("add_final");
       let str = this.deparmtent + "," + this.courseCode + "," + this.section + "," + this.room + "," + this.dayOfWeek + "," + this.day + "," + this.hour;
       this.result = add_final(str);
+      console.log(this.result);
+    },
+    remove_bulk_final() {
+      console.log("remove_bulk_final");
+      this.result = remove_bulk_final(this.file);
       console.log(this.result);
     },
     remove_final() {
@@ -168,11 +213,16 @@ export default {
       this.result = remove_final(this.courseCode, this.section);
       console.log(this.result);
     },
-    // update_final() {
-    //   console.log("update_final");
-    //   this.result = update_final(this.courseCode, this.section, this.column, this.value);
-    //   console.log(this.result);
-    // }
+    update_final() {
+      console.log("update_final");
+      this.result = update_final(this.courseCode, this.section, this.updateColumn, this.updateVal);
+      console.log(this.result);
+    },
+    add_bulk_final() {
+      console.log("add_bulk_final");
+      this.result = add_bulk_final(this.file);
+      console.log(this.result);
+    }
   },
 };
 </script>

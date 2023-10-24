@@ -38,22 +38,6 @@ class Finals:
         self.clear_cache()
         return list
 
-    def remove_bulk_final(self, file):
-        list = []
-
-        with open(file, "r") as json_file:
-            data = json.load(json_file)
-
-        for i in data:
-            if i['Section'] == "(ALL SECTIONS)":
-                section = "AllSections"
-            else:
-                section = i['Section']
-            list.append(self.remove_final(i['CourseCode'], section))
-        self.db_conn.commit()
-        self.clear_cache()
-        return list
-
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
         query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
@@ -89,6 +73,14 @@ class Finals:
             loop.create_task(self.cache.clear(namespace="API_CACHE"))
         else:
             asyncio.run(self.cache.clear("API_CACHE"))
+
+    def findCol(self, column):
+        i=0
+        for cols in columns:
+            if cols.lower() == column:
+                return (True, crr[i])
+            i+=1
+        return (False, column)
         
     def get_all_final_info(self):
         return self.db_conn.execute("SELECT * FROM finals;", None, True)
@@ -130,7 +122,29 @@ class Finals:
             return(False, "Hour cannot be None")
         query = "SELECT * FROM finals WHERE hour = \'" + hour + "\';"
         return self.db_conn.execute(query, None, True)
-        
+    
+    def get_info_by_room(self, room):
+        if room is None:
+            return(False, "Room cannot be None")
+        query = "SELECT * FROM finals WHERE room = \'" + room + "\';"
+        return self.db_conn.execute(query, None, True)
+    
+    def remove_bulk_final(self, file):
+        list = []
+
+        with open(file, "r") as json_file:
+            data = json.load(json_file)
+
+        for i in data:
+            if i['Section'] == "(ALL SECTIONS)":
+                section = "AllSections"
+            else:
+                section = i['Section']
+            list.append(self.remove_final(i['CourseCode'], section))
+        self.db_conn.commit()
+        self.clear_cache()
+        return list
+    
     def remove_final(self, courseCode, section):
         if courseCode is None:
             return (False, "Course Code cannot be none")
@@ -138,14 +152,6 @@ class Finals:
             return (False, "Section cannot be none")
         query = "DELETE FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
         return self.db_conn.execute(query, None, True)
-    
-    def findCol(self, column):
-        i=0
-        for cols in columns:
-            if cols.lower() == column:
-                return (True, crr[i])
-            i+=1
-        return (False, column)
 
     def update_final(self, courseCode, section, column : str, value : str):
         if courseCode is None:

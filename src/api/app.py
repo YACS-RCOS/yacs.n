@@ -436,6 +436,11 @@ async def get_finals_by_hour(hour: str):
     finals, error = finals_info.get_info_by_hour(hour)
     return finals if not error else Response(content=error, status_code=500)
 
+@app.get('/api/finals/room/{room}')
+async def get_finals_by_hour(room: str):
+    finals, error = finals_info.get_info_by_room(room)
+    return finals if not error else Response(content=error, status_code=500)
+
 #delete by course code and section
 @app.delete('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
