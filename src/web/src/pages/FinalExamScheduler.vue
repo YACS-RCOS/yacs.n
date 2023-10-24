@@ -80,6 +80,7 @@ import {
   exportFinalToImage,
 } from "@/utils";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import allExportVariables from "@/assets/dark.scss";
 
 
 export default {

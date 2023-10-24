@@ -418,7 +418,7 @@ export const prefixNamespacedTypes = (namespace, types) => {
  */
 export const exportScheduleToImage = (
   selectedCourses,
-  q,
+  currentSemester,
   options
 ) => {
   // Handle Special Case Where No Selected Courses On Schedule.
@@ -440,12 +440,23 @@ export const exportScheduleToImage = (
     });
 };
 
-export const exportFinaltoImage = (selectedSections) => {
+export const exportFinaltoImage = (selectedSections, options) => {
   if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
     alert("No Final Exam Sections Found For Export to Image Data.");
     return;
   }
-  
+  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG.
+  domtoimage
+    .toPng(document.getElementById("allScheduleData"), options)
+      .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "FinalExams-YACS-Schedule.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error) {
+        console.log("Oh No, Something Went Wrong!", error);
+      });
 }; 
 
 export const getLongName = (department) => {
