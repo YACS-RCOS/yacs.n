@@ -60,6 +60,10 @@
                   <font-awesome-icon :icon="exportIcon" />
                     Export To ICS
                 </b-dropdown-item>
+                <b-dropdown-item @click="exportFinalToImage">
+                  <font-awesome-icon :icon="exportIcon" />
+                  Export To Image
+                </b-dropdown-item>
               </b-dropdown>
             </b-col>
           </b-row>
@@ -73,6 +77,7 @@ import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
 import {
   exportFinalToIcs,
+  exportFinalToImage,
 } from "@/utils";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -213,6 +218,17 @@ export default {
     
     exportFinalToIcs() {
       exportFinalToIcs(this.selectedCourses);
+    },
+
+    exportFinalToImage() {
+      exportFinalToImage(
+        this.selectedCourses,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
     },
   },
 };

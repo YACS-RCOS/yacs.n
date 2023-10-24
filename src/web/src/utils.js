@@ -306,7 +306,7 @@ export const exportScheduleToIcs = (selectedSections) => {
  */
 export const exportFinalToIcs = (selectedSections) => {
   if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
-    alert("No final exam sections found for export to ICS.");
+    alert("No Final Exam Sections Found For Export to ICS.");
     return;
   }
 
@@ -418,7 +418,7 @@ export const prefixNamespacedTypes = (namespace, types) => {
  */
 export const exportScheduleToImage = (
   selectedCourses,
-  currentSemester,
+  q,
   options
 ) => {
   // Handle Special Case Where No Selected Courses On Schedule.
@@ -439,6 +439,14 @@ export const exportScheduleToImage = (
       console.log("Oh No, Something Went Wrong!", error);
     });
 };
+
+export const exportFinaltoImage = (selectedSections) => {
+  if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
+    alert("No Final Exam Sections Found For Export to Image Data.");
+    return;
+  }
+  
+}; 
 
 export const getLongName = (department) => {
   var dict = {
