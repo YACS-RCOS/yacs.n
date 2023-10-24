@@ -161,7 +161,7 @@ def processSpecial(info, prevrow) -> list[str]:
     info[7] = tmp[7]
     info[8] = tmp[8]
     info[12] = (tmp[18])
-    info[13] = (tmp[20])
+    info[15] = (tmp[20])
     return info
 #Given a string contaings the profs for a class, return a string containing only the last names of the profs
 def formatTeachers(profs : str) -> str:
@@ -188,6 +188,9 @@ def formatTimes(info : list[str]) -> list[str]:
         info[7] = ""
         return info
     #Split the time in two, and then insert the split times as the start and end time
+    if info[7] != "":
+        while " " in info[7]:
+            info[7] = info[7].replace(" ", "")
     splitTime = info[7].split('-')
     start = splitTime[0]
     end = splitTime[1]
@@ -222,7 +225,8 @@ def processRow(data, prevrow) -> list[str]:
         info = processSpecial(info, prevrow)
         return info
     #Some admin and grad courses won't have days of the week
-    if (info[6] == '\xa0'):
+    #Also the backend doesn't like the days of the week being TBA
+    if (info[6] == '\xa0' or info[6] == "TBA"):
         info[6] = ""
     info[17] = formatTeachers(info[17])
     formatTimes(info)
@@ -230,16 +234,18 @@ def processRow(data, prevrow) -> list[str]:
     info = info[:12] + info[18:]
     #Split the date into start and end date
     formatDate(info)
-    #Some classes have a credit value ranging from 0-12    
+    #Some classes have a credit value ranging from 0-12, just pick the latest    
     info[4] = formatCredits(info)
     return info
 def formatDate(info):
+    
     key = "2023-"
     splitDate = info[13].split('-')
     sdate = splitDate[0].split('/')
     sdate = '-'.join(sdate)
     enddate = splitDate[1].split('/')
     enddate = '-'.join(enddate)
+    
     info.insert(13, key + sdate)
     info.insert(14, key + enddate)
     info.pop(15)
@@ -409,7 +415,7 @@ def main():
     driver = webdriver.Firefox()
     login(driver)
     start = time.time()
-    final = sisCourseSearch(driver, "fall2023")
+    final = sisCourseSearch(driver, "spring2024")
     end = time.time()
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
