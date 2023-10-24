@@ -1,7 +1,5 @@
 // import "@/typedef";
 
-import axios from "axios";
-
 import { localToUTCDate, readableDate } from "@/utils";
 import { api } from "./baseService";
 
