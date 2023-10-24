@@ -21,9 +21,7 @@ def upgrade():
     sa.Column('dept_code', sa.VARCHAR(length=4), nullable=False),
     sa.Column('course_code', sa.VARCHAR(length=4), nullable=False),
     sa.Column('course_name', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('dept_code'),
-    sa.PrimaryKeyConstraint('course_code'),
-    sa.PrimaryKeyConstraint('course_name')
+    sa.PrimaryKeyConstraint('dept_code', 'course_code', 'course_name'),
     )
 
 

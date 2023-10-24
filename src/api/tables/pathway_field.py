@@ -69,15 +69,15 @@ def loadFields(fields):
     fields['Required'].append('Required')
 
 
-if __name__ == "__main__":
-    with open('../../web/src/pages/pathwayV2.json') as file:
-        data = json.load(file)
-    printKeys(data)
-    fields = dict()
-    loadFields(fields)
-
-    # for i in data:
-    #     for j in i['Pathways']:
-    #         print(j["Name"][0], "     ", i['Category Name'][0])
-
-    printPathways(data)
+# if __name__ == "__main__":
+#     with open('../../web/src/pages/pathwayV2.json') as file:
+#         data = json.load(file)
+#     printKeys(data)
+#     fields = dict()
+#     loadFields(fields)
+#
+#     # for i in data:
+#     #     for j in i['Pathways']:
+#     #         print(j["Name"][0], "     ", i['Category Name'][0])
+#
+#     printPathways(data)

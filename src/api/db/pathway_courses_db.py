@@ -57,7 +57,7 @@ class PathwayCourse:
                                     c_name = ' '
                                     tokens = course.split('-')
                                     if len(tokens) == 1:
-                                        print(tokens[0])
+                                        #print(tokens[0])
                                         tokens = tokens[0].split()
                                         d_code = tokens[0]
                                         c_code = tokens[1]

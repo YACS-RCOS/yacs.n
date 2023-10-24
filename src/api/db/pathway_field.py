@@ -47,6 +47,7 @@ class Pathway_Field:
         fields = dict()
         fields['Choose one of the following'] = 'Choose one'
         fields['Choose another one of the following'] = 'Choose one'
+        fields['Can select only one of the following to be applied to pathway'] = 'Choose one'
         fields['Choose 12 credits from the following'] = 'Choose x'
         fields['Choose 12 credits from the following course prefixes, ' \
               'with at least 8 credit hours at, or above, ' \
@@ -72,6 +73,7 @@ class Pathway_Field:
                                     occurrence[field] += 1
                                 for course in sub[title]:
                                     try:
+                                        print(sub['Name'][0])
                                         # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
                                         transaction.execute(
                                             """

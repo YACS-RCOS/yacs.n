@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'fedcba100000'  # randomly created an 'unique id' with 12 hex characters
-down_revision = 'efef12345678'  # grab value from previous version file
+down_revision = 'abcd12345678'  # grab value from previous version file
 branch_labels = None
 depends_on = None
 
@@ -25,8 +25,5 @@ def upgrade():
     sa.Column('course_credits', sa.VARCHAR(length=255), nullable=False),
     sa.Column('desc_credit_level', sa.VARCHAR(length=255), nullable=True),
     sa.Column('desc_course_level', sa.VARCHAR(length=255), nullable=True),
-    sa.PrimaryKeyConstraint('pathway_name'),
-    sa.PrimaryKeyConstraint('course_name'),
-    sa.PrimaryKeyConstraint('field_name'),
-    sa.PrimaryKeyConstraint('occurrence')
+    sa.PrimaryKeyConstraint('pathway_name', 'course_name','field_name', 'occurrence'),
     )
