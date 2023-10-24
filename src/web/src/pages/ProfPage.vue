@@ -2,6 +2,7 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="prof" class="w-90 ml-4 mb-4">
+
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ prof.Name }}</h1>
@@ -20,6 +21,11 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col>
+          <h6 class="mb-1 d-inline">Teaching: {{ prof.Teaching }}</h6>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col class="mb-4">
           <br />
           <h6 class="mb-1 d-inline">Contact Info</h6>
@@ -34,7 +40,6 @@
           </li>
         </b-col>
       </b-row>
-
       <b-button @click="$router.go(-1)">Back</b-button>
     </div>
     <CenterSpinner
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-import json from "./Professors.json";
+import json from "./professor_course.json";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 
 export default {
