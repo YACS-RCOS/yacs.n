@@ -1,8 +1,8 @@
 <template>
   <b-container>
-    <h1>Admin Panel</h1>
-    <hr />
-    <br />
+    <br><b-button href="/">Go back home</b-button><br>
+    <h2 style="text-align: center;">Admin Panel</h2>
+    <br /><hr /><h2>Operations</h2><hr /><br />
 
     <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
       Import Courses via CSV
@@ -51,17 +51,13 @@
     <b-modal id="jsonModal" title="Import Professors via JSON" size="xl">
       <UploadJson />
     </b-modal>
+    <br /><hr /><h2>User Statistics</h2><hr /><br />
+    Total Users: {{ this.total_users }}<br>
+    Logged-in Users: {{ this.num_sessions }}<br>
+    
     <br />
     <hr />
-    <h2>User Statistics</h2>
-    <hr />
     <br />
-    Total Users: {{ this.total_users }}
-    <br />
-    <hr />
-    <br />
-
-    <b-button href="/">Go back home</b-button>
   </b-container>
 </template>
 
@@ -73,6 +69,7 @@ import EditProfessors from "@/pages/EditProfessors";
 import UploadJson from "@/pages/UploadJson.vue";
 
 import { getUserStats } from "@/services/UserService";
+import {getSessionStats} from "@/services/AdminService";
 
 export default {
   name: "AdminPage",
@@ -87,15 +84,21 @@ export default {
   data() {
     return {
       total_users:"",
+      num_sessions:"",
     };
   },
   mounted() {
-    this.userStats();
+    //setInterval(() => {
+      this.getUserStats();
+    //}, 1000);
   },
   methods: {
-    async userStats() {
-      let stats = await getUserStats();
-      this.total_users = stats.data.content.total_users
+    async getUserStats() {
+      console.log("here")
+      let userStats=await getUserStats();
+      let sessionStats=await getSessionStats();
+      this.total_users = userStats.data.content.total_users;
+      this.num_sessions = sessionStats.data.content.num_sessions;
     },
   },
 };

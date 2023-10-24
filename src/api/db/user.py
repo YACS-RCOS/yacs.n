@@ -1,5 +1,4 @@
 from db.model import *
-import json
 
 class User(Model):
     def __init__(self):

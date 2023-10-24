@@ -27,3 +27,7 @@ class Session(Model):
         sql = """UPDATE public.user_session SET end_time = %s WHERE session_id::text LIKE %s AND user_id::text LIKE %s;"""
         args = (end_time, session_id, str(uid))
         return self.db.execute(sql, args, False)[0]
+    
+    def get_session_stats(self):
+        sql = """SELECT count(*) FROM public.user_session;"""
+        return self.db.execute(sql, True)[0][0]['count']
