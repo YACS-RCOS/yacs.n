@@ -40,8 +40,11 @@ class Finals:
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
-        # query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
-        # records = self.db_conn.execute(query)
+        query = "SELECT COUNT(*) FROM finals WHERE courseCode = %(courseCode)s AND section = %(section)s;"
+        result = self.db_conn.execute(query, {"courseCode": courseCode, "section": section})
+        count = result[0][0]["count"]
+        print(count)
+        #records.fetchall()
         if department is None:
             return (False, "Department cannot be none")
         elif courseCode is None:
@@ -56,8 +59,8 @@ class Finals:
             return (False, "Day cannot be none")
         elif hour is None:
             return (False, "Hour cannot be none")
-        # elif (records[0] > 0):
-        #     return(False, "A record with the Course Code" + courseCode + " and Section = " + section + " already exists")
+        elif count != 0:
+            return(False, "A record with the Course Code = " + courseCode + " and Section = " + section + " already exists")
         else:
             query = "BEGIN TRANSACTION; INSERT INTO finals (department, courseCode, section, room, dayOfWeek, day, hour) VALUES(%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s); COMMIT;"
             return self.db_conn.execute(query, {
