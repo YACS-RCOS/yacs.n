@@ -54,20 +54,17 @@
         <div id="allScheduleData" class="justify-content-right">
           <calendar :exam-details="examDetails"></calendar>
         </div>
-        <b-row class="justify-content-end">
-          <b-col md="10"></b-col>
-          <b-col md="2">
-            <b-dropdown text="Export Data" class="mt-2">
-              <b-dropdown-item @click="exportFinalToIcs">
-                <font-awesome-icon :icon="exportIcon" />
-                  Export To ICS
-              </b-dropdown-item>
-              <b-dropdown-item @click="exportFinalToImage">
-                <font-awesome-icon :icon="exportIcon" />
-                Export To Image
-              </b-dropdown-item>
-            </b-dropdown>
-          </b-col>
+        <b-row class="justify-content-end mt-2" style="margin-right: 20px;">
+          <b-dropdown right text="Export Data" class="mt-2">
+            <b-dropdown-item @click="exportFinalToIcs">
+              <font-awesome-icon :icon="exportIcon" />
+                Export To ICS
+            </b-dropdown-item>
+            <b-dropdown-item @click="exportFinalToImage">
+              <font-awesome-icon :icon="exportIcon" />
+              Export To Image
+            </b-dropdown-item>
+          </b-dropdown>
         </b-row>
       </b-col>
     </b-row>
