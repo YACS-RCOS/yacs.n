@@ -440,7 +440,7 @@ export const exportScheduleToImage = (
     });
 };
 
-export const exportFinaltoImage = (selectedSections, options) => {
+export const exportFinalToImage = (selectedSections, options) => {
   if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
     alert("No Final Exam Sections Found For Export to Image Data.");
     return;

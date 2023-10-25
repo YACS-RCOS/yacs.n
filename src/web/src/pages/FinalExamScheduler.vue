@@ -51,22 +51,24 @@
         </b-card>
       </b-col>
       <b-col md="7">
+        <div id="allScheduleData" class="justify-content-right">
           <calendar :exam-details="examDetails"></calendar>
-          <b-row class="justify-content-end">
-            <b-col md="10"></b-col>
-            <b-col md="2">
-              <b-dropdown text="Export Data" class="mt-2">
-                <b-dropdown-item @click="exportFinalToIcs">
-                  <font-awesome-icon :icon="exportIcon" />
-                    Export To ICS
-                </b-dropdown-item>
-                <b-dropdown-item @click="exportFinalToImage">
-                  <font-awesome-icon :icon="exportIcon" />
-                  Export To Image
-                </b-dropdown-item>
-              </b-dropdown>
-            </b-col>
-          </b-row>
+        </div>
+        <b-row class="justify-content-end">
+          <b-col md="10"></b-col>
+          <b-col md="2">
+            <b-dropdown text="Export Data" class="mt-2">
+              <b-dropdown-item @click="exportFinalToIcs">
+                <font-awesome-icon :icon="exportIcon" />
+                  Export To ICS
+              </b-dropdown-item>
+              <b-dropdown-item @click="exportFinalToImage">
+                <font-awesome-icon :icon="exportIcon" />
+                Export To Image
+              </b-dropdown-item>
+            </b-dropdown>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
@@ -231,6 +233,7 @@ export default {
         }
       );
     },
+    
   },
 };
 </script>
