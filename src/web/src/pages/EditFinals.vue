@@ -201,6 +201,7 @@ export default {
       console.log("add_final");
       let str = this.deparmtent + "," + this.courseCode + "," + this.section + "," + this.room + "," + this.dayOfWeek + "," + this.day + "," + this.hour;
       this.result = add_final(str);
+      //this.result = add_final(this.deparmtent, this.courseCode, this.section, this.room, this.dayOfWeek, this.day, this.hour)
       console.log(this.result);
     },
     remove_bulk_final() {

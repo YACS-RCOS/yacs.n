@@ -22,7 +22,7 @@ class Finals:
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
-
+    
     def add_bulk_final(self, file):
         list = []
         with open(file, "r") as json_file:
@@ -40,8 +40,8 @@ class Finals:
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
-        query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
-        records = self.db_conn.execute(query)
+        # query = "SELECT COUNT(*) FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = " + str(section) + ";"
+        # records = self.db_conn.execute(query)
         if department is None:
             return (False, "Department cannot be none")
         elif courseCode is None:
@@ -56,13 +56,20 @@ class Finals:
             return (False, "Day cannot be none")
         elif hour is None:
             return (False, "Hour cannot be none")
-        elif (records[0] > 0):
-            return(False, "A record with the Course Code" + courseCode + " and Section = " + section + " already exists")
+        # elif (records[0] > 0):
+        #     return(False, "A record with the Course Code" + courseCode + " and Section = " + section + " already exists")
         else:
-            query = "INSERT INTO finals VALUES(%s, %s, %s, %s, %s, %s, %s);"
-            values = (department, courseCode, section, room, dof, day, hour)
-            return self.db_conn.execute(query, values, True)
-        
+            query = "BEGIN TRANSACTION; INSERT INTO finals (department, courseCode, section, room, dayOfWeek, day, hour) VALUES(%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s); COMMIT;"
+            return self.db_conn.execute(query, {
+                "department": department,
+                "courseCode": courseCode,
+                "section": section,
+                "room": room,
+                "dayOfWeek": dof,
+                "day": day,
+                "hour": hour
+            }, False)
+            
     def clear_cache(self):
         try:
             loop = asyncio.get_running_loop()
@@ -146,13 +153,17 @@ class Finals:
         return list
     
     def remove_final(self, courseCode, section):
-        if courseCode is None:
-            return (False, "Course Code cannot be none")
-        elif section is None:
-            return (False, "Section cannot be none")
-        query = "DELETE FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
-        return self.db_conn.execute(query, None, True)
-
+        self.clear_cache()
+        return self.db_conn.execute("""
+            BEGIN TRANSACTION;
+                DELETE FROM finals
+                WHERE courseCode=%(courseCode)s AND section=%(section)s;
+            COMMIT;
+        """, {
+            "courseCode": courseCode,
+            "section": section
+        }, isSELECT=False)
+        
     def update_final(self, courseCode, section, column : str, value : str):
         if courseCode is None:
             return (False, "CourseCode cannot be none")

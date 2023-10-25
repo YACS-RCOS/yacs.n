@@ -388,10 +388,11 @@ async def addBulkFinals(file : UploadFile):
     return finals if not error else Response(content=error, status_code=500)
 
 
-@app.post('/api/finals/addFinal/{msg}') 
-async def addFinal(msg : str):
-    info = msg.split(",")
-    info, error = finals_info.add_final(info[0], info[1], info[2], info[3], info[4], info[5], info[6])
+@app.get('/api/finals/addFinal') 
+async def addFinal():
+    #info = msg.split(",")
+    info, error = finals_info.add_final("Mathematics", "MATH 4100", "01", "DCC 318", "Monday", "1-May", "600")
+    #info, error = finals_info.add_final(info[0], info[1], info[2], info[3], info[4], info[5], info[7])
     return info if not error else Response(content=error, status_code=500)
 
 #get all finals info
@@ -442,12 +443,12 @@ async def get_finals_by_hour(room: str):
     return finals if not error else Response(content=error, status_code=500)
 
 #delete by course code and section
-@app.delete('/api/finals/remove')
+@app.get('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
-    message, error = finals_info.remove_final(courseCode, section)
-    finals_info.db_conn.commit()
-    return message if not error else Response(content=error, status_code=500)
-
+    return finals_info.remove_final(courseCode, section)
+    # message, error = finals_info.remove_final(courseCode, section)
+    # #finals_info.db_conn.commit()
+    # return message if not error else Response(content=error, status_code=500)
 
 #delete all finals
 @app.delete('/api/finals/removeBulkFinal')
