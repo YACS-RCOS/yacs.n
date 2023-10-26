@@ -25,6 +25,7 @@ class Finals:
     
     def add_bulk_final(self, file):
         list = []
+        print("HERE")
         with open(file, "r") as json_file:
             data = json.load(json_file)
 
@@ -33,17 +34,18 @@ class Finals:
                 section = "AllSections"
             else:
                 section = i['Section']
+            print(2)
             list.append(self.add_final(i['Department'], i['CourseCode'], section, i['Room'], i['DayOfWeek'], i['Day'], i['Hour']))
-        self.db_conn.commit()
         self.clear_cache()
         return list
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
+        print("here")
         query = "SELECT COUNT(*) FROM finals WHERE courseCode = %(courseCode)s AND section = %(section)s;"
         result = self.db_conn.execute(query, {"courseCode": courseCode, "section": section})
         count = result[0][0]["count"]
-        print(count)
+        #print(count)
         #records.fetchall()
         if department is None:
             return (False, "Department cannot be none")

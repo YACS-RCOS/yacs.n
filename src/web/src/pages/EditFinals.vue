@@ -73,13 +73,12 @@
         />
       </div>
       <div class="form-group">
-        <label for="hour">File:</label>
+        <label for="file">File:</label>
         <input
-          v-model="file"
-          type="text"
-          class="form-control"
+          type="file"
+          class="form-control-file"
           id="file"
-          placeholder="Enter File Name"
+          placeholder="Upload File"
         />
       </div>
       <div class="form-group">
