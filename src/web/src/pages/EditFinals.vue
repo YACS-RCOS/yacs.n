@@ -2,6 +2,7 @@
   <b-container class="mt-3">
     <section id="edits">
       <h2>Finals Testing</h2>
+      <!-- user can input the following fields to edit the finals -->
       <div class="form-group">
         <label for="deparmtent">Department:</label>
         <input
@@ -105,6 +106,7 @@
         <label for="result">Result:</label>
         <p id="result">{{ this.result }}</p>
       </div>
+      <!-- buttons to make relevant API calls -->
       <button @click="get_all_final_info()" class="btn btn-primary">Get All Finals</button>
       <button @click="get_info_by_DOW()" class="btn btn-primary">Get Final by DayOfWeek</button>
       <button @click="get_info_by_courseCode()" class="btn btn-primary">Get Final by CourseCode</button>
@@ -122,6 +124,7 @@
   </b-container>
 </template>
 
+<!-- import API calls -->
 <script>
 import {
   get_all_final_info,
@@ -141,6 +144,7 @@ import {
   update_final,
 } from "@/services/AdminService";
 
+
 export default {
   name: "EditFinals",
   props: {},
@@ -155,6 +159,7 @@ export default {
       hour: "",
     };
   },
+  // method behavior definitions
   methods: {
     get_all_final_info() {
       console.log("get_all_final_info");
@@ -227,6 +232,7 @@ export default {
 };
 </script>
 
+<!-- button click graphics -->
 <style lang="scss">
 $danger: #dc3545;
 $success: #28a745;
