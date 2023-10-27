@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="prof" class="w-90 ml-4 mb-4">
+    <div v-if="prof" class="w-100">
 
       <b-row>
         <b-col>
@@ -21,8 +21,9 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
-          <h6 class="mb-1 d-inline">Teaching: {{ prof.Teaching }}</h6>
+        <b-col class="mb-4">
+          <h6 class="mb-1 d-inline">Teaching: </h6>
+            <li v-for="course in teachingCourses" :key="course">{{course.trim()}}</li>
         </b-col>
       </b-row>
       <b-row>
@@ -81,11 +82,17 @@ export default {
     };
   },
   computed: {
-    prof() {
-      return this.professors.find(
-        (p) => p.Email.replace("@rpi.edu", "") === this.rcs
-      );
-    },
+  prof() {
+    return this.professors.find(
+      (p) => p.Email.replace("@rpi.edu", "") === this.rcs
+    );
   },
+  teachingCourses() {
+    if (this.prof && this.prof.Teaching) {
+      return this.prof.Teaching.split(',');
+    }
+    return [];
+  }
+}
 };
 </script>
