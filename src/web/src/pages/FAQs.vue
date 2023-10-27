@@ -4,15 +4,15 @@
   
       <div v-for="(question, index) in faqData" :key="index" class="faq-item">
         <div class="question-wrapper" @click="toggleAnswer(index)">
-          <h3>{{ question.title }}</h3>
-          <div class="dropdown-indicator" :class="{ 'open': question.isOpen }">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-            <path d="M10 15l-6-6h12z"/>
-          </svg>
-        </div>
+          <h3 :class="{ 'active': question.isOpen }">{{ question.title }}</h3>
+          <div class="dropdown-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
         </div>
         <div class="divider"></div>
-        <div class="answer-wrapper" :class="{ 'open': question.isOpen }">
+        <div class="answer-wrapper" :class="{ 'open': question.isOpen }" :style="{'max-height': question.maxheight }">
           <p v-if="question.isOpen">{{ question.answer}}</p>
           <p v-if="question.isOpen">{{ question.answer1}}</p>
           <p v-if="question.isOpen">{{ question.answer2,}}</p>
@@ -72,12 +72,12 @@ export default {
             // Add more FAQ items as needed
         ]
         };
+  },
+  methods: {
+    toggleAnswer(index) {
+      this.faqData[index].isOpen = !this.faqData[index].isOpen;
     },
-    methods: {
-        toggleAnswer(index) {
-            this.faqData[index].isOpen = !this.faqData[index].isOpen;
-        },
-    }
+  },
 };
 </script>
 
@@ -115,7 +115,12 @@ h1 {
   font-size: 18px;
   margin: 0;
   color: #333;
+  font-weight: bold;
   cursor: pointer;
+}
+
+.faq-item h3.active {
+  text-decoration: underline;
 }
 
 .divider {
@@ -131,7 +136,7 @@ h1 {
 }
 
 .answer-wrapper.open {
-  max-height: 1000px; /* Adjust the value to a sufficiently large value to ensure full visibility */
+  max-height: 1000px; /*Adjust the value to a sufficiently large value to ensure full visibility*/
 }
 
 .faq-item p {
@@ -153,8 +158,13 @@ h1 {
   align-items: center;
   transition: transform 0.3s ease;
 }
-
 .open .dropdown-indicator {
   transform: rotate(180deg);
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.3s ease;
 }
 </style>
