@@ -31,8 +31,8 @@ export const addProfessorsTest = () =>
 export const add_final = (msg) =>
   client.get("/finals/addFinal/" + msg).then((res) => res.data);
 
-export const add_bulk_final = (file) =>
-  client.get("/finals/addBulkFinals?file=" + file).then((res) => res.data);
+export const add_bulk_final = (formData) =>
+  client.get("/finals/addBulkFinals?file=" + formData);
 
 export const remove_bulk_final = (file) =>
   client.get("/finals/removeBulkFinal?file=" + file).then((res) => res.data);

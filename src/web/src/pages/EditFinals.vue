@@ -220,7 +220,8 @@ export default {
     },
     add_bulk_final() {
       console.log("add_bulk_final");
-      this.result = add_bulk_final(this.file);
+      let formData = new FormData(this.file);
+      this.result = add_bulk_final(formData);
       console.log(this.result);
     }
   },
