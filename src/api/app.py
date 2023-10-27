@@ -378,16 +378,29 @@ async def uploadHandler(file: UploadFile = File(...)):
         return Response(error.__str__(), status_code=500)
     
 @app.get('/api/finals/addBulkFinals')
-async def addBulkFinals(file : UploadFile = File(...)):
-    print("here")
+async def uploadHandler(
+        isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):  
+    # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
+    
+    # Check that we receive a JSON file
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
-        return Response("File must have json extension", 400)
-    print(file)
-    finals, error = finals_info.add_bulk_final(file)
+        return Response("File must have JSON extension", 400)
+    
+    # Get file contents
+    contents = await file.read()
+    
+    # Load JSON data
+    try:
+        #convert string to python dict
+        json_data = json.loads(contents.decode('utf-8'))
+        # print(json_data)
+    except json.JSONDecodeError as e:
+        return Response(f"Invalid JSON data: {str(e)}", 400)
+    finals, error = finals_info.add_bulk_final(json_data)
     return finals if not error else Response(content=error, status_code=500)
-
 
 @app.get('/api/finals/addFinal/{msg}') 
 async def addFinal(msg : str):
