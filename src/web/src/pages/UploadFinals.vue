@@ -1,103 +1,104 @@
 <template>
-    <b-container>
-      <section id="import-data">
-        <h2>Import Finals</h2>
-        <div class="well well-sm">
-          Input course data as JSON
+  <b-container>
+     <section id="import-json">
+      <h2>Import Finals</h2>
+      <div class="well well-sm">
+        Input Finals Data as JSON
+      </div>
+      <form @submit.prevent="onSubmit" class="form-group">
+        <div class="input-group">
+          <label>
+            Upload JSON file
+            <input type="file" name="file" class="form-control-file" />
+          </label>
+          <br />
         </div>
-        <form @submit.prevent="onSubmit" class="form-group">
-          <div class="input-group">
-            <label>
-              Upload JSON File
-              <input type="file" name="file" class="form-control-file" />
-            </label>
-            <br />
-          </div>
-          <div class="input-group">
-            <label>
-              <input type="checkbox" name="isPubliclyVisible" checked />
-              Make Public
-            </label>
-          </div>
-          <input
-            type="Submit"
-            label="submit"
-            class="btn btn-success btn-sm"
-            value="Submit"
-          />
-        </form>
-      </section>
-      <b-spinner v-show="loading" />
-    </b-container>
-  </template>
-  
-  <script>
-  import { add_bulk_final } from "@/services/AdminService";
-  
-  export default {
-    name: "UploadFinals",
-    components: {},
-    props: {},
-    data() {
-      return {
-        loading: false,
-        isPublic: false,
-      };
-    },
-    methods: {
-      onSubmit(event) {
-        if (!this.loading) {
-          let formData = new FormData(event.target);
-          this.loading = true;
-          this.$emit("loading");
-          if (formData.get("file") && formData.get("file").name) {
-            let filename = formData.get("file").name;
-            add_bulk_final(formData)
-              .then((response) => {
-                console.log(response);
-                // Axios will only enter this block if the status code is 2xx,
-                // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
-                this.$bvToast.toast(
-                  `${filename} has been successfully uploaded!`,
-                  {
-                    title: "Upload Result",
-                    variant: "info",
-                    noAutoHide: false,
-                  }
-                );
-                this.loading = false;
-                this.$emit("loadfinish");
-              })
-              .catch((error) => {
-                console.log(error.response);
-                this.loading = false;
-                this.$emit("loadfinish");
-                this.$bvToast.toast(
-                  `HTTP ${error.response.status}: ${error.response.data}`,
-                  {
-                    title: "Upload Result",
-                    variant: "danger",
-                    noAutoHide: true,
-                  }
-                );
-              });
-          } else {
-            this.$bvToast.toast(`Must upload a JSON file`, {
-              title: "Validation Error",
-              variant: "danger",
-              noAutoHide: false,
-            });
+        <div class="input-group">
+          <label>
+            <input type="checkbox" name="isPubliclyVisible" checked />
+            Make Public
+          </label>
+        </div>
+        <input
+          type="Submit"
+          label="submit"
+          class="btn btn-success btn-sm"
+          value="Submit"
+        />
+      </form>
+    </section>
+    <b-spinner v-show="loading" />
+  </b-container>
+</template>
+
+<script>
+
+import { add_bulk_final } from "@/services/AdminService";
+
+export default {
+name: "UploadFinals",
+components: {},
+props: {},
+data() {
+  return {
+    loading: false,
+    isPublic: false,
+  };
+},
+methods: {
+  onSubmit(event) {
+    if (!this.loading) {
+      let formData = new FormData(event.target);
+      this.loading = true;
+      this.$emit("loading");
+      if (formData.get("file") && formData.get("file").name) {
+        let filename = formData.get("file").name;
+        add_bulk_final(formData)
+          .then((response) => {
+            console.log(response);
+            // Axios will only enter this block if the status code is 2xx,
+            // so handle errors for catch block. https://stackoverflow.com/questions/49967779/axios-handling-errors
+            this.$bvToast.toast(
+              `${filename} has been successfully uploaded!`,
+              {
+                title: "Upload Result",
+                variant: "info",
+                noAutoHide: false,
+              }
+            );
             this.loading = false;
             this.$emit("loadfinish");
-          }
-        }
-      },
-      back() {
-        window.history.back();
-      },
-    },
-  };
-  </script>
-  
-  <style lang="scss" scoped></style>
-  
+          })
+          .catch((error) => {
+            console.log(error.response);
+            this.loading = false;
+            this.$emit("loadfinish");
+            this.$bvToast.toast(
+              `HTTP ${error.response.status}: ${error.response.data}`,
+              {
+                title: "Upload Result",
+                variant: "danger",
+                noAutoHide: true,
+              }
+            );
+          });
+      } else {
+        this.$bvToast.toast(`Must upload a JSON file`, {
+          title: "Validation Error",
+          variant: "danger",
+          noAutoHide: false,
+        });
+        this.loading = false;
+        this.$emit("loadfinish");
+      }
+    }
+  },
+  back() {
+    window.history.back();
+  },
+}
+}
+
+</script>
+
+<style lang="scss" scoped></style>
