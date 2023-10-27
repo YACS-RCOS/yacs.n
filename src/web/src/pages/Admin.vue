@@ -35,6 +35,9 @@
     >
       Edit Finals
     </a>
+    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
+       Upload Finals
+    </a>
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
@@ -50,6 +53,9 @@
     </b-modal>
     <b-modal id="editFinals" title="Edit Finals" size="xl">
       <EditFinals />
+    </b-modal>
+    <b-modal id="csvModal" title="Upload Finals" size="xl">
+      <UploadCsv />
     </b-modal>
 
     <!-- Footer of Admin Panel -->
@@ -67,7 +73,7 @@ import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
 import EditFinals from "@/pages/EditFinals";
-import UploadFinals from "./UploadFinals.vue";
+import UploadFinals from "@/pages/UploadFinals.vue";
 
 export default {
   name: "AdminPage",
@@ -77,7 +83,7 @@ export default {
     SetDefault,
     EditProfessors,
     EditFinals,
-    UploadFinals
+    UploadFinals,
     // ManageAccounts,
   },
   data() {
