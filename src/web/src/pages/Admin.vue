@@ -35,8 +35,8 @@
     >
       Edit Finals
     </a>
-    <a v-b-modal.csvModal class="text-primary d-block" style="cursor: pointer;">
-       Upload Finals
+    <a v-b-modal.jsonModal class="text-primary d-block" style="cursor: pointer;">
+      Import Professors via JSON
     </a>
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
