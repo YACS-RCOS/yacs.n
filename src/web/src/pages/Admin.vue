@@ -67,6 +67,7 @@ import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
 import EditFinals from "@/pages/EditFinals";
+import UploadFinals from "./UploadFinals.vue";
 
 export default {
   name: "AdminPage",
@@ -76,6 +77,7 @@ export default {
     SetDefault,
     EditProfessors,
     EditFinals,
+    UploadFinals
     // ManageAccounts,
   },
   data() {
