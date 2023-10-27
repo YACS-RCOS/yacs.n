@@ -30,7 +30,7 @@ for professor in data:
     email = professor['Email']
     phone =professor['Phone']
     department = professor['Department']
-    portfolio = professor['Portfolio']
+    portfolio=professor['Portfolio']
     profile = professor['Profile Page']
     if profile:
         classes = scrape_info(profile)
