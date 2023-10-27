@@ -54,7 +54,7 @@
     <b-modal id="editFinals" title="Edit Finals" size="xl">
       <EditFinals />
     </b-modal>
-    <b-modal id="csvModal" title="Upload Finals" size="xl">
+    <b-modal id="jsonModal" title="Upload Finals" size="xl">
       <UploadFinals />
     </b-modal>
 
