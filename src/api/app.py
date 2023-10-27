@@ -17,6 +17,7 @@ import db.pathway_category as All_Pathway_Categories
 import db.pathway_courses_db as All_Pathway_Courses
 import db.pathway_minors as All_Pathway_Minors
 import db.pathway_field as All_Pathway_Fields
+import rpi_data.CoursesMasterCSV_Generator as CSV_Generator
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -53,6 +54,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
+csvGenerator = CSV_Generator
 pathway_info = All_Pathways.Pathway(db_conn, FastAPICache)
 pathway_category_info = All_Pathway_Categories.Pathway_Category(db_conn, FastAPICache)
 pathway_course_info = All_Pathway_Courses.PathwayCourse(db_conn, FastAPICache)
@@ -393,6 +395,37 @@ def getResponse(isSuccess, error, databaseName):
         else:
             message += databaseName[i] + "IS NOT WORKING - ERROR:" + error[i] + "\n"
     return message
+
+@app.post('generate_Courses_Master')
+async def generate_Courses_Master (isPubliclyVisible: str = Form(...),
+        file: UploadFile = File(...)):
+    # check for user files
+    if not file:
+        return Response("No file received", 400)
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
+        return Response("File must have csv extension", 400)
+    # get file
+    contents = await file.read()
+    csv_file = StringIO(contents.decode())
+    # update semester infos based on isPubliclyVisible, hiding semester if needed
+    # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
+    semesters = pd.read_csv(csv_file)['semester'].unique()
+    for semester in semesters:
+        semester_info.upsert(semester, isPubliclyVisible)
+    # Like C, the cursor will be at EOF after full read, so reset to beginning
+    csv_file.seek(0)
+    # Clear out course data of the same semester before population due to
+    # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
+    # courses.
+    courses.bulk_delete(semesters=semesters)
+    # Populate DB from CSV
+    isSuccess, error = courses.populate_from_csv(csv_file)
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
+
 @app.post('/api/bulkPathwayUpload')
 async def bulkPathwayUpload(
         isPubliclyVisible: str = Form(...),
