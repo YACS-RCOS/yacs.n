@@ -55,7 +55,7 @@
       <EditFinals />
     </b-modal>
     <b-modal id="csvModal" title="Upload Finals" size="xl">
-      <UploadCsv />
+      <UploadFinals />
     </b-modal>
 
     <!-- Footer of Admin Panel -->
