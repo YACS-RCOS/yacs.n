@@ -230,8 +230,7 @@ import { userTypes } from "@/store/modules/user";
 import { mapGetters } from "vuex";
 import DegreePicker from "@/components/DegreePicker";
 import router from "@/routes";
-import { modifyUser } from "@/services/UserService";
-import { deleteUser } from "@/services/UserService";
+import { modifyUser, deleteUser } from "@/services/UserService";
 import {getStudentCourses} from "@/services/YacsService";
 import store from '@/store';
 
@@ -381,15 +380,14 @@ export default {
           title: "Account deletion failed",
           variant: "danger"
         });
-        return;
       } else {
+        store.dispatch(userTypes.actions.LOGOUT);
+        this.$refs["delete-modal"].hide();
         this.$bvToast.toast("Your account has been deleted.", {
           title: "Account deletion success",
           variant: "success"
         });
       }
-      store.dispatch(userTypes.actions.LOGOUT);
-      this.$refs["delete-modal"].hide();
     },
   }
 };
