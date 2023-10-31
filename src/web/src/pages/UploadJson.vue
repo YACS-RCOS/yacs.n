@@ -31,6 +31,7 @@
     </b-container>
   </template>
 
+<script>
 import { uploadJSON } from "@/services/AdminService";
 
 export default {
@@ -96,12 +97,6 @@ export default {
     },
   }
 }
-
-</script>
-
-<style lang="scss" scoped></style>
-  },
-};
 </script>
 
 <style lang="scss" scoped></style>
