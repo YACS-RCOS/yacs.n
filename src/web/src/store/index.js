@@ -68,18 +68,18 @@ const store = new Vuex.Store({
       }
     },
     [SAVE_DARK_MODE](state) {
-      Vue.$cookies.set(
+      window.$cookies.set(
         COOKIE_DARK_MODE,
         state.darkMode,
         null,
         null,
         null,
         null,
-        "Strict"
+        "Strict",
       );
     },
     [RESET_DARK_MODE](state) {
-      Vue.$cookies.remove(COOKIE_DARK_MODE);
+      window.$cookies.remove(COOKIE_DARK_MODE);
       state.darkMode = !window.matchMedia("(prefers-color-scheme: dark)")
         .matches;
     },
@@ -87,14 +87,14 @@ const store = new Vuex.Store({
       state.colorBlindAssist =
         isCBAssist === null ? !state.colorBlindAssist : isCBAssist;
 
-      Vue.$cookies.set(
+      window.$cookies.set(
         "colorBlindAssist",
         state.colorBlindAssist,
         null,
         null,
         null,
         null,
-        "Strict"
+        "Strict",
       );
     },
     [SET_COURSES](state, classes) {
@@ -133,8 +133,8 @@ const store = new Vuex.Store({
         await dispatch(LOAD_SEMESTERS);
       }
 
-      if (!semester && Vue.$cookies.get("selectedSemester")) {
-        semester = Vue.$cookies.get("selectedSemester");
+      if (!semester && window.$cookies.get("selectedSemester")) {
+        semester = window.$cookies.get("selectedSemester");
       }
 
       if (!semester || !state.semesters.find((s) => s.semester === semester)) {
@@ -146,14 +146,14 @@ const store = new Vuex.Store({
       }
 
       commit(SET_SELECTED_SEMESTER, semester);
-      Vue.$cookies.set(
+      window.$cookies.set(
         "selectedSemester",
         semester,
         null,
         null,
         null,
         null,
-        "Strict"
+        "Strict",
       );
 
       await dispatch(LOAD_SUBSEMESTERS);
@@ -179,13 +179,13 @@ const store = new Vuex.Store({
         .then(({ data }) => {
           return data.map((subsemester) => {
             subsemester.date_start = localToUTCDate(
-              new Date(subsemester.date_start)
+              new Date(subsemester.date_start),
             );
             subsemester.date_end = localToUTCDate(
-              new Date(subsemester.date_end)
+              new Date(subsemester.date_end),
             );
             subsemester.date_start_display = readableDate(
-              subsemester.date_start
+              subsemester.date_start,
             );
             subsemester.date_end_display = readableDate(subsemester.date_end);
             // Used to determine what semester the subsemester is part of
