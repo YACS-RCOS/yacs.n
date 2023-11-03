@@ -51,10 +51,15 @@
     <b-modal id="jsonModal" title="Import Professors via JSON" size="xl">
       <UploadJson />
     </b-modal>
-    <br /><hr /><h2>User Statistics</h2><hr /><br />
+    <br /><hr /><h2>Statistics</h2><hr /><br />
     Total Users: {{ this.total_users }}<br>
     Logged-in Users: {{ this.num_sessions }}<br>
-    
+    <br>
+    Current Number of people on the site:
+    Network bandwith:
+    <br>
+    Total Courses:<br>
+    Last update:<br>
     <br />
     <hr />
     <br />
