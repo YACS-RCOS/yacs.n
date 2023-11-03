@@ -377,7 +377,7 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
     
-@app.get('/api/finals/addBulkFinals')
+@app.post('/api/finals/addBulkFinals')
 async def uploadHandler(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):  
