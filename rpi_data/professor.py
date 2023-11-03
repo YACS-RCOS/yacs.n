@@ -42,5 +42,3 @@ save the updated data to new json file
 '''
 with open('Professors.json','w')as f:
     json.dump(data,f,indent=4)
-
-
