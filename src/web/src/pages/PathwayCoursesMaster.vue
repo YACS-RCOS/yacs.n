@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <section id="import-data">
-      <h2>Import Data</h2>
+      <h2>Import Master CSV</h2>
       <div class="well well-sm">
         Input Pathway csv file, for more info, see:
         <a href="#">http://help.com</a>
@@ -37,7 +37,7 @@
 import {generateCoursesMaster} from "@/services/AdminService";
 
 export default {
-  name: "AddPathways",
+  name: "PathwayCoursesMaster",
   components: {},
   props: {},
   data() {

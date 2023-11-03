@@ -37,6 +37,14 @@
       Add Pathway Database
     </a>
 
+    <a
+      v-b-modal.createPathwayCoursesMaster
+      class="text-primary d-block"
+      style="cursor: pointer;"
+    >
+      Create Pathway Course Master Database
+    </a>
+
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
     </b-modal>
@@ -51,6 +59,9 @@
     </b-modal>
     <b-modal id="addPathwayDatabase" title="Add Pathway Database" size="xl">
       <AddPathways />
+    </b-modal>
+    <b-modal id="createPathwayCoursesMaster" title="Create Pathway Course Master Database" size="xl">
+      <PathwayCoursesMaster />
     </b-modal>
 
     <!-- Footer of Admin Panel -->
@@ -68,6 +79,7 @@ import EditSemesters from "@/pages/EditSemesters";
 import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
 import AddPathways from "@/pages/AddPathways";
+import PathwayCoursesMaster from "@/pages/PathwayCoursesMaster";
 
 export default {
   name: "AdminPage",
@@ -77,6 +89,7 @@ export default {
     EditSemesters,
     SetDefault,
     EditProfessors,
+    PathwayCoursesMaster
     // ManageAccounts,
   },
   data() {

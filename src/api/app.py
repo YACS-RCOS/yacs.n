@@ -17,7 +17,7 @@ import db.pathway_category as All_Pathway_Categories
 import db.pathway_courses_db as All_Pathway_Courses
 import db.pathway_minors as All_Pathway_Minors
 import db.pathway_field as All_Pathway_Fields
-import rpi_data.CoursesMasterCSV_Generator as CSV_Generator
+import db.CoursesMasterCSV_Generator as CSV_Generator
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -54,7 +54,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
-csvGenerator = CSV_Generator
+csvGenerator = CSV_Generator.CSV_Generator(db_conn, FastAPICache)
 pathway_info = All_Pathways.Pathway(db_conn, FastAPICache)
 pathway_category_info = All_Pathway_Categories.Pathway_Category(db_conn, FastAPICache)
 pathway_course_info = All_Pathway_Courses.PathwayCourse(db_conn, FastAPICache)
@@ -396,7 +396,7 @@ def getResponse(isSuccess, error, databaseName):
             message += databaseName[i] + "IS NOT WORKING - ERROR:" + error[i] + "\n"
     return message
 
-@app.post('generate_Courses_Master')
+@app.post('/api/generate_Courses_Master')
 async def generate_Courses_Master (isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
@@ -417,9 +417,9 @@ async def generate_Courses_Master (isPubliclyVisible: str = Form(...),
     # Clear out course data of the same semester before population due to
     # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
     # courses.
-    courses.bulk_delete(semesters=semesters)
+    #ourses.bulk_delete(semesters=semesters)
     # Populate DB from CSV
-    isSuccess, error = courses.populate_from_csv(csv_file)
+    isSuccess, error = csvGenerator.generateCoursesMaster(csv_file)
     if (isSuccess):
         return Response(status_code=200)
     else:
