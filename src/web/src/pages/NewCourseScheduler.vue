@@ -808,6 +808,10 @@ sidebar-panel-nav {
   width: 25%;
 }
 
+.nav-link.active {
+  cursor: default !important;
+}
+
 .hidden {
   visibility: hidden;
 }
