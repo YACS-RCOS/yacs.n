@@ -1,6 +1,7 @@
 import time
 import pdb
 import copy
+from typing import overload
 class Course:
     name:str
     credits:int
@@ -21,6 +22,7 @@ class Course:
     section:int
     short:str
     long:str
+    frequency:str
     desc:str 
     raw:str
     pre:list
@@ -71,6 +73,12 @@ class Course:
         self.raw = raw
         self.pre = copy.deepcopy(pre)
         self.co = copy.deepcopy(co)
+    
+    def addReqsFromList(self, info: list=[]):
+        self.desc = info[0]
+        self.raw = info[1]
+        self.preq = info[2]
+        self.co = info[3]
     def print(self):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
@@ -101,7 +109,7 @@ class Course:
         retList.append(self.long)
         retList.append(self.desc)
         retList.append(self.raw)
-        retList.append("")
+        retList.append(self.frequency)
         retList.append(self.pre)
         retList.append(self.co)
         retList.append(self.school)

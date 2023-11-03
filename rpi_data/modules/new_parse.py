@@ -73,12 +73,13 @@ def sisCourseSearch(driver, term):
     subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
     subjects = subject_select.options
     subject = ""
+    key = str(basevalue)[:4] + "-"
     for i in range(len(subjects)):
         start = time.time()
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         print("Getting course info")
-        courses = getMajorCourseInfo(driver)
+        courses = getMajorCourseInfo(driver, key)
         subject = courses[0][1]
         if (subject not in course_codes_dict.keys()):
             school = "Interdisciplinary and Other"
@@ -155,15 +156,14 @@ def processSpecial(info, prevrow) -> list[str]:
     info[6] = tmp[6]
     info[7] = tmp[7]
     info[8] = tmp[8]
-    info[12] = (tmp[18])
-    info[15] = (tmp[20])
+    info[12] = tmp[18]
+    info[15] = tmp[20]
     return info
 #Given a string contaings the profs for a class, return a string containing only the last names of the profs seperated by a slash.
 def formatTeachers(profs : str) -> str:
-    index = profs.find("(P)")
     if profs == "TBA":
-        #If the prof is tba we can just return
         return profs
+    index = profs.find("(P)")
     #Remove the (P)
     if index != -1:
         profs = profs[:index-1] + profs[index + 3:]
@@ -177,8 +177,8 @@ def formatTeachers(profs : str) -> str:
     return profs
 #Format the times of the classes into a start and ending time. ie 2:00pm-3:50pm becomes 2:00pm as the start time and 3:50pm as the end time 
 def formatTimes(info : list[str]) -> list[str]:
-    #Special case where the time is tba
-    if(info[7] == "TBA"):
+    #Special case where the time is tba or there isn't a valid time see admin 1030 or admin 1100 in spring 2024
+    if(info[7] == "TBA" or ':' not in info[7]):
         info.insert(8, "")
         info[7] = ""
         return info
@@ -195,7 +195,7 @@ def formatTimes(info : list[str]) -> list[str]:
     info.pop(9)
     return info
 #Given a row in sis, process the data in said row including crn, course code, days, seats, etc
-def processRow(data, prevrow) -> list[str]:
+def processRow(data, prevrow, key) -> list[str]:
     info = []
     #Ignore the 1st element because that's the status on whether a course is open to register or not, and other parts of the app
     #Can tell that information to users
@@ -204,15 +204,17 @@ def processRow(data, prevrow) -> list[str]:
         #See MGMT 2940 - Readings in MGMT in spring 2024.
         if(data[i].has_attr("colspan")):
             info.append("TBA") # The time seems to be none, TBA is a good placeholder for now
+            info.append("TBA")
         else:
             info.append(data[i].text)
     # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
     #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
     #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.    
-    
+    if(info[0] == "90441"):
+        pdb.set_trace()
     info.pop(4)
-
+    
     #Note that this will shift the above info down by 1 to
     # info[0] crn, info[1]  major, 2 - course code, 3- section, 4 - credits, 5 - class name 
     #info[6] is days, info[7] time, info[8] - info[16] seat cap, act, rem, waitlist, and crosslist
@@ -227,12 +229,15 @@ def processRow(data, prevrow) -> list[str]:
     #Also the backend doesn't like the days of the week being TBA
     if (info[6] == '\xa0' or info[6] == "TBA"):
         info[6] = ""
-    info[17] = formatTeachers(info[17])
+    #Generally speaking methods that affect info should come in the order that the affect elements, ie 
+    #time formatitng should come before prof or date formatting because time is at info[6] while date and
+    #prof is after. Not doing this can lead to the scraper crashing on some edge cases (see admin 1030 in spring 2024)
     formatTimes(info)
     #Remove waitlist and crosslist stuff
     info = info[:12] + info[18:]
     #Split the date into start and end date
-    formatDate(info)
+    formatDate(info, key)
+    info[12] = formatTeachers(info[12])
     #Some classes have a credit value ranging from 0-12, just pick the biggest credit value
     #We do this instead of keeping the range because the backend does not like having a string for the credit value.
     info[4] = formatCredits(info)
@@ -254,7 +259,7 @@ def formatCredits(info):
         return int(float(info[4].split('-')[1]))
     return int(float(info[4]))
 #Given the url from sis of a major, parse the course info (crn, time, date, profs, etc) and store it in a list.
-def getMajorCourseInfo(driver) -> list[list[str]]:
+def getMajorCourseInfo(driver, key) -> list[list[str]]:
     html = driver.page_source
     soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
@@ -264,12 +269,28 @@ def getMajorCourseInfo(driver) -> list[list[str]]:
     for row in rows:
         data = row.find_all("td")
         if len(data) != 0:
-            courses.append(processRow(data, prevrow))
+            courses.append(processRow(data, prevrow, key))
             prevrow = copy.deepcopy(courses[len(courses)-1])
     return courses
-#Given a url for a course, as well as the course code and major, return a string of prereqs, coreqs, and raw
-#TODO: Replace the string with a list.
-def getReqFromLink(webres, courseCode, major) -> str:
+#Generate a new csv that will update the old one?
+def update(driver, key):
+    html = driver.page_source
+    soup = bs(html, 'html.parser')
+    table = soup.find('table', class_='datadisplaytable')
+    rows = table.find_all("tr")
+    courses = []
+    prevrow = []
+    for row in rows:
+        data = row.find_all("td")
+        if len(data) != 0:
+            tmpCourse = (processRow(data, prevrow, key))
+            prevrow = copy.deepcopy(tmpCourse)
+            c = Course(tmpCourse)
+            c.addReqsFromList(getReqForClass)
+            courses.append(c)
+    writeCSV(courses, "test.csv")
+#Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
+def getReqFromLink(webres, courseCode, major) -> list:
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
@@ -310,14 +331,16 @@ def getReqFromLink(webres, courseCode, major) -> str:
         if classInfo[i].strip() == (preKey + "s:"):
             raw = classInfo[i+1].strip()
     retList = [prereqs, coreqs, raw, major + '-' + courseCode, desc]
-    return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
+    #return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
+    return retList
 #Given a semester and major, get all of the prereqs and coreqs for every class in that major that are being offered that semester.
 #Note that most of the slowdown in the program occurs here. Best that I can tell, this cannot be significantly optimized as 
 #the website is just slow to load, and we can't really fix that. Though i'm sure there's some optimizations you can make if you really want to
-def getReqsInMajor(semester, subject):
+def getReqsInMajor(semester : int, subject : str):
     #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
     #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py    
     url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(semester, subject)
+    
     session = requests.Session()
     webres = session.get(url)
     page = webres.content
@@ -347,6 +370,15 @@ def getReqsInMajor(semester, subject):
         allReqs[codeKey] = (getReqFromLink(session, code, major))
         i += 1
     return allReqs
+#Given a course sem, a subject, and a course code, get the prereqs, coreqs, and desc for a class.
+def getReqForClass(semester : int, subject : str, code : int) -> list:
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, subject, code)
+    session = requests.session()
+    webres = session.get(url)
+    page = webres.content
+    soup = bs(page, "html.parser")
+    return getReqFromLink(webres, code, subject)
+
 #Given a list of courses from sis or the prereq webpage, combine the two so that every course has a list of prereqs associated with it
 def combineInfo(courses:list, reqs:dict, school:str, semester:str) -> list:
     print("Combining info")
@@ -374,7 +406,7 @@ def combineInfo(courses:list, reqs:dict, school:str, semester:str) -> list:
                 tmpPre = prereq.split("and")
             if len(coreq) > 3:
                 tmpCo = coreq.split("and")
-            desc = result[result.find(dkey) + len(dkey):].strip()
+            desc = result[4].strip()
             c.addReqs(tmpPre, tmpCo, raw, desc)
         else:
             print("error")
