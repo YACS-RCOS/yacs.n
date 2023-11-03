@@ -32,6 +32,7 @@ class Course:
     lec:str
     #Info will be an array of strings: 
     # [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
+
     def __init__(self, info):
         self.crn = info[0]
         self.major = info[1]
@@ -52,6 +53,11 @@ class Course:
         self.long = self.processName(self.name)
         self.short = self.major + '-' + self.code
         self.lec = "LEC"
+        self.desc = ""
+        self.raw = ""
+        self.pre = list()
+        self.co = list()
+        self.school = ""
     
     def processName(self, name:str) -> str:
         tmp = name.split()
@@ -119,3 +125,6 @@ class Course:
         if self.code > other.code:
             return self.code > other.code
         return self.section > other.section
+    
+    def __str__(self):
+        return self.name

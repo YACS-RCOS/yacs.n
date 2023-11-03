@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from course import Course
 import time
+import csv_to_course
 
 
 def courseUpdate(driver, term, courses):
@@ -49,42 +50,72 @@ def courseUpdate(driver, term, courses):
         [full_info.append(Course(i)) for i in info]
     full_info.sort()
     full_info.reverse()
+    x = 0
+    check_dict = dict()
+    crn = 0
+    temp_tuple = tuple()
+    for i in range(len(courses)):
+        crn = courses[i].crn
+        stime = courses[i].stime
+        temp_tuple = tuple([crn, stime])
+        if (temp_tuple not in check_dict.keys()):
+            check_dict[temp_tuple] = list()
+        check_dict[temp_tuple] = courses[i]
+
+        
     for i in range(len(full_info)):
-        if (courses[i].crn != full_info[i].crn):
-            print("Error: course"  + courses.crn + "out of order")
+        full_info[i].addSemester(term)
+        temp_tuple = tuple([full_info[i].crn, full_info[i].stime])
+        if (temp_tuple not in check_dict.keys()):
+            print("Error: course "  + courses[i].name + " " + courses[i].crn + " out of order, adding new course")
+            courses.append(full_info[i])
+            check_dict[temp_tuple] = full_info[i]
             continue
-        if (courses[i].max != full_info[i].max):
-            courses[i].max = full_info[i].max
-        if (courses[i].curr != full_info[i].curr):
-            courses[i].curr = full_info[i].curr
-        if (courses[i].rem != full_info[i].rem):
-            courses[i].rem = full_info[i].rem
+        if (check_dict[temp_tuple].max != full_info[i].max):
+            check_dict[temp_tuple].max = full_info[i].max
+        if (check_dict[temp_tuple].curr != full_info[i].curr):
+            check_dict[temp_tuple].curr = full_info[i].curr
+        if (check_dict[temp_tuple].rem != full_info[i].rem):
+            check_dict[temp_tuple].rem = full_info[i].rem
+        x += 1
+    courses = list()
+    for i in range(len(check_dict.keys())):
+        courses.append(check_dict[list(check_dict.keys())[i]])
+    
+    courses.sort()
     return courses
+
 
 
 if __name__ == "__main__":
     options = Options()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     driver = webdriver.Firefox(options)
+    driver.implicitly_wait(1)
+    #try:
+    login.login(driver)
+    courses = csv_to_course.parse_csv("test_spring.csv")
+    term = "spring2024"
+    csv_name = 'spring2024-test.csv'
+    #courses = parser.sisCourseSearch(driver, term)
+    parser.writeCSV(courses, csv_name)
+    time_zone = pytz.timezone('America/New_York')
+    i = 0
     try:
-        login.login(driver)
-        term = sys.argv[1]
-        csv_name = sys.argv[2]
-        courses = parser.sisCourseSearch(driver, term)
-        parser.writeCSV(courses, csv_name)
-        time_zone = pytz.timezone('America/New_York')
-        i = 0
         while (True):
-            if (datetime.now(time_zone).strftime("%H:%M") == "00:00"):
-                courses = parser.sisCourseSearch(driver, term)
-                parser.writeCSV(courses, csv_name)
-                time.sleep(40)
+            #if (datetime.now(time_zone).strftime("%H:%M") == "00:00"):
+            #    courses = parser.sisCourseSearch(driver, term)
+            #    parser.writeCSV(courses, csv_name)
+            #    time.sleep(40)
             courses = courseUpdate(driver, term, courses)
             parser.writeCSV(courses, csv_name)
+            driver.get("http://sis.rpi.edu")
             i += 1
             print("Update # " + str(i))
-            time.sleep(20)
+            time.sleep(60)
+            
     except:
+        print("Exception occurred, exiting")
         driver.quit()
 
 
