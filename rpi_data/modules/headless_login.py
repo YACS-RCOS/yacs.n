@@ -12,7 +12,7 @@ import sys
 def login(driver):
     URL = "http://sis.rpi.edu"
     driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
-    driver.implicitly_wait(.5)
+    driver.implicitly_wait(2)
     username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
     password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
     submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button

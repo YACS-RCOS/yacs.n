@@ -106,6 +106,35 @@ class Course:
         retList.append(self.co)
         retList.append(self.school)
         return retList
+    
+    def list_to_class(self, row):
+        self.name = row[0]
+        self.lec = row[1]
+        self.credits = row[2]
+        self.days = row[3]
+        self.stime = row[4]
+        self.etime = row[5]
+        self.profs = row[6]
+        self.loc = row[7]
+        self.max = row[8]
+        self.curr = row[9]
+        self.rem = row[10]
+        self.major = row[11]
+        self.sdate = row[12]
+        self.enddate = row[13]
+        self.sem = row[14]
+        self.crn = row[15]
+        self.code = row[16]
+        self.section = row[17]
+        self.short = row[18]
+        self.long = row[19]
+        self.desc = row[20]
+        self.raw = row[21]
+        #empty column here
+        self.pre = row[23]
+        self.co = row[24]
+        self.school = row[25]
+
     def addSchool(self, school):
         self.school = school
     def __lt__(self, other):
