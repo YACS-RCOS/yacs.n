@@ -41,7 +41,7 @@ def courseUpdate(driver, term, courses):
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        info = parser.getMajorCourseInfo(driver, basevalue) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
+        info = parser.getMajorCourseInfo(driver, term) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
@@ -58,8 +58,6 @@ def courseUpdate(driver, term, courses):
         crn = courses[i].crn
         stime = courses[i].stime
         temp_tuple = tuple([crn, stime])
-        if (temp_tuple not in check_dict.keys()):
-            check_dict[temp_tuple] = list()
         check_dict[temp_tuple] = courses[i]
 
     full_check = list()
@@ -69,11 +67,11 @@ def courseUpdate(driver, term, courses):
         full_check.append(temp_tuple)
         full_info[i].addSemester(term)
         if (temp_tuple not in check_dict.keys()):
-            print("Error: course "  + courses[i].name + " " + courses[i].crn + " out of order, adding new course")
             check_dict[temp_tuple] = full_info[i]
+            print("Error: course "  + check_dict[temp_tuple].name + " " + check_dict[temp_tuple].crn + " out of order, adding new course")
             continue
         new_class = full_info[i].decompose()
-        old_class = courses[temp_tuple].decompose()
+        old_class = check_dict[temp_tuple].decompose()
         for i in range(len(new_class)):
             if (i == 4 or i == 15):
                 continue
@@ -83,10 +81,10 @@ def courseUpdate(driver, term, courses):
 
     courses = list()
     for i in range(len(check_dict.keys())):
-        if (check_dict.keys()[i] in full_check):
+        if (list(check_dict.keys())[i] in full_check):
             courses.append(check_dict[list(check_dict.keys())[i]])
         else:
-            print("removed CRN: "+ check_dict.keys()[i][0])
+            print("removed CRN: "+ list(check_dict.keys())[i][0])
     
     courses.sort()
     return courses
@@ -117,7 +115,7 @@ if __name__ == "__main__":
         parser.writeCSV(courses, csv_name)
         driver.get("http://sis.rpi.edu")
         i += 1
-        print("Update # " + str(i))
+        print("Update # " + str(i) + " Finished")
         time.sleep(60)
     #except:
         #print("Exception occurred, exiting")

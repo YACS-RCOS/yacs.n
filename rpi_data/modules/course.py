@@ -51,6 +51,7 @@ class Course:
         self.enddate = info[14]
         self.loc = info[15]
         self.long = self.processName(self.name)
+        self.frequency = ""
         self.short = self.major + '-' + self.code
         self.lec = "LEC"
         self.desc = ""

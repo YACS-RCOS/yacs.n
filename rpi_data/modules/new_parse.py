@@ -211,8 +211,6 @@ def processRow(data, prevrow, key) -> list[str]:
     #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
     #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.    
-    if(info[0] == "90441"):
-        pdb.set_trace()
     info.pop(4)
     
     #Note that this will shift the above info down by 1 to
@@ -446,5 +444,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
-main()
+#main()
 
