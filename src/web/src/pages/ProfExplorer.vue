@@ -1,6 +1,13 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+  
+    <b-form-input
+      v-model="searchQuery"
+      type="search"
+      placeholder="Search for professors"
+      class="mb-3"
+    ></b-form-input>
 
     <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
@@ -172,6 +179,7 @@ export default {
   },
   data() {
     return {
+      componentKey:0,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -185,9 +193,29 @@ export default {
       showProf: null,
       deptShow: false,
       alphShow: true,
+      searchQuery: '',
     };
   },
+  watch:{
+    searchQuery(){
+      this.componentKey++;
+    }
+
+  },
   computed: {
+    filteredProfessors(){
+      console.log('Filtering professors', this.searchQuery);
+      if (!this.searchQuery) {
+        return this.professors; // Return the unfiltered list if the search query is empty
+      }
+      const searchTerm = this.searchQuery.toLowerCase();
+
+      const result =this.professors.filter((professor) => {
+        return professor.Name.toLowerCase().includes(searchTerm); // Adjust this line if you want to search in other fields
+      });
+      console.log('Filtered results', result);
+      return result;
+    },
     departmentCols() {
       // create list of departments
       var half_length = Math.ceil(this.professors.length / 2);
