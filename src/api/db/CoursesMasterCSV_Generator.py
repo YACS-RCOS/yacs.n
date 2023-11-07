@@ -28,12 +28,13 @@ class CSV_Generator:
         # for each course entry insert sections and course sessions
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             for row in reader:
+                print(row)
                 try:
                     # courses
                     transaction.execute(
                         """
                         INSERT INTO
-                            course(
+                            course_master(
                                 min_credits,
                                 max_credits,
                                 full_title,
@@ -44,27 +45,27 @@ class CSV_Generator:
                                 school
                             )
                         VALUES (
-                            %(MinCredits)s,
-                            %(MaxCredits)s,
-                            NULLIF(%(FullTitle)s, ''),
-                            NULLIF(%(Department)s, ''),
-                            %(Level)s,
-                            NULLIF(%(Title)s, ''),
-                            NULLIF(%(RawPrecoreqText)s, ''),
-                            %(School)s
+                            %(min_credits)s,
+                            %(max_credits)s,
+                            NULLIF(%(full_title)s, ''),
+                            %(department)s,
+                            %(level)s,
+                            NULLIF(%(title)s, ''),
+                            NULLIF(%(raw_precoreqs)s, ''),
+                            %(school)s
                         )
                         ON CONFLICT DO NOTHING;
                         """,
                         {
-                            "MinCredits": row['course_credit_hours'].split("-")[0],
-                            "MaxCredits": row['course_credit_hours'].split("-")[-1],
-                            "FullTitle": row["full_name"],  # new
-                            "Department": row['course_department'],
-                            "Level": row['course_level'] if row['course_level'] and not row[
+                            "min_credits": int(row['course_credit_hours'].split("-")[0]),
+                            "max_credits": int(row['course_credit_hours'].split("-")[-1]),
+                            "full_title": row["full_name"],  # new
+                            "department": row['course_department'],
+                            "level": int(row['course_level']) if row['course_level'] and not row[
                                 'course_level'].isspace() else None,
-                            "Title": row['course_name'],
-                            "RawPrecoreqText": row['raw_precoreqs'],
-                            "School": row['school']
+                            "title":  row['course_name'],
+                            "raw_precoreqs": row['raw_precoreqs'],
+                            "school": row['school']
                         }
                     )
                 except Exception as e:
