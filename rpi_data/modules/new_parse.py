@@ -79,15 +79,16 @@ def sisCourseSearch(driver, term):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         print("Getting course info")
-        courses = getMajorCourseInfo(driver, key)
-        subject = courses[0][1]
-        if (subject not in course_codes_dict.keys()):
-            school = "Interdisciplinary and Other"
-        else:
-            school = course_codes_dict[subject]
-        print("Getting co reqs: " + subject)
-        reqs = getReqsInMajor(str(basevalue), subject)
-        comb = combineInfo(courses, reqs, school, term)
+        courses = update(driver, key, basevalue)
+        #subject = courses[0][1]
+        [info.append(i) for i in courses]
+        # if (subject not in course_codes_dict.keys()):
+        #     school = "Interdisciplinary and Other"
+        # else:
+        #     school = course_codes_dict[subject]
+        # print("Getting co reqs: " + subject)
+        # reqs = getReqsInMajor(str(basevalue), subject)
+        # comb = combineInfo(courses, reqs, school, term)
         driver.get(url)
         end = time.time()
         print("Time for " + subject +": " + str(end - start))
@@ -95,7 +96,7 @@ def sisCourseSearch(driver, term):
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
-        [info.append(i) for i in comb]
+        # [info.append(i) for i in comb]
     info.sort()
     #Because we end up sorting in reverse order, we need to reverse the list to get the correct order
     info.reverse()
@@ -204,13 +205,15 @@ def processRow(data, prevrow, key) -> list[str]:
         #See MGMT 2940 - Readings in MGMT in spring 2024.
         if(data[i].has_attr("colspan")):
             info.append("TBA") # The time seems to be none, TBA is a good placeholder for now
-            info.append("TBA")
+            info.append("TBA")  
         else:
             info.append(data[i].text)
     # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
     #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
     #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.    
+    if(info[0] == "90441"):
+        pdb.set_trace()
     info.pop(4)
     
     #Note that this will shift the above info down by 1 to
@@ -268,10 +271,11 @@ def getMajorCourseInfo(driver, key) -> list[list[str]]:
         data = row.find_all("td")
         if len(data) != 0:
             courses.append(processRow(data, prevrow, key))
+            #Keep a copy of the previous course in order to update info for lab blocks, test blocks, etc, easily.
             prevrow = copy.deepcopy(courses[len(courses)-1])
     return courses
 #Generate a new csv that will update the old one?
-def update(driver, key):
+def update(driver, key:str, baseval:int):
     html = driver.page_source
     soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
@@ -284,8 +288,9 @@ def update(driver, key):
             tmpCourse = (processRow(data, prevrow, key))
             prevrow = copy.deepcopy(tmpCourse)
             c = Course(tmpCourse)
-            c.addReqsFromList(getReqForClass)
+            c.addReqsFromList(getReqForClass(baseval, c.short, c.code))
             courses.append(c)
+    return courses
     writeCSV(courses, "test.csv")
 #Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
 def getReqFromLink(webres, courseCode, major) -> list:
@@ -444,5 +449,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
-#main()
+main()
 
