@@ -28,34 +28,30 @@
         List by Category
       </b-button>
     </div>
+    
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
-      <b-modal ref="my-modal">
+      <b-modal ref="my-modal" size="lg">
         <div class="block text-left" v-if="showPath != null" md="10">
-          <h3
-            class="text-center"
-            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
-          >
+          <h3 class="text-center" style="color: #007bff; margin-top: -5px; margin-bottom: 5px;">
             {{ showPath.Name[0] }}
           </h3>
           <br />
-          <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
-              {{ itemName + ": " }}
-            </h4>
-            <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
-            >
-              {{ course }}
-            </li>
-            <br />
-          </div>
         </div>
+        <b-tabs>
+          <b-tab v-for="(item, itemName) in showPath" :key="itemName" :title="itemName">
+            <div class="block text-left" v-if="showPath != null" md="10">
+              <h4 style="color: #3395ff;">
+                {{ itemName + ": " }}
+              </h4>
+              <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">
+                {{ course }}
+              </li>
+              <br />
+            </div>
+          </b-tab>
+        </b-tabs>
       </b-modal>
-
       <b-row>
         <!-- splitted categories into 2 arrays, so we can have 2 columns -->
         <b-col
