@@ -45,22 +45,38 @@ class Pathway_Field:
         conn = self.db_conn.get_connection()
 
         fields = dict()
-        fields['Choose one of the following'] = 'Choose one'
-        fields['Choose another one of the following'] = 'Choose one'
-        fields['Can select only one of the following to be applied to pathway'] = 'Choose one'
-        fields['Choose 12 credits from the following'] = 'Choose x'
+        fields['Choose one of the following'] = 'Choose one of the following'
+        fields['Choose another one of the following'] = 'Choose one of the following'
+        fields['Can select only one of the following to be applied to pathway'] = 'Choose one of the following'
+        fields['Choose 12 credits from the following'] = 'Choose 12 credits from the following'
+
         fields['Choose 12 credits from the following course prefixes, ' \
               'with at least 8 credit hours at, or above, ' \
-              'the 2000-level and at least 3 credit hours at the 4000-level'] = 'Choose x'
-        fields['Choose 12 credits from the following, with at least 4 credits at the 4000-level'] = 'Choose x'
-        fields['Choose 4 credits from the following'] = 'Choose x'
-        fields['Choose remaining credits from the following'] = 'Choose remaining'
-        fields['Choose remaining credits from the following, with at least 4 credits at the 4000-level'] = 'Choose remaining'
+              'the 2000-level and at least 3 credit hours at the 4000-level'] = \
+                'Choose 12 credits from the following course prefixes, ' \
+              'with at least 8 credit hours at, or above, ' \
+              'the 2000-level and at least 3 credit hours at the 4000-level'
+
+        fields['Choose 12 credits from the following, with at least 4 credits at the 4000-level'] =\
+            'Choose 12 credits from the following, with at least 4 credits at the 4000-level'
+
+        fields['Choose 4 credits from the following'] = 'Choose 4 credits from the following'
+        fields['Choose remaining credits from the following'] = 'Choose remaining credits from the following'
+
+        fields['Choose remaining credits from the following, with at least 4 credits at the 4000-level'] = \
+            'Choose remaining credits from the following, with at least 4 credits at the 4000-level'
+
         fields['Required'] = 'Required'
 
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
                 # Iterate over each entry in the JSON data
+                transaction.execute(
+                    """
+                    DELETE FROM pathway_field;
+                    """
+                )
+
                 for entry in json_data:
                     for sub in entry['Pathways']:
                         occurrence = dict()
@@ -73,7 +89,15 @@ class Pathway_Field:
                                     occurrence[field] += 1
                                 for course in sub[title]:
                                     try:
-                                        print(sub['Name'][0])
+                                        # Fetch course_credits from course_master database using course_name
+                                        # course_credits = 0  # Default value if not found
+                                        # # Query the course_master database to get max_credits for the current course
+                                        # query = "SELECT max_credits FROM course_master WHERE title = '% ',%s,' %';"
+                                        # transaction.execute(query, (course,))
+                                        # result = transaction.fetchone()
+                                        # if result:
+                                        #     course_credits = result['max_credits'
+
                                         # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
                                         transaction.execute(
                                             """
@@ -82,18 +106,14 @@ class Pathway_Field:
                                                 course_name,
                                                 field_name,
                                                 occurrence,
-                                                course_credits,
-                                                desc_credit_level,
-                                                desc_course_level
+                                                course_credits
                                             )
                                             VALUES (
                                                 NULLIF(%(pathway_name)s, ''),
                                                 NULLIF(%(course_name)s, '') ,
                                                 NULLIF(%(field_name)s, ''),
                                                 NULLIF(%(occurrence)s, ''),
-                                                NULLIF(%(course_credits)s, ''),
-                                                NULLIF(%(desc_credit_level)s, ''),
-                                                NULLIF(%(desc_course_level)s, '')
+                                                NULLIF(%(course_credits)s, -2)
                                             )
                                             ON CONFLICT DO NOTHING;
                                             """,
@@ -102,14 +122,21 @@ class Pathway_Field:
                                                 "course_name": course,
                                                 "field_name": field,
                                                 "occurrence": str(occurrence[field]),
-                                                "course_credits": '-1',
-                                                "desc_credit_level": '-1',
-                                                "desc_course_level": '-1'
+                                                "course_credits": -2
                                             }
+                                        ),
+                                        transaction.execute(
+                                            """
+                                            UPDATE pathway_field SET course_credits = (
+                                                SELECT cm.max_credits
+                                                FROM course_master cm
+                                                JOIN pathway_field pf on pf.course_name = cm.title
+                                            )
+                                            """
                                         )
                                     except Exception as e:
                                         # Roll back the transaction and return the exception if an error occurs
-                                        print("THIS IS THE EXCEPTION:", e)
+                                        print("THIS IS THE EXCEPTION: pathway_fields", e)
                                         conn.rollback()
                                         return (False, e)
             except ValueError as ve:

@@ -17,7 +17,7 @@ import db.pathway_category as All_Pathway_Categories
 import db.pathway_courses_db as All_Pathway_Courses
 import db.pathway_minors as All_Pathway_Minors
 import db.pathway_field as All_Pathway_Fields
-import db.CoursesMasterCSV_Generator as CSV_Generator
+import db.pathway_course_master as CSV_Generator
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -389,11 +389,11 @@ async def uploadHandler(file: UploadFile = File(...)):
 
 def getResponse(isSuccess, error, databaseName):
     message = ""
-    for i in range(len(isSuccess)):
-        if isSuccess[i]:
-            message += databaseName[i] + "WAS SUCCESSFUL" + "\n"
+    for i in range(len(databaseName)):
+        if i < len(error):  # Check if the index is within the bounds of the error list
+            message += f"{databaseName[i]} IS NOT WORKING - ERROR: {error[i]}\n"
         else:
-            message += databaseName[i] + "IS NOT WORKING - ERROR:" + error[i] + "\n"
+            message += f"{databaseName[i]} IS NOT WORKING - ERROR: N/A\n"  # Or handle the situation when the error list is shorter
     return message
 
 @app.post('/api/generate_Courses_Master')

@@ -90,7 +90,7 @@ class PathwayCourse:
                                         )
                                     except Exception as e:
                                         # Roll back the transaction and return the exception if an error occurs
-                                        print("THIS IS THE EXCEPTION:", e)
+                                        print("THIS IS THE EXCEPTION courses_db:", e)
                                         conn.rollback()
                                         return (False, e)
             except ValueError as ve:

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects.postgresql import VARCHAR
-
+from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 # from .database import Base
 import json
 
@@ -12,9 +12,7 @@ class Pathway_Field():
     course_name = Column(VARCHAR(length=255), primary_key=True, nullable=False)
     field_name = Column(VARCHAR(length=255), primary_key=True, nullable=False)
     occurrence = Column(VARCHAR(length=255), primary_key=True, nullable=False)
-    course_credits = Column(VARCHAR(length=255), primary_key=False, nullable=False)
-    desc_credit_level = Column(VARCHAR(length=255), primary_key=False, nullable=True)  # Ex: 12 credits at the...
-    desc_course_level = Column(VARCHAR(length=255), primary_key=False, nullable=True)  # Ex: ... 4000 level
+    course_credits = Column(INTEGER, primary_key=False, nullable=True)
 
 
 def printPathways(data):

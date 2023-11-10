@@ -28,7 +28,7 @@ class CSV_Generator:
         # for each course entry insert sections and course sessions
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             for row in reader:
-                print(row)
+                #print(row)
                 try:
                     # courses
                     transaction.execute(
