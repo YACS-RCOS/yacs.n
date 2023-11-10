@@ -2,11 +2,11 @@
   <div class="faq-page">
     <h1>Frequently Asked Questions</h1>
     <div v-for="(faq, index) in faqData" :key="index" class="faq-item" :class="{ open: faq.isOpen }" @click="toggleAnswer(index)">
-      <div class="question-wrapper">
+      <div class="question-wrapper flex-layout">
         <h3 :class="{ active: faq.isOpen }">{{ faq.title }}</h3>
         <div class="dropdown-indicator">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down">
-            <polyline points="6 9 12 15 18 9"></polyline>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+            <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </div>
       </div>
@@ -87,8 +87,12 @@ h1 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
+  font-weight: bold;
 }
-
+.flex-layout {
+  display: flex;
+  align-items: center;
+}
 .faq-item {
   padding: 10px;
   cursor: pointer;
@@ -100,11 +104,11 @@ h1 {
 }
 
 .faq-item h3 {
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
   color: #333;
-  font-weight: bold;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .divider {
@@ -142,7 +146,7 @@ h1 {
   transition: transform 0.3s ease;
 }
 .open .dropdown-indicator {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
   width: 20px;
   height: 20px;
   margin-left: auto;
