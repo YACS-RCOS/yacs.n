@@ -73,7 +73,20 @@ class Pathway_Field:
                                     occurrence[field] += 1
                                 for course in sub[title]:
                                     try:
-                                        print(sub['Name'][0])
+                                        ##print(sub['Name'][0])
+                                        # transaction.execute("SELECT min_credits FROM course_master where title = '%s'" %course )
+                                        # data = transaction.fetchall()
+                                        # print(data)
+                                        parsed_text = course.split('- ')[1].upper()
+                                        print(parsed_text)
+                                        query = "select min_credits from course_master where title = %s"
+                                        transaction.execute(query, (parsed_text,))
+                                        data = transaction.fetchall()
+                                        print(data)
+
+
+
+
                                         # Insert pathways and corresponding category into "pathway" table (tables/pathways.py)
                                         transaction.execute(
                                             """

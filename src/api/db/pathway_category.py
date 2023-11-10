@@ -23,7 +23,7 @@ class Pathway_Category:
 
     def add_category(self, category_name):
         if category_name is not None:
-            print(category_name)
+            #print(category_name)
             return self.db_conn.execute("""
             INSERT INTO
                 pathway_category (category_name)

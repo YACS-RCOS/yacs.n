@@ -19,7 +19,7 @@ class PathwayMinors:
 
     def add_pathway_minor(self, minor, pathway):
         if minor is not None:
-            print(minor)
+            # print(minor)
             return self.db_conn.execute("""
             INSERT INTO
                 pathway_minors (minor, pathway)

@@ -28,9 +28,12 @@ class CSV_Generator:
         # for each course entry insert sections and course sessions
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             for row in reader:
-                print(row)
+                # print(row)
                 try:
                     # courses
+                    #transaction.execute()
+
+
                     transaction.execute(
                         """
                         INSERT INTO
@@ -69,7 +72,8 @@ class CSV_Generator:
                         }
                     )
                 except Exception as e:
-                    print(e)
+                    # print(e)
+
                     conn.rollback()
                     return (False, e)
         conn.commit()

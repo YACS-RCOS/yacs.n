@@ -24,7 +24,7 @@ class PathwayCourse:
 
     def add_course(self, course_name, course_code, dept_code):
         if course_name is not None:
-            print(course_name)
+            #print(course_name)
             return self.db_conn.execute("""
             INSERT INTO
                 pathway_courses(course_name, course_code, dept_code)

@@ -20,7 +20,7 @@ class Professor:
     def add_professor(self, first_name, last_name, email, phone, dep, office, 
         classes, office_time, rcs):
             if email is not None:
-                print(email)
+                # print(email)
                 return self.db_conn.execute("""
             INSERT INTO 
                 professor (first_name, last_name, email, phone_number, 
