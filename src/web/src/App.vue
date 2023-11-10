@@ -1,6 +1,8 @@
 <template>
   <div id="root">
-    <router-view></router-view>
+    <keep-alive include="NewCourseScheduler">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

@@ -630,6 +630,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['selectedCourses']),
     ...mapState(["subsemesters", "selectedSemester"]),
     ...mapGetters([COURSES]),
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
