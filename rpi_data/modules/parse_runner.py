@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 from course import Course
 import time
 import csv_to_course
+from headless_login import LoginFailed
+import selenium
 
 
 def courseUpdate(driver, term, courses):
@@ -59,9 +61,7 @@ def courseUpdate(driver, term, courses):
         stime = courses[i].stime
         temp_tuple = tuple([crn, stime])
         check_dict[temp_tuple] = courses[i]
-
     full_check = list()
-        
     for i in range(len(full_info)):
         temp_tuple = tuple([full_info[i].crn, full_info[i].stime])
         full_check.append(temp_tuple)
@@ -69,10 +69,17 @@ def courseUpdate(driver, term, courses):
         if (temp_tuple not in check_dict.keys()):
             check_dict[temp_tuple] = full_info[i]
             print("Error: course "  + check_dict[temp_tuple].name + " " + check_dict[temp_tuple].crn + " out of order, adding new course")
+            tmp = parser.getReqForClass(basevalue, check_dict[temp_tuple].major, check_dict[temp_tuple].code)
+            check_dict[temp_tuple].pre = tmp[0]
+            check_dict[temp_tuple].co = tmp[1]
+            check_dict[temp_tuple].raw = tmp[2]
+            check_dict[temp_tuple].desc = tmp[3]
             continue
         new_class = full_info[i].decompose()
         old_class = check_dict[temp_tuple].decompose()
         for i in range(len(new_class)):
+            if (i == 20):
+                break
             if (i == 4 or i == 15):
                 continue
             if (old_class[i] != new_class[i]):
@@ -96,8 +103,16 @@ if __name__ == "__main__":
     #options.add_argument("--headless")
     driver = webdriver.Firefox(options)
     driver.implicitly_wait(2)
-    #try:
-    login.login(driver)
+    flag = "Failure"
+    while True:
+        if flag == "Failure":
+            try:
+                flag = login.login(driver)
+            except selenium.common.exceptions.NoSuchElement:
+                flag = "Failure"
+        else:
+            break
+
     courses = csv_to_course.parse_csv("test_spring.csv")
     term = "spring2024"
     csv_name = 'spring2024-test.csv'
@@ -105,20 +120,24 @@ if __name__ == "__main__":
     parser.writeCSV(courses, csv_name)
     time_zone = pytz.timezone('America/New_York')
     i = 0
+    has_updated = False
     #try:
     while (True):
-        #if (datetime.now(time_zone).strftime("%H:%M") == "00:00"):
-        #    courses = parser.sisCourseSearch(driver, term)
-        #    parser.writeCSV(courses, csv_name)
-        #    time.sleep(40)
+        if (datetime.now(time_zone).strftime("%H") == "01"):
+            has_updated = False
+        if (datetime.now(time_zone).strftime("%H") == "00" and not has_updated):
+            courses = parser.sisCourseSearch(driver, term)
+            parser.writeCSV(courses, csv_name)
+            time.sleep(40)
+            has_updated = True
+        driver.get("http://sis.rpi.edu")
         courses = courseUpdate(driver, term, courses)
         parser.writeCSV(courses, csv_name)
-        driver.get("http://sis.rpi.edu")
         i += 1
         print("Update # " + str(i) + " Finished")
         time.sleep(60)
     #except:
-        #print("Exception occurred, exiting")
+        #print("Exception occurred while parsing, exiting")
         #driver.quit()
 
 
