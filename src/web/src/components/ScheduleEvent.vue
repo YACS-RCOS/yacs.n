@@ -6,52 +6,54 @@
     :style="data.style"
     :id="props.crn + props.day + props.startTime"
   >
-    <div class="event-text">
-      <span data-cy="title">{{ props.title }}</span>
-      <br />
-      <span data-cy="name">{{ props.name }}</span>
-      &nbsp;–&nbsp;
-      <span data-cy="section">{{ props.section }}</span>
-      (
-      <span data-cy="crn">{{ props.crn }}</span>
-      )
-      <br />
-      <span data-cy="location">{{ props.location }}</span>
-      <br />
-      <span data-cy="instructor">{{ props.instructor }}</span>
-    </div>
-    <b-popover
-      :title="props.name + ' – ' + props.section"
-      :target="props.crn + props.day + props.startTime"
-      triggers="hover"
-      placement="top"
-    >
-      <h6 data-cy="title">
-        <a v-bind:href="$options.getExploreCourseLink(props.name)">
-          {{ props.title }}
-        </a>
-      </h6>
-      <b>Session Type</b>
-      <br />
-      <span data-cy="sessionType">{{ props.sessionType }}</span>
-      <br />
-      <b>Instructor</b>
-      <br />
-      <span data-cy="instructor">{{ props.instructor }}</span>
-      <br />
-      <b>Location</b>
-      <br />
-      <span data-cy="location">{{ props.location }}</span>
-      <br />
-      <b>Session Time</b>
-      <br />
-      <span data-cy="time">{{ props.startTime }}–{{ props.endTime }}</span>
-      <br />
-      <b>CRN</b>
-      <br />
-      <span data-cy="crn">{{ props.crn }}</span>
-      <br />
-    </b-popover>
+    <a :href="$options.getExploreCourseLink(props.name)" class="course-link">
+      <div class="event-text">
+        <span data-cy="title">{{ props.title }}</span>
+        <br />
+        <span data-cy="name">{{ props.name }}</span>
+        &nbsp;–&nbsp;
+        <span data-cy="section">{{ props.section }}</span>
+        (
+        <span data-cy="crn">{{ props.crn }}</span>
+        )
+        <br />
+        <span data-cy="location">{{ props.location }}</span>
+        <br />
+        <span data-cy="instructor">{{ props.instructor }}</span>
+      </div>
+      <b-popover
+        :title="props.name + ' – ' + props.section"
+        :target="props.crn + props.day + props.startTime"
+        triggers="hover"
+        placement="top"
+      >
+        <h6 data-cy="title">
+          <a v-bind:href="$options.getExploreCourseLink(props.name)">
+            {{ props.title }}
+          </a>
+        </h6>
+        <b>Session Type</b>
+        <br />
+        <span data-cy="sessionType">{{ props.sessionType }}</span>
+        <br />
+        <b>Instructor</b>
+        <br />
+        <span data-cy="instructor">{{ props.instructor }}</span>
+        <br />
+        <b>Location</b>
+        <br />
+        <span data-cy="location">{{ props.location }}</span>
+        <br />
+        <b>Session Time</b>
+        <br />
+        <span data-cy="time">{{ props.startTime }}–{{ props.endTime }}</span>
+        <br />
+        <b>CRN</b>
+        <br />
+        <span data-cy="crn">{{ props.crn }}</span>
+        <br />
+      </b-popover>
+    </a>
   </div>
 </template>
 <script>
@@ -68,12 +70,6 @@ export default {
   display: block;
   box-sizing: border-box;
   position: absolute;
-  //height: 20%;
-  //   width: 20%;
-
-  //margin-top: 1px;
-  border-left: 4px solid;
-  //   border-opacity: 1;
   overflow: hidden;
   height: 100%;
   cursor: pointer;
@@ -86,31 +82,21 @@ export default {
     box-sizing: border-box;
     height: 100%;
     overflow: hidden;
-    // // CSS Standard Scrollbar Control
-    // scrollbar-width: thin;
 
-    // Changes the title color to black
     span[data-cy="title"] {
       color: #000;
       font-size: 105%;
     }
   }
 
-  // // WebKit Based Scrollbar Control
-  // .event-text::-webkit-scrollbar {
-  //   width: 0.6em;
-  //   height: 0.6em;
-  // }
-  // .event-text::-webkit-scrollbar-track {
-  //   background-color: transparent;
-  // }
-  // .event-text::-webkit-scrollbar-thumb {
-  //   background-color: rgba(128, 128, 128, 0.7);
-  //   border-radius: 1.8em;
-  //   border: transparent;
-  // }
-  // .event-text::-webkit-scrollbar-corner {
-  //   background-color: transparent;
-  // }
+  .course-link {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
 }
 </style>
