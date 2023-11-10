@@ -39,7 +39,7 @@
           <br />
         </div>
         <b-tabs>
-          <b-tab v-for="(item, itemName) in showPath" :key="itemName" :title="itemName">
+          <b-tab v-for="(item, itemName) in noNamePath" :key="itemName" :title="itemName">
             <div class="block text-left" v-if="showPath != null" md="10">
               <h4 style="color: #3395ff;">
                 {{ itemName + ": " }}
@@ -275,6 +275,16 @@ export default {
       ret.push(col1);
       ret.push(col2);
       return ret;
+    },
+    
+    // A copy of the showPath object without the name aka the first index of the array
+    noNamePath() {
+      if (!this.showPath) {
+        return {};
+      }
+      const showPathCopy = { ...this.showPath };
+      delete showPathCopy[Object.keys(this.showPath)[0]];
+      return showPathCopy;
     },
   },
   methods: {
