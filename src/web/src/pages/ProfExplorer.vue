@@ -7,6 +7,7 @@
       type="search"
       placeholder="Search for professors"
       class="mb-3"
+      @keyup.enter="onEnterPress"
     ></b-form-input>
 
     <!-- button to switch between alphabet order and department order -->
@@ -38,7 +39,8 @@
       </b-button>
     </div>
 
-    <div v-if="professors.length > 0" class="mx-auto w-75">
+    <!--div v-if="professors.length > 0" class="mx-auto w-75"-->
+    <div v-if="filteredProfessors.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
         <div class="block text-left" v-if="showProf != null" md="10">
@@ -209,7 +211,6 @@ export default {
         return this.professors; // Return the unfiltered list if the search query is empty
       }
       const searchTerm = this.searchQuery.toLowerCase();
-
       const result =this.professors.filter((professor) => {
         return professor.Name.toLowerCase().includes(searchTerm); // Adjust this line if you want to search in other fields
       });
@@ -393,6 +394,11 @@ export default {
       console.log(professor);
       var rcs = professor["Email"].replace("@rpi.edu", "");
       this.$router.push("/professor/" + rcs);
+    },
+    onEnterPress(){
+      if(this.filteredProfessors.length>0){
+        this.goPage(this.filteredProfessors[0]);
+      }
     },
   },
 };
