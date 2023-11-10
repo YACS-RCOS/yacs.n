@@ -77,19 +77,24 @@
                 />
               </b-col>
             </b-row>
-
-            <span
-              v-for="courseSession in section.sessions"
-              :key="
-                courseSession.crn +
-                courseSession.day_of_week +
-                courseSession.time_start
-              "
-            >
-              {{ DAY_SHORTNAMES[courseSession.day_of_week + 1] }}:
-              {{ readableTime(courseSession.time_start) }} -
-              {{ readableTime(courseSession.time_end) }}
-              <br />
+            <span v-for="days in DAY_SHORTNAMES" :key="days">
+              <span
+                v-for="courseSession in section.sessions"
+                :key="
+                  courseSession.crn +
+                  courseSession.day_of_week +
+                  courseSession.time_start
+                "
+              >
+                <span v-if="days == DAY_SHORTNAMES[courseSession.day_of_week + 1]">
+        
+                  {{ days }}:
+                  {{ readableTime(courseSession.time_start) }} -
+                  {{ readableTime(courseSession.time_end) }}
+                
+                  <br />
+                </span>
+              </span>
             </span>
           </b-list-group-item>
         </b-list-group>
