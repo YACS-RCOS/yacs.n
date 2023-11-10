@@ -59,6 +59,7 @@ class Course:
         self.pre = list()
         self.co = list()
         self.school = ""
+        self.sem = ""
     
     def processName(self, name:str) -> str:
         tmp = name.split()
@@ -76,10 +77,10 @@ class Course:
         self.co = copy.deepcopy(co)
     
     def addReqsFromList(self, info: list=[]):
-        self.desc = info[0]
-        self.raw = info[1]
-        self.preq = info[2]
-        self.co = info[3]
+        self.pre = info[0]
+        self.co = info[1]
+        self.raw = info[2]
+        self.desc = info[3]
     def print(self):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)

@@ -14,6 +14,7 @@ from course import Course
 from concurrent.futures import ThreadPoolExecutor
 import sys
 import datetime
+import cProfile
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -21,7 +22,7 @@ import datetime
 def login(driver):
     URL = "http://sis.rpi.edu"
     driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
-    driver.implicitly_wait(.5)
+    driver.implicitly_wait(4)
     username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
     password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
     submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button
@@ -82,6 +83,7 @@ def sisCourseSearch(driver, term):
         courses = update(driver, key, basevalue)
         #subject = courses[0][1]
         [info.append(i) for i in courses]
+        subject = info[len(info)-1].major
         # if (subject not in course_codes_dict.keys()):
         #     school = "Interdisciplinary and Other"
         # else:
@@ -212,8 +214,6 @@ def processRow(data, prevrow, key) -> list[str]:
     #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
     #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.    
-    if(info[0] == "90441"):
-        pdb.set_trace()
     info.pop(4)
     
     #Note that this will shift the above info down by 1 to
@@ -288,7 +288,7 @@ def update(driver, key:str, baseval:int):
             tmpCourse = (processRow(data, prevrow, key))
             prevrow = copy.deepcopy(tmpCourse)
             c = Course(tmpCourse)
-            c.addReqsFromList(getReqForClass(baseval, c.short, c.code))
+            c.addReqsFromList(getReqForClass(baseval, c.major, c.code))
             courses.append(c)
     return courses
     writeCSV(courses, "test.csv")
@@ -333,7 +333,8 @@ def getReqFromLink(webres, courseCode, major) -> list:
             coreqs = coreqs[coreqs.find(' '):255].strip()
         if classInfo[i].strip() == (preKey + "s:"):
             raw = classInfo[i+1].strip()
-    retList = [prereqs, coreqs, raw, major + '-' + courseCode, desc]
+    retList = [prereqs, coreqs, raw, desc]
+    #pdb.set_trace()
     #return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
     return retList
 #Given a semester and major, get all of the prereqs and coreqs for every class in that major that are being offered that semester.
@@ -380,6 +381,7 @@ def getReqForClass(semester : int, subject : str, code : int) -> list:
     webres = session.get(url)
     page = webres.content
     soup = bs(page, "html.parser")
+    #pdb.set_trace()
     return getReqFromLink(webres, code, subject)
 
 #Given a list of courses from sis or the prereq webpage, combine the two so that every course has a list of prereqs associated with it
@@ -449,5 +451,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
    
-main()
+cProfile.run('main()')
 
