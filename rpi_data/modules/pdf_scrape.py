@@ -41,8 +41,8 @@ for i in range(len(format_file)):
     if "DATE" in format_file[i]:
         format_file[i] = format_file[i].replace('DATE\n', '', 1)
 
-''' 
-Had a separate text file to help look for patterns.
+
+#Had a separate text file to help look for patterns.
 
 with open('file_format.txt', 'w') as f:
     
@@ -52,7 +52,7 @@ with open('file_format.txt', 'w') as f:
             f.write("\n")
 
 f.close()
-'''
+
 
 # Create the list to be formatted after modification
 finals = format_file[:]
@@ -60,11 +60,52 @@ finals = format_file[:]
 # JSON list to be dumped into the JSON file
 data_list = []
 
+multiple_course = []
+possible_locs = []
 
 
+# Get the final exam schedule year.
+exam_year = finals[0].split()[1]
+
+
+
+for x in range(len(finals)):
+    
+    possible_string = ""
+    if "BY SUBJECT" in finals[x] and x < len(finals) - 4:
+        
+        courses = finals[x+2].split("\n")
+        
+        loc = finals[x+3].split("\n")
+    
+    #print(courses)
+    
+    for y in range(len(courses)):
+        
+        k = 0
+        while(y+1 < len(courses) and courses[y] != courses[y+1]):
+            
+            if (k == 0):
+                print(courses[y])
+                k += 1
+            
+            courses.pop(y+1)
+            
+            y += 1
+    
+    
+    
+             
+
+            
+ 
+        
+        
+
+exit
 for i in range(len(finals)):
     
-    if "BY SUBJECT" in finals[i] and i < len(finals) - 3:
+    if "BY SUBJECT" in finals[i] and i < len(finals) - 4:
         
         department = finals[i+1].split("\n")
 
@@ -77,14 +118,16 @@ for i in range(len(finals)):
         
         for j in range(len(department)):
             
+            
+            
             '''
             If we automate getting the final exam schedule (logging into Box) then 
             the if statements (checking the month) will be of use to get the semesters. 
             Currently have to get final schedule manually from box.
             
             If Final is in December, then its Fall Sem, otherwise its Spring Sem
-            
             '''
+            
             
             if "December" in date[j]:
                 sem = "Fall"
@@ -106,8 +149,8 @@ for i in range(len(finals)):
             # Split the Course (NAME/ID) and the Section
             split_course = courses[j].strip().split(" ")
 
-            '''
             
+            '''
             Need an if statement because of the class 
             Department: PHYSICS, Course: ENGR / CHEM / ISCI / PHYS 1600
             Seems to be the only one without a section
@@ -116,8 +159,8 @@ for i in range(len(finals)):
             
             Also there are parts like "(SEC 9 - 12)" so the if statements
             account for that. 
-            
             '''
+            
             
             # This takes care of the weird Physics Class Case
             if len(split_course[-1]) == 4:
@@ -143,8 +186,9 @@ for i in range(len(finals)):
                 split_course.pop(0)
                 split_course.pop(0)
                 section = " ".join(split_course).strip()
-                
-                
+                           
+        
+            
             entry = {
                 
                 "Department": department[j],
@@ -153,17 +197,18 @@ for i in range(len(finals)):
                 "Location": location[j],
                 "Date": new_date,
                 "Time": time,
-                "Semester": sem
+                "Semester": sem,
+                "Year": exam_year
             }
             
             data_list.append(entry)
         
-            with open('final_schedule.json', 'a') as json_file:
+            #with open('final_schedule.json', 'a') as json_file:
                 
-                json_file.write(json.dumps(entry) + '\n')
+                #json_file.write(json.dumps(entry) + '\n')
             
 
-json_file.close()
+#json_file.close()
 
 
 '''
