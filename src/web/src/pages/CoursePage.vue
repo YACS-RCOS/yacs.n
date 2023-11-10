@@ -28,8 +28,9 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
-      <!--      :to="'/explore/' + courseObj.department"-->
+      <div>
+        <CourseInfo :course="courseObj"/>
+      </div>
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -60,11 +61,13 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CourseInfo from "../components/CourseInfo.vue";
 
 export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CourseInfo,
   },
   name: "CoursePage",
   data() {
