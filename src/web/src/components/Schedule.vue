@@ -49,13 +49,7 @@
             "
             :title="section.title"
             :style="{
-              'margin-top':
-                'max(calc(' +
-                eventPosition(session) +
-                'vh + 1px),' +
-                eventPosition(session, minHeight) +
-                1 +
-                'px)',
+              'margin-top': 'calc(' + eventPosition(session) + 'vh + 1px)',
               height: 'calc(' + eventHeight(session) + 'vh - 1px)',
               'min-height': eventHeight(session, minHeight) - 1 + 'px',
               backgroundColor: getBackgroundColor(
@@ -99,7 +93,7 @@ export default {
   },
   props: {
     possibility: {
-      default: () => [],
+      default: () => [], 
     },
   },
   data() {
@@ -108,7 +102,7 @@ export default {
       endDay: 5,
       startTime: 480,
       endTime: 1320,
-      totalVHeight: 80,
+      totalVHeight: 80, // percentage of the full viewport height
       minHeight: 600,
       sessionTypes: {
         LEC: "Lecture",
@@ -139,10 +133,10 @@ export default {
     },
     /**
      * Calculate the position of the schedule block for `courseSession`
-     * Returns normalized position, i.e. height * before_percentage
+     * Returns normalized position, i.e. height * percent_space_above
      * @param {CourseSession} courseSession
      * @param {number} totalHeight totalVHeight as default
-     * @returns {number}
+     * @returns {number} amount of space above block
      */
     eventPosition(courseSession, totalHeight = this.totalVHeight) {
       const eventStart = toMinutes(courseSession.time_start);
@@ -153,7 +147,6 @@ export default {
      * @param {number} dayOfWeek
      * @return {CourseSession[]}
      */
-
     getSessionsOfDay(section, day) {
       return section.sessions.filter((session) => session.day_of_week === day);
     },
