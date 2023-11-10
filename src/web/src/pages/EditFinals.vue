@@ -73,7 +73,11 @@
           placeholder="Enter Hour"
         />
       </div>
-      <div class="form-group">
+      <form action="http://localhost:8000/api/finals/addBulkFinals" method="POST" enctype="multipart/form-data">
+         <input type="file" name="file" />
+         <input type="submit"/>
+      </form>
+      <!-- <div class="form-group">
         <label for="file">File:</label>
         <input
           type="file"
@@ -81,7 +85,7 @@
           id="file"
           placeholder="Upload File"
         />
-      </div>
+      </div> -->
       <div class="form-group">
         <label for="updateColumn">Update Column:</label>
         <input

@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -376,11 +378,14 @@ async def uploadHandler(file: UploadFile = File(...)):
     else:
         print(error)
         return Response(error.__str__(), status_code=500)
-    
+
+templates = Jinja2Templates(directory="templates")
+@app.get('/upload/', response_class=HTMLResponse)
+async def upload(request: Request):
+   return templates.TemplateResponse("uploadfile.html", {"request": request})
+
 @app.post('/api/finals/addBulkFinals')
-async def uploadHandler(
-        isPubliclyVisible: str = Form(...),
-        file: UploadFile = File(...)):  
+async def uploadHandler(file: UploadFile = File(...)):  
     # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
