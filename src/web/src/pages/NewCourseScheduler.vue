@@ -3,26 +3,28 @@
     <b-row class="h-100">
       <div v-if="isNavOpen" class="col-md-3"></div>
       <div :class="[main]">
-        <!--This is a button, an animated one-->
-        <div
-          id="burger"
-          :class="{ active: isNavOpen }"
-          @click.prevent="toggleNav"
-        >
-          <slot>
-            <button type="button" class="burger-button">
-              <!--v-if="!isNavOpen"-->
-              <span class="burger-bar burger-bar--1"></span>
-              <span class="burger-bar burger-bar--2"></span>
-              <span class="burger-bar burger-bar--3"></span>
-              <span class="burger-bar burger-bar--4"></span>
-              <span class="burger-bar burger-bar--5"></span>
-              <span class="burger-bar burger-bar--6"></span>
-            </button>
-          </slot>
-        </div>
-        <div class="sidebar">
-          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
+
+        <div v-show = "!isNavOpen"
+            id="burger"
+            :class="{ active: isNavOpen }"
+            @click.prevent="toggleNav"
+            >
+
+            <slot>
+              <button type="button" class="burger-button-close">
+                <!--v-if="!isNavOpen"-->
+                <span class="burger-bar burger-bar--1"></span>
+                <span class="burger-bar burger-bar--2"></span>
+                <span class="burger-bar burger-bar--3"></span>
+                <span class="burger-bar burger-bar--4"></span>
+                <span class="burger-bar burger-bar--5"></span>
+                <span class="burger-bar burger-bar--6"></span>
+              </button>
+            </slot>
+          </div>
+
+        <div class="sidebar">  
+          <!--<div class="sidebar-backdrop" v-if="isNavOpen">-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
               <div class="sidebar-panal-nav" style="height: 100%;">
@@ -38,7 +40,8 @@
                         active
                         class="flex-grow-1 w-100"
                         data-cy="course-search-tab"
-                      >
+                      >  <!--This is a button, an animated one-->
+          
                         <b-card-text class="d-flex flex-grow-1 w-100">
                           <CenterSpinner
                             v-if="loading"
@@ -57,6 +60,26 @@
                             class="w-100"
                           />
                         </b-card-text>
+
+                        <div v-show="isNavOpen"
+                        id="burger"
+                        :class="{ active: isNavOpen }"
+                        @click.prevent="toggleNav"
+                        >
+
+                        <slot>
+                          <button type="button" class="burger-button-open">
+                            <!--v-if="!isNavOpen"-->
+                            <span class="burger-bar burger-bar--1"></span>
+                            <span class="burger-bar burger-bar--2"></span>
+                            <span class="burger-bar burger-bar--3"></span>
+                            <span class="burger-bar burger-bar--4"></span>
+                            <span class="burger-bar burger-bar--5"></span>
+                            <span class="burger-bar burger-bar--6"></span>
+                          </button>
+                        </slot>
+                      </div>
+
                       </b-tab>
                       <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
                         <template v-slot:title>
@@ -821,9 +844,28 @@ button:focus {
   outline: 0;
 }
 
-.burger-button {
+
+/*
+    The following is all stylistic 
+    for an animated button to close
+    the course search sidepanel
+    and holds little to no importance
+*/
+.burger-button-open {
   position: relative;
   height: 30px;
+  width: 32px;
+  display: block;
+  z-index: 999;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  pointer-events: all;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.burger-button-close {
+  position: fixed;
+  height: 160px;
   width: 32px;
   display: block;
   z-index: 999;
@@ -872,7 +914,10 @@ button:focus {
   transform: scale(0) rotate(45deg) translate(0px, -10px);
 }
 
-.burger-button:hover .burger-bar--1 {
+.burger-button-close:hover .burger-bar--1 {
+  transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
+}
+.burger-button-open:hover .burger-bar--1 {
   transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
 }
 
@@ -880,7 +925,11 @@ button:focus {
   transform: scale(0.5) rotate(-45deg) translate(20px, 30px);
 }
 
-.burger-button:hover .burger-bar--2 {
+.burger-button-close:hover .burger-bar--2 {
+  transform: scale(0.5) rotate(45deg) translate(20px, -30px);
+}
+
+.burger-button-open:hover .burger-bar--2 {
   transform: scale(0.5) rotate(45deg) translate(20px, -30px);
 }
 
@@ -888,7 +937,11 @@ button:focus {
   transform: scale(0.5) rotate(45deg) translate(20px, -30px);
 }
 
-.burger-button:hover .burger-bar--5 {
+.burger-button-close:hover .burger-bar--5 {
+  transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
+}
+
+.burger-button-open:hover .burger-bar--5 {
   transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
 }
 
@@ -896,7 +949,11 @@ button:focus {
   transform: scale(0.5) rotate(-45deg) translate(0px, 10px);
 }
 
-.burger-button:hover .burger-bar--6 {
+.burger-button-close:hover .burger-bar--6 {
+  transform: scale(0.5) rotate(45deg) translate(0px, -10px);
+}
+
+.burger-button-open:hover .burger-bar--6 {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
@@ -904,7 +961,10 @@ button:focus {
   transform: scale(0.5) rotate(45deg) translate(0px, -10px);
 }
 
-#burger.active .burger-button {
+#burger.active .burger-button-close {
+  transform: rotateY(-540deg);
+}
+#burger.active .burger-button-open {
   transform: rotateY(-540deg);
 }
 

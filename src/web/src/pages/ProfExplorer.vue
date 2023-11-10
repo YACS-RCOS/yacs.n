@@ -7,7 +7,7 @@
       <b-button
         @click="listAlphabet()"
         style="
-          margin-top: 10px;
+          margin-top: 65px;
           color: #007bff;
           border: solid #007bff;
           background-color: transparent;
@@ -30,7 +30,18 @@
         List by Department
       </b-button>
     </div>
-
+    
+    <template>
+      <div class="search-bar-container">
+        <input type="text" v-model="searchQuery" @keyup.enter="goPage(filteredProfessors[0])" placeholder="Search by name or subject">
+        <button @click="goPage(filteredProfessors[0])" > <font-awesome-icon icon="search" /> </button>
+        <div v-if="searchQuery.length == 0"></div>
+        <ul v-else>
+          <div class = "result" v-for="professor in sortedProfSearch" :key="professor.Name" @click="goPage(professor)" >{{ professor.Name }} - {{ professor.Department }}</div>
+        </ul>
+      </div>
+    </template>
+    
     <div v-if="professors.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
       <b-modal ref="my-modal">
@@ -185,6 +196,8 @@ export default {
       showProf: null,
       deptShow: false,
       alphShow: true,
+      searchQuery: '',
+      searchResult: []
     };
   },
   computed: {
@@ -342,6 +355,21 @@ export default {
       ret.push(col2);
       return ret;
     },
+    filteredProfessors() {
+      const query = this.searchQuery.toLowerCase();
+      console.log(query);
+      this.searchResult = this.professors.filter(
+        professor =>
+          professor.Name.toLowerCase().includes(query) ||
+          professor.Department.toLowerCase().includes(query)
+      );
+      return this.searchResult
+    },
+    sortedProfSearch(){
+      return this.filteredProfessors.slice().sort((a, b) => {
+        return a.Name.localeCompare(b.Name);
+      });
+    }
   },
 
   methods: {
@@ -366,9 +394,16 @@ export default {
       var rcs = professor["Email"].replace("@rpi.edu", "");
       this.$router.push("/professor/" + rcs);
     },
+    searchProfessors() {
+      professor = this.filteredProfessors[0];
+      console.log(professor);
+      var rcs = professor["Email"].replace("@rpi.edu", "");
+      this.$router.push("/professor/" + rcs);
+    },
   },
 };
 </script>
+
 
 <style>
 .gridContainer {
@@ -396,7 +431,46 @@ export default {
 
 .professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+
 }
+
+.search-bar-container {
+  padding: 10px;
+  text-align: left;
+}
+
+.search-bar-container input {
+  margin-left: 18px;
+  width: 70%;
+  padding: 5px;
+  font-size: 16px;
+}
+.search-bar-container button {
+  padding: 5px;
+  color: hsl(211, 100%, 60%);
+  background-color: transparent;
+  box-shadow: none;
+  border: 2px solid
+}
+.search-bar-container button:hover {
+  color: white;
+}
+
+.search-bar-container .result{
+  color: white;
+  background-color: rgba(108, 90, 90, 0.15);
+  margin-left: 133px;
+  width: 72%;
+  padding: 10px;
+  border: 2px solid;
+  border-color: rgba(108, 90, 90, 0.15);
+  
+}
+.search-bar-container .result:hover{
+  color: hsl(211, 100%, 60%);
+  cursor: pointer;
+}
+
 
 .h3 {
   text-align: left;
