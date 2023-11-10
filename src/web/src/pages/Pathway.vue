@@ -39,8 +39,8 @@
           <br />
         </div>
         <b-tabs>
-          <b-tab v-for="(item, itemName) in noNamePath" :key="itemName" :title="itemName">
-            <div class="block text-left" v-if="showPath != null" md="10">
+          <b-tab v-for="(item, itemName) in noNamePath" :key="itemName" :title="shortenTitle(itemName)">
+            <div class="block text-left" v-if="showPath != null" md="8">
               <h4 style="color: #3395ff;">
                 {{ itemName + ": " }}
               </h4>
@@ -318,6 +318,20 @@ export default {
         );
       }
     },
+
+    shortenTitle(title) {
+      // Implement your logic to shorten the title as needed
+      // For example, you can return the first three characters
+      if (title.includes('remaining')) {
+        return 'Choose Remaining Credits from the following';
+      }
+      else if (!title.includes('remaining') && (title.includes('from the following') 
+            || title.includes('12 credits of the following') || title.includes('from a choice of the following'))) {
+        return 'Choose from the following';
+      }
+      return title
+    },
+
   },
 };
 </script>
