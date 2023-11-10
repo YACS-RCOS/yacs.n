@@ -369,10 +369,16 @@ export default {
 }
 
 .courseInPath {
-  cursor: pointer;
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 5px;
+    text-decoration: none;
+    color: #000;
+    transition: background-color 0.3s ease;
 }
 
 .courseInPath:hover {
-  background-color: rgba(39, 130, 230, 0.5);
+    background-color: #f5f5f5;
 }
 </style>
