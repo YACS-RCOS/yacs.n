@@ -40,6 +40,34 @@ class Pathway_Field:
     #     else:
     #         return (False, "pathway_name and course_name cannot be none")
 
+
+    def create_trigger(self, conn):
+        print('entered trigger function')
+        with conn.cursor(cursor_factory=RealDictCursor) as transaction:
+            try:
+                print('starting transaction')
+                transaction.execute(
+                    """
+                    CREATE OR REPLACE FUNCTION fix_field() RETURNS TRIGGER AS $$
+                    BEGIN
+                        NEW.course_credits = 1;
+                        NEW.desc_credit_level = 1;
+                        NEW.desc_course_level = 1;
+                        RETURN NEW;
+                    END;
+                    $$ LANGUAGE plpgsql;
+                    
+                    CREATE TRIGGER fix_field AFTER INSERT ON pathway_field
+                        FOR EACH ROW EXECUTE FUNCTION fix_field();
+                    """)
+                print('transaction completed, exiting function')
+            except Exception as e:
+                # Roll back the transaction and return the exception if an error occurs
+                print("THIS IS THE EXCEPTION:", e)
+                conn.rollback()
+                return False, e
+
+
     def add_bulk_fields(self, json_data): #function is called in app.py
         # Connect to the SQL database
         conn = self.db_conn.get_connection()
@@ -60,6 +88,11 @@ class Pathway_Field:
 
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
+                # create the trigger/function
+                print('entering trigger function')
+                self.create_trigger(conn)
+                print('exited trigger function')
+
                 # Iterate over each entry in the JSON data
                 for entry in json_data:
                     for sub in entry['Pathways']:
