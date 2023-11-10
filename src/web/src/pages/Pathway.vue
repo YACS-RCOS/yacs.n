@@ -31,19 +31,20 @@
     
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
-      <b-modal ref="my-modal" size="lg">
-        <div class="block text-left" v-if="showPath != null" md="10">
-          <h3 class="text-center" style="color: #007bff; margin-top: -5px; margin-bottom: 5px;">
+      <b-modal ref="my-modal" scrollable size="lg">
+        <template #modal-title>
+          <div style="color: #3395ff;" v-if="showPath != null">
             {{ showPath.Name[0] }}
-          </h3>
-          <br />
-        </div>
+            <br />
+          </div>
+        </template>
+      
         <b-tabs>
           <b-tab v-for="(item, itemName) in noNamePath" :key="itemName" :title="shortenTitle(itemName)">
-            <div class="block text-left" v-if="showPath != null" md="8">
-              <h4 style="color: #3395ff;">
+            <div class="block text-left" v-if="showPath != null">
+              <h5 style="color: #3395ff; margin-top: 15px;">
                 {{ itemName + ": " }}
-              </h4>
+              </h5>
               <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">
                 {{ course }}
               </li>
@@ -52,6 +53,7 @@
           </b-tab>
         </b-tabs>
       </b-modal>
+
       <b-row>
         <!-- splitted categories into 2 arrays, so we can have 2 columns -->
         <b-col
@@ -323,7 +325,7 @@ export default {
       // Implement your logic to shorten the title as needed
       // For example, you can return the first three characters
       if (title.includes('remaining')) {
-        return 'Choose Remaining Credits from the following';
+        return 'Choose Remaining Credits';
       }
       else if (!title.includes('remaining') && (title.includes('from the following') 
             || title.includes('12 credits of the following') || title.includes('from a choice of the following'))) {
