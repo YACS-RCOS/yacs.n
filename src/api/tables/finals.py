@@ -12,5 +12,5 @@ class Finals(Base):
     section = Column(VARCHAR(length=255), primary_key=True, nullable=False)
     room = Column(VARCHAR(length=255), nullable=False)
     dayOfWeek = Column(VARCHAR(length=255), nullable=False)
-    day = Column(VARCHAR(legnth=255), nullable=False)
+    day = Column(VARCHAR(length=255), nullable=False)
     hour = Column(VARCHAR(length=255), nullable=False)
