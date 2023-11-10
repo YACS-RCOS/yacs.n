@@ -304,7 +304,6 @@ export default {
   },
   data() {
     return {
-      selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
@@ -534,11 +533,15 @@ export default {
      * Toggle course selected state
      * Emits removeCourse and addCourse events
      */
-    toggleCourse(course) {
+     toggleCourse(course) {
       if (course.selected) {
-        this.removeCourse(course);
+        // Remove course
+        this.$store.dispatch('removeCourse', course.id);
+        // Additional logic (e.g., also remove sections associated with the course) can go here.
       } else {
-        this.addCourse(course);
+        // Add course
+        this.$store.dispatch('addCourse', course);
+        // Additional logic (e.g., also add sections associated with the course) can go here.
       }
     },
     getSchedules() {
@@ -633,6 +636,7 @@ export default {
     ...mapState(["subsemesters", "selectedSemester"]),
     ...mapGetters([COURSES]),
     ...mapGetters({ isLoggedIn: userTypes.getters.IS_LOGGED_IN }),
+    ...mapGetters(['selectedCourses']),
 
     loading() {
       return this.$store.state.isLoadingCourses;
