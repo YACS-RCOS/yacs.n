@@ -28,12 +28,12 @@ export default {
         return {
         faqData: [
             {
-                title: 'What is YACS and what is its mission?',
+                title: ' What is YACS and what is its mission?',
                 answer:' YACS (Yet Another Course Scheduler) is a web-based application designed to assist students in scheduling and planning their courses at academic institutions. It provides features such as course catalog browsing, schedule building, and course availability information. YACS aims to simplify the course selection process, allowing students to efficiently organize their academic schedules.',
                 isOpen: false
             },
             {
-                title: 'How can I use the Schedule feature?',
+                title: ' How can I use the Schedule feature?',
                 answer:'1. Click the Schedule navbar on the top of the page.',
                 answer1:'2. Add courses to your schedule by searching for them in the course catalog or using other available options.',
                 answer2:'3. Arrange the courses in your preferred time slots or based on your schedule requirements.',
@@ -41,7 +41,7 @@ export default {
                 isOpen: false
             },
             {
-                title: 'What is the Explore feature?',
+                title: ' What is the Explore feature?',
                 answer:'1. Click the Explore navbar at the top of the page.' ,
                 answer1:'2. Choose the major you want to explore from the available options. ',
                 answer2:'3. YACS will display the courses associated with the selected major for the specified semester.',
@@ -49,7 +49,7 @@ export default {
                 isOpen: false
             },
             {
-                title: 'How can I use the Pathways Navigation feature?',
+                title: ' How can I use the Pathways Navigation feature?',
                 answer:'1. Click the Pathways button at the top of the page.',
                 answer1:'2. Select the pathway you are interested in or that aligns with your academic goals.',
                 answer2:'3. YACS will display the pathway requirements and the courses available to fulfill each requirement.',
@@ -57,7 +57,7 @@ export default {
                 isOpen: false
             },
             {
-                title: 'How can I use the Finals feature?',
+                title: ' How can I use the Finals feature?',
                 answer:'1. Click the Finals button on the top of the page.',
                 answer1:'2. Enter the courses you are enrolled in for the semester. Once you finish adding your courses, hit Search.',
                 answer2:'3. YACS will generate your final exam schedule, displaying the date, time, and location of each exam.',
@@ -90,23 +90,14 @@ h1 {
 }
 
 .faq-item {
-  /* margin-bottom: 20px; */
-  /* border: 3px solid #ccc; */
-  /* border-radius: 4px; */
   padding: 10px;
   cursor: pointer;
+  border-left: 3px solid transparent;
 }
 
-/* .faq-item:not(:first-child){
-  border-top: 3px solid #ccc;
-} */
-.faq-item:hover {
-  border-color: hsl(211, 100%, 60%);
+.faq-item.open {
+  border-left: 3px solid #5ca9fa;
 }
-
-/* .question-wrapper {
-  margin-bottom: 10px;
-} */
 
 .faq-item h3 {
   font-size: 18px;
@@ -114,10 +105,6 @@ h1 {
   color: #333;
   font-weight: bold;
   cursor: pointer;
-}
-
-.faq-item h3.active {
-  text-decoration: underline;
 }
 
 .divider {
@@ -148,19 +135,21 @@ h1 {
 }
 
 .dropdown-indicator {
-    width: 20px;
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.3s ease;
-  }
-  .open .dropdown-indicator {
-    transform: rotate(180deg);
-    width: 20px;
-    height: 20px;
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.3s ease;
-  }
+  width: 20px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+.open .dropdown-indicator {
+  transform: rotate(180deg);
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
 </style>
+
