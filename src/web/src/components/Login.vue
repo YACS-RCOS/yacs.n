@@ -9,6 +9,7 @@
         placeholder="Enter email"
       ></b-form-input>
     </b-form-group>
+
     <b-form-group id="input-group-2" label="Password:" label-for="input-2">
       <b-form-input
         id="input-2"
@@ -18,7 +19,6 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <b-button type="submit" variant="primary">Submit</b-button>
     <div>
       <b-button-group size="md">
@@ -45,6 +45,7 @@
     </div>
   </b-form>
 </template>
+
 <script>
 import { mapGetters } from "vuex";
 import SignUpComponent from "@/components/SignUp";
@@ -64,15 +65,10 @@ export default {
       showForm: true,
     };
   },
-  mounted() {
-    let recaptchaScript = document.createElement('script')
-    recaptchaScript.setAttribute('src', '"https://apis.google.com/js/platform.js"')
-    document.head.appendChild(recaptchaScript)
-  },
   methods: {
     async onSubmit(evt) {
       evt.preventDefault();
-      
+
       try {
         await this.$store.dispatch(userTypes.actions.LOGIN, this.form);
 
