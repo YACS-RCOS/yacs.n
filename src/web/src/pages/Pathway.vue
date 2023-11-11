@@ -45,9 +45,9 @@
               <h5 style="color: #3395ff; margin-top: 15px;">
                 {{ itemName + ": " }}
               </h5>
-              <li v-for="course in item" :key="course" v-on:click="goPage(course)" class="courseInPath">
+              <b-button style="color: black;" class="pathway-button" v-for="course in item" :key="course" v-on:click="goPage(course)">
                 {{ course }}
-              </li>
+              </b-button>
               <br />
             </div>
           </b-tab>
@@ -368,17 +368,4 @@ export default {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
-.courseInPath {
-    display: inline-block;
-    border: 1px solid #000;
-    padding: 10px;
-    margin: 5px;
-    text-decoration: none;
-    color: #000;
-    transition: background-color 0.3s ease;
-}
-
-.courseInPath:hover {
-    background-color: #f5f5f5;
-}
 </style>
