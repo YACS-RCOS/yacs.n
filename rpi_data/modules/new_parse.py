@@ -15,6 +15,10 @@ from concurrent.futures import ThreadPoolExecutor
 import sys
 import datetime
 import cProfile
+import pstats
+import io
+from pstats import SortKey
+import lxml
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # URL = "https://sis.rpi.edu"
 #term format: spring2023
@@ -288,10 +292,10 @@ def update(driver, key:str, baseval:int):
             tmpCourse = (processRow(data, prevrow, key))
             prevrow = copy.deepcopy(tmpCourse)
             c = Course(tmpCourse)
-            c.addReqsFromList(getReqForClass(baseval, c.major, c.code))
             courses.append(c)
+    for course in courses:
+        course.addReqsFromList(getReqForClass(baseval, course.major, course.code))
     return courses
-    writeCSV(courses, "test.csv")
 #Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
 def getReqFromLink(webres, courseCode, major) -> list:
     page = webres.content
@@ -375,14 +379,14 @@ def getReqsInMajor(semester : int, subject : str):
         i += 1
     return allReqs
 #Given a course sem, a subject, and a course code, get the prereqs, coreqs, and desc for a class.
+#Slowdown here?
 def getReqForClass(semester : int, subject : str, code : int) -> list:
     url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, subject, code)
     session = requests.session()
     webres = session.get(url)
-    page = webres.content
-    soup = bs(page, "html.parser")
     #pdb.set_trace()
-    return getReqFromLink(webres, code, subject)
+    tmp = getReqFromLink(webres, code, subject)    
+    return tmp
 
 #Given a list of courses from sis or the prereq webpage, combine the two so that every course has a list of prereqs associated with it
 def combineInfo(courses:list, reqs:dict, school:str, semester:str) -> list:
