@@ -12,7 +12,6 @@ import sys
 def login(driver):
     URL = "http://sis.rpi.edu"
     driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
-    driver.implicitly_wait(2)
     username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
     password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
     submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button
@@ -44,8 +43,17 @@ def login(driver):
         time.sleep(.1)
     trust_button = driver.find_element(By.XPATH, '//*[@id="trust-browser-button"]')
     trust_button.click()
-    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): #check that the user has inputted their duo code and that it redirected to the sis main page
-        time.sleep(1)
-    print("Login Success.")
+    time.sleep(3)
+    #if ("sis.rpi.edu" not in driver.current_url):
+    #    print("There might've been an extra button to click (Duo is awesome). We're going to try going directly to sis.")
+    #    driver.get(URL)
+    if (driver.current_url == "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
+        return "Success"
+    else:
+        return "Failure"
 
-#
+class LoginFailed(Exception):
+    def __init__(self, driver):
+        self.driver = driver
+        self.message = "Login Failed at url " +  driver.current_url
+        super().__init__(self.message)
