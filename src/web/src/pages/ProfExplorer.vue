@@ -157,7 +157,7 @@
       :fontSize="1.3"
       loadingMessage="Professors"
       :topSpacing="30"
-    />
+    />    
   </b-container>
 </template>
 
@@ -194,13 +194,13 @@ export default {
       var count = 0;
       var departments = [];
       var dept = "";
-      for (let i = 0; i < this.professors.length; i++) {
+      for (let i = 0; i < this.professors.length; i++){
         dept = this.professors[i]["Department"];
-        if (dept == "") {
+        if (dept == ""){
           dept = this.professors[i]["Portfolio"];
         }
-        if (!departments.includes(dept)) {
-          departments.push(dept);
+        if (!departments.includes(dept)){
+          departments.push(dept)
         }
       }
       departments.sort();
@@ -208,14 +208,14 @@ export default {
       let ret = [];
       let col1 = [];
       let col2 = [];
-      for (var i = 0; i < departments.length; i++) {
+      for (var i = 0; i < departments.length; i++){
         var tmp = {
-          Department: departments[i],
-          Professors: [],
+          "Department": departments[i],
+          "Professors": [],
         };
-        for (var j = 0; j < this.professors.length; j++) {
+        for (var j = 0; j < this.professors.length; j++){
           dept = this.professors[j]["Department"];
-          if (dept == "") {
+          if (dept == ""){
             dept = this.professors[i]["Portfolio"];
           }
           var name = this.professors[j]["Name"];

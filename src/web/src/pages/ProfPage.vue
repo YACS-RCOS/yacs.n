@@ -11,7 +11,7 @@
       <b-row>
         <b-col>
           <br />
-          <h6 class="mb-1 d-inline">Department: {{ prof.Department }}</h6>
+          <h6 class="mb-1 d-inline">Department: {{prof.Department}}</h6>
         </b-col>
       </b-row>
       <b-row>
