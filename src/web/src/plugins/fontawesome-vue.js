@@ -15,7 +15,6 @@ import {
   faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-
 library.add(
   faPaperPlane,
   faMoon,
