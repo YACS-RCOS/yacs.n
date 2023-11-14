@@ -379,10 +379,10 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
 
-templates = Jinja2Templates(directory="templates")
-@app.get('/upload/', response_class=HTMLResponse)
-async def upload(request: Request):
-   return templates.TemplateResponse("uploadfile.html", {"request": request})
+# templates = Jinja2Templates(directory="templates")
+# @app.get('/upload/', response_class=HTMLResponse)
+# async def upload(request: Request):
+#    return templates.TemplateResponse("uploadfile.html", {"request": request})
 
 @app.post('/api/finals/addBulkFinals')
 async def uploadHandler(file: UploadFile = File(...)):  
@@ -401,7 +401,7 @@ async def uploadHandler(file: UploadFile = File(...)):
     try:
         #convert string to python dict
         json_data = json.loads(contents.decode('utf-8'))
-        # print(json_data)
+        #print(json_data)
     except json.JSONDecodeError as e:
         return Response(f"Invalid JSON data: {str(e)}", 400)
     finals, error = finals_info.add_bulk_final(json_data)

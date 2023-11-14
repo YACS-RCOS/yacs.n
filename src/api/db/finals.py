@@ -16,7 +16,7 @@ else:
 
 class Finals:
     global columns, crr
-    columns = ["department", "coursecode", "section", "room", "dayofweek", "day", "hour"]
+    columns = ["department", "courseCode", "section", "room", "dayofweek", "day", "hour"]
     crr = ["department", "courseCode", "section", "room", "dayOfWeek", "day", "hour"]
 
     def __init__(self, db_conn, cache):
@@ -25,11 +25,13 @@ class Finals:
     
     def add_bulk_final(self, file):
         list = []
+        #print(file)
         print("HERE")
-        with open(file, "r") as json_file:
-            data = json.load(json_file)
+        # with open(file, "r") as json_file:
+        #     data = json.load(json_file)
 
-        for i in data:
+        for i in file:
+            print(i)
             if i['Section'] == "(ALL SECTIONS)":
                 section = "AllSections"
             else:
@@ -37,14 +39,14 @@ class Finals:
             print(2)
             list.append(self.add_final(i['Department'], i['CourseCode'], section, i['Room'], i['DayOfWeek'], i['Day'], i['Hour']))
         self.clear_cache()
-        return list
+        return list, None
 
     def add_final(self, department, courseCode,
                   section, room, dof, day, hour):
         print("here")
-        query = "SELECT COUNT(*) FROM finals WHERE courseCode = %(courseCode)s AND section = %(section)s;"
-        result = self.db_conn.execute(query, {"courseCode": courseCode, "section": section})
-        count = result[0][0]["count"]
+        # query = "SELECT COUNT(*) FROM finals WHERE courseCode = %(courseCode)s AND section = %(section)s;"
+        # result = self.db_conn.execute(query, {"courseCode": courseCode, "section": section})
+        #count = result[0][0]["count"]
         #print(count)
         #records.fetchall()
         if department is None:
@@ -61,8 +63,8 @@ class Finals:
             return (False, "Day cannot be none")
         elif hour is None:
             return (False, "Hour cannot be none")
-        elif count != 0:
-            return(False, "A record with the Course Code = " + courseCode + " and Section = " + section + " already exists")
+        # elif count != 0:
+        #     return(False, "A record with the Course Code = " + courseCode + " and Section = " + section + " already exists")
         else:
             query = "BEGIN TRANSACTION; INSERT INTO finals (department, courseCode, section, room, dayOfWeek, day, hour) VALUES(%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s); COMMIT;"
             return self.db_conn.execute(query, {

@@ -73,7 +73,7 @@
           placeholder="Enter Hour"
         />
       </div>
-      <form action="http://localhost:8000/api/finals/addBulkFinals" method="POST" enctype="multipart/form-data">
+      <form @submit.prevent="add_bulk_final">
          <input type="file" name="file" />
          <input type="submit"/>
       </form>
