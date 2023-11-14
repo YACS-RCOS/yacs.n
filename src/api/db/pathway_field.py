@@ -50,14 +50,18 @@ class Pathway_Field:
                     """
                     CREATE OR REPLACE FUNCTION fix_field() RETURNS TRIGGER AS $$
                     BEGIN
-                        NEW.course_credits = 1;
-                        NEW.desc_credit_level = 1;
-                        NEW.desc_course_level = 1;
+                        NEW.course_credits = COALESCE(
+                            ( SELECT cm.max_credits
+                            FROM course_master cm JOIN pathway_field pf 
+                            ON UPPER(SPLIT_PART(pf.course_name, '- ', 2)) = cm.title 
+                            LIMIT 1
+                            )
+                        , -2);
                         RETURN NEW;
                     END;
                     $$ LANGUAGE plpgsql;
                     
-                    CREATE TRIGGER fix_field AFTER INSERT ON pathway_field
+                    CREATE TRIGGER fix_field BEFORE INSERT ON pathway_field
                         FOR EACH ROW EXECUTE FUNCTION fix_field();
                     """)
                 print('transaction completed, exiting function')
