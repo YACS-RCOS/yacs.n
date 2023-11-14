@@ -210,7 +210,7 @@ def processRow(data, prevrow, key) -> list[str]:
         #Edge case where the registrar decides to make a column an inconcsistent width.
         #See MGMT 2940 - Readings in MGMT in spring 2024.
         if(data[i].has_attr("colspan")):
-            info.append("TBA") # The time seems to be none, TBA is a good placeholder for now
+            info.append("TBA")
             info.append("TBA")  
         else:
             info.append(data[i].text)
@@ -278,7 +278,7 @@ def getMajorCourseInfo(driver, key) -> list[list[str]]:
             #Keep a copy of the previous course in order to update info for lab blocks, test blocks, etc, easily.
             prevrow = copy.deepcopy(courses[len(courses)-1])
     return courses
-#Generate a new csv that will update the old one?
+#It's called update, will need to rename, so far it's just a better version of the old way
 def update(driver, key:str, baseval:int):
     html = driver.page_source
     soup = bs(html, 'html.parser')
@@ -293,8 +293,8 @@ def update(driver, key:str, baseval:int):
             prevrow = copy.deepcopy(tmpCourse)
             c = Course(tmpCourse)
             courses.append(c)
-    for course in courses:
-        course.addReqsFromList(getReqForClass(baseval, course.major, course.code))
+    with ThreadPoolExecutor(max_workers=50) as pool:
+            pool.map(getReqForClass, courses)
     return courses
 #Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
 def getReqFromLink(webres, courseCode, major) -> list:
@@ -380,14 +380,22 @@ def getReqsInMajor(semester : int, subject : str):
     return allReqs
 #Given a course sem, a subject, and a course code, get the prereqs, coreqs, and desc for a class.
 #Slowdown here?
-def getReqForClass(semester : int, subject : str, code : int) -> list:
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, subject, code)
+def getReqForClass(course: Course) -> None:
+    semester = getSemester(course)
+    url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, course.major, course.code)
     session = requests.session()
     webres = session.get(url)
-    #pdb.set_trace()
-    tmp = getReqFromLink(webres, code, subject)    
-    return tmp
-
+    course.addReqsFromList(getReqFromLink(webres, course.code, course.major))
+def getSemester(course: Course):
+    dates = course.sdate.split("-")
+    month = dates[1]
+    year = dates[0]
+    sem = year
+    if month == "08" or month == "09":
+        sem += "09"
+    else:
+        sem += month
+    return sem
 #Given a list of courses from sis or the prereq webpage, combine the two so that every course has a list of prereqs associated with it
 def combineInfo(courses:list, reqs:dict, school:str, semester:str) -> list:
     print("Combining info")
@@ -454,6 +462,6 @@ def main():
     end = time.time()
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
-   
-cProfile.run('main()')
+
+main()
 
