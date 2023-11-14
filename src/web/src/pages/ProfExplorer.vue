@@ -1,14 +1,15 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-  
+  <div class="search-bar-container">
     <b-form-input
       v-model="searchQuery"
       type="search"
       placeholder="Search for professors"
-      class="mb-3"
+      class="mb-3 custom-search-bar"
       @keyup.enter="onEnterPress"
     ></b-form-input>
+  </div>
 
     <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
@@ -430,6 +431,10 @@ export default {
 
 .professor-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+}
+.custom-search-bar {
+  width: 50%; /* Adjust the width as needed */
+  margin: auto; /* Automatically adjust margins to keep the element centered */
 }
 
 .h3 {
