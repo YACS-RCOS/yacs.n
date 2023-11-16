@@ -3,31 +3,11 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and category order -->
-    <div style="float: left;" class="w-10">
-      <b-button
-        @click="listAlphabet()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Alphabet
-      </b-button>
-      <br />
-      <b-button
-        @click="listCate()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Category
-      </b-button>
-    </div>
+    <b-dropdown id="dropdown-1" text="Sort By" variant="link" class="dropdown-custom">
+        <b-dropdown-item @click="listAlphabet">A - Z</b-dropdown-item>
+        <b-dropdown-item @click="listCate">Category</b-dropdown-item>
+    </b-dropdown>
+
     
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
@@ -321,15 +301,17 @@ export default {
       }
     },
 
+    // Shorten the title of the pathway in the pop-up window
     shortenTitle(title) {
-      // Implement your logic to shorten the title as needed
-      // For example, you can return the first three characters
       if (title.includes('remaining')) {
         return 'Choose Remaining Credits';
       }
       else if (!title.includes('remaining') && (title.includes('from the following') 
             || title.includes('12 credits of the following') || title.includes('from a choice of the following'))) {
         return 'Choose from the following';
+      }
+      else if (!title.includes('remaining') && title.includes('one of the following a minimum')) {
+        return 'Choose one of the following';
       }
       return title
     },
@@ -363,9 +345,15 @@ export default {
   text-align: justify;
   width: 95%;
 }
-
+ 
 .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+}
+
+.dropdown-custom {
+  color: #3395ff;
+  border: 1px #3395ff;
+  background-color: transparent;
 }
 
 </style>
