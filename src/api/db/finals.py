@@ -66,8 +66,14 @@ class Finals:
         # elif count != 0:
         #     return(False, "A record with the Course Code = " + courseCode + " and Section = " + section + " already exists")
         else:
-            query = "BEGIN TRANSACTION; INSERT INTO finals (department, courseCode, section, room, dayOfWeek, day, hour) VALUES(%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s); COMMIT;"
-            return self.db_conn.execute(query, {
+            return self.db_conn.execute("""
+            INSERT INTO
+                finals (department, "courseCode", section, room, "dayOfWeek", day, hour)
+            VALUES
+                   (%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s)
+            ON CONFLICT DO NOTHING
+            ;
+        """, {
                 "department": department,
                 "courseCode": courseCode,
                 "section": section,
@@ -76,6 +82,17 @@ class Finals:
                 "day": day,
                 "hour": hour
             }, False)
+
+            # query = "BEGIN TRANSACTION; INSERT INTO finals (department, courseCode, section, room, dayOfWeek, day, hour) VALUES(%(department)s, %(courseCode)s, %(section)s, %(room)s, %(dayOfWeek)s, %(day)s, %(hour)s); COMMIT;"
+            # return self.db_conn.execute(query, {
+            #     "department": department,
+            #     "courseCode": courseCode,
+            #     "section": section,
+            #     "room": room,
+            #     "dayOfWeek": dof,
+            #     "day": day,
+            #     "hour": hour
+            # }, False)
             
     def clear_cache(self):
         try:
