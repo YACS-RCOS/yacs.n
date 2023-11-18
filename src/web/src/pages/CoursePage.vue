@@ -6,16 +6,15 @@
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
           <hr />
-          <h4 class="mb-1 d-inline">{{ courseName }}</h4>
-          &nbsp;
-          <div class="d-inline">
-            <course-sections-open-badge :course="courseObj" />
-          </div>
+          <h4 class="mb-1 d-inline">{{ courseName }}</h4>          
         </b-col>
       </b-row>
       <b-row>
         <b-col>
           <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+          <div class="d-inline" style="position: relative; top: -2px; margin-left: 10px;">
+            <course-sections-open-badge :course="courseObj" />
+          </div>
         </b-col>
       </b-row>
       <b-row>
