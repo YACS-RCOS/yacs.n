@@ -5,6 +5,7 @@
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
+          <hr />
           <h4 class="mb-1 d-inline">{{ courseName }}</h4>
           &nbsp;
           <div class="d-inline">
@@ -19,12 +20,16 @@
       </b-row>
       <b-row>
         <b-col>
-          <p v-html="transformed" />
+          <div class="prerequisites-container">
+            <p class="prerequisites-text">Prerequisites:</p>
+            <p class="prerequisites-link" v-html="transformed" />
+          </div>
         </b-col>
       </b-row>
       <b-row>
-        <b-col class="mb-4">
+        <b-col cols="9" class="mb-4">
           <br />
+          <h5>Course Description:</h5>
           {{ courseObj.description }}
         </b-col>
       </b-row>
@@ -167,3 +172,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.prerequisites-container {
+  display: flex;
+  align-items: center; /* Optional: Aligns items vertically in the center */
+}
+
+.prerequisites-text {
+  margin-right: 10px; /* Optional: Adds some space between the text and the link */
+}
+</style>
