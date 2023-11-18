@@ -84,17 +84,9 @@ def sisCourseSearch(driver, term):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
         print("Getting course info")
-        courses = update(driver, key, basevalue)
-        #subject = courses[0][1]
+        courses = getCourseInfo(driver, key, course_codes_dict)
         [info.append(i) for i in courses]
         subject = info[len(info)-1].major
-        # if (subject not in course_codes_dict.keys()):
-        #     school = "Interdisciplinary and Other"
-        # else:
-        #     school = course_codes_dict[subject]
-        # print("Getting co reqs: " + subject)
-        # reqs = getReqsInMajor(str(basevalue), subject)
-        # comb = combineInfo(courses, reqs, school, term)
         driver.get(url)
         end = time.time()
         print("Time for " + subject +": " + str(end - start))
@@ -102,7 +94,6 @@ def sisCourseSearch(driver, term):
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
-        # [info.append(i) for i in comb]
     info.sort()
     #Because we end up sorting in reverse order, we need to reverse the list to get the correct order
     info.reverse()
@@ -201,8 +192,25 @@ def formatTimes(info : list[str]) -> list[str]:
     #Pop to remove original time
     info.pop(9)
     return info
+#Given the starting and ending date of a class, ie 01/08-04/24, turn it into a format the backend likes - 2024-01-08, 2024-04-24
+def formatDate(info : list, year : str):   
+    splitDate = info[13].split('-')
+    sdate = splitDate[0].split('/')
+    sdate = '-'.join(sdate)
+    enddate = splitDate[1].split('/')
+    enddate = '-'.join(enddate)
+    #Sdate and enddate are the month and days of a semester, eg 01-08 and 05-04
+    info.insert(13, year + sdate)
+    info.insert(14, year + enddate)
+    info.pop(15)
+#Turn the credits into an int, pick the greatest credit value if there is a range, eg 0.000-16.000 is returned as 16
+def formatCredits(info):
+    if '-' in info[4]:
+        return int(float(info[4].split('-')[1]))
+    return int(float(info[4]))
+
 #Given a row in sis, process the data in said row including crn, course code, days, seats, etc
-def processRow(data, prevrow, key) -> list[str]:
+def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
     info = []
     #Ignore the 1st element because that's the status on whether a course is open to register or not, and other parts of the app
     #Can tell that information to users
@@ -241,30 +249,26 @@ def processRow(data, prevrow, key) -> list[str]:
     #Remove waitlist and crosslist stuff
     info = info[:12] + info[18:]
     #Split the date into start and end date
-    formatDate(info, key)
+    formatDate(info, year)
     info[12] = formatTeachers(info[12])
     #Some classes have a credit value ranging from 0-12, just pick the biggest credit value
     #We do this instead of keeping the range because the backend does not like having a string for the credit value.
     info[4] = formatCredits(info)
     return info
-#Given the starting and ending date of a class, ie 01/08-04/24, turn it into a format the backend likes - 2024-01-08, 2024-04-24
-def formatDate(info : list, key : str):   
-    splitDate = info[13].split('-')
-    sdate = splitDate[0].split('/')
-    sdate = '-'.join(sdate)
-    enddate = splitDate[1].split('/')
-    enddate = '-'.join(enddate)
-    
-    info.insert(13, key + sdate)
-    info.insert(14, key + enddate)
-    info.pop(15)
-#Turn the credits into an int, pick the greatest credit value if there is a range, eg 0.000-16.000 is returned as 16
-def formatCredits(info):
-    if '-' in info[4]:
-        return int(float(info[4].split('-')[1]))
-    return int(float(info[4]))
-#Given the url from sis of a major, parse the course info (crn, time, date, profs, etc) and store it in a list.
-def getMajorCourseInfo(driver, key) -> list[list[str]]:
+def getStrSemester(c : Course) -> str:
+    val = str(getSemester(c))
+    date = val[:4]
+    if val[4:] == "01":
+        date = "SPRING " + date
+    elif val[4:] == "09":
+        date = "FALL " + date
+    elif val[4:] == "05":
+        date = "SUMMER " + date
+    elif val[4:] == "12":
+        date = "WINTER " + date
+    return date
+#Given a school year and a dictionary of every major to names of their schools, parse all of the info for every course in a major.
+def getCourseInfo(driver, year:str, schools : dict) -> list:
     html = driver.page_source
     soup = bs(html, 'html.parser')
     table = soup.find('table', class_='datadisplaytable')
@@ -274,24 +278,16 @@ def getMajorCourseInfo(driver, key) -> list[list[str]]:
     for row in rows:
         data = row.find_all("td")
         if len(data) != 0:
-            courses.append(processRow(data, prevrow, key))
-            #Keep a copy of the previous course in order to update info for lab blocks, test blocks, etc, easily.
-            prevrow = copy.deepcopy(courses[len(courses)-1])
-    return courses
-#It's called update, will need to rename, so far it's just a better version of the old way
-def update(driver, key:str, baseval:int):
-    html = driver.page_source
-    soup = bs(html, 'html.parser')
-    table = soup.find('table', class_='datadisplaytable')
-    rows = table.find_all("tr")
-    courses = []
-    prevrow = []
-    for row in rows:
-        data = row.find_all("td")
-        if len(data) != 0:
-            tmpCourse = (processRow(data, prevrow, key))
+            tmpCourse = (processRow(data, prevrow, year))
             prevrow = copy.deepcopy(tmpCourse)
             c = Course(tmpCourse)
+            c.addSemester(getStrSemester(c))
+            if c.major in schools:
+                c.addSchool(schools[c.major])
+            else:
+                #A catch all for courses that aren't listed on the offical catalog, such as ADMN or BSUN courses. 
+                #If in the future there are too many of these were it shouldn't be, then we will have to find a better solution
+                c.addSchool("Interdisciplinary and Other")
             courses.append(c)
     with ThreadPoolExecutor(max_workers=50) as pool:
             pool.map(getReqForClass, courses)
@@ -338,54 +334,15 @@ def getReqFromLink(webres, courseCode, major) -> list:
         if classInfo[i].strip() == (preKey + "s:"):
             raw = classInfo[i+1].strip()
     retList = [prereqs, coreqs, raw, desc]
-    #pdb.set_trace()
-    #return " %!# " + prereqs + " $@^ " + coreqs + " ?^* " + raw + " %?$ " + major + '-' + courseCode + " ()! " + desc
     return retList
-#Given a semester and major, get all of the prereqs and coreqs for every class in that major that are being offered that semester.
-#Note that most of the slowdown in the program occurs here. Best that I can tell, this cannot be significantly optimized as 
-#the website is just slow to load, and we can't really fix that. Though i'm sure there's some optimizations you can make if you really want to
-def getReqsInMajor(semester : int, subject : str):
-    #See https://github.com/YACS-RCOS/yacs.n/blob/2023-Data-update/rpi_data/modules/postProcess.py and
-    #https://github.com/overlord-bot/Overlord/blob/main/cogs/webcrawling/rpi_catalog_scraper.py    
-    url = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(semester, subject)
-    
-    session = requests.Session()
-    webres = session.get(url)
-    page = webres.content
-    soup = bs(page, "html.parser")
-    
-    table = soup.find('table', class_='datadisplaytable')
-    codes = table.find_all("a")
-    allReqs = dict()
-    key = "/rss/bwckctlg.p_disp_course_detail?cat_term_in=" + semester
-    url_list = list()
-    for link in codes:
-        if key in link['href']:
-            link = ("https://sis.rpi.edu" + link['href'])
-            url_list.append(link)
-    sessions = list()
-    start = time.time()
-    with ThreadPoolExecutor(max_workers=50) as pool:
-        sessions = list(pool.map(get_url, url_list))
-    end = time.time()
-    print(str(end - start))
-    i = 0
-    for session in sessions:
-        link = url_list[i]
-        major = link[link.find("subj_code_in=") + len("subj_code_in="):link.find("subj_code_in=") + len("subj_code_in=") + 4]
-        code = link[link.find("crse_numb_in=") + len("crse_numb_in="):]
-        codeKey = major + '-' + code
-        allReqs[codeKey] = (getReqFromLink(session, code, major))
-        i += 1
-    return allReqs
-#Given a course sem, a subject, and a course code, get the prereqs, coreqs, and desc for a class.
-#Slowdown here?
+#Add the prereqs for a course
 def getReqForClass(course: Course) -> None:
     semester = getSemester(course)
     url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, course.major, course.code)
     session = requests.session()
     webres = session.get(url)
     course.addReqsFromList(getReqFromLink(webres, course.code, course.major))
+#Given a course, get the integer representation of that course's semester
 def getSemester(course: Course):
     dates = course.sdate.split("-")
     month = dates[1]
@@ -396,39 +353,6 @@ def getSemester(course: Course):
     else:
         sem += month
     return sem
-#Given a list of courses from sis or the prereq webpage, combine the two so that every course has a list of prereqs associated with it
-def combineInfo(courses:list, reqs:dict, school:str, semester:str) -> list:
-    print("Combining info")
-    comb = []
-    sem = semester
-    index = 0
-    #COnvert the semester into an uppercase semester to make the database happy.
-    for letter in sem:
-        if not letter.isdigit():
-            letter = letter.upper()
-            index += 1
-    sem = sem[:index] + " " + sem[index:]
-    for course in courses:
-        c = Course(course)
-        c.addSchool(school)
-        c.addSemester(sem)
-        if c.short in reqs:
-            result = reqs[c.short]
-            prereq = result[0].strip()
-            coreq = result[1].strip()
-            raw = result[2].strip()
-            tmpPre = []
-            tmpCo = []
-            if len(prereq) > 3:
-                tmpPre = prereq.split("and")
-            if len(coreq) > 3:
-                tmpCo = coreq.split("and")
-            desc = result[4].strip()
-            c.addReqs(tmpPre, tmpCo, raw, desc)
-        else:
-            print("error")
-        comb.append(c)
-    return comb
 #Given a list of courses, write the courses to a csv specified in the filename
 def writeCSV(info:list, filename: str):
     columnNames = ['course_name', 'course_type', 'course_credit_hours', 
@@ -444,7 +368,7 @@ def writeCSV(info:list, filename: str):
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
     
-#What does this do?
+#Unused?
 def get_url(url):
     session = requests.Session()
     return session.get(url)

@@ -140,7 +140,6 @@ class Course:
         self.long = row[19]
         self.desc = row[20]
         self.raw = row[21]
-        #empty column here
         self.pre = row[23]
         self.co = row[24]
         self.school = row[25]
