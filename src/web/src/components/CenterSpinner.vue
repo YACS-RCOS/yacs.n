@@ -1,7 +1,8 @@
 <template>
   <div :style="renderStyle">
-    <b-spinner></b-spinner>
-    <div class="m-2">Loading {{ loadingMessage }}...</div>
+    <div class="spinner-border" role="status">
+      <span class="m-2">Loading {{ loadingMessage }}...</span>
+    </div>
   </div>
 </template>
 
