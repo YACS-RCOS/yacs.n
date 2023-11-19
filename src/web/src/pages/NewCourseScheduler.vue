@@ -3,25 +3,25 @@
     <b-row class="h-100">
       <div v-if="isNavOpen" class="col-md-3"></div>
       <div :class="[main]">
-        <!--This is a button, an animated one-->
-        <div
-          id="burger"
-          :class="{ active: isNavOpen }"
-          @click.prevent="toggleNav"
-        >
-          <slot>
-            <button type="button" class="burger-button">
-              <!--v-if="!isNavOpen"-->
-              <span class="burger-bar burger-bar--1"></span>
-              <span class="burger-bar burger-bar--2"></span>
-              <span class="burger-bar burger-bar--3"></span>
-              <span class="burger-bar burger-bar--4"></span>
-              <span class="burger-bar burger-bar--5"></span>
-              <span class="burger-bar burger-bar--6"></span>
-            </button>
-          </slot>
-        </div>
         <div class="sidebar">
+            <!--This is a button, an animated one-->
+          <div
+            id="burger"
+            :class="{ active: isNavOpen }"
+            @click.prevent="toggleNav"
+          >
+            <slot>
+              <button type="button" class="burger-button">
+                <!--v-if="!isNavOpen"-->
+                <span class="burger-bar burger-bar--1"></span>
+                <span class="burger-bar burger-bar--2"></span>
+                <span class="burger-bar burger-bar--3"></span>
+                <span class="burger-bar burger-bar--4"></span>
+                <span class="burger-bar burger-bar--5"></span>
+                <span class="burger-bar burger-bar--6"></span>
+              </button>
+            </slot>
+          </div>
           <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
@@ -727,6 +727,7 @@ export default {
 }
 
 .sidebar {
+  position: fixed;
   padding: 8px 8px 8px 32px;
   text-decoration: none;
   display: block;
