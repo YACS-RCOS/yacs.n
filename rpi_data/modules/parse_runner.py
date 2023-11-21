@@ -15,6 +15,7 @@ import selenium
 
 
 def courseUpdate(driver, term, courses):
+    schools = parser.findAllSubjectCodes(driver)
     full_info = list()
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
@@ -43,13 +44,13 @@ def courseUpdate(driver, term, courses):
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        info = parser.getMajorCourseInfo(driver, term) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
+        info = parser.getCourseInfo(driver, term, schools) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
         subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
-        [full_info.append(Course(i)) for i in info]
+        [full_info.append(i) for i in info]
     full_info.sort()
     full_info.reverse()
     x = 0
@@ -69,14 +70,12 @@ def courseUpdate(driver, term, courses):
         if (temp_tuple not in check_dict.keys()):
             check_dict[temp_tuple] = full_info[i]
             print("Error: course "  + check_dict[temp_tuple].name + " " + check_dict[temp_tuple].crn + " out of order, adding new course")
-            tmp = parser.getReqForClass(basevalue, check_dict[temp_tuple].major, check_dict[temp_tuple].code)
-            check_dict[temp_tuple].pre = tmp[0]
-            check_dict[temp_tuple].co = tmp[1]
-            check_dict[temp_tuple].raw = tmp[2]
-            check_dict[temp_tuple].desc = tmp[3]
+            parser.getReqForClass(check_dict[temp_tuple])
             continue
         new_class = full_info[i].decompose()
         old_class = check_dict[temp_tuple].decompose()
+        print(new_class)
+        print(old_class)
         for i in range(len(new_class)):
             if (i == 20):
                 break
@@ -108,7 +107,7 @@ if __name__ == "__main__":
         if flag == "Failure":
             try:
                 flag = login.login(driver)
-            except selenium.common.exceptions.NoSuchElement:
+            except:
                 flag = "Failure"
         else:
             break

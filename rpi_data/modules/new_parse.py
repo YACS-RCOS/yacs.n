@@ -20,10 +20,11 @@ import io
 from pstats import SortKey
 import lxml
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
-# URL = "https://sis.rpi.edu"
 #term format: spring2023
+# TROUBLESHOOTING: remove the line "options.add_argument("--headless")" to see where the script might be stalling
+# TROUBLESHOOTING: If DUO changes their website the parser will break (but in an easy to fix way, like by adding an extra button click) SIS hasn't been substantially changed since 2006 so 
 
-def login(driver):
+def login(driver): #this is the old login function for an individual parser run, there's another login function in headless_login.py
     URL = "http://sis.rpi.edu"
     driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
     driver.implicitly_wait(4)
@@ -50,19 +51,20 @@ def login(driver):
     while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): #check that the user has inputted their duo code and that it redirected to the sis main page
         time.sleep(1)
 
-def sisCourseSearch(driver, term):
+def sisCourseSearch(driver, term): #main loop of the parser, goes to the course search, selects the desired term, and then loops through each subject to grab the course tables
     info = list()
     course_codes_dict = findAllSubjectCodes(driver)
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
-    select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
+    select = Select(driver.find_element(by=By.ID, value = "term_input_id")) # term selection dropdown
     basevalue = 200000 #this number will represent the term we are looking at
     while True: #this will add the term code to the last digit, making sure that the term exists
         try:
+            # add the month value
             if ("spring" in term):
                 basevalue += 1
             elif ("fall" in term):
-                basevalue += 9
+                basevalue += 9 
             elif ("summer" in term):
                 basevalue += 5
             else:
@@ -71,25 +73,28 @@ def sisCourseSearch(driver, term):
             term = input("Your term may be incorrect, enter the correct term here:")
         else:
             break
-    year = int(term[-2])*10 + int(term[-1]) #this is the last two digits of the year TODO: 
+    year = int(term[-2])*10 + int(term[-1]) # this is the last two digits of the year 
     basevalue += year * 100 #this makes the basevalue show our year
-    select.select_by_value(str(basevalue))
-    driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
-    subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
+    select.select_by_value(str(basevalue)) # select term based on the basevalue
+    driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click() # submit term button
+    subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]')) # select subject dropdown
     subjects = subject_select.options
     subject = ""
     key = str(basevalue)[:4] + "-"
-    for i in range(len(subjects)):
-        start = time.time()
-        subject_select.select_by_index(i)
-        driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
+    for i in range(len(subjects)): # loops through all subjects
+        start = time.time() # timer to test how long each subject takes
+        subject_select.select_by_index(i) # selects a subject
+        driver.find_element(by = By.NAME, value = 'SUB_BTN').click() # submits course search
         print("Getting course info")
-        courses = getCourseInfo(driver, key, course_codes_dict)
-        [info.append(i) for i in courses]
-        subject = info[len(info)-1].major
-        driver.get(url)
+        courses = getCourseInfo(driver, key, course_codes_dict) # creates a list of course objects
+        with ThreadPoolExecutor(max_workers=50) as pool:
+            pool.map(getReqForClass, courses)
+        [info.append(i) for i in courses] # appends each course to our final list
+        subject = info[len(info)-1].major # gets the subject we just parsed
+        driver.get(url) # goes back to the start
         end = time.time()
-        print("Time for " + subject +": " + str(end - start))
+        print("Time for " + subject +": " + str(end - start)) # prints time
+        # similar to the chunk of code before the loop, gets back to the subject search
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
         driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
@@ -114,7 +119,7 @@ def parseReqsAndDesc(driver, basevalue):
 def findAllSubjectCodes(driver):
     url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
-    code_school_dict = dict() # We store in a dictionary of schools ask keys with lists of subject codes and full subject names as values
+    code_school_dict = dict() # We store in a dictionary that has subject code as the key and school as the value
     html = driver.page_source
     soup = bs(html, 'html.parser')
     ptag = soup.find_all('p') # Entire text of page basically
@@ -122,10 +127,10 @@ def findAllSubjectCodes(driver):
     for all in ptag: # finds all things that are important
         if all.find('strong'):
             look_at.append(all)
-    for all in look_at:
+    for all in look_at: # in every important part
         school = ""
-        for tags in all:
-            if tags.name == "strong":
+        for tags in all: # look at each school
+            if tags.name == "strong": # if bold, it's the school name
                 school = tags.text
                 school_first = school.split(' ')
                 school_final = list()
@@ -135,13 +140,13 @@ def findAllSubjectCodes(driver):
                     school_final.append(i)
                 school = " ".join(school_final)
                 continue
-            line = tags.text.strip()
+            line = tags.text.strip() # otherwise it's a subject code
             if line == '':
                 continue
             if "\xa0" in line:
                 line = line.replace("\xa0", ' ')
             info = line.split(' ')
-            code_school_dict[info[0]] = school
+            code_school_dict[info[0]] = school # uses the current value of school for the dictionary (kind of backwards, but better for our use case)
     return code_school_dict
      
 
@@ -289,8 +294,6 @@ def getCourseInfo(driver, year:str, schools : dict) -> list:
                 #If in the future there are too many of these were it shouldn't be, then we will have to find a better solution
                 c.addSchool("Interdisciplinary and Other")
             courses.append(c)
-    with ThreadPoolExecutor(max_workers=50) as pool:
-            pool.map(getReqForClass, courses)
     return courses
 #Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
 def getReqFromLink(webres, courseCode, major) -> list:
@@ -387,5 +390,5 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
 
-main()
+#main()
 
