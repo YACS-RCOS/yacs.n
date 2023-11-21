@@ -103,20 +103,8 @@ def sisCourseSearch(driver, term): #main loop of the parser, goes to the course 
     #Because we end up sorting in reverse order, we need to reverse the list to get the correct order
     info.reverse()
     return info
-        
-def parseCourseTable(driver):
-    html = driver.page_source
-    time.sleep(20)
-
-def parseReqsAndDesc(driver, basevalue):
-    url = 'https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in=' + str(basevalue) +'&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj=' #subject code needs to be appended to end before go
-    course_codes_dict  = findAllSubjectCodes(driver)
-    subj_codes = [info[0] for info in course_codes_dict.values()]
-    schools = course_codes_dict.keys()
-    driver.get(url)
-    info = list()
-     
-def findAllSubjectCodes(driver):
+#
+def findAllSubjectCodes(driver) -> dict():
     url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
     code_school_dict = dict() # We store in a dictionary that has subject code as the key and school as the value
@@ -370,11 +358,6 @@ def writeCSV(info:list, filename: str):
         decomposed[i] = info[i].decompose()
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
-    
-#Unused?
-def get_url(url):
-    session = requests.Session()
-    return session.get(url)
 
 def main():
     options = Options()
