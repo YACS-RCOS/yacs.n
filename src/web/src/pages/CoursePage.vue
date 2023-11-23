@@ -26,16 +26,15 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col cols="9" class="mb-4">
+        <b-col cols="6" class="mb-4">
           <br />
           <h5>Course Description:</h5>
           {{ courseObj.description }}
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="9" class="mb-4">
+        <b-col cols="6">
           <br />
           <h5>Open Sections:</h5>
+          <CourseListing :course="courseObj" v-on="$listeners" :style="{ width: '50%' }"/>
         </b-col>
       </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
@@ -70,11 +69,13 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CourseListingComponent from "@/components/CourseListing";
 
 export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CourseListing: CourseListingComponent,
   },
   name: "CoursePage",
   data() {
@@ -175,6 +176,10 @@ export default {
           ],
     };
   },
+  mounted() {
+    console.log(this.courseObj);
+  },
+
 };
 </script>
 
