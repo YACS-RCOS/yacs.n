@@ -32,6 +32,12 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
+      <b-row>
+        <b-col cols="9" class="mb-4">
+          <br />
+          <h5>Open Sections:</h5>
+        </b-col>
+      </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
@@ -143,7 +149,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.courseObj.name,
+      title: this.courseObj ? this.courseObj.name : '',
       titleTemplate: "%s | YACS",
       meta: !this.courseObj
         ? undefined
