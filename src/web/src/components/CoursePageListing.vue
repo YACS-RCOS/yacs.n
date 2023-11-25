@@ -24,15 +24,17 @@
     >
       <b-row class="mb-2" align-h="between">
         <b-col cols="auto">
-          {{ section.crn }} - {{ section.sessions[0].section }} -
-          {{ getInstructor(section.sessions) }}
-        </b-col>
-        <b-col v-if="section.seats_total > 0" cols="auto">
-          <course-section-seats-badge
-            :seatsOpen="section.seats_open"
-            :seatsFilled="section.seats_filled"
-            :seatsTotal="section.seats_total"
-          />
+          <div class="mb-1 d-inline">
+            {{ section.crn }} - {{ section.sessions[0].section }} - {{ getInstructor(section.sessions) }}
+          </div>
+          <div class="d-inline" style="position: relative; top: -2px; margin-left: 10px;">
+            <course-section-seats-badge
+              v-if="section.seats_total > 0"
+              :seatsOpen="section.seats_open"
+              :seatsFilled="section.seats_filled"
+              :seatsTotal="section.seats_total"
+            />
+          </div>
         </b-col>
       </b-row>
 
