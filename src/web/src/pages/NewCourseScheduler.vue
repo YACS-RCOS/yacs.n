@@ -108,10 +108,10 @@
             <b-row>
               <b-col class="m-2">
                 <b-button
-                  @click="
-                    changeSchedule(-1);
-                    updateIndexCookie();
-                  "
+                  @click="changeSchedule(-1); updateIndexCookie();"
+                  @mousedown="startTimerPrev(-1)"
+                  @mouseup="stopTimer"
+                  @mouseleave="stopTimer"
                   size="sm"
                 >
                   Prev
@@ -131,14 +131,14 @@
               </b-col>
               <b-col class="m-2 text-right">
                 <b-button
-                  @click="
-                    changeSchedule(1);
-                    updateIndexCookie();
-                  "
-                  size="sm"
+                @click="changeSchedule(1); updateIndexCookie();"
+                @mousedown="startTimer"
+                @mouseup="stopTimer"
+                @mouseleave="stopTimer"
+                size="sm"
                 >
-                  Next
-                </b-button>
+                Next
+              </b-button>
               </b-col>
             </b-row>
             <Schedule v-if="loading" />
@@ -627,6 +627,25 @@ export default {
         .semester(this.selectedSemester)
         .updateIndex(this.index)
         .save();
+    },
+    startTimerPrev(direction) {
+      // Start a timer that repeatedly calls the changeSchedule method
+      this.timerId = setInterval(() => {
+        this.changeSchedule(direction);
+        this.updateIndexCookie();
+      }, 100);
+    },
+    startTimer() {
+      // Start a timer that repeatedly calls the changeSchedule method
+      this.timerId = setInterval(() => {
+        this.changeSchedule(1);
+        this.updateIndexCookie();
+      }, 100);
+    },
+    stopTimer() {
+      // Stop the timer when the mouse button is released or the mouse leaves the button
+      clearInterval(this.timerId);
+      this.timerId = null;
     },
   },
   computed: {
