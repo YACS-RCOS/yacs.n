@@ -5,39 +5,46 @@
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
-          <hr />
-          <h4 class="mb-1 d-inline">{{ courseName }}</h4>          
+          <hr />         
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
-          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
-          <div class="d-inline" style="position: relative; top: -2px; margin-left: 10px;">
-            <course-sections-open-badge :course="courseObj" />
-          </div>
+        <b-col cols="8" class="mb-4">
+          <b-row>
+            <b-col>
+              <h4 class="mb-1 d-inline">{{ courseName }}</h4> 
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+              <div class="d-inline" style="position: relative; top: -2px; margin-left: 10px;">
+                <course-sections-open-badge :course="courseObj" />
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div class="prerequisites-container">
+                <p class="prerequisites-text">Prerequisites:</p>
+                <p class="prerequisites-link" v-html="transformed" />
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h5>Course Description:</h5>
+              {{ courseObj.description }}
+            </b-col>
+          </b-row>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <div class="prerequisites-container">
-            <p class="prerequisites-text">Prerequisites:</p>
-            <p class="prerequisites-link" v-html="transformed" />
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="6" class="mb-4">
-          <br />
-          <h5>Course Description:</h5>
-          {{ courseObj.description }}
-        </b-col>
-        <b-col cols="6">
+        <b-col cols="4" class="mb-4">
           <br />
           <h5>Open Sections:</h5>
-          <CourseListing :course="courseObj" v-on="$listeners" :style="{ width: '50%' }"/>
+          <CoursePageListing :course="courseObj" v-on="$listeners"/>
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
+      <b-button @click="$router.go(-1)" class="mt-3">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
     <CenterSpinner
@@ -69,13 +76,13 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
-import CourseListingComponent from "@/components/CourseListing";
+import CoursePageListingComponent from "@/components/CoursePageListing";
 
 export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
-    CourseListing: CourseListingComponent,
+    CoursePageListing: CoursePageListingComponent,
   },
   name: "CoursePage",
   data() {
