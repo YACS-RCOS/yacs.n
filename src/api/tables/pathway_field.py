@@ -13,8 +13,6 @@ class Pathway_Field():
     field_name = Column(VARCHAR(length=255), primary_key=True, nullable=False)
     occurrence = Column(VARCHAR(length=255), primary_key=True, nullable=False)
     course_credits = Column(VARCHAR(length=255), primary_key=False, nullable=False)
-    desc_credit_level = Column(VARCHAR(length=255), primary_key=False, nullable=True)  # Ex: 12 credits at the...
-    desc_course_level = Column(VARCHAR(length=255), primary_key=False, nullable=True)  # Ex: ... 4000 level
 
 
 def printPathways(data):

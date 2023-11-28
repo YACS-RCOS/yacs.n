@@ -56,7 +56,7 @@ class Pathway_Field:
                             ON UPPER(SPLIT_PART(pf.course_name, '- ', 2)) = cm.title 
                             LIMIT 1
                             )
-                        , -2);
+                        , -1);
                         RETURN NEW;
                     END;
                     $$ LANGUAGE plpgsql;
@@ -119,18 +119,14 @@ class Pathway_Field:
                                                 course_name,
                                                 field_name,
                                                 occurrence,
-                                                course_credits,
-                                                desc_credit_level,
-                                                desc_course_level
+                                                course_credits
                                             )
                                             VALUES (
                                                 NULLIF(%(pathway_name)s, ''),
                                                 NULLIF(%(course_name)s, '') ,
                                                 NULLIF(%(field_name)s, ''),
                                                 NULLIF(%(occurrence)s, ''),
-                                                NULLIF(%(course_credits)s, ''),
-                                                NULLIF(%(desc_credit_level)s, ''),
-                                                NULLIF(%(desc_course_level)s, '')
+                                                NULLIF(%(course_credits)s, '')
                                             )
                                             ON CONFLICT DO NOTHING;
                                             """,
@@ -139,9 +135,7 @@ class Pathway_Field:
                                                 "course_name": course,
                                                 "field_name": field,
                                                 "occurrence": str(occurrence[field]),
-                                                "course_credits": '-1',
-                                                "desc_credit_level": '-1',
-                                                "desc_course_level": '-1'
+                                                "course_credits": '-1'
                                             }
                                         )
                                     except Exception as e:

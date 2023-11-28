@@ -23,7 +23,5 @@ def upgrade():
     sa.Column('field_name', sa.VARCHAR(length=255), nullable=False),
     sa.Column('occurrence', sa.VARCHAR(length=255), nullable=False),
     sa.Column('course_credits', sa.VARCHAR(length=255), nullable=False),
-    sa.Column('desc_credit_level', sa.VARCHAR(length=255), nullable=True),
-    sa.Column('desc_course_level', sa.VARCHAR(length=255), nullable=True),
-    sa.PrimaryKeyConstraint('pathway_name', 'course_name','field_name', 'occurrence'),
+    sa.PrimaryKeyConstraint('pathway_name', 'course_name', 'field_name', 'occurrence')
     )
