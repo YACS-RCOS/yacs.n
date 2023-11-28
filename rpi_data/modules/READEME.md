@@ -9,11 +9,11 @@ selenium
 
 # Course Parser
 Hopefully this will be the last one.
-There is one relevant file, new_parse.py
-This file will do everything and produce a csv of the relevant semester.
+The relevant files in the folder are csv_to_course.py, course.py, headless_login.py, new_parse.py, and parse_runner.py
+The other files in the folder are legacy code that was used in the old web scraper. For now it they will remain in here as there are some pieces of code that could be useful if future edge cases pop up.
 
 # How to run
-
+Run new_parse.py once, it will generate a csv of courses. Then run parse_runner.py, it will update the csv that new_parse generated.
 # Common issues
 
 ------------------------------------------------------------------------------------------------------------------------------------------

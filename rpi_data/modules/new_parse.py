@@ -13,12 +13,6 @@ import copy
 from course import Course
 from concurrent.futures import ThreadPoolExecutor
 import sys
-import datetime
-import cProfile
-import pstats
-import io
-from pstats import SortKey
-import lxml
 #from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 #term format: spring2023
 # TROUBLESHOOTING: remove the line "options.add_argument("--headless")" to see where the script might be stalling
@@ -210,11 +204,16 @@ def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
     for i in range(1, len(data) - 1, 1):
         #Edge case where the registrar decides to make a column an inconcsistent width.
         #See MGMT 2940 - Readings in MGMT in spring 2024.
+        #TODO: Accomodate for colspans different than 2. 
+        #See https://stackoverflow.com/questions/13263373/beautifulsoup-parsing-tag-table-html-especially-colspan-and-rowspan to start
         if(data[i].has_attr("colspan")):
             info.append("TBA")
             info.append("TBA")  
         else:
             info.append(data[i].text)
+    if len(info) != 21:
+        print("error in: ")
+        print(info[0])
     # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
     #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
@@ -248,6 +247,7 @@ def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
     #We do this instead of keeping the range because the backend does not like having a string for the credit value.
     info[4] = formatCredits(info)
     return info
+#Given a course, return the semester followed by the year, eg if the start date of a course is 2024-01-08, then this will return SPRING 2024
 def getStrSemester(c : Course) -> str:
     val = str(getSemester(c))
     date = val[:4]
@@ -298,10 +298,9 @@ def getReqFromLink(webres, courseCode, major) -> list:
     coreqs = ""
     raw = ""
     desc = classInfo[0]
-    #In the future replace with regex or something that isn't so hardcoded
     #If the description starts with a number, set it to nothing.
     #Only happens is the course does not have a description and skips into credit value or something else.
-    #We don't display those courses anyways.
+    #
     if desc.strip()[0].isdigit():
         desc = ""
     for i in range(1, len(classInfo)):

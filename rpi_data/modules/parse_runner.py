@@ -12,7 +12,7 @@ import time
 import csv_to_course
 from headless_login import LoginFailed
 import selenium
-
+import pdb
 
 def courseUpdate(driver, term, courses):
     schools = parser.findAllSubjectCodes(driver)
