@@ -56,7 +56,7 @@ class Pathway_Field:
                             ON UPPER(SPLIT_PART(pf.course_name, '- ', 2)) = cm.title 
                             LIMIT 1
                             )
-                        , -1);
+                        , NULL);
                         RETURN NEW;
                     END;
                     $$ LANGUAGE plpgsql;
@@ -126,7 +126,7 @@ class Pathway_Field:
                                                 NULLIF(%(course_name)s, '') ,
                                                 NULLIF(%(field_name)s, ''),
                                                 NULLIF(%(occurrence)s, ''),
-                                                NULLIF(%(course_credits)s, '')
+                                                NULLIF(%(course_credits)s, -1)
                                             )
                                             ON CONFLICT DO NOTHING;
                                             """,
@@ -135,7 +135,7 @@ class Pathway_Field:
                                                 "course_name": course,
                                                 "field_name": field,
                                                 "occurrence": str(occurrence[field]),
-                                                "course_credits": '-1'
+                                                "course_credits": -1
                                             }
                                         )
                                     except Exception as e:
