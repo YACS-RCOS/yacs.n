@@ -145,17 +145,6 @@ export default {
         collapse !== undefined ? collapse : !this.showCollapse;
     },
     /**
-     * Toggle course selected state
-     * Emits removeCourse and addCourse events
-     */
-    toggleCourse() {
-      if (this.course.selected) {
-        this.$emit("removeCourse", this.course);
-      } else {
-        this.$emit("addCourse", this.course);
-      }
-    },
-    /**
      * Toggle use selection of course section
      * If a user is clicking on course section for the first time,
      * add course section to schedules
