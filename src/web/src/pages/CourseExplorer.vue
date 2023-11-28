@@ -3,32 +3,33 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
-        <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
         <b-col
           v-for="(deptCol, index) in schoolDepartmentObjects"
           :key="`deptCol-${index}`"
-          md="6"
+          cols="12"
         >
           <b-row
             v-for="deptObj in deptCol"
             :key="deptObj.school"
-            class="departmentBox border m-2 mb-4"
+            class="departmentBox m-2 mb-4"
           >
-            <b-col>
-              <!-- Department Title  -->
-              <b-row class="school-name">
-                <h3 class="m-1 ml-2">
+            <b-col cols="12">
+              <!-- Department Title as a button that controls the collapse -->
+              <b-button v-b-toggle="'collapse-' + deptObj.school" class="m-1 ml-2 w-100">
+                <h3>
                   {{ deptObj.school }}
                 </h3>
-              </b-row>
-              <!-- Subject Title  -->
-              <b-row>
-                <DepartmentList
-                  :majors="deptObj.departments"
-                  :deptClassDict="deptClassDict"
-                  v-on:showCourseInfo="showCourseInfo($event)"
-                ></DepartmentList>
-              </b-row>
+              </b-button>
+              <!-- Subject Title inside a b-collapse -->
+              <b-collapse :id="'collapse-' + deptObj.school">
+                <b-row>
+                  <DepartmentList
+                    :majors="deptObj.departments"
+                    :deptClassDict="deptClassDict"
+                    v-on:showCourseInfo="showCourseInfo($event)"
+                  ></DepartmentList>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
