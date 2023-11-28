@@ -2,7 +2,6 @@
   <b-list-group flush>
     <b-list-group-item
       class="selected"
-      button
       v-for="section in sortedSections"
       :key="section.crn"
       @click.stop="toggleCourseSection(section)"
