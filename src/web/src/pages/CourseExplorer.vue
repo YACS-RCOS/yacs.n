@@ -205,8 +205,8 @@ export default {
   height: 0;
   margin-left: auto;
   border-style: solid;
-  border-width: 0 5px 10px 5px;
-  border-color: transparent transparent #3395ff transparent;
+  border-width: 0 5px 10px;
+  border-color: transparent transparent #3395ff;
   transition: transform 0.3s;
 }
 
