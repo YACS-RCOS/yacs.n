@@ -73,19 +73,6 @@
           placeholder="Enter Hour"
         />
       </div>
-      <form @submit.prevent="add_bulk_final">
-         <input type="file" name="file" />
-         <input type="submit"/>
-      </form>
-      <!-- <div class="form-group">
-        <label for="file">File:</label>
-        <input
-          type="file"
-          class="form-control-file"
-          id="file"
-          placeholder="Upload File"
-        />
-      </div> -->
       <div class="form-group">
         <label for="updateColumn">Update Column:</label>
         <input
@@ -120,7 +107,6 @@
       <button @click="get_info_by_hour()" class="btn btn-primary">Get Final by Hour</button>
       <button @click="get_info_by_room()" class="btn btn-primary">Get Final by Room</button>
       <button @click="add_final()" class="btn btn-success">Add Final</button>
-      <button @click="add_bulk_final()" class="btn btn-success">Add Bulk Final</button>
       <button @click="remove_final()" class="btn btn-danger">Remove Final</button>
       <button @click="remove_bulk_final()" class="btn btn-danger">Remove Bulk Final</button>
       <button @click="update_final()" class="btn btn-primary">Update Final</button>
@@ -141,7 +127,6 @@ import {
   get_info_by_room,
 } from "@/services/YacsService";
 import {
-  add_bulk_final,
   remove_bulk_final,
   add_final,
   remove_final,
@@ -225,12 +210,6 @@ export default {
     update_final() {
       console.log("update_final");
       this.result = update_final(this.courseCode, this.section, this.updateColumn, this.updateVal);
-      console.log(this.result);
-    },
-    add_bulk_final() {
-      console.log("add_bulk_final");
-      let formData = new FormData(this.file);
-      this.result = add_bulk_final(formData);
       console.log(this.result);
     }
   },

@@ -38,6 +38,9 @@
     <a v-b-modal.jsonModal class="text-primary d-block" style="cursor: pointer;">
       Upload Finals
     </a>
+    <a v-b-modal.jsonModal2 class="text-primary d-block" style="cursor: pointer;">
+      Remove Finals
+    </a>
 
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
@@ -57,6 +60,9 @@
     <b-modal id="jsonModal" title="Upload Finals" size="xl">
       <UploadFinals />
     </b-modal>
+    <b-modal id="jsonModal2" title="Remove Finals" size="xl">
+      <RemoveFinals />
+    </b-modal>
 
     <!-- Footer of Admin Panel -->
     <br />
@@ -74,6 +80,7 @@ import SetDefault from "@/pages/SetDefault";
 import EditProfessors from "@/pages/EditProfessors";
 import EditFinals from "@/pages/EditFinals";
 import UploadFinals from "@/pages/UploadFinals.vue";
+import RemoveFinals from "./RemoveFinals.vue";
 
 export default {
   name: "AdminPage",
@@ -84,6 +91,7 @@ export default {
     EditProfessors,
     EditFinals,
     UploadFinals,
+    RemoveFinals,
     // ManageAccounts,
   },
   data() {

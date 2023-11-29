@@ -379,11 +379,6 @@ async def uploadHandler(file: UploadFile = File(...)):
         print(error)
         return Response(error.__str__(), status_code=500)
 
-# templates = Jinja2Templates(directory="templates")
-# @app.get('/upload/', response_class=HTMLResponse)
-# async def upload(request: Request):
-#    return templates.TemplateResponse("uploadfile.html", {"request": request})
-
 @app.post('/api/finals/addBulkFinals')
 async def uploadHandler(file: UploadFile = File(...)):  
     # Check to make sure the user has sent a file
@@ -462,7 +457,7 @@ async def get_finals_by_hour(room: str):
     return finals if not error else Response(content=error, status_code=500)
 
 #delete by course code and section
-@app.get('/api/finals/remove')
+@app.post('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     return finals_info.remove_final(courseCode, section)
     # message, error = finals_info.remove_final(courseCode, section)
@@ -470,15 +465,36 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     # return message if not error else Response(content=error, status_code=500)
 
 #delete all finals
-@app.delete('/api/finals/removeBulkFinal')
-async def removeBulkFinals(file : UploadFile):
+@app.post('/api/finals/removeBulkFinal')
+async def deleteHandler(file: UploadFile = File(...)):  
+    # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
-    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
-        return Response("File must have json extension", 400)
     
-    finals, error = finals_info.remove_bulk_final(file)
+    # Check that we receive a JSON file
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have JSON extension", 400)
+    
+    # Get file contents
+    contents = await file.read()
+    
+    # Load JSON data
+    try:
+        #convert string to python dict
+        json_data = json.loads(contents.decode('utf-8'))
+        #print(json_data)
+    except json.JSONDecodeError as e:
+        return Response(f"Invalid JSON data: {str(e)}", 400)
+    finals, error = finals_info.remove_bulk_final(json_data)
     return finals if not error else Response(content=error, status_code=500)
+# async def removeBulkFinals(file : UploadFile):
+#     if not file:
+#         return Response("No file received", 400)
+#     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+#         return Response("File must have json extension", 400)
+    
+#     finals, error = finals_info.remove_bulk_final(file)
+#     return finals if not error else Response(content=error, status_code=500)
 
 #update by course code and section:
 @app.put('/api/finals/update')

@@ -29,16 +29,16 @@ export const addProfessorsTest = () =>
   client.post("/professor/add/test").then((res) => res.data);
 
 export const add_final = (msg) =>
-  client.get("/finals/addFinal/" + msg).then((res) => res.data);
+  client.post("/finals/addFinal/" + msg).then((res) => res.data);
 
 export const add_bulk_final = (formData) =>
   client.post("/finals/addBulkFinals", formData).then((res) => res.data);
 
-export const remove_bulk_final = (file) =>
-  client.get("/finals/removeBulkFinal?file=" + file).then((res) => res.data);
+export const remove_bulk_final = (formData) =>
+  client.post("/finals/removeBulkFinal", formData).then((res) => res.data);
 
 export const remove_final = (courseCode, section) =>
-  client.get("/finals/remove?courseCode=" + courseCode + "&section=" + section).then((res) => res.data);
+  client.post("/finals/remove?courseCode=" + courseCode + "&section=" + section).then((res) => res.data);
 
 export const update_final = (courseCode, section, column, val) =>
-  client.get("/finals/update?courseCode=" + courseCode + "&section=" + section + "&column=" + column + "&value=" + val).then((res) => res.data);
+  client.put("/finals/update?courseCode=" + courseCode + "&section=" + section + "&column=" + column + "&value=" + val).then((res) => res.data);
