@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import requests
 import selenium as sel
 from selenium import webdriver
