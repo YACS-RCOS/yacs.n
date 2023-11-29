@@ -9,6 +9,20 @@ import time
 import os
 import sys
 
+# Remember to add enviromental variables named rcsid and rcspw with your account info!!!
+#
+# THINGS THAT CAN POTENTIALLY GO WRONG HERE AND HOW TO FIX THEM:
+# 
+# - If the RPI login website changes at all, it's very likely that the login will break. Fixing might involve changing what element selenium looks for.
+# - DUO likes to change things. If they implement another 2FA type or add extra buttons for some reason you'll have to add more checks and button presses
+# - Selenium errors can occur if your internet is slow or if you have multiple browser instances open, so try to avoid this
+# 
+# - You need to install firefox (I hate Google Chrome, and you should too). If you change it to be a Chrome instance instead it probably won't work from my experience
+# - To fix these things you can comment this line: "options.add_argument("--headless")" in the parse_runner file to see what goes wrong if python doesn't throw anything
+# - Try restarting python/vscode or even your computer if it's throwing something really weird for no reason
+# - You can try sending me a message on discord @gcm as a last resort
+
+
 def login(driver):
     URL = "http://sis.rpi.edu"
     driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
@@ -18,8 +32,9 @@ def login(driver):
     username = os.environ.get("rcsid", "NONEFOUND")
     password = os.environ.get("rcspw", "NONEFOUND")
     if (username == "NONEFOUND" or password == "NONEFOUND"):
-        print("username or password not found, check environment variables")
-        sys.exit()
+        print("username or password not found, check environment variables or input them manually")
+        username = input("Enter username: ")
+        password = input("Enter password: ")
     username_box.send_keys(username) # enters the username
     password_box.send_keys(password) # enters the password
     submit.click() # click the submit button
@@ -36,24 +51,14 @@ def login(driver):
         submit.click()
     while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[3]'))==0:
         time.sleep(.1)
-    print("Your DUO code: "+ driver.find_element(by= By.XPATH, value = "/html/body/div/div/div[1]/div/div[2]/div[3]").text)
-    
-    
-    while len(driver.find_elements(By.XPATH, '//*[@id="trust-browser-button"]'))==0:
+    print("Your DUO code: "+ driver.find_element(by= By.XPATH, value = "/html/body/div/div/div[1]/div/div[2]/div[3]").text) # print the duo code
+    while len(driver.find_elements(By.XPATH, '//*[@id="trust-browser-button"]'))==0: # we need to press the trust browser button, so we wait until that shows up
         time.sleep(.1)
-    trust_button = driver.find_element(By.XPATH, '//*[@id="trust-browser-button"]')
+    trust_button = driver.find_element(By.XPATH, '//*[@id="trust-browser-button"]') #find and click it
     trust_button.click()
     time.sleep(3)
-    #if ("sis.rpi.edu" not in driver.current_url):
-    #    print("There might've been an extra button to click (Duo is awesome). We're going to try going directly to sis.")
-    #    driver.get(URL)
-    if (driver.current_url == "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"):
+    if (driver.current_url == "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): # check if we're in the right place
         return "Success"
     else:
+        print("login failed")
         return "Failure"
-
-class LoginFailed(Exception):
-    def __init__(self, driver):
-        self.driver = driver
-        self.message = "Login Failed at url " +  driver.current_url
-        super().__init__(self.message)

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 import headless_login as login
@@ -10,9 +11,17 @@ from selenium.webdriver.common.by import By
 from course import Course
 import time
 import csv_to_course
-from headless_login import LoginFailed
 import selenium
 import pdb
+import os
+
+# COMMON PONTS OF ERROR:
+# 
+# - If Login fails, check the headless_login file
+# - If it fails in the middle of parsing that means there's some sis formatting BS going on (these problems are the hardest to fix because they don't make sense, 
+# check the getCourseInfo function and everything it calls, make sure to figure out what's going wrong)
+# - If it fails in between subjects or on term selection that means they changed the website formatting, you'll have to check the courseUpdate function 
+# - remember to add a command line argument for the term that's being parsed, otherwise it defaults to Spring 2024 (the next term as of writing this comment) The formatting is "spring2024"
 
 def courseUpdate(driver, term, courses):
     schools = parser.findAllSubjectCodes(driver)
@@ -20,31 +29,16 @@ def courseUpdate(driver, term, courses):
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
-    basevalue = 200000 #this number will represent the term we are looking at
-    while True: #this will add the term code to the last digit, making sure that the term exists
-        try:
-            if ("spring" in term):
-                basevalue += 1
-            elif ("fall" in term):
-                basevalue += 9
-            elif ("summer" in term):
-                basevalue += 5
-            else:
-                raise Exception("term not found")
-        except:
-            term = input("Your term may be incorrect, enter the correct term here:")
-        else:
-            break
-    year = int(term[-2])*10 + int(term[-1]) #this is the last two digits of the year TODO: 
-    basevalue += year * 100 #this makes the basevalue show our year
+    basevalue = parser.genBasevalue(term)
     select.select_by_value(str(basevalue))
     driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click()
     subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]'))
     subjects = subject_select.options
+    key = str(basevalue)[:4] + "-"
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        info = parser.getCourseInfo(driver, str(year), schools) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
+        info = parser.getCourseInfo(driver, key, schools)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
@@ -66,7 +60,7 @@ def courseUpdate(driver, term, courses):
     for i in range(len(full_info)):
         temp_tuple = tuple([full_info[i].crn, full_info[i].stime])
         full_check.append(temp_tuple)
-        full_info[i].addSemester(term)
+        full_info[i].addSemester(parser.getStrSemester(full_info[i]))
         if (temp_tuple not in check_dict.keys()):
             check_dict[temp_tuple] = full_info[i]
             print("Error: course "  + check_dict[temp_tuple].name + " " + check_dict[temp_tuple].crn + " out of order, adding new course")
@@ -74,8 +68,6 @@ def courseUpdate(driver, term, courses):
             continue
         new_class = full_info[i].decompose()
         old_class = check_dict[temp_tuple].decompose()
-        print(new_class)
-        print(old_class)
         for i in range(len(new_class)):
             if (i == 20):
                 break
@@ -99,7 +91,16 @@ def courseUpdate(driver, term, courses):
 
 if __name__ == "__main__":
     options = Options()
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
+    if (len(sys.argv) == 1):
+        print("Error: No command argument detected. Defaulting to Spring 2024")
+        term = "spring2024"
+    else:
+        term = sys.argv[1]
+    csv_name = term + ".csv"
+    __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    endpath = os.path.join(__location__, csv_name)
+    endpath = os.path.dirname(os.path.dirname(endpath)) + "\\" + csv_name
     driver = webdriver.Firefox(options)
     driver.implicitly_wait(2)
     flag = "Failure"
@@ -107,36 +108,34 @@ if __name__ == "__main__":
         if flag == "Failure":
             try:
                 flag = login.login(driver)
-            except:
+            except Exception:
                 flag = "Failure"
         else:
             break
-
-    courses = csv_to_course.parse_csv("test_spring.csv")
-    term = "spring2024"
-    csv_name = 'spring2024-test.csv'
-    #courses = parser.sisCourseSearch(driver, term)
-    parser.writeCSV(courses, csv_name)
+    print("Login Successful")
+    if (not os.path.isfile(endpath)):
+        print("Existing csv not found, doing full parse")
+        courses = parser.sisCourseSearch(driver, term)
+        parser.writeCSV(courses, endpath)
+    else:
+        courses = csv_to_course.parse_csv(endpath)
     time_zone = pytz.timezone('America/New_York')
     i = 0
     has_updated = False
-    #try:
     while (True):
         if (datetime.now(time_zone).strftime("%H") == "01"):
             has_updated = False
         if (datetime.now(time_zone).strftime("%H") == "00" and not has_updated):
+            print("Doing midnight Update")
             courses = parser.sisCourseSearch(driver, term)
-            parser.writeCSV(courses, csv_name)
+            parser.writeCSV(courses, endpath)
             time.sleep(40)
             has_updated = True
         driver.get("http://sis.rpi.edu")
         courses = courseUpdate(driver, term, courses)
-        parser.writeCSV(courses, csv_name)
+        parser.writeCSV(courses, endpath)
         i += 1
         print("Update # " + str(i) + " Finished")
         time.sleep(60)
-    #except:
-        #print("Exception occurred while parsing, exiting")
-        #driver.quit()
 
 

@@ -14,44 +14,14 @@ import copy
 from course import Course
 from concurrent.futures import ThreadPoolExecutor
 import sys
-#from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
-#term format: spring2023
+import headless_login as login
+# from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
+# term format: spring2023, fall2023, summer2023, hartford2023, enrichment2023
 # TROUBLESHOOTING: remove the line "options.add_argument("--headless")" to see where the script might be stalling
-# TROUBLESHOOTING: If DUO changes their website the parser will break (but in an easy to fix way, like by adding an extra button click) SIS hasn't been substantially changed since 2006 so 
+# TROUBLESHOOTING: If DUO changes their website the parser will break (but in an easy to fix way, like by adding an extra button click) SIS hasn't been substantially changed since 2006 so it probably won't be changed any time soon.
+# The sisCourseSearch function serves a similar purpose as the courseUpdate function, so if you make any changes to the the top half of either (before the for loop), try to do it for both
 
-def login(driver): #this is the old login function for an individual parser run, there's another login function in headless_login.py
-    URL = "http://sis.rpi.edu"
-    driver.get(URL) # uses a selenium webdriver to go to the sis website, which then redirects to the rcs auth website
-    driver.implicitly_wait(4)
-    username_box = driver.find_element(by=By.NAME, value = "j_username") # creates a variable which contains an element type, so that we can interact with it, j_username is the username text box
-    password_box = driver.find_element(by=By.NAME, value = "j_password") # j_password is the password box
-    submit = driver.find_element(by=By.NAME, value = "_eventId_proceed") # _eventId_proceed is the submit button
-    username = input("Enter Username: ") # take user input of user and password
-    password = input("Enter Password: ")
-    username_box.send_keys(username) # enters the username
-    password_box.send_keys(password) # enters the password
-    submit.click() # click the submit button
-    while ("duosecurity" not in driver.current_url): # if you entered details incorrectly, the loop will be entered as you aren't on the duo verfication website (redo what we did before)
-        print("User or Password Incorrect.")
-        username_box = driver.find_element(by=By.NAME, value = "j_username") # we have to redefine the variables because the webpage reloads
-        password_box = driver.find_element(by=By.NAME, value = "j_password")
-        submit = driver.find_element(by=By.NAME, value = "_eventId_proceed")
-        username = input("Enter Username: ")
-        password = input("Enter Password: ")
-        username_box.clear() # the username box by default has your previous username entered, so we clear it
-        username_box.send_keys(username)
-        password_box.send_keys(password)
-        submit.click()
-    print("Check for your DUO code on the browser instance and answer the prompt (Remember to trust/not trust the device)") #work towards making this nearly automatic
-    while (driver.current_url != "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): #check that the user has inputted their duo code and that it redirected to the sis main page
-        time.sleep(1)
-
-def sisCourseSearch(driver, term): #main loop of the parser, goes to the course search, selects the desired term, and then loops through each subject to grab the course tables
-    info = list()
-    course_codes_dict = findAllSubjectCodes(driver)
-    url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
-    driver.get(url)
-    select = Select(driver.find_element(by=By.ID, value = "term_input_id")) # term selection dropdown
+def genBasevalue(term): #this function returns the code sis uses for a specific term
     basevalue = 200000 #this number will represent the term we are looking at
     while True: #this will add the term code to the last digit, making sure that the term exists
         try:
@@ -62,15 +32,32 @@ def sisCourseSearch(driver, term): #main loop of the parser, goes to the course 
                 basevalue += 9 
             elif ("summer" in term):
                 basevalue += 5
+            elif ("hartford" in term):
+                basevalue += 10
+            elif ("enrichment" in term):
+                basevalue += 12
             else:
                 raise Exception("term not found")
-        except:
+        except Exception:
             term = input("Your term may be incorrect, enter the correct term here:")
         else:
             break
     year = int(term[-2])*10 + int(term[-1]) # this is the last two digits of the year 
     basevalue += year * 100 #this makes the basevalue show our year
-    select.select_by_value(str(basevalue)) # select term based on the basevalue
+    return basevalue
+
+def sisCourseSearch(driver, term): #main loop of the parser, goes to the course search, selects the desired term, and then loops through each subject to grab the course tables
+    info = list()
+    course_codes_dict = findAllSubjectCodes(driver)
+    url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
+    driver.get(url)
+    select = Select(driver.find_element(by=By.ID, value = "term_input_id")) # term selection dropdown
+    basevalue = genBasevalue(term)
+    try:
+        select.select_by_value(str(basevalue)) # select term based on the basevalue
+    except Exception:
+        print("The term you entered does not exist.")
+        sys.exit()
     driver.find_element(by = By.XPATH, value = "/html/body/div[3]/form/input[2]").click() # submit term button
     subject_select = Select(driver.find_element(by=By.XPATH, value = '//*[@id="subj_id"]')) # select subject dropdown
     subjects = subject_select.options
@@ -98,7 +85,7 @@ def sisCourseSearch(driver, term): #main loop of the parser, goes to the course 
     #Because we end up sorting in reverse order, we need to reverse the list to get the correct order
     info.reverse()
     return info
-#
+
 def findAllSubjectCodes(driver) -> dict():
     url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
@@ -173,8 +160,12 @@ def formatTimes(info : list[str]) -> list[str]:
         while " " in info[7]:
             info[7] = info[7].replace(" ", "")
     splitTime = info[7].split('-')
-    start = splitTime[0]
-    end = splitTime[1]
+    start = splitTime[0].upper()
+    end = splitTime[1].upper()
+    if (start[0] == '0'):
+        start = start[1:]
+    if (end[0] == '0'):
+        end = end[1:]
     info.insert(7,start)
     info.insert(8,end)
     #Pop to remove original time
@@ -260,6 +251,8 @@ def getStrSemester(c : Course) -> str:
         date = "SUMMER " + date
     elif val[4:] == "12":
         date = "WINTER " + date
+    elif val[4:] == "10":
+        date = "HARTFORD " + date
     return date
 #Given a school year and a dictionary of every major to names of their schools, parse all of the info for every course in a major.
 def getCourseInfo(driver, year:str, schools : dict) -> list:
@@ -359,6 +352,8 @@ def writeCSV(info:list, filename: str):
     df = pd.DataFrame(decomposed, columns = columnNames)
     df.to_csv(filename, index=False)
 
+# This main function is helpful for running the full parser standalone, without needing environmental variables.
+
 def main():
     options = Options()
     #options.add_argument("--no-sandbox")
@@ -366,7 +361,8 @@ def main():
     #options.add_argument("--headless")
     #options.add_argument("--remote-debugging-port=9222")
     driver = webdriver.Firefox()
-    login(driver)
+    driver.implicitly_wait(2)
+    login.login(driver)
     start = time.time()
     final = sisCourseSearch(driver, "spring2024")
     end = time.time()

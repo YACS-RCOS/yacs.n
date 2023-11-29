@@ -2,16 +2,14 @@ import csv
 from course import Course
 import os
 import pdb
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-
+# This file takes our csv formatting and turns it into a course class type. If something goes wrong it's because you changed one of those two.
 
 def parse_csv(filename):
     courses = list()
     i = 0
     with open(os.path.join(__location__, filename), 'r', encoding="utf8") as f:
-        print("hello")
         reader = csv.reader(f)
         for row in reader:
             if i == 0:
