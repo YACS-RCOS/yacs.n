@@ -14,12 +14,17 @@
             class="departmentBox m-2 mb-4"
           >
             <b-col cols="12">
-              <!-- Department Title as a button that controls the collapse -->
-              <b-button v-b-toggle="'collapse-' + deptObj.school" class="m-1 ml-2 w-100">
+            <!-- Department Title as a ~button that controls the collapse -->
+              <b-button
+                v-b-toggle="'collapse-' + deptObj.school"
+                class="button"
+                variant="outline-secondary"
+              >
                 <h3>
                   {{ deptObj.school }}
                 </h3>
-              </b-button>
+              </b-button>          
+              <hr />
               <!-- Subject Title inside a b-collapse -->
               <b-collapse :id="'collapse-' + deptObj.school">
                 <b-row>
@@ -158,4 +163,39 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
+
+.button {
+  width: 100%;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #3395ff !important;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: rgba(108, 90, 90, 0.15);
+}
+
+.button:focus {
+  background-color: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+
+}
+
+.button:active {
+  background-color: transparent !important;
+  color: #3395ff;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 </style>
