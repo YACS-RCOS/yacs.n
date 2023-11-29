@@ -20,9 +20,10 @@
                 class="button"
                 variant="outline-secondary"
               >
-                <h3>
+                <h4>
                   {{ deptObj.school }}
-                </h3>
+                  <span class="chevron"></span>
+                </h4>
               </b-button>          
               <hr />
               <!-- Subject Title inside a b-collapse -->
@@ -196,6 +197,23 @@ export default {
   color: #3395ff;
   box-shadow: none !important;
   outline: none !important;
+}
+
+.chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-style: solid;
+  border-width: 0 5px 10px 5px;
+  border-color: transparent transparent #3395ff transparent;
+  transition: transform 0.3s;
+}
+
+/* Rotate the chevron when the button is active */
+.button[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+  margin-left: auto;
 }
 
 </style>
