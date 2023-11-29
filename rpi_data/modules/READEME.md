@@ -13,7 +13,7 @@ The relevant files in the folder are csv_to_course.py, course.py, headless_login
 The other files in the folder are legacy code that was used in the old web scraper. For now it they will remain in here as there are some pieces of code that could be useful if future edge cases pop up.
 
 # How to run
-Run new_parse.py once, it will generate a csv of courses. Then run parse_runner.py, it will update the csv that new_parse generated.
+run parse_runner.py with a term as the command argumenr. Rhe term is formatted as termYEAR. If a csv doesn't exist yet it'll do a full parse, if one does it'll immediately start updating.
 # Common issues
 
 ------------------------------------------------------------------------------------------------------------------------------------------
