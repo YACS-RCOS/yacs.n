@@ -12,7 +12,7 @@ import time
 import csv_to_course
 from headless_login import LoginFailed
 import selenium
-
+import pdb
 
 def courseUpdate(driver, term, courses):
     schools = parser.findAllSubjectCodes(driver)
@@ -44,7 +44,7 @@ def courseUpdate(driver, term, courses):
     for i in range(len(subjects)):
         subject_select.select_by_index(i)
         driver.find_element(by = By.NAME, value = 'SUB_BTN').click()
-        info = parser.getCourseInfo(driver, term, schools) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
+        info = parser.getCourseInfo(driver, str(year), schools) # Possible TODO: just compare the parts here to make it faster (this is easier for me as I didn't write that part of the parser)
         driver.get(url)
         select = Select(driver.find_element(by=By.ID, value = "term_input_id"))
         select.select_by_value(str(basevalue))
