@@ -3,28 +3,16 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
-        <b-col
-          v-for="(deptCol, index) in schoolDepartmentObjects"
-          :key="`deptCol-${index}`"
-          cols="12"
-        >
-          <b-row
-            v-for="deptObj in deptCol"
-            :key="deptObj.school"
-            class="departmentBox m-2 mb-4"
-          >
+        <b-col v-for="(deptCol, index) in schoolDepartmentObjects" :key="`deptCol-${index}`" cols="12" class="col-md-6">
+          <b-row v-for="deptObj in deptCol" :key="deptObj.school" class="departmentBox m-2 mb-4">
             <b-col cols="12">
               <!-- Department Title as a ~button that controls the collapse -->
-              <b-button
-              v-b-toggle="'collapse-' + cleanId(deptObj.school)"
-              class="button"
-                variant="outline-secondary"
-              >
+              <b-button v-b-toggle="'collapse-' + cleanId(deptObj.school)" class="button" variant="outline-secondary">
                 <h4>
                   {{ deptObj.school }}
                   <span class="chevron"></span>
                 </h4>
-              </b-button>          
+              </b-button>
               <hr />
               <!-- Subject Title inside a b-collapse -->
               <b-collapse visible :id="'collapse-' + cleanId(deptObj.school)">
@@ -41,13 +29,7 @@
         </b-col>
       </b-row>
     </div>
-    <CenterSpinner
-      v-else
-      :height="80"
-      :fontSize="1.3"
-      loadingMessage="Departments"
-      :topSpacing="30"
-    />
+    <CenterSpinner v-else :height="80" :fontSize="1.3" loadingMessage="Departments" :topSpacing="30" />
   </b-container>
 </template>
 
