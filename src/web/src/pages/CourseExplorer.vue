@@ -14,10 +14,10 @@
             class="departmentBox m-2 mb-4"
           >
             <b-col cols="12">
-            <!-- Department Title as a ~button that controls the collapse -->
+              <!-- Department Title as a ~button that controls the collapse -->
               <b-button
-                v-b-toggle="'collapse-' + deptObj.school"
-                class="button"
+              v-b-toggle="'collapse-' + cleanId(deptObj.school)"
+              class="button"
                 variant="outline-secondary"
               >
                 <h4>
@@ -27,7 +27,7 @@
               </b-button>          
               <hr />
               <!-- Subject Title inside a b-collapse -->
-              <b-collapse :id="'collapse-' + deptObj.school">
+              <b-collapse visible :id="'collapse-' + cleanId(deptObj.school)">
                 <b-row>
                   <DepartmentList
                     :majors="deptObj.departments"
@@ -79,6 +79,9 @@ export default {
   },
   methods: {
     generateRequirementsText,
+    cleanId(str) {
+      return str.replace(/\s+/g, '-'); 
+    },
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
