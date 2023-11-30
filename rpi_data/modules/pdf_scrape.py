@@ -64,45 +64,11 @@ multiple_course = []
 possible_locs = []
 
 
+
 # Get the final exam schedule year.
 exam_year = finals[0].split()[1]
 
 
-
-for x in range(len(finals)):
-    
-    possible_string = ""
-    if "BY SUBJECT" in finals[x] and x < len(finals) - 4:
-        
-        courses = finals[x+2].split("\n")
-        
-        loc = finals[x+3].split("\n")
-    
-    #print(courses)
-    
-    for y in range(len(courses)):
-        
-        k = 0
-        while(y+1 < len(courses) and courses[y] != courses[y+1]):
-            
-            if (k == 0):
-                print(courses[y])
-                k += 1
-            
-            courses.pop(y+1)
-            
-            y += 1
-    
-    
-    
-             
-
-            
- 
-        
-        
-
-exit
 for i in range(len(finals)):
     
     if "BY SUBJECT" in finals[i] and i < len(finals) - 4:
@@ -203,12 +169,12 @@ for i in range(len(finals)):
             
             data_list.append(entry)
         
-            #with open('final_schedule.json', 'a') as json_file:
+            with open('final_schedule.json', 'a') as json_file:
                 
-                #json_file.write(json.dumps(entry) + '\n')
+                json_file.write(json.dumps(entry) + '\n')
             
 
-#json_file.close()
+json_file.close()
 
 
 '''
