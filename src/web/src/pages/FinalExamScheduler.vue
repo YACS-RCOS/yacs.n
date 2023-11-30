@@ -18,31 +18,40 @@
               </div>
             </template>
 
-             <!-- ADD COURSE BUTTON FOR ADDING NEW COURSE -->
-            <b-button @click="$bvModal.show('add-modal-id')" variant="primary">Add Course</b-button>
+            <template>
+              <div class = "button-container">
+                
+                <!-- ADD COURSE BUTTON FOR ADDING NEW COURSE -->
+                <b-button @click="$bvModal.show('add-modal-id')" variant="primary" class = "mt-3">Add Course</b-button>
 
-            <b-modal id="add-modal-id" hide-footer title="Add Course"
-                     @close="$bvModal.hide('add-modal-id')"
-                     @keydown.esc="$bvModal.hide('add-modal-id')">
+                <b-modal id="add-modal-id" hide-footer title="Add Course"
+                        @close="$bvModal.hide('add-modal-id')"
+                        @keydown.esc="$bvModal.hide('add-modal-id')">
 
-              <b-form-group :label="''">
-                <b-form-select
-                    v-model="currCourse"
-                    :options="filterCourses()"
-                ></b-form-select>
-              </b-form-group>
-              
-              <!-- CONFIRM / CANCEL BUTTONS WITHIN ADD CLASS -->
-              <b-button class="mt-3" variant="success" block
-                        @click="currCourse ? ($bvModal.hide('add-modal-id'), addCourse(currCourse), searchExams()) : null">
-                Confirm
-              </b-button>
-              <b-button class="mt-3" variant="danger" block @click="$bvModal.hide('add-modal-id')">
-                Cancel
-              </b-button>
+                  <b-form-group :label="''">
+                    <b-form-select
+                        v-model="currCourse"
+                        :options="filterCourses()"
+                    ></b-form-select>
+                  </b-form-group>
+                  
+                  <!-- CONFIRM / CANCEL BUTTONS WITHIN ADD CLASS -->
+                  <b-button class="mt-3" variant="success" block
+                            @click="currCourse ? ($bvModal.hide('add-modal-id'), addCourse(currCourse), searchExams()) : null">
+                    Confirm
+                  </b-button>
+                  <b-button class="mt-3" variant="danger" block @click="$bvModal.hide('add-modal-id')">
+                    Cancel
+                  </b-button>
 
-            </b-modal>
+                </b-modal>
+                <!-- Remove All Classes Button -->
+                <b-button v-if="this.selectedCourses.length > 1" @click="deleteAllCourses()" variant="danger" class="mt-3">
+                  Remove All Courses 
+                </b-button>
 
+              </div>
+            </template>
           </b-form>
 
           <!-- EXAM DETAILS CARD -->
@@ -230,6 +239,12 @@ export default {
       this.searchExams();
     },
 
+    deleteAllCourses() {
+      // Remove all Courses by resetting the array of selected courses.
+      this.selectedCourses = [];
+      this.searchExams();
+    },
+
     filterCourses(index) {
       return this.courseOptions.filter(option => {
         if (index !== undefined) {
@@ -259,6 +274,11 @@ export default {
 .calendar-table td {
   width: 20%;
   position: relative;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
 }
 
 </style>
