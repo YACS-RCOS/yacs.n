@@ -225,31 +225,26 @@ export default {
     ...mapState(["semesters", "selectedSemester"]),
 //possibility where I can reorder the semesters
     semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
+      return this.semesters
+        .map(({ semester }) => ({
+          text: semester,
+          value: semester,
+        }))
     },
     sortedSemesterOptions() {
-      // Sort the semesterOptions array by year and semester
-      return this.semesterOptions.slice().sort((a, b) => {
-        // Extract year and semester from the value (e.g., "Fall 2023")
-        const yearA = a.value.split(' ')[1];
-        const yearB = b.value.split(' ')[1];
-        
-        // Compare years
-        if (yearA !== yearB) {
-          return yearA - yearB; // Assuming years are integers
-        }
-        
-        // If years are the same, compare semesters
-        const semesterOrder = ['Spring', 'Summer', 'Fall']; // Define the order of semesters
-        const semesterA = semesterOrder.indexOf(a.value.split(' ')[0]);
-        const semesterB = semesterOrder.indexOf(b.value.split(' ')[0]);
+      return [...this.semesterOptions].sort((a, b) => {
+        const [semesterA, yearA] = a.value.split(' ').map(s => s.trim().toLowerCase());
+        const [semesterB, yearB] = b.value.split(' ').map(s => s.trim().toLowerCase());
 
-        return semesterA - semesterB;
+        // Compare by year
+        if (yearA > yearB) return -1;
+        if (yearA < yearB) return 1;
+
+        // If year is the same, compare by semester
+        const order = ['fall', 'summer', 'spring'];
+        return order.indexOf(semesterA) - order.indexOf(semesterB);
       });
-    },
+    }
   },
 };
 </script>
@@ -301,3 +296,4 @@ export default {
   background: hsl(211, 100%, 60%) !important;
 }
 </style>
+
