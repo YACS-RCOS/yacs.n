@@ -97,6 +97,7 @@ h1 {
   padding: 10px;
   cursor: pointer;
   border-left: 3px solid transparent;
+  transition: border-left 0.2s linear; /* Move this line here */
 }
 
 .faq-item.open {
@@ -109,6 +110,9 @@ h1 {
   color: #333;
   cursor: pointer;
   font-weight: bold;
+}
+.faq-item h3:hover {
+  border-left: none; 
 }
 
 .divider {
@@ -156,4 +160,3 @@ h1 {
 }
 
 </style>
-
