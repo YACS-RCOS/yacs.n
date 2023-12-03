@@ -120,9 +120,13 @@ def findAllSubjectCodes(driver) -> dict():
     return code_school_dict
      
 
-#For cases where courses are missing a significant amount of information. Exclusevly (need to test this though to see if anything slips through)
-#used for test blocks, recitations, and labs
+#For courses that do not have a crn. 99% of the time, these will be lab blocks, test blocks, or recitations
 def processSpecial(info, prevrow) -> list[str]:
+    #If this is ever called on an incorrect course.
+    #Shouldn't happen but who knows 
+    if prevrow == None:
+        print("course has no crn but first in major")
+        return info #Maybe just exit the program instead?
     tmp = formatTimes(info)
     tmp[18] = formatTeachers(tmp[18])
     info = prevrow
@@ -189,10 +193,11 @@ def formatCredits(info):
     return int(float(info[4]))
 
 #Given a row in sis, process the data in said row including crn, course code, days, seats, etc
+#Note that we remove a lot of info from the row in SIS, this is to match the format that the csv is expecting
+#See Fall 2023 or any other csv in the repository.
 def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
     info = []
-    #Ignore the 1st element because that's the status on whether a course is open to register or not, and other parts of the app
-    #Can tell that information to users
+    #The first and last elements of the row are useful to us as other parts of the application handle those
     for i in range(1, len(data) - 1, 1):
         #Edge case where the registrar decides to make a column an inconcsistent width.
         #See MGMT 2940 - Readings in MGMT in spring 2024.
@@ -204,17 +209,19 @@ def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
         else:
             info.append(data[i].text)
     if len(info) != 21:
-        print("error in: ")
+        print("Length error in: ")
         print(info[0])
     # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
-    #info[7] is days, info[8] is time, info[9] - info[17] are seat cap, act, rem, waitlist, and crosslist
+    #info[7] is days, info[8] is time, info[9] is total course capactiy, info[10] is number of students enrolled,
+    #info[11] is the number of seats left, info[12] - waitlist capacity, info[13] - waitlist enrolled, info[14] - waitlist spots left,
+    #info[15] - crosslist capacity, info[16] - crosslist enrolled, info[17] - crosslist seats left,
     #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
     #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.    
     info.pop(4)
     
     #Note that this will shift the above info down by 1 to
     # info[0] crn, info[1]  major, 2 - course code, 3- section, 4 - credits, 5 - class name 
-    #info[6] is days, info[7] time, info[8] - info[16] seat cap, act, rem, waitlist, and crosslist
+    #info[6] is days, info[7] time, info[8] - info[16] actual, waitlist, and crosslist capacity, enrolled, remaining
     #info[17] profs, info[18] days of sem, and info[19] location
     #The above info is what we are working with for the rest of the method
 
@@ -277,14 +284,24 @@ def getCourseInfo(driver, year:str, schools : dict) -> list:
                 c.addSchool("Interdisciplinary and Other")
             courses.append(c)
     return courses
-#Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and raw
+#Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and description of the course
+#Eg. ITWS 2110 - https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202401&subj_code_in=ITWS&crse_numb_in=2110 
+# Prereqs - ITWS 1100
+# Coreqs - CSCI 1200
+# Raw -  Undergraduate level CSCI 1200 Minimum Grade of D and Undergraduate level ITWS 1100 Minimum Grade of D or Prerequisite Override 100 
+# Description - This course involves a study of the methods used to extract and deliver dynamic information on the World Wide Web.
+# The course uses a hands-on approach in which students actively develop Web-based software systems.
+# Additional topics include installation, configuration, and management of Web servers.
+# Students are required to have access to a PC on which they can install software such as a Web server and various programming environments.
 def getReqFromLink(webres, courseCode, major) -> list:
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
+    #The page is full of \n\n's for some reason, and this nicely splits it into sections
     classInfo = body.text.strip('\n\n').split('\n\n')
     for i in range(0,len(classInfo),1):
         while '\n' in classInfo[i]:
+            #Some \n's can make it into the parsed data, so we need to get rid of them.
             classInfo[i] = classInfo[i].replace('\n','')
     key = "Prerequisites/Corequisites"
     preKey = "Prerequisite"
@@ -292,9 +309,7 @@ def getReqFromLink(webres, courseCode, major) -> list:
     coreqs = ""
     raw = ""
     desc = classInfo[0]
-    #If the description starts with a number, set it to nothing.
-    #Only happens is the course does not have a description and skips into credit value or something else.
-    #
+    #If the course does not have a description, usually this menas that classInfo[0] will be the credit value.
     if desc.strip()[0].isdigit():
         desc = ""
     for i in range(1, len(classInfo)):
@@ -311,7 +326,7 @@ def getReqFromLink(webres, courseCode, major) -> list:
                 prereqs = combo[len(preKey):]
             else:
                 #Default case where someone forgets the words we're looking for
-                #Note that there are still more edge cases(looking at you csci 6560 and 2110)
+                #Note that there are still more edge cases(looking at you csci 6560 and 2110 in spring 2024)
                 prereqs = combo
             prereqs = prereqs[prereqs.find(' '):255].strip()
             coreqs = coreqs[coreqs.find(' '):255].strip()
@@ -319,15 +334,15 @@ def getReqFromLink(webres, courseCode, major) -> list:
             raw = classInfo[i+1].strip()
     retList = [prereqs, coreqs, raw, desc]
     return retList
-#Add the prereqs for a course
+#Add the prereqs for a course to that course
 def getReqForClass(course: Course) -> None:
     semester = getSemester(course)
     url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, course.major, course.code)
     session = requests.session()
     webres = session.get(url)
     course.addReqsFromList(getReqFromLink(webres, course.code, course.major))
-#Given a course, get the integer representation of that course's semester
-def getSemester(course: Course):
+#Given a course, return the basevalue of that course, eg 2024-01 is returned as 202401
+def getSemester(course: Course) -> int:
     dates = course.sdate.split("-")
     month = dates[1]
     year = dates[0]
