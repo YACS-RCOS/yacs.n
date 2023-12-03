@@ -332,12 +332,6 @@ def getReqFromLink(webres, courseCode, major) -> list:
             coreqs = coreqs[coreqs.find(' '):255].strip()
         if classInfo[i].strip() == (preKey + "s:"):
             raw = classInfo[i+1].strip()
-    #Will test later
-    #rawParsingKey = "Undergraduate level"
-    #commonPrereqs = raw.split(rawParsingKey)
-    #for common in commonPrereqs:
-    #    if common not in raw:
-    #        raw.append(common)
     retList = [prereqs, coreqs, raw, desc]
     return retList
 #Add the prereqs for a course to that course
