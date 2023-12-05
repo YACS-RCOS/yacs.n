@@ -457,7 +457,7 @@ async def get_finals_by_hour(room: str):
     return finals if not error else Response(content=error, status_code=500)
 
 #delete by course code and section
-@app.post('/api/finals/remove')
+@app.delete('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     return finals_info.remove_final(courseCode, section)
     # message, error = finals_info.remove_final(courseCode, section)
@@ -465,7 +465,7 @@ async def delete_final_by_courseCodeSection(courseCode: str, section: str):
     # return message if not error else Response(content=error, status_code=500)
 
 #delete all finals
-@app.post('/api/finals/removeBulkFinal')
+@app.delete('/api/finals/removeBulkFinal')
 async def deleteHandler(file: UploadFile = File(...)):  
     # Check to make sure the user has sent a file
     if not file:
