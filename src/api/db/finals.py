@@ -93,16 +93,23 @@ class Finals:
     def get_info_by_courseCode(self, courseCode):
         if courseCode is None:
             return(False, "Course Code cannot be none")
-        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\';"
-        return self.db_conn.execute(query, None, True)
+        return self.db_conn.execute("""
+            SELECT * FROM finals WHERE "courseCode" = %(courseCode)s;
+        """, {
+            "courseCode": courseCode
+        }, True)
 
     def get_info_by_courseCodeSection(self, courseCode, section):
         if courseCode is None:
             return(False, "Course Code cannot be none")
         elif section is None:
             return(False, "Section cannot be None")
-        query = "SELECT * FROM finals WHERE courseCode = \'" + courseCode + "\' AND section = \'" + section + "\';"
-        return self.db_conn.execute(query, None, True)
+        return self.db_conn.execute("""
+            SELECT * FROM finals WHERE "courseCode" = %(courseCode)s AND section = %(section)s;
+        """, {
+            "courseCode": courseCode,
+            "section": section
+        }, True)
     
     def get_info_by_day(self, day):
         if day is None:
