@@ -160,7 +160,7 @@ class Finals:
         return self.db_conn.execute("""
             BEGIN TRANSACTION;
                 DELETE FROM finals
-                WHERE courseCode=%(courseCode)s AND section=%(section)s;
+                WHERE "courseCode"=%(courseCode)s AND section=%(section)s;
             COMMIT;
         """, {
             "courseCode": courseCode,
