@@ -459,7 +459,9 @@ async def get_finals_by_hour(room: str):
 #delete by course code and section
 @app.delete('/api/finals/remove')
 async def delete_final_by_courseCodeSection(courseCode: str, section: str):
-    return finals_info.remove_final(courseCode, section)
+    message, error = finals_info.remove_final(courseCode, section)
+    return message if not error else Response(content=error, status_code=500)
+    # return finals_info.remove_final(courseCode, section)
     # message, error = finals_info.remove_final(courseCode, section)
     # #finals_info.db_conn.commit()
     # return message if not error else Response(content=error, status_code=500)

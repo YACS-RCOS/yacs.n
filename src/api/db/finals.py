@@ -126,8 +126,11 @@ class Finals:
     def get_info_by_DOW(self, DOW):
         if DOW is None:
             return(False, "Day of Week cannot be none")
-        query = "SELECT * FROM finals WHERE dayOfWeek = \'" + DOW + "\';"
-        return self.db_conn.execute(query, None, True)
+        return self.db_conn.execute("""
+            SELECT * FROM finals WHERE "dayOfWeek" = %(DOW)s;
+        """, {
+            "DOW": DOW
+        }, True)
     
     def get_info_by_hour(self, hour):
         if hour is None:
