@@ -4,8 +4,7 @@
     <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
-          <h1 class="mt-4">{{ courseObj.title }}</h1>
-          <h4 class="mb-1 d-inline">{{ courseName }}</h4>
+          <h1>{{ courseObj.full_title }} <button :class="{ 'button-clicked': isButtonClicked }" class="add-course-button" @click="toggleButton">Add Course +</button></h1>
           &nbsp;
           <div class="d-inline">
             <course-sections-open-badge :course="courseObj" />
@@ -87,10 +86,14 @@ export default {
           text: this.$route.params.course,
         },
       ],
+      isButtonClicked: false,
     };
   },
   methods: {
     generateRequirementsText,
+    toggleButton() {
+      this.isButtonClicked = !this.isButtonClicked;
+    },
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
@@ -167,3 +170,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.add-course-button {
+  padding: 1px 4px; 
+  font-size: 0.6em; 
+  border-radius: 15px; 
+  border: none;
+}
+.button-clicked {
+  background-color: red;
+}
+</style>
