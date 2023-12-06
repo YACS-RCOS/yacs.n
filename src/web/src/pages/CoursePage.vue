@@ -4,7 +4,12 @@
     <div v-if="!isLoadingCourses && courseObj" class="w-90 ml-4 mb-4">
       <b-row>
         <b-col>
-          <h1>{{ courseObj.full_title }} <button :class="{ 'button-clicked': isButtonClicked }" class="add-course-button" @click="toggleButton">Add Course +</button></h1>
+          <h1>{{ courseObj.full_title }} 
+            <button :class="{ 'button-clicked': isButtonClicked }" class="add-course-button" @click="toggleButton">
+              <span v-if="isButtonClicked">Add Course –</span> 
+              <span v-else>Add Course＋</span> 
+            </button>
+          </h1>
           &nbsp;
           <div class="d-inline">
             <course-sections-open-badge :course="courseObj" />
@@ -28,7 +33,6 @@
         </b-col>
       </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
-      <!--      :to="'/explore/' + courseObj.department"-->
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -87,6 +91,7 @@ export default {
         },
       ],
       isButtonClicked: false,
+      buttonText: "Add Course +",
     };
   },
   methods: {
@@ -173,12 +178,17 @@ export default {
 
 <style scoped>
 .add-course-button {
-  padding: 1px 4px; 
-  font-size: 0.6em; 
-  border-radius: 15px; 
+  padding: 2px 8px; 
+  font-size: 0.5em; 
+  border-radius: 5px; 
   border: none;
+  background-color: #298fc2;
 }
 .button-clicked {
-  background-color: red;
+  background-color: #d65757;
+}
+.button-content {
+  width: 100px;
+  display: inline-block;
 }
 </style>
