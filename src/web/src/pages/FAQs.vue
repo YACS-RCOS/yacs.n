@@ -93,11 +93,12 @@ h1 {
   display: flex;
   align-items: center;
 }
+
 .faq-item {
   padding: 10px;
   cursor: pointer;
   border-left: 3px solid transparent;
-  transition: border-left 0.2s linear; /* Move this line here */
+  transition: border-left 0.2s linear;
 }
 
 .faq-item.open {
@@ -110,9 +111,6 @@ h1 {
   color: #333;
   cursor: pointer;
   font-weight: bold;
-}
-.faq-item h3:hover {
-  border-left: none; 
 }
 
 .divider {
@@ -128,7 +126,7 @@ h1 {
 }
 
 .answer-wrapper.open {
-  max-height: 1000px; /*Adjust the value to a sufficiently large value to ensure full visibility*/
+  max-height: 1000px;
 }
 
 .faq-item p {
@@ -136,10 +134,6 @@ h1 {
   color: #555;
   opacity: 0.3s;
   transition: opacity 0.3s ease-in-out;
-}
-
-.faq-item.open p {
-  opacity: 1;
 }
 
 .dropdown-indicator {
