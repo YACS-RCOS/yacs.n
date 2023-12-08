@@ -5,30 +5,46 @@
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ courseObj.title }}</h1>
-          <h4 class="mb-1 d-inline">{{ courseName }}</h4>
-          &nbsp;
-          <div class="d-inline">
-            <course-sections-open-badge :course="courseObj" />
-          </div>
+          <hr />         
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
-          <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+        <b-col cols="8" class="mb-4">
+          <b-row>
+            <b-col>
+              <h4 class="mb-1 d-inline">{{ courseName }}</h4> 
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h6 class="mb-1 d-inline">{{ getCredits }} Credits</h6>
+              <div class="d-inline" style="position: relative; top: -2px; margin-left: 10px;">
+                <course-sections-open-badge :course="courseObj" />
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div class="prerequisites-container">
+                <p class="prerequisites-text">Prerequisites:</p>
+                <p class="prerequisites-link" v-html="transformed" />
+              </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <h5>Course Description:</h5>
+              {{ courseObj.description }}
+            </b-col>
+          </b-row>
         </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p v-html="transformed" />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col class="mb-4">
+        <b-col cols="4" class="mb-4">
           <br />
-          {{ courseObj.description }}
+          <h5>Open Sections:</h5>
+          <CoursePageListing :course="courseObj" v-on="$listeners"/>
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
+      <b-button @click="$router.go(-1)" class="mt-3">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
     <CenterSpinner
@@ -60,11 +76,13 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import CoursePageListingComponent from "@/components/CoursePageListing";
 
 export default {
   components: {
     CenterSpinner: CenterSpinnerComponent,
     CourseSectionsOpenBadge,
+    CoursePageListing: CoursePageListingComponent,
   },
   name: "CoursePage",
   data() {
@@ -139,7 +157,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.courseObj.name,
+      title: this.courseObj ? this.courseObj.name : '',
       titleTemplate: "%s | YACS",
       meta: !this.courseObj
         ? undefined
@@ -165,5 +183,20 @@ export default {
           ],
     };
   },
+  mounted() {
+    console.log(this.courseObj);
+  },
+
 };
 </script>
+
+<style>
+.prerequisites-container {
+  display: flex;
+  align-items: center; /* Optional: Aligns items vertically in the center */
+}
+
+.prerequisites-text {
+  margin-right: 10px; /* Optional: Adds some space between the text and the link */
+}
+</style>
