@@ -82,6 +82,13 @@
             </div>
           </b-card>
         </b-card>
+
+        <b-col md="7">
+          <div class="mt-3">
+            <b-button variant="primary" @click="goToSchoolWebsite">Go to School Website</b-button>
+          </div>
+        </b-col>
+        
       </b-col>
       <b-col md="7">
         <calendar :exam-details="examDetails"></calendar>
@@ -280,5 +287,6 @@ export default {
   display: flex;
   gap: 20px;
 }
+
 
 </style>
