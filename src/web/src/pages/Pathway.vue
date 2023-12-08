@@ -4,26 +4,20 @@
 
     <!-- button to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
-      <b-button
+      <b-button variant="primary"
         @click="listAlphabet()"
         style="
           margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
         "
       >
         List by Alphabet
       </b-button>
       <br />
-      <b-button
+      <b-button variant="primary"
         @click="listCate()"
         style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
+        margin-top: 10px;
+      "
       >
         List by Category
       </b-button>
