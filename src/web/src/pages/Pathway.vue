@@ -73,32 +73,29 @@
               <!-- Category Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ categoryObj["Category Name"][0] }}
+                  <!-- Add v-b-toggle directive to the button -->
+                  <b-button v-b-toggle="'collapse-' + cleanId(categoryObj['Category Name'][0])" class="button" variant="outline-secondary">
+                    {{ categoryObj['Category Name'][0] }}
+                    <span class="chevron"></span>
+                  </b-button>
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
-              <b-row>
-                <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
-                  <div
-                    v-for="pathway in categoryObj['Pathways']"
-                    :key="pathway['Name'][0]"
-                    role="tablist"
-                  >
-                    <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
-                      <b-button
-                        @click="ShowPath(pathway)"
-                        squared
-                        variant="light"
-                        class="pathway-button m-0 ml-1"
-                      >
-                        {{ pathway["Name"][0] }}
-                      </b-button>
+              <!-- Pathway Names inside a b-collapse -->
+              <b-collapse :id="'collapse-' + cleanId(categoryObj['Category Name'][0])">
+                <b-row>
+                  <div class="d-flex flex-column flex-grow-1">
+                    <!-- LOOP Through the Pathway Categories list -->
+                    <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button @click="ShowPath(pathway)" squared variant="light" class="pathway-button m-0 ml-1">
+                          {{ pathway['Name'][0] }}
+                        </b-button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </b-row>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
@@ -282,6 +279,9 @@ export default {
     },
   },
   methods: {
+    cleanId(str) {
+      return str.replace(/\s+/g, '-');
+    },
     listAlphabet() {
       this.cateShow = false;
       this.alphShow = true;
