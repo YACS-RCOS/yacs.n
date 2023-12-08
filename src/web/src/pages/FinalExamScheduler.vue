@@ -85,7 +85,7 @@
 
         <b-col md="7">
           <div class="mt-3">
-            <b-button variant="primary" @click="goToSchoolWebsite">Go to School Website</b-button>
+            <b-button variant="secondary" class = "button-color" @click="goToSchoolWebsite">Go to School Website</b-button>
           </div>
         </b-col>
         
@@ -288,5 +288,8 @@ export default {
   gap: 20px;
 }
 
+.button-color {
+  color:black;
+}
 
 </style>
