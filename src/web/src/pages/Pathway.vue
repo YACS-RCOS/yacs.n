@@ -89,7 +89,7 @@
                     <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
                       <div class="mt-1 mb-1 w-100">
                         <!-- pathway button -->
-                        <b-button @click="ShowPath(pathway)" squared variant="light" class="pathway-button m-0 ml-1">
+                        <b-button @click="ShowPath(pathway)" class="pathway-button m-0 ml-1">
                           {{ pathway['Name'][0] }}
                         </b-button>
                       </div>
@@ -133,7 +133,7 @@
                     <div v-for="pathway in alphabetObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
                       <div class="mt-1 mb-1 w-100">
                         <!-- pathway button -->
-                        <b-button @click="ShowPath(pathway)" squared variant="light" class="pathway-button m-0 ml-1">
+                        <b-button @click="ShowPath(pathway)" class="pathway-button m-0 ml-1">
                           {{ pathway['Name'][0] }}
                         </b-button>
                       </div>
@@ -380,7 +380,6 @@ export default {
   transition: transform 0.3s;
 }
 
-/* Rotate the chevron when the button is active */
 .button[aria-expanded="true"] .chevron {
   transform: rotate(180deg);
   margin-left: auto;
@@ -388,8 +387,8 @@ export default {
 
 .pathway-button {
   display: inline-block;
-  background: white;
   border-style: none;
+  background-color: transparent;
   text-align: justify;
   width: 95%;
 }
