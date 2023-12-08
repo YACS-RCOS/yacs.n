@@ -67,19 +67,20 @@
           <b-row
             v-for="categoryObj in catCol"
             :key="categoryObj['Category Name'][0]"
-            class="categoryBox border m-2 mb-4"
+            class="categoryBox"
           >
             <b-col>
               <!-- Category Title  -->
               <b-row class="category-title">
-                <h3 class="m-1 ml-2">
+                <h2 class="m-1 ml-2">
                   <!-- Add v-b-toggle directive to the button -->
                   <b-button v-b-toggle="'collapse-' + cleanId(categoryObj['Category Name'][0])" class="button" variant="outline-secondary">
                     {{ categoryObj['Category Name'][0] }}
                     <span class="chevron"></span>
                   </b-button>
-                </h3>
+                </h2>
               </b-row>
+              <hr />
               <!-- Pathway Names inside a b-collapse -->
               <b-collapse :id="'collapse-' + cleanId(categoryObj['Category Name'][0])">
                 <b-row>
@@ -110,19 +111,20 @@
           <b-row
           v-for="alphabetObj in alphCol"
           :key="alphabetObj['Category Name'][0]"
-          class="categoryBox border border-custom m-2 mb-4"
+          class="categoryBox"
           >
             <b-col>
               <!-- Alphabet Title  -->
               <b-row class="category-title">
-                <h3 class="m-1 ml-2">
+                <h2 class="m-1 ml-2">
                   <!-- Add v-b-toggle directive to the button -->
                   <b-button v-b-toggle="'collapse-' + cleanId(alphabetObj['Category Name'][0])" class="button" variant="outline-secondary">
                     {{ alphabetObj['Category Name'][0] }}
                     <span class="chevron"></span>
                   </b-button>
-                </h3>
+                </h2>
               </b-row>
+              <hr />
               <!-- Pathway Names inside a b-collapse -->
               <b-collapse :id="'collapse-' + cleanId(alphabetObj['Category Name'][0])">
                 <b-row>
@@ -314,7 +316,6 @@ export default {
 </script>
 
 <style>
-
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -324,22 +325,26 @@ export default {
 
 .categoryBox {
   text-align: center;
+  border: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category-title {
   color: hsl(211, 100%, 60%);
+  margin-bottom: 10px;
 }
 
 .button {
   width: 100%;
-  text-align: left;
+  text-align: center;
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 0;
-  margin: 0;
-  font-size: 2rem;
+  padding: 10px;
+  font-size: 1.5rem;
   font-weight: 500;
   color: #3395ff !important;
   text-decoration: none;
