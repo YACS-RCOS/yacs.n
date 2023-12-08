@@ -38,6 +38,12 @@ class PrereqParse:
         root = tree.getroot()
         try:
             pdb.set_trace()
+            #currentCatalog = root.xpath("//*[local-name() = 'archived'][contains(text(), 'No')]")
+            #currentCatalog = root.xpath("//*[local-name() = 'archived']")
+            #tree.xpath("//*[local-name() = 'archived']")[0].getparent().getparent().attrib['id']
+            #TODO: Rewrite in regex
+            #TODO: get the catalog id from this
+            retCata = root.xpath("//*[local-name() = 'archived']")[0].getparent().getparent().attrib['id']
             return 0
         except Exception as exception:
             print("Failed to get the catalog id")
