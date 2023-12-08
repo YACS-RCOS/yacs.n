@@ -387,10 +387,12 @@ export default {
   background-color: transparent;
   text-align: justify;
   width: 95%;
+  color: black;
 }
 
 .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+  color: black;
 }
 
 .courseInPath {
