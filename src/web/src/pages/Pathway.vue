@@ -320,6 +320,7 @@ export default {
 .categoryBox {
   text-align: center;
   border: 0 !important;
+  background-color: transparent !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -328,6 +329,7 @@ export default {
 .category-title {
   color: hsl(211, 100%, 60%);
   margin-bottom: 10px;
+  background-color: transparent !important;
 }
 
 .button {
