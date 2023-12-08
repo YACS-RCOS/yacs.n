@@ -101,17 +101,17 @@
         </b-col>
 
         <!-- splitted Pathways in alphabet order -->
-        <b-col
-          v-for="(alphCol, index) in alphabetCols"
-          :key="`alphCol-${index}`"
-          md="6"
-          v-show="alphShow"
-        >
-            <b-row
-            v-for="alphabetObj in alphCol"
-            :key="alphabetObj['Category Name'][0]"
-            class="categoryBox border m-2 mb-4"
-            >
+          <b-col
+            v-for="(alphCol, index) in alphabetCols"
+            :key="`alphCol-${index}`"
+            md="6"
+            v-show="alphShow"
+          >
+          <b-row
+          v-for="alphabetObj in alphCol"
+          :key="alphabetObj['Category Name'][0]"
+          class="categoryBox border border-custom m-2 mb-4"
+          >
             <b-col>
               <!-- Alphabet Title  -->
               <b-row class="category-title">
@@ -314,6 +314,7 @@ export default {
 </script>
 
 <style>
+
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -327,8 +328,57 @@ export default {
 
 .category-title {
   color: hsl(211, 100%, 60%);
-  background: rgba(108, 90, 90, 0.15);
-  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+}
+
+.button {
+  width: 100%;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #3395ff !important;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: rgba(108, 90, 90, 0.15);
+}
+
+.button:focus {
+  background-color: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+
+}
+
+.button:active {
+  background-color: transparent !important;
+  color: #3395ff;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-style: solid;
+  border-width: 0 5px 10px;
+  border-color: transparent transparent #3395ff;
+  transition: transform 0.3s;
+}
+
+/* Rotate the chevron when the button is active */
+.button[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+  margin-left: auto;
 }
 
 .pathway-button {
