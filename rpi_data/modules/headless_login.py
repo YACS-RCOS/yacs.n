@@ -49,7 +49,15 @@ def login(driver):
         username_box.send_keys(username)
         password_box.send_keys(password)
         submit.click()
-    while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[3]'))==0:
+    while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[7]/a'))==0:
+        time.sleep(.1)
+    options  = driver.find_element(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[7]/a')
+    options.click()
+    while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[1]/ul/li[1]/a')) == 0:
+        time.sleep(.1)
+    duo_option = driver.find_element(By.XPATH, '/html/body/div/div/div[1]/div/div[1]/ul/li[1]/a')
+    duo_option.click()
+    while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[3]')) == 0:
         time.sleep(.1)
     print("Your DUO code: "+ driver.find_element(by= By.XPATH, value = "/html/body/div/div/div[1]/div/div[2]/div[3]").text) # print the duo code
     while len(driver.find_elements(By.XPATH, '//*[@id="trust-browser-button"]'))==0: # we need to press the trust browser button, so we wait until that shows up
