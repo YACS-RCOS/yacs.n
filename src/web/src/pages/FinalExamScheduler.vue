@@ -85,7 +85,7 @@
 
         <b-col md="7">
           <div class="mt-3">
-            <b-button variant="secondary" class = "button-color" @click="goToSchoolWebsite">Go to School Website</b-button>
+            <b-button variant="secondary" class = "button-color" @mouseover = "hoverButton"  @click="goToSchoolWebsite">Go to School Website</b-button>
           </div>
         </b-col>
         
@@ -261,6 +261,10 @@ export default {
         }
       });
     },
+
+    goToSchoolWebsite() {
+      window.open('https://info.rpi.edu/registrar/grades',  '_blank');
+    },
   },
 };
 </script>
@@ -289,7 +293,12 @@ export default {
 }
 
 .button-color {
-  color:black;
+  color:white;
+}
+
+.button-color:hover {
+  color: black;
+
 }
 
 </style>
