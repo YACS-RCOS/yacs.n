@@ -107,41 +107,38 @@
           md="6"
           v-show="alphShow"
         >
-          <b-row
+            <b-row
             v-for="alphabetObj in alphCol"
             :key="alphabetObj['Category Name'][0]"
             class="categoryBox border m-2 mb-4"
-          >
+            >
             <b-col>
               <!-- Alphabet Title  -->
               <b-row class="category-title">
                 <h3 class="m-1 ml-2">
-                  {{ alphabetObj["Category Name"][0] }}
+                  <!-- Add v-b-toggle directive to the button -->
+                  <b-button v-b-toggle="'collapse-' + cleanId(alphabetObj['Category Name'][0])" class="button" variant="outline-secondary">
+                    {{ alphabetObj['Category Name'][0] }}
+                    <span class="chevron"></span>
+                  </b-button>
                 </h3>
               </b-row>
-              <!-- Pathway Names  -->
-              <b-row>
-                <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
-                  <div
-                    v-for="pathway in alphabetObj['Pathways']"
-                    :key="pathway['Name'][0]"
-                    role="tablist"
-                  >
-                    <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
-                      <b-button
-                        @click="ShowPath(pathway)"
-                        squared
-                        variant="light"
-                        class="pathway-button m-0 ml-1"
-                      >
-                        {{ pathway["Name"][0] }}
-                      </b-button>
+              <!-- Pathway Names inside a b-collapse -->
+              <b-collapse :id="'collapse-' + cleanId(alphabetObj['Category Name'][0])">
+                <b-row>
+                  <div class="d-flex flex-column flex-grow-1">
+                    <!-- LOOP Through the Pathway Alphabet list -->
+                    <div v-for="pathway in alphabetObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button @click="ShowPath(pathway)" squared variant="light" class="pathway-button m-0 ml-1">
+                          {{ pathway['Name'][0] }}
+                        </b-button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </b-row>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
