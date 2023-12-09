@@ -53,8 +53,8 @@
                 ? `4px solid ${getBorderColor(course.name)}`
                 : 'none',
               'background-color': section.selected
-                ? `${getBackgroundColor(course.name)} !important`
-                : $store.state.darkMode
+                ? `${getColor(section.crn, conflictingCrns)}`
+                : $store.state.darkMode 
                 ? 'var(--dark-primary)'
                 : 'white',
               color: section.selected
@@ -124,6 +124,7 @@ export default {
   },
   props: {
     course: Object,
+    conflictingCrns: Array,
     // If true, collapse is open when created
     // If lazyLoadCollapse is true, this is ignored
     openInitial: {
@@ -174,6 +175,22 @@ export default {
     readableDate,
     getBackgroundColor,
     getBorderColor,
+
+    getColor(course, conflicts) {
+      if (this.isConflict(course,conflicts)) {
+        return '#7B0808 !important'
+      }
+      return `${getBackgroundColor(this.course.name)} !important`
+    },
+    isConflict(course,conflicts) {
+      for (var i = 0; i < conflicts.length; i++) {
+        if (course===String(conflicts[i])) {
+          return true;
+        }
+      }
+      return false;
+    },
+
     // Just a wrapper, can't call `[defaultAction]()` in html
     callDefaultAction() {
       this[this.defaultAction]();
