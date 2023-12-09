@@ -85,7 +85,16 @@
 
         <b-col md="7">
           <div class="mt-3">
-            <b-button variant="secondary" class = "button-color" @mouseover = "hoverButton"  @click="goToSchoolWebsite">Go to School Website</b-button>
+            <b-button variant="secondary" class = "button-color" @click="showConfirmModal">Get Updated PDF for All </b-button>
+            
+            <b-modal id="confirm-modal-id" hide-footer title="Confirmation">
+
+              <p>Are you sure you want to go to this page?</p>
+              <b-button class = "mt-3" variant="primary"  @click="goToSchoolWebsite">Yes</b-button>
+              <b-button class = "mt-3" variant="danger" @click="cancelNavigation">No</b-button>
+
+            </b-modal>
+
           </div>
         </b-col>
         
@@ -261,9 +270,17 @@ export default {
         }
       });
     },
+    
+    showConfirmModal() {
+      this.$bvModal.show('confirm-modal-id');
+    },
 
     goToSchoolWebsite() {
-      window.open('https://info.rpi.edu/registrar/grades',  '_blank');
+      window.open('https://info.rpi.edu/registrar/grades', '_blank');
+    },
+
+    cancelNavigation() {
+      this.$bvModal.hide('confirm-modal-id');
     },
   },
 };
