@@ -30,3 +30,6 @@ export const addProfessors = (msg) =>
 
 export const addProfessorsTest = () =>
   client.post("/professor/add/test").then((res) => res.data);
+
+// TODO:
+export const getSessionStats=()=>client.get(`/session/stats`)
