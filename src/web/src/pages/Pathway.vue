@@ -353,4 +353,13 @@ export default {
 .courseInPath:hover {
   background-color: rgba(39, 130, 230, 0.5);
 }
+
+@media (max-width: 768px) {
+  body .w-10 {
+    float: none !important;
+    margin: 0 auto !important;
+    width: 50% !important;
+  }
+}
+
 </style>
