@@ -1,6 +1,11 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div style="float: left;" class="w-10">
+      <b-button @click="toggleCollapse" variant="primary" class="open-close-button">
+        {{ collapseAll ? 'Close All' : 'Open All' }}
+      </b-button>
+    </div>
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
         <b-col v-for="(deptCol, index) in schoolDepartmentObjects" :key="`deptCol-${index}`" cols="12" class="col-md-6">
@@ -15,7 +20,7 @@
               </b-button>
               <hr />
               <!-- Subject Title inside a b-collapse -->
-              <b-collapse visible :id="'collapse-' + cleanId(deptObj.school)">
+              <b-collapse :visible="departmentCollapseStates['collapse-' + cleanId(deptObj.school)]" :id="'collapse-' + cleanId(deptObj.school)">
                 <b-row>
                   <DepartmentList
                     :majors="deptObj.departments"
@@ -48,6 +53,7 @@ export default {
   },
   data() {
     return {
+      collapseAll: false,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -63,6 +69,9 @@ export default {
     generateRequirementsText,
     cleanId(str) {
       return str.replace(/\s+/g, '-'); 
+    },
+    toggleCollapse() {
+      this.collapseAll = !this.collapseAll;
     },
   },
   computed: {
@@ -106,6 +115,16 @@ export default {
         }
       }
       return deptClassDict;
+    },
+    departmentCollapseStates() {
+      const collapseStates = {};
+      this.schoolDepartmentObjects.forEach((deptCol) => {
+        deptCol.forEach((deptObj) => {
+          const collapseId = 'collapse-' + this.cleanId(deptObj.school);
+          collapseStates[collapseId] = this.collapseAll;
+        });
+      });
+      return collapseStates;
     },
   },
   metaInfo() {
@@ -199,6 +218,11 @@ export default {
 .button[aria-expanded="true"] .chevron {
   transform: rotate(180deg);
   margin-left: auto;
+}
+
+.open-close-button {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 </style>
