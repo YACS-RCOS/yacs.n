@@ -9,7 +9,6 @@
         placeholder="Enter email"
       ></b-form-input>
     </b-form-group>
-
     <b-form-group id="input-group-2" label="Password:" label-for="input-2">
       <b-form-input
         id="input-2"
@@ -19,7 +18,23 @@
         placeholder="Enter password"
       ></b-form-input>
     </b-form-group>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
     <b-button type="submit" variant="primary">Submit</b-button>
+    <div class="buttonDiv" data-onsuccess="onSignIn"></div>
+=======
+    <div id="buttonDiv"></div>
+    <b-button type="submit" variant="primary">Submit</b-button>
+>>>>>>> parent of 71a4bfa (Google login button)
+=======
+    <div id="buttonDiv"></div>
+    <b-button type="submit" variant="primary">Submit</b-button>
+>>>>>>> parent of 71a4bfa (Google login button)
+=======
+    <div id="buttonDiv"></div>
+    <b-button type="submit" variant="primary">Submit</b-button>
+>>>>>>> parent of 71a4bfa (Google login button)
     <div>
       <b-button-group size="md">
         <button
@@ -45,7 +60,6 @@
     </div>
   </b-form>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import SignUpComponent from "@/components/SignUp";
@@ -65,10 +79,46 @@ export default {
       showForm: true,
     };
   },
+  mounted() {
+    window.google.accounts.id.initialize({
+      // FIXME: replace with relevenat client_id, this is just a test version
+        client_id: "747784477249-pkqhk4sj2s6hhe1i3pa74k57d8c1mspv.apps.googleusercontent.com",
+        callback: this.handleCredentialResponse
+    });
+    // FIXME: make the login button look better and adhere to local language and color theme. also center it.
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    window.google.accounts.id.prompt(); // also display the One Tap dialog
+  },
   methods: {
+    // FIXME: network error with GET request on API
+    onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+
+      try {
+        this.$bvToast.toast(`You are now logged in!`, {
+          title: `Welcome ${profile.getName()}`,
+          variant: "success",
+        });
+
+        this.$emit("submit");
+      } catch (err) {
+        this.$bvToast.toast(err, {
+          title: "Login failed!",
+          variant: "danger",
+        });
+      }
+    },
+    // FIXME: change scopes. make this act the same as a normal login. add logout functionality.
+    handleCredentialResponse(response) {
+      console.log("Encoded JWT ID token: " + response.credential);
+      console.log(response)
+    },
     async onSubmit(evt) {
       evt.preventDefault();
-
+      
       try {
         await this.$store.dispatch(userTypes.actions.LOGIN, this.form);
 
