@@ -25,10 +25,10 @@ class PrereqParse:
         self.catalogIdEndpoint = "http://rpi.apis.acalog.com/v2/content?key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&method=getCatalogs"
         self.resFormat = "xml"
         self.catalogId = 0
-        self.lock = Lock()
-        self.courseDetailsXMLStr = []
-        self.xmlProlog = ""
-        self.catalogRoot = ""
+        self._lock = Lock()
+        self._courseDetailsXMLStr = []
+        self._xmlProlog = ""
+        self._catalogRoot = ""
         self.chunkSize = 100
         self.courses = dict()
     #Returns the current catalog id for the specified year
@@ -37,18 +37,22 @@ class PrereqParse:
         tree = etree.parse(StringIO(res.content.decode()))
         root = tree.getroot()
         try:
-            #TODO: Test this
-            key = "Rennselaer Catalog " + year + "-" + (year + 1)
-            for paths in root.xpath("//text()"):
-                if path == key:
-                    return re.search("(?P<id>\d+)$", path.getparent().getparent().attrib['id'])
+            key = "Rensselaer Catalog " + str(year) + "-" + str(year + 1)
+            #https://stackoverflow.com/questions/53459703/type-lxml-etree-elementunicoderesult-cannot-be-serialized
+            for path in root.xpath("//text()"):
+                if ''.join(str(s) for s in path) == key: #Could also use path.__str__() == key
+                    return re.search("(?P<id>\d+)$", path.getparent().getparent().attrib['id']).group('id')
         except Exception as exception:
             print("Failed to get the catalog id")
     #Return the endpoint of the course ids
     def getCourseIds(self):
+        pdb.set_trace()
+        #http://rpi.apis.acalog.com/v2/search/courses?key=3eef8a28f26fb2bcc514e6f1938929a1f9317628&format=xml&method=listing&catalog=26&options[limit]=0
+        xmlLink = (f"{self.search_endpoint}key={self.key}&format={self.resFormat}&method=listing&catalog={self.catalogId}&options[limit]=0")
+        idXML = req.get(xmlLink).content.decode("utf8") #The xml is returned as bytes, so we need to turn it into a string
+        with self._lock:
+            
         return 0
-        idXML = req.get("{self.search_endpoint}?key={self.key}&format={self.resFormat}&method=listing&catalog={self.cataId}&options[limit]=0").content
-
     #Return a dictionary of every course in the catalog
     def getAllCourses(self):
         return 0
@@ -60,7 +64,7 @@ class PrereqParse:
         #Maybe make some feature to get the catalog for every year?
         self.catalogId = self.getCataId(year)
         ids = self.getCourseIds()
-        courses = getAllCourses()
+        courses = self.getAllCourses()
 
 def main():
     parser = PrereqParse("3eef8a28f26fb2bcc514e6f1938929a1f9317628")

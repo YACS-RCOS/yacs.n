@@ -6,6 +6,8 @@ lxml
 regex
 pyyaml
 selenium
+regex
+lxml
 
 # Course Parser
 Hopefully this will be the last one.
