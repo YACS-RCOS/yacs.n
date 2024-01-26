@@ -28,6 +28,12 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
+      <b-row>
+        <b-col class="mb-4">
+          <br />
+            <button @click="openSyllabus" class="btn btn-primary">Syllabus</button>
+        </b-col>
+      </b-row>
       <b-button @click="$router.go(-1)">Back</b-button>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
@@ -91,6 +97,11 @@ export default {
   },
   methods: {
     generateRequirementsText,
+
+    openSyllabus() {
+      const syllabusURL = `https://github.com/YACS-RCOS/RPISyllabus/blob/main/${this.courseObj.department}/${this.courseName}.pdf`;
+      window.location.href = syllabusURL;
+    }
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
