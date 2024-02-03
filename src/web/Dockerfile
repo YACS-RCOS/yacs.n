@@ -1,8 +1,8 @@
-FROM node:13-alpine as develop-stage
+FROM node:current-alpine as develop-stage
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY ./ .
 
 FROM develop-stage as build-stage
