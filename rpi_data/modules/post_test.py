@@ -1,20 +1,25 @@
+from fastapi import FastAPI, UploadFile, Form, File
 import requests
+import base64
 import os
 
 url = os.environ.get('yacs_url')
 url = "http://localhost:5000"
 api_location = url + "/api/bulkCourseUpload"
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+__location__ = os.path.realpath(os.path.join(
+    os.getcwd(), os.path.dirname(__file__)))
+
 
 def csvUpload(fileName):
-    headers = {'Content-Type': 'text/csv'}
     endpath = os.path.join(__location__, fileName)
     endpath = os.path.dirname(os.path.dirname(endpath)) + "\\" + fileName
     print(endpath)
-    data = {'name': "file", 'filename': fileName}
-    file = {'filename': open(endpath, 'rb')}
-    r = requests.post(api_location, headers=headers, data=data, files=file)
+    uploadFile = {'file': open(endpath, 'rb')}
+    data = {'isPubliclyVisible': 'on'}
+
+    r = requests.post(api_location, files=uploadFile, data=data)
     print(r.reason, r.status_code)
 
+
 if __name__ == "__main__":
-    csvUpload("spring-2021.csv")
+    csvUpload("spring-2022.csv")
