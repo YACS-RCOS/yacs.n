@@ -2,7 +2,8 @@
 node_modules
 /dist
 docs
-
+/.venv
+.venv
 # local env files
 .env.local
 .env.*.local
