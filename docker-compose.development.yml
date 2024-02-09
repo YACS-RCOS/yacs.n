@@ -8,20 +8,10 @@ volumes:
   postgres_data:
 
 services:
-  yacs_nginx:
-    container_name: yacs_nginx
-    image: nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./src/web/nginx.development.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - yacs_web
-
   yacs_web:
     build:
       target: develop-stage
-    command: npm run serve
+    command: npm run dev -- --host
     ports:
       - 8080:8080
     volumes:
