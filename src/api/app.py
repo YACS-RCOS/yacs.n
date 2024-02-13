@@ -178,6 +178,7 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
 
 @app.post('/api/bulkCourseUpload')
 async def uploadHandler(
+        api_key: str = Security(get_api_key),
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
@@ -211,6 +212,7 @@ async def uploadHandler(
 
 @app.post('/api/bulkProfessorUpload')
 async def uploadJSON(
+        api_key: str = Security(get_api_key),
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # Check to make sure the user has sent a file
@@ -402,7 +404,7 @@ async def get_professor_info_by_email(email: str):
 
 
 @app.post('/api/professor/add/{msg}')
-async def add_professor(msg: str):
+async def add_professor(msg: str, api_key: str = Security(get_api_key)):
     info = msg.split(",")
     # msg should be name, title , email ,phone number, dep, portfolio page, rcs
     # rcs = info[2].split("@")
@@ -420,22 +422,22 @@ async def add_professor(msg: str):
     return professor if not error else Response(error, status_code=500)
 
 
-@app.post('/api/professor/add/test')
-async def add_test_professor():
-    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI",
-                                                    "lally 300", "52995")
-    return professor if not error else Response(content=error, status_code=500)
+# @app.post('/api/professor/add/test')
+# async def add_test_professor():
+#     professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI",
+#                                                     "lally 300", "52995")
+#     return professor if not error else Response(content=error, status_code=500)
 
 
 @app.delete('/api/professor/remove/{email}')
-async def remove_professor(email: str):
+async def remove_professor(email: str, api_key: str = Security(get_api_key)):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
 
 
 @app.delete('/api/semester/{id}')
-async def remove_semester(id: str):
+async def remove_semester(id: str, api_key: str = Security(get_api_key)):
     print(id)
     semester, error = courses.delete_by_semester(semester=id)
     return semester if not error else Response(str(error), status_code=500)
