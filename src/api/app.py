@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
+from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Security
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import APIKeyHeader
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
@@ -38,7 +38,17 @@ app = FastAPI()
 app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+api_key_header = APIKeyHeader(name="X-API-Key")
+
+
+def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
+    if api_key_header in os.environ.get("API_SIGN_KEY"):
+        return api_key_header
+    raise HTTPException(
+        status_code=Request.status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or missing API Key",
+    )
+
 
 # - init interfaces to db
 db_conn = connection.db
@@ -64,9 +74,10 @@ async def root(request: Request):
     return Response(content='YACS API is Up!',)
 
 
-@app.get("/auth")
-async def authenticate(token: str = Depends(oauth2_scheme)):
-    return {"token": token}
+@app.get("/api/auth")
+async def authenticate(api_key: str = Security(get_api_key)):
+    # Process the request for authenticated users
+    return {"message": "Access granted!"}
 
 
 @app.get('/api')
