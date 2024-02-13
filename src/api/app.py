@@ -37,7 +37,6 @@ do a cache.clear() to ensure data integrity
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
                    secret_key=os.environ.get("API_SIGN_KEY", "localTestingKey"))
-
 FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -66,7 +65,6 @@ async def root(request: Request):
 
 
 @app.get("/auth")
-@cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def authenticate(token: str = Depends(oauth2_scheme)):
     return {"token": token}
 
@@ -430,3 +428,5 @@ async def remove_semester(id: str):
     print(id)
     semester, error = courses.delete_by_semester(semester=id)
     return semester if not error else Response(str(error), status_code=500)
+
+# add support for finals schedule/endpoints
