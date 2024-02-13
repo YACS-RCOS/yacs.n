@@ -285,7 +285,7 @@ def getCourseInfo(driver, year:str, schools : dict) -> list:
                 c.addSchool("Interdisciplinary and Other")
             courses.append(c)
     return courses
-
+# takes a raw phrase and returns a list of all of the course codes included, with repeats
 def findCourseCodes(raw, subject_codes) -> list:
     course_codes = []
     for i in subject_codes:
@@ -317,7 +317,7 @@ def getReqFromLink(webres, subject_codes) -> list:
         while '\n' in classInfo[i]:
             #Some \n's can make it into the parsed data, so we need to get rid of them.
             classInfo[i] = classInfo[i].replace('\n','')
-    key = "Prerequisites/Corequisites"
+    key = "Prerequisites/Corequisites: "
     preKey = "Prerequisite"
     coKey = "Corequisite"
     extraKey = "Co-listed"
@@ -326,21 +326,23 @@ def getReqFromLink(webres, subject_codes) -> list:
     coreqs = []
     raw = ""
     desc = classInfo[0]
-    
+    # uses full so that we can just get all info
     full = "".join(classInfo).strip()
+    # look for starting key
     if (key in full):
         raw = full.split(key)[1].split(creditKey)[0]
-    else: raw = full
+    else: 
+        raw = full
     if (key not in raw and coKey not in raw and preKey not in raw):
         return [str([]), str([]), "", desc]
     #If the course does not have a description, usually this menas that classInfo[0] will be the credit value.
     if desc.strip()[0].isdigit():
         desc = ""
-    #print(raw)
+    #removes Prereq/Coreq starting keyphrase so we can focus on just coreqs, just prereqs, or both if it isn't distinguished
     raw = raw.replace(key, "")
     raw_prereqs = ""
     raw_coreqs = ""
-    #print(raw)
+    # checks if courses are prereqs, coreqs or both
     if (preKey in raw and coKey in raw):
         if (raw.find(coKey) < raw.find(preKey)):
             raw_coreqs = raw.split(coKey)[1].split(preKey)[0]
@@ -355,19 +357,24 @@ def getReqFromLink(webres, subject_codes) -> list:
     else:
         raw_prereqs = raw
         raw_coreqs = raw
-    #print(raw_prereqs)
-    #print(raw_coreqs)
+    #checks for co-listed courses to not include
     if (extraKey in raw_prereqs):
         raw_prereqs = raw_prereqs.split(extraKey)[0]
     
     if (extraKey in raw_coreqs):
         raw_prereqs = raw_coreqs.split(extraKey)[0]
+    # look for course codes
     prereqs = findCourseCodes(raw_prereqs, subject_codes)
     coreqs = findCourseCodes(raw_coreqs, subject_codes)
+    # take out repeats
     prereqs = list(set(prereqs))
     coreqs = list(set(coreqs))
+    # makes raw both prereqs and coreqs if they are different
     if (raw_prereqs != raw_coreqs):
         raw = raw_prereqs + " " + raw_coreqs
+    else:
+        if (extraKey in raw):    
+            raw = raw.split(extraKey)
     retList = [str(prereqs), str(coreqs), raw, desc]
     return retList
 #Add the prereqs for a course to that course
@@ -377,7 +384,6 @@ def getReqForClass(course: Course, course_codes: list) -> None:
     session = requests.session()
     webres = session.get(url)
     course.addReqsFromList(getReqFromLink(webres, course_codes))
-    print(str(course.pre))
 #Given a course, return the basevalue of that course, eg 2024-01 is returned as 202401
 def getSemester(course: Course) -> int:
     dates = course.sdate.split("-")
@@ -428,5 +434,4 @@ if __name__ == "__main__":
     except:
         driver.quit()
 
-#main()
 
