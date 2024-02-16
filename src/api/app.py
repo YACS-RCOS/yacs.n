@@ -139,8 +139,7 @@ def get_defaultSemester():
 
 
 @app.post('/api/defaultsemesterset')
-def set_defaultSemester(semester_set: DefaultSemesterSetPydantic,
-                        admin_login: str):
+def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
@@ -383,10 +382,3 @@ async def remove_professor(email:str):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
-
-@app.post('/api/admintest')
-async def test_admin_login(admin_login: str):
-    if admin_login == "h":
-        return "h"
-    else:
-        return Response("fuck you", status_code=403)
