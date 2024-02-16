@@ -20,6 +20,7 @@
       ></b-form-input>
     </b-form-group>
     <b-button type="submit" variant="primary">Submit</b-button>
+    <b-button @click="initiateGoogleOneTap" variant="primary" style="margin-left: 10px;">Login with Google</b-button>
     <div>
       <b-button-group size="md">
         <button
@@ -67,8 +68,9 @@ export default {
   },
   methods: {
     async onSubmit(evt) {
-      evt.preventDefault();
-
+      if (evt) {
+        evt.preventDefault();
+      }
       try {
         await this.$store.dispatch(userTypes.actions.LOGIN, this.form);
 
@@ -87,6 +89,37 @@ export default {
     },
     onSignUp() {
       this.$refs["signup-modal"].hide();
+    },
+    initiateGoogleOneTap() {
+        window.google.accounts.id.initialize({
+            client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
+            callback: this.handleGoogleResponse
+        });
+
+        window.google.accounts.id.prompt(); // This triggers the One Tap UI
+    },
+
+    async handleGoogleResponse(response) {
+      // Extract user information from the ID token
+      const idToken = response.credential;
+      const decodedData = this.decodeIdToken(idToken);
+
+      // Set the required form field values
+      
+      this.form.email = decodedData.email;
+      this.form.password = decodedData.name+decodedData.email;
+
+      // Automatically create the account
+      await this.onSubmit();
+    },
+
+    decodeIdToken(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonData = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonData);
     },
     onReset(evt) {
       evt.preventDefault();

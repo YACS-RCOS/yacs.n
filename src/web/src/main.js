@@ -12,6 +12,7 @@ import router from "./routes";
 import VueCookies from "vue-cookies";
 import Meta from "vue-meta";
 
+
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
@@ -19,6 +20,8 @@ Vue.use(VueCookies);
 Vue.use(Meta);
 
 Vue.$cookies.config("7d");
+
+
 
 new Vue({
   render: (h) => h(App),
