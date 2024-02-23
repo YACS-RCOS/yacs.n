@@ -24,12 +24,12 @@ class updateUser(BaseModel):
     degree:str
 
 class UserPydantic(BaseModel):
-     name: str
-     email: str
-     phone: str
-     password: str
-     major: str
-     degree: str
+    name: str
+    email: str
+    phone: str
+    password: str
+    major: str
+    degree: str
 
 class UserDeletePydantic(BaseModel):
     sessionID: str
@@ -45,6 +45,3 @@ class SubsemesterPydantic(BaseModel):
 
 class DefaultSemesterSetPydantic(BaseModel):
     default: str
-
-
-    

@@ -1,4 +1,4 @@
-[MAIN]
+﻿[MAIN]
 
 # Analyse import fallback blocks. This can be used to support both Python 2 and
 # 3 compatible code, which means that the block might have code that exists
@@ -88,16 +88,16 @@ persistent=yes
 
 # Minimum Python version to use for version dependent checks. Will default to
 # the version used to run pylint.
-py-version=3.8
+py-version=3.9
 
 # Discover python modules and packages in the file system subtree.
-recursive=y
+recursive=no
 
 # Add paths to the list of the source roots. Supports globbing patterns. The
 # source root is an absolute path or a path relative to the current working
 # directory used to determine a package namespace for modules located under the
 # source root.
-source-roots= ./src/api/
+source-roots=./src/api
 
 # When enabled, pylint would attempt to guess common misconfiguration and emit
 # user-friendly hints instead of false-positive error messages.
@@ -428,9 +428,9 @@ disable=raw-checker-failed,
         suppressed-message,
         useless-suppression,
         deprecated-pragma,
+        use-symbolic-message-instead,
         use-implicit-booleaness-not-comparison-to-string,
-        use-implicit-booleaness-not-comparison-to-zero,
-        use-symbolic-message-instead
+        use-implicit-booleaness-not-comparison-to-zero
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -518,8 +518,13 @@ min-similarity-lines=4
 # Limits count of emitted suggestions for spelling mistakes.
 max-spelling-suggestions=4
 
-# Spelling dictionary name. No available dictionaries : You need to install
-# both the python package and the system dependency for enchant to work.
+# Spelling dictionary name. Available dictionaries: en_BW (hunspell), en_AU
+# (hunspell), en_BZ (hunspell), en_GB (hunspell), en_JM (hunspell), en_DK
+# (hunspell), en_HK (hunspell), en_GH (hunspell), en_US (hunspell), en_ZA
+# (hunspell), en_ZW (hunspell), en_SG (hunspell), en_NZ (hunspell), en_BS
+# (hunspell), en_AG (hunspell), en_PH (hunspell), en_IE (hunspell), en_NA
+# (hunspell), en_TT (hunspell), en_IN (hunspell), en_NG (hunspell), en_CA
+# (hunspell).
 spelling-dict=
 
 # List of comma separated words that should be considered directives if they

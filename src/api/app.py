@@ -83,7 +83,7 @@ async def get_classes(request: Request, semester: str or None = None, search: st
             classes, error = class_info.get_classes_full(semester)
         return classes if not error else Response(error, status_code=500)
     return Response(content="missing semester option", status_code=400)
-    
+
 @app.get('/api/department')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
 async def get_departments():
@@ -145,7 +145,7 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
         return Response(status_code=200)
     else:
         print(error)
-        return Response(error.__str__(), status_code=500)
+        return Response(str(error), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -173,28 +173,28 @@ async def uploadHandler(
     # courses.
     courses.bulk_delete(semesters=semesters)
     # Populate DB from CSV
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    if (isSuccess):
+    is_success, error = courses.populate_from_csv(csv_file)
+    if is_success:
         return Response(status_code=200)
     else:
         print(error)
-        return Response(error.__str__(), status_code=500)
+        return Response(str(error), status_code=500)
 
 @app.post('/api/bulkProfessorUpload')
 async def uploadJSON(
         isPubliclyVisible: str = Form(...),
-        file: UploadFile = File(...)):  
+        file: UploadFile = File(...)):
     # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
-    
+
     # Check that we receive a JSON file
     if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
         return Response("File must have JSON extension", 400)
-    
+
     # Get file contents
     contents = await file.read()
-    
+
     # Load JSON data
     try:
         #convert string to python dict
@@ -204,8 +204,8 @@ async def uploadJSON(
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
     # Call populate_from_json method
-    isSuccess, error = professor_info.populate_from_json(json_data)
-    if isSuccess:
+    is_success, error = professor_info.populate_from_json(json_data)
+    if is_success:
         print("SUCCESS")
         return Response(status_code=200)
     else:
@@ -216,27 +216,28 @@ async def uploadJSON(
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
-     # This depends on date_start, date_end, and semester_part_name being
-     # ordered since each field has multiple entries. They should be ordered
-     # as each dict entry has the value of list. But if it doesn't work,
-     # look into parameter_storage_class which will change the default
-     # ImmutableMultiDict class that form uses. https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
-     form = await request.form()
-     if (form):
-         # If checkbox is false, then, by design, it is not included in the form data.
-         is_publicly_visible = form.get('isPubliclyVisible', default=False)
-         semester_title = form.get('semesterTitle')
-         semester_part_names = form.getlist('semester_part_name')
-         start_dates = form.getlist('date_start')
-         end_dates = form.getlist('date_end')
-         if (start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title):
-             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
-             semester_info.upsert(semester_title, is_publicly_visible)
-             if (not error):
-                 return Response(status_code=200)
-             else:
-                 return Response(error, status_code=500)
-     return Response("Did not receive proper form data", status_code=500)
+    # This depends on date_start, date_end, and semester_part_name being
+    # ordered since each field has multiple entries. They should be ordered
+    # as each dict entry has the value of list. But if it doesn't work,
+    # look into parameter_storage_class which will change the default
+    # ImmutableMultiDict class that form uses.
+    # https://flask.palletsprojects.com/en/1.0.x/patterns/subclassing/
+    form = await request.form()
+    if form:
+        # If checkbox is false, then, by design, it is not included in the form data.
+        is_publicly_visible = form.get('isPubliclyVisible', default=False)
+        semester_title = form.get('semesterTitle')
+        semester_part_names = form.getlist('semester_part_name')
+        start_dates = form.getlist('date_start')
+        end_dates = form.getlist('date_end')
+        if start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title:
+            _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
+            semester_info.upsert(semester_title, is_publicly_visible)
+            if not error:
+                return Response(status_code=200)
+            else:
+                return Response(error, status_code=500)
+    return Response("Did not receive proper form data", status_code=500)
 
 @app.get('/api/user/course')
 async def get_student_courses(request: Request):
@@ -276,7 +277,7 @@ async def update_user_info(request:Request, user:updateUser):
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):
     session_res = session_controller.add_session(credentials.dict())
-    if (session_res['success']):
+    if session_res['success']:
         session_data = session_res['content']
         # [0] b/c conn.exec uses fetchall() which wraps result in list
         user = users.get_user(uid=session_data['uid'])[0]
@@ -314,9 +315,9 @@ async def remove_student_course(request: Request, courseDelete:CourseDeletePydan
 @app.get('/api/professor/name/{email}')
 async def get_professor_name_by_email(email: str):
     # searches professor's first and last name by email
-    professorName, error = professor_info.get_professor_name_by_email(email)
+    professor_name, error = professor_info.get_professor_name_by_email(email)
     # Return the data as a JSON response
-    return professorName if not error else Response(content=error, status_code=500)
+    return professor_name if not error else Response(content=error, status_code=500)
 
 @app.get('/api/professor/department/{department}')
 async def get_professor_from_department(department: str):
@@ -336,7 +337,6 @@ async def get_all_professors():
 
 @app.get('/api/professor/phone_number/{email}')
 async def get_professor_phone_number_by_email(email: str):
-    
     phone_number, error = professor_info.get_professor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
 
@@ -366,14 +366,14 @@ async def add_professor(msg:str):
     # print("dep", info[4])
     # print("portfolio_page", info[5])
     # print("rcs", id)
-    
+
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
     info[5], info[6], info[7], info[8])
     return professor if not error else Response(error, status_code=500)
 
 @app.post('/api/professor/add/test')
 async def add_test_professor():
-    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI", 
+    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI",
         "lally 300", "52995")
     return professor if not error else Response(content = error, status_code = 500)
 

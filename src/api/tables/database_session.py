@@ -29,8 +29,8 @@ if __name__=="__main__":
             break
         except Exception as err:
             print(err)
-            
+
         time.sleep(1)
-    
+
     if not is_online:
         raise Exception("Database not connected")

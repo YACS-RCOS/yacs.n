@@ -9,7 +9,6 @@ else:
     from . import connection
 
 class Professor:
-    
     def __init__(self, db_conn, cache):
         self.db_conn = db_conn
         self.cache = cache
@@ -61,7 +60,7 @@ class Professor:
     def populate_from_json(self, json_data):
         # Connect to the database
         conn = self.db_conn.get_connection()
-        
+
         with conn.cursor(cursor_factory=RealDictCursor) as transaction:
             try:
                 # Iterate over each entry in the JSON data
@@ -163,7 +162,7 @@ class Professor:
 
     # if you expect the SQL statement to return more than one row of data, 
     # you should pass True as the value for multi.
-    
+
     def get_professor_info_by_email(self, email):
         if email is not None:
             sql = """
@@ -189,7 +188,7 @@ class Professor:
         department, error = self.db_conn.execute(sql, (department,), True)
         return (department, None) if not error else (False, error)
 
-    def get_professor_phone_number_by_email(self, email):    
+    def get_professor_phone_number_by_email(self, email):
         if email is not None:
             sql = """
                     select
@@ -205,23 +204,9 @@ class Professor:
 
     #return as a json
     def get_all_professors(self):  
-        return self.db_conn.execute(""" 
+        return self.db_conn.execute("""
                             SELECT * FROM professor
                     """, None, True)
-    
-    #gets prfoessors' phone number by their email
-    def get_professor_phone_number_by_email(self, email):
-        if email is not None:
-            sql = """
-                    select
-                        phone_number
-                    from
-                        professor
-                    where
-                        email = %s
-                    """
-            phone_number, error = self.db_conn.execute(sql, (email,), True)
-            return (phone_number, None) if not error else (False, error)
 
     def get_professor_name_by_email(self, email):
         if email is not None:

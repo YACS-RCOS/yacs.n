@@ -20,10 +20,10 @@ def test_wrong_semester(upload, client: TestClient):
     params = {'semester' : 'RANDOM'}
     r = client.get("/api/class", params = params)
     assert r.status_code == 401
-    assert (r.text == "Semester isn't available")
+    assert r.text == "Semester isn't available"
 
 @pytest.mark.testclient
 def test_no_args(upload, client: TestClient):
     assert upload.status_code == 200
     r = client.get("/api/class")
-    assert(r.text == "missing semester option")
+    assert r.text == "missing semester option"
