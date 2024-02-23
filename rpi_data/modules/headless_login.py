@@ -59,6 +59,8 @@ def login(driver):
     trust_button = driver.find_element(By.XPATH, '//*[@id="trust-browser-button"]') #find and click it
     trust_button.click()
     time.sleep(3)
+    while ("https://shib.auth.rpi.edu" in driver.current_url):
+        driver.get("https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu")
     if (driver.current_url == "https://sis.rpi.edu/rss/twbkwbis.P_GenMenu?name=bmenu.P_MainMnu"): # check if we're in the right place
         return "Success"
     else:

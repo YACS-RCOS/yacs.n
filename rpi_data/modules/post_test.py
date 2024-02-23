@@ -1,4 +1,3 @@
-from fastapi import FastAPI, UploadFile, Form, File
 import requests
 import base64
 import os
@@ -10,10 +9,7 @@ __location__ = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
 
 
-def csvUpload(fileName):
-    endpath = os.path.join(__location__, fileName)
-    endpath = os.path.dirname(os.path.dirname(endpath)) + "\\" + fileName
-    print(endpath)
+def csvUpload(endpath):
     uploadFile = {'file': open(endpath, 'rb')}
     data = {'isPubliclyVisible': 'on'}
 

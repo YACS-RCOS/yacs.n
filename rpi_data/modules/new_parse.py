@@ -418,8 +418,8 @@ if __name__ == "__main__":
     options.add_argument("--user-agent=Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0")
     fp = webdriver.FirefoxProfile()
     fp.set_preference("network.cookie.cookieBehavior", 2)
-    driver = webdriver.Firefox(options=options)
-    driver.delete_all_cookies(options==fp)
+    driver = webdriver.Firefox(options)
+    driver.delete_all_cookies()
     try:
         driver.implicitly_wait(2)
         course_codes_dict = findAllSubjectCodes(driver)
