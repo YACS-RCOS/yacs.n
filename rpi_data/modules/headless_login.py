@@ -51,12 +51,6 @@ def login(driver):
         submit.click()
     while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[7]/a'))==0:
         time.sleep(.1)
-    options  = driver.find_element(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[7]/a')
-    options.click()
-    while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[1]/ul/li[1]/a')) == 0:
-        time.sleep(.1)
-    duo_option = driver.find_element(By.XPATH, '/html/body/div/div/div[1]/div/div[1]/ul/li[1]/a')
-    duo_option.click()
     while len(driver.find_elements(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[3]')) == 0:
         time.sleep(.1)
     print("Your DUO code: "+ driver.find_element(by= By.XPATH, value = "/html/body/div/div/div[1]/div/div[2]/div[3]").text) # print the duo code
@@ -70,3 +64,12 @@ def login(driver):
     else:
         print("login failed")
         return "Failure"
+
+
+if __name__ == "__main__":
+    options = Options()
+    options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1')
+    driver = webdriver.Firefox(options=options)
+    driver.implicitly_wait(2)
+    login(driver)
+

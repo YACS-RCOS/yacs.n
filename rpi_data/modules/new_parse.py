@@ -4,8 +4,9 @@ import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support import expected_conditions as EC 
 import time
 from bs4 import BeautifulSoup as bs
 import pandas as pd
@@ -369,13 +370,11 @@ def writeCSV(info:list, filename: str):
 
 # This main function is helpful for running the full parser standalone, without needing environmental variables.
 
-def main():
+if __name__ == "__main__":
     options = Options()
-    #options.add_argument("--no-sandbox")
-    #options.add_argument("--disable-dev-shm-usage")
-    #options.add_argument("--headless")
-    #options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Firefox()
+    options.add_argument("--user-agent=Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0")
+    driver = webdriver.Firefox(options=options)
+    driver.delete_all_cookies()
     driver.implicitly_wait(2)
     login.login(driver)
     start = time.time()
@@ -384,5 +383,4 @@ def main():
     writeCSV(final, "test.csv")
     print("Total Elapsed: " + str(end - start))
 
-#main()
 

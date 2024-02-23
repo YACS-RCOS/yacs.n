@@ -14,6 +14,7 @@ import csv_to_course
 import selenium
 import pdb
 import os
+from post_test import csvUpload
 
 # COMMON PONTS OF ERROR:
 # 
@@ -92,6 +93,7 @@ def courseUpdate(driver, term, courses):
 if __name__ == "__main__":
     options = Options()
     options.add_argument("--headless")
+    options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1')
     if (len(sys.argv) == 1):
         print("Error: No command argument detected. Defaulting to Spring 2024")
         term = "spring2024"
@@ -103,6 +105,7 @@ if __name__ == "__main__":
     endpath = os.path.dirname(os.path.dirname(endpath)) + "\\" + csv_name
     driver = webdriver.Firefox(options)
     driver.implicitly_wait(2)
+    subject_codes = parser.findAllSubjectCodes(driver)
     flag = "Failure"
     while True:
         if flag == "Failure":
@@ -113,6 +116,7 @@ if __name__ == "__main__":
         else:
             break
     print("Login Successful")
+    
     if (not os.path.isfile(endpath)):
         print("Existing csv not found, doing full parse")
         courses = parser.sisCourseSearch(driver, term)
@@ -129,11 +133,13 @@ if __name__ == "__main__":
             print("Doing midnight Update")
             courses = parser.sisCourseSearch(driver, term)
             parser.writeCSV(courses, endpath)
+            csvUpload(endpath)
             time.sleep(40)
             has_updated = True
         driver.get("http://sis.rpi.edu")
         courses = courseUpdate(driver, term, courses)
         parser.writeCSV(courses, endpath)
+        csvUpload(endpath)
         i += 1
         print("Update # " + str(i) + " Finished")
         time.sleep(60)
