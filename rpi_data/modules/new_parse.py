@@ -256,7 +256,7 @@ def getStrSemester(c : Course) -> str:
         date = "SPRING " + date
     elif val[4:] == "09":
         date = "FALL " + date
-    elif val[4:] == "05":
+    elif val[4:] == "05" or val[4:] == "06" or val[4:] == "07" or val[4:] == "08":
         date = "SUMMER " + date
     elif val[4:] == "12":
         date = "WINTER " + date
@@ -425,9 +425,9 @@ if __name__ == "__main__":
         course_codes_dict = findAllSubjectCodes(driver)
         login.login(driver)
         start = time.time()
-        final = sisCourseSearch(driver, "spring2024", course_codes_dict)
+        final = sisCourseSearch(driver, "fall2024", course_codes_dict)
         end = time.time()
-        writeCSV(final, "test.csv")
+        writeCSV(final, "fall2024.csv")
         print("Total Elapsed: " + str(end - start))
         driver.quit()
     except:
