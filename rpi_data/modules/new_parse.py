@@ -414,15 +414,13 @@ def writeCSV(info:list, filename: str):
 
 if __name__ == "__main__":
     options = Options()
-    #options.add_argument("--no-sandbox")
-    #options.add_argument("--disable-dev-shm-usage")
-    #options.add_argument("--headless")
-    #options.add_argument("--remote-debugging-port=9222")
+    options.add_argument("--user-agent=Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0")
     fp = webdriver.FirefoxProfile()
     fp.set_preference("network.cookie.cookieBehavior", 2)
-    driver = webdriver.Firefox(options==fp)
+    driver = webdriver.Firefox(options)
+    driver.delete_all_cookies()
     try:
-        driver.implicitly_wait(1)
+        driver.implicitly_wait(2)
         course_codes_dict = findAllSubjectCodes(driver)
         login.login(driver)
         start = time.time()
