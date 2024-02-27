@@ -40,7 +40,7 @@ class Course:
         self.section = info[3]
         self.credits = info[4]
         self.name = info[5]
-        self.days = info[6]
+        self.days = info[6].strip()
         self.stime = info[7]
         self.etime = info[8]
         self.max = info[9]
