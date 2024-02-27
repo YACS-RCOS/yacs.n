@@ -3,12 +3,12 @@ import base64
 import os
 
 url = os.environ.get('yacs_url')
-url = "http://localhost:5000"
+#url = "http://localhost:5000" # for testing
 api_location = url + "/api/bulkCourseUpload"
-__location__ = os.path.realpath(os.path.join(
-    os.getcwd(), os.path.dirname(__file__)))
+# __location__ = os.path.realpath(os.path.join( 
+#    os.getcwd(), os.path.dirname(__file__))) # in case we don't have an endpath yet.
 
-
+# Makes a post request to our api and prints the status code
 def csvUpload(endpath):
     uploadFile = {'file': open(endpath, 'rb')}
     data = {'isPubliclyVisible': 'on'}
