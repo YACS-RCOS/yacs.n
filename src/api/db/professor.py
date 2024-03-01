@@ -134,7 +134,7 @@ class Professor:
                 WHERE
                     email = '%s'
                 """
-            error = self.db_conn.execute(sql, (email,), False)
+            _error = self.db_conn.execute(sql, (email,), False)
         else:
             return (False, "email cant be none")
         return (True, None)
@@ -160,23 +160,24 @@ class Professor:
         self.clear_cache()
         return None
 
-    # if you expect the SQL statement to return more than one row of data, 
+    # if you expect the SQL statement to return more than one row of data,
     # you should pass True as the value for multi.
 
     def get_professor_info_by_email(self, email):
-        if email is not None:
-            sql = """
-                    SELECT 
-                        * 
-                    FROM 
-                        professor 
-                    where 
-                        email = %s
-                """
-            return self.db_conn.execute(sql, (email,), True)
+        if email is None:
+            raise ValueError("Expected email, received None")
+        sql = """
+                SELECT 
+                    * 
+                FROM 
+                    professor 
+                where 
+                    email = %s
+            """
+        return self.db_conn.execute(sql, (email,), True)
 
     #seraches professors who are in a certain department
-    def get_professors_by_department(self,department): 
+    def get_professors_by_department(self,department):
         sql = """
                 select
                     *
@@ -189,39 +190,41 @@ class Professor:
         return (department, None) if not error else (False, error)
 
     def get_professor_phone_number_by_email(self, email):
-        if email is not None:
-            sql = """
-                    select
-                        phone_number
-                    from
-                        professor
-                    where
-                        email = %s
-                    """
-            info, error = self.db_conn.execute(sql, (email,), True)
-            return (info, None) if not error else (False, error)
+        if email is None:
+            raise ValueError("Expected email, received None")
+        sql = """
+                select
+                    phone_number
+                from
+                    professor
+                where
+                    email = %s
+                """
+        info, error = self.db_conn.execute(sql, (email,), True)
+        return (info, None) if not error else (False, error)
 
 
     #return as a json
-    def get_all_professors(self):  
+    def get_all_professors(self):
         return self.db_conn.execute("""
                             SELECT * FROM professor
                     """, None, True)
 
     def get_professor_name_by_email(self, email):
-        if email is not None:
-            sql = """
-            SELECT
-                name
-            FROM
-                professor
-            WHERE
-                email = %s
-        """
-            name, error = self.db_conn.execute(sql, (email,), True)
-            return (name, None) if not error else (False, error)
+        if email is None:
+            raise ValueError("Expected email, received None")
+        sql = """
+        SELECT
+            name
+        FROM
+            professor
+        WHERE
+            email = %s
+    """
+        name, error = self.db_conn.execute(sql, (email,), True)
+        return (name, None) if not error else (False, error)
 
 if __name__ == "__main__":
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
-    courses = Professor(connection.db)
-    courses.populate_from_csv(csv_text)
+    with open('../../../rpi_data/fall-2020.csv', 'r', encoding="utf8") as csv_text:
+        courses = Professor(connection.db, None)
+        courses.populate_from_csv(csv_text)

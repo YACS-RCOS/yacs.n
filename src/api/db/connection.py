@@ -9,7 +9,10 @@ DB_HOST = os.environ.get('DB_HOST', 'localhost')
 DB_PORT = os.environ.get('DB_PORT', None)
 DB_PASS = os.environ.get('DB_PASS', None)
 
-class database():
+class Database():
+    def __init__(self):
+        self.conn = None
+
     def connect(self):
         self.conn = psycopg2.connect(
             dbname=DB_NAME,
@@ -23,11 +26,11 @@ class database():
     def close(self):
         self.conn.close()
 
-    def execute(self, sql, args, isSELECT=True):
+    def execute(self, sql, args, is_select=True):
         cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         ret = None
         try:
-            if isSELECT:
+            if is_select:
                 cur.execute(sql, args)
                 ret = cur.fetchall()
             else:
@@ -47,5 +50,5 @@ class database():
         return self.conn
 
 
-db = database()
+db = Database()
 db.connect()

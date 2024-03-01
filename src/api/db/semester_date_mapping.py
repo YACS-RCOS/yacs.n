@@ -1,4 +1,4 @@
-class semester_date_mapping:
+class SemesterDateMapping:
 
     def __init__(self, db_wrapper):
         self.db = db_wrapper
@@ -31,8 +31,8 @@ class semester_date_mapping:
                         "SemesterPartName": names[i],
                         "DateStart": start_dates[i],
                         "DateEnd": end_dates[i]
-                    }, isSELECT=False)
-                    if (error):
+                    }, is_select=False)
+                    if error:
                         return (False, error)
             return (True, None)
         return (False, None)

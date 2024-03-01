@@ -4,8 +4,6 @@ import uuid
 
 
 class Session(Model):
-    def __init__(self):
-        super().__init__()
 
     def create_session_id(self):
         return str(uuid.uuid1())

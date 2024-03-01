@@ -19,7 +19,7 @@ class Courses:
         self.db = db_wrapper
         self.cache = cache
 
-    def dayToNum(self, day_char):
+    def day_to_num(self, day_char):
         day_map = {
             'M': 0,
             'T': 1,
@@ -30,10 +30,11 @@ class Courses:
         day_num = day_map.get(day_char, -1)
         if day_num != -1:
             return day_num
+        return None
 
-    def getDays(self, daySequenceStr):
+    def get_days(self, day_sequence_str):
         return set(filter(
-            lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
+            lambda day: day, re.split("(?:(M|T|W|R|F))", day_sequence_str)))
 
     def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
@@ -68,7 +69,7 @@ class Courses:
             for row in reader:
                 try:
                     # course sessions
-                    days = self.getDays(row['course_days_of_the_week'])
+                    days = self.get_days(row['course_days_of_the_week'])
                     for day in days:
                         transaction.execute(
                             """
@@ -103,7 +104,7 @@ class Courses:
                                 "Semester": row['semester'],
                                 "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
                                 "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
-                                "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
+                                "WeekDay": self.day_to_num(day) if day and not day.isspace() else None,
                                 "Location": row['course_location'],
                                 "SessionType": row['course_type'],
                                 "Instructor": row['course_instructor']
@@ -229,7 +230,8 @@ class Courses:
                             """,
                             {
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] if row['course_level'] 
+                                and not row['course_level'].isspace() else None,
                                 "Corequisite": coreq
                             }
                         )
@@ -256,6 +258,6 @@ class Courses:
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
-    courses = Courses(connection.db)
-    courses.populate_from_csv(csv_text)
+    with open('../../../rpi_data/fall-2020.csv', 'r', encoding="utf8") as csv_file:
+        courses = Courses(connection.db, None)
+        courses.populate_from_csv(csv_file)

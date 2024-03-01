@@ -43,10 +43,10 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn, FastAPICache)
-date_range_map = DateMapping.semester_date_mapping(db_conn)
+date_range_map = DateMapping.SemesterDateMapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
-course_select = CourseSelect.student_course_selection(db_conn)
-semester_info = SemesterInfo.semester_info(db_conn)
+course_select = CourseSelect.StudentCourseSelection(db_conn)
+semester_info = SemesterInfo.SemesterInfo(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
@@ -132,14 +132,14 @@ def get_all_semester_info():
     return all_semester_info if not error else Response(error, status=500)
 
 @app.get('/api/defaultsemester')
-def get_defaultSemester():
+def get_default_semester():
     semester, error = admin_info.get_semester_default()
     print(semester)
     return semester if not error else Response(error, status=500)
 
 
 @app.post('/api/defaultsemesterset')
-def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
+def set_default_semester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
@@ -149,7 +149,7 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
-async def uploadHandler(
+async def upload_handler(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
@@ -181,7 +181,7 @@ async def uploadHandler(
         return Response(str(error), status_code=500)
 
 @app.post('/api/bulkProfessorUpload')
-async def uploadJSON(
+async def upload_json(
         isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):
     # Check to make sure the user has sent a file
@@ -309,7 +309,7 @@ async def add_student_course(request: Request, credentials: UserCoursePydantic):
 async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+    _resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.get('/api/professor/name/{email}')

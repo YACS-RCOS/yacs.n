@@ -1,8 +1,6 @@
 from db.model import *
 
 class User(Model):
-    def __init__(self):
-        super().__init__()
 
     def get_user(self, uid='%', name='%', email='%', password='%', phone='%', major='%', degree='%', enable=True):
         sql = """   SELECT user_id, name, email, phone,password,major,degree,enable,admin,super_admin
