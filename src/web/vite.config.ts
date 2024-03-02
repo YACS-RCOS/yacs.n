@@ -5,7 +5,18 @@ import checker from "vite-plugin-checker";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), checker({ vueTsc: true })],
+  plugins: [
+    vue(),
+    checker({
+      vueTsc: {
+        tsconfigPath: "./tsconfig.app.json"
+      },
+      eslint: {
+        lintCommand: "eslint .",
+        useFlatConfig: true
+      }
+    })
+  ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url))
