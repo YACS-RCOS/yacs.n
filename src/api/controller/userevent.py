@@ -15,7 +15,7 @@ def add_event(form):
     event_data = form['data']
     timestamp = form['createdAt']
 
-    res = userEvents.add_event(uid=uid,eventID=event_id,data=str(event_data),timestamp=timestamp)
+    res = userEvents.add_event(uid=uid,event_id=event_id,data=str(event_data),timestamp=timestamp)
 
     if res == None:
         return msg.error_msg("Failed to add event.")

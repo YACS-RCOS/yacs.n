@@ -1,11 +1,8 @@
-import glob
-import os
 import csv
 import re
-import json
-from psycopg2.extras import RealDictCursor
 from ast import literal_eval
 import asyncio
+from psycopg2.extras import RealDictCursor
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -102,9 +99,18 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
-                                "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
-                                "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
-                                "WeekDay": self.day_to_num(day) if day and not day.isspace() else None,
+                                "StartTime": row['course_start_time'] \
+                                    if row['course_start_time'] \
+                                        and not row['course_start_time'].isspace() \
+                                    else None,
+                                "EndTime": row['course_end_time'] \
+                                    if row['course_end_time'] \
+                                        and not row['course_end_time'].isspace() \
+                                    else None,
+                                "WeekDay": self.day_to_num(day) \
+                                    if day \
+                                        and not day.isspace() \
+                                    else None,
                                 "Location": row['course_location'],
                                 "SessionType": row['course_type'],
                                 "Instructor": row['course_instructor']
@@ -172,10 +178,19 @@ class Courses:
                                 "Description": row['description'], # new
                                 "Frequency": row['offer_frequency'], # new
                                 "FullTitle": row["full_name"], # new
-                                "StartDate": row['course_start_date'] if row['course_start_date'] and not row['course_start_date'].isspace() else None,
-                                "EndDate": row['course_end_date'] if row['course_end_date'] and not row['course_end_date'].isspace() else None,
+                                "StartDate": row['course_start_date'] \
+                                    if row['course_start_date'] \
+                                        and not row['course_start_date'].isspace() \
+                                    else None,
+                                "EndDate": row['course_end_date'] \
+                                    if row['course_end_date'] \
+                                        and not row['course_end_date'].isspace() \
+                                    else None,
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] \
+                                    if row['course_level'] \
+                                        and not row['course_level'].isspace() \
+                                    else None,
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
                                 "School": row['school'],
@@ -207,7 +222,10 @@ class Courses:
                             """,
                             {
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] \
+                                    if row['course_level'] \
+                                        and not row['course_level'].isspace() \
+                                    else None,
                                 "Prerequisite": prereq
                             }
                         )

@@ -28,7 +28,7 @@ def get_user_info(session_id):
     return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
 
 
-def update_user(user:updateUser):
+def update_user(user:UpdateUser):
     users = UserModel()
     sessions = SessionModel()
 

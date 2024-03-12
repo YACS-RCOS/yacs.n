@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient 
+from fastapi.testclient import TestClient
 import pytest
 
 @pytest.mark.testclient

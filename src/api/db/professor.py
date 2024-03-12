@@ -1,6 +1,5 @@
-import json
-from psycopg2.extras import RealDictCursor
 import asyncio
+from psycopg2.extras import RealDictCursor
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -30,8 +29,7 @@ class Professor:
                 "Portfolio_page": portfolio,
                 "Profile_page": profile_page,
             })
-        else:
-            return False, "Email cannot be None."
+        return False, "Email cannot be None."
 
     # def add_bulk_professor(self):
     #     # Load the JSON data from a file

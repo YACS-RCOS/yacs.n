@@ -1,6 +1,7 @@
+import os
+import inspect
 import pytest
 from fastapi.testclient import TestClient
-import os, inspect
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))

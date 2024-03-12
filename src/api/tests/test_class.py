@@ -1,4 +1,4 @@
-from fastapi.testclient import TestClient 
+from fastapi.testclient import TestClient
 import pytest
 
 #NOTE: Currently unable to test for non-public semesters access if

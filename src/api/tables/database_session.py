@@ -15,22 +15,22 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 if __name__=="__main__":
     #   Handly for waiting until database is online.
     #   Will wait 1 second after each connection attempt,
-    #   total 5 attempts. Throws an exception if all tries 
+    #   total 5 attempts. Throws an exception if all tries
     #   fail.
     import time
 
-    is_online = False
+    IS_ONLINE = False
 
     for i in range(5):
         try:
             db = SessionLocal()
             db.execute("SELECT 1")
-            is_online = True
+            IS_ONLINE = True
             break
         except Exception as err:
             print(err)
 
         time.sleep(1)
 
-    if not is_online:
+    if not IS_ONLINE:
         raise Exception("Database not connected")

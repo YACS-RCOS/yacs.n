@@ -1,14 +1,16 @@
 #!/usr/bin/python3
-from fastapi import FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends
+import json
+import os
+from io import StringIO
+from fastapi import FastAPI, Request, Response, UploadFile, Form, File, Depends
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
-from fastapi import Depends
 
 from api_models import *
-import db.connection as connection
+from db import connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
 import db.professor as All_professors
@@ -19,19 +21,12 @@ import db.student_course_selection as CourseSelect
 import db.user as UserModel
 import controller.user as user_controller
 import controller.session as session_controller
-import controller.userevent as event_controller
-from io import StringIO
-from sqlalchemy.orm import Session
-import json
-import os
 import pandas as pd
 from constants import Constants
 
-"""
-NOTE: on caching
-on add of semester of change of data from GET
-do a cache.clear() to ensure data integrity
-"""
+#NOTE: on caching
+#on add of semester of change of data from GET
+#do a cache.clear() to ensure data integrity
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
@@ -57,7 +52,7 @@ def is_admin_user(session):
 
 @app.get('/')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def root(request: Request):
+async def root(_request: Request):
     return Response(content='YACS API is Up!',)
 
 @app.get('/api')
@@ -129,13 +124,13 @@ async def get_semesters():
 @app.get('/api/semesterInfo')
 def get_all_semester_info():
     all_semester_info, error = class_info.get_all_semester_info()
-    return all_semester_info if not error else Response(error, status=500)
+    return all_semester_info if not error else Response(error, status_code=500)
 
 @app.get('/api/defaultsemester')
 def get_default_semester():
     semester, error = admin_info.get_semester_default()
     print(semester)
-    return semester if not error else Response(error, status=500)
+    return semester if not error else Response(error, status_code=500)
 
 
 @app.post('/api/defaultsemesterset')
@@ -143,14 +138,13 @@ def set_default_semester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(str(error), status_code=500)
+    print(error)
+    return Response(str(error), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
 async def upload_handler(
-        isPubliclyVisible: str = Form(...),
+        is_publicly_visible: str = Form(...),
         file: UploadFile = File(...)):
     # check for user files
     print("in process")
@@ -165,7 +159,7 @@ async def upload_handler(
     # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
     for semester in semesters:
-        semester_info.upsert(semester, isPubliclyVisible)
+        semester_info.upsert(semester, is_publicly_visible)
     # Like C, the cursor will be at EOF after full read, so reset to beginning
     csv_file.seek(0)
     # Clear out course data of the same semester before population due to
@@ -176,13 +170,12 @@ async def upload_handler(
     is_success, error = courses.populate_from_csv(csv_file)
     if is_success:
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(str(error), status_code=500)
+    print(error)
+    return Response(str(error), status_code=500)
 
 @app.post('/api/bulkProfessorUpload')
 async def upload_json(
-        isPubliclyVisible: str = Form(...),
+        _is_publicly_visible: str = Form(...),
         file: UploadFile = File(...)):
     # Check to make sure the user has sent a file
     if not file:
@@ -208,10 +201,9 @@ async def upload_json(
     if is_success:
         print("SUCCESS")
         return Response(status_code=200)
-    else:
-        print("NOT WORKING")
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print("NOT WORKING")
+    print(error)
+    return Response(str(error), status_code=500)
 
 
 @app.post('/api/mapDateRangeToSemesterPart')
@@ -230,13 +222,13 @@ async def map_date_range_to_semester_part_handler(request: Request):
         semester_part_names = form.getlist('semester_part_name')
         start_dates = form.getlist('date_start')
         end_dates = form.getlist('date_end')
-        if start_dates and end_dates and semester_part_names and is_publicly_visible is not None and semester_title:
+        if start_dates and end_dates and semester_part_names \
+        and is_publicly_visible is not None and semester_title:
             _, error = date_range_map.insert_all(start_dates, end_dates, semester_part_names)
             semester_info.upsert(semester_title, is_publicly_visible)
             if not error:
                 return Response(status_code=200)
-            else:
-                return Response(error, status_code=500)
+            return Response(error, status_code=500)
     return Response("Did not receive proper form data", status_code=500)
 
 @app.get('/api/user/course')
@@ -244,8 +236,8 @@ async def get_student_courses(request: Request):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
-    courses, error = course_select.get_selection(request.session['user']['user_id'])
-    return courses if not error else Response(error, status_code=500)
+    student_courses, error = course_select.get_selection(request.session['user']['user_id'])
+    return student_courses if not error else Response(error, status_code=500)
 
 
 @app.get('/api/user/{session_id}')
@@ -268,7 +260,7 @@ async def delete_user(request: Request, session: UserDeletePydantic):
     return user_controller.delete_user(session.dict())
 
 @app.put('/api/user')
-async def update_user_info(request:Request, user:updateUser):
+async def update_user_info(request:Request, user:UpdateUser):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
 
@@ -294,22 +286,25 @@ def log_out(request: Request, session: SessionDeletePydantic):
     return response
 
 @app.post('/api/event')
-def add_user_event(request: Request, credentials: SessionPydantic):
+def add_user_event(_request: Request, _credentials: SessionPydantic):
     return Response(status_code=501)
 
 @app.post('/api/user/course')
 async def add_student_course(request: Request, credentials: UserCoursePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    resp, error = course_select.add_selection(credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+    _resp, error = course_select.add_selection(credentials.name, credentials.semester,
+                                               request.session['user']['user_id'], credentials.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 
 @app.delete('/api/user/course')
-async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
+async def remove_student_course(request: Request, course_delete:CourseDeletePydantic):
     if 'user' not in request.session:
         return Response("Not authorized", status_code=403)
-    _resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+    _resp,error = course_select.remove_selection(course_delete.name, course_delete.semester,
+                                                 request.session['user']['user_id'],
+                                                 course_delete.cid)
     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.get('/api/professor/name/{email}')
@@ -331,7 +326,7 @@ async def get_all_professors():
     GET /api/professor
     Cached: 24 Hours
     """
-    professors, error = professor_info.get_all_professors()  # replace professor_info with db_manager
+    professors, error = professor_info.get_all_professors() # replace professor_info with db_manager
     db_list = [dict(prof) for prof in professors] if professors else []
     return db_list if not error else Response(error, status_code = 500)
 
@@ -350,7 +345,9 @@ async def get_professor_info_by_email(email:str):
 # async def remove_student_course(request: Request, courseDelete:CourseDeletePydantic):
 #     if 'user' not in request.session:
 #         return Response("Not authorized", status_code=403)
-#     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+#     resp,error = course_select.remove_selection(courseDelete.name, courseDelete.semester,
+#                                                 request.session['user']['user_id'],
+#                                                 courseDelete.cid)
 #     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 @app.post('/api/professor/add/{msg}')
@@ -368,13 +365,13 @@ async def add_professor(msg:str):
     # print("rcs", id)
 
     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3] , info[4],
-    info[5], info[6], info[7], info[8])
+    info[5], info[6])
     return professor if not error else Response(error, status_code=500)
 
 @app.post('/api/professor/add/test')
 async def add_test_professor():
-    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu", "CSCI",
-        "lally 300", "52995")
+    professor, error = professor_info.add_professor("random", "person", "number", "test?@rpi.edu",
+                                                    "CSCI", "lally 300", "52995")
     return professor if not error else Response(content = error, status_code = 500)
 
 @app.delete('/api/professor/remove/{email}')
