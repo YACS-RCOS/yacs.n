@@ -26,6 +26,7 @@ from sqlalchemy.orm import Session
 import json
 import os
 import pandas as pd
+import routers.professors as professors
 from constants import Constants
 
 """
@@ -87,7 +88,7 @@ def apiroot():
 
 @app.get('/api/class')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_classes(request: Request, semester: str or None = None, search: str or None = None):
+async def get_classes(request: Request, semester: str | None = None, search: str | None = None):
     """
     GET /api/class?semester={}&search={}
     Cached: 1 Hour
@@ -418,3 +419,4 @@ async def remove_semester(id: str, api_key: str = Security(get_api_key)):
     return semester if not error else Response(str(error), status_code=500)
 
 # add support for finals schedule/endpoints
+app.include_router()
