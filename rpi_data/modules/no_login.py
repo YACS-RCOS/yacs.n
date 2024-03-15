@@ -80,6 +80,10 @@ def link_scrape(term, link, major):
             course.append(split_title[2]) # course code
             course.append(split_title[3]) # section
             course.append(major) # major
+            course.append(slots[0]) # capacity
+            course.append(slots[1]) # current_enrolled
+            course.append(slots[2]) # remaining
+            
         format_and_order(body_info)
     return
 
@@ -89,9 +93,19 @@ def get_slots(term, CRN):
     response = s.get(link)
     webpage = response.content
     soup = bs(webpage, "html.parser")
-    table = soup.find("table")
+    info_element = soup.find("div", {"class" : "pagebodydiv"})
+    first_table = info_element.find("table")
+    table = first_table.find("table")
+    scraped_table = []
     for row in table.find_all('tr'):
-        pass
+        columns = row.find_all('td')
+        stripped_row = []
+        if columns != []:
+            for element in columns:
+                stripped_row.append(element.text)
+            scraped_table.append(stripped_row)
+    scraped_table.pop(0)
+    return scraped_table[0]
 
 def body_scrape(body) -> list[list[str]]:
     table = body.find("table")
@@ -125,12 +139,23 @@ def table_scrape(table:bs) -> list[list[str]]:
     return scraped_table
 
 # Type, Time, Days, Where, Date Range, Schedule Type, Instructor, Credits, CRN, course code, section, major
-# missing: slots, semester
+# missing: semester
+
+def number_to_term(term) -> str:
+    year = term[:4]
+    semester = term[4:]
+    print(year)
+    print(semester)
+
 def format_and_order(courses:list[list[str]]) -> list[list[str]]:
     print(courses)
 
-codes = find_codes(202409, "CSCI")
+#codes = find_codes(202409, "CSCI")
 
-links = generate_links(202409, codes)
+#links = generate_links(202409, codes)
 
-link_scrape(202409, "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CSCI&crse_in=1200&schd_in=L", "CSCI")
+#link_scrape(202309, "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202309&subj_in=CSCI&crse_in=1200&schd_in=L", "CSCI")
+
+#get_slots(202409, "65029")
+
+print(number_to_term("202409"))
