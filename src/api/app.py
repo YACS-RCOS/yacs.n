@@ -272,44 +272,61 @@ async def map_date_range_to_semester_part_handler(request: Request):
     return Response("Did not receive proper form data", status_code=500)
 
 
-@app.get('/api/user/course')
-async def get_student_courses(request: Request):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
+# @app.get('/api/user/course')
+# async def get_student_courses(request: Request):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
 
-    courses, error = course_select.get_selection(
-        request.session['user']['user_id'])
-    return courses if not error else Response(error, status_code=500)
-
-
-@app.get('/api/user/{session_id}')
-async def get_user_info(request: Request, session_id):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-
-    return user_controller.get_user_info(session_id)
+#     courses, error = course_select.get_selection(
+#         request.session['user']['user_id'])
+#     return courses if not error else Response(error, status_code=500)
 
 
-@app.post('/api/user')
-async def add_user(user: UserPydantic):
-    return user_controller.add_user(user.dict())
+# @app.get('/api/user/{session_id}')
+# async def get_user_info(request: Request, session_id):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+
+#     return user_controller.get_user_info(session_id)
 
 
-@app.delete('/api/user')
-async def delete_user(request: Request, session: UserDeletePydantic):
-
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-
-    return user_controller.delete_user(session.dict())
+# @app.post('/api/user')
+# async def add_user(user: UserPydantic):
+#     return user_controller.add_user(user.dict())
 
 
-@app.put('/api/user')
-async def update_user_info(request: Request, user: updateUser):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
+# @app.delete('/api/user')
+# async def delete_user(request: Request, session: UserDeletePydantic):
 
-    return user_controller.update_user(user)
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+
+#     return user_controller.delete_user(session.dict())
+
+
+# @app.put('/api/user')
+# async def update_user_info(request: Request, user: updateUser):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+
+#     return user_controller.update_user(user)
+
+# @app.post('/api/user/course')
+# async def add_student_course(request: Request, credentials: UserCoursePydantic):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+#     resp, error = course_select.add_selection(
+#         credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
+#     return Response(status_code=200) if not error else Response(error, status_code=500)
+
+
+# @app.delete('/api/user/course')
+# async def remove_student_course(request: Request, courseDelete: CourseDeletePydantic):
+#     if 'user' not in request.session:
+#         return Response("Not authorized", status_code=403)
+#     resp, error = course_select.remove_selection(
+#         courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
+#     return Response(status_code=200) if not error else Response(error, status_code=500)
 
 
 @app.post('/api/session')
@@ -338,78 +355,60 @@ def add_user_event(request: Request, credentials: SessionPydantic):
     return Response(status_code=501)
 
 
-@app.post('/api/user/course')
-async def add_student_course(request: Request, credentials: UserCoursePydantic):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-    resp, error = course_select.add_selection(
-        credentials.name, credentials.semester, request.session['user']['user_id'], credentials.cid)
-    return Response(status_code=200) if not error else Response(error, status_code=500)
+# @app.get('/api/professor/name/{email}')
+# async def get_professor_name_by_email(email: str):
+#     # searches professor's first and last name by email
+#     professorName, error = professor_info.get_professor_name_by_email(email)
+#     # Return the data as a JSON response
+#     return professorName if not error else Response(content=error, status_code=500)
 
 
-@app.delete('/api/user/course')
-async def remove_student_course(request: Request, courseDelete: CourseDeletePydantic):
-    if 'user' not in request.session:
-        return Response("Not authorized", status_code=403)
-    resp, error = course_select.remove_selection(
-        courseDelete.name, courseDelete.semester, request.session['user']['user_id'], courseDelete.cid)
-    return Response(status_code=200) if not error else Response(error, status_code=500)
+# @app.get('/api/professor/department/{department}')
+# async def get_professor_from_department(department: str):
+#     professors, error = professor_info.get_professors_by_department(department)
+#     return professors if not error else Response(content=error, status_code=500)
 
 
-@app.get('/api/professor/name/{email}')
-async def get_professor_name_by_email(email: str):
-    # searches professor's first and last name by email
-    professorName, error = professor_info.get_professor_name_by_email(email)
-    # Return the data as a JSON response
-    return professorName if not error else Response(content=error, status_code=500)
+# @app.get('/api/professor')
+# @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+# async def get_all_professors():
+#     """
+#     GET /api/professor
+#     Cached: 24 Hours
+#     """
+#     professors, error = professor_info.get_all_professors(
+#     )  # replace professor_info with db_manager
+#     db_list = [dict(prof) for prof in professors] if professors else []
+#     return db_list if not error else Response(error, status_code=500)
 
 
-@app.get('/api/professor/department/{department}')
-async def get_professor_from_department(department: str):
-    professors, error = professor_info.get_professors_by_department(department)
-    return professors if not error else Response(content=error, status_code=500)
+# @app.get('/api/professor/phone_number/{email}')
+# async def get_professor_phone_number_by_email(email: str):
+
+#     phone_number, error = professor_info.get_professor_phone_number_by_email(
+#         email)
+#     return phone_number if not error else Response(content=error, status_code=500)
 
 
-@app.get('/api/professor')
-@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_all_professors():
-    """
-    GET /api/professor
-    Cached: 24 Hours
-    """
-    professors, error = professor_info.get_all_professors(
-    )  # replace professor_info with db_manager
-    db_list = [dict(prof) for prof in professors] if professors else []
-    return db_list if not error else Response(error, status_code=500)
+# @app.get('/api/professor/email/{email}')
+# async def get_professor_info_by_email(email: str):
+#     professor_email, error = professor_info.get_professor_info_by_email(email)
+#     return professor_email if not error else Response(content=error, status_code=500)
 
 
-@app.get('/api/professor/phone_number/{email}')
-async def get_professor_phone_number_by_email(email: str):
-
-    phone_number, error = professor_info.get_professor_phone_number_by_email(
-        email)
-    return phone_number if not error else Response(content=error, status_code=500)
-
-
-@app.get('/api/professor/email/{email}')
-async def get_professor_info_by_email(email: str):
-    professor_email, error = professor_info.get_professor_info_by_email(email)
-    return professor_email if not error else Response(content=error, status_code=500)
+# @app.post('/api/professor/add/{msg}')
+# async def add_professor(msg: str, api_key: str = Security(get_api_key)):
+#     info = msg.split(",")
+#     professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3], info[4],
+#                                                     info[5], info[6], info[7], info[8])
+#     return professor if not error else Response(error, status_code=500)
 
 
-@app.post('/api/professor/add/{msg}')
-async def add_professor(msg: str, api_key: str = Security(get_api_key)):
-    info = msg.split(",")
-    professor, error = professor_info.add_professor(info[0], info[1], info[2], info[3], info[4],
-                                                    info[5], info[6], info[7], info[8])
-    return professor if not error else Response(error, status_code=500)
-
-
-@app.delete('/api/professor/remove/{email}')
-async def remove_professor(email: str, api_key: str = Security(get_api_key)):
-    print(email)
-    professor, error = professor_info.remove_professor(email)
-    return professor if not error else Response(str(error), status_code=500)
+# @app.delete('/api/professor/remove/{email}')
+# async def remove_professor(email: str, api_key: str = Security(get_api_key)):
+#     print(email)
+#     professor, error = professor_info.remove_professor(email)
+#     return professor if not error else Response(str(error), status_code=500)
 
 
 @app.delete('/api/semester/{id}')
@@ -419,4 +418,4 @@ async def remove_semester(id: str, api_key: str = Security(get_api_key)):
     return semester if not error else Response(str(error), status_code=500)
 
 # add support for finals schedule/endpoints
-app.include_router()
+app.include_router(professors.router)
