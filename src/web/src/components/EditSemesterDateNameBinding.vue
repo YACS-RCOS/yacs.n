@@ -13,7 +13,7 @@
     <h3>{{ semesterTitle }}</h3>
     <b-form-checkbox
       v-model="isPublic"
-      name="isPubliclyVisible"
+      name="is_publicly_visible"
       style="font-variant: small-caps;"
     >
       <span v-show="isPublic">

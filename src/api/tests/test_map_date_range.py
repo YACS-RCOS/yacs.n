@@ -4,7 +4,7 @@ import pytest
 @pytest.mark.testclient
 def test_map_date_range(client: TestClient):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
-        ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'),
+        ('semesterTitle', 'SUMMER 2020'), ('is_publicly_visible', 'true'),
         ('date_start', '2020-05-26'), ('date_start', '2020-05-26'),
         ('date_start', '2020-07-13'), ('date_end', '2020-08-21'),
         ('date_end', '2020-07-10'), ('date_end', '2020-08-21'),
@@ -16,7 +16,7 @@ def test_map_date_range(client: TestClient):
 @pytest.mark.testclient
 def test_map_date_range_failure(client: TestClient):
     r = client.post('/api/mapDateRangeToSemesterPart', data=[
-        ('semesterTitle', 'SUMMER 2020'), ('isPubliclyVisible', 'true'),
+        ('semesterTitle', 'SUMMER 2020'), ('is_publicly_visible', 'true'),
         ('date_start', '2020-05-26'), ('date_start', '2020-05-26'),
         ('date_start', '2020-07-13'), ('date_end', '2020-08-21'),
         ('date_end', '2020-07-10'), ('date_end', '2020-08-21')])

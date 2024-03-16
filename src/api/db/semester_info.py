@@ -15,7 +15,7 @@ class SemesterInfo:
         {
             "SemesterName": semester,
             "IsPublic": is_public
-        }, isSELECT=False)
+        }, is_select=False)
 
     def is_public(self, semester):
         """
@@ -24,7 +24,7 @@ class SemesterInfo:
         """
         data, _error = self.db.execute("""
             SELECT public FROM semester_info WHERE semester=%s LIMIT 1;
-        """, [semester], isSELECT=True)
+        """, [semester], is_select=True)
         if data is not None and len(data) > 0:
             return data[0]['public']
         return False

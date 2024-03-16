@@ -45,7 +45,7 @@ class Courses:
             COMMIT;
         """, {
             "Semester": semester
-        }, isSELECT=False)
+        }, is_select=False)
 
     def bulk_delete(self, semesters):
         for semester in semesters:

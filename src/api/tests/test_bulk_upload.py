@@ -29,7 +29,7 @@ def test_bulk_upload_no_file(client: TestClient):
     '''
     multipart_form_data = {
         'file': ('test_data.csv'),
-        'isPubliclyVisible': (None, "on"),
+        'is_publicly_visible': (None, "on"),
     }
     r = client.post("/api/bulkCourseUpload",
                     files=multipart_form_data)
@@ -42,7 +42,7 @@ def test_bulk_upload_wrong_file_extension(client: TestClient):
     '''
     multipart_form_data = {
         'file': ('test_bulk_upload.py', open(appdir + '/tests/test_bulk_upload.py', 'rb')),
-        'isPubliclyVisible': (None, "on"),
+        'is_publicly_visible': (None, "on"),
     }
     r = client.post("/api/bulkCourseUpload",
                     files=multipart_form_data)

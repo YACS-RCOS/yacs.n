@@ -155,8 +155,8 @@ async def upload_handler(
     # get file
     contents = await file.read()
     csv_file = StringIO(contents.decode())
-    # update semester infos based on isPubliclyVisible, hiding semester if needed
-    # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
+    # update semester infos based on is_ublicly_visible, hiding semester if needed
+    # is_publicly_visible = request.form.get("is_publicly_visible", default=False)
     semesters = pd.read_csv(csv_file)['semester'].unique()
     for semester in semesters:
         semester_info.upsert(semester, is_publicly_visible)
@@ -175,7 +175,7 @@ async def upload_handler(
 
 @app.post('/api/bulkProfessorUpload')
 async def upload_json(
-        _is_publicly_visible: str = Form(...),
+        #_is_publicly_visible: str = Form(...),
         file: UploadFile = File(...)):
     # Check to make sure the user has sent a file
     if not file:
@@ -217,7 +217,7 @@ async def map_date_range_to_semester_part_handler(request: Request):
     form = await request.form()
     if form:
         # If checkbox is false, then, by design, it is not included in the form data.
-        is_publicly_visible = form.get('isPubliclyVisible', default=False)
+        is_publicly_visible = form.get('is_publicly_visible', default=False)
         semester_title = form.get('semesterTitle')
         semester_part_names = form.getlist('semester_part_name')
         start_dates = form.getlist('date_start')
@@ -286,7 +286,7 @@ def log_out(request: Request, session: SessionDeletePydantic):
     return response
 
 @app.post('/api/event')
-def add_user_event(_request: Request, _credentials: SessionPydantic):
+def add_user_event(_request: Request):# _credentials: SessionPydantic):
     return Response(status_code=501)
 
 @app.post('/api/user/course')
@@ -379,3 +379,9 @@ async def remove_professor(email:str):
     print(email)
     professor, error = professor_info.remove_professor(email)
     return professor if not error else Response(str(error), status_code=500)
+
+@app.delete('/api/semester/{id}')
+async def remove_semester(semester_id: str):
+    print(semester_id)
+    semester, error = courses.delete_by_semester(semester=semester_id)
+    return semester if not error else Response(str(error), status_code=500)

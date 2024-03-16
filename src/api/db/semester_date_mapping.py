@@ -13,7 +13,7 @@ class SemesterDateMapping:
             "SemesterPartName": name,
             "DateStart": date_start,
             "DateEnd": date_end
-        }, isSELECT=False)
+        }, is_select=False)
 
     def insert_all(self, start_dates, end_dates, names):
         if len(start_dates) == len(end_dates) == len(names):

@@ -27,7 +27,7 @@ def client():
 def upload(client_in):
     multipart_form_data = {
         'file': ('test_data.csv', open(appdir + '/tests/test_data.csv', 'rb')),
-        'isPubliclyVisible': (None, "on"),
+        'is_publicly_visible': (None, "on"),
     }
     return client_in.post("/api/bulkCourseUpload",
                        files=multipart_form_data)
