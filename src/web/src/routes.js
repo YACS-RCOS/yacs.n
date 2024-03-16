@@ -13,6 +13,8 @@ const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
 const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
+const AboutPage = () => import("./pages/About");
+const FAQPage = () => import("./pages/FAQ");
 
 var router = new VueRouter({
   routes: [
@@ -70,6 +72,18 @@ var router = new VueRouter({
           path: "/professor/:rcs",
           component: ProfPage,
           name: "ProfPage",
+          props: true,
+        },
+        {
+          path: "/about",
+          component: AboutPage,
+          name: "About",
+          props: true,
+        },
+        {
+          path: "/faq",
+          component: FAQPage,
+          name: "FAQ",
           props: true,
         },
       ],
