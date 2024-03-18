@@ -15,17 +15,17 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./src/web:/app
-      - web_node_modules:/app/node_modules/
+      - ./src/web:/app:rw
+      - web_node_modules:/app/node_modules/:rw
     environment:
       - YACS_API_HOST=http://yacs_api:5000
 
   yacs_api:
-    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && uvicorn app:app --reload --host 0.0.0.0 --port 5000"
+    command: /bin/bash -c "cd /usr/src; sh scripts/start.sh"
     ports:
       - 5000:5000
     volumes:
-      - ./src/api:/usr/src
+      - ./src/api:/usr/src:ro
     environment:
       - ENV=development
       - DEBUG=True
@@ -40,7 +40,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data:rw
     environment:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs

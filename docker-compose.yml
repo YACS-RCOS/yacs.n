@@ -28,5 +28,5 @@ services:
   yacs_db:
     restart: unless-stopped
     container_name: yacs_db
-    image: postgres:12-alpine
+    image: docker.io/postgres:12-alpine
     
