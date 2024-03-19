@@ -1,21 +1,23 @@
 <script setup lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
-import { RouterLink, RouterView } from "vue-router";
+import { watchEffect } from "vue";
+import { RouterView } from "vue-router/auto";
+import AppFooter from "./components/AppFooter.vue";
+import NavBar from "./components/NavBar.vue";
+import { useThemeStore } from "./stores/theme";
+
+const themeStore = useThemeStore();
+
+watchEffect(() => {
+  themeStore.applyTheme();
+});
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="font-bold" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="ur mom" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
+    <NavBar />
   </header>
 
   <RouterView />
+
+  <AppFooter />
 </template>
