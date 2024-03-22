@@ -21,11 +21,11 @@ def assert_keys_in_form_exist(form, keys):
     return True
 
 
-def encrypt(str):
+def encrypt(str_in):
     """
     Encrypt the string using SHA256
     :param str: string to be encrypted
     :return: SHA256 encrypted string
     """
-    encrypt_str = hashlib.sha256(str.encode()).hexdigest()
+    encrypt_str = hashlib.sha256(str_in.encode()).hexdigest()
     return encrypt_str

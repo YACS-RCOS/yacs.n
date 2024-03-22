@@ -1,5 +1,5 @@
 from src.api.db.classinfo import ClassInfo
-from src.api.db.semester_date_mapping import semester_date_mapping as SemesterDateMapping
+from src.api.db.semester_date_mapping import SemesterDateMapping as SemesterDateMapping
 from tests.test_data import TestData
 
 def test_semester_date_mapping_insert(test_data: TestData, semester_date_mapping: SemesterDateMapping, class_info: ClassInfo):

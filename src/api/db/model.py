@@ -1,7 +1,6 @@
-import psycopg2
-import db.connection as connection
+from db import connection
 
 
-class Model(object):
+class Model():
     def __init__(self):
         self.db = connection.db

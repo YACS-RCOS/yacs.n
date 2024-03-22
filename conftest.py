@@ -6,8 +6,8 @@ from src.api.db.connection import db
 from src.api.db.classinfo import ClassInfo
 from src.api.db.courses import Courses
 from src.api.db.admin import Admin
-from src.api.db.semester_info import semester_info as SemesterInfo
-from src.api.db.semester_date_mapping import semester_date_mapping as SemesterDateMapping
+from src.api.db.semester_info import SemesterInfo as SemesterInfo
+from src.api.db.semester_date_mapping import SemesterDateMapping as SemesterDateMapping
 # from src.api.db.student_course_selection import student_course_selection
 # from src.api.db.user import User
 from rpi_data.modules.add_school_column import SchoolDepartmentMapping, SCHOOL_DEPARTMENT_MAPPING_YAML_FILENAME

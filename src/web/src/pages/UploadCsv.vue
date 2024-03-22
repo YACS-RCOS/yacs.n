@@ -17,7 +17,7 @@
         </div>
         <div class="input-group">
           <label>
-            <input type="checkbox" name="isPubliclyVisible" checked />
+            <input type="checkbox" name="is_publicly_visible" checked />
             Make Public
           </label>
         </div>

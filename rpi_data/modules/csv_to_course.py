@@ -1,10 +1,10 @@
+import os
 import csv
 from course import Course
-import os
-import pdb
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-# This file takes our csv formatting and turns it into a course class type. If something goes wrong it's because you changed one of those two.
+# This file takes our csv formatting and turns it into a course class type.
+# If something goes wrong it's because you changed one of those two.
 
 def parse_csv(filename):
     courses = list()

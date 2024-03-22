@@ -38,7 +38,7 @@ jobs:
 
       - name: Update prod
         run: |
-          curl -X POST -H "Content-Type: multipart/form-data" -F "isPubliclyVisible=on" -F "file=@$FILE_NAME" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $AUTH_ARGS $API_ENDPOINT
+          curl -X POST -H "Content-Type: multipart/form-data" -F "is_publicly_visible=on" -F "file=@$FILE_NAME" -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0" $AUTH_ARGS $API_ENDPOINT
         env:
           FILE_NAME: ${{ matrix.semester }}.csv
           AUTH_ARGS: ${{ secrets.AUTH_ARGS }}

@@ -31,31 +31,34 @@ TEST_USER_SIGNUP2 = { 'email': 'test2@email.com',
 
 
 @pytest.mark.testclient
-def test_user_post_success(post_user, client: TestClient):
+def test_user_post_success(_post_user, client: TestClient):
     '''
     add a valid new user into the session
     '''
-    r = client.post("/api/user", json= {"name": "test2", "email":"test12@gmail.com","phone": "", "password":"test123", "major":"", "degree":""} )
+    r = client.post("/api/user", json= {"name": "test2", "email":"test12@gmail.com",
+                                        "phone": "", "password":"test123", "major":"", "degree":""})
     data = r.json()
     assert r.status_code == 200
     assert data['content'] is not None
     assert data['content']['msg'] == "User added successfully."
     r = client.post('/api/session', json={"email":"test12@gmail.com", "password":"test123"})
     assert r.status_code == 200
-    client.delete("/api/user", json={"sessionID":r.json()['content']['sessionID'], 'password':'test123'})
+    client.delete("/api/user", json={"sessionID":r.json()['content']['sessionID'],
+                                     'password':'test123'})
 
 @pytest.mark.testclient
-def test_user_post_failure(post_user, client: TestClient):
+def test_user_post_failure(_post_user, client: TestClient):
     '''
     add a invalid new user into the session
     '''
-    r = client.post("/api/user", json= {"name": "test1", "email":"test1","phone": "", "password":"123", "major":"", "degree":""})
+    r = client.post("/api/user", json= {"name": "test1", "email":"test1","phone": "",
+                                        "password":"123", "major":"", "degree":""})
     data = r.json()
     assert data['content'] is None
     assert r.status_code == 200
-    
+
 @pytest.mark.testclient
-def test_user_delete_success(post_user, client: TestClient):
+def test_user_delete_success(_post_user, client: TestClient):
     '''
     delete a valid user in the session
     '''
@@ -69,7 +72,7 @@ def test_user_delete_success(post_user, client: TestClient):
     data = r.json()
 
 @pytest.mark.testclient
-def test_user_delete_failure(post_user, client: TestClient):
+def test_user_delete_failure(_post_user, client: TestClient):
     '''
     delete a not exist user in the session
     '''
@@ -82,19 +85,19 @@ def test_user_delete_failure(post_user, client: TestClient):
     assert data2['errMsg'] == "Wrong password."
 
 @pytest.mark.testclient
-def test_user_delete_failure2(post_user, client: TestClient):
+def test_user_delete_failure2(_post_user, client: TestClient):
     '''
     delete the session, then try to delete user
     '''
     sess = client.post("/api/session", json=TEST_USER).json()
-    sessID = sess['content']['sessionID']
-    r = client.delete('/api/session', json={'sessionID': sessID})
+    sess_id = sess['content']['sessionID']
+    r = client.delete('/api/session', json={'sessionID': sess_id})
     assert r.status_code == 200
-    r1 = client.delete("/api/user", json= {"sessionID": sessID, "password": "12345"})
+    r1 = client.delete("/api/user", json= {"sessionID": sess_id, "password": "12345"})
     assert r1.status_code == 403
 
 @pytest.mark.testclient
-def test_get_user_success(client: TestClient, post_user):
+def test_get_user_success(client: TestClient, _post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP.
     '''
@@ -116,7 +119,7 @@ def test_get_user_success(client: TestClient, post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
-def test_get_user_failed(client: TestClient,post_user):
+def test_get_user_failed(client: TestClient,_post_user):
     '''
     Test user get with invalid sessionID
     '''
@@ -136,7 +139,7 @@ def test_get_user_failed(client: TestClient,post_user):
     client.delete("/api/session", json={'sessionID': sessionid})
 
 @pytest.mark.testclient
-def test_get_user_after_session_closed(client: TestClient,post_user):
+def test_get_user_after_session_closed(client: TestClient,_post_user):
     '''
     Test user get by using /api/session and TEST_USER_SIGNUP after session is closed.
     '''
@@ -154,7 +157,7 @@ def test_get_user_after_session_closed(client: TestClient,post_user):
 
 
 @pytest.mark.testclient
-def test_put_user_success(client:TestClient,post_user):
+def test_put_user_success(client:TestClient,_post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
     compare the user information with TEST_USER_SIGNUP2
@@ -195,7 +198,7 @@ def test_put_user_success(client:TestClient,post_user):
 
 
 @pytest.mark.testclient
-def test_put_user_after_session_closed(client:TestClient,post_user):
+def test_put_user_after_session_closed(client:TestClient,_post_user):
     '''
     Test user put by changing TEST_USER_SIGNUP to TEST_USER_SIGNUP2
     after session is closed

@@ -2,7 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 @pytest.mark.testclient
-def test_subsemeseter_spring2020(client: TestClient, upload):
+def test_subsemeseter_spring2020(client: TestClient, _upload):
     """
     when subsemester endpoint is given an input such as Spring 2020 
     it should only return data for that subsemester i.e. data where the parent semester name 
@@ -16,10 +16,10 @@ def test_subsemeseter_spring2020(client: TestClient, upload):
     assert data[0]["parent_semester_name"] == "SPRING 2020"
 
 @pytest.mark.testclient
-def test_subsemester_nosemester(client, upload):
+def test_subsemester_nosemester(client, _upload):
     """   
-    when no subsemester is taken as input the subsemester endpoint should return all of the subsemesters
-    contained in the upload data.
+    when no subsemester is taken as input the subsemester endpoint should
+    return all of the subsemesters contained in the upload data.
     Specifically there should be 4 total returned semesters
     """
     r = client.get("/api/subsemester")
