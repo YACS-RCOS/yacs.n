@@ -1,7 +1,7 @@
+from datetime import datetime
 from common import *
 from db.session import Session as SessionModel
 from db.user import User as UserModel
-from datetime import datetime
 import view.message as msg
 
 
@@ -43,7 +43,7 @@ def add_session(form):
     (email, password) = (form['email'], form['password'])
 
     users_founded = users.get_user(email=email, password=encrypt(password), enable=True)
-    if users_founded == None:
+    if users_founded is None:
         return msg.error_msg("Failed to validate user information.")
 
     if len(users_founded) == 0:
@@ -55,7 +55,7 @@ def add_session(form):
 
     res = sessions.start_session(new_session_id, uid, start_time)
 
-    if res == None:
+    if res is None:
         return msg.error_msg("Failed to start a new session.")
 
     return msg.success_msg({

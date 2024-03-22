@@ -4,7 +4,7 @@ from common import *
 
 
 def add_event(form):
-    userEvents = UserEvents()
+    user_events = UserEvents()
 
     if not assert_keys_in_form_exist(form, ['uid', 'eventID', 'data', 'createdAt']):
         return msg.error_msg("Invalid request body.")
@@ -15,9 +15,9 @@ def add_event(form):
     event_data = form['data']
     timestamp = form['createdAt']
 
-    res = userEvents.add_event(uid=uid,event_id=event_id,data=str(event_data),timestamp=timestamp)
+    res = user_events.add_event(uid=uid,event_id=event_id,data=str(event_data),timestamp=timestamp)
 
-    if res == None:
+    if res is None:
         return msg.error_msg("Failed to add event.")
 
     return msg.success_msg({"msg": "Event added successfully."})

@@ -123,8 +123,10 @@ class Professor:
             # Return success status and no error
             return (True, None)
 
-    #removes professor if it exists
     def remove_professor(self, email):
+        """
+        removes professor if it exists
+        """
         if email is not None:
             sql = """
                 DELETE FROM 
@@ -158,10 +160,11 @@ class Professor:
         self.clear_cache()
         return None
 
-    # if you expect the SQL statement to return more than one row of data,
-    # you should pass True as the value for multi.
-
     def get_professor_info_by_email(self, email):
+        """
+        if you expect the SQL statement to return more than one row of data,
+        you should pass True as the value for multi.
+        """
         if email is None:
             raise ValueError("Expected email, received None")
         sql = """
@@ -174,8 +177,10 @@ class Professor:
             """
         return self.db_conn.execute(sql, (email,), True)
 
-    #seraches professors who are in a certain department
     def get_professors_by_department(self,department):
+        """
+        seraches professors who are in a certain department
+        """
         sql = """
                 select
                     *
@@ -201,9 +206,10 @@ class Professor:
         info, error = self.db_conn.execute(sql, (email,), True)
         return (info, None) if not error else (False, error)
 
-
-    #return as a json
     def get_all_professors(self):
+        """
+        return as a json
+        """
         return self.db_conn.execute("""
                             SELECT * FROM professor
                     """, None, True)

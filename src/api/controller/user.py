@@ -13,7 +13,7 @@ def get_user_info(session_id):
     if session is None or len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0].values()
+    (_sessionid, uid, _start_time, end_time) = session[0].values()
 
     if end_time is not None:
         return msg.error_msg("This session already canceled.")
@@ -23,9 +23,10 @@ def get_user_info(session_id):
     if len(user) == 0:
         return msg.error_msg("Unable to find the user")
 
-    (uid, name, email, phone, password, major, degree, enable, _, _) = user[0].values()
+    (uid, name, email, phone, _password, major, degree, _enable, _, _) = user[0].values()
 
-    return msg.success_msg({"uid": uid, "name": name, "email": email, "phone": phone, "major": major, "degree": degree})
+    return msg.success_msg({"uid": uid, "name": name, "email": email,
+                            "phone": phone, "major": major, "degree": degree})
 
 
 def update_user(user:UpdateUser):
@@ -40,7 +41,8 @@ def update_user(user:UpdateUser):
     major = user.major
     degree = user.degree
 
-    if(name==None or session_id==None or email==None or phone==None or new_password==None or major==None or degree==None):
+    if name is None or session_id is None or email is None \
+    or phone is None or new_password is None or major is None or degree is None:
         return msg.error_msg("Please check your requests.")
 
     if new_password.strip() == "":
@@ -57,7 +59,7 @@ def update_user(user:UpdateUser):
     if len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0].values()
+    (_sessionid, uid, _start_time, end_time) = session[0].values()
 
     if end_time is not None:
         return msg.error_msg("This session already canceled.")
@@ -95,7 +97,7 @@ def delete_user(form):
     if len(session) == 0:
         return msg.error_msg("Unable to find the session.")
 
-    (sessionid, uid, start_time, end_time) = session[0].values()
+    (_sessionid, uid, _start_time, end_time) = session[0].values()
 
     if end_time is not None:
         return msg.error_msg("Expired SessionID")
@@ -104,11 +106,11 @@ def delete_user(form):
     if password.strip() == "":
         return msg.error_msg("Password cannot be empty.")
 
-    findUser = users.get_user(uid=uid, password=encrypt(password), enable=True)
-    if findUser is None:
+    find_user = users.get_user(uid=uid, password=encrypt(password), enable=True)
+    if find_user is None:
         return msg.error_msg("Failed to find user.")
 
-    if len(findUser) == 0:
+    if len(find_user) == 0:
         return msg.error_msg("Wrong password.")
 
     # Delete User
@@ -126,7 +128,8 @@ def delete_user(form):
 def add_user(form):
     users = UserModel()
 
-    if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password', 'major', 'degree']):
+    if not assert_keys_in_form_exist(form, ['name', 'email', 'phone', 'password',
+                                            'major', 'degree']):
         return msg.error_msg("Please check your requests.")
 
     name = form['name']
