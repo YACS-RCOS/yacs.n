@@ -55,41 +55,12 @@ data() {
 </script>
 
 <style>
-.gridContainer {
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-content: center;
-}
-
-.categoryBox {
-  text-align: center;
-}
-
 .category-title {
   color: hsl(211, 100%, 60%);
   background: rgba(108, 90, 90, 0.15);
-  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
-}
-
-.pathway-button {
-  display: inline-block;
-  background: white;
-  border-style: none;
-  text-align: justify;
-  width: 95%;
-}
-
-.pathway-button:hover {
-  background: rgba(108, 90, 90, 0.15) !important;
-}
-
-.courseInPath {
-  cursor: pointer;
-}
-
-.courseInPath:hover {
-  background-color: rgba(39, 130, 230, 0.5);
+  border-bottom: rgba(108, 90, 90, 0.1) solid 1px;
+  padding: 10px; /* Add padding to match the background */
+  margin-top: 0; /* Remove default margin */
 }
 
 .centered-boxes {
@@ -103,6 +74,10 @@ data() {
   background-color: #f8f9fa; /* Grey background */
   border: 1px solid #ced4da; /* Border color */
   border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding inside the section */
+  padding: 20px; /* Increase padding to add space between border and content */
+}
+
+p {
+  margin: 10px;
 }
 </style>
