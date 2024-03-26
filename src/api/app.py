@@ -58,7 +58,7 @@ courses = Courses.Courses(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
-semester_info = SemesterInfo.semester_info(db_conn)
+semester_info = SemesterInfo.semester_info(db_conn, FastAPICache)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
@@ -88,7 +88,7 @@ def apiroot():
 
 @app.get('/api/class')
 @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-async def get_classes(request: Request, semester: str | None = None, search: str | None = None):
+async def get_classes(request: Request, semester: str = None, search: str = None):
     """
     GET /api/class?semester={}&search={}
     Cached: 1 Hour
@@ -99,7 +99,7 @@ async def get_classes(request: Request, semester: str | None = None, search: str
                 classes, error = class_info.get_classes_full(semester)
                 return classes if not error else Response(error, status_code=500)
             return Response(content="Semester isn't available", status_code=401)
-        if search is not None:
+        if search:
             classes, error = class_info.get_classes_by_search(semester, search)
         else:
             classes, error = class_info.get_classes_full(semester)
@@ -151,6 +151,11 @@ async def get_semesters():
     db_list = [dict(r) for r in semesters]
     return db_list if not error else Response(error, status_code=500)
 
+@app.delete('/api/semester/{semester_id}')
+async def remove_semester(semester_id: str, api_key: str = Security(get_api_key)):
+    print(semester_id)
+    semester, error = semester_info.delete_semester(semester=semester_id)
+    return semester if not error else Response(str(error), status_code=500)
 
 @app.get('/api/semesterInfo')
 def get_all_semester_info():
@@ -411,11 +416,6 @@ def add_user_event(request: Request, credentials: SessionPydantic):
 #     return professor if not error else Response(str(error), status_code=500)
 
 
-@app.delete('/api/semester/{id}')
-async def remove_semester(id: str, api_key: str = Security(get_api_key)):
-    print(id)
-    semester, error = courses.delete_by_semester(semester=id)
-    return semester if not error else Response(str(error), status_code=500)
 
 # add support for finals schedule/endpoints
 app.include_router(professors.router)

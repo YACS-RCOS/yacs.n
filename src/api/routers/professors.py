@@ -2,7 +2,6 @@ from fastapi import APIRouter, FastAPI, HTTPException, Request, Response, Upload
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_cache import FastAPICache
 from fastapi.security import APIKeyHeader
-from fastapi import DependsI
 import db.professor as All_professors
 import db.connection as connection
 from fastapi_cache.backends.inmemory import InMemoryBackend
@@ -69,6 +68,10 @@ async def get_professor_phone_number_by_email(email: str):
     phone_number, error = professor_info.get_professor_phone_number_by_email(email)
     return phone_number if not error else Response(content=error, status_code=500)
 
+router = APIRouter(
+    tags=['professors_secure'],
+    dependencies=[Depends(get_api_key)],
+)
 
 @router.post('/add/{msg}')
 async def add_professor(msg: str, api_key: str = Security(get_api_key)):

@@ -27,7 +27,7 @@ services:
       # ===== nginx config: reverse proxy =====
       - USE_REVERSE_PROXY=yes
       - REVERSE_PROXY_URL_1=/api
-      - REVERSE_PROXY_HOST_1=http://yacs_api:5000
+      - REVERSE_PROXY_HOST_1=http://yacs_api:4000
       # ===== nginx config: compression =====
       - USE_GZIP=yes
       - GZIP_COMP_LEVEL=6

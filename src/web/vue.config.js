@@ -11,11 +11,12 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       "/api": {
-        target: process.env.YACS_API_HOST || "http://localhost:5000",
+        target: process.env.YACS_API_HOST || "http://localhost:4000",
         changeOrigin: true,
         secure: false,
       },
     },
+    public: 'localhost'
   },
   pwa: {
     name: "YACS",

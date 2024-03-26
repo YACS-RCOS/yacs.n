@@ -5,7 +5,11 @@ const client = axios.create({
 });
 
 export const uploadCsv = (formData) =>
-  client.post("/bulkCourseUpload", formData);
+  client.post("/bulkCourseUpload", formData, {
+    headers: {
+      'x-api-key': 'secretKey'
+    }
+  });
 
 export const uploadJSON = (formData) =>
   client.post("/bulkProfessorUpload", formData);
