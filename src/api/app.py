@@ -19,6 +19,7 @@ import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
+import db.finals as Finals
 import controller.user as user_controller
 import controller.session as session_controller
 import pandas as pd
@@ -43,6 +44,7 @@ admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.StudentCourseSelection(db_conn)
 semester_info = SemesterInfo.SemesterInfo(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
+finals_info = Finals.Finals(db_conn)
 users = UserModel.User()
 
 def is_admin_user(session):
