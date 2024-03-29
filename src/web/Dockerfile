@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
+COPY . ./
 
 FROM develop-stage as build-stage
 RUN npm run build
