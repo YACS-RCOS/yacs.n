@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 from concurrent.futures import ThreadPoolExecutor
 from course import Course
 from datetime import datetime
+import new_parse as old
 
 
 def find_codes(term, subj):
@@ -32,10 +33,16 @@ def generate_links(term, codes):
         links.append(single_course)
     return links
 
-def scrape_all(links, term):
+def scrape_all(links, term, major) -> list[Course]:
     courses = []
-    with ThreadPoolExecutor(max_workers=50) as pool:
-        pool.map(link_scrape, term, links, courses)
+    
+    for link in links:
+        temp_courses = link_scrape(term, link, major)
+        if (temp_courses == None):
+            continue
+        for i in temp_courses:
+            courses.append(i)
+
     return courses
 
 # info[0] is crn, info[1] is major, 2 - course code, 3- section, 4 - if class is on campus (most are), 5 - credits, 6 - class name 
@@ -44,7 +51,7 @@ def scrape_all(links, term):
 #info[15] - crosslist capacity, info[16] - crosslist enrolled, info[17] - crosslist seats left,
 #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
 #Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.  
-def link_scrape(term, link, major):
+def link_scrape(term, link, major) -> list[Course]:
     s = requests.Session()
     response = s.get(link)
     webpage = response.content
@@ -61,15 +68,16 @@ def link_scrape(term, link, major):
         bodies.append(table_element.find("td", {"class" : "dddefault"}))
         string_element = str(table_element)
         body = str(bodies[x])
-        string_element = string_element.replace(body, "")
+        string_element = string_element.replace(body, "", 1)
         if (string_element == str(table_element)):
             print("fail")
         table_element = bs(string_element, "html.parser")
         x += 1
-        
+   
         
     if (len(titles) != len(bodies)):
-        print("titles do not equal bodies")
+        raise RuntimeError("Titles do not equal bodies: "+ link)
+
     courses = []
     for i in range(len(titles)):
         title = titles[i].text
@@ -86,9 +94,10 @@ def link_scrape(term, link, major):
             course.append(slots[2]) # remaining
             course.append(number_to_term(term))
             course.append(split_title[0]) # NAME
-            
-        format_and_order(body_info)
-    return
+        
+        formatted = format_and_order(body_info)
+        [courses.append(i) for i in formatted]
+    return courses
 
 def get_slots(term, CRN):
     link = "https://sis.rpi.edu/rss/bwckschd.p_disp_detail_sched?term_in={}&crn_in={}".format(str(term), CRN)
@@ -122,6 +131,12 @@ def body_scrape(body) -> list[list[str]]:
         if "Credits" in part:
             part = part.replace("Credits", "")
             part = part.replace(".000", "")
+            if ("TO" in part):
+                temp = part.split("TO")
+                temp[0] = temp[0].strip()
+                temp[1] = temp[1].strip()
+                part = "-".join(temp)
+
             part = part.strip()
             credits = part
     courses = table_scrape(table)
@@ -182,12 +197,21 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
         final.append(course[12]) # max
         final.append(course[13]) # curr
         final.append(course[14]) # rem
-        final.append(course[6]) # profs
+        course[6] = course[6].replace("(P)", "")
+        temp = course[6].split(" ")
+        f_temp = []
+        for x in range(len(temp)):
+            temp[x] = temp[x].strip()
+            if (temp[x] == ""):
+                continue
+            f_temp.append(temp[x])
+        professor_list = " ".join(f_temp)
+        professors = professor_list.replace(" , ", "/")
+        final.append(professors) # profs
         sdate, edate = date_split(course[4])
         final.append(sdate) # sdate
         final.append(edate) # edate
         final.append(course[3]) # loc
-        print(final)
         new_course = Course(final)
         new_course.addSemester(course[15])
         new_course.print()
@@ -197,6 +221,8 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
 
 
 def time_split(time) -> list[str]:
+    if (time == "TBA"):
+        return "TBA", "TBA"
     split = time.split(" - ")
     if (len(split) != 2):
         raise RuntimeError("Something has gone very wrong in time_split")
@@ -222,9 +248,14 @@ codes = find_codes(202409, "CSCI")
 
 links = generate_links(202409, codes)
 
-scrape_all(links, "202409")
+courses = scrape_all(links, "202409", "CSCI")
 
-#link_scrape("202309", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202309&subj_in=CSCI&crse_in=1200&schd_in=L", "CSCI")
+with ThreadPoolExecutor(max_workers=50) as pool:
+    pool.map(old.getReqForClass, courses)
+
+old.writeCSV(courses, "test.csv")
+
+#link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CSCI&crse_in=6980&schd_in=L", "CSCI")
 
 #get_slots(202409, "65029")
 
