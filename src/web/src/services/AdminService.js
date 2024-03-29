@@ -12,7 +12,11 @@ export const uploadCsv = (formData) =>
   });
 
 export const uploadJSON = (formData) =>
-  client.post("/bulkProfessorUpload", formData);
+  client.post("/professor", formData, {
+    headers: {
+      'x-api-key': 'secretKey'
+    }
+  });
 
 export const mapDateRangeToSemesterPart = (formData) =>
   client.post("/mapDateRangeToSemesterPart", formData);
