@@ -33,6 +33,21 @@
         </div>
       </div>
     </div>
+    <div class="centered-boxes">
+      <div class="column-section">
+        <div class="categoryBox border m-2 mb-4">
+          <h3 class="category-title">How to Contribute</h3>
+          <p>The Yacs team has conviently created an <a href="https://github.com/YACS-RCOS/yacs.n-onboarding/blob/main/YACS.n%20onboarding%20guide.pdf">onboarding guide</a> for your personal use!</p>
+          <p>Documentation for Yacs can be found <a href="https://github.com/YACS-RCOS/docs">here</a>. For ease of use, documentation is divided into the following subsections:</p>
+          <ul>
+            <li>Contributing: Here you will find installation instructions, project management information, and tips on how and where to get started.</li>
+            <li>Architecture: Here you will find the nitty-gritty details about how Yacs works. This is a useful resource if you are looking to tackle a larger issue, or want to work towards bringing Yacs to your university.</li>
+            <li>User Guides: This section contains user guides specific to each of the roles that use yacs. This section is currenrly under construction.</li>
+            <li>API: Yacs has a public API which can be used to build all sorts of interesting, useful, or silly applications using the power of open data. If you have an idea for something to build using the Yacs API, or are looking for inspiration, we'd love to hear from you!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </b-container>
 </template>
 
