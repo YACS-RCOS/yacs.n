@@ -207,6 +207,36 @@ async def upload_json(
     print(error)
     return Response(str(error), status_code=500)
 
+@app.post('/api/bulkFinalJsonUpload')
+async def upload_finals_json(file: UploadFile = File(...)):
+    # Check to make sure the user has sent a file
+    if not file:
+        return Response("No file received", 400)
+
+    # Check that we receive a JSON file
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'json':
+        return Response("File must have JSON extension", 400)
+
+    # Get file contents
+    contents = await file.read()
+
+    # Load JSON data
+    try:
+        #convert string to python dict
+        json_data = json.loads(contents.decode('utf-8'))
+        # print(json_data)
+    except json.JSONDecodeError as e:
+        return Response(f"Invalid JSON data: {str(e)}", 400)
+
+    # Call populate_from_json method
+    (is_success, error) = finals_info.populate_from_json(json_data)
+    if is_success:
+        print("SUCCESS")
+        return Response(status_code=200)
+    print("NOT WORKING")
+    print(error)
+    return Response(str(error), status_code=500)
+
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
