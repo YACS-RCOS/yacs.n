@@ -417,3 +417,12 @@ async def remove_semester(semester_id: str):
     print(semester_id)
     semester, error = courses.delete_by_semester(semester=semester_id)
     return semester if not error else Response(str(error), status_code=500)
+
+@app.get('/api/getFinalsCRNs')
+async def get_finals_crns():
+    finals_data = finals_info.get_finals_data()
+    return finals_data
+
+@app.get('/api/getFinalDataFromCRN')
+async def get_final_data(crn: str):
+    return finals_info.get_single_final_data(crn)

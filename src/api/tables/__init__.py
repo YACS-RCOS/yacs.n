@@ -11,6 +11,7 @@ from .user_account import UserAccount
 from .user_event import UserEvent
 from .user_session import UserSession
 from .professor import Professor
+from .final import Final
 
 from .database import Base
 from .database_session import SessionLocal
