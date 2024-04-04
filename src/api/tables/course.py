@@ -11,7 +11,7 @@ class Course(Base):
     section = Column(VARCHAR(length=255))
     
     semester = Column(VARCHAR(length=255), ForeignKey("semester_info.semester", ondelete="CASCADE"))
-    
+    professor = Column(VARCHAR(length=255))    
 
     min_credits = Column(INTEGER)
     max_credits = Column(INTEGER)

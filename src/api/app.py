@@ -12,7 +12,6 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
-import db.professor as All_professors
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
@@ -59,9 +58,8 @@ date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn, FastAPICache)
-professor_info = All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
-professors = professor_routes.Professors(professor_info)
+professors = professor_routes.Professors(db_conn, FastAPICache)
 
 
 def is_admin_user(session):

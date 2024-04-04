@@ -1,38 +1,36 @@
-from fastapi import APIRouter, FastAPI, HTTPException, Request, Response, UploadFile, Form, File, Depends, Security
-from starlette.middleware.sessions import SessionMiddleware
-from fastapi_cache import FastAPICache
+from fastapi import APIRouter, HTTPException, Response, Request, UploadFile, Form, File, Security
+from db.professor import Professor
 from fastapi.security import APIKeyHeader
-import db.professor as All_professors
-import db.connection as connection
-from fastapi_cache.backends.inmemory import InMemoryBackend
 from fastapi_cache.decorator import cache
 from fastapi_cache.coder import PickleCoder
 from constants import Constants
-import os
-import json
+import json, os
+
+api_key_header = APIKeyHeader(name="X-API-Key")
+
+def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
+    if api_key_header in os.environ.get("API_SIGN_KEY"):
+        return api_key_header
+    raise HTTPException(
+        status_code=Request.status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or missing API Key",
+    )
 
 class Professors:
     
-    def __init__(self, professor_info):
-        self.professor_info = professor_info
+    def __init__(self, db_conn, cache):
+        self.professor_info = Professor(db_conn, cache)
         self.router = APIRouter(
             prefix='/api/professor'
         )
-        self.router.add_api_route('', self.get_professors, methods=['GET'])
-        self.router.add_api_route('', self.upload_professors, methods=['POST'])
+        self.router.add_api_route('', self.upload, methods=['POST'])
+        self.router.add_api_route('/{email}', self.add, methods=['POST'])
+        self.router.add_api_route('', self.get_all, methods=['GET'])
+        self.router.add_api_route('/{email}', self.get, methods=['GET'])
+        self.router.add_api_route('/department/{department}', self.get_department, methods=['GET'])
+        self.router.add_api_route('/{email}', self.remove, methods=['DELETE'])
 
-    @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
-    async def get_professors(self):
-        """
-        GET /api/professor
-        Cached: 24 Hours
-        """
-        professors, error = self.professor_info.get_all_professors(
-        )  # replace professor_info with db_manager
-        db_list = [dict(prof) for prof in professors] if professors else []
-        return db_list if not error else Response(error, status_code=500)
-    
-    async def upload_professors(
+    async def upload(
             self,
             isPubliclyVisible: str = Form(...),
             file: UploadFile = File(...)):
@@ -64,3 +62,38 @@ class Professors:
             print("NOT WORKING")
             print(error)
             return Response(error.__str__(), status_code=500)
+
+
+    async def add(self, msg: str, api_key: str = Security(get_api_key)):
+        info = msg.split(",")
+        professor, error = self.professor_info.add_professor(info[0], info[1], info[2], info[3], info[4],
+                                                        info[5], info[6], info[7], info[8])
+        return professor if not error else Response(error, status_code=500)
+
+
+    @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+    async def get_all(self):
+        """
+        GET /api/professor
+        Cached: 24 Hours
+        """
+        professors, error = self.professor_info.get_all_professors(
+        )  # replace professor_info with db_manager
+        db_list = [dict(prof) for prof in professors] if professors else []
+        return db_list if not error else Response(error, status_code=500)
+    
+
+    async def get(self, email: str):
+        professor_email, error = self.professor_info.get_professor_info_by_email(email)
+        return professor_email if not error else Response(content=error, status_code=500)
+    
+
+    async def get_department(self, department: str):
+        professors, error = self.professor_info.get_professors_by_department(department)
+        return professors if not error else Response(content=error, status_code=500)
+
+
+    async def remove(self, email: str, api_key: str = Security(get_api_key)):
+        print(email)
+        professor, error = self.professor_info.remove_professor(email)
+        return professor if not error else Response(str(error), status_code=500)
