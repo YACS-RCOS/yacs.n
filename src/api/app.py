@@ -171,6 +171,11 @@ async def upload_handler(
     # Populate DB from CSV
     is_success, error = courses.populate_from_csv(csv_file)
     if is_success:
+        notif_str = "[Notification] New courses are available for the following semester(s): "
+        for i in semesters:
+            notif_str = notif_str + i + " "
+        if is_publicly_visible == "on":
+            print(notif_str)
         return Response(status_code=200)
     print(error)
     return Response(str(error), status_code=500)
