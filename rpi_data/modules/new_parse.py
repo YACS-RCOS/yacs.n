@@ -4,7 +4,7 @@ import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
@@ -414,9 +414,13 @@ def writeCSV(info:list, filename: str):
 
 if __name__ == "__main__":
     options = Options()
-    options.add_argument("--user-agent=Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0")
     fp = webdriver.FirefoxProfile()
-    fp.set_preference("network.cookie.cookieBehavior", 2)
+    # fp.set_preference("network.cookie.cookieBehavior", 2)
+    fp.set_preference(
+        "general.useragent.override",
+        "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0",
+    )
+    options.profile = fp
     driver = webdriver.Firefox(options)
     driver.delete_all_cookies()
     try:
