@@ -14,7 +14,7 @@ class Finals:
     def __init__(self, db_conn):
         self.db_conn = db_conn
 
-    def populate_from_json(self, json_data):
+    def populate_from_json(self, json_data, semester):
         """
         Populates the finals table with an array of json data
         Any values not present in a data entry are automatically added with None as theit value.
@@ -31,6 +31,7 @@ class Finals:
         day: integer representation of the day the final takes place on: M=0, T=1, W=2, R=3, F=4.
         start_time: start time
         end_time: the end time
+        semester: the semester of the final
         """
         conn = self.db_conn.get_connection()
 
@@ -38,6 +39,7 @@ class Finals:
             try:
                 # Iterate over each entry in the JSON data
                 for entry in json_data:
+                    entry["semester"] = semester
                     for i in ("crn", "department", "level", "section", "title", "full_title",
                               "location", "day", "start_time", "end_time"):
                         if i not in entry:
@@ -55,7 +57,8 @@ class Finals:
                                                 location,
                                                 day,
                                                 start_time,
-                                                end_time
+                                                end_time,
+                                                semester
                                             ) VALUES (
                                                 %(crn)s,
                                                 %(department)s,
@@ -66,7 +69,8 @@ class Finals:
                                                 %(location)s,
                                                 %(day)s,
                                                 %(start_time)s,
-                                                %(end_time)s
+                                                %(end_time)s,
+                                                %(semester)s
                                             )
                                             ON CONFLICT DO NOTHING;
                                             """, entry)

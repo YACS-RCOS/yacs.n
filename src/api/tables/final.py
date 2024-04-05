@@ -16,3 +16,4 @@ class Final(Base):
     day = Column(INTEGER)
     start_time = Column(TIME)
     end_time = Column(TIME)
+    semester = Column(VARCHAR(length=255))

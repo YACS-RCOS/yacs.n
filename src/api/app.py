@@ -208,7 +208,7 @@ async def upload_json(
     return Response(str(error), status_code=500)
 
 @app.post('/api/bulkFinalJsonUpload')
-async def upload_finals_json(file: UploadFile = File(...)):
+async def upload_finals_json(file: UploadFile = File(...), semester: str = Form(...)):
     # Check to make sure the user has sent a file
     if not file:
         return Response("No file received", 400)
@@ -229,7 +229,7 @@ async def upload_finals_json(file: UploadFile = File(...)):
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
     # Call populate_from_json method
-    (is_success, error) = finals_info.populate_from_json(json_data)
+    (is_success, error) = finals_info.populate_from_json(json_data, semester)
     if is_success:
         print("SUCCESS")
         return Response(status_code=200)
