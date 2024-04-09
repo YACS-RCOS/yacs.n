@@ -1,13 +1,11 @@
-import requests as req
 import threading #https://docs.python.org/3/library/threading.html
 import unicodedata
-import re
-import regex #https://www.dataquest.io/blog/regex-cheatsheet/
-import json 
-from datetime import date
-from time import time
+import json
 from threading import Lock
 from io import StringIO
+import re
+import regex #https://www.dataquest.io/blog/regex-cheatsheet/
+import requests as req
 from bs4 import BeautifulSoup, SoupStrainer #https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 from lxml import etree
 
@@ -34,11 +32,14 @@ USED_FIELDS = {
     "department": True,
     "level": True,
     "full_name": True,
-    "short_name": True, # custom, requires department and level to be true. Use this to join with SIS data.
+    # custom, requires department and level to be true. Use this to join with SIS data.
+    "short_name": True,
     "description": True,
     "prerequisites": True, # custom
     "corequisites": True, # custom
-    "raw_precoreqs": True, # If either prereq or coreq is true, then this must be true cause the client needs to look at this field to understand the other two
+    # If either prereq or coreq is true, then this must be true cause the client needs 
+    # to look at this field to understand the other two
+    "raw_precoreqs": True,
     "offer_frequency": True,
     "cross_listed": False,
     "graded": False,
@@ -51,7 +52,8 @@ allow_for_extension_regex = re.compile("(<catalog.*?>)|(<\/catalog>)|(<\?xml.*?\
 prolog_and_root_ele_regex = re.compile("^(?P<prolog><\?xml.*?\?>)?\s*(?P<root><catalog.*?>)")
 
 # group the most specific regex patterns first, then the more general ones for last
-# goal is to capture classes that are loosely of the form "Prerequisites: [CAPTURE COURSE LISTINGS TEXT]",
+# goal is to capture classes that are loosely of the form 
+# "Prerequisites: [CAPTURE COURSE LISTINGS TEXT]",
 # but does not capture classes explicitly stated to be corequisites. Tries to remove
 # periods, trailing and leading space.
 explicit_prereqs_include_syntax_regex = "(?:^\s*Prerequisites? include:?\s?(.*))"

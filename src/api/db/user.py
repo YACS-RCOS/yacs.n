@@ -1,20 +1,19 @@
 from db.model import *
 
 class User(Model):
-    def __init__(self):
-        super().__init__()
 
-    def get_user(self, uid='%', name='%', email='%', password='%', phone='%', major='%', degree='%', enable=True):
-        sql = """   SELECT user_id, name, email, phone,password,major,degree,enable,admin,super_admin
-                    FROM public.user_account
-                    WHERE   user_id::text   LIKE %s AND
-                            name        LIKE %s AND
-                            email       LIKE %s AND
-                            phone       LIKE %s AND
-                            password    LIKE %s AND
-                            major       LIKE %s AND
-                            degree      LIKE %s AND
-                            enable = %s"""
+    def get_user(self, uid='%', name='%', email='%', password='%',
+                 phone='%', major='%', degree='%', enable=True):
+        sql ="""SELECT user_id, name, email, phone,password,major,degree,enable,admin,super_admin
+                FROM public.user_account
+                WHERE   user_id::text   LIKE %s AND
+                        name        LIKE %s AND
+                        email       LIKE %s AND
+                        phone       LIKE %s AND
+                        password    LIKE %s AND
+                        major       LIKE %s AND
+                        degree      LIKE %s AND
+                        enable = %s"""
 
         args = (str(uid), name, email, phone, password, major, degree, enable)
         return self.db.execute(sql, args, True)[0]

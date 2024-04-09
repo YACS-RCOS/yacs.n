@@ -1,11 +1,8 @@
-import glob
-import os
 import csv
 import re
-import json
-from psycopg2.extras import RealDictCursor
 from ast import literal_eval
 import asyncio
+from psycopg2.extras import RealDictCursor
 
 # https://stackoverflow.com/questions/54839933/importerror-with-from-import-x-on-simple-python-files
 if __name__ == "__main__":
@@ -19,7 +16,7 @@ class Courses:
         self.db = db_wrapper
         self.cache = cache
 
-    def dayToNum(self, day_char):
+    def day_to_num(self, day_char):
         day_map = {
             'M': 0,
             'T': 1,
@@ -30,10 +27,11 @@ class Courses:
         day_num = day_map.get(day_char, -1)
         if day_num != -1:
             return day_num
+        return None
 
-    def getDays(self, daySequenceStr):
+    def get_days(self, day_sequence_str):
         return set(filter(
-            lambda day: day, re.split("(?:(M|T|W|R|F))", daySequenceStr)))
+            lambda day: day, re.split("(?:(M|T|W|R|F))", day_sequence_str)))
 
     def delete_by_semester(self, semester):
         # clear cache so this semester does not come up again
@@ -47,7 +45,7 @@ class Courses:
             COMMIT;
         """, {
             "Semester": semester
-        }, isSELECT=False)
+        }, is_select=False)
 
     def bulk_delete(self, semesters):
         for semester in semesters:
@@ -68,7 +66,7 @@ class Courses:
             for row in reader:
                 try:
                     # course sessions
-                    days = self.getDays(row['course_days_of_the_week'])
+                    days = self.get_days(row['course_days_of_the_week'])
                     for day in days:
                         transaction.execute(
                             """
@@ -101,9 +99,18 @@ class Courses:
                                 "CRN": row['course_crn'],
                                 "Section": row['course_section'],
                                 "Semester": row['semester'],
-                                "StartTime": row['course_start_time'] if row['course_start_time'] and not row['course_start_time'].isspace() else None,
-                                "EndTime": row['course_end_time'] if row['course_end_time'] and not row['course_end_time'].isspace() else None,
-                                "WeekDay": self.dayToNum(day) if day and not day.isspace() else None,
+                                "StartTime": row['course_start_time'] \
+                                    if row['course_start_time'] \
+                                        and not row['course_start_time'].isspace() \
+                                    else None,
+                                "EndTime": row['course_end_time'] \
+                                    if row['course_end_time'] \
+                                        and not row['course_end_time'].isspace() \
+                                    else None,
+                                "WeekDay": self.day_to_num(day) \
+                                    if day \
+                                        and not day.isspace() \
+                                    else None,
                                 "Location": row['course_location'],
                                 "SessionType": row['course_type'],
                                 "Instructor": row['course_instructor']
@@ -171,10 +178,19 @@ class Courses:
                                 "Description": row['description'], # new
                                 "Frequency": row['offer_frequency'], # new
                                 "FullTitle": row["full_name"], # new
-                                "StartDate": row['course_start_date'] if row['course_start_date'] and not row['course_start_date'].isspace() else None,
-                                "EndDate": row['course_end_date'] if row['course_end_date'] and not row['course_end_date'].isspace() else None,
+                                "StartDate": row['course_start_date'] \
+                                    if row['course_start_date'] \
+                                        and not row['course_start_date'].isspace() \
+                                    else None,
+                                "EndDate": row['course_end_date'] \
+                                    if row['course_end_date'] \
+                                        and not row['course_end_date'].isspace() \
+                                    else None,
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] \
+                                    if row['course_level'] \
+                                        and not row['course_level'].isspace() \
+                                    else None,
                                 "Title": row['course_name'],
                                 "RawPrecoreqText": row['raw_precoreqs'],
                                 "School": row['school'],
@@ -206,7 +222,10 @@ class Courses:
                             """,
                             {
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] \
+                                    if row['course_level'] \
+                                        and not row['course_level'].isspace() \
+                                    else None,
                                 "Prerequisite": prereq
                             }
                         )
@@ -229,7 +248,8 @@ class Courses:
                             """,
                             {
                                 "Department": row['course_department'],
-                                "Level": row['course_level'] if row['course_level'] and not row['course_level'].isspace() else None,
+                                "Level": row['course_level'] if row['course_level'] 
+                                and not row['course_level'].isspace() else None,
                                 "Corequisite": coreq
                             }
                         )
@@ -256,6 +276,6 @@ class Courses:
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
     # fileNames = glob.glob("*.csv")
-    csv_text = open('../../../rpi_data/fall-2020.csv', 'r')
-    courses = Courses(connection.db)
-    courses.populate_from_csv(csv_text)
+    with open('../../../rpi_data/fall-2020.csv', 'r', encoding="utf8") as csv_file:
+        courses = Courses(connection.db, None)
+        courses.populate_from_csv(csv_file)

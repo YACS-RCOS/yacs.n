@@ -1,4 +1,4 @@
-from sqlalchemy import Column, PrimaryKeyConstraint
+from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import INTEGER, TIMESTAMP, UUID
 
 from .database import Base

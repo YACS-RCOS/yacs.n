@@ -1,7 +1,5 @@
-import time
-import pdb
 import copy
-from typing import overload
+
 class Course:
     name:str
     credits:int
@@ -17,21 +15,22 @@ class Course:
     sdate:str
     enddate:str
     sem:str
-    crn:int 
+    crn:int
     code:int
     section:int
     short:str
     long:str
     frequency:str
-    desc:str 
+    desc:str
     raw:str
     pre:list
     co:list
     major:str
     school:str
     lec:str
-    #Info will be an array of strings: 
-    # [crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
+    #Info will be an array of strings:
+    # [crn, major, code, section, credits, name, days, stime,
+    # etime, max, curr, rem, profs, sdate, enddate, loc]
 
     def __init__(self, info):
         self.crn = info[0]
@@ -50,7 +49,7 @@ class Course:
         self.sdate = info[13]
         self.enddate = info[14]
         self.loc = info[15]
-        self.long = self.processName(self.name)
+        self.long = self.process_name(self.name)
         self.frequency = ""
         self.short = self.major + '-' + self.code
         self.lec = "LEC"
@@ -60,63 +59,72 @@ class Course:
         self.co = list()
         self.school = ""
         self.sem = ""
-    
-    def processName(self, name:str) -> str:
+
+    def process_name(self, name:str) -> str:
         tmp = name.split()
         for i in range(0, len(tmp), 1):
             if not tmp[i].isalpha():
-                continue 
+                continue
             tmp[i]= tmp[i][:1].upper() + tmp[i][1:].lower()
         return ' '.join(tmp)
-    def addSemester(self, semester):
+
+    def add_semester(self, semester):
         self.sem = semester.upper()
-    def addReqs(self, pre:list=[], co:list=[], raw:str="", desc: str=""):
+
+    def add_reqs(self, pre:list=None, co:list=None, raw:str="", desc: str=""):
+        if pre is None:
+            pre = []
+        if co is None:
+            co = []
         self.desc = desc
         self.raw = raw
         self.pre = copy.deepcopy(pre)
         self.co = copy.deepcopy(co)
-    
-    def addReqsFromList(self, info: list=[]):
+
+    def add_reqs_from_list(self, info:list=None):
+        if info is None:
+            info = []
         self.pre = info[0]
         self.co = info[1]
         self.raw = info[2]
         self.desc = info[3]
+
     def print(self):
         for attr, value in self.__dict__.items():
             print(attr, " : ", value)
-    #Turn the class back into a list. 
+    #Turn the class back into a list.
     #Because of the diffs in how we store vs how we want it to be, need to do a lot of swapping
     #Maybe there's a diff way than doing this, hopefully there is
     def decompose(self) -> list[str]:
-        retList = []
-        retList.append(self.name)
-        retList.append(self.lec)
-        retList.append(self.credits)
-        retList.append(self.days)
-        retList.append(self.stime)
-        retList.append(self.etime)
-        retList.append(self.profs)
-        retList.append(self.loc)
-        retList.append(self.max)
-        retList.append(self.curr)
-        retList.append(self.rem)
-        retList.append(self.major)
-        retList.append(self.sdate)
-        retList.append(self.enddate)
-        retList.append(self.sem)
-        retList.append(self.crn)
-        retList.append(self.code)
-        retList.append(self.section)
-        retList.append(self.short)
-        retList.append(self.long)
-        retList.append(self.desc)
-        retList.append(self.raw)
-        retList.append(self.frequency)
-        retList.append(self.pre)
-        retList.append(self.co)
-        retList.append(self.school)
-        return retList
-    
+        ret_list = []
+        ret_list.append(self.name)
+        ret_list.append(self.lec)
+        ret_list.append(self.credits)
+        ret_list.append(self.days)
+        ret_list.append(self.stime)
+        ret_list.append(self.etime)
+        ret_list.append(self.profs)
+        ret_list.append(self.loc)
+        ret_list.append(self.max)
+        ret_list.append(self.curr)
+        ret_list.append(self.rem)
+        ret_list.append(self.major)
+        ret_list.append(self.sdate)
+        ret_list.append(self.enddate)
+        ret_list.append(self.sem)
+        ret_list.append(self.crn)
+        ret_list.append(self.code)
+        ret_list.append(self.section)
+        ret_list.append(self.short)
+        ret_list.append(self.long)
+        ret_list.append(self.desc)
+        ret_list.append(self.raw)
+        ret_list.append(self.frequency)
+        ret_list.append(self.pre)
+        ret_list.append(self.co)
+        ret_list.append(self.school)
+        return ret_list
+
     def list_to_class(self, row):
         self.name = row[0]
         self.lec = row[1]
@@ -144,7 +152,7 @@ class Course:
         self.co = row[24]
         self.school = row[25]
 
-    def addSchool(self, school):
+    def add_school(self, school):
         self.school = school
     def __lt__(self, other):
         #Note that we will maybe need to compare times? Idk how to handle the case where the classes
@@ -155,6 +163,6 @@ class Course:
         if self.code > other.code:
             return self.code > other.code
         return self.section > other.section
-    
+
     def __str__(self):
         return self.name

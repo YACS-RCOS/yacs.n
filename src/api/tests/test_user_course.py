@@ -18,7 +18,7 @@ TEST_COURSE_2 = {'name': 'ARCH-4770',
 
 
 @pytest.mark.testclient
-def test_user_course_post_success(post_user, client: TestClient):
+def test_user_course_post_success(_post_user, client: TestClient):
     '''
     Test user course post by comparing it to user get course
     '''
@@ -35,16 +35,16 @@ def test_user_course_post_success(post_user, client: TestClient):
     assert d.status_code == 200
 
 @pytest.mark.testclient
-def test_user_course_post_failure(post_user, client: TestClient):
+def test_user_course_post_failure(_post_user, client: TestClient):
     '''
     Test user course post with invalid parameter
     '''
-    TEST_INVALID_USER_COURSE = {}
+    test_invalid_user_course = {}
     sess = client.post("/api/session", json=TEST_USER).json()
-    sessID = sess['content']['sessionID']
-    r = client.post("/api/user/course", json=TEST_INVALID_USER_COURSE)
+    sess_id = sess['content']['sessionID']
+    r = client.post("/api/user/course", json=test_invalid_user_course)
     assert r.status_code == 422
-    d = client.delete('/api/session', json={'sessionID': sessID})
+    d = client.delete('/api/session', json={'sessionID': sess_id})
     assert d.status_code == 200
 
 @pytest.mark.testclient
@@ -58,7 +58,7 @@ def test_course_post_not_authorized(client: TestClient):
     assert r.status_code == 403
 
 @pytest.mark.testclient
-def test_user_course_get_success(post_user, client: TestClient):
+def test_user_course_get_success(_post_user, client: TestClient):
     '''
     Test user course get success
     '''
@@ -82,7 +82,7 @@ def test_user_course_get_failure(client: TestClient):
     assert r.status_code == 403
 
 @pytest.mark.testclient
-def test_user_course_delete_success(post_user, client: TestClient):
+def test_user_course_delete_success(_post_user, client: TestClient):
     '''
     Test user/course delete success
     '''
@@ -93,7 +93,8 @@ def test_user_course_delete_success(post_user, client: TestClient):
     r = client.get("/api/user/course")
     assert r.status_code == 200
     data = r.json()
-    db_course = {'course_name': TEST_COURSE['name'], 'crn': TEST_COURSE['cid'], 'semester': TEST_COURSE['semester']}
+    db_course = {'course_name': TEST_COURSE['name'], 'crn': TEST_COURSE['cid'],
+                 'semester': TEST_COURSE['semester']}
     assert db_course in data
 
     x = client.delete("/api/user/course", json = TEST_COURSE)

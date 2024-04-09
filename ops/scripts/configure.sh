@@ -44,7 +44,7 @@ function load_semester() {
         --request POST \
         'http://localhost/api/bulkCourseUpload' \
         --form "file=@$1" \
-        --form 'isPubliclyVisible=true' \
+        --form 'is_publicly_visible=true' \
         --max-time 60 \
         -v
 }

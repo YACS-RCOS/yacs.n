@@ -5,7 +5,7 @@ TEST_USER = { 'email': 'test@email.com',
               'password': '123456' }
 
 @pytest.mark.testclient
-def test_session_post_success(post_user, client: TestClient):
+def test_session_post_success(_post_user, client: TestClient):
     '''
     Test session post with valid credentials
     '''
@@ -30,15 +30,15 @@ def test_session_post_failure(client: TestClient):
     assert data['content'] is None
 
 @pytest.mark.testclient
-def test_session_delete_success(post_user, client: TestClient):
+def test_session_delete_success(_post_user, client: TestClient):
     '''
     Test session delete with valid input
     '''
     sess = client.post("/api/session", json=TEST_USER).json()
-    sessID = sess['content']['sessionID']
-    r = client.delete('/api/session', json={'sessionID': sessID})
+    sess_id = sess['content']['sessionID']
+    r = client.delete('/api/session', json={'sessionID': sess_id})
     assert r.status_code == 200
-    assert r.json()['success'] == True
+    assert r.json()['success']
 
 @pytest.mark.testclient
 def test_session_delete_failure(client: TestClient):
@@ -47,4 +47,4 @@ def test_session_delete_failure(client: TestClient):
     '''
     r = client.delete('/api/session', json={'sessionID': 'not-a-session-id'})
     assert r.status_code == 200
-    assert r.json()['success'] == False
+    assert not r.json()['success']

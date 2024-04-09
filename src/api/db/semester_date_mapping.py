@@ -1,4 +1,4 @@
-class semester_date_mapping:
+class SemesterDateMapping:
 
     def __init__(self, db_wrapper):
         self.db = db_wrapper
@@ -13,7 +13,7 @@ class semester_date_mapping:
             "SemesterPartName": name,
             "DateStart": date_start,
             "DateEnd": date_end
-        }, isSELECT=False)
+        }, is_select=False)
 
     def insert_all(self, start_dates, end_dates, names):
         if len(start_dates) == len(end_dates) == len(names):
@@ -31,8 +31,8 @@ class semester_date_mapping:
                         "SemesterPartName": names[i],
                         "DateStart": start_dates[i],
                         "DateEnd": end_dates[i]
-                    }, isSELECT=False)
-                    if (error):
+                    }, is_select=False)
+                    if error:
                         return (False, error)
             return (True, None)
         return (False, None)
