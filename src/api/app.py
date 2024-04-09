@@ -228,6 +228,9 @@ async def upload_finals_json(file: UploadFile = File(...), semester: str = Form(
     except json.JSONDecodeError as e:
         return Response(f"Invalid JSON data: {str(e)}", 400)
 
+    # Delete old data
+    finals_info.remove_semester_finals(semester)
+
     # Call populate_from_json method
     (is_success, error) = finals_info.populate_from_json(json_data, semester)
     if is_success:
