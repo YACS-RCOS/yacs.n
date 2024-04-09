@@ -129,3 +129,16 @@ class Finals:
                                         "crn": crn,
                                         "section": section
                                     }, False)
+
+    def remove_semester_finals(self, semester):
+        """
+        Remove finals for a semester, should be called before bulk adding
+        """
+        return self.db_conn.execute("""
+            BEGIN TRANSACTION;
+                DELETE FROM finals
+                WHERE semester=%(Semester)s;
+            COMMIT;
+        """, {
+            "Semester": semester
+        }, is_select=False)
