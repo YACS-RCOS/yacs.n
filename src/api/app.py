@@ -237,6 +237,7 @@ async def upload_finals_json(file: UploadFile = File(...), semester: str = Form(
     (is_success, error) = finals_info.populate_from_json(json_data, semester)
     if is_success:
         print("SUCCESS")
+        print("[Notification] New finals data available for semester: " + semester)
         return Response(status_code=200)
     print("NOT WORKING")
     print(error)
