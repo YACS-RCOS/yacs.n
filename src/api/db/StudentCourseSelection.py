@@ -1,4 +1,4 @@
-class student_course_selection:
+class StudentCourseSelection:
 	def __init__(self, db_conn):
 		self.db_conn = db_conn
 

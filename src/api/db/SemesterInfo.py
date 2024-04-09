@@ -1,6 +1,6 @@
 import asyncio
 
-class semester_info:
+class SemesterInfo:
     def __init__(self, db_wrapper, cache):
         self.db = db_wrapper
         self.cache = cache
