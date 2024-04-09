@@ -16,7 +16,7 @@ def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
         detail="Invalid or missing API Key",
     )
 
-class Professors:
+class ProfessorRoutes:
     
     def __init__(self, db_conn, cache):
         self.professor_info = Professor(db_conn, cache)

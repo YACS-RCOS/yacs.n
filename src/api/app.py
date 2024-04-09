@@ -25,7 +25,9 @@ from sqlalchemy.orm import Session
 import json
 import os
 import pandas as pd
-import routers.professors as professor_routes
+from routers.ProfessorRoutes import ProfessorRoutes
+from routers.CourseRoutes import CourseRoutes
+from routers.UserRoutes import UserRoutes
 from constants import Constants
 
 """
@@ -53,13 +55,13 @@ def get_api_key(api_key_header: str = Security(api_key_header)) -> str:
 # - init interfaces to db
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
-courses = Courses.Courses(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
-course_select = CourseSelect.student_course_selection(db_conn)
 semester_info = SemesterInfo.semester_info(db_conn, FastAPICache)
 users = UserModel.User()
-professors = professor_routes.Professors(db_conn, FastAPICache)
+professor_routes = ProfessorRoutes(db_conn, FastAPICache)
+user_routes = UserRoutes()
+course_routes = CourseRoutes()
 
 
 def is_admin_user(session):
@@ -74,15 +76,15 @@ async def root(request: Request):
     return Response(content='YACS API is Up!',)
 
 
+@app.get('/api')
+def apiroot():
+    return Response(content='wow')
+
+
 @app.get("/api/auth")
 async def authenticate(api_key: str = Security(get_api_key)):
     # Process the request for authenticated users
     return {"message": "Access granted!"}
-
-
-@app.get('/api')
-def apiroot():
-    return Response(content='wow')
 
 
 @app.get('/api/class')
@@ -177,41 +179,7 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic, api_key: str =
     else:
         print(error)
         return Response(error.__str__(), status_code=500)
-
-# Parses the data from the .csv data files
-@app.post('/api/bulkCourseUpload')
-async def uploadHandler(
-        api_key: str = Security(get_api_key),
-        isPubliclyVisible: str = Form(...),
-        file: UploadFile = File(...)):
-    # check for user files
-    print("in process")
-    if not file:
-        return Response("No file received", 400)
-    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
-        return Response("File must have csv extension", 400)
-    # get file
-    contents = await file.read()
-    csv_file = StringIO(contents.decode())
-    # update semester infos based on isPubliclyVisible, hiding semester if needed
-    # is_publicly_visible = request.form.get("isPubliclyVisible", default=False)
-    semesters = pd.read_csv(csv_file)['semester'].unique()
-    for semester in semesters:
-        semester_info.upsert(semester, isPubliclyVisible)
-    # Like C, the cursor will be at EOF after full read, so reset to beginning
-    csv_file.seek(0)
-    # Clear out course data of the same semester before population due to
-    # data source (E.g. SIS & Acalog Catalog) possibly updating/removing/adding
-    # courses.
-    courses.bulk_delete(semesters=semesters)
-    # Populate DB from CSV
-    isSuccess, error = courses.populate_from_csv(csv_file)
-    if (isSuccess):
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
-
+    
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
@@ -266,4 +234,6 @@ def add_user_event(request: Request, credentials: SessionPydantic):
 
 
 # add support for finals schedule/endpoints
-app.include_router(professors.router)
+app.include_router(professor_routes.router)
+app.include_router(course_routes.router)
+app.include_router(user_routes.router)
