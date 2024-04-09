@@ -1,6 +1,7 @@
+import os
+import inspect
 import pytest
 from fastapi.testclient import TestClient
-import os, inspect
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 appdir = os.environ.get("TEST_APP_DIR", os.path.dirname(current_dir))
@@ -28,7 +29,7 @@ def test_bulk_upload_no_file(client: TestClient):
     '''
     multipart_form_data = {
         'file': ('test_data.csv'),
-        'isPubliclyVisible': (None, "on"),
+        'is_publicly_visible': (None, "on"),
     }
     r = client.post("/api/bulkCourseUpload",
                     files=multipart_form_data)
@@ -41,7 +42,7 @@ def test_bulk_upload_wrong_file_extension(client: TestClient):
     '''
     multipart_form_data = {
         'file': ('test_bulk_upload.py', open(appdir + '/tests/test_bulk_upload.py', 'rb')),
-        'isPubliclyVisible': (None, "on"),
+        'is_publicly_visible': (None, "on"),
     }
     r = client.post("/api/bulkCourseUpload",
                     files=multipart_form_data)
