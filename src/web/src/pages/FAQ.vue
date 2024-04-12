@@ -1,7 +1,19 @@
 <template>
-    <b-container fluid>
-      <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    </b-container>
+  <b-container fluid>
+    <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div class="centered-boxes">
+      <div class="column-section">
+        <div class="categoryBox border m-2 mb-4">
+          <h3 class="category-title">Can I bring Yacs to my school?</h3>
+          <p>Yes! You can view the documentation or contact us to help bring Yacs to your school or University.</p>
+          <h3 class="category-title">Who can contribute to Yacs?</h3>
+          <p>Anyone can contribute to Yacs by creating commits, issues, or pull requests</p>
+          <h3 class="category-title">How can I download my course schedule from Yacs?</h3>
+          <p>Scroll to the bottom of the schedule page, and select the "Export Data" button next to where your current credit load is displayed.</p>
+        </div>
+      </div>
+    </div>
+  </b-container>
 </template>
 
 <script>
