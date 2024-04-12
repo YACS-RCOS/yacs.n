@@ -146,9 +146,24 @@
 
             <b-row>
               <b-col class="m-2">
-                <h5>CRNs: {{ selectedCrns }}</h5>
+                <div style="display: inline-block;">
+                  <h5 style="display: inline; margin: 0;">CRNs: </h5>
+                  <span v-for="(crn, index) in getCrns" :key="index">
+                    <h5
+                      @click="copyToClipboard(crn)"
+                      style="cursor: pointer; display: inline; margin: 0; padding: 0;"
+                      :title="'Click to Copy ' + crn"
+                    >
+                      {{ crn }}
+                    </h5>
+                    <span v-if="index !== getCrns.length - 1">, </span>
+                  </span>
+                  <span v-if="crnCopied" style="color: green; margin-left: 10px;">Copied!</span>
+                </div>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
+
+
 
               <b-col md="3" justify="end">
                 <b-row>
@@ -322,6 +337,7 @@ export default {
       ],
       index: 0,
       loadedIndexCookie: 0,
+      crnCopied: false,
     };
   },
   methods: {
@@ -628,7 +644,21 @@ export default {
         .updateIndex(this.index)
         .save();
     },
+
+    copyToClipboard(crn) {
+      navigator.clipboard.writeText(crn)
+        .then(() => {
+          this.crnCopied = true;
+          setTimeout(() => {
+            this.crnCopied = false;
+          }, 2000); // Hide the message after 2 seconds (adjust the delay as needed)
+        })
+        .catch((err) => {
+          console.error('Unable to copy to clipboard: ', err);
+        });
+    },
   },
+  
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
     ...mapGetters([COURSES]),
@@ -643,21 +673,20 @@ export default {
         (s) => s.display_string === this.selectedScheduleSubsemester
       );
     },
+
     selectedSections() {
       return Object.values(this.selectedCourses)
         .map((c) => c.sections.filter((s) => s.selected))
         .flat();
     },
+    
     /**
-     * Returns list of CRNs for all selected sections
-     * @returns {string}
+     * Generate an array of CRNs from this.possibilities[this.index].sections
      */
-    selectedCrns() {
-      return (
-        this.possibilities[this.index] &&
-        this.possibilities[this.index].sections.map((s) => s.crn).join(", ")
-      );
+    getCrns() {
+      return this.possibilities[this.index].sections.map((s) => s.crn);
     },
+
     /**
      * Returns sum of credits being taken from all selected sections
      */
