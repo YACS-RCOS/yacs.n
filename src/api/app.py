@@ -20,6 +20,7 @@ import db.admin as AdminInfo
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
 import db.finals as Finals
+import db.course_watchers as CourseWatch
 import controller.user as user_controller
 import controller.session as session_controller
 import pandas as pd
@@ -45,6 +46,7 @@ course_select = CourseSelect.StudentCourseSelection(db_conn)
 semester_info = SemesterInfo.SemesterInfo(db_conn)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 finals_info = Finals.Finals(db_conn)
+course_watch_info = CourseWatch.CourseWatchers(db_conn)
 users = UserModel.User()
 
 def is_admin_user(session):
@@ -435,3 +437,7 @@ async def get_finals_crns():
 @app.get('/api/getFinalDataFromCRN')
 async def get_final_data(crn: str):
     return finals_info.get_single_final_data(crn)
+
+@app.post("/api/testCourseWatch")
+async def add_test_watcher(user_id: int):
+    course_watch_info.add_watcher(user_id, "1")
