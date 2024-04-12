@@ -3,57 +3,35 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and category order -->
-    <div style="float: left;" class="w-10">
-      <b-button
-        @click="listAlphabet()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Alphabet
-      </b-button>
-      <br />
-      <b-button
-        @click="listCate()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Category
-      </b-button>
-    </div>
+    <b-dropdown id="dropdown-1" text="Sort By" variant="link" class="dropdown-custom">
+        <b-dropdown-item @click="listAlphabet">A - Z</b-dropdown-item>
+        <b-dropdown-item @click="listCate">Category</b-dropdown-item>
+    </b-dropdown>
+
+    
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
-      <b-modal ref="my-modal">
-        <div class="block text-left" v-if="showPath != null" md="10">
-          <h3
-            class="text-center"
-            style="color: #007bff; margin-top: -5px; margin-bottom: 5px;"
-          >
+      <b-modal ref="my-modal" scrollable size="lg">
+        <template #modal-title>
+          <div style="color: #3395ff;" v-if="showPath != null">
             {{ showPath.Name[0] }}
-          </h3>
-          <br />
-          <div v-for="(item, itemName) in showPath" :key="itemName">
-            <h4 style="color: #3395ff; margin-top: -20px;">
-              {{ itemName + ": " }}
-            </h4>
-            <li
-              v-for="course in item"
-              :key="course"
-              v-on:click="goPage(course)"
-              class="courseInPath"
-            >
-              {{ course }}
-            </li>
             <br />
           </div>
-        </div>
+        </template>
+      
+        <b-tabs>
+          <b-tab v-for="(item, itemName) in noNamePath" :key="itemName" :title="shortenTitle(itemName)">
+            <div class="block text-left" v-if="showPath != null">
+              <h5 style="color: #3395ff; margin-top: 15px;">
+                {{ itemName + ": " }}
+              </h5>
+              <b-button style="color: black;" class="pathway-button" v-for="course in item" :key="course" v-on:click="goPage(course)">
+                {{ course }}
+              </b-button>
+              <br />
+            </div>
+          </b-tab>
+        </b-tabs>
       </b-modal>
 
       <b-row>
@@ -280,6 +258,16 @@ export default {
       ret.push(col2);
       return ret;
     },
+    
+    // A copy of the showPath object without the name aka the first index of the array
+    noNamePath() {
+      if (!this.showPath) {
+        return {};
+      }
+      const showPathCopy = { ...this.showPath };
+      delete showPathCopy[Object.keys(this.showPath)[0]];
+      return showPathCopy;
+    },
   },
   methods: {
     listAlphabet() {
@@ -312,6 +300,22 @@ export default {
         );
       }
     },
+
+    // Shorten the title of the pathway in the pop-up window
+    shortenTitle(title) {
+      if (title.includes('remaining')) {
+        return 'Choose Remaining Credits';
+      }
+      else if (!title.includes('remaining') && (title.includes('from the following') 
+            || title.includes('12 credits of the following') || title.includes('from a choice of the following'))) {
+        return 'Choose from the following';
+      }
+      else if (!title.includes('remaining') && title.includes('one of the following a minimum')) {
+        return 'Choose one of the following';
+      }
+      return title
+    },
+
   },
 };
 </script>
@@ -341,16 +345,15 @@ export default {
   text-align: justify;
   width: 95%;
 }
-
+ 
 .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
 }
 
-.courseInPath {
-  cursor: pointer;
+.dropdown-custom {
+  color: #3395ff;
+  border: 1px #3395ff;
+  background-color: transparent;
 }
 
-.courseInPath:hover {
-  background-color: rgba(39, 130, 230, 0.5);
-}
 </style>
