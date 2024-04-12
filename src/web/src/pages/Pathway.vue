@@ -4,26 +4,20 @@
 
     <!-- button to switch between alphabet order and category order -->
     <div style="float: left;" class="w-10">
-      <b-button
+      <b-button variant="primary"
         @click="listAlphabet()"
         style="
           margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
         "
       >
         List by Alphabet
       </b-button>
       <br />
-      <b-button
+      <b-button variant="primary"
         @click="listCate()"
         style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
+        margin-top: 10px;
+      "
       >
         List by Category
       </b-button>
@@ -67,84 +61,80 @@
           <b-row
             v-for="categoryObj in catCol"
             :key="categoryObj['Category Name'][0]"
-            class="categoryBox border m-2 mb-4"
+            class="categoryBox"
           >
             <b-col>
               <!-- Category Title  -->
               <b-row class="category-title">
-                <h3 class="m-1 ml-2">
-                  {{ categoryObj["Category Name"][0] }}
-                </h3>
+                <h2 class="m-1 ml-2">
+                  <!-- Add v-b-toggle directive to the button -->
+                  <b-button v-b-toggle="'collapse-' + cleanId(categoryObj['Category Name'][0])" class="button" variant="outline-secondary">
+                    {{ categoryObj['Category Name'][0] }}
+                    <span class="chevron"></span>
+                  </b-button>
+                </h2>
               </b-row>
-              <!-- Pathway Names  -->
-              <b-row>
-                <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Categories list -->
-                  <div
-                    v-for="pathway in categoryObj['Pathways']"
-                    :key="pathway['Name'][0]"
-                    role="tablist"
-                  >
-                    <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
-                      <b-button
-                        @click="ShowPath(pathway)"
-                        squared
-                        variant="light"
-                        class="pathway-button m-0 ml-1"
-                      >
-                        {{ pathway["Name"][0] }}
-                      </b-button>
+              <hr />
+              <!-- Pathway Names inside a b-collapse -->
+              <b-collapse :id="'collapse-' + cleanId(categoryObj['Category Name'][0])">
+                <b-row>
+                  <div class="d-flex flex-column flex-grow-1">
+                    <!-- LOOP Through the Pathway Categories list -->
+                    <div v-for="pathway in categoryObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button @click="ShowPath(pathway)" class="pathway-button m-0 ml-1">
+                          {{ pathway['Name'][0] }}
+                        </b-button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </b-row>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
 
         <!-- splitted Pathways in alphabet order -->
-        <b-col
-          v-for="(alphCol, index) in alphabetCols"
-          :key="`alphCol-${index}`"
-          md="6"
-          v-show="alphShow"
-        >
+          <b-col
+            v-for="(alphCol, index) in alphabetCols"
+            :key="`alphCol-${index}`"
+            md="6"
+            v-show="alphShow"
+          >
           <b-row
-            v-for="alphabetObj in alphCol"
-            :key="alphabetObj['Category Name'][0]"
-            class="categoryBox border m-2 mb-4"
+          v-for="alphabetObj in alphCol"
+          :key="alphabetObj['Category Name'][0]"
+          class="categoryBox"
           >
             <b-col>
               <!-- Alphabet Title  -->
               <b-row class="category-title">
-                <h3 class="m-1 ml-2">
-                  {{ alphabetObj["Category Name"][0] }}
-                </h3>
+                <h2 class="m-1 ml-2">
+                  <!-- Add v-b-toggle directive to the button -->
+                  <b-button v-b-toggle="'collapse-' + cleanId(alphabetObj['Category Name'][0])" class="button" variant="outline-secondary">
+                    {{ alphabetObj['Category Name'][0] }}
+                    <span class="chevron"></span>
+                  </b-button>
+                </h2>
               </b-row>
-              <!-- Pathway Names  -->
-              <b-row>
-                <div class="d-flex flex-column flex-grow-1">
-                  <!-- LOOP Through the Pathway Alphabet list -->
-                  <div
-                    v-for="pathway in alphabetObj['Pathways']"
-                    :key="pathway['Name'][0]"
-                    role="tablist"
-                  >
-                    <div class="mt-1 mb-1 w-100">
-                      <!-- pathway button -->
-                      <b-button
-                        @click="ShowPath(pathway)"
-                        squared
-                        variant="light"
-                        class="pathway-button m-0 ml-1"
-                      >
-                        {{ pathway["Name"][0] }}
-                      </b-button>
+              <hr />
+              <!-- Pathway Names inside a b-collapse -->
+              <b-collapse :id="'collapse-' + cleanId(alphabetObj['Category Name'][0])">
+                <b-row>
+                  <div class="d-flex flex-column flex-grow-1">
+                    <!-- LOOP Through the Pathway Alphabet list -->
+                    <div v-for="pathway in alphabetObj['Pathways']" :key="pathway['Name'][0]" role="tablist">
+                      <div class="mt-1 mb-1 w-100">
+                        <!-- pathway button -->
+                        <b-button @click="ShowPath(pathway)" class="pathway-button m-0 ml-1">
+                          {{ pathway['Name'][0] }}
+                        </b-button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </b-row>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
@@ -282,6 +272,9 @@ export default {
     },
   },
   methods: {
+    cleanId(str) {
+      return str.replace(/\s+/g, '-');
+    },
     listAlphabet() {
       this.cateShow = false;
       this.alphShow = true;
@@ -326,24 +319,80 @@ export default {
 
 .categoryBox {
   text-align: center;
+  border: 0 !important;
+  background-color: transparent !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category-title {
   color: hsl(211, 100%, 60%);
-  background: rgba(108, 90, 90, 0.15);
-  border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
+  margin-bottom: 10px;
+  background-color: transparent !important;
+}
+
+.button {
+  width: 100%;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #3395ff !important;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: rgba(108, 90, 90, 0.15);
+}
+
+.button:focus {
+  background-color: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+
+}
+
+.button:active {
+  background-color: transparent !important;
+  color: #3395ff;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-style: solid;
+  border-width: 0 5px 10px;
+  border-color: transparent transparent #3395ff;
+  transition: transform 0.3s;
+}
+
+.button[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+  margin-left: auto;
 }
 
 .pathway-button {
   display: inline-block;
-  background: white;
   border-style: none;
+  background-color: transparent;
   text-align: justify;
   width: 95%;
+  color: black;
 }
 
 .pathway-button:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+  color: black;
 }
 
 .courseInPath {
