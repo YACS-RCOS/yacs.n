@@ -11,7 +11,7 @@
       class="align-middle text-dark"
       :to="{ name: 'CourseScheduler' }"
     >
-      YACS
+      <img src="../../public/img/icons/favicon-32x32.png"  alt="YACS logo" />
     </b-navbar-brand>
     <div>
       <b-dropdown
