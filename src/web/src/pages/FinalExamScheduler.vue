@@ -3,7 +3,7 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
     <b-row class="justify-content-md-center">
       <b-col md="5">
-        <b-card title="Final Exam Schedule">
+        <b-card title="Final Exam Schedule" class="card border-0">
           <b-form @submit.prevent="searchExams">
             <div
               v-for="(course, index) in selectedCourses"
@@ -22,7 +22,7 @@
               Search
             </b-button>
           </b-form>
-          <b-card v-if="examDetails" class="mt-3">
+          <b-card v-if="examDetails" class="mt-3 border-0">
             <h5 class="card-title">Exam Details</h5>
             <div v-for="exam in examDetails" :key="exam.id">
               <div>
