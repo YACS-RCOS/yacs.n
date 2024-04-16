@@ -438,6 +438,18 @@ async def get_finals_crns():
 async def get_final_data(crn: str):
     return finals_info.get_single_final_data(crn)
 
-@app.post("/api/testCourseWatch")
-async def add_test_watcher(user_id: int):
-    course_watch_info.add_watcher(user_id, "1")
+@app.post("/api/addCourseWatcher")
+async def add_course_watcher(course_crn: str, user_id: int):
+    course_watch_info.add_watcher(course_crn, user_id)
+
+@app.delete("/api/removeCourseWatcher")
+async def remove_course_watcher(course_crn: str, user_id: int):
+    course_watch_info.remove_watcher(course_crn, user_id)
+
+@app.delete("/api/purgeCourseWatchlist")
+async def purge_watchlist():
+    course_watch_info.purge_course_watchlist()
+
+@app.get("/api/getCourseWatchers")
+async def get_course_watchers(course_crn: str):
+    return course_watch_info.get_course_watchers(course_crn)
