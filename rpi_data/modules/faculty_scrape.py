@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import json
 from lxml import etree
+import concurrent.futures
 
 def get_department_links() -> list[str, str]:
     url = "https://faculty.rpi.edu/departments"
@@ -21,16 +22,20 @@ def access_department_links() -> list[str]:
     professors = []
     links_and_sections = get_department_links()
     professor_links_and_sections = []
-    for link_section in links_and_sections:
-        [professor_links_and_sections.append([i, link_section[1]]) for i in get_professor_links(link_section[0])]
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_links = [executor.submit(get_professor_links, link_section[0]) for link_section in links_and_sections]
+        
+        for i, future in enumerate(concurrent.futures.as_completed(future_to_links)):
+            [professor_links_and_sections.append([link, links_and_sections[i][1]]) for link in future.result()]
 
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_professor = [executor.submit(scrape_professor_links, link_section[0], link_section[1]) for link_section in professor_links_and_sections]
+        
+        for future in concurrent.futures.as_completed(future_to_professor):
+            professors.append(future.result())
 
-    for link_section in professor_links_and_sections:
-        professors.append(scrape_professor_links(link_section[0], link_section[1]))
-    
-    
-    
-    print(json.dumps(professors))
+    with open('Professors.json', 'w') as f:
+        json.dump(professors, f)
 
     
 
@@ -100,7 +105,11 @@ def scrape_professor_links(link: str, portfolio: str) -> list[str]:
     for tag in li_tags:
         i_tag = tag.findall('.//i')[0]
         if (i_tag.attrib['class'] == "far fa-envelope"):
-            email = tag.findall('.//a')[0].text.strip()
+            email_element = tag.findall('.//a')[0]
+            if (len(email_element.getchildren()) != 0):
+                email = email = tag.findall('.//a')[0].getchildren()[0].text.strip()
+            else:
+                email = tag.findall('.//a')[0].text.strip()
         if (i_tag.attrib['class'] == "far fa-phone"):
             phone_number = tag.findall('.//a')[0].getchildren()[0].text.replace(".", "-").strip()
 

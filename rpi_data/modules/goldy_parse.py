@@ -1,7 +1,8 @@
+from regex import P
 import requests
 from bs4 import BeautifulSoup as bs
 
-def getGoldyLink(term: str) -> str:
+def get_goldy_link(term: str) -> str:
     baseurl = "https://www.cs.rpi.edu/~goldsd/docs/"
     ending = "-topics-courses.txt"
     url = ""
@@ -14,7 +15,7 @@ def getGoldyLink(term: str) -> str:
             raise ValueError("Incorrect Term Argument")
     return url
 
-def scrapeGoldyLink(link: str) -> dict[str]:
+def scrape_goldy_link(link: str) -> list[list[list[str]]]:
     r = requests.get(link, verify=False)
     soup = bs(r.content, "html.parser")
     parse = soup.text
@@ -48,9 +49,37 @@ def scrapeGoldyLink(link: str) -> dict[str]:
         terms.append(term)
     return terms
 
+def get_goldy_info(term: str) -> list[dict[str]]:
+    requests.packages.urllib3.disable_warnings()
+    url = get_goldy_link(term)
+    terms_list = scrape_goldy_link(url)
+    scraped_list = []
+    if ("fall" in term):
+        scraped_list = terms_list[1]
+    else:
+        scraped_list = terms_list[0]
+    named_dict = dict()
+    for course in scraped_list:
+        course_dict = dict()
+       
+        for info in course:
+            pair = info.split(":")
+            if (len(pair) == 1):
+                course_dict["Name"]  = pair[0].strip()
+            else:
+                temp_string = ""
+                for i in range(1, len(pair)):
+                    temp_string += pair[i]
+                course_dict[pair[0]] = temp_string.strip()
+        name_split = course_dict["Name"].split(" ")
+        major = name_split[0]
+        codes = name_split[1]
+        course_dict["Name"] = course_dict["Name"].replace(major, "").replace(codes, "").strip()
+        for code in codes.split("/"):
+            named_dict[major + " " + code] = course_dict
+    
+    return named_dict
 
 
+    
 
-
-
-scrapeGoldyLink(getGoldyLink("fall2024"))
