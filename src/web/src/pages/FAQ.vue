@@ -5,11 +5,15 @@
       <div class="column-section">
         <div class="categoryBox border m-2 mb-4">
           <h3 class="category-title">Can I bring Yacs to my school?</h3>
-          <p>Yes! You can view the documentation or contact us to help bring Yacs to your school or University.</p>
+          <p>Yes! You can view the documentation or contact us to help bring Yacs to your school or University</p>
           <h3 class="category-title">Who can contribute to Yacs?</h3>
           <p>Anyone can contribute to Yacs by creating commits, issues, or pull requests</p>
           <h3 class="category-title">How can I download my course schedule from Yacs?</h3>
-          <p>Scroll to the bottom of the schedule page, and select the "Export Data" button next to where your current credit load is displayed.</p>
+          <p>Scroll to the bottom of the schedule page, and select the "Export Data" button next to where your current credit load is displayed</p>
+          <h3 class="category-title">Can I see schedules from previous semesters?</h3>
+          <p>Yes! You can view, edit, and even create new schedules for prior semesters that have course data uploaded to Yacs</p>
+          <h3 class="category-title">Can Yacs tell me if I am ineligble for a course due to my major, minor, or prerequisites?</h3>
+          <p>No, at this moment Yacs does not have the capability to tell users this information. If you would like to check this information, we advise looking at SIS or the RPI course website</p>
         </div>
       </div>
     </div>
