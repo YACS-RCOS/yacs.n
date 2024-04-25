@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup as bs
 from concurrent.futures import ThreadPoolExecutor
 from course import Course
 from datetime import datetime
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 import new_parse as old
 
 
@@ -37,7 +39,12 @@ def scrape_all(links, term, major) -> list[Course]:
     courses = []
     
     for link in links:
-        temp_courses = link_scrape(term, link, major)
+        try:
+            temp_courses = link_scrape(term, link, major)
+        except Exception:
+            print(link)
+            raise Exception("Failed Parse")
+        
         if (temp_courses == None):
             continue
         for i in temp_courses:
@@ -190,7 +197,7 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
         final.append(course[10]) # section
         final.append(course[7]) # credits
         final.append(course[16]) # name
-        final.append(course[2]) # days
+        final.append(course[2].strip()) # days
         stime, etime = time_split(course[1])
         final.append(stime) # stime
         final.append(etime) # etime
@@ -222,7 +229,7 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
 
 def time_split(time) -> list[str]:
     if (time == "TBA"):
-        return "TBA", "TBA"
+        return "", ""
     split = time.split(" - ")
     if (len(split) != 2):
         raise RuntimeError("Something has gone very wrong in time_split")
@@ -240,26 +247,28 @@ def date_split(date):
     edate = "{0:%Y}-{0:%m}-{0:%d}".format(dt_end)
     return sdate, edate
 
+def no_login_scrape(term: str):
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Firefox()
+    subjects = old.findAllSubjectCodes(driver)
+    courses = []
+    for subject in subjects.keys():
+        codes = find_codes(term, subject)
+        links = generate_links(term, codes)
+        temp_courses = scrape_all(links, term, subject)
+        [i.addSchool(subjects[subject]) for i in temp_courses]
+        [courses.append(i) for i in temp_courses]
+
+    # make PreReqs work, maybe with catalog data instead
+    # with ThreadPoolExecutor(max_workers=50) as pool:
+    #    pool.map(old.getReqForClass, courses)
+
+    old.writeCSV(courses, number_to_term(term).lower().replace(" ", "-") + ".csv")
+
     
 
-
-
-codes = find_codes(202409, "CSCI")
-
-links = generate_links(202409, codes)
-
-courses = scrape_all(links, "202409", "CSCI")
-
-with ThreadPoolExecutor(max_workers=50) as pool:
-    pool.map(old.getReqForClass, courses)
-
-old.writeCSV(courses, "test.csv")
-
-#link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CSCI&crse_in=6980&schd_in=L", "CSCI")
-
-#get_slots(202409, "65029")
-
-#print(number_to_term("202407"))
-    
-#date_split("Aug 28, 2024 - Dec 20, 2024")
+        
+if __name__ == "__main__":
+    no_login_scrape("202409")
 

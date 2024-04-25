@@ -1,6 +1,7 @@
 from regex import P
 import requests
 from bs4 import BeautifulSoup as bs
+import csv
 
 def get_goldy_link(term: str) -> str:
     baseurl = "https://www.cs.rpi.edu/~goldsd/docs/"
@@ -24,7 +25,7 @@ def scrape_goldy_link(link: str) -> list[list[list[str]]]:
     course_infos = []
     course = []
     for line in lines:
-        if line == "" or "=" in line:
+        if line == "" or "======" in line:
             continue
 
         if line == '\r':
@@ -79,7 +80,5 @@ def get_goldy_info(term: str) -> list[dict[str]]:
             named_dict[major + " " + code] = course_dict
     
     return named_dict
-
-
     
-
+print(get_goldy_info("summer2024")["CSCI 2960"])

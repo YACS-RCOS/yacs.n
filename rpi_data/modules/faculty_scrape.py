@@ -35,7 +35,7 @@ def access_department_links() -> list[str]:
             professors.append(future.result())
 
     with open('Professors.json', 'w') as f:
-        json.dump(professors, f)
+        json.dump(professors, f, indent=4)
 
     
 

@@ -4,7 +4,7 @@ import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
@@ -86,7 +86,7 @@ def sisCourseSearch(driver, term): #main loop of the parser, goes to the course 
     info.reverse()
     return info
 
-def findAllSubjectCodes(driver) -> dict():
+def findAllSubjectCodes(driver) -> dict[str, str]:
     url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
     code_school_dict = dict() # We store in a dictionary that has subject code as the key and school as the value

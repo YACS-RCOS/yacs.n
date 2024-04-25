@@ -234,6 +234,7 @@ class Courses:
                             }
                         )
                 except Exception as e:
+                    print(row)
                     print(e)
                     conn.rollback()
                     return (False, e)
