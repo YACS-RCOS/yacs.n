@@ -64,3 +64,8 @@ def add_session(form):
         "startTime": str(start_time),
         "userName" : users_founded[0]['name']
         })
+# TODO:
+def get_session_stats():
+    session = SessionModel()
+    num_sessions=session.get_session_stats()
+    return msg.success_msg({"num_sessions": num_sessions})

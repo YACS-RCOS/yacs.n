@@ -23,3 +23,6 @@ export const logout = (sessionId) =>
       "Content-Type": "application/json",
     },
   });
+
+// TODO:
+export const getUserStats=()=>client.get(`/user/stats`)
