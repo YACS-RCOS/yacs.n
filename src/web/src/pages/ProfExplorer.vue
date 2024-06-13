@@ -2,6 +2,9 @@
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
+
+
+
     <!-- button to switch between alphabet order and department order -->
     <div style="float: left;" class="w-10">
       <b-button
@@ -164,7 +167,8 @@
 <script>
 import json from "./Professors.json";
 import CenterSpinnerComponent from "../components/CenterSpinner";
-
+let input = ref("");
+import {ref} from "vue";
 export default {
   name: "Professor",
   components: {
@@ -367,6 +371,8 @@ export default {
       this.$router.push("/professor/" + rcs);
     },
   },
+
+
 };
 </script>
 

@@ -1,7 +1,8 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
-    <div v-if="prof" class="w-90 ml-4 mb-4">
+    <div v-if="prof" class="w-100">
+
       <b-row>
         <b-col>
           <h1 class="mt-4">{{ prof.Name }}</h1>
@@ -21,6 +22,12 @@
       </b-row>
       <b-row>
         <b-col class="mb-4">
+          <h6 class="mb-1 d-inline">Teaching: </h6>
+            <li v-for="course in teachingCourses" :key="course">{{course.trim()}}</li>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="mb-4">
           <br />
           <h6 class="mb-1 d-inline">Contact Info</h6>
           <!-- <li>Phone: {{prof.Phone}}</li> -->
@@ -34,7 +41,6 @@
           </li>
         </b-col>
       </b-row>
-
       <b-button @click="$router.go(-1)">Back</b-button>
     </div>
     <CenterSpinner
@@ -48,7 +54,7 @@
 </template>
 
 <script>
-import json from "./Professors.json";
+import json from "./professor_course.json";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 
 export default {
@@ -76,11 +82,17 @@ export default {
     };
   },
   computed: {
-    prof() {
-      return this.professors.find(
-        (p) => p.Email.replace("@rpi.edu", "") === this.rcs
-      );
-    },
+  prof() {
+    return this.professors.find(
+      (p) => p.Email.replace("@rpi.edu", "") === this.rcs
+    );
   },
+  teachingCourses() {
+    if (this.prof && this.prof.Teaching) {
+      return this.prof.Teaching.split(',');
+    }
+    return [];
+  }
+}
 };
 </script>
