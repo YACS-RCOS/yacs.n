@@ -821,6 +821,10 @@ button:focus {
   outline: 0;
 }
 
+#burger {
+  width: 32px;
+}
+
 .burger-button {
   position: relative;
   height: 30px;
