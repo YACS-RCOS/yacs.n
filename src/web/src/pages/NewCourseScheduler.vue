@@ -163,6 +163,24 @@
                   </b-form-checkbox>
                 </b-row>
                 <b-row>
+                <!-- Login with Google button -->
+                <b-col cols="auto" class="mr-2">
+                  <b-button
+                    v-if="!isAuthenticated"
+                    @click="initiateGoogleOneTap"
+                    variant="primary"
+                  >
+                    Login with Google
+                  </b-button>
+                </b-col>
+
+                <!-- Export to Google Calendar button -->
+                <b-col cols="auto" class="mr-2">
+                  <button @click="addToGoogleCalendar">Export to Google Calendar</button>
+                </b-col>
+
+                <!-- Export Data dropdown -->
+                <b-col cols="auto">
                   <b-dropdown text="Export Data" class="mt-2">
                     <b-dropdown-item @click="exportScheduleToIcs">
                       <font-awesome-icon :icon="exportIcon" />
@@ -173,7 +191,8 @@
                       Export To Image
                     </b-dropdown-item>
                   </b-dropdown>
-                </b-row>
+                </b-col>
+              </b-row>
               </b-col>
             </b-row>
           </div>
@@ -247,7 +266,9 @@
 </template>
 
 <script>
+
 import { mapGetters, mapState } from "vuex";
+
 
 import NotificationsMixin from "@/mixins/NotificationsMixin";
 import ScheduleComponent from "@/components/Schedule";
@@ -275,7 +296,9 @@ import {
   exportScheduleToImage,
   generateRequirementsText,
   withinDuration,
+  DATE_TIME_FORMAT,
 } from "@/utils";
+
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
@@ -304,12 +327,14 @@ export default {
   },
   data() {
     return {
+      tokenFromOneTap: null,
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
       exportIcon: faPaperPlane,
       main: "col-md-9",
-
+      gapiInited: false,
+      gisInited: false,
       isNavOpen: true, //for sidebar open check
 
       courseInfoModalCourse: null,
@@ -324,7 +349,172 @@ export default {
       loadedIndexCookie: 0,
     };
   },
+  mounted() {
+    this.gapiLoaded();
+    this.gisLoaded();
+  },
   methods: {
+
+    initiateGoogleOneTap() {
+    google.accounts.id.initialize({
+      client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
+      callback: this.handleCredentialResponse,
+      oauth_scopes: ['https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/calendar.events'],
+    });
+    google.accounts.id.prompt(); // This will display the One Tap prompt
+  },
+  handleCredentialResponse(response) {
+    // You can send the response to your backend to verify and authenticate the user
+    this.tokenFromOneTap = response.credential;  // Save the token
+    this.$store.commit('SET_AUTHENTICATED', true);
+  },
+
+    formatDate(date, formatString) {
+      const z = (n) => (n < 10 ? '0' : '') + n;
+      return formatString
+        .replace('YYYY', date.getFullYear())
+        .replace('MM', z(date.getMonth() + 1))
+        .replace('DD', z(date.getDate()))
+        .replace('HH', z(date.getHours()))
+        .replace('mm', z(date.getMinutes()))
+        .replace('ss', z(date.getSeconds()));
+    },
+
+    formatScheduleForGoogleCalendar(schedule) {
+      if (!Array.isArray(schedule)) {
+        return [];
+      }
+
+      const formattedSchedule = schedule.map((course) => {
+        const startDateTime = new Date(course.start_time);
+        const endDateTime = new Date(course.end_time);
+
+        // Note: DATE_TIME_FORMAT should be defined somewhere in your component or imported from somewhere
+        const formattedStartDateTime = this.formatDate(startDateTime, DATE_TIME_FORMAT); 
+        const formattedEndDateTime = this.formatDate(endDateTime, DATE_TIME_FORMAT);
+
+        return {
+          summary: course.course_name,
+          location: course.location,
+          description: course.description,
+          start: {
+            dateTime: formattedStartDateTime,
+            timeZone: 'America/New_York'
+          },
+          end: {
+            dateTime: formattedEndDateTime,
+            timeZone: 'America/New_York'
+          }
+        };
+      });
+
+      return formattedSchedule;
+    },
+    async addToGoogleCalendar() {
+      if (!this.tokenFromOneTap) {
+        alert('Please authenticate with Google first!');
+        return;
+      }
+      
+      const token = this.tokenFromOneTap;
+      console.log(token);
+      const calendarEvent = this.formatScheduleForGoogleCalendar();
+
+      try {
+        const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(calendarEvent),
+        });
+
+        if (response.ok) {
+          alert("Schedule added to Google Calendar!");
+        } else {
+          // Log the response status and text for debugging purposes
+          console.error(`Error: ${response.status}, ${response.statusText}`);
+          alert("Failed to add to Google Calendar.");
+        }
+      } catch (error) {
+        // Log any errors that occur during the fetch
+        console.error("Fetch Error: ", error);
+        alert("An error occurred while trying to add to Google Calendar.");
+      }
+    },
+    gapiLoaded() {
+      const gapi = window.gapi;
+      gapi.load('client', this.initializeGapiClient);
+    },
+    async initializeGapiClient() {
+      const gapi = window.gapi;
+      const API_KEY = "AIzaSyAdRgGTX-mDqUz1nWNFUzs9flnQjo3A5sc";
+      const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
+
+      await gapi.client.init({
+        apiKey: API_KEY,
+        discoveryDocs: [DISCOVERY_DOC],
+      });
+      this.gapiInited = true;
+
+      // Auto-authorize if a valid token exists
+      const accessToken = localStorage.getItem('access_token');
+      const expiresIn = localStorage.getItem('expires_in');
+      if (accessToken && expiresIn) {
+        gapi.client.setToken({
+          access_token: accessToken,
+          expires_in: expiresIn,
+        });
+        this.listUpcomingEvents();
+      }
+    },
+    gisLoaded() {
+      const google = window.google;
+      const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
+      const SCOPES = "https://www.googleapis.com/auth/calendar";
+
+      google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: this.handleAuthCallback,
+      });
+      this.gisInited = true;
+    },
+    handleAuthCallback(resp) {
+      if (resp.error) {
+        console.error(resp.error);
+        return;
+      }
+
+      // Assuming you want to fetch and list events after authentication
+      this.listUpcomingEvents();
+      
+      const { access_token, expires_in } = gapi.client.getToken();
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('expires_in', expires_in);
+    },
+    listUpcomingEvents() {
+      // Adapted from the React function. You can make the necessary changes.
+      const gapi = window.gapi;
+      const request = {
+        'calendarId': 'primary',
+        'timeMin': (new Date()).toISOString(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 10,
+        'orderBy': 'startTime',
+      };
+      gapi.client.calendar.events.list(request).then(response => {
+        const events = response.result.items;
+        if (!events || events.length === 0) {
+          console.log('No events found.');
+          return;
+        }
+        // Just logging the events for now, you can handle it however you want
+        console.log(events);
+      });
+    },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {

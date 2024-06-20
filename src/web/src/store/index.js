@@ -48,6 +48,7 @@ const store = new Vuex.Store({
     semesters: [],
     subsemesters: [],
     departments: [],
+    isAuthenticated: false,
   },
   getters: {
     [COURSES]: (state) => Object.values(state.coursesById),
@@ -120,6 +121,9 @@ const store = new Vuex.Store({
     },
     [SET_SEMESTERS](state, semesters) {
       state.semesters = semesters;
+    },
+    SET_AUTHENTICATED(state, value) {
+      state.isAuthenticated = value;
     },
   },
   actions: {
