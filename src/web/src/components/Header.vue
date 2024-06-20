@@ -19,9 +19,11 @@
         size="sm"
         :text="selectedSemester"
         class="m-md-2"
+
+
       >
         <b-dropdown-item
-          v-for="option in semesterOptions"
+          v-for="option in sortedSemesterOptions"
           :key="option.value"
           :value="option.value"
           @click="selectSemester(option.value)"
@@ -221,12 +223,28 @@ export default {
     }),
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
     ...mapState(["semesters", "selectedSemester"]),
+//possibility where I can reorder the semesters
     semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
+      return this.semesters
+        .map(({ semester }) => ({
+          text: semester,
+          value: semester,
+        }))
     },
+    sortedSemesterOptions() {
+      return [...this.semesterOptions].sort((a, b) => {
+        const [semesterA, yearA] = a.value.split(' ').map(s => s.trim().toLowerCase());
+        const [semesterB, yearB] = b.value.split(' ').map(s => s.trim().toLowerCase());
+
+        // Compare by year
+        if (yearA > yearB) return -1;
+        if (yearA < yearB) return 1;
+
+        // If year is the same, compare by semester
+        const order = ['fall', 'summer', 'spring'];
+        return order.indexOf(semesterA) - order.indexOf(semesterB);
+      });
+    }
   },
 };
 </script>
@@ -278,3 +296,4 @@ export default {
   background: hsl(211, 100%, 60%) !important;
 }
 </style>
+
