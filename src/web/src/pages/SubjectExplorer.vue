@@ -1,11 +1,14 @@
 <template>
+  
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    
     <b-row class="justify-content-center">
       <!-- The subject title should be depending on the input parameter from subjectList.vue -->
       <h3 class="subjectBox">{{ subject }}</h3>
     </b-row>
     <!-- left column of courses -->
+    
     <b-row v-if="!isLoadingCourses && courses.length > 0">
       <b-col cols="6">
         <b-row
@@ -32,6 +35,15 @@
                 {{ course.level }}
               </span>
               <course-sections-open-badge :course="course" />
+              <!-- Add the transparent button to add/remove courses -->
+              <b-button
+                variant="outline-primary"  
+                size="sm"  
+                class="transparent-button"
+                @click.prevent="toggleCourse(course)"
+              >
+              {{ course.selected ? '✕' : '+' }}
+              </b-button>
             </b-button>
           </b-col>
         </b-row>
@@ -62,6 +74,15 @@
                 {{ course.level }}
               </span>
               <course-sections-open-badge :course="course" />
+              <!-- Add the transparent button to add/remove courses -->
+              <b-button
+                variant="outline-primary"  
+                size="sm"  
+                class="transparent-button"
+                @click.prevent="toggleCourse(course)"
+              >
+                {{ course.selected ? '✕' : '+' }}
+              </b-button>
             </b-button>
           </b-col>
         </b-row>
@@ -82,6 +103,24 @@
 import { mapGetters, mapState } from "vuex";
 import CenterSpinnerComponent from "../components/CenterSpinner";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+
+import SubSemesterScheduler from "@/controllers/SubSemesterScheduler";
+
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import { SelectedIndexCookie } from "../controllers/SelectedIndexCookie";
+
+
+import { TOGGLE_COLOR_BLIND_ASSIST } from "@/store";
+
+import {
+  addStudentCourse,
+  getStudentCourses,
+  removeStudentCourse,
+} from "@/services/YacsService";
+
+import {
+  withinDuration,
+} from "@/utils";
 
 export default {
   name: "SubjectExplorer",
@@ -108,10 +147,283 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    toggleNav() {
+      this.isNavOpen = !this.isNavOpen;
+      if (this.isNavOpen) {
+        this.main = "col-md-9";
+      } else {
+        this.main = "col-md-12";
+      }
+    },
+    toggleColors() {
+      this.$store.commit(TOGGLE_COLOR_BLIND_ASSIST);
+    },
+    
+    async loadStudentCourses() {
+      if (!this.courses.length) {
+        return;
+      }
+
+      this.scheduler = new SubSemesterScheduler();
+      // Filter out "full" subsemester
+      this.subsemesters
+        .filter(
+          (s, i, arr) =>
+            arr.length == 1 ||
+            !arr.every((o, oi) => oi == i || withinDuration(s, o))
+        )
+        .forEach((subsemester) => {
+          this.scheduler.addSubSemester(subsemester);
+        });
+
+      if (this.scheduler.scheduleSubsemesters.length > 0) {
+        this.selectedScheduleSubsemester = this.scheduler.scheduleSubsemesters[0].display_string;
+      }
+
+      // Need to reset `selected` property on courses and sections,
+      // two sources of truth ugh
+      Object.values(this.selectedCourses).forEach((course) => {
+        course.selected = false;
+
+        course.sections
+          .filter((section) => section.selected)
+          .forEach((section) => (section.selected = false));
+      });
+      this.selectedCourses = {};
+
+      if (this.isLoggedIn) {
+        var cids = await getStudentCourses();
+
+        cids.forEach((cid) => {
+          if (cid.semester == this.selectedSemester) {
+            var c = this.courses.find(function (course) {
+              return (
+                course.name == cid.course_name &&
+                course.semester == cid.semester
+              );
+            });
+
+            if (cid.crn != "-1") {
+              var sect = c.sections.find(function (section) {
+                return section.crn == cid.crn;
+              });
+              sect.selected = true;
+            } else {
+              c.selected = true;
+              this.$set(this.selectedCourses, c.id, c);
+            }
+          }
+        });
+      } else {
+        const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+
+        try {
+          selectedCoursesCookie
+            .semester(this.selectedSemester)
+            .selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+
+              this.$set(this.selectedCourses, course.id, course);
+              course.selected = true;
+
+              selectedCourse.selectedSectionCrns.forEach(
+                (selectedSectionCrn) => {
+                  const section = course.sections.find(
+                    (section) => section.crn === selectedSectionCrn
+                  );
+
+                  section.selected = true;
+                }
+              );
+            });
+        } catch (err) {
+          // If there is an error here, it might mean the data was changed,
+          //  thus we need to reload the cookie
+          selectedCoursesCookie.clear().save();
+        }
+      }
+
+      const selectedIndexCookie = SelectedIndexCookie.load(this.$cookies);
+
+      try {
+        this.index = selectedIndexCookie.semester(
+          this.selectedSemester
+        ).selectedIndex;
+      } catch (err) {
+        // If there is an error here, it might mean the data was changed,
+        //  thus we need to reload the cookie
+        selectedIndexCookie.clear().save();
+      }
+      this.loadedIndexCookie = 1;
+    },
+    mounted(){
+      this.loadStudentCourses();
+    },
+    addCourse(course) {
+      this.$set(this.selectedCourses, course.id, course);
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourse(course)
+          .save();
+      }
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
+    },
+    addCourseSection(course, section) {
+      section.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .addCourseSection(course, section)
+          .save();
+      }
+    },
+    removeCourse(course) {
+      this.$delete(this.selectedCourses, course.id);
+      course.selected = false;
+
+      course.sections.forEach((section) => this.removeCourseSection(section));
+
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.selectedSemester,
+          cid: null,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.selectedSemester)
+          .removeCourse(course)
+          .save();
+      }
+    },
+    removeCourseSection(section) {
+      if (section.selected) {
+        section.selected = false;
+
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.selectedSemester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.selectedSemester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+    },
+
+    /**
+     * @param {Course} course
+     */
+    showCourseInfo(course) {
+      this.courseInfoModalCourse = course;
+      this.showCourseInfoModal = true;
+    },
+
+    /**
+     * Toggle course selected state
+     * Emits removeCourse and addCourse events
+     */
+     toggleCourse(course) {
+        if (course.selected) {
+          // Remove course
+          this.removeCourse(course);
+          this.$store.dispatch('removeCourse', course);
+          // Additional logic (e.g., also remove sections associated with the course) can go here.
+        } else {
+          // Add course
+          this.addCourse(course);
+          this.$store.dispatch('addCourse', course);
+          // Additional logic (e.g., also add sections associated with the course) can go here.
+        }
+      },
+    getSchedules() {
+      const oldLength = this.possibilities.length;
+      try {
+        if (Object.values(this.selectedCourses).length === 0) {
+          this.possibilities = [
+            {
+              sections: [],
+              time: [0, 0, 0, 0, 0],
+            },
+          ];
+        }
+        const result = this.generateSchedule(
+          Object.values(this.selectedCourses)
+        );
+        if (!result.length) {
+          throw new Error("conflict!");
+        }
+        this.possibilities = result;
+
+        //Don't set this.index to 0 if just loaded cookie
+        if (this.loadedIndexCookie == 2) {
+          if (oldLength != this.possibilities.length) {
+            this.index = 0;
+            this.updateIndexCookie();
+          }
+        } else if (this.loadedIndexCookie == 1) {
+          this.loadedIndexCookie = 2;
+        }
+      } catch (e) {
+        console.log(e.message);
+        this.possibilities = [
+          {
+            sections: [],
+            time: [0, 0, 0, 0, 0],
+            conflict: e.message === "conflict!",
+          },
+        ];
+      }
+    },
+    
+    changeSchedule(step) {
+      const l = this.possibilities.length;
+      if (l === 0) return;
+      const c = this.index + step;
+      if (c < 0) {
+        this.index = l - 1;
+        return;
+      }
+      if (c >= l) {
+        this.index = 0;
+        return;
+      }
+      this.index = c;
+    },
+    updateIndexCookie() {
+      SelectedIndexCookie.load(this.$cookies)
+        .semester(this.selectedSemester)
+        .updateIndex(this.index)
+        .save();
+    },
+  },
   computed: {
     ...mapState(["isLoadingCourses"]),
     ...mapGetters(["courses"]),
+    ...mapGetters(['selectedCourses']),
     //courseColumns[0] corresponds to left column, [1] to right column
     courseColumns() {
       let leftColumn = [];
@@ -189,5 +501,16 @@ export default {
 
 .courseBox:hover {
   background: rgba(108, 90, 90, 0.15) !important;
+}
+
+.transparent-button {
+  left: 100px;
+  top: 5px;
+  right: 5px;
+  
+  background-color: transparent;
+  border: none;
+  color: #007bff; /* Change the color to match your design */
+  cursor: pointer;
 }
 </style>
