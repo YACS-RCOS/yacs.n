@@ -34,7 +34,7 @@
                   <b-card no-body class="h-100">
                     <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
                       <b-tab
-                        title="Course Search"
+                        title="Search"
                         active
                         class="flex-grow-1 w-100"
                         data-cy="course-search-tab"
@@ -64,7 +64,7 @@
                             class="text-center"
                             data-cy="selected-courses-tab-header"
                           >
-                            Selected Courses
+                            Selected
                             <b-badge
                               variant="light"
                               data-cy="num-selected-courses"
@@ -74,7 +74,7 @@
                           </div>
                         </template>
                         <b-card-text
-                          class="w-100 d-flex flex-grow-1 flex-column"
+                          class="w-1500 d-flex flex-grow-1 flex-column"
                         >
                           <SelectedCourses
                             :courses="selectedCourses"
