@@ -10,7 +10,7 @@
       v-for="course of courses"
       :key="course.id"
     >
-      <CourseListing :course="course" v-on="$listeners" />
+      <CourseListing :course="course" v-bind:conflictingCrns="conflictingCrns" v-on="$listeners" />
     </b-list-group-item>
   </b-list-group>
 </template>
@@ -27,6 +27,7 @@ export default {
   },
   props: {
     courses: Object,
+    conflictingCrns: Array,
   },
 };
 </script>
