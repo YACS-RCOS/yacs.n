@@ -85,34 +85,38 @@ Large scraping function. Goes to the search page of a single course, checks if t
 '''
 def scrape_single_course(prefix:str, code:str, nav: str, cat: str) -> dict:
     try:
+
         link = "https://catalog.rpi.edu/content.php?filter%5B27%5D={}&filter%5B29%5D={}&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid={}&expand=&navoid={}&search_database=Filter&filter%5Bexact_match%5D=1#acalog_template_course_filter".format(prefix, code, cat, nav)
         r1 = requests.get(link)
         content1 = r1.content
         soup1 = bs(content1, "html.parser")
         check = soup1.find("td", {"class": "block_content"})
-        if check is None:
-            return dict()
-        if "No courses found" in check.get_text(strip=True) or "" == check.get_text(strip=True):
-            return dict()
-        nopop = check.find("a", {"aria-expanded": "false"}).get("href")
         '''
         Testing to see if the course exists. We need the webdriver waits so that selenium only does things when the necessary elements exist. 
         If they don't load in time we probably don't have a valid course.
         '''
+        if check is None:
+            return dict()
+        if "No courses found" in check.get_text(strip=True) or "" == check.get_text(strip=True):
+            return dict()
+        nopop = check.find("a", {"aria-expanded": "false"}).get("href") # gets the link to the nopopup page
+        '''
+        Beautiful soup for the nopopup page
+        '''
         r = requests.get("https://catalog.rpi.edu/" + nopop)
         content = r.content
         soup = bs(content, "html.parser")
-        soup = soup.find("td", {"class": "block_content"})
+        soup = soup.find("td", {"class": "block_content"}) # select the relevant information
         if soup is None:
             return dict()
         title = soup.find("h1")
-        soup.find("a" , {"class": "portfolio_link acalog-highlight-ignore acalog-icon"}).extract()
-        check = soup.find("tbody")
+        soup.find("a" , {"class": "portfolio_link acalog-highlight-ignore acalog-icon"}).extract() # remove the portfolio link so that it doesn't end up in the prereqs
+        check = soup.find("tbody") # remove the header
         if check is None:
             soup.find("table", {"class" : "table_default"}).extract()
         else:
             check.extract()
-        title.extract()
+        title.extract() # remove the title
         closes = soup.find_all("div") # For some reason there are an unknown number of Close buttons on any given course element. I get rid of those with extract()
         for close in closes: 
             close.extract()

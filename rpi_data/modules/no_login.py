@@ -13,6 +13,9 @@ import goldy_parse as gold
 import regex as re
 import os
 
+'''
+Finds all of the course codes for a given term and subject.
+'''
 def find_codes(term, subj):
     subj_course = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(term, subj)
     s = requests.Session()
@@ -33,7 +36,10 @@ def find_codes(term, subj):
         codes.append(element[:9])
     
     return codes
-    
+
+'''
+Generates SIS links for a list of codes
+'''
 def generate_links(term, codes):
     links = []
     for all in codes:
@@ -43,6 +49,9 @@ def generate_links(term, codes):
         links.append(single_course)
     return links
 
+'''
+Scrapes all of the course information for a list of links.
+'''
 def scrape_all(links, term, major) -> list[Course]:
     courses = []
     for link in links:
@@ -64,7 +73,10 @@ def scrape_all(links, term, major) -> list[Course]:
 #info[11] is the number of seats left, info[12] - waitlist capacity, info[13] - waitlist enrolled, info[14] - waitlist spots left,
 #info[15] - crosslist capacity, info[16] - crosslist enrolled, info[17] - crosslist seats left,
 #info[18] are the profs, info[19] are days of the sem that the course spans, and info[20] is location
-#Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses.  
+#Remove index[4] because most classes are on campus, with exceptions for some grad and doctoral courses. 
+'''
+Main link scrape, which splits the page into individual courses and then scrapes each.
+'''
 def link_scrape(term, link, major) -> list[Course]:
     s = requests.Session()
     response = s.get(link)
@@ -112,6 +124,9 @@ def link_scrape(term, link, major) -> list[Course]:
         [courses.append(i) for i in formatted]
     return courses
 
+'''
+Scrapes the course occupancy information for a specific course from SIS.
+'''
 def get_slots(term, CRN):
     link = "https://sis.rpi.edu/rss/bwckschd.p_disp_detail_sched?term_in={}&crn_in={}".format(str(term), CRN)
     s = requests.session()
@@ -134,6 +149,9 @@ def get_slots(term, CRN):
     scraped_table.pop(0)
     return scraped_table[0]
 
+'''
+Scrapes info from main page for a single course.
+'''
 def body_scrape(body) -> list[list[str]]:
     table = body.find("table")
     string_body = str(body)
@@ -162,6 +180,9 @@ def body_scrape(body) -> list[list[str]]:
         course.append(credits)
     return courses
 
+'''
+Scrapes a table element into a 2D string list.
+'''
 def table_scrape(table:bs) -> list[list[str]]:
     # ["", Type, Time, Days, Where, Date Range, Schedule Type, Instructor]
     scraped_table = []
@@ -174,6 +195,9 @@ def table_scrape(table:bs) -> list[list[str]]:
             scraped_table.append(stripped_row)
     return scraped_table
 
+'''
+turns a term number into a human readable term
+'''
 def number_to_term(term) -> str:
     date = term[:4]
     if term[4:] == "01":
@@ -196,6 +220,9 @@ def number_to_term(term) -> str:
 
 #[crn, major, code, section, credits, name, days, stime, etime, max, curr, rem, profs, sdate, enddate, loc]
 
+'''
+Formats and orders the courses into the desired order.
+'''
 def format_and_order(courses:list[list[str]]) -> list[list[str]]:
     final_courses = []
     for course in courses:
@@ -238,7 +265,7 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
 
 
 
-def time_split(time) -> list[str]:
+def time_split(time) -> list[str]: # format times
     if (time == "TBA"):
         return "", ""
     split = time.split(" - ")
@@ -248,7 +275,7 @@ def time_split(time) -> list[str]:
     etime = "".join(split[1].split(" ")).upper()
     return stime, etime
 
-def date_split(date):
+def date_split(date): # format dates
     non_formatted = date.split(" - ")
     non_formatted_start = non_formatted[0]
     non_formatted_end = non_formatted[1]
@@ -258,27 +285,30 @@ def date_split(date):
     edate = "{0:%Y}-{0:%m}-{0:%d}".format(dt_end)
     return sdate, edate
 
+'''
+Parent function that scrapes all courses for a given term and writes them to a CSV file.
+'''
 def no_login_scrape(term: str, num_browsers: int):
     options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Firefox()
-    subjects = old.findAllSubjectCodes(driver)
-    nav, cat = cs.navigate_to_course(driver, term)
+    driver = webdriver.Firefox(Options=options) # starter code which uses selenium
+    subjects = old.findAllSubjectCodes(driver) # finds all subject codes
+    nav, cat = cs.navigate_to_course(driver, term) # finds the navigation and catalog ids, which are each used to build a course search query.
     driver.quit()
     courses = []
     for subject in subjects.keys():
-        codes = find_codes(term, subject)
-        links = generate_links(term, codes)
+        codes = find_codes(term, subject) # scrapes all of the course codes for a subject from SIS
+        links = generate_links(term, codes) # turns the codes into links
         temp_courses = []
-        with multiprocessing.Pool(num_browsers) as pool:
+        with multiprocessing.Pool(num_browsers) as pool: # uses multiprocessing to scrape all of the SIS info for a subject
             parts = list(cs.split(links, num_browsers))
             temp_courses = pool.starmap(scrape_all, [(part, term, subject) for part in parts])
-        temp_courses = [i for sublist in temp_courses for i in sublist]
-        [i.addSchool(subjects[subject]) for i in temp_courses]
+        temp_courses = [i for sublist in temp_courses for i in sublist] # flattens the list
+        [i.addSchool(subjects[subject]) for i in temp_courses] # adds the school to each course
         temp_codes = list(set([i.major + " " + i.code for i in temp_courses]))
         print(len(temp_codes))
-        extra_info = pre_req_scrape(temp_codes, nav, cat, num_browsers)
-        for course in temp_courses:
+        extra_info = pre_req_scrape(temp_codes, nav, cat, num_browsers) # scrapes the extra info off of the catalog website
+        for course in temp_courses: # adds the extra info to each course
             if course.short == None:
                 print(course)
                 continue
@@ -291,20 +321,24 @@ def no_login_scrape(term: str, num_browsers: int):
             course.frequency = extra_info[course.short]["offered"]["text"]
 
         [courses.append(i) for i in temp_courses]
+    '''
+    Check Professor Goldschmidt's information
+    '''
     textTerm = number_to_term(term).lower().replace(" ", "")
     gold_courses = gold.get_goldy_info(textTerm)
     for course in courses:
         if course.short.replace("-", " ") in gold_courses:
             add_goldy_info(course, gold_courses[course.short.replace("-", " ")])
             
-    # make PreReqs work, maybe with catalog data instead
-    # with ThreadPoolExecutor(max_workers=50) as pool:
-    #    pool.map(old.getReqForClass, courses)
+    # Build the csv
     dir_path = os.path.dirname(os.path.realpath(__file__))
     parent = os.path.abspath(os.path.join(dir_path, os.pardir))
     path = os.path.join(parent, number_to_term(term).lower().replace(" ", "-") + ".csv")
     old.writeCSV(courses, path)
 
+'''
+Scrapes the prerequisites for multiple courses at once.
+'''
 def pre_req_scrape(codes: list[str], nav:str, cat:str, num_browsers: int):
     all_courses = dict()
     with multiprocessing.Pool(num_browsers) as pool:
@@ -313,7 +347,10 @@ def pre_req_scrape(codes: list[str], nav:str, cat:str, num_browsers: int):
     for res in results:
         all_courses.update(res)
     return all_courses
-    
+
+'''
+Edits a course using the information from Professor Goldschmidt's website.
+'''
 def add_goldy_info(course: Course, goldy_info: dict):
     checking = "Prerequisite"
     if checking not in goldy_info.keys():

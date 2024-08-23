@@ -2,7 +2,9 @@ from regex import P
 import requests
 from bs4 import BeautifulSoup as bs
 import csv
-
+'''
+Turns a trerm into a valid link for Professor Goldschmidt's course information
+'''
 def get_goldy_link(term: str) -> str:
     baseurl = "https://www.cs.rpi.edu/~goldsd/docs/"
     ending = "-topics-courses.txt"
@@ -16,6 +18,9 @@ def get_goldy_link(term: str) -> str:
             raise ValueError("Incorrect Term Argument")
     return url
 
+'''
+Scrapes the course information from the given link by splitting by term and then splits by line to get each individual course.
+'''
 def scrape_goldy_link(link: str) -> list[list[list[str]]]:
     r = requests.get(link, verify=False)
     soup = bs(r.content, "html.parser")
@@ -50,8 +55,11 @@ def scrape_goldy_link(link: str) -> list[list[list[str]]]:
         terms.append(term)
     return terms
 
+'''
+Parent function that gets the course information from the given term and then parses the course info into a dictionary.
+'''
 def get_goldy_info(term: str) -> list[dict[str]]:
-    requests.packages.urllib3.disable_warnings()
+    requests.packages.urllib3.disable_warnings() # ignore HTTP warnings
     url = get_goldy_link(term)
     terms_list = scrape_goldy_link(url)
     scraped_list = []
