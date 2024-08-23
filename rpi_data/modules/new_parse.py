@@ -86,7 +86,7 @@ def sisCourseSearch(driver, term, course_codes_dict): #main loop of the parser, 
     info.reverse()
     return info
 
-def findAllSubjectCodes(driver) -> dict():
+def findAllSubjectCodes(driver) -> dict[str, str]:
     url = 'https://catalog.rpi.edu/content.php?catoid=26&navoid=670&hl=%22subject%22&returnto=search' #link to a list of schools with their subject codes
     driver.get(url)
     code_school_dict = dict() # We store in a dictionary that has subject code as the key and school as the value
