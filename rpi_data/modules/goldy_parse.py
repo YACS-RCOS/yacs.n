@@ -80,5 +80,6 @@ def get_goldy_info(term: str) -> list[dict[str]]:
             named_dict[major + " " + code] = course_dict
     
     return named_dict
-    
-print(get_goldy_info("summer2024")["CSCI 2960"])
+
+if __name__ == "__main__":
+    print(get_goldy_info("fall2024"))

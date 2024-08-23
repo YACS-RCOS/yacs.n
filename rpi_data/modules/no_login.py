@@ -5,8 +5,13 @@ from course import Course
 from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+import multiprocessing
 import new_parse as old
-
+import courses_scraper as cs
+import ci_scraper as cis
+import goldy_parse as gold
+import regex as re
+import os
 
 def find_codes(term, subj):
     subj_course = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(term, subj)
@@ -14,8 +19,11 @@ def find_codes(term, subj):
     response = s.get(subj_course)
     webpage = response.content
     soup = bs(webpage, "html.parser")
-    table = soup.select("table.datadisplaytable:nth-child(2)")[0]
-    elements = table.find_all("td", {"class" : "nttitle"})
+    try:
+        table = soup.select("table.datadisplaytable:nth-child(2)")[0]
+        elements = table.find_all("td", {"class" : "nttitle"})
+    except Exception:
+        return []
     print(len(elements))
     pruned_elements = []
     codes = []
@@ -37,7 +45,6 @@ def generate_links(term, codes):
 
 def scrape_all(links, term, major) -> list[Course]:
     courses = []
-    
     for link in links:
         try:
             temp_courses = link_scrape(term, link, major)
@@ -80,15 +87,14 @@ def link_scrape(term, link, major) -> list[Course]:
             print("fail")
         table_element = bs(string_element, "html.parser")
         x += 1
-   
+
         
     if (len(titles) != len(bodies)):
         raise RuntimeError("Titles do not equal bodies: "+ link)
-
     courses = []
     for i in range(len(titles)):
         title = titles[i].text
-        split_title = title.split(" - ")        
+        split_title = title.rsplit(" - ", 3)        
         body_info = body_scrape(bodies[i])
         slots = get_slots(term, split_title[1])
         for course in body_info:
@@ -115,6 +121,8 @@ def get_slots(term, CRN):
     info_element = soup.find("div", {"class" : "pagebodydiv"})
     first_table = info_element.find("table")
     table = first_table.find("table")
+    if table == None:
+        return ["0", "0", "0"]
     scraped_table = []
     for row in table.find_all('tr'):
         columns = row.find_all('td')
@@ -146,7 +154,10 @@ def body_scrape(body) -> list[list[str]]:
 
             part = part.strip()
             credits = part
-    courses = table_scrape(table)
+    if table != None:
+        courses = table_scrape(table)
+    else:
+        courses = []
     for course in courses:
         course.append(credits)
     return courses
@@ -247,28 +258,80 @@ def date_split(date):
     edate = "{0:%Y}-{0:%m}-{0:%d}".format(dt_end)
     return sdate, edate
 
-def no_login_scrape(term: str):
+def no_login_scrape(term: str, num_browsers: int):
     options = Options()
     options.add_argument("--headless")
     driver = webdriver.Firefox()
     subjects = old.findAllSubjectCodes(driver)
+    nav, cat = cs.navigate_to_course(driver, term)
+    driver.quit()
     courses = []
     for subject in subjects.keys():
         codes = find_codes(term, subject)
         links = generate_links(term, codes)
-        temp_courses = scrape_all(links, term, subject)
+        temp_courses = []
+        with multiprocessing.Pool(num_browsers) as pool:
+            parts = list(cs.split(links, num_browsers))
+            temp_courses = pool.starmap(scrape_all, [(part, term, subject) for part in parts])
+        temp_courses = [i for sublist in temp_courses for i in sublist]
         [i.addSchool(subjects[subject]) for i in temp_courses]
-        [courses.append(i) for i in temp_courses]
+        temp_codes = list(set([i.major + " " + i.code for i in temp_courses]))
+        print(len(temp_codes))
+        extra_info = pre_req_scrape(temp_codes, nav, cat, num_browsers)
+        for course in temp_courses:
+            if course.short == None:
+                print(course)
+                continue
+            if course.short not in extra_info:
+                course.addReqs([], [], "", "")
+                course.desc = ""
+                course.frequency = ""
+                continue
+            course.addReqs(extra_info[course.short]["prerequisites"], extra_info[course.short]["corequisites"], extra_info[course.short]["rawprecoreq"], extra_info[course.short]["description"])
+            course.frequency = extra_info[course.short]["offered"]["text"]
 
+        [courses.append(i) for i in temp_courses]
+    textTerm = number_to_term(term).lower().replace(" ", "")
+    gold_courses = gold.get_goldy_info(textTerm)
+    for course in courses:
+        if course.short.replace("-", " ") in gold_courses:
+            add_goldy_info(course, gold_courses[course.short.replace("-", " ")])
+            
     # make PreReqs work, maybe with catalog data instead
     # with ThreadPoolExecutor(max_workers=50) as pool:
     #    pool.map(old.getReqForClass, courses)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    parent = os.path.abspath(os.path.join(dir_path, os.pardir))
+    path = os.path.join(parent, number_to_term(term).lower().replace(" ", "-") + ".csv")
+    old.writeCSV(courses, path)
 
-    old.writeCSV(courses, number_to_term(term).lower().replace(" ", "-") + ".csv")
-
+def pre_req_scrape(codes: list[str], nav:str, cat:str, num_browsers: int):
+    all_courses = dict()
+    with multiprocessing.Pool(num_browsers) as pool:
+        parts = list(cs.split(codes, num_browsers))
+        results = pool.starmap(cs.scrape_process, [(part, nav, cat) for part in parts])
+    for res in results:
+        all_courses.update(res)
+    return all_courses
     
-
+def add_goldy_info(course: Course, goldy_info: dict):
+    checking = "Prerequisite"
+    if checking not in goldy_info.keys():
+        checking = "Prerequisites"
+    if checking not in goldy_info.keys():
+        goldy_info[checking] = ""
+    course.pre = re.findall(r'[A-Z]{4} [0-9]{4}', goldy_info[checking])
+    if course.desc == "" and "Description" in goldy_info.keys():
+        course.desc = goldy_info["Description"]
+    if course.profs == "" and "Instructors" in goldy_info.keys():
+        course.profs = goldy_info["Instructors"]
+    if "Prerequisite" in goldy_info[checking]:
+        course.raw = goldy_info[checking]
+    else:
+        course.raw = "Prerequisites: " + goldy_info[checking]
         
 if __name__ == "__main__":
-    no_login_scrape("202409")
-
+    no_login_scrape("202409", 15)
+    #driver = webdriver.Firefox()
+    #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
+    #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))
