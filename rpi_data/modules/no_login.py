@@ -291,7 +291,7 @@ Parent function that scrapes all courses for a given term and writes them to a C
 def no_login_scrape(term: str, num_browsers: int):
     options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Firefox(Options=options) # starter code which uses selenium
+    driver = webdriver.Firefox(options=options) # starter code which uses selenium
     subjects = old.findAllSubjectCodes(driver) # finds all subject codes
     nav, cat = cs.navigate_to_course(driver, term) # finds the navigation and catalog ids, which are each used to build a course search query.
     driver.quit()
