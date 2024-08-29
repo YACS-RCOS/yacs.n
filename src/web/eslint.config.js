@@ -1,5 +1,6 @@
 import eslint from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 // @ts-expect-error Vue Eslint plugin does not support TS yet
@@ -110,6 +111,7 @@ export default tseslint.config(
     files: ["src/**/*.{js,ts,vue}"],
     languageOptions: {
       parser: await import("vue-eslint-parser"),
+      globals: globals.browser,
       parserOptions: {
         parser: "@typescript-eslint/parser",
         project: "tsconfig.app.json",
@@ -124,7 +126,7 @@ export default tseslint.config(
       "vue/multi-word-component-names": ["off"]
     }
   },
-  { ignores: ["dist/**/*.*"] },
+  { ignores: ["dist/**/*.*", "*.js.timestamp"] },
   {
     plugins: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
