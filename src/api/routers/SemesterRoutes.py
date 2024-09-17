@@ -8,12 +8,12 @@ from constants import Constants
 
 
 from db.StudentCourseSelection import StudentCourseSelection
-from db.Courses import Courses
+from db.courses import Courses
 from db.SemesterInfo import SemesterInfo
 
 import db.semester_date_mapping as DateMapping
 
-import db.classinfo as ClassInfo
+from db.classinfo import ClassInfo
 
 
 api_key_header = APIKeyHeader(name="X-API-Key")

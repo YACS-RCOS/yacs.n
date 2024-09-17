@@ -6,7 +6,7 @@ import pandas as pd
 from api_models import *
 
 from db.StudentCourseSelection import StudentCourseSelection
-from db.Courses import Courses
+from db.courses import Courses
 from db.SemesterInfo import SemesterInfo
 
 api_key_header = APIKeyHeader(name="X-API-Key")

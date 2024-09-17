@@ -4,7 +4,7 @@ import pytest
 from src.api.tables import SessionLocal
 from src.api.db.connection import db
 from src.api.db.classinfo import ClassInfo
-from src.api.db.Courses import Courses
+from src.api.db.courses import Courses
 from src.api.db.admin import Admin
 from src.api.db.SemesterInfo import semester_info as SemesterInfo
 from src.api.db.semester_date_mapping import semester_date_mapping as SemesterDateMapping
