@@ -42,6 +42,7 @@ class SemesterRoutes:
         self.router = APIRouter(
             prefix=''
         )
+        self.router.add_api_route('/api/class', self.get_classes, methods=['GET'])
 
 
     #@app.get('/api/class')

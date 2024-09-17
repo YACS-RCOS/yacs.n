@@ -222,3 +222,4 @@ def add_user_event(request: Request, credentials: SessionPydantic):
 app.include_router(professor_routes.router)
 app.include_router(course_routes.router)
 app.include_router(user_routes.router)
+app.include_router(semester_routes.router)
