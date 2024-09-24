@@ -46,7 +46,7 @@ courses = Courses.Courses(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
-semester_info = SemesterInfo.semester_info(db_conn)
+semester_info = SemesterInfo.semester_info(db_conn, FastAPICache)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
@@ -213,6 +213,11 @@ async def uploadJSON(
         print(error)
         return Response(error.__str__(), status_code=500)
 
+@app.delete('/api/semester/{semester_id}')
+async def remove_semester(semester_id: str):
+    print(semester_id)
+    semester, error = semester_info.delete_semester(semester=semester_id)
+    return Response(status_code=200) if not error else Response(str(error), status_code=500)
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
