@@ -43,6 +43,7 @@ class SemesterRoutes:
             prefix=''
         )
         self.router.add_api_route('/api/class', self.get_classes, methods=['GET'])
+        self.router.add_api_route('/api/semester', self.remove_semester, methods=['DELETE'])
 
 
     #@app.get('/api/class')

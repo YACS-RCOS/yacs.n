@@ -30,7 +30,7 @@ class CourseRoutes:
             prefix=''
         )
         self.router.add_api_route('/api/user/course', self.get_courses, methods=['GET'])
-        self.router.add_api_route('/api/course', self.upload, methods=['POST'])
+        self.router.add_api_route('/api/uploadSemester', self.upload, methods=['POST'])
         self.router.add_api_route('/api/user/course', self.add_course, methods=['POST'])
         self.router.add_api_route('/api/user/course', self.remove_course, methods=['DELETE'])
 
