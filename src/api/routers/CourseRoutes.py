@@ -37,9 +37,9 @@ class CourseRoutes:
     # Parses the data from the .csv data files
     async def upload(
             self,
-            api_key: str = Security(get_api_key),
             isPubliclyVisible: str = Form(...),
-            file: UploadFile = File(...)):
+            file: UploadFile = File(...),
+            api_key: str = Security(get_api_key)):
         # check for user files
         print("in process")
         if not file:

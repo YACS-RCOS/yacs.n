@@ -7,14 +7,14 @@ const client = axios.create({
 export const uploadCsv = (formData) =>
   client.post("/uploadSemester", formData, {
     headers: {
-      'x-api-key': 'secretKey'
+      'X-API-KEY': 'secretKey'
     }
   });
 
 export const uploadJSON = (formData) =>
   client.post("/professor", formData, {
     headers: {
-      'x-api-key': 'secretKey'
+      'X-API-KEY': 'secretKey'
     }
   });
 
