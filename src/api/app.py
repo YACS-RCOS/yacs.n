@@ -27,7 +27,6 @@ import os
 import pandas as pd
 from constants import Constants
 
-
 # NOTE: on caching
 # on add of semester of change of data from GET
 # do a cache.clear() to ensure data integrity
@@ -142,9 +141,8 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print(error)
+    return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -206,10 +204,9 @@ async def uploadJSON(
     if isSuccess:
         print("SUCCESS")
         return Response(status_code=200)
-    else:
-        print("NOT WORKING")
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print("NOT WORKING")
+    print(error)
+    return Response(error.__str__(), status_code=500)
 
 @app.delete('/api/semester/{semester_id}')
 async def remove_semester(semester_id: str):
