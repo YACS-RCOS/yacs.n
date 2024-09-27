@@ -27,11 +27,10 @@ import os
 import pandas as pd
 from constants import Constants
 
-"""
-NOTE: on caching
-on add of semester of change of data from GET
-do a cache.clear() to ensure data integrity
-"""
+
+# NOTE: on caching
+# on add of semester of change of data from GET
+# do a cache.clear() to ensure data integrity
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
@@ -176,9 +175,8 @@ async def uploadHandler(
     isSuccess, error = courses.populate_from_csv(csv_file)
     if (isSuccess):
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print(error)
+    return Response(error.__str__(), status_code=500)
 
 @app.post('/api/bulkProfessorUpload')
 async def uploadJSON(
@@ -239,8 +237,7 @@ async def map_date_range_to_semester_part_handler(request: Request):
              semester_info.upsert(semester_title, is_publicly_visible)
              if (not error):
                  return Response(status_code=200)
-             else:
-                 return Response(error, status_code=500)
+             return Response(error, status_code=500)
      return Response("Did not receive proper form data", status_code=500)
 
 @app.get('/api/user/course')
