@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .my-window-controls {
+    margin-top: env(titlebar-area-height, 0);
+  }
+}

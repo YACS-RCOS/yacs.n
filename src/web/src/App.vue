@@ -17,7 +17,9 @@ watchEffect(() => {
     <NavBar />
   </header>
 
-  <RouterView />
+  <main class="h-full w-full bg-on-primary font-sans">
+    <RouterView />
+  </main>
 
   <AppFooter />
 </template>
