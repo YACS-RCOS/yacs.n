@@ -6,10 +6,22 @@ import colors from "tailwindcss/colors";
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: "selector",
-  plugins: [
-    themer({
-      defaultTheme: {
+  theme: {
         extend: {
+      animation: {
+        "fade-in": "fadein 0.25s linear",
+        "fade-out": "fadeout 0.25s linear"
+      },
+      keyframes: {
+        fadein: {
+          from: { opacity: "0%" },
+          to: { opacity: "100%" }
+        },
+        fadeout: {
+          from: { opacity: "100%" },
+          to: { opacity: "0%" }
+        }
+      },
           colors: {
             primary: colors.black,
             "on-primary": colors.slate[100],
