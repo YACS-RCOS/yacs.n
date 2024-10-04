@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/pagenotfound': RouteRecordInfo<'/pagenotfound', '/:path(.*)*', Record<never, never>, Record<never, never>>,
     '/about': RouteRecordInfo<'/about', '/about', Record<never, never>, Record<never, never>>,
+    '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/explore': RouteRecordInfo<'/explore', '/explore', Record<never, never>, Record<never, never>>,
     '/explore/[major]': RouteRecordInfo<'/explore/[major]', '/explore/:major', { major: ParamValue<true> }, { major: ParamValue<false> }>,
     '/finals': RouteRecordInfo<'/finals', '/finals', Record<never, never>, Record<never, never>>,

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { watchEffect } from "vue";
-import { RouterView } from "vue-router/auto";
+import { RouterView, useRoute } from "vue-router/auto";
 import AppFooter from "./components/AppFooter.vue";
 import NavBar from "./components/NavBar.vue";
 import { useThemeStore } from "./stores/theme";
 
 const themeStore = useThemeStore();
+
+const route = useRoute();
 
 watchEffect(() => {
   themeStore.applyTheme();
@@ -13,7 +15,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <header>
+  <header v-if="route.matched.length > 0 && route.matched[0].name != '/admin'">
     <NavBar />
   </header>
 
