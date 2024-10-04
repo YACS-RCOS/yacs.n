@@ -7,8 +7,8 @@ from .database import Base
 class Professor(Base):
     __tablename__ = "professor"
 
-    email = Column(VARCHAR(length=255), primary_key=True, nullable=False)
-    name = Column(VARCHAR(length=255), nullable=True)
+    email = Column(VARCHAR(length=255), primary_key=True)
+    name = Column(VARCHAR(length=255))
     title = Column(VARCHAR(length=255), nullable=True)
     phone_number = Column(VARCHAR(length=255), nullable=True)
     department = Column(VARCHAR(length=255), nullable=True)

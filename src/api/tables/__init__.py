@@ -12,5 +12,7 @@ from .user_event import UserEvent
 from .user_session import UserSession
 from .professor import Professor
 
+from .test import Test
+
 from .database import Base
 from .database_session import SessionLocal
