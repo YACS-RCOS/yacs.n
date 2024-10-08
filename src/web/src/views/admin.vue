@@ -21,7 +21,14 @@ const actions: [keyof RouteNamedMap, string][] = [
       >{{ title }}</RouterLink
     >
 
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <Transition>
+        <component
+          :is="Component"
+          class="duration-1000 [&.v-enter-active]:transition-opacity [&.v-enter-from]:opacity-0 [&.v-leave-active]:transition-opacity [&.v-leave-to]:opacity-0"
+        />
+      </Transition>
+    </RouterView>
 
     <div class="flex-grow" />
 
