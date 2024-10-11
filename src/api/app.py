@@ -11,6 +11,7 @@ from api_models import *
 import db.connection as connection
 import db.classinfo as ClassInfo
 import db.courses as Courses
+import db.finals as Finals
 import db.professor as All_professors
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
@@ -21,10 +22,8 @@ import controller.user as user_controller
 import controller.session as session_controller
 import controller.userevent as event_controller
 from io import StringIO
-from sqlalchemy.orm import Session
 import json
 import os
-import pandas as pd
 from constants import Constants
 
 """
@@ -43,6 +42,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn, FastAPICache)
+finals = Finals.Finals(db_conn)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
@@ -182,7 +182,6 @@ async def uploadHandler(
 
 @app.post('/api/bulkProfessorUpload')
 async def uploadJSON(
-        isPubliclyVisible: str = Form(...),
         file: UploadFile = File(...)):  
     # Check to make sure the user has sent a file
     if not file:
@@ -213,6 +212,25 @@ async def uploadJSON(
         print(error)
         return Response(error.__str__(), status_code=500)
 
+@app.post('/api/bulkFinalUpload')
+async def uploadHandler(
+        file: UploadFile = File(...)):
+    # check for user files
+    print("in process")
+    if not file:
+        return Response("No file received", 400)
+    if file.filename.find('.') == -1 or file.filename.rsplit('.', 1)[1].lower() != 'csv':
+        return Response("File must have csv extension", 400)
+    # get file
+    contents = await file.read()
+    csv_file = StringIO(contents.decode())
+    # Populate DB from CSV
+    isSuccess, error = finals.populate_from_csv(csv_file)
+    if (isSuccess):
+        return Response(status_code=200)
+    else:
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
