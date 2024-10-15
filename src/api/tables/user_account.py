@@ -7,7 +7,7 @@ class UserAccount(Base):
     __tablename__ = "user_account"
 
     user_id = Column(INTEGER, primary_key=True)
-    name = Column(TEXT)
+    name = Column(TEXT, nullable=False)
     email = Column(TEXT, nullable=False, unique=True)
     phone = Column(TEXT)
     password = Column(TEXT, nullable=False)
