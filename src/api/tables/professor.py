@@ -8,7 +8,7 @@ class Professor(Base):
     __tablename__ = "professor"
 
     email = Column(VARCHAR(length=255), primary_key=True)
-    name = Column(VARCHAR(length=255))
+    name = Column(VARCHAR(length=255), nullable=True)
     title = Column(VARCHAR(length=255), nullable=True)
     phone_number = Column(VARCHAR(length=255), nullable=True)
     department = Column(VARCHAR(length=255), nullable=True)

@@ -10,7 +10,7 @@ class UserAccount(Base):
     name = Column(TEXT)
     email = Column(TEXT, nullable=False, unique=True)
     phone = Column(TEXT)
-    password = Column(TEXT)
+    password = Column(TEXT, nullable=False)
     major = Column(TEXT)
     degree = Column(TEXT)
     enable = Column(BOOLEAN, default=True)
