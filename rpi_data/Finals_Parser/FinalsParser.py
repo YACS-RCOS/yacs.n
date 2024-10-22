@@ -12,12 +12,14 @@
 #     - To handle inconsistent AM/PM labeling we assume that all exams begin at or after 8 AM and we assume all exams end at or before 10 PM
 #     - The current process assumes the finals document is named finals_by_subject.pdf and is in the same folder as this process
 #     - The output is a csv file with format: ['Season', 'Year', 'Major', 'Course', 'Section', 'Start', 'End', 'Building', 'Room_Number']
+#     - Use "jupyter nbconvert --to script FinalsParser.ipynb" to convert the .ipynb file to a .py
 # 
 # TODO:
 # 
 #     - Make grades due column not break the program - can't be fixed without more filled out version of exam schedule
+#         - It is possible that this column is never filled in the publicly available version - meaning this isn't an issue.
 
-# In[31]:
+# In[11]:
 
 
 from pypdf import PdfReader
@@ -29,7 +31,7 @@ import calendar
 debug_mode = False
 
 
-# In[32]:
+# In[12]:
 
 
 # Construct a dictionary to get the number of a month from it's word
@@ -61,13 +63,13 @@ def handle_times(start_text, end_text, day, month, year):
     return start_time, end_time
 
 
-# In[33]:
+# In[13]:
 
 
 def parser():
     files = [f for f in os.listdir('.') if os.path.isfile(f)]
     
-    reader = PdfReader("finals_by_subject.pdf")
+    reader = PdfReader("finals_schedule.pdf")
     number_of_pages = len(reader.pages)
     
     db_lines = []
@@ -166,18 +168,36 @@ def parser():
             building = line[len(line) - 1]
             line.pop(len(line) - 1)
 
+
+            # Split the major up if it is MATH/CSCI for example
+            majors = []
+            if '/' in major:
+                while '/' in major:
+                    index = major.index('/')
+                    majors.append(major[:index])
+                    major = major[index+1:]
+            else:
+                majors.append(major)
+
             # Everything left is the sections
             # Get the sections from the remainder and fix some formatting (take out of parens and remove commas and ampersands)
             sections = [x.replace(",", "").replace("(", "").replace(")", "") for x in line if x != ',' and x != '&']
             # If an entry is info for all sections of a class, write that and skip the rest
             all = False
-            for section in sections:
-                if "ALL" in section:
-                    start_time, end_time = handle_times(time1, time2, day, month, year)
-                    db_lines.append([season, year, major, course, None, start_time, end_time, building, room])
-                    all = True
-            if all:
+            done = False
+            for tmp_major in majors:
+                for section in sections:
+                    for course in courses:
+                        if "ALL" in section:
+                            start_time, end_time = handle_times(time1, time2, day, month, year)
+                            db_lines.append([season, year, tmp_major, course, None, start_time, end_time, building, room])
+                            all = True
+                if all:
+                    done = True
+                    continue
+            if done:
                 continue
+            
             fixed_sections = []
             # Create seperate section entries for all sections within a range ([01-05] becomes [01,02,03,04,05])
             for section in sections:
@@ -191,14 +211,15 @@ def parser():
                     fixed_sections.append(int(section))
             sections = fixed_sections
             # Adds all the entries into the array
-            for section in sections:
-                for course in courses:
-                    start_time, end_time = handle_times(time1, time2, day, month, year)
-                    db_lines.append([season, year, major, course, int(section), start_time, end_time, building, room])
+            for tmp_major in majors:
+                for section in sections:
+                    for course in courses:
+                        start_time, end_time = handle_times(time1, time2, day, month, year)
+                        db_lines.append([season, year, tmp_major, course, int(section), start_time, end_time, building, room])
     return db_lines
 
 
-# In[34]:
+# In[14]:
 
 
 def display_and_write_csv(db_lines):
@@ -216,7 +237,7 @@ def display_and_write_csv(db_lines):
     df.to_csv('out.csv')
 
 
-# In[35]:
+# In[15]:
 
 
 db_lines = parser()
