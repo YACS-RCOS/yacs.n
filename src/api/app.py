@@ -213,7 +213,7 @@ async def uploadJSON(
         print(error)
         return Response(error.__str__(), status_code=500)
 
-@app.post('/api/bulkFinalUpload')
+@app.post('/api/final')
 async def uploadHandler(
         file: UploadFile = File(...)):
     # check for user files
@@ -234,8 +234,9 @@ async def deleteHandler(semester: str):
     if not semester:
         return Response("No semester received", 400)
     print(semester)
-    error = finals.bulk_delete(["FALL 2024"])
+    _, error = finals.delete_by_semester(semester)
     return Response(error.__str__(), status_code=500) if error else Response("Delete Successful", status_code=200)
+
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
