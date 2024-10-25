@@ -42,12 +42,12 @@ class Finals:
                                 TO_TIMESTAMP(%(End)s, 'YYYY-MM-DD HH24:MI:SS'),
                                 %(Room_Assignment)s
                             )
-                            ON CONFLICT (semester, course, section, room_assignment) DO NOTHING;
+                            ON CONFLICT (semester, course, section, start, room_assignment) DO NOTHING;
                             """,
                             {
                                 "Semester": row['Season'] + ' ' + row['Year'],
                                 "Course": row['Major'] + '-' + row['Course'],
-                                "Section": 1 if row['Section'] == '' else row['Section'],
+                                "Section": "1" if row['Section'] == '' else row['Section'],
                                 "Start": row['Start'],
                                 "End": row['End'],
                                 "Room_Assignment": row['Building'] + '-' + row['Room_Number']
@@ -56,9 +56,27 @@ class Finals:
                 except Exception as e:
                     print(e)
                     conn.rollback()
-                    return (False, e)
+                    return e
         conn.commit()
-        return (True, None)
+        return None
+
+    def delete_by_semester(self, semester):
+        return self.db.execute("""
+            BEGIN TRANSACTION;
+                DELETE FROM final
+                WHERE semester=%(Semester)s;
+            COMMIT;
+        """, {
+            "Semester": semester
+        }, isSELECT=False)
+
+    def bulk_delete(self, semesters):
+        for semester in semesters:
+            _, error = self.delete_by_semester(semester)
+            if error:
+                print(error)
+                return error
+        return None
 
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))

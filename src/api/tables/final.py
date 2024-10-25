@@ -14,5 +14,5 @@ class Final(Base):
     room_assignment = Column(VARCHAR(length=255))
 
     __table_args__ = (
-        PrimaryKeyConstraint('semester', 'course', 'section'),
+        PrimaryKeyConstraint('semester', 'course', 'section', 'start', 'room_assignment'),
     )

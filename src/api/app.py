@@ -16,6 +16,7 @@ import db.professor as All_professors
 import db.semester_info as SemesterInfo
 import db.semester_date_mapping as DateMapping
 import db.admin as AdminInfo
+import pandas as pd
 import db.student_course_selection as CourseSelect
 import db.user as UserModel
 import controller.user as user_controller
@@ -225,12 +226,16 @@ async def uploadHandler(
     contents = await file.read()
     csv_file = StringIO(contents.decode())
     # Populate DB from CSV
-    isSuccess, error = finals.populate_from_csv(csv_file)
-    if (isSuccess):
-        return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    error = finals.populate_from_csv(csv_file)
+    return Response(error.__str__(), status_code=500) if error else Response("Upload Successful", status_code=200) 
+
+@app.delete('/api/final/{semester}')
+async def deleteHandler(semester: str):
+    if not semester:
+        return Response("No semester received", 400)
+    print(semester)
+    error = finals.bulk_delete(["FALL 2024"])
+    return Response(error.__str__(), status_code=500) if error else Response("Delete Successful", status_code=200)
 
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):

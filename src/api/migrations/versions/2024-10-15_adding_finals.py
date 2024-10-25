@@ -22,10 +22,10 @@ def upgrade():
     sa.Column('semester', sa.VARCHAR(length=255), nullable=False),
     sa.Column('course', sa.VARCHAR(length=255), nullable=False),
     sa.Column('section', sa.INTEGER(), nullable=False),
-    sa.Column('start', postgresql.TIME(), nullable=True),
-    sa.Column('end', postgresql.TIME(), nullable=True),
+    sa.Column('start', postgresql.TIMESTAMP(), nullable=False),
+    sa.Column('end', postgresql.TIMESTAMP(), nullable=False),
     sa.Column('room_assignment', sa.VARCHAR(length=255), nullable=False),
-    sa.PrimaryKeyConstraint('course', 'section', 'semester', 'room_assignment')
+    sa.PrimaryKeyConstraint('semester', 'course', 'section', 'start', 'room_assignment')
     )
     # ### end Alembic commands ###
 
