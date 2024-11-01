@@ -6,7 +6,7 @@ import re
 
 from typing import Dict, Set
 
-from src.api.db.semester_info import semester_info as SemesterInfo
+from src.api.db.SemesterInfo import SemesterInfo
 from src.api.db.courses import Courses
 
 from tests.mock_cache import MockCache

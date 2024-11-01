@@ -21,8 +21,7 @@ class Admin:
 
 		if error:
 			return (None, error)
-		else:
-			return (default_semester, error)
+		return (default_semester, error)
 
 	def set_semester_default(self, semester):
 		try:
@@ -40,5 +39,4 @@ class Admin:
 
 		if response != None:
 			return(True, None)
-		else:
-			return (False, error)
+		return (False, error)
