@@ -56,12 +56,9 @@ class ProfessorRoutes:
         # Call populate_from_json method
         isSuccess, error = self.professor_info.populate_from_json(json_data)
         if isSuccess:
-            print("SUCCESS")
             return Response(status_code=200)
-        else:
-            print("NOT WORKING")
-            print(error)
-            return Response(error.__str__(), status_code=500)
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 
     async def add(self, msg: str, api_key: str = Security(get_api_key)):

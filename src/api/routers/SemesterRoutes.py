@@ -124,7 +124,6 @@ class SemesterRoutes:
                 self.semester_info.upsert(semester_title, is_publicly_visible)
                 if (not error):
                     return Response(status_code=200)
-                else:
-                    return Response(error, status_code=500)
+                return Response(error, status_code=500)
         return Response("Did not receive proper form data", status_code=500)
 

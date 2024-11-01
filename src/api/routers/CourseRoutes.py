@@ -64,9 +64,8 @@ class CourseRoutes:
         isSuccess, error = self.courses.populate_from_csv(csv_file)
         if (isSuccess):
             return Response(status_code=200)
-        else:
-            print(error)
-            return Response(error.__str__(), status_code=500)
+        print(error)
+        return Response(error.__str__(), status_code=500)
 
 
     async def add_course(self, request: Request, credentials: UserCoursePydantic):
