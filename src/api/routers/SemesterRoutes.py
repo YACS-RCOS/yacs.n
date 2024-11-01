@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Response, Security
+from fastapi import APIRouter, HTTPException, Request, Response, Security, Depends
 from fastapi.security import APIKeyHeader
 import os
 from fastapi_cache.decorator import cache
@@ -41,6 +41,10 @@ class SemesterRoutes:
             prefix='/api'
         )
         self.router.add_api_route('/class', self.get_classes, methods=['GET'])
+        self.router.add_api_route('/semester', self.get_semesters, methods=['GET'])
+        self.router.add_api_route('/subsemester', self.get_subsemesters, methods=['GET'])
+        self.router.add_api_route('/semesterInfo', self.get_all_semester_info, methods=['GET'])
+        self.router.add_api_route('/mapDateRangeToSemesterPart', self.get_all_semester_info, methods=['POST'])
         self.router.add_api_route('/semester', self.remove_semester, methods=['DELETE'])
 
 
@@ -63,19 +67,43 @@ class SemesterRoutes:
             return classes if not error else Response(error, status_code=500)
         return Response(content="missing semester option", status_code=400)
 
+    @cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+    async def get_semesters(self):
+        """
+        GET /api/semester
+        Cached: 24 Hours
+        """
+        semesters, error = self.class_info.get_semesters()
+        db_list = [dict(r) for r in semesters]
+        return db_list if not error else Response(error, status_code=500)
 
-    #@app.delete('/api/semester/{semester_id}')
+    @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+    async def get_subsemesters(self, subsemester: SubsemesterPydantic = Depends(SubsemesterPydantic)):
+        """
+        GET /api/subsemester?semester={}
+        Cached: 1 Hour
+
+        Get list of departments i.e. COGS, CIVL, CSCI, BIOL
+        (Used in dropdown in "Course Search"
+        """
+        if subsemester.semester:
+            subsemesters, error = self.class_info.get_subsemesters(subsemester.semester)
+            db_list = [dict(r) for r in subsemesters]
+            return db_list if not error else Response(error, status_code=500)
+        # Some cases, we do want all subsemesters across all semesters like in Admin Panel
+        subsemesters, error = self.class_info.get_subsemesters()
+        db_list = [dict(r) for r in subsemesters]
+        return db_list if not error else Response(error, status_code=500)
+
     async def remove_semester(self, semester_id: str, api_key: str = Security(get_api_key)):
         print(semester_id)
         semester, error = self.semester_info.delete_semester(semester=semester_id)
         return semester if not error else Response(str(error), status_code=500)
 
-    #@app.get('/api/semesterInfo')
     def get_all_semester_info(self):
         all_semester_info, error = self.class_info.get_all_semester_info()
         return all_semester_info if not error else Response(error, status=500)
 
-    #@app.post('/api/mapDateRangeToSemesterPart')
     async def map_date_range_to_semester_part_handler(self, request: Request):
         # This depends on date_start, date_end, and semester_part_name being
         # ordered since each field has multiple entries. They should be ordered
