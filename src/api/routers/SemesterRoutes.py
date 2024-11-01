@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Request, Response, UploadFile, Form, File, Depends, Security
+from fastapi import APIRouter, HTTPException, Request, Response, Security
 from fastapi.security import APIKeyHeader
 import os
 from fastapi_cache.decorator import cache
@@ -7,8 +7,6 @@ from api_models import *
 from constants import Constants
 
 
-from db.StudentCourseSelection import StudentCourseSelection
-from db.courses import Courses
 from db.SemesterInfo import SemesterInfo
 
 import db.semester_date_mapping as DateMapping
@@ -40,13 +38,12 @@ class SemesterRoutes:
         self.semester_info = SemesterInfo(db_conn, cache)
         self.date_range_map = DateMapping.semester_date_mapping(db_conn)
         self.router = APIRouter(
-            prefix=''
+            prefix='/api'
         )
-        self.router.add_api_route('/api/class', self.get_classes, methods=['GET'])
-        self.router.add_api_route('/api/semester', self.remove_semester, methods=['DELETE'])
+        self.router.add_api_route('/class', self.get_classes, methods=['GET'])
+        self.router.add_api_route('/semester', self.remove_semester, methods=['DELETE'])
 
 
-    #@app.get('/api/class')
     @cache(expire=Constants.HOUR_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
     async def get_classes(self, request: Request, semester: str = None, search: str = None):
         """

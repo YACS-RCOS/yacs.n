@@ -27,12 +27,12 @@ class CourseRoutes:
         self.semester_info = SemesterInfo(db_conn, cache)
         self.course_select = StudentCourseSelection(db_conn)
         self.router = APIRouter(
-            prefix=''
+            prefix='/api'
         )
-        self.router.add_api_route('/api/user/course', self.get_courses, methods=['GET'])
-        self.router.add_api_route('/api/uploadSemester', self.upload, methods=['POST'])
-        self.router.add_api_route('/api/user/course', self.add_course, methods=['POST'])
-        self.router.add_api_route('/api/user/course', self.remove_course, methods=['DELETE'])
+        self.router.add_api_route('/user/course', self.get_courses, methods=['GET'])
+        self.router.add_api_route('/bulkCourseUpload', self.upload, methods=['POST'])
+        self.router.add_api_route('/user/course', self.add_course, methods=['POST'])
+        self.router.add_api_route('/user/course', self.remove_course, methods=['DELETE'])
 
     # Parses the data from the .csv data files
     async def upload(

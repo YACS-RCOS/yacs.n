@@ -8,17 +8,17 @@ class UserRoutes:
         self.router = APIRouter(
             prefix='/api/user'
         )
-        self.router.add_api_route('/{session_id}', self.get_user_info, methods=['GET'])
+        self.router.add_api_route('/{session}', self.get_user_info, methods=['GET'])
         self.router.add_api_route('', self.add_user, methods=['POST'])
         self.router.add_api_route('', self.update_user_info, methods=['PUT'])
         self.router.add_api_route('', self.delete_user, methods=['DELETE'])
 
 
-    async def get_user_info(self, request: Request, session_id):
+    async def get_user_info(self, request: Request, session):
         if 'user' not in request.session:
             return Response("Not authorized", status_code=403)
         
-        return user_controller.get_user_info(session_id)
+        return user_controller.get_user_info(session)
 
 
     async def add_user(self, user: UserPydantic):

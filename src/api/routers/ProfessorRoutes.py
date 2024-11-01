@@ -21,14 +21,14 @@ class ProfessorRoutes:
     def __init__(self, db_conn, cache):
         self.professor_info = Professor(db_conn, cache)
         self.router = APIRouter(
-            prefix='/api/professor'
+            prefix='/api'
         )
-        self.router.add_api_route('', self.upload, methods=['POST'])
-        self.router.add_api_route('/{email}', self.add, methods=['POST'])
-        self.router.add_api_route('', self.get_all, methods=['GET'])
-        self.router.add_api_route('/{email}', self.get, methods=['GET'])
-        self.router.add_api_route('/department/{department}', self.get_department, methods=['GET'])
-        self.router.add_api_route('/{email}', self.remove, methods=['DELETE'])
+        self.router.add_api_route('/bulkProfessorUpload', self.upload, methods=['POST'])
+        self.router.add_api_route('/professor/add/{msg}', self.add, methods=['POST'])
+        self.router.add_api_route('/professor', self.get_all, methods=['GET'])
+        self.router.add_api_route('/professor/email/{email}', self.get, methods=['GET'])
+        self.router.add_api_route('/professor/department/{department}', self.get_department, methods=['GET'])
+        self.router.add_api_route('/professor/remove/{email}', self.remove, methods=['DELETE'])
 
     async def upload(
             self,
