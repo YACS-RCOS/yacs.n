@@ -3,7 +3,7 @@ import base64
 import os
 
 url = os.environ.get('yacs_url')
-url = "http://localhost:4000"
+url = "http://localhost:5000"
 api_location = url + "/api/bulkCourseUpload"
 __location__ = os.path.realpath(os.path.join(
     os.getcwd(), os.path.dirname(__file__)))
