@@ -57,9 +57,9 @@ def handle_times(start_text, end_text, day, month, year):
     # Construct and return the datetime object
     start_text = year + str(month_num) + day + str(start_nums[0]) + ":" + str(start_nums[1])
     end_text = year + str(month_num) + day + str(end_nums[0]) + ":" + str(end_nums[1])
-    format = '%Y%m%d%H:%M'
-    start_time = datetime.strptime(start_text, format)
-    end_time = datetime.strptime(end_text, format)
+    text_fmt = '%Y%m%d%H:%M'
+    start_time = datetime.strptime(start_text, text_fmt)
+    end_time = datetime.strptime(end_text, text_fmt)
     return start_time, end_time
 
 
