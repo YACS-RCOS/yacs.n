@@ -1,0 +1,89 @@
+[
+    {
+        "year": 2024,
+        "major": "Aeronautical Engineering",
+        "school": "Engineering",
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8682&returnto=864",
+        "required": [
+            "ENGR-1100",
+            "ENGR-1200",
+            "MATH-1010",
+            "PHYS-1100",
+            "CHEM-1100",
+            "MANE-1060",
+            "MATH-1020",
+            "PHYS-1200",
+            "ENGR-1300",
+            "ENGR-2530",
+            "MATH-2400",
+            "MANE-2710",
+            "ADMN-1030",
+            "ENGR-2600",
+            "MANE-2110",
+            "MANE-2720",
+            "MATH-2010",
+            "ENGR-2090",
+            "MANE-4060",
+            "MANE-4070",
+            "MANE-4500",
+            "MANE-4900",
+            "MANE-4910",
+            "MANE-4920",
+            "STSO-4100",
+            "ILEA-4400",
+            "MANE-4080",
+            "MANE-4510",
+            ""
+        ],
+        "pick-one": {
+            "Engineering Design Elective": [
+                "ENGR-2050",
+                "MANE-2220"
+            ],
+            "Computation Elective": [
+                "MANE-4140",
+                "MANE-4240",
+                "MANE-4280"
+            ],
+            " ": [
+                "MANE-4090",
+                "MANE-4120",
+                "MANE-4130"
+            ],
+            " ": [
+                "MANE-4230",
+                "MANE-4210"
+            ]
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Aerospace Engineering",
+        "school": "Engineering",
+        "link": "",
+        "info": "",
+        "classes": {
+            " ": " "
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Applied Physics",
+        "school": "Science",
+        "link": "",
+        "info": "",
+        "classes": {
+            " ": " "
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Architecture",
+        "school": "Architecture",
+        "link": "",
+        "info": "",
+        "classes": {
+            " ": " "
+        }
+    },
+]
