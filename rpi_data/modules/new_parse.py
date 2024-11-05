@@ -4,7 +4,7 @@ import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
@@ -46,9 +46,9 @@ def genBasevalue(term): #this function returns the code sis uses for a specific 
     basevalue += year * 100 #this makes the basevalue show our year
     return basevalue
 
-def sisCourseSearch(driver, term): #main loop of the parser, goes to the course search, selects the desired term, and then loops through each subject to grab the course tables
+def sisCourseSearch(driver, term, course_codes_dict): #main loop of the parser, goes to the course search, selects the desired term, and then loops through each subject to grab the course tables
     info = list()
-    course_codes_dict = findAllSubjectCodes(driver)
+    
     url = "https://sis.rpi.edu/rss/bwskfcls.p_sel_crse_search"
     driver.get(url)
     select = Select(driver.find_element(by=By.ID, value = "term_input_id")) # term selection dropdown
@@ -70,7 +70,7 @@ def sisCourseSearch(driver, term): #main loop of the parser, goes to the course 
         print("Getting course info")
         courses = getCourseInfo(driver, key, course_codes_dict) # creates a list of course objects
         with ThreadPoolExecutor(max_workers=50) as pool:
-            pool.map(getReqForClass, courses)
+            pool.map(getReqForClass, courses, course_codes_dict.keys())
         [info.append(i) for i in courses] # appends each course to our final list
         subject = info[len(info)-1].major # gets the subject we just parsed
         driver.get(url) # goes back to the start
@@ -231,6 +231,7 @@ def processRow(data: list[str], prevrow: list[str], year: int) -> list[str]:
         return info
     #Some admin and grad courses won't have days of the week
     #Also the backend doesn't like the days of the week being TBA
+    info[6] = info[6].strip('\xa0')
     if (info[6] == '\xa0' or info[6] == "TBA"):
         info[6] = ""
     #Generally speaking methods that affect info should come in the order that the affect elements, ie 
@@ -284,6 +285,18 @@ def getCourseInfo(driver, year:str, schools : dict) -> list:
                 c.addSchool("Interdisciplinary and Other")
             courses.append(c)
     return courses
+# takes a raw phrase and returns a list of all of the course codes included, with repeats
+def findCourseCodes(raw, subject_codes) -> list:
+    course_codes = []
+    for i in subject_codes:
+        while (i in raw):
+            find = raw.find(i)
+            text = raw[find:find + 9]
+            raw = raw[:find] + raw[find + 9:]
+            if (text[4] != " " or not text[5].isdigit()):
+                continue
+            course_codes.append(text)
+    return course_codes
 #Given a url for a course, as well as the course code and major, return a list of prereqs, coreqs, and description of the course
 #Eg. ITWS 2110 - https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in=202401&subj_code_in=ITWS&crse_numb_in=2110 
 # Prereqs - ITWS 1100
@@ -293,7 +306,8 @@ def getCourseInfo(driver, year:str, schools : dict) -> list:
 # The course uses a hands-on approach in which students actively develop Web-based software systems.
 # Additional topics include installation, configuration, and management of Web servers.
 # Students are required to have access to a PC on which they can install software such as a Web server and various programming environments.
-def getReqFromLink(webres, courseCode, major) -> list:
+
+def getReqFromLink(webres, subject_codes) -> list:
     page = webres.content
     soup = bs(page, "html.parser")
     body = soup.find('td', class_='ntdefault')
@@ -303,44 +317,73 @@ def getReqFromLink(webres, courseCode, major) -> list:
         while '\n' in classInfo[i]:
             #Some \n's can make it into the parsed data, so we need to get rid of them.
             classInfo[i] = classInfo[i].replace('\n','')
-    key = "Prerequisites/Corequisites"
+    key = "Prerequisites/Corequisites: "
     preKey = "Prerequisite"
-    prereqs = ""
-    coreqs = ""
+    coKey = "Corequisite"
+    extraKey = "Co-listed"
+    creditKey = "Credit Hours"
+    prereqs = []
+    coreqs = []
     raw = ""
     desc = classInfo[0]
+    # uses full so that we can just get all info
+    full = "".join(classInfo).strip()
+    # look for starting key
+    if (key in full):
+        raw = full.split(key)[1].split(creditKey)[0]
+    else: 
+        raw = full
+    if (key not in raw and coKey not in raw and preKey not in raw):
+        return [str([]), str([]), "", desc]
     #If the course does not have a description, usually this menas that classInfo[0] will be the credit value.
     if desc.strip()[0].isdigit():
         desc = ""
-    for i in range(1, len(classInfo)):
-        if key in classInfo[i].strip():
-            combo = classInfo[i].strip()
-            combo = combo[len(key):]
-            coKey = "Corequisite"
-            if coKey in combo and preKey in combo:
-                coreqs = combo[combo.find(coKey) + len(coKey):]
-                prereqs = combo[len(preKey): combo.find(coKey)]
-            elif coKey in combo:
-                coreqs = combo[combo.find(coKey) + len(coKey):]
-            elif preKey in combo:
-                prereqs = combo[len(preKey):]
-            else:
-                #Default case where someone forgets the words we're looking for
-                #Note that there are still more edge cases(looking at you csci 6560 and 2110 in spring 2024)
-                prereqs = combo
-            prereqs = prereqs[prereqs.find(' '):255].strip()
-            coreqs = coreqs[coreqs.find(' '):255].strip()
-        if classInfo[i].strip() == (preKey + "s:"):
-            raw = classInfo[i+1].strip()
-    retList = [prereqs, coreqs, raw, desc]
+    #removes Prereq/Coreq starting keyphrase so we can focus on just coreqs, just prereqs, or both if it isn't distinguished
+    raw = raw.replace(key, "")
+    raw_prereqs = ""
+    raw_coreqs = ""
+    # checks if courses are prereqs, coreqs or both
+    if (preKey in raw and coKey in raw):
+        if (raw.find(coKey) < raw.find(preKey)):
+            raw_coreqs = raw.split(coKey)[1].split(preKey)[0]
+            raw_prereqs = raw.split(preKey)[1]
+        else:
+            raw_prereqs = raw.split(preKey)[1].split(coKey)[0]
+            raw_coreqs = raw.split(coKey)[1]
+    elif (preKey in raw):
+        raw_prereqs = raw
+    elif (coKey in raw):
+        raw_coreqs = raw
+    else:
+        raw_prereqs = raw
+        raw_coreqs = raw
+    #checks for co-listed courses to not include
+    if (extraKey in raw_prereqs):
+        raw_prereqs = raw_prereqs.split(extraKey)[0]
+    
+    if (extraKey in raw_coreqs):
+        raw_prereqs = raw_coreqs.split(extraKey)[0]
+    # look for course codes
+    prereqs = findCourseCodes(raw_prereqs, subject_codes)
+    coreqs = findCourseCodes(raw_coreqs, subject_codes)
+    # take out repeats
+    prereqs = list(set(prereqs))
+    coreqs = list(set(coreqs))
+    # makes raw both prereqs and coreqs if they are different
+    if (raw_prereqs != raw_coreqs):
+        raw = raw_prereqs + " " + raw_coreqs
+    else:
+        if (extraKey in raw):    
+            raw = raw.split(extraKey)
+    retList = [str(prereqs), str(coreqs), raw, desc]
     return retList
 #Add the prereqs for a course to that course
-def getReqForClass(course: Course) -> None:
+def getReqForClass(course: Course, course_codes: list) -> None:
     semester = getSemester(course)
     url = "https://sis.rpi.edu/rss/bwckctlg.p_disp_course_detail?cat_term_in={}&subj_code_in={}&crse_numb_in={}".format(semester, course.major, course.code)
     session = requests.session()
     webres = session.get(url)
-    course.addReqsFromList(getReqFromLink(webres, course.code, course.major))
+    course.addReqsFromList(getReqFromLink(webres, course_codes))
 #Given a course, return the basevalue of that course, eg 2024-01 is returned as 202401
 def getSemester(course: Course) -> int:
     dates = course.sdate.split("-")
@@ -369,20 +412,28 @@ def writeCSV(info:list, filename: str):
 
 # This main function is helpful for running the full parser standalone, without needing environmental variables.
 
-def main():
+if __name__ == "__main__":
     options = Options()
-    #options.add_argument("--no-sandbox")
-    #options.add_argument("--disable-dev-shm-usage")
-    #options.add_argument("--headless")
-    #options.add_argument("--remote-debugging-port=9222")
-    driver = webdriver.Firefox()
-    driver.implicitly_wait(2)
-    login.login(driver)
-    start = time.time()
-    final = sisCourseSearch(driver, "spring2024")
-    end = time.time()
-    writeCSV(final, "test.csv")
-    print("Total Elapsed: " + str(end - start))
+    fp = webdriver.FirefoxProfile()
+    # fp.set_preference("network.cookie.cookieBehavior", 2)
+    fp.set_preference(
+        "general.useragent.override",
+        "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0",
+    )
+    options.profile = fp
+    driver = webdriver.Firefox(options)
+    driver.delete_all_cookies()
+    try:
+        driver.implicitly_wait(2)
+        course_codes_dict = findAllSubjectCodes(driver)
+        login.login(driver)
+        start = time.time()
+        final = sisCourseSearch(driver, "spring2024", course_codes_dict)
+        end = time.time()
+        writeCSV(final, "test.csv")
+        print("Total Elapsed: " + str(end - start))
+        driver.quit()
+    except:
+        driver.quit()
 
-#main()
 

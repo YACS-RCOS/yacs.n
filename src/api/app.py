@@ -27,11 +27,9 @@ import json
 import os
 from constants import Constants
 
-"""
-NOTE: on caching
-on add of semester of change of data from GET
-do a cache.clear() to ensure data integrity
-"""
+# NOTE: on caching
+# on add of semester of change of data from GET
+# do a cache.clear() to ensure data integrity
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware,
@@ -47,7 +45,7 @@ finals = Finals.Finals(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
-semester_info = SemesterInfo.semester_info(db_conn)
+semester_info = SemesterInfo.semester_info(db_conn, FastAPICache)
 professor_info = All_professors.Professor(db_conn, FastAPICache)
 users = UserModel.User()
 
@@ -144,9 +142,8 @@ def set_defaultSemester(semester_set: DefaultSemesterSetPydantic):
     success, error = admin_info.set_semester_default(semester_set.default)
     if success:
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print(error)
+    return Response(error.__str__(), status_code=500)
 
 #Parses the data from the .csv data files
 @app.post('/api/bulkCourseUpload')
@@ -177,9 +174,8 @@ async def uploadHandler(
     isSuccess, error = courses.populate_from_csv(csv_file)
     if (isSuccess):
         return Response(status_code=200)
-    else:
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print(error)
+    return Response(error.__str__(), status_code=500)
 
 @app.post('/api/bulkProfessorUpload')
 async def uploadJSON(
@@ -208,10 +204,15 @@ async def uploadJSON(
     if isSuccess:
         print("SUCCESS")
         return Response(status_code=200)
-    else:
-        print("NOT WORKING")
-        print(error)
-        return Response(error.__str__(), status_code=500)
+    print("NOT WORKING")
+    print(error)
+    return Response(error.__str__(), status_code=500)
+
+@app.delete('/api/semester/{semester_id}')
+async def remove_semester(semester_id: str):
+    print(semester_id)
+    semester, error = semester_info.delete_semester(semester=semester_id)
+    return Response(status_code=200) if not error else Response(str(error), status_code=500)
 
 @app.post('/api/final')
 async def uploadHandler(
@@ -246,7 +247,6 @@ async def deleteHandler(semester: str):
     _, error = finals.delete_by_semester(semester)
     return Response(error.__str__(), status_code=500) if error else Response("Delete Successful", status_code=200)
 
-
 @app.post('/api/mapDateRangeToSemesterPart')
 async def map_date_range_to_semester_part_handler(request: Request):
      # This depends on date_start, date_end, and semester_part_name being
@@ -267,8 +267,7 @@ async def map_date_range_to_semester_part_handler(request: Request):
              semester_info.upsert(semester_title, is_publicly_visible)
              if (not error):
                  return Response(status_code=200)
-             else:
-                 return Response(error, status_code=500)
+             return Response(error, status_code=500)
      return Response("Did not receive proper form data", status_code=500)
 
 @app.get('/api/user/course')
