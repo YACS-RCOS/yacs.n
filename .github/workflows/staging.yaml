@@ -23,16 +23,16 @@ jobs:
 
       - name: Build images
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml build yacs_api yacs_web
+          docker compose -f docker-compose.yml -f docker-compose.production.yml build yacs_api yacs_web
 
       - name: Update yacs_api
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_api &&
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_api &&
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api
+          docker compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_api &&
+          docker compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_api &&
+          docker compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_api
 
       - name: Update yacs_web
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_web &&
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_web &&
-          docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_web
+          docker compose -f docker-compose.yml -f docker-compose.production.yml stop yacs_web &&
+          docker compose -f docker-compose.yml -f docker-compose.production.yml rm -f yacs_web &&
+          docker compose -f docker-compose.yml -f docker-compose.production.yml up -d yacs_web
