@@ -43,7 +43,7 @@ FastAPICache.init(InMemoryBackend(), prefix="fastapi-cache")
 db_conn = connection.db
 class_info = ClassInfo.ClassInfo(db_conn)
 courses = Courses.Courses(db_conn, FastAPICache)
-finals = Finals.Finals(db_conn)
+finals = Finals.Finals(db_conn, FastAPICache)
 date_range_map = DateMapping.semester_date_mapping(db_conn)
 admin_info = AdminInfo.Admin(db_conn)
 course_select = CourseSelect.student_course_selection(db_conn)
@@ -228,6 +228,15 @@ async def uploadHandler(
     # Populate DB from CSV
     error = finals.populate_from_csv(csv_file)
     return Response(error.__str__(), status_code=500) if error else Response("Upload Successful", status_code=200) 
+
+@app.get('/api/final/{semester}')
+@cache(expire=Constants.DAY_IN_SECONDS, coder=PickleCoder, namespace="API_CACHE")
+async def getHandler(semester: str):
+    if not semester:
+        return Response("No semester received", 400)
+    print(semester)
+    final, error = finals.get_by_semester(semester)
+    return final if not error else Response(error, status_code=500)
 
 @app.delete('/api/final/{semester}')
 async def deleteHandler(semester: str):

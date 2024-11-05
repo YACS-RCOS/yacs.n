@@ -12,8 +12,9 @@ else:
 
 
 class Finals:
-    def __init__(self, db_wrapper):
+    def __init__(self, db_wrapper, cache):
         self.db = db_wrapper
+        self.cache = cache
 
     def populate_from_csv(self, csv_text):
         conn = self.db.get_connection()
@@ -28,7 +29,7 @@ class Finals:
                             INSERT INTO
                                 final(
                                     semester,
-                                    course,
+                                    course, 
                                     section,
                                     "start",
                                     "end",
@@ -58,9 +59,20 @@ class Finals:
                     conn.rollback()
                     return e
         conn.commit()
+        self.clear_cache()
         return None
 
+    def get_by_semester(self, semester):
+        return self.db.execute("""
+            SELECT * FROM final
+            WHERE semester=%(Semester)s
+            ORDER BY start ASC;
+        """, {
+            "Semester": semester
+        }, isSELECT=True)
+
     def delete_by_semester(self, semester):
+        self.clear_cache()
         return self.db.execute("""
             BEGIN TRANSACTION;
                 DELETE FROM final
@@ -76,7 +88,19 @@ class Finals:
             if error:
                 print(error)
                 return error
+        self.clear_cache()
         return None
+
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
 
 if __name__ == "__main__":
     # os.chdir(os.path.abspath("../rpi_data"))
