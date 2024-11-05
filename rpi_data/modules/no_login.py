@@ -335,6 +335,7 @@ def no_login_scrape(term: str, num_browsers: int):
     parent = os.path.abspath(os.path.join(dir_path, os.pardir))
     path = os.path.join(parent, number_to_term(term).lower().replace(" ", "-") + ".csv")
     old.writeCSV(courses, path)
+    os.system(f'send_courses_to_api.py {path}')
 
 '''
 Scrapes the prerequisites for multiple courses at once.
