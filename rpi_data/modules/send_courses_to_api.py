@@ -10,3 +10,6 @@ content = open(csv_loc, 'r').read()
 
 response = requests.post(url,data=content)
 print(response.text)
+
+f = open("response.txt", "x")
+f.write(response.text)
