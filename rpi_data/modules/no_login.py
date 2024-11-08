@@ -369,7 +369,7 @@ def add_goldy_info(course: Course, goldy_info: dict):
         course.raw = "Prerequisites: " + goldy_info[checking]
         
 if __name__ == "__main__":
-    no_login_scrape("202409", 15)
+    no_login_scrape("202501", 15)
     #driver = webdriver.Firefox()
     #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
     #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))

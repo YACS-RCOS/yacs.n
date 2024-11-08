@@ -1,0 +1,1 @@
+{"detail":[{"loc":["body","file"],"msg":"Expected UploadFile, received: <class 'str'>","type":"value_error"}]}
