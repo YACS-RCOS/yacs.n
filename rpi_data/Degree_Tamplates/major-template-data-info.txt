@@ -1,0 +1,31 @@
+Things to put at the top of the page: 
+- If you plan to skip classes via transfer credits, make sure you confirm with an advisor, as there are many classes that you are not able to transfer in.
+
+Unless specified, every student must take an INQR course freshman year. This counts towards their HASS core requirement.
+
+If "school": "Engineering" or "Architecture" then the Engineering HASS core is applied:
+5 (or 20 credits) total HASS classes, including a completed pathway and one communication intensive class.
+
+If "school": "Science" or "HASS" or "Management" then the School of Science HASS core is applied:
+6 (or 24 credits) total HASS classes, including 12 credits above the 1000 level, one completed pathway, at least one 4000-level course
+
+"year" is both the year the student enters RPI and the year in the RPI catalog the major template can be found.
+
+*FACT CHECK THIS* An RPI degree requires a minimum of 124 credits, while most majors require more. 64 credits must be at RPI if you are a transfer student and 92 if you are not (because incoming freshmen can transfer in a max of 32 credits).
+
+When a class is just listed as the subject code and then a single digit, that represents the need to take any class within that subject code at that thousand-level or higher. i.e. : "MANE-4" would signify that the student must take a MANE class at the 4000 level or higher. There may be more information about the specifics of this elective, so students are encouraged to check with their advisor or the catalog.
+
+Currently, Architecture is not included because it takes five years and is such a hassle.
+
+So far, we have pick-one, pick-two, pick-four, and pick-six.
+
+Majors that need the most personalization (usually they have some kind of specialization or focus track that needs to be planned with and approved by an advisor): Applied Physics, Building Sciences
+
+****** Building sciences is unfinished because it looks like it is getting discontiued?******
+
+******* Find the science core requirements for Lally *****
+
+Science core for HASS majors: 
+- 8 credits of Math, 16 credits of Math or Science. Some named courses may be included in the required courses for each major.
+
+
