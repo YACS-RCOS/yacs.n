@@ -367,9 +367,38 @@ def add_goldy_info(course: Course, goldy_info: dict):
         course.raw = goldy_info[checking]
     else:
         course.raw = "Prerequisites: " + goldy_info[checking]
-        
+
+def get_input():
+    valid_input = False
+    while not valid_input:
+        valid_input = True
+        year = input("Enter the year (ex: 2024): ")
+        if not year.isdigit():
+            valid_input = False
+        elif int(year) < 1824 or int(year) > 2100:
+            valid_input = False
+        semester = input("Enter the semester (SPRING/FALL/SUMMER/WINTER/HARTFORD): ")
+        compound = year
+        if semester == 'SPRING':
+            compound += '01'
+        elif semester == 'FALL':
+            compound += '09'
+        elif semester == 'SUMMER':
+            compound += '05'
+        elif semester == 'WINTER':
+            compound += '12'
+        elif semester == 'HARTFORD':
+            compound += '10'
+        else:
+            valid_input = False
+        if not valid_input:
+            print("Invalid Input: Try Again!")
+    return compound
+
 if __name__ == "__main__":
-    no_login_scrape("202501", 15)
+    compound = get_input()
+    print(compound)
+    no_login_scrape(compound, 15)
     #driver = webdriver.Firefox()
     #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
     #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))
