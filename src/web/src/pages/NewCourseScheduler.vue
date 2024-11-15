@@ -21,77 +21,6 @@
             </button>
           </slot>
         </div>
-        <div class="sidebar">
-          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
-          <transition name="slide">
-            <div v-if="isNavOpen" class="sidebar-panel">
-              <div class="sidebar-panal-nav" style="height: 100%;">
-                <b-col
-                  class="d-flex flex-column"
-                  ref="sidebar"
-                  style="height: 100%; padding: 1px;"
-                >
-                  <b-card no-body class="h-100">
-                    <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
-                      <b-tab
-                        title="Course Search"
-                        active
-                        class="flex-grow-1 w-100"
-                        data-cy="course-search-tab"
-                      >
-                        <b-card-text class="d-flex flex-grow-1 w-100">
-                          <CenterSpinner
-                            v-if="loading"
-                            class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
-                            :height="60"
-                            :fontSize="1"
-                            loadingMessage="Courses"
-                            :topSpacing="0"
-                          />
-
-                          <CourseList
-                            v-if="!loading"
-                            @addCourse="addCourse"
-                            @removeCourse="removeCourse"
-                            @showCourseInfo="showCourseInfo"
-                            class="w-100"
-                          />
-                        </b-card-text>
-                      </b-tab>
-                      <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
-                        <template v-slot:title>
-                          <div
-                            class="text-center"
-                            data-cy="selected-courses-tab-header"
-                          >
-                            Selected Courses
-                            <b-badge
-                              variant="light"
-                              data-cy="num-selected-courses"
-                            >
-                              {{ numSelectedCourses }}
-                            </b-badge>
-                          </div>
-                        </template>
-                        <b-card-text
-                          class="w-100 d-flex flex-grow-1 flex-column"
-                        >
-                          <SelectedCourses
-                            :courses="selectedCourses"
-                            @removeCourse="removeCourse"
-                            @removeCourseSection="removeCourseSection"
-                            @addCourseSection="addCourseSection"
-                          />
-                        </b-card-text>
-                      </b-tab>
-                    </b-tabs>
-                  </b-card>
-                </b-col>
-              </div>
-              <slot></slot>
-            </div>
-          </transition>
-        </div>
         <b-form-select
           v-if="
             !loading &&
@@ -177,6 +106,77 @@
               </b-col>
             </b-row>
           </div>
+        </div>
+        <div class="sidebar">
+          <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
+          <transition name="slide">
+            <div v-if="isNavOpen" class="sidebar-panel">
+              <div class="sidebar-panal-nav" style="height: 100%;">
+                <b-col
+                  class="d-flex flex-column"
+                  ref="sidebar"
+                  style="height: 100%; padding: 1px;"
+                >
+                  <b-card no-body class="h-100">
+                    <b-tabs card class="h-100 d-flex flex-column flex-grow-1">
+                      <b-tab
+                        title="Course Search"
+                        active
+                        class="flex-grow-1 w-100"
+                        data-cy="course-search-tab"
+                      >
+                        <b-card-text class="d-flex flex-grow-1 w-100">
+                          <CenterSpinner
+                            v-if="loading"
+                            class="d-flex flex-grow-1 flex-column w-100 justify-content-center align-items-center"
+                            :height="60"
+                            :fontSize="1"
+                            loadingMessage="Courses"
+                            :topSpacing="0"
+                          />
+
+                          <CourseList
+                            v-if="!loading"
+                            @addCourse="addCourse"
+                            @removeCourse="removeCourse"
+                            @showCourseInfo="showCourseInfo"
+                            class="w-100"
+                          />
+                        </b-card-text>
+                      </b-tab>
+                      <b-tab class="flex-grow-1" data-cy="selected-courses-tab">
+                        <template v-slot:title>
+                          <div
+                            class="text-center"
+                            data-cy="selected-courses-tab-header"
+                          >
+                            Selected Courses
+                            <b-badge
+                              variant="light"
+                              data-cy="num-selected-courses"
+                            >
+                              {{ numSelectedCourses }}
+                            </b-badge>
+                          </div>
+                        </template>
+                        <b-card-text
+                          class="w-100 d-flex flex-grow-1 flex-column"
+                        >
+                          <SelectedCourses
+                            :courses="selectedCourses"
+                            @removeCourse="removeCourse"
+                            @removeCourseSection="removeCourseSection"
+                            @addCourseSection="addCourseSection"
+                          />
+                        </b-card-text>
+                      </b-tab>
+                    </b-tabs>
+                  </b-card>
+                </b-col>
+              </div>
+              <slot></slot>
+            </div>
+          </transition>
         </div>
       </div>
     </b-row>
