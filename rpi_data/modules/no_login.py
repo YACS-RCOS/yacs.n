@@ -12,6 +12,7 @@ import ci_scraper as cis
 import goldy_parse as gold
 import regex as re
 import os
+import sys
 
 '''
 Finds all of the course codes for a given term and subject.
@@ -369,30 +370,27 @@ def add_goldy_info(course: Course, goldy_info: dict):
         course.raw = "Prerequisites: " + goldy_info[checking]
 
 def get_input():
-    valid_input = False
-    while not valid_input:
-        valid_input = True
-        year = input("Enter the year (ex: 2024): ")
-        if not year.isdigit():
-            valid_input = False
-        elif int(year) < 1824 or int(year) > 2100:
-            valid_input = False
-        semester = input("Enter the semester (SPRING/FALL/SUMMER/WINTER/HARTFORD): ")
-        compound = year
-        if semester == 'SPRING':
-            compound += '01'
-        elif semester == 'FALL':
-            compound += '09'
-        elif semester == 'SUMMER':
-            compound += '05'
-        elif semester == 'WINTER':
-            compound += '12'
-        elif semester == 'HARTFORD':
-            compound += '10'
-        else:
-            valid_input = False
-        if not valid_input:
-            print("Invalid Input: Try Again!")
+    if len(sys.argv) != 3:
+        sys.exit("Not enough or too many arguments (2 expected)")
+    year = sys.argv[2]
+    if not year.isdigit():
+        sys.exit(f"Invalid year: {year}")
+    elif int(year) < 1824 or int(year) > 2100:
+        sys.exit(f"Year is too big or too small: {year}")
+    semester = sys.argv[1]
+    compound = year
+    if semester == 'SPRING':
+        compound += '01'
+    elif semester == 'FALL':
+        compound += '09'
+    elif semester == 'SUMMER':
+        compound += '05'
+    elif semester == 'WINTER':
+        compound += '12'
+    elif semester == 'HARTFORD':
+        compound += '10'
+    else:
+        sys.exit(f"Invalid Semester: {semester}. Valid options are SPRING/FALL/SUMMER/WINTER/HARTFORD")
     return compound
 
 if __name__ == "__main__":
