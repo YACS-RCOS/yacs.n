@@ -72,37 +72,34 @@
             </b-row>
             <Schedule v-if="loading" />
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
-
-            <b-row>
+            <b-row class="align-items-center">
+              <!-- CRNs and Credits -->
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
                 <h5>Credits: {{ totalCredits }}</h5>
               </b-col>
-
-              <b-col md="3" justify="end">
-                <b-row>
-                  <b-form-checkbox
-                    class="mt-2"
-                    size="sm"
-                    :checked="$store.state.colorBlindAssist"
-                    @change="toggleColors()"
-                    switch
-                  >
-                    Color Blind Assistance
-                  </b-form-checkbox>
-                </b-row>
-                <b-row>
-                  <b-dropdown text="Export Data" class="mt-2">
-                    <b-dropdown-item @click="exportScheduleToIcs">
-                      <font-awesome-icon :icon="exportIcon" />
-                      Export To ICS
-                    </b-dropdown-item>
-                    <b-dropdown-item @click="exportScheduleToImage">
-                      <font-awesome-icon :icon="exportIcon" />
-                      Export To Image
-                    </b-dropdown-item>
-                  </b-dropdown>
-                </b-row>
+              <!-- Color Blind Assistance -->
+              <b-col class="m-2 d-flex flex-column align-items-end">
+                <b-form-checkbox
+                  class="mt-2"
+                  size="sm"
+                  :checked="$store.state.colorBlindAssist"
+                  @change="toggleColors()"
+                  switch
+                >
+                  Color Blind Assistance
+                </b-form-checkbox>
+                <!-- Export Data with dropdown aligned to the right -->
+                <b-dropdown text="Export Data" class="mt-2" right>
+                  <b-dropdown-item @click="exportScheduleToIcs">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To ICS
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="exportScheduleToImage">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To Image
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-col>
             </b-row>
           </div>
@@ -773,6 +770,11 @@ sidebar-panel-nav {
   background: #3d4959 !important;
 }
 
+.b-dropdown .dropdown-menu {
+  // shifts export data menu left
+  transform: translateX(-10px);
+}
+
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 0.2s ease;
@@ -809,21 +811,21 @@ sidebar-panel-nav {
 }
 
 @media (max-width: 768px) {
+  // basically mobile view showing sidebar at bottom instead
+  .main-body {
+    display: flex;
+    flex-direction: column;
+  }
+
   .sidebar-panel {
     position: static;
     width: 100%;
     height: auto;
     margin: 0;
-    z-index: 1;
   }
 
   .sidebar {
     padding: 0;
-  }
-
-  .main-body {
-    display: flex;
-    flex-direction: column;
   }
 }
 
