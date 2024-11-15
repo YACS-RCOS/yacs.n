@@ -808,6 +808,25 @@ sidebar-panel-nav {
   width: 25%;
 }
 
+@media (max-width: 768px) {
+  .sidebar-panel {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    z-index: 1;
+  }
+
+  .sidebar {
+    padding: 0;
+  }
+
+  .main-body {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .hidden {
   visibility: hidden;
 }
