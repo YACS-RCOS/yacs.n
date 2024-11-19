@@ -1,0 +1,9 @@
+Use:
+
+python no_login.py semester year
+
+Year should be formatted as YYYY (ex: 2024)
+
+Semester is SPRING/FALL/SUMMER/WINTER/HARTFORD. Must be capitalized.
+
+I know nothing about the rest of no_login.py, I didn't write it.

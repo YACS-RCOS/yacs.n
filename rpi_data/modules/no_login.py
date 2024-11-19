@@ -12,6 +12,7 @@ import ci_scraper as cis
 import goldy_parse as gold
 import regex as re
 import os
+import sys
 
 '''
 Finds all of the course codes for a given term and subject.
@@ -335,6 +336,7 @@ def no_login_scrape(term: str, num_browsers: int):
     parent = os.path.abspath(os.path.join(dir_path, os.pardir))
     path = os.path.join(parent, number_to_term(term).lower().replace(" ", "-") + ".csv")
     old.writeCSV(courses, path)
+    os.system(f'send_courses_to_api.py {path}')
 
 '''
 Scrapes the prerequisites for multiple courses at once.
@@ -366,9 +368,35 @@ def add_goldy_info(course: Course, goldy_info: dict):
         course.raw = goldy_info[checking]
     else:
         course.raw = "Prerequisites: " + goldy_info[checking]
-        
+
+def get_input():
+    if len(sys.argv) != 3:
+        sys.exit("Not enough or too many arguments (2 expected)")
+    year = sys.argv[2]
+    if not year.isdigit():
+        sys.exit(f"Invalid year: {year}")
+    elif int(year) < 1824 or int(year) > 2100:
+        sys.exit(f"Year is too big or too small: {year}")
+    semester = sys.argv[1]
+    compound = year
+    if semester == 'SPRING':
+        compound += '01'
+    elif semester == 'FALL':
+        compound += '09'
+    elif semester == 'SUMMER':
+        compound += '05'
+    elif semester == 'WINTER':
+        compound += '12'
+    elif semester == 'HARTFORD':
+        compound += '10'
+    else:
+        sys.exit(f"Invalid Semester: {semester}. Valid options are SPRING/FALL/SUMMER/WINTER/HARTFORD")
+    return compound
+
 if __name__ == "__main__":
-    no_login_scrape("202409", 15)
+    compound = get_input()
+    print(compound)
+    no_login_scrape(compound, 15)
     #driver = webdriver.Firefox()
     #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
     #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))
