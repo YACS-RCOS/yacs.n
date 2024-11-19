@@ -1,46 +1,40 @@
 <template>
   <b-container fluid>
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
+    <div style="float: left;" class="w-10">
+      <b-button @click="toggleCollapse" variant="primary" class="open-close-button">
+        {{ collapseAll ? 'Close All' : 'Open All' }}
+      </b-button>
+    </div>
     <div v-if="!isLoadingCourses && courses.length > 0" class="mx-auto w-75">
       <b-row>
-        <!-- 2 arrays in schoolDepartmentObjects, so 2 columns -->
-        <b-col
-          v-for="(deptCol, index) in schoolDepartmentObjects"
-          :key="`deptCol-${index}`"
-          md="6"
-        >
-          <b-row
-            v-for="deptObj in deptCol"
-            :key="deptObj.school"
-            class="departmentBox border m-2 mb-4"
-          >
-            <b-col>
-              <!-- Department Title  -->
-              <b-row class="school-name">
-                <h3 class="m-1 ml-2">
+        <b-col v-for="(deptCol, index) in schoolDepartmentObjects" :key="`deptCol-${index}`" cols="12" class="col-md-6">
+          <b-row v-for="deptObj in deptCol" :key="deptObj.school" class="departmentBox m-2 mb-4">
+            <b-col cols="12">
+              <!-- Department Title as a ~button that controls the collapse -->
+              <b-button v-b-toggle="'collapse-' + cleanId(deptObj.school)" class="button" variant="outline-secondary">
+                <h4>
                   {{ deptObj.school }}
-                </h3>
-              </b-row>
-              <!-- Subject Title  -->
-              <b-row>
-                <DepartmentList
-                  :majors="deptObj.departments"
-                  :deptClassDict="deptClassDict"
-                  v-on:showCourseInfo="showCourseInfo($event)"
-                ></DepartmentList>
-              </b-row>
+                  <span class="chevron"></span>
+                </h4>
+              </b-button>
+              <hr />
+              <!-- Subject Title inside a b-collapse -->
+              <b-collapse :visible="departmentCollapseStates['collapse-' + cleanId(deptObj.school)]" :id="'collapse-' + cleanId(deptObj.school)">
+                <b-row>
+                  <DepartmentList
+                    :majors="deptObj.departments"
+                    :deptClassDict="deptClassDict"
+                    v-on:showCourseInfo="showCourseInfo($event)"
+                  ></DepartmentList>
+                </b-row>
+              </b-collapse>
             </b-col>
           </b-row>
         </b-col>
       </b-row>
     </div>
-    <CenterSpinner
-      v-else
-      :height="80"
-      :fontSize="1.3"
-      loadingMessage="Departments"
-      :topSpacing="30"
-    />
+    <CenterSpinner v-else :height="80" :fontSize="1.3" loadingMessage="Departments" :topSpacing="30" />
   </b-container>
 </template>
 
@@ -59,6 +53,7 @@ export default {
   },
   data() {
     return {
+      collapseAll: false,
       breadcrumbNav: [
         {
           text: "YACS",
@@ -72,6 +67,12 @@ export default {
   },
   methods: {
     generateRequirementsText,
+    cleanId(str) {
+      return str.replace(/\s+/g, '-'); 
+    },
+    toggleCollapse() {
+      this.collapseAll = !this.collapseAll;
+    },
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
@@ -115,6 +116,16 @@ export default {
       }
       return deptClassDict;
     },
+    departmentCollapseStates() {
+      const collapseStates = {};
+      this.schoolDepartmentObjects.forEach((deptCol) => {
+        deptCol.forEach((deptObj) => {
+          const collapseId = 'collapse-' + this.cleanId(deptObj.school);
+          collapseStates[collapseId] = this.collapseAll;
+        });
+      });
+      return collapseStates;
+    },
   },
   metaInfo() {
     return {
@@ -157,4 +168,61 @@ export default {
   background: rgba(108, 90, 90, 0.15);
   border-bottom: rgba(108, 90, 90, 0.1), solid, 1px;
 }
+
+.button {
+  width: 100%;
+  text-align: left;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #3395ff !important;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: rgba(108, 90, 90, 0.15);
+}
+
+.button:focus {
+  background-color: transparent;
+  box-shadow: none !important;
+  outline: none !important;
+
+}
+
+.button:active {
+  background-color: transparent !important;
+  color: #3395ff;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.chevron {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-style: solid;
+  border-width: 0 5px 10px;
+  border-color: transparent transparent #3395ff;
+  transition: transform 0.3s;
+}
+
+/* Rotate the chevron when the button is active */
+.button[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+  margin-left: auto;
+}
+
+.open-close-button {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
 </style>
