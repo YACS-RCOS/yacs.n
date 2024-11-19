@@ -35,7 +35,7 @@
         <div id="allScheduleData" class="justify-content-right">
           <div>
             <b-row class="justify-content-between align-items-center">
-              <b-col cols="auto" class="m-2">
+              <b-col cols="auto" class="schedule-navigation">
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -58,7 +58,7 @@
                   {{ this.possibilities.length }}
                 </span>
               </b-col>
-              <b-col cols="auto" class="m-2">
+              <b-col cols="auto" class="schedule-navigation">
                 <b-button
                   @click="
                     changeSchedule(1);
@@ -741,6 +741,11 @@ export default {
   display: flex;
 }
 
+// This is for the button for navigating each schedule option
+.schedule-navigation {
+  margin: 8px;
+}
+
 .card {
   border: none !important;
   font-size: 17px;
@@ -825,6 +830,10 @@ sidebar-panel-nav {
   }
 
   .sidebar {
+    padding: 0;
+  }
+
+  .schedule-navigation {
     padding: 0;
   }
 }
