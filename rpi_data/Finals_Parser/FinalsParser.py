@@ -28,6 +28,7 @@ from datetime import datetime
 import pandas as pd
 import re
 import calendar
+import sys
 debug_mode = False
 
 
@@ -57,9 +58,9 @@ def handle_times(start_text, end_text, day, month, year):
     # Construct and return the datetime object
     start_text = year + str(month_num) + day + str(start_nums[0]) + ":" + str(start_nums[1])
     end_text = year + str(month_num) + day + str(end_nums[0]) + ":" + str(end_nums[1])
-    text_fmt = '%Y%m%d%H:%M'
-    start_time = datetime.strptime(start_text, text_fmt)
-    end_time = datetime.strptime(end_text, text_fmt)
+    format = '%Y%m%d%H:%M'
+    start_time = datetime.strptime(start_text, format)
+    end_time = datetime.strptime(end_text, format)
     return start_time, end_time
 
 
@@ -67,9 +68,9 @@ def handle_times(start_text, end_text, day, month, year):
 
 
 def parser():
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    
-    reader = PdfReader("finals_schedule.pdf")
+    if len(sys.argv) != 2:
+        raise Exception("Include file path to finals pdf as argument")
+    reader = PdfReader(sys.argv[1])
     number_of_pages = len(reader.pages)
     
     db_lines = []
@@ -242,4 +243,10 @@ def display_and_write_csv(db_lines):
 
 db_lines = parser()
 display_and_write_csv(db_lines)
+
+
+# In[ ]:
+
+
+os.system(f'send_finals_to_api.py out.csv')
 
