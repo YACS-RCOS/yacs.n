@@ -34,8 +34,8 @@
         ></b-form-select>
         <div id="allScheduleData" class="justify-content-right">
           <div>
-            <b-row>
-              <b-col class="m-2">
+            <b-row class="justify-content-between align-items-center">
+              <b-col cols="auto" class="m-2">
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -46,7 +46,7 @@
                   Prev
                 </b-button>
               </b-col>
-              <b-col cols="8" class="m-2 text-center">
+              <b-col cols="auto">
                 <span v-if="scheduleDisplayMessage === 2">
                   Add some sections to generate schedules!
                 </span>
@@ -58,7 +58,7 @@
                   {{ this.possibilities.length }}
                 </span>
               </b-col>
-              <b-col class="m-2 text-right">
+              <b-col cols="auto" class="m-2">
                 <b-button
                   @click="
                     changeSchedule(1);
