@@ -1,6 +1,0 @@
-pandas
-bs4
-requests
-lxml
-regex
-pyyaml
