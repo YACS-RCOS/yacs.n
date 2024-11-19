@@ -1,4 +1,5 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import TEXT, INTEGER, VARCHAR, DATE, TSVECTOR
 
 from .database import Base
@@ -8,7 +9,12 @@ class Course(Base):
 
     crn = Column(VARCHAR(length=255), primary_key=True)
     section = Column(VARCHAR(length=255))
-    semester = Column(VARCHAR(length=255))
+    
+    semester = Column(VARCHAR(length=255), ForeignKey("semester_info.semester", ondelete="CASCADE"))
+    semester_r = relationship("SemesterInfo", back_populates="courses")
+
+    professor = Column(VARCHAR(length=255))    
+
     min_credits = Column(INTEGER)
     max_credits = Column(INTEGER)
     date_start = Column(DATE)
