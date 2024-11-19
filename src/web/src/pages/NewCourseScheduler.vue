@@ -148,6 +148,9 @@
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
                 <h5>Credits: {{ totalCredits }}</h5>
+                <h5 v-if="needsApproval" style="color: red;">Student needs a credit approval form</h5>
+                <h5 v-else-if="requiresPayment" style="color: red;">Students with 24+ credits are required to pay $2000 per credit hour over 21</h5>
+                <h5 v-else-if="moreCreditsNeeded" style="color: red;">Need 12+ credits to be considered a full-time student</h5>
               </b-col>
 
               <b-col md="3" justify="end">
@@ -669,6 +672,18 @@ export default {
         return a + b;
       }, 0);
       return sum;
+    },
+    moreCreditsNeeded() {
+      var sum = this.totalCredits
+      return sum < 12
+    },
+    requiresPayment() {
+      var sum = this.totalCredits
+      return sum >=24;
+    },
+    needsApproval() {
+      var sum = this.totalCredits
+      return sum >= 22 && sum <= 23;
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
