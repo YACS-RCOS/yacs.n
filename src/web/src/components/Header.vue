@@ -58,6 +58,10 @@
           <font-awesome-icon icon="file-alt" />
           Finals
         </b-nav-item>
+        <b-nav-item :to="{ name: 'ClassGradeCalculator' }">
+          <font-awesome-icon icon="file-alt" />
+          Class Grade Calculator
+        </b-nav-item>
       </b-navbar-nav>
       <!-- If user has logged in -->
       <b-navbar-nav class="ml-auto">

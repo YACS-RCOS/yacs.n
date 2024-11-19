@@ -13,6 +13,7 @@ const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
 const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
+const ClassGradeCalculatorPage = () => import("./pages/ClassGradeCalculator");
 
 var router = new VueRouter({
   routes: [
@@ -47,6 +48,11 @@ var router = new VueRouter({
           path: "/FinalExamScheduler",
           component: FinalExamScheduler,
           name: "Finals",
+        },
+        {
+          path: "/ClassGradeCalculator",
+          component: ClassGradeCalculatorPage,
+          name: "ClassGradeCalculator",
         },
         {
           path: "/explore/:subject",
