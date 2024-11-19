@@ -17,7 +17,7 @@ When a class is just listed as the subject code and then a single digit, that re
 
 Currently, Architecture is not included because it takes five years and is such a hassle.
 
-So far, we have pick-one, pick-two, pick-four, and pick-six.
+For the 'pick-multiple', the "pick" refers to how many of the following "classes" are required to fulfill that listed elective.
 
 Majors that need the most personalization (usually they have some kind of specialization or focus track that needs to be planned with and approved by an advisor): Applied Physics, Building Sciences
 
@@ -27,5 +27,3 @@ Majors that need the most personalization (usually they have some kind of specia
 
 Science core for HASS majors: 
 - 8 credits of Math, 16 credits of Math or Science. Some named courses may be included in the required courses for each major.
-
-
