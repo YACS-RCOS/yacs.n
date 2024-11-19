@@ -16,6 +16,7 @@ module.exports = {
         secure: false,
       },
     },
+    public: 'localhost'
   },
   pwa: {
     name: "YACS",

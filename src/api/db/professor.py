@@ -133,7 +133,7 @@ class Professor:
                 DELETE FROM 
                     professor
                 WHERE
-                    email = '%s'
+                    email = %s
                 """
             error = self.db_conn.execute(sql, (email,), False)
         else:
@@ -167,9 +167,9 @@ class Professor:
     def get_professor_info_by_email(self, email):
         if email is not None:
             sql = """
-                    SELECT 
+                    select 
                         * 
-                    FROM 
+                    from
                         professor 
                     where 
                         email = %s
@@ -184,7 +184,7 @@ class Professor:
                 from
                     professor
                 where
-            department = %s
+                    department = %s
         """
         department, error = self.db_conn.execute(sql, (department,), True)
         return (department, None) if not error else (False, error)
