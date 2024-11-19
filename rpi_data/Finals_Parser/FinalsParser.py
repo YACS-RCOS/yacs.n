@@ -13,6 +13,7 @@
 #     - The current process assumes the finals document is named finals_by_subject.pdf and is in the same folder as this process
 #     - The output is a csv file with format: ['Season', 'Year', 'Major', 'Course', 'Section', 'Start', 'End', 'Building', 'Room_Number']
 #     - Use "jupyter nbconvert --to script FinalsParser.ipynb" to convert the .ipynb file to a .py
+#     - Run with "python FinalsParser.py pathtoschedule.pdf"
 # 
 # TODO:
 # 
