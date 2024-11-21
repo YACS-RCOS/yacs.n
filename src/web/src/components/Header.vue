@@ -222,11 +222,28 @@ export default {
     ...mapState({ sessionId: userTypes.state.SESSION_ID }),
     ...mapState(["semesters", "selectedSemester"]),
     semesterOptions() {
-      return this.semesters.map(({ semester }) => ({
-        text: semester,
-        value: semester,
-      }));
-    },
+      // First, sort the semesters based on the semester and year
+      const sortedSemesters = this.semesters.slice().sort((a, b) => {
+      const [seasonA, yearA] = a.semester.split(' ');
+      const [seasonB, yearB] = b.semester.split(' ');
+
+      // Compare years first
+      if (yearA !== yearB) {
+        return parseInt(yearB) - parseInt(yearA);
+      }
+
+      // If years are the same, compare semesters
+      const seasons = ['FALL', 'SUMMER', 'SPRING'];
+      return seasons.indexOf(seasonA) - seasons.indexOf(seasonB);
+    });
+
+    // Then, map the sorted semesters to the desired format
+    return sortedSemesters.map(({ semester }) => ({
+      text: semester,
+      value: semester,
+    }));
+  },
+
   },
 };
 </script>
