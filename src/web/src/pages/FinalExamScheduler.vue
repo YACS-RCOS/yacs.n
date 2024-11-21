@@ -51,7 +51,21 @@
         </b-card>
       </b-col>
       <b-col md="7">
-        <calendar :exam-details="examDetails"></calendar>
+        <div id="allScheduleData" class="justify-content-right">
+          <calendar :exam-details="examDetails"></calendar>
+        </div>
+        <b-row class="justify-content-end mt-2" style="margin-right: 20px;">
+          <b-dropdown right text="Export Data" class="mt-2">
+            <b-dropdown-item @click="exportFinalToIcs">
+              <font-awesome-icon :icon="exportIcon" />
+                Export To ICS
+            </b-dropdown-item>
+            <b-dropdown-item @click="exportFinalToImage">
+              <font-awesome-icon :icon="exportIcon" />
+              Export To Image
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
@@ -60,6 +74,13 @@
 <script>
 import Finals from "./Finals.json";
 import Calendar from "./Calendar.vue";
+import {
+  exportFinalToIcs,
+  exportFinalToImage,
+} from "@/utils";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import allExportVariables from "@/assets/dark.scss";
+
 
 export default {
   components: {
@@ -82,6 +103,7 @@ export default {
       courseOptions: [],
       examDetails: [],
       calendarWeeks: [],
+      exportIcon: faPaperPlane,
     };
   },
   mounted() {
@@ -193,6 +215,22 @@ export default {
 
       console.log(this.examDetails);
     },
+    
+    exportFinalToIcs() {
+      exportFinalToIcs(this.selectedCourses);
+    },
+
+    exportFinalToImage() {
+      exportFinalToImage(
+        this.selectedCourses,
+        {
+          bgcolor: this.$store.state.darkMode
+            ? allExportVariables.bColor
+            : "white",
+        }
+      );
+    },
+    
   },
 };
 </script>

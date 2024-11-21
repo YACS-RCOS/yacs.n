@@ -302,6 +302,65 @@ export const exportScheduleToIcs = (selectedSections) => {
 };
 
 /**
+ * Export all selected final exam sections to ICS
+ */
+export const exportFinalToIcs = (selectedSections) => {
+  if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
+    alert("No Final Exam Sections Found For Export to ICS.");
+    return;
+  }
+
+  let calendarFinals = window.ics();
+  let semester = "current";
+
+  selectedSections.forEach((course) => {
+    const startTime = course.Hour.split("-")[0].trim();
+    const endTime = course.Hour.split("-")[1].trim();
+
+    const examDate = new Date(course.Day);
+    const startDate = new Date(examDate);
+
+    let startHour = parseInt(startTime.split(":")[0]);
+    let startMinute = parseInt(startTime.split(":")[1].substring(0, 2));
+
+    startDate.setHours(startHour);
+    startDate.setMinutes(startMinute);
+    startDate.setFullYear(new Date().getFullYear());
+    if (startTime.split(":")[1].substring(2) === "PM") {
+      startDate.setHours(startDate.getHours() + 12);
+    }
+
+    const endDate = new Date(examDate);
+
+    let endHour = parseInt(endTime.split(":")[0]);
+    let endMinute = parseInt(endTime.split(":")[1].substring(0, 2));
+    
+    endDate.setHours(endHour);
+    endDate.setMinutes(endMinute);
+    endDate.setFullYear(new Date().getFullYear());
+    if (endTime.split(":")[1].substring(2) === "PM") {
+      endDate.setHours(endDate.getHours() + 12);
+    }
+
+    calendarFinals.addEvent(
+      `${course.Department} ${course.CourseCode}-${course.Section}`,
+      `${course.Department} Final Exam`,
+      course.Room,
+      startDate,
+      endDate,
+      {
+        freq: "DAILY",
+        interval: 1,
+        until: endDate,
+      }
+    );
+  });
+  calendarFinals.download(`${semester.replace(/\s+/g, "_")}_Final_Exams`);
+};
+
+
+
+/**
  * Takes an object with the constant types for a vuex module and
  * the associated namespace, then adds the namespace prefix
  * to all definitions while adding a `local` property with the
@@ -380,6 +439,25 @@ export const exportScheduleToImage = (
       console.log("Oh No, Something Went Wrong!", error);
     });
 };
+
+export const exportFinalToImage = (selectedSections, options) => {
+  if (!Array.isArray(selectedSections) || selectedSections[0] == null) {
+    alert("No Final Exam Sections Found For Export to Image Data.");
+    return;
+  }
+  // Obtain Schedule Element Defined In Schedule.Vue File + Run Export To PNG.
+  domtoimage
+    .toPng(document.getElementById("allScheduleData"), options)
+      .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "FinalExams-YACS-Schedule.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch(function (error) {
+        console.log("Oh No, Something Went Wrong!", error);
+      });
+}; 
 
 export const getLongName = (department) => {
   var dict = {
