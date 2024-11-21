@@ -28,8 +28,16 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
+      <b-button @click="$router.go(-1)">Back</b-button> &nbsp;&nbsp;&nbsp;
       <!--      :to="'/explore/' + courseObj.department"-->
+
+      <b-button class="openbtn"
+                :class="{active:isActive}"
+                @click="toggle()"
+                :style="{
+                  backgroundColor: isActive ? 'red' : null,
+                }"
+                >{{isActive ? 'Remove' : 'Select'}}</b-button>
     </div>
     <CenterSpinner
       v-else-if="isLoadingCourses"
@@ -60,6 +68,11 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import {
+  addStudentCourse,
+  removeStudentCourse,
+} from "@/services/YacsService";
 
 export default {
   components: {
@@ -69,6 +82,7 @@ export default {
   name: "CoursePage",
   data() {
     return {
+      isActive: false,
       courseName: this.$route.params.course,
       breadcrumbNav: [
         {
@@ -90,12 +104,106 @@ export default {
     };
   },
   methods: {
+    addCourse() {
+      const course = this.courseObj;
+      course.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: "-1",
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourse(course)
+          .save();
+      }
+      /*
+      course.sections.forEach((section) =>
+        this.addCourseSection(course, section)
+      );
+      */
+    },
+
+    addCourseSection(course, section) {
+      section.selected = true;
+      if (this.isLoggedIn) {
+        addStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: section.crn,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .addCourseSection(course, section)
+          .save();
+      }
+    },
+
+    removeCourse() {
+      const course = this.courseObj;
+      course.selected = false;
+
+      course.sections.forEach((section) => this.removeCourseSection(section));
+
+      if (this.isLoggedIn) {
+        removeStudentCourse({
+          name: course.name,
+          semester: this.courseObj.semester,
+          cid: null,
+        });
+      } else {
+        SelectedCoursesCookie.load(this.$cookies)
+          .semester(this.courseObj.semester)
+          .removeCourse(course)
+          .save();
+      }
+    },
+    removeCourseSection(section) {
+      if (section.selected) {
+        section.selected = false;
+
+        if (this.isLoggedIn) {
+          removeStudentCourse({
+            name: section.department + "-" + section.level,
+            semester: this.courseObj.semester,
+            cid: section.crn,
+          });
+        } else {
+          SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.courseObj.semester)
+            .removeCourseSection(section)
+            .save();
+        }
+      }
+    },
+
+    toggle() {
+      if (!this.isActive) {
+        this.addCourse();
+        this.isActive = true;
+      } else {
+        this.removeCourse();
+        this.isActive = false;
+      }
+    },
+
     generateRequirementsText,
   },
   computed: {
     ...mapState(["isLoadingCourses"]),
     ...mapGetters([COURSES]),
     transformed() {
+      /*
+      const selectedCoursesCookie = SelectedCoursesCookie.load(this.$cookies);
+      console.log(selectedCoursesCookie);
+      selectedCoursesCookie.selectedCourses.forEach((selectedCourse) => {
+              const course = this.courses.find(
+                (course) => course.id === selectedCourse.id
+              );
+      */
       let precoreqtext = this.courseObj.raw_precoreqs;
       if (precoreqtext === null) {
         return "No information on pre/corequisites";
