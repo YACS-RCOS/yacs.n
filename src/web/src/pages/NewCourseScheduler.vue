@@ -76,8 +76,10 @@
                         <b-card-text
                           class="w-100 d-flex flex-grow-1 flex-column"
                         >
-                          <SelectedCourses
+                        <!--FIXME:-->
+                        <SelectedCourses
                             :courses="selectedCourses"
+                            v-bind:conflictingCrns="conflictingCrns"
                             @removeCourse="removeCourse"
                             @removeCourseSection="removeCourseSection"
                             @addCourseSection="addCourseSection"
@@ -279,12 +281,6 @@ import {
 
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-const noConflict = (p, section) => {
-  for (let i = 0; i < 5; i++) {
-    if ((p.time[i] & section.times[i]) > 0) return false;
-  }
-  return true;
-};
 const addSection = (p, section) => {
   let ret = [0, 0, 0, 0, 0];
   for (let i = 0; i < 5; i++) ret[i] = p.time[i] | section.times[i];
@@ -304,6 +300,7 @@ export default {
   },
   data() {
     return {
+      conflictingCrns: [],
       selectedCourses: {},
       selectedScheduleSubsemester: null,
       scheduler: null,
@@ -324,7 +321,24 @@ export default {
       loadedIndexCookie: 0,
     };
   },
+  
   methods: {
+    noConflict(p, section) {
+      for (let i = 0; i < 5; i++) {
+        if ((p.time[i] & section.times[i]) > 0) {
+          this.conflictingCrns.push(p.sections[0].crn)
+          this.conflictingCrns.push(section.crn)
+          return false;
+        }
+        else {
+          if (p.sections[0] && section) {
+            this.conflictingCrns = this.conflictingCrns.filter(item => item !== p.sections[0].crn)
+            this.conflictingCrns = this.conflictingCrns.filter(item => item !== section.crn)
+          }
+        }
+      }
+      return true;
+    },
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
       if (this.isNavOpen) {
@@ -513,11 +527,13 @@ export default {
             semester: this.selectedSemester,
             cid: section.crn,
           });
+          this.conflictingCrns = this.conflictingCrns.filter(item => item !== section.crn)
         } else {
           SelectedCoursesCookie.load(this.$cookies)
             .semester(this.selectedSemester)
             .removeCourseSection(section)
             .save();
+          this.conflictingCrns = this.conflictingCrns.filter(item => item !== section.crn)
         }
       }
     },
@@ -599,7 +615,7 @@ export default {
           if (!x.length) throw new Error("no selection!");
           return x
             .map((section) => {
-              if (noConflict(schedule, section)) {
+              if (this.noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
               return undefined;
