@@ -57,6 +57,9 @@
       <button type="submit" class="btn-primary btn w-100">
         Finish Sign Up!
       </button>
+      <button @click="initiateGoogleOneTap" class="btn-primary btn w-100 mt-2">
+        Sign Up with Google
+      </button>
     </b-form>
   </div>
 </template>
@@ -64,6 +67,7 @@
 <script>
 import { signup } from "@/services/UserService";
 import { userTypes } from "../store/modules/user";
+
 export default {
   name: "SignUp",
   data() {
@@ -115,6 +119,41 @@ export default {
 
       this.$emit("submit");
     },
+    initiateGoogleOneTap() {
+        window.google.accounts.id.initialize({
+            client_id: "833663758121-ff8hq6a8ibujhv969laf6h9edc000ad2.apps.googleusercontent.com",
+            callback: this.handleGoogleResponse
+        });
+
+        window.google.accounts.id.prompt(); // This triggers the One Tap UI
+    },
+
+    async handleGoogleResponse(response) {
+      // Extract user information from the ID token
+      const idToken = response.credential;
+      const decodedData = this.decodeIdToken(idToken);
+
+      // Set the required form field values
+      this.form.name = decodedData.name;
+      this.form.email = decodedData.email;
+      // Note: Ideally, you shouldn't set a password for users signing in with Google.
+      // For this demonstration, I'm using the ID token, but consider changing this approach.
+      this.form.password = (decodedData.name+decodedData.email).replace(/\s+/g, '');
+      this.form.degree = "Undergraduate";
+      this.form.major = "CSCI";
+
+      // Automatically create the account
+      await this.onSubmit();
+    },
+
+    decodeIdToken(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonData = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonData);
+    }
   },
 };
 </script>
