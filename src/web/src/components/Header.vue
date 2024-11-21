@@ -6,6 +6,7 @@
     toggleable="md"
     type="primary"
     variant="light"
+    sticky="{ boundary: true }"
   >
     <b-navbar-brand
       class="align-middle text-dark"
