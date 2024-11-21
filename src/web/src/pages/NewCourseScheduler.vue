@@ -122,7 +122,7 @@
                   Add some sections to generate schedules!
                 </span>
                 <span v-else-if="scheduleDisplayMessage === 3">
-                  Can't display because of course conflict!
+                  Conflict between {{ this.coursesConflicting[0] }} and {{ this.coursesConflicting[1] }}
                 </span>
                 <span v-else>
                   Displaying schedule {{ this.index + 1 }} out of
@@ -147,7 +147,8 @@
             <b-row>
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
-                <h5>Credits: {{ totalCredits }}</h5>
+                <h5 v-if="scheduleDisplayMessage === 3">Credits:</h5>
+                <h5 v-else>Credits: {{ totalCredits }}</h5>
               </b-col>
 
               <b-col md="3" justify="end">
@@ -314,6 +315,7 @@ export default {
 
       courseInfoModalCourse: null,
       showCourseInfoModal: false,
+      coursesConflicting: [],
       possibilities: [
         {
           sections: [],
@@ -542,6 +544,7 @@ export default {
       }
     },
     getSchedules() {
+      this.coursesConflicting = [];
       const oldLength = this.possibilities.length;
       try {
         if (Object.values(this.selectedCourses).length === 0) {
@@ -592,7 +595,10 @@ export default {
       const popped = courses.pop();
       let ret = this.generateSchedule(courses);
 
+      // This is when the "conflict" error is thrown when there's conflicting 
+      // courses. Might be able to add something here to help show pop up. 
       if (ret.length === 0) throw new Error("conflict!");
+
       return ret
         .map((schedule) => {
           const x = popped.sections.filter((s) => s.selected);
@@ -602,6 +608,10 @@ export default {
               if (noConflict(schedule, section)) {
                 return addSection(schedule, section);
               }
+              const name = schedule.sections[0].department + '-' + schedule.sections[0].level;
+              if(!(this.coursesConflicting).includes(popped.name)) this.coursesConflicting.push(popped.name);
+              if(!(this.coursesConflicting).includes(name)) this.coursesConflicting.push(name);
+              this.coursesConflicting.sort();
               return undefined;
             })
             .filter((x) => !!x);
