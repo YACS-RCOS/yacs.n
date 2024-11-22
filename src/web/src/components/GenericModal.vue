@@ -9,6 +9,30 @@ defineSlots<{
   container(props: { close: () => void }): never;
   default(props: { close: () => void }): never;
 }>();
+
+const aborter = new AbortController();
+let listener_active = false;
+
+watch(
+  () => props.open,
+  () => {
+    if (props.open && !listener_active) {
+      listener_active = true;
+      document.addEventListener(
+        "keydown",
+        (ev) => {
+          if (ev.key == "Escape") {
+            listener_active = false;
+            aborter.abort();
+            emit("close");
+          }
+        },
+        { signal: aborter.signal }
+      );
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
