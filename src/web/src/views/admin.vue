@@ -4,9 +4,10 @@ import { RouterLink } from "vue-router/auto";
 
 const actions: [keyof RouteNamedMap, string][] = [
   ["/admin/upload_courses", "Upload Courses CSV"],
+  ["/admin/upload_finals", "Upload Finals CSV"],
+  ["/admin/upload_prof", "Import Professors via JSON"],
   ["/admin/edit_semester", "Edit Semesters"],
-  ["/admin/edit_prof", "Edit Professors"],
-  ["/admin/upload_prof", "Import Professors via JSON"]
+  ["/admin/edit_prof", "Edit Professors"]
 ];
 </script>
 <template>
@@ -18,8 +19,8 @@ const actions: [keyof RouteNamedMap, string][] = [
       :key="href"
       :to="href"
       class="rounded bg-action p-1"
-      >{{ title }}</RouterLink
-    >
+      >{{ title }}
+    </RouterLink>
 
     <RouterView v-slot="{ Component }">
       <Transition>
@@ -35,7 +36,7 @@ const actions: [keyof RouteNamedMap, string][] = [
     <RouterLink
       to="/"
       class="rounded bg-secondary p-1"
-      >Go home</RouterLink
-    >
+      >Go home
+    </RouterLink>
   </div>
 </template>

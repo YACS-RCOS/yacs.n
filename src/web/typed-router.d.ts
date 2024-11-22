@@ -25,6 +25,7 @@ declare module 'vue-router/auto-routes' {
     '/admin/edit_prof': RouteRecordInfo<'/admin/edit_prof', '/admin/edit_prof', Record<never, never>, Record<never, never>>,
     '/admin/edit_semester': RouteRecordInfo<'/admin/edit_semester', '/admin/edit_semester', Record<never, never>, Record<never, never>>,
     '/admin/upload_courses': RouteRecordInfo<'/admin/upload_courses', '/admin/upload_courses', Record<never, never>, Record<never, never>>,
+    '/admin/upload_finals': RouteRecordInfo<'/admin/upload_finals', '/admin/upload_finals', Record<never, never>, Record<never, never>>,
     '/admin/upload_prof': RouteRecordInfo<'/admin/upload_prof', '/admin/upload_prof', Record<never, never>, Record<never, never>>,
     '/explore': RouteRecordInfo<'/explore', '/explore', Record<never, never>, Record<never, never>>,
     '/explore/[major]': RouteRecordInfo<'/explore/[major]', '/explore/:major', { major: ParamValue<true> }, { major: ParamValue<false> }>,
