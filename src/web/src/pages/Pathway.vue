@@ -3,27 +3,14 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and category order -->
-    <div style="float: left;" class="w-10">
+    <div class="filter-buttons w-10" style="float: left;">
       <b-button
         @click="listAlphabet()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
       >
         List by Alphabet
       </b-button>
-      <br />
       <b-button
         @click="listCate()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
       >
         List by Category
       </b-button>
@@ -317,6 +304,35 @@ export default {
 </script>
 
 <style>
+
+.filter-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  color: #007bff;
+  border: solid #007bff;
+  background-color: transparent;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .filter-buttons {
+    float: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
+}
+
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;

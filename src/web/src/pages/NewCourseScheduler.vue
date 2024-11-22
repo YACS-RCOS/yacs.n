@@ -108,7 +108,7 @@
           <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
-              <div class="sidebar-panal-nav" style="height: 100%;">
+              <div class="sidebar-panel-nav" style="height: 100%;">
                 <b-col
                   class="d-flex flex-column"
                   ref="sidebar"
@@ -938,7 +938,6 @@ button:focus {
   .sidebar-panel {
     position: static;
     width: 100%;
-    height: auto;
     margin: 0;
   }
 
