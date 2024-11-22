@@ -1,5 +1,9 @@
 <script setup lang="ts">
-defineProps<{ open: boolean }>();
+import { watch } from "vue";
+
+const props = withDefaults(defineProps<{ open: boolean; align?: "top" | "bottom" | "middle" }>(), {
+  align: "top"
+});
 
 const emit = defineEmits<{
   close: [];
@@ -38,7 +42,9 @@ watch(
 <template>
   <div
     v-if="open"
-    class="motion-safe:animate-fade-in absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-black bg-opacity-50"
+    ref="popup"
+    class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black bg-opacity-50 p-24 motion-safe:animate-fade-in"
+    :class="align == 'top' ? 'justify-start' : align == 'bottom' ? 'justify-end' : 'justify-center'"
     @click="emit('close')"
   >
     <slot
@@ -50,7 +56,7 @@ watch(
       "
     >
       <div
-        class="my-16 flex-grow rounded bg-on-primary ring-1 ring-primary"
+        class="rounded bg-on-primary ring-1 ring-primary"
         @click.stop
       >
         <slot
