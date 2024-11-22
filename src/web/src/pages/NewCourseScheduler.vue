@@ -712,12 +712,6 @@ export default {
 // This means that all v-tabs in this app will have flexbox content
 // Hopefully this doesn't screw up someone's debugging later lol
 
-@media (min-width: 1025px) {
-  .main-body {
-    min-height: 100vh;
-  }
-}
-
 .d-flex flex-column {
   transition: 0.5s;
   background-color: #111;
@@ -813,29 +807,6 @@ sidebar-panel-nav {
   z-index: 999;
   margin: 60px 0px 0px;
   width: 25%;
-}
-
-@media (max-width: 768px) {
-  // basically mobile view showing sidebar at bottom instead
-  .main-body {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sidebar-panel {
-    position: static;
-    width: 100%;
-    height: auto;
-    margin: 0;
-  }
-
-  .sidebar {
-    padding: 0;
-  }
-
-  .schedule-navigation {
-    padding: 0;
-  }
 }
 
 .hidden {
@@ -941,4 +912,43 @@ button:focus {
 #burger.active .burger-bar {
   background-color: #32aad8;
 }
+
+@media (min-width: 1025px) {
+  .main-body {
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  // basically mobile view showing sidebar at bottom instead
+  .main-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h5 {
+    font-size: .9em;
+  }
+
+  // the arrow that makes the sidebar appear or not
+  #burger {
+    display: none;
+  }
+
+  .sidebar-panel {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .sidebar {
+    padding: 0;
+  }
+
+  .schedule-navigation {
+    padding: 0;
+  }
+}
+
 </style>
