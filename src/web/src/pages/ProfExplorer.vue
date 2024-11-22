@@ -3,32 +3,9 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and department order -->
-    <div style="float: left;" class="w-10">
-      <b-button
-        @click="listAlphabet()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-          width: 100%;
-        "
-      >
-        List by Alphabet
-      </b-button>
-      <br />
-      <b-button
-        @click="listDepartment()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-          width: 100%;
-        "
-      >
-        List by Department
-      </b-button>
+    <div class="filter-buttons w-10" style="float: left;">
+      <b-button @click="listAlphabet()"> List by Alphabet </b-button>
+      <b-button @click="listDepartment()"> List by Department </b-button>
     </div>
 
     <div v-if="professors.length > 0" class="mx-auto w-75">
@@ -371,6 +348,35 @@ export default {
 </script>
 
 <style>
+
+.filter-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  color: #007bff;
+  border: solid #007bff;
+  background-color: transparent;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .filter-buttons {
+    float: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
+}
+
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -388,7 +394,7 @@ export default {
   display: inline-block;
   background: white;
   border-style: none;
-  text-align: justify;
+  text-align: left;
   width: 95%;
   padding-top: 0;
   padding-bottom: 0;

@@ -4,16 +4,8 @@
 
     <!-- button to switch between alphabet order and category order -->
     <div class="filter-buttons w-10" style="float: left;">
-      <b-button
-        @click="listAlphabet()"
-      >
-        List by Alphabet
-      </b-button>
-      <b-button
-        @click="listCate()"
-      >
-        List by Category
-      </b-button>
+      <b-button @click="listAlphabet()"> List by Alphabet </b-button>
+      <b-button @click="listCate()"> List by Category </b-button>
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
@@ -354,7 +346,7 @@ export default {
   display: inline-block;
   background: white;
   border-style: none;
-  text-align: justify;
+  text-align: left;
   width: 95%;
 }
 
