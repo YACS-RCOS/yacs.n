@@ -4,8 +4,12 @@
 
     <!-- button to switch between alphabet order and category order -->
     <div class="filter-buttons w-10" style="float: left;">
-      <b-button @click="listAlphabet()"> List by Alphabet </b-button>
-      <b-button @click="listCate()"> List by Category </b-button>
+      <b-button @click="listAlphabet()"> 
+        List by Alphabet 
+      </b-button>
+      <b-button @click="listCate()"> 
+        List by Category 
+      </b-button>
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
       <!-- pop-up window -->
@@ -309,20 +313,7 @@ export default {
   color: #007bff;
   border: solid #007bff;
   background-color: transparent;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .filter-buttons {
-    float: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px;
-    gap: 5px;
-  }
+  width: 100%;
 }
 
 .gridContainer {
@@ -333,7 +324,7 @@ export default {
 }
 
 .categoryBox {
-  text-align: center;
+  text-align: left;
 }
 
 .category-title {
@@ -360,5 +351,18 @@ export default {
 
 .courseInPath:hover {
   background-color: rgba(39, 130, 230, 0.5);
+}
+
+@media (max-width: 768px) {
+  .filter-buttons {
+    float: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
 }
 </style>

@@ -4,8 +4,12 @@
 
     <!-- button to switch between alphabet order and department order -->
     <div class="filter-buttons w-10" style="float: left;">
-      <b-button @click="listAlphabet()"> List by Alphabet </b-button>
-      <b-button @click="listDepartment()"> List by Department </b-button>
+      <b-button @click="listAlphabet()"> 
+        List by Alphabet 
+      </b-button>
+      <b-button @click="listDepartment()"> 
+        List by Department 
+      </b-button>
     </div>
 
     <div v-if="professors.length > 0" class="mx-auto w-75">
@@ -361,20 +365,7 @@ export default {
   color: #007bff;
   border: solid #007bff;
   background-color: transparent;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .filter-buttons {
-    float: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px;
-    gap: 5px;
-  }
+  width: 100%;
 }
 
 .gridContainer {
@@ -406,5 +397,18 @@ export default {
 
 .h3 {
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .filter-buttons {
+    float: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
 }
 </style>
