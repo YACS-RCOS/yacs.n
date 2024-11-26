@@ -34,8 +34,9 @@
         ></b-form-select>
         <div id="allScheduleData" class="justify-content-right">
           <div>
-            <b-row class="justify-content-between align-items-center">
-              <b-col cols="auto" class="schedule-navigation">
+            <!-- Desktop view -->
+            <b-row class="justify-content-between align-items-center desktop-schedule-navigation">
+              <b-col cols="auto">
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -58,7 +59,7 @@
                   {{ this.possibilities.length }}
                 </span>
               </b-col>
-              <b-col cols="auto" class="schedule-navigation">
+              <b-col cols="auto">
                 <b-button
                   @click="
                     changeSchedule(1);
@@ -70,6 +71,49 @@
                 </b-button>
               </b-col>
             </b-row>
+
+            <!-- Mobile view -->
+            <b-row
+              class="d-flex flex-column align-items-center text-center mobile-schedule-navigation"
+            >
+              <b-col cols="12">
+                <span v-if="scheduleDisplayMessage === 2">
+                  Add some sections to generate schedules!
+                </span>
+                <span v-else-if="scheduleDisplayMessage === 3">
+                  Can't display because of course conflict!
+                </span>
+                <span v-else>
+                  Displaying schedule {{ this.index + 1 }} out of
+                  {{ this.possibilities.length }}
+                </span>
+              </b-col>
+              <b-row class="w-100 justify-content-between">
+                <b-col cols="auto">
+                  <b-button
+                    @click="
+                      changeSchedule(-1);
+                      updateIndexCookie();
+                    "
+                    size="sm"
+                  >
+                    Prev
+                  </b-button>
+                </b-col>
+                <b-col cols="auto">
+                  <b-button
+                    @click="
+                      changeSchedule(1);
+                      updateIndexCookie();
+                    "
+                    size="sm"
+                  >
+                    Next
+                  </b-button>
+                </b-col>
+              </b-row>
+            </b-row>
+
             <Schedule v-if="loading" />
             <Schedule v-else :possibility="possibilities[index]"></Schedule>
             <b-row class="align-items-center">
@@ -736,7 +780,7 @@ export default {
 }
 
 // This is for the button for navigating each schedule option
-.schedule-navigation {
+#allScheduleData {
   margin: 8px;
 }
 
@@ -919,6 +963,15 @@ button:focus {
   }
 }
 
+.desktop-schedule-navigation {
+  visibility: visible;
+}
+
+.mobile-schedule-navigation {
+  visibility: hidden;
+  height: 0;
+}
+
 @media (max-width: 768px) {
   // basically mobile view showing sidebar at bottom instead
   .main-body {
@@ -945,8 +998,19 @@ button:focus {
     padding: 0;
   }
 
-  .schedule-navigation {
-    padding: 0;
+  #allScheduleData {
+    margin: 4px;
+  }
+
+  .desktop-schedule-navigation {
+    visibility: hidden;
+    height: 0;
+  }
+
+  .mobile-schedule-navigation {
+    visibility: visible;
+    height: auto;
+    padding: 10px;
   }
 }
 
