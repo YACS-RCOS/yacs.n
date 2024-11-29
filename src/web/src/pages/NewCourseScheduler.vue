@@ -36,7 +36,7 @@
           <div>
             <!-- Desktop view -->
             <b-row class="justify-content-between align-items-center desktop-schedule-navigation">
-              <b-col cols="auto">
+              <b-col cols="auto" class="schedule-navigation">
                 <b-button
                   @click="
                     changeSchedule(-1);
@@ -59,7 +59,7 @@
                   {{ this.possibilities.length }}
                 </span>
               </b-col>
-              <b-col cols="auto">
+              <b-col cols="auto" class="schedule-navigation">
                 <b-button
                   @click="
                     changeSchedule(1);
@@ -76,7 +76,7 @@
             <b-row
               class="d-flex flex-column align-items-center text-center mobile-schedule-navigation"
             >
-              <b-col cols="12">
+              <b-col cols="12" class="pt-2">
                 <span v-if="scheduleDisplayMessage === 2">
                   Add some sections to generate schedules!
                 </span>
@@ -89,7 +89,7 @@
                 </span>
               </b-col>
               <b-row class="w-100 justify-content-between">
-                <b-col cols="auto">
+                <b-col cols="auto" class="schedule-navigation">
                   <b-button
                     @click="
                       changeSchedule(-1);
@@ -100,7 +100,7 @@
                     Prev
                   </b-button>
                 </b-col>
-                <b-col cols="auto">
+                <b-col cols="auto" class="schedule-navigation">
                   <b-button
                     @click="
                       changeSchedule(1);
@@ -780,7 +780,7 @@ export default {
 }
 
 // This is for the button for navigating each schedule option
-#allScheduleData {
+.schedule-navigation {
   margin: 8px;
 }
 
@@ -964,18 +964,19 @@ button:focus {
 }
 
 .desktop-schedule-navigation {
-  visibility: visible;
+  display: flex;
 }
 
 .mobile-schedule-navigation {
-  visibility: hidden;
+  display: none;
   height: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
   // basically mobile view showing sidebar at bottom instead
   .main-body {
-    display: flex;
+    display: block;
     flex-direction: column;
   }
 
@@ -998,19 +999,17 @@ button:focus {
     padding: 0;
   }
 
-  #allScheduleData {
-    margin: 4px;
+  .schedule-navigation {
+    margin: 0px;
   }
 
   .desktop-schedule-navigation {
-    visibility: hidden;
-    height: 0;
+    display: none;
   }
 
   .mobile-schedule-navigation {
-    visibility: visible;
+    display: flex;
     height: auto;
-    padding: 10px;
   }
 }
 
