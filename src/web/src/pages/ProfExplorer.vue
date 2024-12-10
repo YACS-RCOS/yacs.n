@@ -401,6 +401,7 @@ export default {
 
 @media (max-width: 768px) {
   .filter-buttons {
+    /* in mobile mode move filters above professors so mobile view doesn't get smushed */
     float: none;
     display: flex;
     flex-direction: row;

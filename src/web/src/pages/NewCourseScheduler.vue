@@ -33,8 +33,9 @@
           value-field="display_string"
         ></b-form-select>
         <div id="allScheduleData" class="justify-content-right">
+          <!-- Made two seperate schedule navigators which turn on and off depending on mobile view -->
           <div>
-            <!-- Desktop view -->
+            <!-- Desktop view - Display Message between the two change schedule buttons -->
             <b-row class="justify-content-between align-items-center desktop-schedule-navigation">
               <b-col cols="auto" class="schedule-navigation">
                 <b-button
@@ -72,7 +73,7 @@
               </b-col>
             </b-row>
 
-            <!-- Mobile view -->
+            <!-- Mobile view  - Display Message First then change schedule buttons -->
             <b-row
               class="d-flex flex-column align-items-center text-center mobile-schedule-navigation"
             >
@@ -149,6 +150,7 @@
           </div>
         </div>
         <div class="sidebar">
+          <!-- Side bar or course selector and code below is for future changes in case-->
           <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
@@ -175,7 +177,6 @@
                             loadingMessage="Courses"
                             :topSpacing="0"
                           />
-
                           <CourseList
                             v-if="!loading"
                             @addCourse="addCourse"
@@ -957,12 +958,6 @@ button:focus {
   background-color: #32aad8;
 }
 
-@media (min-width: 1025px) {
-  .main-body {
-    min-height: 100vh;
-  }
-}
-
 .desktop-schedule-navigation {
   display: flex;
 }
@@ -973,8 +968,14 @@ button:focus {
   overflow: hidden;
 }
 
+@media (min-width: 1025px) {
+  .main-body {
+    min-height: 100vh;
+  }
+}
+
 @media (max-width: 768px) {
-  // basically mobile view showing sidebar at bottom instead
+  // basically mobile view showing sidebar at bottom instead so its no longer a sidebar
   .main-body {
     display: block;
     flex-direction: column;
@@ -1002,7 +1003,7 @@ button:focus {
   .schedule-navigation {
     margin: 0px;
   }
-
+  
   .desktop-schedule-navigation {
     display: none;
   }

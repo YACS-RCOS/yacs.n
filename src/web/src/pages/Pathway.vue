@@ -354,6 +354,7 @@ export default {
 }
 
 @media (max-width: 768px) {
+  /* in mobile mode move filters above pathways so mobile view doesn't get smushed */
   .filter-buttons {
     float: none;
     display: flex;
