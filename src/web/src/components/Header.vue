@@ -33,6 +33,7 @@
     <b-navbar-toggle
       id="header-navbar-collapse-toggle"
       target="header-navbar-collapse"
+      :class="darkMode === true ? 'dark-mode-toggle' : darkMode === false ? 'light-mode-toggle' : ''"
     >
       <font-awesome-icon icon="bars" />
     </b-navbar-toggle>
@@ -270,9 +271,11 @@ export default {
   padding: calc(8px - 0.2em);
   border: 0.2em solid var(--dark-blue-secondary);
 }
-// no idea why but need to manually set this for it to show up
-.dark #header-navbar-collapse-toggle {
+.dark-mode-toggle {
   color: var(--dark-text-primary) !important;
+}
+.light-mode-toggle {
+  color: var(--light-text-primary) !important;
 }
 .drop-down-item {
   background: hsl(211, 100%, 60%) !important;
