@@ -45,7 +45,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "tailwindcss": "^3.4.1",
     "tailwindcss-themer": "^4.0.0",
-    "typescript": "^5.4.2",
+    "typescript": "^5.7.2",
     "typescript-eslint": "^7.1.0",
     "unplugin-vue-router": "^0.8.5",
     "vite": "^5.1.1",
