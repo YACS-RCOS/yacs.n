@@ -11,7 +11,7 @@ import {
 import { onClickOutside, useIntersectionObserver } from "@vueuse/core";
 import { ref } from "vue";
 import { RouterLink } from "vue-router/auto";
-import NavBarItems, { type NavItems } from "./NavBar/NavBarItems.vue";
+import NavBarItems, { type NavItems } from "./navbar/NavBarItems.vue";
 import SemesterSelector from "./SemesterSelector.vue";
 
 const navItems: NavItems = [
