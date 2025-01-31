@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { watch } from "vue";
 
-const props = withDefaults(defineProps<{ open: boolean; align?: "top" | "bottom" | "middle" }>(), {
-  align: "top"
-});
+const props = withDefaults(
+  defineProps<{
+    open: boolean;
+    align?: "top" | "bottom" | "middle";
+  }>(),
+  {
+    align: "top"
+  }
+);
 
 const emit = defineEmits<{
   close: [];
