@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import GenericModal from "@/components/GenericModal.vue";
-import { useRouter } from "vue-router/auto";
-
-const router = useRouter();
+import * as api from "@/api/admin";
+import UploadModal from "@/components/modals/UploadModal.vue";
 </script>
+
 <template>
-  <GenericModal
-    :open="true"
-    @close="router.back()"
+  <UploadModal
+    accept-file-types="text/csv"
+    title="Upload Courses CSV"
+    :action="
+      (v) =>
+        api.upload_course_csv(v).catch((e) => {
+          throw [v.name, e];
+        })
+    "
   />
 </template>
