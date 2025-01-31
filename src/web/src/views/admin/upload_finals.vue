@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GenericModal from "@/components/GenericModal.vue";
+import GenericModal from "@/components/modals/GenericModal.vue";
 import { useRouter } from "vue-router/auto";
 
 const router = useRouter();
