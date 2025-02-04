@@ -2,7 +2,7 @@
 import GenericModal from "@/components/modals/GenericModal.vue";
 import { useAsyncState, useFileDialog } from "@vueuse/core";
 import type { AxiosError } from "axios";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router/auto";
 
 const props = defineProps<{
@@ -13,8 +13,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  uploadSuccess: [];
-  uploadError: [error: UploadStatusError[]];
+  uploadSuccess: [file: string];
+  uploadError: [error: [string, AxiosError]];
 }>();
 
 const router = useRouter();
@@ -30,9 +30,15 @@ const uploadstatus = useAsyncState(
   async (filelist: FileList) => {
     const result = await Promise.allSettled(
       Array.from(filelist).map((v) =>
-        props.action(v).catch((e) => {
-          throw [v.name, e];
-        })
+        props
+          .action(v)
+          .then(() => {
+            emit("uploadSuccess", v.name);
+          })
+          .catch((e) => {
+            emit("uploadError", e as [string, AxiosError]);
+            throw [v.name, e];
+          })
       )
     );
 
@@ -50,10 +56,6 @@ const uploadstatus = useAsyncState(
   }
 );
 
-interface UploadStatusError {
-  reason: [string, [string, AxiosError]];
-}
-
 filedialog.onChange((files) => {
   if (files && files.length > 0) {
     filebutton.value?.setCustomValidity("");
@@ -65,17 +67,6 @@ filedialog.onChange((files) => {
 onMounted(() => {
   filebutton.value?.setCustomValidity("Please add a file");
 });
-
-watch(
-  () => [uploadstatus.isReady.value, uploadstatus.error.value] as [boolean, UploadStatusError[]],
-  ([v, error]) => {
-    if (v) {
-      emit("uploadSuccess");
-    } else if (error) {
-      emit("uploadError", error);
-    }
-  }
-);
 
 function onSubmit(ev: Event) {
   if (ev.target) {

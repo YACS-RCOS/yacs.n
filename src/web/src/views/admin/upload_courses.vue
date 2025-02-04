@@ -15,17 +15,13 @@ import { toast } from "vue3-toastify";
         })
     "
     @upload-success="
-      () => {
-        toast.success(`Upload Success!`);
+      (f) => {
+        toast.success(`Successfully uploaded ${f}!`);
       }
     "
     @upload-error="
-      (e) => {
-        for (const error of e) {
-          toast.error(
-            `Error uploading ${error.reason[0]}: ${error.reason[1][1].response?.data ?? error.reason[1][1].message}`
-          );
-        }
+      (error) => {
+        toast.error(`Error uploading ${error[0]}: ${error[1].response?.data ?? error[1].message}`);
       }
     "
   />
