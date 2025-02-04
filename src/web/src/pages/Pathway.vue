@@ -3,29 +3,12 @@
     <b-breadcrumb :items="breadcrumbNav"></b-breadcrumb>
 
     <!-- button to switch between alphabet order and category order -->
-    <div style="float: left;" class="w-10">
-      <b-button
-        @click="listAlphabet()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Alphabet
+    <div class="filter-buttons w-10" style="float: left;">
+      <b-button @click="listAlphabet()"> 
+        List by Alphabet 
       </b-button>
-      <br />
-      <b-button
-        @click="listCate()"
-        style="
-          margin-top: 10px;
-          color: #007bff;
-          border: solid #007bff;
-          background-color: transparent;
-        "
-      >
-        List by Category
+      <b-button @click="listCate()"> 
+        List by Category 
       </b-button>
     </div>
     <div v-if="categories.length > 0" class="mx-auto w-75">
@@ -317,6 +300,22 @@ export default {
 </script>
 
 <style>
+
+.filter-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-buttons button {
+  color: #007bff;
+  border: solid #007bff;
+  background-color: transparent;
+  width: 100%;
+}
+
 .gridContainer {
   display: inline-grid;
   grid-template-columns: auto auto;
@@ -325,7 +324,7 @@ export default {
 }
 
 .categoryBox {
-  text-align: center;
+  text-align: left;
 }
 
 .category-title {
@@ -338,7 +337,7 @@ export default {
   display: inline-block;
   background: white;
   border-style: none;
-  text-align: justify;
+  text-align: left;
   width: 95%;
 }
 
@@ -352,5 +351,19 @@ export default {
 
 .courseInPath:hover {
   background-color: rgba(39, 130, 230, 0.5);
+}
+
+@media (max-width: 768px) {
+  /* in mobile mode move filters above pathways so mobile view doesn't get smushed */
+  .filter-buttons {
+    float: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    gap: 5px;
+  }
 }
 </style>

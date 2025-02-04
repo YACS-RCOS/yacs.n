@@ -21,11 +21,140 @@
             </button>
           </slot>
         </div>
+        <b-form-select
+          v-if="
+            !loading &&
+            scheduler.scheduleSubsemesters &&
+            scheduler.scheduleSubsemesters.length > 1
+          "
+          v-model="selectedScheduleSubsemester"
+          :options="scheduler.scheduleSubsemesters"
+          text-field="display_string"
+          value-field="display_string"
+        ></b-form-select>
+        <div id="allScheduleData" class="justify-content-right">
+          <!-- Made two seperate schedule navigators which turn on and off depending on mobile view -->
+          <div>
+            <!-- Desktop view - Display Message between the two change schedule buttons -->
+            <b-row class="justify-content-between align-items-center desktop-schedule-navigation">
+              <b-col cols="auto" class="schedule-navigation">
+                <b-button
+                  @click="
+                    changeSchedule(-1);
+                    updateIndexCookie();
+                  "
+                  size="sm"
+                >
+                  Prev
+                </b-button>
+              </b-col>
+              <b-col cols="auto">
+                <span v-if="scheduleDisplayMessage === 2">
+                  Add some sections to generate schedules!
+                </span>
+                <span v-else-if="scheduleDisplayMessage === 3">
+                  Can't display because of course conflict!
+                </span>
+                <span v-else>
+                  Displaying schedule {{ this.index + 1 }} out of
+                  {{ this.possibilities.length }}
+                </span>
+              </b-col>
+              <b-col cols="auto" class="schedule-navigation">
+                <b-button
+                  @click="
+                    changeSchedule(1);
+                    updateIndexCookie();
+                  "
+                  size="sm"
+                >
+                  Next
+                </b-button>
+              </b-col>
+            </b-row>
+
+            <!-- Mobile view  - Display Message First then change schedule buttons -->
+            <b-row
+              class="d-flex flex-column align-items-center text-center mobile-schedule-navigation"
+            >
+              <b-col cols="12" class="pt-2">
+                <span v-if="scheduleDisplayMessage === 2">
+                  Add some sections to generate schedules!
+                </span>
+                <span v-else-if="scheduleDisplayMessage === 3">
+                  Can't display because of course conflict!
+                </span>
+                <span v-else>
+                  Displaying schedule {{ this.index + 1 }} out of
+                  {{ this.possibilities.length }}
+                </span>
+              </b-col>
+              <b-row class="w-100 justify-content-between">
+                <b-col cols="auto" class="schedule-navigation">
+                  <b-button
+                    @click="
+                      changeSchedule(-1);
+                      updateIndexCookie();
+                    "
+                    size="sm"
+                  >
+                    Prev
+                  </b-button>
+                </b-col>
+                <b-col cols="auto" class="schedule-navigation">
+                  <b-button
+                    @click="
+                      changeSchedule(1);
+                      updateIndexCookie();
+                    "
+                    size="sm"
+                  >
+                    Next
+                  </b-button>
+                </b-col>
+              </b-row>
+            </b-row>
+
+            <Schedule v-if="loading" />
+            <Schedule v-else :possibility="possibilities[index]"></Schedule>
+            <b-row class="align-items-center">
+              <!-- CRNs and Credits -->
+              <b-col class="m-2">
+                <h5>CRNs: {{ selectedCrns }}</h5>
+                <h5>Credits: {{ totalCredits }}</h5>
+              </b-col>
+              <!-- Color Blind Assistance -->
+              <b-col class="m-2 d-flex flex-column align-items-end">
+                <b-form-checkbox
+                  class="mt-2"
+                  size="sm"
+                  :checked="$store.state.colorBlindAssist"
+                  @change="toggleColors()"
+                  switch
+                >
+                  Color Blind Assistance
+                </b-form-checkbox>
+                <!-- Export Data with dropdown aligned to the right -->
+                <b-dropdown text="Export Data" class="mt-2" right>
+                  <b-dropdown-item @click="exportScheduleToIcs">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To ICS
+                  </b-dropdown-item>
+                  <b-dropdown-item @click="exportScheduleToImage">
+                    <font-awesome-icon :icon="exportIcon" />
+                    Export To Image
+                  </b-dropdown-item>
+                </b-dropdown>
+              </b-col>
+            </b-row>
+          </div>
+        </div>
         <div class="sidebar">
+          <!-- Side bar or course selector and code below is for future changes in case-->
           <!--<div class="sidebar-backdrop" v-if="isNavOpen"></div>-->
           <transition name="slide">
             <div v-if="isNavOpen" class="sidebar-panel">
-              <div class="sidebar-panal-nav" style="height: 100%;">
+              <div class="sidebar-panel-nav" style="height: 100%;">
                 <b-col
                   class="d-flex flex-column"
                   ref="sidebar"
@@ -48,7 +177,6 @@
                             loadingMessage="Courses"
                             :topSpacing="0"
                           />
-
                           <CourseList
                             v-if="!loading"
                             @addCourse="addCourse"
@@ -91,92 +219,6 @@
               <slot></slot>
             </div>
           </transition>
-        </div>
-        <b-form-select
-          v-if="
-            !loading &&
-            scheduler.scheduleSubsemesters &&
-            scheduler.scheduleSubsemesters.length > 1
-          "
-          v-model="selectedScheduleSubsemester"
-          :options="scheduler.scheduleSubsemesters"
-          text-field="display_string"
-          value-field="display_string"
-        ></b-form-select>
-        <div id="allScheduleData" class="justify-content-right">
-          <div>
-            <b-row>
-              <b-col class="m-2">
-                <b-button
-                  @click="
-                    changeSchedule(-1);
-                    updateIndexCookie();
-                  "
-                  size="sm"
-                >
-                  Prev
-                </b-button>
-              </b-col>
-              <b-col cols="8" class="m-2 text-center">
-                <span v-if="scheduleDisplayMessage === 2">
-                  Add some sections to generate schedules!
-                </span>
-                <span v-else-if="scheduleDisplayMessage === 3">
-                  Can't display because of course conflict!
-                </span>
-                <span v-else>
-                  Displaying schedule {{ this.index + 1 }} out of
-                  {{ this.possibilities.length }}
-                </span>
-              </b-col>
-              <b-col class="m-2 text-right">
-                <b-button
-                  @click="
-                    changeSchedule(1);
-                    updateIndexCookie();
-                  "
-                  size="sm"
-                >
-                  Next
-                </b-button>
-              </b-col>
-            </b-row>
-            <Schedule v-if="loading" />
-            <Schedule v-else :possibility="possibilities[index]"></Schedule>
-
-            <b-row>
-              <b-col class="m-2">
-                <h5>CRNs: {{ selectedCrns }}</h5>
-                <h5>Credits: {{ totalCredits }}</h5>
-              </b-col>
-
-              <b-col md="3" justify="end">
-                <b-row>
-                  <b-form-checkbox
-                    class="mt-2"
-                    size="sm"
-                    :checked="$store.state.colorBlindAssist"
-                    @change="toggleColors()"
-                    switch
-                  >
-                    Color Blind Assistance
-                  </b-form-checkbox>
-                </b-row>
-                <b-row>
-                  <b-dropdown text="Export Data" class="mt-2">
-                    <b-dropdown-item @click="exportScheduleToIcs">
-                      <font-awesome-icon :icon="exportIcon" />
-                      Export To ICS
-                    </b-dropdown-item>
-                    <b-dropdown-item @click="exportScheduleToImage">
-                      <font-awesome-icon :icon="exportIcon" />
-                      Export To Image
-                    </b-dropdown-item>
-                  </b-dropdown>
-                </b-row>
-              </b-col>
-            </b-row>
-          </div>
         </div>
       </div>
     </b-row>
@@ -715,12 +757,6 @@ export default {
 // This means that all v-tabs in this app will have flexbox content
 // Hopefully this doesn't screw up someone's debugging later lol
 
-@media (min-width: 1025px) {
-  .main-body {
-    min-height: 100vh;
-  }
-}
-
 .d-flex flex-column {
   transition: 0.5s;
   background-color: #111;
@@ -742,6 +778,11 @@ export default {
 // The default is display:block
 .tab-content > .active {
   display: flex;
+}
+
+// This is for the button for navigating each schedule option
+.schedule-navigation {
+  margin: 8px;
 }
 
 .card {
@@ -771,6 +812,11 @@ sidebar-panel-nav {
 
 #export-ics-button {
   background: #3d4959 !important;
+}
+
+.b-dropdown .dropdown-menu {
+  // shifts export data menu left
+  transform: translateX(-10px);
 }
 
 .slide-enter-active,
@@ -911,4 +957,61 @@ button:focus {
 #burger.active .burger-bar {
   background-color: #32aad8;
 }
+
+.desktop-schedule-navigation {
+  display: flex;
+}
+
+.mobile-schedule-navigation {
+  display: none;
+  height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 1025px) {
+  .main-body {
+    min-height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  // basically mobile view showing sidebar at bottom instead so its no longer a sidebar
+  .main-body {
+    display: block;
+    flex-direction: column;
+  }
+
+  h5 {
+    font-size: .9em;
+  }
+
+  // the arrow that makes the sidebar appear or not
+  #burger {
+    display: none;
+  }
+
+  .sidebar-panel {
+    position: static;
+    width: 100%;
+    margin: 0;
+  }
+
+  .sidebar {
+    padding: 0;
+  }
+
+  .schedule-navigation {
+    margin: 0px;
+  }
+  
+  .desktop-schedule-navigation {
+    display: none;
+  }
+
+  .mobile-schedule-navigation {
+    display: flex;
+    height: auto;
+  }
+}
+
 </style>
