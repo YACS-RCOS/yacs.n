@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import GenericModal from "@/components/modals/GenericModal.vue";
 import { useAsyncState, useFileDialog } from "@vueuse/core";
-import { onMounted, ref } from "vue";
+import type { AxiosError } from "axios";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router/auto";
 
 const props = defineProps<{
@@ -9,6 +10,11 @@ const props = defineProps<{
   action: (v: File) => Promise<unknown>;
   disallowMultipleFiles?: boolean;
   title: string;
+}>();
+
+const emit = defineEmits<{
+  uploadSuccess: [];
+  uploadError: [error: UploadStatusError[]];
 }>();
 
 const router = useRouter();
@@ -45,7 +51,7 @@ const uploadstatus = useAsyncState(
 );
 
 interface UploadStatusError {
-  reason: [string, string];
+  reason: [string, [string, AxiosError]];
 }
 
 filedialog.onChange((files) => {
@@ -59,6 +65,17 @@ filedialog.onChange((files) => {
 onMounted(() => {
   filebutton.value?.setCustomValidity("Please add a file");
 });
+
+watch(
+  () => [uploadstatus.isReady.value, uploadstatus.error.value] as [boolean, UploadStatusError[]],
+  ([v, error]) => {
+    if (v) {
+      emit("uploadSuccess");
+    } else if (error) {
+      emit("uploadError", error);
+    }
+  }
+);
 
 function onSubmit(ev: Event) {
   if (ev.target) {
@@ -80,7 +97,6 @@ function onSubmit(ev: Event) {
     :open="true"
     @close="
       () => {
-        console.log(uploadstatus.isLoading.value);
         if (!uploadstatus.isLoading.value) {
           router.back();
         }
@@ -125,16 +141,6 @@ function onSubmit(ev: Event) {
         </template>
         <template v-else> Submit </template>
       </button>
-
-      <p v-if="uploadstatus.isReady.value">Done</p>
-      <p v-else-if="uploadstatus.error.value">
-        <template
-          v-for="thing of uploadstatus.error.value as UploadStatusError[]"
-          :key="thing.reason[0]"
-        >
-          Error uploading {{ thing.reason[0] }}: "{{ thing.reason[1] }}"
-        </template>
-      </p>
     </form>
   </GenericModal>
 </template>
