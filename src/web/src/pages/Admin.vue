@@ -35,7 +35,6 @@
     >
       Import Professors via JSON
     </a>
-
     <b-modal id="csvModal" title="Import Courses via CSV" size="xl">
       <UploadCsv />
     </b-modal>

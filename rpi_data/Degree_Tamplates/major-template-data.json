@@ -1,0 +1,3823 @@
+[
+    {
+        "year": 2024,
+        "major": "Aeronautical Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8682&returnto=864",
+        "notes": [
+            "4000-lvl MANE elective must be related to Aeronautical Engineering."
+        ],
+        "required": [
+            "ENGR-1100", 
+            "ENGR-1200",
+            "MATH-1010",
+            "CHEM-1100",
+            "MANE-1060",
+            "MATH-1020",
+            "PHYS-1200",
+            "ENGR-1300",
+            "ENGR-2530",
+            "MATH-2400",
+            "MANE-2710",
+            "ADMN-1030",
+            "ENGR-2600",
+            "MANE-2110",
+            "MANE-2720",
+            "MATH-2010",
+            "ENGR-2090",
+            "MANE-4060",
+            "MANE-4070",
+            "MANE-4500",
+            "MANE-4900",
+            "MANE-4910",
+            "MANE-4920",
+            "STSO-4100",
+            "ILEA-4400",
+            "MANE-4080",
+            "MANE-4510",
+            "ENGR-4010"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Engineering Design Elective": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-2050",
+                    "MANE-2220"
+                ]
+            },
+            "Computation Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4140",
+                    "MANE-4240",
+                    "MANE-4280"
+                ]
+            },
+            "Flight Mechanics Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4090",
+                    "MANE-4120",
+                    "MANE-4130"
+                ]
+            },
+            "Capstone Design Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4230",
+                    "MANE-4210"
+                ]
+            },
+            "Aeronautical Technical Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4"
+                ]
+            }
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Aerospace Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8941&returnto=864",
+        "notes":  [
+            "Aerospace Engineering students must complete their Arch-Away program during fall of junior year, as they are required to be in residence in the spring.",
+            "4000-lvl MANE elective must be related to Aerospace Engineering."
+        ],
+        "required": [
+            "ENGR-1100",
+            "ENGR-1200",
+            "MATH-1010",
+            "CHEM-1100",
+            "MANE-1060",
+            "MATH-1020",
+            "PHYS-1200",
+            "ENGR-1300",
+            "ENGR-2530",
+            "MATH-2400",
+            "MANE-2710",
+            "ADMN-1030",
+            "ENGR-2600",
+            "MANE-2110",
+            "MANE-2720",
+            "MATH-2010",
+            "ENGR-2090",
+            "MANE-4060",
+            "MANE-4070",
+            "MANE-4100",
+            "MANE-4500",
+            "MANE-4900",
+            "MANE-4910",
+            "MANE-4920",
+            "STSO-4100",
+            "ILEA-4400",
+            "MANE-4080",
+            "MANE-4250",
+            "MANE-4510",
+            "ENGR-4010"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "ENGR Design Elective": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-2050",
+                    "MANE-2220"
+                ]
+            },
+            "Computation Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4140",
+                    "MANE-4240",
+                    "MANE-4280"
+                ]
+            },
+            "Aerospace Technical Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Applied Physics",
+        "credits": 128,
+        "focus-track": false,
+        "links": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8686&returnto=864",
+        "notes": [
+            "Students must also complete a culminating experience, which may be fulfilled (1) through research participation; (2) by passing a designated 4-credit senior elective course; or (3) by passing a designated 3-credit course in Physics or Astronomy plus 1 credit of PHYS 4910.",
+            "The applied physics program requires a track of 16 credits in technical electives which focus on a specific technological area. Possible tracks include, but are not limited to optical physics, medical physics, microelectronics, semiconductor physics, optoelectronics, geophysics, biophysics, computational physics, environmental physics, nuclear science, and space science.",
+            "Technical electives for your track are required to be selected with and approved by an academic advisor."
+        ],
+        "required": [
+            "CSCI-1100",
+            "MATH-1010",
+            "PHYS-1140",
+            "PHYS-1010",
+            "BIOL-1010",
+            "BIOL-1015",
+            "MATH-1020",
+            "PHYS-1150",
+            "CHEM-1100",
+            "MATH-2400",
+            "PHYS-1250",
+            "ADMN-1030",
+            "MATH-2010",
+            "PHYS-2210",
+            "PHYS-4330",
+            "PHYS-2350",
+            "MATH-4600",
+            "PHYS-4210",
+            "PHYS-4420",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+            "Mathematics Elective": {
+                "pick": 1,
+                "classes": [
+                    "MATH-4100",
+                    "MATH-4300",
+                    "MATH-4400",
+                    "MATH-4500",
+                    "MATH-4600",
+                    "MATH-4700",
+                    "MATH-4800"
+                ]
+           }
+
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Biochemistry and Biophysics",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8701&returnto=864",
+        "notes": [
+            "Students must complete at least 6 credits of restricted electives in science or engineering. Restricted electives must be 4000 level courses. Molecular Biophysics Modules, Laboratory Option, and the Quantitative Option may be taken in different semesters than those shown if electives are shifted. Only 2 credits from research may count toward this requirement."
+        ],
+        "required": [
+           "BIOL-1010",
+           "CHEM-1110",
+           "MATH-1010",
+           "BIOL-2120",
+           "BIOL-2125",
+           "CHEM-1200",
+           "MATH-1020",
+           "BIOL-2500",
+           "CHEM-2250",
+           "ADMN-1030",
+           "BIOL-4620",
+           "CHEM-2240",
+           "CHEM-2260",
+           "PHYS-1200",
+           "BIOL-4200",
+           "CHEM-4440",
+           "BCBP-4760",
+           "BIOL-4720",
+           "ILEA-4400",
+           "BCBP-4710",
+           "BCBP-4770"
+
+        ],
+        "pick-multiple": {
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+           },
+           "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                "PHYS-1110"
+                ]
+           },
+           "Quantitative Option": {
+                "pick": 1,
+                "classes": [
+                    "CSCI-1100",
+                    "MATH-2010",
+                    "MATH-2400",
+                    "MATH-4720"
+                ]
+           },
+           "Advanced Laboratory Option": {
+                "pick": 1,
+                "classes": [
+                    "BCBP-4710",
+                    "BIOL-4720"
+                ]
+           },
+           "Senior Research Thesis or Alternative (BIOL-4990 recommended)": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-4990",
+                    "BCBP-4310",
+                    "BCBP-4660",
+                    "BCBP-4800",
+                    "BCBP-4870",
+                    "BIOL-4100",
+                    "BIOL-4150",
+                    "BIOL-4220",
+                    "BIOL-4250",
+                    "BIOL-4260",
+                    "BIOL-4270",
+                    "BIOL-4310",
+                    "BIOL-4350",
+                    "BIOL-4520",
+                    "BIOL-4540",
+                    "BIOL-4550",
+                    "BIOL-4630",
+                    "BIOL-4660",
+                    "BIOL-4860"
+                ]
+           },
+           "Molecular Biophysics Modules": {
+                "pick": 2,
+                "classes": [
+                    "BCBP-4310",
+                    "BCBP-4550",
+                    "BCBP-4600",
+                    "BCBP-4660",
+                    "BCBP-4800",
+                    "BCBP-4870"
+                ]
+           }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Biological Neuroscience",
+        "school": "Science",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8905&returnto=864",
+        "notes": [
+            ""
+        ],
+        "required": [
+            "BIOL-1010",
+            "CHEM-1110",
+            "MATH-1010",
+            "BIOL-2120",
+            "BIOL-2125",
+            "CHEM-1200",
+            "MATH-1020",
+            "BIOL-2500",
+            "CHEM-2250",
+            "CHEM-2230",
+            "ADMN-1030",
+            "BIOL_4620",
+            "CHEM-2260",
+            "CHEM-2240",
+            "PHYS-1200",
+            "BIOL-4760",
+            "BIOL-4200",
+            "BIOL-4100",
+            "ILEA-4400",
+            "BIOL-4260",
+            "BIOL-4270",
+            "BIOL-4150",
+            "BIOL-4250"
+        ],
+        "pick-multiple": {
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+           },
+           "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                "PHYS-1110"
+                ]
+           },
+           "Advanced Biology Laboratory": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-4710",
+                    "BIOL-4720",
+                    "BIOL-4740"
+                ]
+           },
+           "Nueroscience HASS Courses": {
+                "pick": 1,
+                "classes": [
+                    "PSYC-4330",
+                    "PSYC-4360",
+                    "PSYC-4410",
+                    "PSYC-4500",
+                    "PSYC-4600",
+                    "PSYC-4610",
+                    "PSYC-4720"
+                ]
+           }
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Biology",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+            " "
+        ],
+        "required": [
+            "BIOL-1010",
+            "CHEM-1110",
+            "MATH-1010",
+            "BIOL-2120",
+            "BIOL-2125",
+            "CHEM-1200",
+            "MATH-1020",
+            "BIOL-2500",
+            "CHEM-2250",
+            "CHEM-2230",
+            "ADMN-1030",
+            "BIOL_4620",
+            "CHEM-2260",
+            "CHEM-2240",
+            "PHYS-1200",
+            "BIOL-4760",
+            "BIOL-4200",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+           "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+           },
+           "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                "PHYS-1110"
+                ]
+           },
+           "Biology Elective Requirement": {
+                "pick": 2,
+                "classes": [
+                    "BIOL-3"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Biomedical Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8711&returnto=864",
+        "notes": [
+            "Four total courses are required to complete the BME Technical Elective, with at least two being at the 4000 level. There are other courses not in BMED that are provided by the department."
+        ],
+        "required": [
+           "CHEM-1100",
+           "ENGR-1100",
+           "ENGR-1200",
+           "MATH-1010",
+           "BIOL-2120",
+           "BIOL-2125",
+           "ENGR-1300",
+           "MATH-1020",
+           "PHYS-1110",
+           "BMED-2050",
+           "MATH-2010",
+           "MATH-2400",
+           "PHYS-1200",
+           "ADMN-1030",
+           "BMED-2100",
+           "BMED-2300",
+           "BMED-2540",
+           "ENGR-2600",
+           "BMED-4200",
+           "BMED-4250",
+           "ENGR-4010",
+           "BMED-4500",
+           "STSO-4100",
+           "ENGR-2050",
+           "ILEA-4400",
+           "BMED-4010",
+           "BMED-4260",
+           "BMED-4600"
+        ],
+        "pick-multiple": {
+           "BME Technical Electives (any level)": {
+                "pick": 2,
+                "classes": [
+                    "BMED-2"
+                ]
+            },
+            "BME Technical Electives (4000-level)": {
+                "pick": 2,
+                "classes": [
+                    "BMED-4"
+                ]
+            }
+        }
+        
+
+    },
+    {
+        "year": 2024,
+        "major": "Biotechnology and Health Economics",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8909&returnto=864",
+        "notes": [
+            " "
+        ],
+        "required": [
+           "BIOL-1010",
+           "BIOL-1015",
+           "CHEM-1110",
+           "INQR-1200",
+           "MATH-1010",
+           "BIOL-2120",
+           "BIOL-2125",
+           "CHEM-1200",
+           "ECON-2010",
+           "MATH-1020",
+           "CHEM-2250",
+           "CHEM-2230",
+           "MATH-2010",
+           "ECON-4170",
+           "ECON-4270",
+           "ECON-4290",
+           "BCBP-4760",
+           "ECON-4570"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                "PHYS-1110"
+                ]
+           },
+
+           "Culminating Experience Elective": {
+                "pick": 1,
+                "classes": [
+                    "ECON-4010",
+                    "ECON-4110",
+                    "ECON-4150",
+                    "ECON-4190",
+                    "ECON-4320",
+                    "ECON-4360",
+                    "ECON-4370",
+                    "ECON-4380",
+                    "ECON-4430",
+                    "ECON-4580",
+                    "ECON-4590"
+                ]
+           },
+           "Advanced Biology Laboratory": {
+                "pick": 1,
+                "classes": [
+                    "BCBP-4710",
+                    "BIOL-4710",
+                    "BIOL-4320",
+                    "BIOL-4720"
+                ]
+           }
+        },
+        "tracks": {
+            "Data Analytics": {
+                "pick-multiple": {
+                    "Data Analytics Track Courses": {
+                        "pick": 4,
+                        "classes": [
+                            "BCBP-4600",
+                            "BIOL-4200",
+                            "ECON-2100",
+                            "ECON-4580",
+                            "ECON-4590",
+                            "MATH-4720",
+                            "MATP-4400",
+                            "MATP-4910",
+                            "MGMT-2100",
+                            "MGMT-4100",
+                            "MGMT-4160"
+                        ]
+                    }
+                }
+            },
+            "Drug Discovery": {
+                "pick-multiple": {
+                    "Drug Discovery Track Courses": {
+                        "pick": 4,
+                        "classes": [
+                            "BCBP-4310",
+                            "BIOL-2500",
+                            "BIOL-4200",
+                            "BIOL-4270",
+                            "BIOL-4550",
+                            "BIOL-4620",
+                            "BIOL-4660",
+                            "BMED-2100",
+                            "BMED-4450"
+                        ]
+                    }
+                }
+            },
+            "Biotechnology": {
+                "pick-multiple": {
+                    "Biotechnology Track Courses": {
+                        "pick": 4,
+                        "classes": [
+                            "BIOL-2500",
+                            "BIOL-4620",
+                            "BIOL-4310",
+                            "BIOL-4350",
+                            "CHEM-4610",
+                            "CHEM-4750",
+                            "MTLE-4470"
+                        ]
+                    }
+                }
+            },
+            "Economics and Policy": {
+                "pick-multiple": {
+                    "Economics and Policy Track Courses": {
+                        "pick": 4,
+                        "classes": [
+                            "ECON-4010",
+                            "ECON-4130",
+                            "ECON-4210",
+                            "ECON-4310",
+                            "ECON-4330",
+                            "ECON-4340"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Building Sciences",
+        "school": "Architecture",
+        "credits": 130,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+            "This program is closed and is not accepting new students.",
+            "Students in the Building Sciences program declare a concentration, prepare and submit a plan of study at the end of the second semester. The plan of study must be approved and filed with the Building Sciences program director. The program director must also review the plan of study annually."
+        ],
+        "required": [
+            "ARCH-2150",
+            "ARCH-2160",
+            "ARCH-2510",
+            "ARCH-2520",
+            "ARCH-2800",
+            "MATH-1500",
+            "ARCH-2370",
+            "ARCH-2850",
+            "ARCH-4090",
+            "MATH-1520",
+            "PHYS-1050",
+            "ARCH-2330",
+            "ARCH-2860",
+            "ARCH-4560",
+            ""
+        ],
+        "pick-multiple": {
+           "Additional Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "CHEM-1",
+                    "BIOL-1",
+                    "PHYS-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "ERTH-1"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Business Analytics",
+        "school": " ",
+        "credits": 124,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+            "Students must complete an internship in a business-related area.",
+            "Students must complete a capstone course. Contact an advisor for details."
+        ],
+        "required": [
+            "MGMT-1100",
+            "MATH-1010",
+            "INQR-1200",
+            "MGMT-2430",
+            "MATH-1020",
+            "MGMT-1240",
+            "MGMT-2100",
+            "MATH-2010",
+            "ADMN-1030",
+            "CSCI-1100",
+            "MGMT-2300",
+            "MGMT-2320",
+            "MGMT-4140",
+            "MGMT-4850",
+            "CSCI-1200",
+            "MGMT-4100",
+            "MGMT-4110",
+            "MGMT-4800",
+            "ILEA-4400",
+            "MGMT-4170",
+            "MGMT-4190",
+            "MGMT-4870"
+        ],
+        "pick-multiple": {
+            "Additional Science Elective": {
+                "pick": 2,
+                "classes": [
+                    "CHEM-1",
+                    "BIOL-1",
+                    "PHYS-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "ERTH-1"
+                ]
+            },
+            "HASS Ethics Elective": {
+                "pick": 1,
+                "classes": [
+                    "PHIL-4240",
+                    "PHIL-4300",
+                    "STSO-4340",
+                    "PHIL-4500",
+                    "STSO-4250",
+                    "PHIL-2960"
+                ]
+            },
+            "Econometrics": {
+                "pick": 1,
+                "classes": [
+                    "ECON-4280",
+                    "ECON-4570"
+                ]
+            }
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Business and Management",
+        "school": "Management",
+        "credits": 124,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8717&returnto=786",
+        "notes": [
+            "Students must complete an internship in a business-related area.",
+            "Concentrations are not explicitly required, but are highly encouraged."
+        ],
+        "required": [
+           "MGMT-1100",
+           "MGMT-2510",
+           "INQR-1200",
+           "MGMT-1260",
+           "MGMT-2430",
+           "MGMT-1240",
+           "MGMT-2100",
+           "MGMT-2300",
+           "MGMT-1250",
+           "MGMT-4100",
+           "MGMT-4110",
+           "MGMT-2320",
+           "MGMT-4140",
+           "MGMT-4850",
+           "CSCI-1100",
+           "MGMT-4800",
+           "MGMT-4860",
+           "ILEA-4400",
+           "MGMT-4870"
+        ],
+        "pick-multiple": {
+           "Additional Science Elective": {
+                "pick": 2,
+                "classes": [
+                    "CHEM-1",
+                    "BIOL-1",
+                    "PHYS-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "ERTH-1"
+                ]
+            },
+            "Calculus 1": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1010",
+                    "MATH-1500"
+                ]
+            },
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1020",
+                    "MATH-1520"
+                ]
+            },
+            "Management Electives": {
+                "pick": 3,
+                "classes": [
+                    "MGMT-4"
+                ]
+            }
+        },
+        "tracks": {
+            "Entrepreneurship": {
+                "pick-multiple": {
+                    "Entrepreneurship Concentration Courses": {
+                        "pick": 3,
+                        "classes": [
+                            "MGMT-4510",
+                            "MGMT-4520",
+                            "MGMT-4530",
+                            "MGMT-4540",
+                            "MGMT-4960"
+                        ]
+                    }
+                }
+            },
+            "Finance": {
+                "pick-multiple": {
+                    "Finance Concentration Courses": {
+                        "pick": 3,
+                        "classes": [
+                            "MGMT-4320",
+                            "MGMT-4340",
+                            "MGMT-4420",
+                            "MGMT-4540",
+                            "MGMT-4960"
+                        ]
+                    }
+                }
+            },
+            "Management Information Systems": {
+                "required": [
+                    "MGMT-4150",
+                    "MGMT-4170",
+                    "MGMT-4240"
+                ]
+            },
+            "Marketing": {
+                "pick-multiple": {
+                    "Marketing Concentration Courses": {
+                        "pick": 3,
+                        "classes": [
+                            "MGMT-4180",
+                            "MGMT-4450",
+                            "MGMT-4460",
+                            "MGMT-4470",
+                            "MGMT-4490"
+                        ]
+                    }
+                }
+            },
+            "Supply Chain Management": {
+                "required": [
+                    "MGMT-4080",
+                    "MGMT-4175",
+                    "ISYE-4210"
+                ]
+            }
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Chemical Engineering",
+        "school": "Engineering",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8718&returnto=786",
+        "notes": [
+            " "
+        ],
+        "required": [
+            "CHME-1010",
+            "CHEM-1110",
+            "MATH-1010",
+            "PHYS-1100",
+            "CHME-1100",
+            "BIOL-2120",
+            "BIOL-2125",
+            "MATH-1020",
+            "CHME-2010",
+            "CHEM-2250",
+            "ENGR-1010",
+            "MATH-2400",
+            "PHYS-1200",
+            "ADMN-1030",
+            "CHME-2020",
+            "CHME-4010",
+            "CHEM-2260",
+            "ENGR-2600",
+            "CHME-2050",
+            "CHME-4020",
+            "STSO-4100",
+            "CHME-2100",
+            "CHME-2040",
+            "CHME-4500",
+            "CHEM-4530",
+            "ILEA-4400",
+            "CHME-4030",
+            "CHME-4050",
+            "CHME-4150",
+            "CHME-4420",
+            "CHME-4060",
+            "CHME-4010"
+        ],
+        "pick-multiple": {
+            "CAD": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1200",
+                    "ENGR-1400"
+                ]
+            },
+            "Chemical Engineering Elective": {
+                "pick": 1,
+                "classes": [
+                    "CHME-4"
+                ]
+            },
+            "Laboratoey Course": {
+                "pick": 1,
+                "classes": [
+                    "CHME-4160",
+                    "CHME-4170"
+                ]
+            },
+            "General Engineering Elective (can not be CHME)": {
+                "pick": 1,
+                "classes": [
+                    "BMED-2",
+                    "CIVL-2",
+                    "ECSE-2",
+                    "ENGR-2",
+                    "ENVE-2",
+                    "ESCI-2",
+                    "ISYE-2",
+                    "MANE-2",
+                    "MTLE-2"
+                ]
+            }
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Chemistry - Industrial Chemistry",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8906&returnto=786",
+        "notes": [
+            "Two English, one psychology, and one sociology course should be included in your HASS electives.",
+            "18 credits of free electives are required in addition to the named courses. These must be chosen with the help and approval of an advisor."
+        ],
+        "required": [
+            "CHEM-1120",
+            "CHEM-1900",
+            "MATH-1010",
+            "CHEM-1220",
+            "MATH-1020",
+            "PHYS-1200",
+            "CHEM-2110",
+            "CHEM-2120",
+            "CHEM-2250",
+            "CHME-2010",
+            "MATH-2400",
+            "ADMN-1030",
+            "CHEM-2030",
+            "CHEM-2260",
+            "CHEM-2290",
+            "CHEM-4200",
+            "CHEM-4410",
+            "CHME-4010",
+            "BIOL-1010",
+            "CHEM-4030",
+            "CHEM-4420",
+            "ILEA-4400",
+            "CHEM-4110",
+            "CHEM-4760",
+            "CHEM-4900",
+            "CHEM-4950",
+            "CHEM-4120",
+            "CHEM-4620"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+           },
+            "Undergraduate Research": {
+                "pick": 1,
+                "classes": [
+                    "CHEM-2930",
+                    "CHEM-2940",
+                    "CHEM-2950",
+                    "CHEM-4970"
+                ]
+            },
+            "Chemical Engineering Elective": {
+                "pick": 2,
+                "classes": [
+                    "CHME-2050",
+                    "CHME-4030",
+                    "CHME-4040",
+                    "CHME-4500"
+                ]
+            }
+
+        }
+
+    },
+    {
+        "year": 2024,
+        "major": "Chemisty - Chemical Biology",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8847&returnto=786",
+        "notes": [
+            "Students must select the Fall term as their 'on-campus' semester for the Arch program.",
+            "Two English, one psychology, and one sociology course should be included in your HASS electives.",
+            "18 credits of free electives are required in addition to the named courses. These must be chosen with the help and approval of an advisor."
+        ],
+        "required": [
+            "CHEM-1120",
+            "CHEM-1900",
+            "MATH-1010",
+            "PHYS-1100",
+            "CHEM-1220",
+            "MATH-1020",
+            "PHYS-1200",
+            "CHEM-2110",
+            "CHEM-2120",
+            "CHEM-2250",
+            "MATH-2400",
+            "ADMN-1030",
+            "CHEM-2030",
+            "CHEM-2260",
+            "CHEM-2290",
+            "BIOL-2120",
+            "BIOL-2125",
+            "CHEM-4410",
+            "CHEM-4760",
+            "CHEM-4420",
+            "CHEM-4030",
+            "BIOL-2500",
+            "ILEA-4400",
+            "CHEM-4110",
+            "CHEM-4900",
+            "CHEM-4950",
+            "CHEM-4120",
+            "CHEM-4770",
+            "BIOL-4710"
+        ],
+        "pick-multiple": {
+           "Undergraduate Research": {
+                "pick": 1,
+                "classes": [
+                    "CHEM-2930",
+                    "CHEM-2940",
+                    "CHEM-2950",
+                    "CHEM-4970"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Chemistry - General",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8722&returnto=786",
+        "notes": [
+            "Students must select the Fall term as their 'on-campus' semester for the Arch program.",
+            "24 credits of free electives are required in addition to the named courses. These must be chosen with the help and approval of an advisor."
+        
+        ],
+        "required": [
+            "CHEM-1120",
+            "CHEM-1900",
+            "MATH-1010",
+            "CHEM-1220",
+            "MATH-1020",
+            "PHYS-1200",
+            "CHEM-2110",
+            "CHEM-2120",
+            "CHEM-2250",
+            "CHEM-2250",
+            "MATH-2400",
+            "ADMN-1030",
+            "BIOL-1010",
+            "CHEM-2030",
+            "CHEM-2260",
+            "CHEM-2290",
+            "CHEM-4010",
+            "CHEM-4410",
+            "CHEM-4760",
+            "CHEM-4020",
+            "CHEM-4420",
+            "ILEA-4400",
+            "CHEM-4110",
+            "CHEM-4900",
+            "CHEM-4950",
+            "CHEM-4120",
+            "CHEM-4620"
+        ],
+        "pick-multiple": {
+           "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+           },
+           "Undergraduate Research": {
+                "pick": 1,
+                "classes": [
+                    "CHEM-2930",
+                    "CHEM-2940",
+                    "CHEM-2950",
+                    "CHEM-4970"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Civil Engineering",
+        "school": "Engineering",
+        "credits": 127,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8731&returnto=786",
+        "notes": [
+            "Students must select the Spring term as their 'on-campus' semester for the Arch program."
+        ],
+        "required": [
+            "CHEM-1100",
+            "CIVL-1200",
+            "ENGR-1100",
+            "MATH-1010",
+            "MATH-1020",
+            "PHYS-1110",
+            "CIVL-2050",
+            "ENGR-2530",
+            "ENGR-4010",
+            "MATH-2400",
+            "PHYS-1200",
+            "ADMN-1030",
+            "CIVL-2030",
+            "CIVL-2060",
+            "CIVL-2630",
+            "CIVL-2670",
+            "ENGR-4760",
+            "ENGR-4370",
+            "ENGR-2600",
+            "STSO-4100",
+            "ILEA-4400",
+            "CIVL-4920"
+            
+        ],
+        "pick-multiple": {
+            "Basic Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "ASTR-1",
+                    "BIOL-1",
+                    "ERTH-1"
+                ]
+            },
+            "CIVL-1100 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-1100",
+                    "ENGR-1300",
+                    "ENGR-1400",
+                    "ENGR-1700"
+                ]
+            },
+            "CIVL-2050 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-2050",
+                    "ENGR-2250",
+                    "MANE-2720",
+                    "CHME-4010"
+                ]
+            },
+            "CIVL-1300 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-1300",
+                    "CSCI-1100",
+                    "MANE-2110",
+                    "CHME-2050"
+                ]
+            },
+            "Math & Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "MATH-1",
+                    "PHYS-1"
+                ]
+            }
+        },
+        "tracks": {
+            "Structural Engineering": {
+                "required": [
+                    "CIVL-4070",
+                    "CIVL-4080"
+                ]
+            },
+            "Geotechnical Engineering": {
+                "required": [
+                    "CIVL-4010"
+                ],
+                "pick-multiple": {
+                    "Geotechnical Elective Option": {
+                        "pick": 1,
+                        "classes": [
+                            "CIVL-4140",
+                            "CIVL-4150"
+                        ]
+                    }
+                }
+            },
+            "Transportation Engineering": {
+                "pick-multiple": {
+                    "Transportation Elective Options": {
+                        "pick": 2,
+                        "classes": [
+                            "CIVL-4620",
+                            "CIVL-4640",
+                            "CIVL-4660",
+                            "CIVL-4670"
+                        ]
+                    }
+                }
+            },
+            "Water Resources Engineering": {
+                "pick-multiple": {
+                    "Water Resources Elective Options": {
+                        "pick": 2,
+                        "classes": [
+                            "CIVL-4140",
+                            "CIVL-4530",
+                            "CIVL-4670",
+                            "ENVE-4340",
+                            "ENVE-4710"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Cognitive Science",
+        "school": "HASS",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8733&returnto=786",
+        "notes": [
+            "Students may choose to take an approved project/seminar course instead of COGS-4990 - Undergraduate Thesis."
+        ],
+        "required": [
+            "CSCI-1100",
+            "MATH-1010",
+            "COGS-2120",
+            "CSCI-1200",
+            "MATH-1020",
+            "CSCI-2200",
+            "PHIL-2140",
+            "PSYC-2310",
+            "ADMN-1030",
+            "CSCI-2300",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+           "Inquiry or Intro Course": {
+                "pick": 1,
+                "classes": [
+                    "INQR-1140",
+                    "INQR-1130",
+                    "INQR-1165",
+                    "INQR-1235",
+                    "INQR-1960",
+                    "PHIL-1110",
+                    "PHIL-2100"
+                ]
+           },
+            "Cognitive Psychology Elective": {
+                "pick": 1,
+                "classes": [
+                    "PSYC-4370",
+                    "COGS-2340",
+                    "COGS-4330"
+                ]
+            },
+            "Philosophy Elective": {
+                "pick": 1,
+                "classes": [
+                    "PHIL-4130",
+                    "PHIL-4480"
+                ]
+            },
+            "Cognitive Science Core Elective": {
+                "pick": 1,
+                "classes": [
+                    "COGS-4210",
+                    "CSCI-4150",
+                    "PSYC-4350",
+                    "PSYC-4410"
+                ]
+            },
+            "Cognitive Science Electives (free)": {
+                "pick": 3,
+                "classes": [
+                    "COGS-2340",
+                    "COGS-4210",
+                    "COGS-4220",
+                    "COGS-4330",
+                    "COGS-4340",
+                    "COGS-4360",
+                    "COGS-4420",
+                    "COGS-4430",
+                    "COGS-4560",
+                    "COGS-4600",
+                    "COGS-4640",
+                    "COGS-4700",
+                    "COGS-4780",
+                    "COGS-4880",
+                    "CSCI-4100",
+                    "CSCI-4110",
+                    "CSCI-4150",
+                    "CSCI-4270",
+                    "CSCI-4350",
+                    "CSCI-4480",
+                    "ECSE-4540",
+                    "ISYE-4260",
+                    "PHIL-2100",
+                    "PHIL-4130",
+                    "PHIL-4140",
+                    "PHIL-4260",
+                    "PHIL-4420",
+                    "PHIL-4480",
+                    "PSYC-4220",
+                    "PSYC-4330",
+                    "PSYC-4350",
+                    "PSYC-4360",
+                    "PSYC-4410",
+                    "PSYC-4450",
+                    "PSYC-4500",
+                    "PSYC-4720"
+                ]
+           }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Communication, Media, and Design",
+        "school": "HASS",
+        "credits": 124,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8860&returnto=786",
+        "notes": [
+            "Major Elective: 20 credits of COMM, LITR, WRIT, or LANG to obtain further depth in their major in consultation with a faculty adviser. 12 credits of the major electives must be taken at the 4000-level."
+        ],
+        "required": [
+            "WRIT-2110",
+            "COMM-2660",
+            "ADMN-1030",
+            "COMM-2520",
+            "ILEA-4400",
+            "COMM-4930"
+        ],
+        "pick-multiple": {
+            "CMD Gateway Course": {
+                "pick": 1,
+                "classes": [
+                    "INQR-1492",
+                    "INQR-1560",
+                    "INQR-1562"
+                ]
+            },
+            "Science Core (Math requirements)": {
+                "pick": 2,
+                "classes": [
+                    "MATH-1"
+                ]
+            },
+            "Science Core (Math or Science)": {
+                "pick": 4,
+                "classes": [
+                    "MATH-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "CSCI-1",
+                    "ERTH-1",
+                    "MATP-1",
+                    "PHYS-1"
+                ]
+            },
+            "Major Electives (any level)": {
+                "pick": 2,
+                "classes": [
+                    "COMM-1",
+                    "LITR-1",
+                    "WRIT-1",
+                    "LANG-1"
+                ]
+            },
+            "Major Electives (4000 level)": {
+                "pick": 3,
+                "classes": [
+                    "COMM-4",
+                    "LITR-4",
+                    "WRIT-4",
+                    "LANG-4"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Computational Biology",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8706&returnto=786",
+        "notes": [
+            "Senior Research Thesis (BCBP 4990 or BIOL 4990) is recommended; however, students may substitute any additional 4000-level elective course from either focus.",
+            "Focus track must total 20 credits. Please double check this.",
+            "The HASS Science Core requires 24 total credits, with 8 being math classes and the remaining being math or science courses."
+        ],
+        "required": [
+            "BIOL-1010",
+            "CHEM-1110",
+            "MATH-1010",
+            "BIOL-2120",
+            "BIOL-2125",
+            "CHEM-1200",
+            "CSCI-1100",
+            "MATH-1020",
+            "BIOL-2500",
+            "CHEM-2250",
+            "ADMN-1030",
+            "BIOL-4620",
+            "CHEM-2240",
+            "CHEM-2260",
+            "PHYS-1200",
+            "BIOL-4200",
+            "BIOL-4760",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+            },
+            "Advanced Laboratory Option": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-4720",
+                    "BIOL-4320"
+                ]
+            },
+            "Senior Research Thesis": {
+                "pick": 1,
+                "classes": [
+                    "BCBP-4550",
+                    "BIOL-4630"
+                ]
+            }
+        },
+        "tracks": {
+            "Biomolecular Systems": {
+                "required": [
+                    "BCBP-4550",
+                    "BIOL-4630"
+                ],
+                "pick-multiple": {
+                    "Biomolecular Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BCBP-4660",
+                            "BCBP-4770",
+                            "BCBP-4800",
+                            "BCBP-4870",
+                            "CHEM-4300",
+                            "BMED-2100",
+                            "BMED-4200",
+                            "BMED-4450",
+                            "BMED-4500"
+                        ]
+                    },
+                    "Computational Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BIOL-4220",
+                            "BIOL-4540",
+                            "CSCI-1200",
+                            "CSCI-2300",
+                            "CSCI-4100",
+                            "CSCI-4150",
+                            "CSCI-4350",
+                            "CSCI-4370",
+                            "CSCI-4390",
+                            "CSCI-4800",
+                            "MATH-4720",
+                            "MATP-4910"
+                        ]
+                    },
+                    "Additional Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BCBP-4660",
+                            "BCBP-4770",
+                            "BCBP-4800",
+                            "BCBP-4870",
+                            "CHEM-4300",
+                            "BMED-2100",
+                            "BMED-4200",
+                            "BMED-4450",
+                            "BMED-4500",
+                            "BIOL-4220",
+                            "BIOL-4540",
+                            "CSCI-1200",
+                            "CSCI-2300",
+                            "CSCI-4100",
+                            "CSCI-4150",
+                            "CSCI-4350",
+                            "CSCI-4370",
+                            "CSCI-4390",
+                            "CSCI-4800",
+                            "MATH-4720",
+                            "MATP-4910"
+                        ]
+                    }
+
+                }
+            },
+            "Ecological Systems": {
+                "required": [
+                    "BIOL-4220",
+                    "BIOL-4850",
+                    "BIOL-4880"
+                ],
+                "pick-multiple": {
+                    "Ecological Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BIOL-4520",
+                            "CHEM-4810",
+                            "ECON-4230",
+                            "ENVE-4710",
+                            "ERTH-4190",
+                            "ERTH-4500",
+                            "IENV-4700"
+                        ]
+                    },
+                    "Computational Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BIOL-4540",
+                            "CSCI-1200",
+                            "CSCI-2300",
+                            "CSCI-4100",
+                            "CSCI-4150",
+                            "CSCI-4350",
+                            "CSCI-4370",
+                            "CSCI-4390",
+                            "CSCI-4800",
+                            "ERTH-4750",
+                            "MATH-4720",
+                            "MATP-4600",
+                            "MATP-4910"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Computer and Systems Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8736&returnto=786",
+        "notes": [
+            "If taking BIOL 1010 or BIOL 2120 for your science elective, the corresponding lab must be taken at the same time.",
+            "It is recommended that students use electives to form a focus area. See the ECSE Web page for focus area listings.",
+            "The technical elective requirement can be fufilled by any 4000 level math, science, or engineering course."
+        ],
+        "required": [
+            "CSCI-1100",
+            "ECSE-1010",
+            "MATH-1010",
+            "CSCI-1200",
+            "ECSE-2610",
+            "MATH-1020",
+            "PHYS-1110",
+            "CSCI-2200",
+            "ENGR-2350",
+            "MATH-2400",
+            "PHYS-1200",
+            "ADMN-1030",
+            "CSCI-2300",
+            "ECSE-2010",
+            "MATH-2010",
+            "ECSE-2660",
+            "ENGR-2050",
+            "STSO-4100",
+            "ECSE-2050",
+            "ECSE-2410",
+            "ECSE-2500",
+            "ECSE-2900",
+            "ILEA-4400",
+            "ECSE-4900",
+            "ENGR-4010"
+        ],
+        "pick-multiple": {
+            "CAD": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1200",
+                    "ENGR-1400"
+                ]
+            },
+            "Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1010",
+                    "BIOL-2120",
+                    "CHEM-1100"
+                ]
+            },
+            "Restricted Electives": {
+                "pick": 2,
+                "classes": [
+                    "ECSE-4",
+                    "CSCI-4"
+                ]
+            },
+            "Technical Elective": {
+                "pick": 1,
+                "classes": [
+                    "BMED-4",
+                    "CHME-4",
+                    "CIVL-4",
+                    "ECSE-4",
+                    "ENVE-4",
+                    "ESCI-4",
+                    "ISYE-4",
+                    "MANE-4",
+                    "MTLE-4",
+                    "ASTR-4",
+                    "BCBP-4",
+                    "BIOL-4",
+                    "CHEM-4",
+                    "CSCI-4",
+                    "ISCI-4",
+                    "ERTH-4",
+                    "MATH-4",
+                    "MATP-4",
+                    "PHYS-4"
+                ]
+            },
+            "Computer Engineering Elective": {
+                "pick": 1,
+                "classes": [
+                    "CSCI-4380",
+                    "CSCI-4440",
+                    "ECSE-4320",
+                    "ECSE-4660",
+                    "ECSE-4670",
+                    "ECSE-4770",
+                    "ECSE-4780",
+                    "ECSE-4790"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Computer Science",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8738&returnto=786",
+        "notes": [
+        
+        ],
+        "required": [
+            "CSCI-1100",
+            "MATH-1010",
+            "CSCI-1200",
+            "MATH-1020",
+            "BIOL-1010",
+            "CSCI-2200",
+            "CSCI-2500",
+            "ADMN-1030",
+            "CSCI-2300",
+            "CSCI-2600",
+            "ILEA-4400" 
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+            }
+        },
+        "tracks": {
+            "Theory and Algorithms": {
+                "required": [
+                    "MATH-2010"
+                ],
+                "pick-multiple": {
+                    "Mathematics Option 2": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-4",
+                            "MATP-4"
+                        ]
+                    },
+                    "Option 1": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4020",
+                            "CSCI-4960"
+                        ]
+                    },
+                    "Option 2": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4210",
+                            "CSCI-4320",
+                            "CSCI-4430"
+                        ]
+                    },
+                    "CSCI 4000-level Depth Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4030",
+                            "CSCI-4040",
+                            "CSCI-4100",
+                            "CSCI-4100",
+                            "CSCI-4230",
+                            "CSCI-4250",
+                            "CSCI-4260",
+                            "CSCI-4510",
+                            "CSCI-4560"
+                        ]
+                    },
+                    "Breadth Elective 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-4",
+                            "MATP-4"
+                        ]
+                    },
+                    "Breadth Elective 2": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4"
+                        ]
+                    }
+                }
+            },
+            "Systems and Software": {
+                "required": [
+                    "CSCI-4210",
+                    "CSCI-4430"
+                ],
+                "pick-multiple": {
+                    "Mathematics Option 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-2010",
+                            "MATH-4030",
+                            "MATH-4100",
+                            "MATH-4140",
+                            "MATP-4600"
+                        ]
+                    },
+                    "Mathematics Option 2": {
+                        "pick": 1,
+                        "classes": [
+                            "MATP-2",
+                            "MATH-2"
+                        ]
+                    },
+                    "CSCI 4000-level Depth Elective": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4220",
+                            "CSCI-4310",
+                            "CSCI-4320",
+                            "CSCI-4380",
+                            "CSCI-4440",
+                            "CSCI-4450",
+                            "CSCI-4460",
+                            "CSCI-4470",
+                            "CSCI-4500"
+                        ]
+                    },
+                    "Breadth Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4000"
+                        ]
+                    }
+                }
+            },
+            "Artificial Intelligence, Machine Learning, and Data Science": {
+                "required": [
+                    "MATH-2010",
+                    "CSCI-2210"
+                ],
+                "pick-multiple": {
+                    "Requirement 1": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4130",
+                            "CSCI-4150",
+                            "CSCI-4340",
+                            "CSCI-4350",
+                            "CSCI-4370"
+                        ]
+                    },
+                    "Requirement 2": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4210",
+                            "CSCI-4320",
+                            "CSCI-4380"
+                        ]
+                    },
+                    "Requirement 3": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4100",
+                            "CSCI-4390"
+                        ]
+                    },
+                    "CSCI 4000-level Depth Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4140",
+                            "CSCI-4150",
+                            "CSCI-4160",
+                            "CSCI-4170",
+                            "CSCI-4270"
+                        ]
+                    },
+                    "Breadth Elective": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-4"
+                        ]
+                    }
+                }
+            },
+            "Vision, Graphics, Robotics, and Visualization": {
+                "required": [
+                    "MATH-2010"
+                ],
+                "pick-multiple": {
+                    "Mathematics Option 2": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-2",
+                            "MATP-2"
+                        ]
+                    },
+                    "4000-level electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4020",
+                            "CSCI-4210",
+                            "CSCI-4430"
+                        ]
+                    },
+                    "CSCI 4000-level Depth Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4270",
+                            "CSCI-4320",
+                            "CSCI-4480",
+                            "CSCI-4530",
+                            "CSCI-4550",
+                            "CSCI-4560"
+                        ]
+                    },
+                    "Breadth Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Design, Innovation, and Society",
+        "school": "Science",
+        "credits": 124,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8742&returnto=786",
+        "notes": [
+            "Students must complete a Complementary Area of Study (CAS). The CAS is four related courses, usually from a single department, two of which must be at the 4000-level. ",
+            "A capstone design elective is required, any 4000-level course that serves as a culminating design experience, approved by the adviser. "
+        ],
+        "required": [
+            "INQR-1610",
+            "STSO-1100",
+            "STSO-2210",
+            "STSO-2610",
+            "STSO-2020",
+            "ADMN-1030",
+            "STSO-4600",
+            "ILEA-4400",
+            "STSO-4970"
+        ],
+        "pick-multiple": {
+            "Science Core (Math requirements)": {
+                "pick": 2,
+                "classes": [
+                    "MATH-1"
+                ]
+            },
+            "Science Core (Science or math)": {
+                "pick": 4,
+                "classes": [
+                    "MATH-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "CSCI-1",
+                    "ERTH-1",
+                    "MATP-1",
+                    "PHYS-1"
+                ]
+            },
+            "Design and Innovation Studio": {
+                "pick": 1,
+                "classes": [
+                    "STSO-4605",
+                    "STSO-4610"
+                ]
+            },
+            "STS Advanced Option": {
+                "pick": 1,
+                "classes": [
+                    "STSO-4"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Economics",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+        
+        ],
+        "required": [
+            "INQR-1200",
+            "MATH-1010",
+            "MATH-1020",
+            "ECON-2010",
+            "MATH-2010",
+            "ADMN-1030",
+            "ECON-2020",
+            "ECON-4570",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+            "Science Core (Science or math)": {
+                "pick": 4,
+                "classes": [
+                    "MATH-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "CSCI-1",
+                    "ERTH-1",
+                    "MATP-1",
+                    "PHYS-1"
+                ]
+            },
+            "Economics Electives": {
+                "pick": 3,
+                "classes": [
+                    "ECON-1"
+                ]
+            },
+            "Culminating Experience": {
+                "pick": 1,
+                "classes": [
+                    "ECON-4010",
+                    "ECON-4110",
+                    "ECON-4150",
+                    "ECON-4170",
+                    "ECON-4190",
+                    "ECON-4230",
+                    "ECON-4270",
+                    "ECON-4290",
+                    "ECON-4380",
+                    "ECON-4370",
+                    "ECON-4430",
+                    "ECON-4580",
+                    "ECON-4590"
+                ]
+            },
+            "Statistics Elective": {
+                "pick": 1,
+                "classes": [
+                    "MATP-1"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Electrical Engineering",
+        "school": "Engineering",
+        "credits": -1,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+            "If taking BIOL 1010 or BIOL 2120 for your science elective, the corresponding lab must be taken at the same time.",
+            "It is recommended that students use electives to form a focus area. See the ECSE Web page for focus area listings.",
+            "The technical elective requirement can be fufilled by any 4000 level math, science, or engineering course."
+        
+        ],
+        "required": [
+            "CSCI-1100",
+            "ECSE-1010",
+            "MATH-1010",
+            "ENGR-2350",
+            "MATH-1020",
+            "PHYS-1110",
+            "ECSE-2610",
+            "MATH-2400",
+            "PHYS-1200",
+            "ADMN-1030",
+            "ECSE-2010",
+            "ECSE-2500",
+            "MATH-2010",
+            "ECSE-2110",
+            "ENGR-2050",
+            "STSO-4100",
+            "ECSE-2050",
+            "ECSE-2100",
+            "ECSE-2410",
+            "ECSE-2900",
+            "ILEA-4400",
+            "ECSE-2210",
+            "ECSE-4900",
+            "ENGR-4010"
+        ],
+        "pick-multiple": {
+            "CAD": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1200",
+                    "ENGR-1400"
+                ]
+            },
+            "Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1010",
+                    "BIOL-2120",
+                    "CHEM-1100"
+                ]
+            }, 
+            "Restricted Electives": {
+                "pick": 2,
+                "classes": [
+                    "ECSE-4",
+                    "CSCI-4"
+                ]
+            },
+            "Technical Elective": {
+                "pick": 1,
+                "classes": [
+                    "BMED-4",
+                    "CHME-4",
+                    "CIVL-4",
+                    "ECSE-4",
+                    "ENVE-4",
+                    "ESCI-4",
+                    "ISYE-4",
+                    "MANE-4",
+                    "MTLE-4",
+                    "ASTR-4",
+                    "BCBP-4",
+                    "BIOL-4",
+                    "CHEM-4",
+                    "CSCI-4",
+                    "ISCI-4",
+                    "ERTH-4",
+                    "MATH-4",
+                    "MATP-4",
+                    "PHYS-4"
+                ]
+            },
+            "Laboratory Elective": {
+                "pick": 1,
+                "classes": [
+                    "ECSE-4090",
+                    "ECSE-4130",
+                    "ECSE-4220",
+                    "ECSE-4660",
+                    "ECSE-4760",
+                    "ECSE-4770",
+                    "ECSE-4790",
+                    "ENGR-4710"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Electronic Arts",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8750&returnto=786",
+        "notes": [
+        
+        ],
+        "required": [
+            "CSCI-1100",
+            "ADMN-1030",
+            "ILEA-4400",
+            "ARTS-4840",
+            "ARTS-4850",
+            "ARTS-4840",
+            "ARTS-4850"
+        ],
+        "pick-multiple": {
+            "Calculus 1": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1500",
+                    "MATH-1010"
+                ]
+            },
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1520",
+                    "MATH-1020"
+                ]
+            },
+            "Science Core (Science or math)": {
+                "pick": 3,
+                "classes": [
+                    "MATH-1",
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "CSCI-1",
+                    "ERTH-1",
+                    "MATP-1",
+                    "PHYS-1"
+                ]
+            }
+        },
+        "tracks": {
+            "Animation and Algorithmic Art": {
+                "pick-multiple": {
+                    "History/Theory": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-1050",
+                            "ARTS-2520",
+                            "ARTS-2540",
+                            "ARTS-2500"
+                        ]
+                    },
+                    "Studio":{
+                        "pick": 2,
+                        "classes": [
+                            "ARTS-1020",
+                            "ARTS-1030",
+                            "ARTS-1200",
+                            "GSAS-1040"
+                        ]
+                    },
+                    "Focus Area Electives": {
+                        "pick": 6,
+                        "classes": [
+                            "ARTS-2060",
+                            "ARTS-2070",
+                            "ARTS-2230",
+                            "ARTS-4010",
+                            "ARTS-4020",
+                            "ARTS-4060",
+                            "ARTS-4070",
+                            "ARTS-4090",
+                            "ARTS-4260",
+                            "ARTS-4460",
+                            "GSAS-4510"
+                        ]
+                    }
+                }
+            },
+            "Integrated Visual Arts": {
+                "pick-multiple": {
+                    "History/Theory": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-1050",
+                            "ARTS-2520",
+                            "ARTS-2540",
+                            "ARTS-2500"
+                        ]
+                    },
+                    "Studio": {
+                        "pick": 2,
+                        "classes": [
+                            "ARTS-1020",
+                            "ARTS-1030",
+                            "ARTS-1200",
+                            "GSAS-1040"
+                        ]
+                    },
+                    "Focus Area Electives": {
+                        "pick": 6,
+                        "classes": [
+                            "ARTS-2040",
+                            "ARTS-2060",
+                            "ARTS-2070",
+                            "ARTS-2210",
+                            "ARTS-2960",
+                            "ARTS-1220",
+                            "ARTS-4210",
+                            "ARTS-4220",
+                            "ARTS-4260",
+                            "ARTS-4860",
+                            "ARTS-4960",
+                            "GSAS-4510"
+                        ]
+                    }
+                }
+            },
+            "Sonic Arts": {
+                "required": [
+                    "ARTS-1380"
+                ],
+                "pick-multiple": {
+                    "Studio": {
+                        "pick": 2,
+                        "classes": [
+                            "ARTS-2380",
+                            "ARTS-1020",
+                            "ARTS-1030"
+                        ]
+                    },
+                    "Focus Area Electives": {
+                        "pick": 6,
+                        "classes": [
+                            "ARTS-2020",
+                            "ARTS-2180",
+                            "ARTS-2500",
+                            "ARTS-2520",
+                            "ARTS-2560",
+                            "ARTS-2570",
+                            "ARTS-2600",
+                            "ARTS-2610",
+                            "ARTS-2700",
+                            "ARTS-4010",
+                            "ARTS-4180",
+                            "ARTS-4380",
+                            "ARTS-4390",
+                            "ARTS-4440",
+                            "ARTS-4500",
+                            "ARTS-4700",
+                            "ARTS-4880",
+                            "GSAS-2560",
+                            "GSAS-4440"
+                        ]
+                    }
+                }
+            },
+            "Video, Performance, and Social Practice": {
+                "required": [
+                    "ARTS-1030"
+                ],
+                "pick-multiple": {
+                    "History/Theory": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-1050",
+                            "ARTS-2520",
+                            "ARTS-2540",
+                            "ARTS-2500"
+                        ]
+                    },
+                    "Studio": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-2380",
+                            "ARTS-1020"
+                        ]
+                    },
+                    "Focus Area Electives": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-2010",
+                            "ARTS-2040",
+                            "ARTS-2060",
+                            "ARTS-4040",
+                            "ARTS-4250",
+                            "ARTS-4230",
+                            "ARTS-4240",
+                            "ARTS-4560",
+                            "ARTS-4630",
+                            "ARTS-4960"
+                        ]
+                    }
+                }
+            },
+            "DIY (Do It Yourself)": {
+                "pick-multiple": {
+                    "History/Theory": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-1050",
+                            "ARTS-2520",
+                            "ARTS-2540",
+                            "ARTS-2500"
+                        ]
+                    },
+                    "Studio": {
+                        "pick": 2,
+                        "classes": [
+                            "ARTS-1020",
+                            "ARTS-1030",
+                            "ARTS-1200",
+                            "ARTS-2380",
+                            "GSAS-1040"
+                        ]
+                    },
+                    "Focus Area Electives": {
+                        "pick": 6,
+                        "classes": [
+                            "ARTS-1"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Environmental Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8755&returnto=786",
+        "notes": [
+            "Students must select the Spring term as their 'on-campus' semester for the Arch program."
+        ],
+        "required": [
+            "CHEM-1110",
+            "ENGR-1100",
+            "BIOL-1010",
+            "MATH-1010",
+            "CHEM-1200",
+            "MATH-1020",
+            "PHYS-1110",
+            "CIVL-2050",
+            "MATH-2400",
+            "PHYS-1200",
+            "ADMN-1030",
+            "CIVL-1300",
+            "CIVL-2060",
+            "ENVE-2110",
+            "ENGR-2600",
+            "ENGR-2050",
+            "ENGR-4010",
+            "ENVE-4370",
+            "ENVE-4320",
+            "ENVE-4340",
+            "STSO-4100",
+            "ILEA-4400",
+            "ENVE-4330",
+            "ENVE-4350",
+            "ENVE-4180"
+        ],
+        "pick-multiple": {
+            "CIVL-1200 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-1200",
+                    "ENGR-1200",
+                    "ENGR-1400"
+                ]
+            },
+            "CIVL 1100 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-1100",
+                    "ENGR-1300",
+                    "ENGR-1400",
+                    "ENGR-1700"
+                ]
+            },
+            "CIVL 2050 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-2050",
+                    "ENGR-2250",
+                    "MANE-2720",
+                    "CHME-4010"
+                ]
+            },
+            "CIVL 1300 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-1300",
+                    "CSCI-1100",
+                    "MANE-2110",
+                    "CHME-2050"
+                ]
+            },
+            "Introduction to Biology Lab": {
+                "pick": 1,
+                "classes": [
+                    "BIOL-1015",
+                    "BIOL-1016"
+                ]
+            },
+            "Multidisciplinary Engineering Elective": {
+                "pick": 1,
+                "classes": [
+                    "CIVL-2030",
+                    "CIVL-2630",
+                    "ENGR-1600",
+                    "ENGR-2530",
+                    "ENGR-4760",
+                    "ISYE-4140"
+                ]
+            },
+            "Technical Elective": {
+                "pick": 1,
+                "classes": [
+                    "ENVE-2"
+                ]
+            },
+            "Earth Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "ERTH-2"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Games and Simulation Arts and Sciences",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8761&returnto=786",
+        "notes": [
+            "GSAS Majors should choose the “Game Studies” pathway to satisfy their HASS Pathway. Their required coursework will automatically satisfy this pathway."
+        ],
+        "required": [
+            "GSAS-1040",
+            "GSAS-2510",
+            "CSCI-1100",
+            "GSAS-2540",
+            "GSAS-2520",
+            "GSAS-4520",
+            "ADMN-1030",
+            "GSAS-1600",
+            "GSAS-4540",
+            "GSAS-4510",
+            "ILEA-4400",
+            "GSAS-4990"
+        ],
+        "pick-multiple": {
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1020",
+                    "MATH-1520"
+                ]
+            },
+            "Intro Physics": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1050"
+                ]
+            }
+
+        },
+        "tracks": {
+            "Cognitive Science": {
+                "required": [
+                    "MATH-1010",
+                    "COGS-2120",
+                    "COGS-4420",
+                    "CSCI-2300",
+                    "PSYC-4110",
+                    "COGS-4410",
+                    "COGS-4640"
+                ],
+                "pick-multiple": {
+                    "Inquiry/Intro course": {
+                        "pick":1,
+                        "classes": [
+                            "INQR-1140",
+                            "INQR-1220",
+                            "INQR-1235",
+                            "PHIL-2100",
+                            "PHIL-1110"
+                        ]
+                    },
+                    "PSYC elective":{
+                        "pick": 1,
+                        "classes": [
+                            "PYSC-4330",
+                            "PSYC-4410"
+                        ]
+                    }
+                }
+            },
+            "Computer Science": {
+                "required": [
+                    "CSCI-2200",
+                    "CSCI-2300",
+                    "CSCI-2600"
+                ],
+                "pick-multiple": {
+                    "Computer organization": {
+                        "pick": 1,
+                        "classes": [
+                            "CSCI-2500",
+                            "ECSE-2660"
+                        ]
+                    },
+                    "Free CS Electives": {
+                        "pick": 2,
+                        "classes": [
+                            "CSCI-4"
+                        ]
+                    },
+                    "Concentration Electives": {
+                        "pick": 3,
+                        "classes": [
+                            "CSCI-4530",
+                            "CSCI-4550",
+                            "CSCI-4560",
+                            "COGS-4420",
+                            "COGS-4430",
+                            "COGS-4640",
+                            "GSAS-4530",
+                            "GSAS-4550"
+                        ]
+                    }
+                }
+            },
+            "Electronic Arts": {
+                "required": [
+                    "ARTS-1050",
+                    "ARTS-1200",
+                    "ARTS-2230",
+                    "ARTS-4070"
+                ],
+                "pick-multiple": {
+                    "Calculus 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1010",
+                            "MATH-1500"
+                        ]
+                    },
+                    "Science Core (CSCI-1200 recommended, not required)": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1",
+                            "ASTR-1",
+                            "BCBP-1",
+                            "BIOL-1",
+                            "CHEM-1",
+                            "CSCI-1",
+                            "ERTH-1",
+                            "MATP-1",
+                            "PHYS-1"
+                        ]
+                    },
+                    "Intermediate Studio Courses": {
+                        "pick": 3,
+                        "classes": [
+                            "ARTS-1020",
+                            "ARTS-2040",
+                            "ARTS-2060",
+                            "ARTS-2070",
+                            "ARTS-4260",
+                            "ARTS-4280",
+                            "GSAS-4230"
+                        ]
+                    },
+                    "Advanced Studio Courses": {
+                        "pick": 2,
+                        "classes": [
+                            "ARTS-4060",
+                            "ARTS-4460",
+                            "ARTS-4860"
+                        ]
+                    }
+                }
+            }, 
+            "Management": {
+                "required": [
+                    "INQR-1200",
+                    "MGMT-1100",
+                    "MGMT-1260",
+                    "MGMT-2300",
+                    "MGMT-2320",
+                    "MGMT-2430",
+                    "MGMT-2510",
+                    "MGMT-4850",
+                    "MGMT-4870"
+                ],
+                "pick-multiple": {
+                    "Calculus 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1010",
+                            "MATH-1500"
+                        ]
+                    },
+                    "Science Core (CSCI-1200 recommended, not required)": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1",
+                            "ASTR-1",
+                            "BCBP-1",
+                            "BIOL-1",
+                            "CHEM-1",
+                            "CSCI-1",
+                            "ERTH-1",
+                            "MATP-1",
+                            "PHYS-1"
+                        ]
+                    }
+                }
+            },
+            "Writing": {
+                "required": [
+                    "COMM-2520",
+                    "GSAS-4240",
+                    "GSAS-4250",
+                    "GSAS-4260"
+                ],
+                "pick-multiple": {
+                    "Calculus 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1010",
+                            "MATH-1500"
+                        ]
+                    },
+                    "Science Core (CSCI-1200 recommended, not required)": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1",
+                            "ASTR-1",
+                            "BCBP-1",
+                            "BIOL-1",
+                            "CHEM-1",
+                            "CSCI-1",
+                            "ERTH-1",
+                            "MATP-1",
+                            "PHYS-1"
+                        ]
+                    },
+                    "COMM elective": {
+                        "pick": 1,
+                        "classes": [
+                            "COMM-4"
+                        ]
+                    },
+                    "Writing Electives": {
+                        "pick": 4,
+                        "classes": [
+                            "ARTS-2070",
+                            "COMM-4320",
+                            "COMM-4780",
+                            "LITR-2110",
+                            "WRIT-2320",
+                            "WRIT-2330"
+                        ]
+                    }
+                }
+            },
+            "Music": {
+                "required": [
+                    "ARTS-1380",
+                    "ARTS-2020",
+                    "ARTS-2380",
+                    "ARTS-2700",
+                    "ARTS-4160",
+                    "ARTS-4380",
+                    "GSAS-2610"
+                ],
+                "pick-multiple": {
+                    "pick-multiple": {
+                    "Calculus 1": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1010",
+                            "MATH-1500"
+                        ]
+                    },
+                    "Science Core (CSCI-1200 recommended, not required)": {
+                        "pick": 1,
+                        "classes": [
+                            "MATH-1",
+                            "ASTR-1",
+                            "BCBP-1",
+                            "BIOL-1",
+                            "CHEM-1",
+                            "CSCI-1",
+                            "ERTH-1",
+                            "MATP-1",
+                            "PHYS-1"
+                        ]
+                    },
+                    "Elective 1": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-2180",
+                            "ARTS-4180",
+                            "ARTS-4390",
+                            "ARTS-4700",
+                            "ARTS-4880"
+                        ]
+                    },
+                    "Elective 2": {
+                        "pick": 1,
+                        "classes": [
+                            "ARTS-2500",
+                            "ARTS-2510",
+                            "ARTS-2520",
+                            "ARTS-2540",
+                            "ARTS-2550",
+                            "ARTS-2560",
+                            "ARTS-2570",
+                            "ARTS-4440",
+                            "ARTS-4500",
+                            "GSAS-2560",
+                            "GSAS-4440"
+                        ]
+                    }
+                }
+            }
+        }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Geology",
+        "school": "Science",
+        "credits": 124,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8763&returnto=786",
+        "notes": [
+            "ERTH 2160 can be taken as a replacement for BIOL 1010 and its lab, but permission is required."
+        ],
+        "required": [
+            "CHEM-1100",
+            "ERTH-1100",
+            "ERTH-1150",
+            "MATH-1010",
+            "CHEM-1200",
+            "ERTH-1250",
+            "MATH-1020",
+            "ERTH-2330",
+            "MATH-2010",
+            "ADMN-1030",
+            "ERTH-2100",
+            "ERTH-2140",
+            "PHYS-1200",
+            "ERTH-4190",
+            "ILEA-4400",
+            "ERTH-2120",
+            "BIOL-1010",
+            "BIOL-1015"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Geology Group Options": {
+                "pick": 2,
+                "classes": [
+                    "ERTH-4200",
+                    "ERTH-4340",
+                    "ERTH-4350",
+                    "ERTH-4370",
+                    "ERTH-4500",
+                    "ERTH-4540",
+                    "ERTH-4650",
+                    "ERTH-4690",
+                    "ERTH-4710",
+                    "ERTH-4750"
+                ]
+            },
+            "Thesis": {
+                "pick": 1,
+                "classes": [
+                    "ERTH-4970",
+                    "ERTH-4980"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Hydrogeology",
+        "school": "Science",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8769&returnto=786",
+        "notes": [
+            "30 credits of free electives is required. These electives should be designed to provide a depth of understanding in a subdiscipline of hydrogeology (e.g., geology, mathematics, chemistry, physics, biology, computer science, engineering, etc.). Talk to an advisor to form a plan.",
+            "ERTH 2160 can be taken as a replacement for BIOL 1010 and its lab, but permission is required."
+        ],
+        "required": [
+            "CHEM-1100",
+            "ERTH-1100",
+            "ERTH-1150",
+            "MATH-1010",
+            "CHEM-1200",
+            "ERTH-1200",
+            "ERTH-1250",
+            "MATH-1020",
+            "ERTH-2120",
+            "ADMN-1030",
+            "ERTH-2100",
+            "ERTH-2140",
+            "PHYS-1200",
+            "ERTH-4190",
+            "MATH-2400",
+            "ILEA-4400",
+            "ENVE-2110",
+            "ERTH-4710"
+        ],
+        "pick-multiple": {
+            "Computer Science Elective (CSCI 4350 recommended)": {
+                "pick": 1,
+                "classes": [
+                    "CSCI-1"
+                ]
+            },
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Thesis": {
+                "pick": 1,
+                "classes": [
+                    "ERTH-4970",
+                    "ERTH-4980"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Industrial and Management Engineering",
+        "school": "Engineering",
+        "credits": 130,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8771&returnto=786",
+        "notes": [
+            "For a list of courses that satisfy the Professional Development - Technical Issues & Solution requirement, refer to the link “Professional Development Courses” on the Registrar’s “Academic Planning” webpage. It should be completed before the capstone design course.",
+            "A total of 12 credits of Technical Electives are required. If the three courses do not fufill this, the remaining credits must be made up from a larger list of classes in the course catalog."
+        ],
+        "required": [
+            "CHEM-1100",
+            "ENGR-1100",
+            "ADMN-1030",
+            "MATH-1010",
+            "CSCI-1100",
+            "ENGR-1200",
+            "MATH-1020",
+            "PHYS-1110",
+            "ENGR-2600",
+            "ISYE-2530",
+            "MATH-2010",
+            "MATH-2400",
+            "ISYE-2210",
+            "ISYE-4140",
+            "ISYE-4500",
+            "STSO-4100",
+            "ENGR-2050",
+            "ENGR-4760",
+            "PHYS-1200",
+            "ISYE-4290",
+            "ISYE-4600",
+            "ILEA-4400",
+            "ISYE-4210",
+            "ENGR-4010",
+            "ISYE-4270"
+        ],
+        "pick-multiple": {
+            "ENGR-1200 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1200",
+                    "ENGR-1400"
+                ]
+            },
+            "ENGR-1300 or replacement": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1300",
+                    "ISYE-1100"
+                ]
+            },
+            "Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1"
+                ]
+            },
+            "Management Elective": {
+                "pick": 1,
+                "classes": [
+                    "ECON-1200",
+                    "INQR-1200",
+                    "ISYE-4440",
+                    "PSYC-1200",
+                    "MGMT-1100",
+                    "MGMT-2300",
+                    "MGMT-4510",
+                    "MGMT-4520"
+                ]
+            },
+            "Technical Electives": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1600",
+                    "ENGR-2090",
+                    "ENGR-2250",
+                    "ENGR-2300",
+                    "ENGR-2350",
+                    "ENGR-2530",
+                    "ENGR-2710",
+                    "ENGR-4720"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Information Technology and Web Science",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8773&returnto=786",
+        "notes": [
+            "There are 21 focus tracks available that require 32 credits each. Students are able to create their own as well. Talk to an advisor about choosing a focus track. The track included below is the TECHNICAL TRACK, not the FOCUS TRACK."
+            ,"For the science electives, one must be life-sciences and the other must be physical-sciences."
+        ],
+        "required": [
+            "CSCI-1100",
+            "CSCI-1200",
+            "MATH-1010",
+            "ITWS-1220",
+            "ITWS-2210",
+            "ITWS-1100",
+            "ITWS-2110",
+            "ITWS-4310",
+            "ITWS-4500"
+        ],
+        "pick-multiple": {
+            "Science Electives": {
+                "pick": 2,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1"
+                ]
+            },
+            "Math Elective": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1"
+                ]
+            },
+            "ITWS Elective": {
+                "pick": 1,
+                "classes": [
+                    "ITWS-4100",
+                    "ITWS-4990"
+                ]
+            },
+            "Technology Elective": {
+                "pick": 1,
+                "classes": [
+                    "CSCI-4380",
+                    "ITWS-4250",
+                    "MGMT-4170"
+                ]
+            }
+        },
+        "tracks": {
+            "Computer Engineering": {
+                "required": [
+                    "ECSE-2610",
+                    "ENGR-2350",
+                    "ECSE-2660"
+                ]
+            },
+            "Computer Science/Web Science": {
+                "required": [
+                    "CSCI-2200",
+                    "CSCI-2300",
+                    "CSCI-2500"
+                ]
+            },
+            "Information Systems Track": {
+                "required": [
+                    "CSCI-2200",
+                    "CSCI-2500"
+                ],
+                "pick-multiple": {
+                    "Track elective": {
+                        "pick": 1,
+                        "classes": [
+                            "BIOL-4200",
+                            "CSCI-2300",
+                            "ENGR-2600",
+                            "MGMT-2100"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Interdisciplinary Science",
+        "school": "Science",
+        "credits": 124,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+            "Science Option: All six science options must be fulfilled. (a) Eight courses from a single discipline; (b) Four courses from a second discipline; (c) Four courses from a third discipline; and (d) One course from each of the three disciplines not represented in (a), (b), or (c). Two or more of the courses in the eight-course sequence must be at the 4000 level."
+            , "Students must also complete a culminating experience. Talk to an advisor to plan your experience."
+        ],
+        "required": [
+            "CHEM-1100",
+            "MATH-1010",
+            "CHEM-1200",
+            "MATH-1020",
+            "PHYS-1200",
+            "BIOL-1010",
+            "ADMN-1030",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            }, 
+            "Science Options": {
+                "pick": 13,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Materials Engineering",
+        "school": "Engineering",
+        "credits": 127,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8794&returnto=786",
+        "notes": [
+        
+        ],
+        "required": [
+            "CHEM-1100",
+            "ENGR-1100",
+            "MATH-1010",
+            "MTLE-1200",
+            "ENGR-1600",
+            "MATH-1020",
+            "PHYS-1110",
+            "ENGR-1200",
+            "MATH-2400",
+            "MATH-2100",
+            "PHYS-1200",
+            "ADMN-1030",
+            "ENGR-2050",
+            "MTLE-2040",
+            "MTLE-4200",
+            "ENGR-2600",
+            "MTLE-2500",
+            "MTLE-4250",
+            "MTLE-4100",
+            "MTLE-4910",
+            "STSO-4100",
+            "ILEA-4400",
+            "ENGR-4010",
+            "MTLE-4150",
+            "MTLE-4500",
+            "MTLE-4400",
+            "MTLE-4920"
+        ],
+        "pick-multiple": {
+            "Restricted Electives": {
+                "pick": 2,
+                "classes": [
+                    "CHME-2010",
+                    "CHME-2020",
+                    "CIVL-2050",
+                    "ECSE-2010",
+                    "ENGR-2090",
+                    "ENGR-2250",
+                    "ENGR-2300",
+                    "ENGR-2350",
+                    "ENGR-2530",
+                    "MANE-2710",
+                    "MANE-2720"
+                ]
+            },
+            "Materials Electives": {
+                "pick": 2,
+                "classes": [
+                    "MTLE-4030",
+                    "MTLE-4050",
+                    "MTLE-4310",
+                    "MTLE-4430",
+                    "MTLE-4440",
+                    "MTLE-4460",
+                    "MTLE-4470",
+                    "MTLE-4520",
+                    "MTLE-4720",
+                    "MTLE-4960"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Mathematics",
+        "school": "Science",
+        "credits": -1,
+        "focus-track": true,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8798&returnto=786",
+        "notes": [
+        
+        ],
+        "required": [
+            "CSCI-1100",
+            "MATH-1010",
+            "MATH-1900",
+            "PHYS-1100",
+            "MATH-1020",
+            "BIOL-1010",
+            "BIOL-1015",
+            "MATH-2010",
+            "MATH-2400",
+            "ILEA-4400",
+            "MATH-4090",
+            "MATH-4100"
+        ],
+        "pick-multiple": {
+            "Math Elective": {
+                "pick": 1,
+                "classes": [
+                    "MATH-4"
+                ]
+            }
+        },
+        "tracks": {
+            "Mathematics": {
+                "Electives": {
+                    "pick": 3,
+                    "classes": [
+                        "MATH-4010",
+                        "MATH-4020",
+                        "MATH-4030",
+                        "MATH-4040",
+                        "MATH-4120",
+                        "MATH-4150",
+                        "MATH-4200",
+                        "MATH-4300",
+                        "MATH-4950"
+                    ]
+                }
+            },
+            "Applied Mathematics": {
+                "Electives": {
+                    "pick": 3,
+                    "classes": [
+                        "MATH-4300",
+                        "MATH-4400",
+                        "MATH-4500",
+                        "MATH-4600",
+                        "MATH-4700",
+                        "MATH-4720",
+                        "MATH-4800",
+                        "MATH-4950"
+                    ]
+                }
+            },
+            "Mathematics of Computation": {
+                "Electives": {
+                    "pick": 3,
+                    "classes": [
+                        "MATH-4800",
+                        "MATH-4820",
+                        "MATH-4840",
+                        "MATH-4950",
+                        "MATP-4400",
+                        "MATP-4820"
+                    ]
+                }
+            },
+            "Mathematics of Operations Research": {
+                "Electives": {
+                    "pick": 3,
+                    "classes": [
+                        "MATH-4800",
+                        "MATH-4950",
+                        "MATP-4400",
+                        "MATP-4600",
+                        "MATP-4700",
+                        "MATP-4820",
+                        "MATP-4910"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Mechanical Engineering",
+        "school": "Engineering",
+        "credits": 128,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+        
+        ],
+        "required": [
+            "CHEM-1100",
+            "ENGR-1100",
+            "ENGR-1200",
+            "MATH-1010",
+            "ENGR-1300",
+            "ENGR-1600",
+            "MATH-1020",
+            "PHYS-1110",
+            "ENGR-2530",
+            "MANE-2710",
+            "MATH-2400",
+            "PHYS-1200",
+            "STSO-4100",
+            "ADMN-1030",
+            "ENGR-2300",
+            "MANE-2110",
+            "MATH-2010", 
+            "ENGR-2090",
+            "MANE-2720",
+            "MANE-4030",
+            "ENGR-2600",
+            "MANE-4500",
+            "MANE-4730",
+            "MANE-4040",
+            "MANE-4740",
+            "ILEA-4400",
+            "ENGR-4010",
+            "MANE-4260",
+            "MANE-4510"
+        ],
+        "pick-multiple": {
+            "Engineering Design Elective": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-2050",
+                    "MANE-2220"
+                ]
+            },
+            "Computation Elective": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4240",
+                    "MANE-4140",
+                    "MANE-4280",
+                    "MTLE-4500"
+                ]
+            },
+            "Technical Elective 1": {
+                "pick": 1,
+                "classes": [
+                    "MANE-4"
+                ]
+            },
+            "Technical Elective 2": {
+                "pick": 1,
+                "classes": [
+                    "ASTR-4",
+                    "BCBP-4",
+                    "BIOL-4",
+                    "CHEM-4",
+                    "ERTH-4",
+                    "IENV-4",
+                    "MATH-4",
+                    "PHYS-4",
+                    "BMED-4",
+                    "CIVL-4",
+                    "ECSE-4",
+                    "ENGR-4",
+                    "ENVE-4",
+                    "ESCI-4",
+                    "ISYE-4",
+                    "MANE-4",
+                    "MTLE-4",
+                    "CHME-4"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Music",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8855&returnto=786",
+        "notes": [
+            "4 credits of practice are required. 1 credit classes can be repeated.",
+            "Fall semester on campus is recommended."
+        ],
+        "required": [
+            "ARTS-2020",
+            "ARTS-2380",
+            "ARTS-4160",
+            "ARTS-4380",
+            "ARTS-4390",
+            "ILEA-4400"
+        ],
+        "pick-multiple": {
+            "Calculus 1": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1010",
+                    "MATH-1500"
+                ]
+            },
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1020",
+                    "MATH-1520"
+                ]
+            },
+            "Science Options": {
+                "pick": 4,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1",
+                    "CSCI-1"
+                ]
+            },
+            "Practice Requirement": {
+                "pick": 1,
+                "classes": [
+                    "ARTS-2030",
+                    "ARTS-2080",
+                    "ARTS-2180",
+                    "ARTS-2300",
+                    "ARTS-2310",
+                    "ARTS-2350",
+                    "ARTS-2600",
+                    "ARTS-2700",
+                    "ARTS-2750"
+                ]
+            },
+            "Music and Culture Requirement": {
+                "pick": 1,
+                "classes": [
+                    "ARTS-2500",
+                    "ARTS-2510",
+                    "ARTS-2520",
+                    "ARTS-2540",
+                    "ARTS-2550",
+                    "ARTS-2560",
+                    "GSAS-2560"
+                ]
+            },
+            "Culminating Experience": {
+                "pick": 1,
+                "classes": [
+                    "ARTS-4160",
+                    "ARTS-4390",
+                    "ARTS-4500",
+                    "ARTS-4700",
+                    "ARTS-4880"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Nuclear Engineering",
+        "school": "Engineering",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8811&returnto=786",
+        "notes": [
+            "Students must select the Fall term as their 'on-campus' semester for the Arch program.",
+            "NE Senior Design Project I & II are a required fall-spring sequence of Capstone Design courses."
+        ],
+        "required": [
+            "CHEM-1100",
+            "ENGR-1200",
+            "MATH-1010",
+            "ENGR-1100",
+            "MANE-1100",
+            "MATH-1020",
+            "PHYS-1200",
+            "MANE-2710",
+            "MANE-2830",
+            "MATH-2010",
+            "MATH-2400",
+            "STSO-4100",
+            "ADMN-1030",
+            "MANE-2110",
+            "MANE-2400",
+            "MANE-2720",
+            "MANE-4350",
+            "ENGR-2600",
+            "ENGR-4010",
+            "MANE-4470",
+            "MANE-4480",
+            "MANE-4730",
+            "ILEA-4400",
+            "MANE-4380",
+            "MANE-4370",
+            "MANE-4400",
+            "MANE-4500",
+            "MANE-4390"
+        ],
+        "pick-multiple": {
+            "Physics 1": {
+                "pick": 1,
+                "classes": [
+                    "PHYS-1100",
+                    "PHYS-1110"
+                ]
+            },
+            "Engineering Design Elective": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-2050",
+                    "MANE-2220"
+                ]
+            },
+            "Elective 1": {
+                "pick": 1,
+                "classes": [
+                    "ENGR-1600",
+                    "MANE-4460"
+                ]
+            },
+            "NE Technical Electives": {
+                "pick": 2,
+                "classes": [
+                    "MANE-4"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Philosophy",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8814&returnto=786",
+        "notes": [
+            "Philosophy!"
+        ],
+        "required": [
+            "PHIL-2140",
+            "ADMN-1030",
+            "ILEA-4400",
+            "PHIL-4990"
+        ],
+        "pick-multiple": {
+            "Calculus 1": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1010",
+                    "MATH-1500"
+                ]
+            },
+            "Intro Class": {
+                "pick": 1,
+                "classes": [
+                    "INQR-1130",
+                    "INQR-1140",
+                    "INQR-1150",
+                    "INQR-1160",
+                    "INQR-1165",
+                    "INQR-1235",
+                    "PHIL-1110"
+                ]
+            },
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1020",
+                    "MATH-1520"
+                ]
+            },
+            "Science Options": {
+                "pick": 4,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1",
+                    "CSCI-1"
+                ]
+            },
+            "Philosophy Of Science Elective": {
+                "pick": 1,
+                "classes": [
+                    "PHIL-2400",
+                    "PHIL-4130",
+                    "PHIL-4310"
+                ]
+            },
+            "Ethics Elective": {
+                "pick": 1,
+                "classes": [
+                    "PHIL-4240",
+                    "PHIL-4300",
+                    "PHIL-4500",
+                    "PHIL-2960",
+                    "STSO-4250"
+                ]
+            },
+            "Philosophy Electives": {
+                "pick": 3,
+                "classes": [
+                    "PHIL-2"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Physics",
+        "school": "Science",
+        "credits": 128,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8817&returnto=786",
+        "notes": [
+            "Students must select the Spring term as their 'on-campus' semester for the Arch program.",
+            "Students must complete a culminating experience, which may be fulfilled (1) through research participation; (2) by passing a designated 4-credit senior elective course; or (3) by passing a designated 3-credit course in Physics or Astronomy plus 1 credit of PHYS 4910.",
+            "8 credits of Technical Electives are to be selected with the aid of an adviser in order to create a track in an appropriate applied physics field. "
+        ],
+        "required": [
+            "CSCI-1100",
+            "MATH-1010",
+            "PHYS-1140",
+            "PHYS-1010",
+            "BIOL-1010",
+            "BIOL-1015",
+            "MATH-1020",
+            "PHYS-1150",
+            "CHEM-1100",
+            "MATH-2400",
+            "PHYS-1250",
+            "MATH-2010",
+            "PHYS-2210",
+            "PHYS-4330",
+            "PHYS-2350",
+            "PHYS-4100",
+            "PHYS-4210",
+            "PHYS-4420",
+            "ILEA-4400"
+
+        ],
+        "pick-multiple": {
+            "Mathematics Electives": {
+                "pick": 2,
+                "classes": [
+                    "MATH-4100",
+                    "MATH-4300",
+                    "MATH-4400",
+                    "MATH-4500",
+                    "MATH-4600",
+                    "MATH-4700",
+                    "MATH-4800"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": "Psychological Science",
+        "school": "HASS",
+        "credits": -1,
+        "focus-track": false,
+        "link": "https://catalog.rpi.edu/preview_program.php?catoid=30&poid=8823&returnto=786",
+        "notes": [
+            "A culminating experience is also required: PSYC 4XXX Advanced Seminar or Honors Thesis or Undergraduate Research Project."
+        ],
+        "required": [
+            "CSCI-1100",
+            "PSYC-1200",
+            "PSYC-2310",
+            "PSYC-4310",
+            "PSYC-4350"
+        ],
+        "pick-multiple": {
+            "Calculus 1": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1010",
+                    "MATH-1500"
+                ]
+            },
+            "Calculus 2": {
+                "pick": 1,
+                "classes": [
+                    "MATH-1020",
+                    "MATH-1520"
+                ]
+            },
+            "Science Options": {
+                "pick": 4,
+                "classes": [
+                    "ASTR-1",
+                    "BCBP-1",
+                    "BIOL-1",
+                    "CHEM-1",
+                    "ERTH-1",
+                    "IENV-1",
+                    "MATH-1",
+                    "PHYS-1",
+                    "CSCI-1"
+                ]
+            },
+            "Psychology Electives": {
+                "pick": 4,
+                "classes": [
+                    "COGS-4330",
+                    "COGS-4360",
+                    "PSYC-2730",
+                    "PSYC-4330",
+                    "PSYC-4360",
+                    "PSYC-4370",
+                    "PSYC-4410",
+                    "PSYC-4450"
+                ]
+            },
+            "Free Psychology Electives": {
+                "pick": 2,
+                "classes": [
+                    "PSYC-2"
+                ]
+            }
+        }
+    },
+    {
+        "year": 2024,
+        "major": " ",
+        "school": " ",
+        "credits": 128,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+        
+        ],
+        "required": [
+            
+        ],
+        "pick-multiple": {
+           
+        }
+    },
+    {
+        "year": 2024,
+        "major": " ",
+        "school": " ",
+        "credits": 128,
+        "focus-track": false,
+        "link": " ",
+        "notes": [
+        
+        ],
+        "required": [
+            
+        ],
+        "pick-multiple": {
+           
+        }
+    }
+
+]
