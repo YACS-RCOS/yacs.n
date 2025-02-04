@@ -21,7 +21,9 @@ import { toast } from "vue3-toastify";
     "
     @upload-error="
       (error) => {
-        toast.error(`Error uploading ${error[0]}: ${error[1].response?.data ?? error[1].message}`);
+        toast.error(`Error uploading ${error[0]}: ${error[1].response?.data ?? error[1].message}`, {
+          autoClose: 60000
+        });
       }
     "
   />
