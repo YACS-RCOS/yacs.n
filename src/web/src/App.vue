@@ -19,8 +19,28 @@ watchEffect(() => {
     <NavBar />
   </header>
 
-  <main class="h-full w-full bg-on-primary font-sans">
-    <RouterView />
+  <main class="flex h-full w-full flex-col overflow-auto bg-on-primary font-sans">
+    <RouterView v-slot="{ Component }">
+      <template v-if="Component">
+        <!-- <Transition mode="out-in"> -->
+        <!-- <KeepAlive> -->
+        <Suspense timeout="0">
+          <!-- main content -->
+          <component :is="Component" />
+
+          <!-- loading state -->
+          <template #fallback>
+            <div
+              class="absolute top-1/4 mx-auto aspect-square h-2/5 animate-spin self-center justify-self-center bg-primary mask-image-multiselect-spinner"
+            >
+              Loading...
+            </div>
+          </template>
+        </Suspense>
+        <!-- </KeepAlive> -->
+        <!-- </Transition> -->
+      </template>
+    </RouterView>
   </main>
 
   <AppFooter />
