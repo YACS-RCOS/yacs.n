@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 import requests
+import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import Select
 import time
 from bs4 import BeautifulSoup as bs
 import pandas as pd
+import pdb
 import copy
 from course import Course
 from concurrent.futures import ThreadPoolExecutor
-import sys
-import headless_login as login
 # from lxml, based on the code from the quacs scraper and the other scraper, we will prob need to parse xml markup
 # term format: spring2023, fall2023, summer2023, hartford2023, enrichment2023
 # TROUBLESHOOTING: remove the line "options.add_argument("--headless")" to see where the script might be stalling

@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup as bs
+import requests
 from pypdf import PdfReader
 import os
 

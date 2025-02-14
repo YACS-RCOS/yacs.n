@@ -1,16 +1,20 @@
 from bs4 import BeautifulSoup as bs
+import requests
 from selenium import webdriver
 from selenium.webdriver import Firefox
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import *
-from itertools import chain
-import requests
-import json
-import re
 import os
+import json
+import time
+import re
+from itertools import chain
 import ci_scraper as ci
 import multiprocessing
+from selenium.webdriver.common.keys import Keys
+import goldy_parse as gp
 
 '''
 AUGUST 2024 Course Catalog Scraper
@@ -81,6 +85,7 @@ Large scraping function. Goes to the search page of a single course, checks if t
 '''
 def scrape_single_course(prefix:str, code:str, nav: str, cat: str) -> dict:
     try:
+        
         link = "https://catalog.rpi.edu/content.php?filter%5B27%5D={}&filter%5B29%5D={}&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid={}&expand=&navoid={}&search_database=Filter&filter%5Bexact_match%5D=1#acalog_template_course_filter".format(prefix, code, cat, nav)
         r1 = requests.get(link)
         content1 = r1.content

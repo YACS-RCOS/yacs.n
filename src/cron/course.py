@@ -1,5 +1,7 @@
+import time
+import pdb
 import copy
-
+from typing import overload
 class Course:
     name:str
     credits:int
@@ -66,10 +68,8 @@ class Course:
                 continue 
             tmp[i]= tmp[i][:1].upper() + tmp[i][1:].lower()
         return ' '.join(tmp)
-    
     def addSemester(self, semester):
         self.sem = semester.upper()
-        
     def addReqs(self, pre:list=[], co:list=[], raw:str="", desc: str=""):
         self.desc = desc
         self.raw = raw

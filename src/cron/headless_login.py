@@ -1,8 +1,13 @@
+import selenium as sel
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import WebDriverWait 
+from selenium.webdriver.support import expected_conditions as EC 
 import time
 import os
+import sys
 
 # Remember to add enviromental variables named rcsid and rcspw with your account info!!!
 #

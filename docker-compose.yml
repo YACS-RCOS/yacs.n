@@ -1,3 +1,5 @@
+version: "3.4"
+
 # web (front-end) depends on api (back-end) depends on (db)
 # web -> api -> db [dependency chain]
 # NOTE: env vars are in docker-compose.development.yml or docker-compose.production.yml depending on env

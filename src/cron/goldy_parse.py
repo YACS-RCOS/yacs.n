@@ -1,6 +1,7 @@
+from regex import P
 import requests
 from bs4 import BeautifulSoup as bs
-
+import csv
 '''
 Turns a trerm into a valid link for Professor Goldschmidt's course information
 '''

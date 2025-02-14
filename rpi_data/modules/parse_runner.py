@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-import headless_login as login
+import cron.headless_login as login
 import cron.new_parse as parser
 import sys
 from datetime import datetime
