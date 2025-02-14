@@ -1,2 +1,15 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-*
+src/_*
+*.pyc
+**/*__pycache__*
+logs/
+node_modules/
+.pytest_cache
+.vscode
+.DS_Store
+.python-version
+courses20.xml
+.coverage
+compose-dev.yaml
+rpi_data/get-summer-2023-2.sh
+rpi_data/summer-20232.csv
+.venv
