@@ -10,7 +10,9 @@ const { semesters, selectedSemester } = storeToRefs(useClassInfoStore());
 void until(semesters)
   .toBeTruthy()
   .then((v) => {
-    selectedSemester.value = v[0];
+    if (v.length > 0) {
+      selectedSemester.value ??= v[v.length - 1];
+    }
   });
 </script>
 
