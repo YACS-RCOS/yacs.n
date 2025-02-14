@@ -17,7 +17,6 @@ import os
 Finds all of the course codes for a given term and subject.
 '''
 def find_codes(term, subj):
-    print("find codes")
     subj_course = "https://sis.rpi.edu/rss/bwckctlg.p_display_courses?term_in={}&call_proc_in=&sel_subj=&sel_levl=&sel_schd=&sel_coll=&sel_divs=&sel_dept=&sel_attr=&sel_subj={}".format(term, subj)
     s = requests.Session()
     response = s.get(subj_course)
@@ -42,7 +41,6 @@ def find_codes(term, subj):
 Generates SIS links for a list of codes
 '''
 def generate_links(term, codes):
-    print("generate links")
     links = []
     for all in codes:
         subj = all[:4]
@@ -55,7 +53,6 @@ def generate_links(term, codes):
 Scrapes all of the course information for a list of links.
 '''
 def scrape_all(links, term, major) -> list[Course]:
-    print("scrape all")
     courses = []
     for link in links:
         try:
@@ -81,7 +78,6 @@ def scrape_all(links, term, major) -> list[Course]:
 Main link scrape, which splits the page into individual courses and then scrapes each.
 '''
 def link_scrape(term, link, major) -> list[Course]:
-    print("link scrape")
     s = requests.Session()
     response = s.get(link)
     webpage = response.content
@@ -132,7 +128,6 @@ def link_scrape(term, link, major) -> list[Course]:
 Scrapes the course occupancy information for a specific course from SIS.
 '''
 def get_slots(term, CRN):
-    print("get slots")
     link = "https://sis.rpi.edu/rss/bwckschd.p_disp_detail_sched?term_in={}&crn_in={}".format(str(term), CRN)
     s = requests.session()
     response = s.get(link)
@@ -158,7 +153,6 @@ def get_slots(term, CRN):
 Scrapes info from main page for a single course.
 '''
 def body_scrape(body) -> list[list[str]]:
-    print("body scrape")
     table = body.find("table")
     string_body = str(body)
     string_body = string_body.replace(str(table), "")
@@ -190,7 +184,6 @@ def body_scrape(body) -> list[list[str]]:
 Scrapes a table element into a 2D string list.
 '''
 def table_scrape(table:bs) -> list[list[str]]:
-    print("table scrape")
     # ["", Type, Time, Days, Where, Date Range, Schedule Type, Instructor]
     scraped_table = []
     for row in table.find_all('tr'):
@@ -206,7 +199,6 @@ def table_scrape(table:bs) -> list[list[str]]:
 turns a term number into a human readable term
 '''
 def number_to_term(term) -> str:
-    print("number to term")
     date = term[:4]
     if term[4:] == "01":
         date = "SPRING " + date
@@ -232,7 +224,6 @@ def number_to_term(term) -> str:
 Formats and orders the courses into the desired order.
 '''
 def format_and_order(courses:list[list[str]]) -> list[list[str]]:
-    print("format and order")
     final_courses = []
     for course in courses:
         if (len(course) != 17):
@@ -275,7 +266,6 @@ def format_and_order(courses:list[list[str]]) -> list[list[str]]:
 
 
 def time_split(time) -> list[str]: # format times
-    print("time split")
     if (time == "TBA"):
         return "", ""
     split = time.split(" - ")
@@ -286,7 +276,6 @@ def time_split(time) -> list[str]: # format times
     return stime, etime
 
 def date_split(date): # format dates
-    print("date split")
     non_formatted = date.split(" - ")
     non_formatted_start = non_formatted[0]
     non_formatted_end = non_formatted[1]
@@ -300,7 +289,6 @@ def date_split(date): # format dates
 Parent function that scrapes all courses for a given term and writes them to a CSV file.
 '''
 def no_login_scrape(term: str, num_browsers: int):
-    print("no login scrape")
     options = Options()
     services = webdriver.FirefoxService( executable_path=os.environ.get('GECKO_PATH', '/usr/local/bin/geckodriver') )
     options.add_argument("--headless")
@@ -310,7 +298,6 @@ def no_login_scrape(term: str, num_browsers: int):
     driver.quit()
     courses = []
     for subject in subjects.keys():
-        print(subject)
         codes = find_codes(term, subject) # scrapes all of the course codes for a subject from SIS
         links = generate_links(term, codes) # turns the codes into links
         temp_courses = []
@@ -355,7 +342,6 @@ def no_login_scrape(term: str, num_browsers: int):
 Scrapes the prerequisites for multiple courses at once.
 '''
 def pre_req_scrape(codes: list[str], nav:str, cat:str, num_browsers: int):
-    print("pre req scrape")
     all_courses = dict()
     with multiprocessing.Pool(num_browsers) as pool:
         parts = list(cs.split(codes, num_browsers))
@@ -368,7 +354,6 @@ def pre_req_scrape(codes: list[str], nav:str, cat:str, num_browsers: int):
 Edits a course using the information from Professor Goldschmidt's website.
 '''
 def add_goldy_info(course: Course, goldy_info: dict):
-    print("add goldy info")
     checking = "Prerequisite"
     if checking not in goldy_info.keys():
         checking = "Prerequisites"
