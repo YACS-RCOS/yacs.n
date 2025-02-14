@@ -1,16 +1,23 @@
-# FROM python:3.9-alpine
-FROM seleniarm/standalone-firefox:latest
+# FROM selenium/standalone-firefox:latest
+FROM python:3.9-slim
 
-RUN sudo apt-get update && sudo apt-get install -y python3 python3-pip
 
-COPY ./requirements.txt /app/
-RUN xargs sudo apt-get -y install < /app/requirements.txt
-# RUN pip install -r /app/requirements.txt
-COPY . /app/
-RUN crontab /app/scrape_cron
+RUN apt-get update                             \
+ && apt-get install -y --no-install-recommends \
+    ca-certificates curl firefox-esr           \
+ && rm -fr /var/lib/apt/lists/*                \
+ && curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar xz -C /usr/local/bin \
+ && apt-get purge -y ca-certificates curl
 
-# Create empty log (TAIL needs this)
-RUN touch /tmp/out.log
+RUN apt-get update && apt-get -y install cron vim
+COPY crontab /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab
+RUN touch /var/log/cron.log
 
-# Start TAIL - as your always-on process (otherwise - container exits right after start)
-CMD crond && tail -f /tmp/out.log
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
+COPY ./requirements.txt /usr/src/
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . /usr/src/
+
+CMD ["cron", "-f"]

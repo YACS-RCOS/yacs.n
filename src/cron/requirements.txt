@@ -1,7 +1,7 @@
-python3-selenium
-python3-bs4
-python3-pypdf
-python3-pandas
-python3-requests
-python3-regex
-python3-crontab
+selenium==4.28.1
+beautifulsoup4==4.12.3
+bs4==0.0.2
+pypdf==5.1.0
+pandas==2.2.3
+requests==2.32.3
+regex==2024.11.6

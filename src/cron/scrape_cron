@@ -1,1 +1,0 @@
-*/3 * * * *  python3 /app/no_login.py >>/tmp/out.log 2>/tmp/err.log
