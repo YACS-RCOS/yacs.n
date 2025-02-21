@@ -23,7 +23,8 @@ Majors that need the most personalization (usually they have some kind of specia
 
 ****** Building sciences is unfinished because it looks like it is getting discontiued?******
 
-******* Find the science core requirements for Lally *****
 
-Science core for HASS majors: 
-- 8 credits of Math, 16 credits of Math or Science. Some named courses may be included in the required courses for each major.
+Science core for all majors:
+8 credits of math, and 16 credits of math or science. Most majors have required math and science classes that are taken out of the science core, and require the remaining science classes to not be major classes. Ex. your last science class as a CS major can't be a CS class.
+
+
