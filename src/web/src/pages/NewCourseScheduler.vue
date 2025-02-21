@@ -366,6 +366,14 @@ export default {
       loadedIndexCookie: 0,
     };
   },
+  mounted() {
+    // Reload the schedule when the component is mounted
+    this.reloadSchedule();
+  },
+  // NEW: When the component is re-activated (if using keep-alive), reload the schedule
+  activated() {
+    this.reloadSchedule();
+  },
   methods: {
     toggleNav() {
       this.isNavOpen = !this.isNavOpen;
@@ -468,9 +476,8 @@ export default {
                     (section) => section.crn === selectedSectionCrn
                   );
 
-                  section.selected = true;
-                }
-              );
+                section.selected = true;
+              });
             });
         } catch (err) {
           // If there is an error here, it might mean the data was changed,
@@ -670,6 +677,12 @@ export default {
         .updateIndex(this.index)
         .save();
     },
+    // Reload the schedule when returning to this page
+    reloadSchedule() {
+      if (Object.keys(this.selectedCourses).length > 0) {
+        this.getSchedules();
+      }
+    },
   },
   computed: {
     ...mapState(["subsemesters", "selectedSemester"]),
@@ -728,6 +741,12 @@ export default {
     },
   },
   watch: {
+    // ─── Watch for route changes to trigger schedule reload ──────────────
+    $route(to) {
+      if (to.name === "SchedulePage") {
+        this.reloadSchedule();
+      }
+    },
     courses: {
       immediate: true,
       handler() {
