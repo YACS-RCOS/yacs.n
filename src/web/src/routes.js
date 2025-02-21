@@ -12,7 +12,8 @@ const DegreeTemplatesPage = () => import("./pages/DegreeTemplates");
 const PathwayPage = () => import("./pages/Pathway");
 const SubjectExplorerPage = () => import("./pages/SubjectExplorer");
 const NotFoundPage = () => import("./pages/NotFound");
-const FinalExamScheduler = () => import("./pages/FinalExamScheduler");
+const FinalExamSchedulerPage = () => import("./pages/FinalExamScheduler");
+const GPACalculatorPage = () => import("./pages/GPACalculator");
 
 var router = new VueRouter({
   routes: [
@@ -44,8 +45,13 @@ var router = new VueRouter({
           name: "Pathway",
         },
         {
+          path: "/GPACalculator",
+          component: GPACalculatorPage,
+          name: "GPACalculator",
+        },
+        {
           path: "/FinalExamScheduler",
-          component: FinalExamScheduler,
+          component: FinalExamSchedulerPage,
           name: "Finals",
         },
         {
