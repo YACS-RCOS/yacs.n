@@ -7,11 +7,12 @@ import { toast } from "vue3-toastify";
 <template>
   <UploadModal
     accept-file-types="application/json"
+    :disallow-multiple-files="true"
     title="Upload Professors JSON"
     :action="
       (v) =>
-        api.upload_prof_json(v).catch((error) => {
-          throw [v.name, error];
+        api.upload_prof_json(v).catch((e) => {
+          throw [v.name, e];
         })
     "
     @upload-success="
@@ -21,10 +22,9 @@ import { toast } from "vue3-toastify";
     "
     @upload-error="
       (error) => {
-        toast.error(
-          `Error uploading ${error[0]}: ${error[1].response?.data ?? error[1].message}`,
-          { autoClose: 60000 }
-        );
+        toast.error(`Error uploading ${error[0]}: ${error[1].response?.data ?? error[1].message}`, { 
+          autoClose: 60000 
+        });
       }
     "
   />
