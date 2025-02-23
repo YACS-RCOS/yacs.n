@@ -5,7 +5,7 @@ class Admin:
 		self.interface_name = 'admin_info'
 
 	def get_semester_default(self):
-		# NOTE: COALESCE takes first non-null vaue from the list
+		# NOTE: COALESCE takes first non-null value from the list
 		result, error = self.db_conn.execute("""
 			SELECT admin.semester FROM admin_settings admin
 			UNION ALL
@@ -21,8 +21,7 @@ class Admin:
 
 		if error:
 			return (None, error)
-		else:
-			return (default_semester, error)
+		return (default_semester, error)
 
 	def set_semester_default(self, semester):
 		try:
@@ -40,5 +39,4 @@ class Admin:
 
 		if response != None:
 			return(True, None)
-		else:
-			return (False, error)
+		return (False, error)

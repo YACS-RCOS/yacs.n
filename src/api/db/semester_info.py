@@ -1,7 +1,20 @@
-class semester_info:
+import asyncio
 
-    def __init__(self, db_wrapper):
+class semester_info:
+    def __init__(self, db_wrapper, cache):
         self.db = db_wrapper
+        self.cache = cache
+
+    def clear_cache(self):
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
+
+        if loop and loop.is_running():
+            loop.create_task(self.cache.clear(namespace="API_CACHE"))
+        else:
+            asyncio.run(self.cache.clear("API_CACHE"))
 
     def upsert(self, semester, isPublic):
         self.db.execute("""
@@ -28,3 +41,15 @@ class semester_info:
         if data is not None and len(data) > 0:
             return data[0]['public']
         return False
+
+    def delete_semester(self, semester):
+        # clear cache so this semester does not come up again
+        self.clear_cache()
+        return self.db.execute("""
+            BEGIN TRANSACTION;
+                DELETE FROM semester_info
+                WHERE semester=%(Semester)s;
+            COMMIT;
+        """, {
+            "Semester": semester
+        }, isSELECT=False)
