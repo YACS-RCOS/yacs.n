@@ -28,7 +28,14 @@
           {{ courseObj.description }}
         </b-col>
       </b-row>
-      <b-button @click="$router.go(-1)">Back</b-button>
+      <b-row class="mb-3">
+        <b-col>
+          <b-button variant="primary" class="mr-2" @click="addToSchedule">
+            Add to Schedule
+          </b-button>
+          <b-button @click="$router.go(-1)">Back</b-button>
+        </b-col>
+      </b-row>
       <!--      :to="'/explore/' + courseObj.department"-->
     </div>
     <CenterSpinner
@@ -60,6 +67,8 @@ import { COURSES } from "@/store";
 import { generateRequirementsText } from "@/utils";
 import CenterSpinnerComponent from "../components/CenterSpinner.vue";
 import CourseSectionsOpenBadge from "../components/CourseSectionsOpenBadge.vue";
+import { SelectedCoursesCookie } from "../controllers/SelectedCoursesCookie";
+import { addStudentCourse } from "@/services/YacsService";
 
 export default {
   components: {
@@ -91,8 +100,57 @@ export default {
   },
   methods: {
     generateRequirementsText,
+    async addToSchedule() {
+      if (this.courseObj) {
+        if (this.isLoggedIn) {
+          try {
+            await addStudentCourse({
+              name: this.courseObj.name,
+              semester: this.selectedSemester,
+              cid: "-1"
+            });
+
+            for (const section of this.courseObj.sections) {
+              await addStudentCourse({
+                name: this.courseObj.name,
+                semester: this.selectedSemester,
+                cid: section.crn
+              });
+            }
+          } catch (error) {
+            this.$bvToast.toast('Failed to add course to schedule', {
+              title: 'Error',
+              variant: 'danger',
+              solid: true
+            });
+            return;
+          }
+        } else {
+          this.courseObj.selected = true;
+          
+          const cookieManager = SelectedCoursesCookie.load(this.$cookies)
+            .semester(this.selectedSemester);
+          
+          cookieManager.addCourse(this.courseObj);
+          this.courseObj.sections.forEach(section => {
+            section.selected = true;
+            cookieManager.addCourseSection(this.courseObj, section);
+          });
+          
+          cookieManager.save();
+        }
+
+        this.$bvToast.toast(`Added ${this.courseObj.name} to schedule`, {
+          title: 'Course Added',
+          variant: 'success',
+          solid: true
+        });
+      }
+    }
   },
   computed: {
+    ...mapState(['selectedSemester', 'selectedCourses']),
+    ...mapGetters({ isLoggedIn: 'user/isLoggedIn' }),
     ...mapState(["isLoadingCourses"]),
     ...mapGetters([COURSES]),
     transformed() {
