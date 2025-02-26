@@ -8,7 +8,7 @@ export interface Professor {
   phone_number: string;
   department: string;
   portfolio_page: string;
-  profile_page: string | null;
+  profile_page: string;
 };
 
 /** Gets professor info */
