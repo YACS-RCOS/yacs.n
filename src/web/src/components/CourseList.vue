@@ -1,38 +1,55 @@
 <template>
   <div class="d-flex flex-column flex-grow-1">
     <div class="course-search">
-      <b-form-group label="Search" label-for="search">
+      <!--label="Search"-->
+      <b-form-group label-for="search">
         <b-form-input
           id="search"
           v-model="textSearch"
           :debounce="debounceTime"
-          placeholder="Intro to College - COLG 1030"
+          placeholder="Search: Intro to College - COLG 1030"
           list="list-id"
         ></b-form-input>
       </b-form-group>
 
-      <b-row>
-        <!-- >2 b/c default ALL option always present -->
-        <b-col v-if="subsemesterOptions.length > 2">
-          <b-form-group label="Filter Sub-Semester" for="sub-semester">
-            <b-form-select
-              v-model="selectedSubsemester"
-              :options="subsemesterOptions"
-            ></b-form-select>
-          </b-form-group>
-        </b-col>
-        <b-col>
-          <b-form-group label="Filter Department" for="department">
-            <b-form-select
-              v-model="selectedDepartment"
-              :options="departmentOptions"
-            ></b-form-select>
-          </b-form-group>
-        </b-col>
-      </b-row>
+      <b-button
+        @click="toggleFilterPrompt();"
+        size="sm"
+        style="margin-right: 5px;"
+        >
+        Filters
+      </b-button>
+      <b-button
+        @click="resetFilters();"
+        size="sm"
+        variant="danger"
+        >
+        Reset
+      </b-button>
+      <b-modal id="courseFilters" title="Course Filters" size="sm">
+          <b-col>
+            <b-row v-if="subsemesterOptions.length > 2">
+              <b-form-group label="Filter Sub-Semester" for="sub-semester">
+                <b-form-select
+                  v-model="selectedSubsemester"
+                  :options="subsemesterOptions"
+                ></b-form-select>
+              </b-form-group>
+            </b-row>
+            <b-row>
+              <b-form-group label="Filter Department" for="department">
+                <b-form-select
+                  v-model="selectedDepartment"
+                  :options="departmentOptions"
+                ></b-form-select>
+              </b-form-group>
+            </b-row>
+          </b-col>
+      </b-modal>
+
     </div>
     <!-- Start of Dynamic Scrolling Rendering To Account For Varying Course Data. > -->
-    <hr />
+    <hr>
     <div id="scroll-box" data-cy="course-list">
       <div v-if="filterCourses.length == 0" class="no-courses">
         Oops, no results!
@@ -124,8 +141,12 @@ export default {
     });
   },
   methods: {
-    courseInfoModalToggle(course) {
-      this.$emit("showCourseInfo", course);
+    resetFilters() {
+      this.selectedDepartment=null;
+      this.selectedSubsemester=null;
+    },
+    toggleFilterPrompt() {
+      this.$root.$emit("bv::show::modal", "courseFilters");
     },
     /* wrapper for querying with search */
     // todo: get courses should be changed
