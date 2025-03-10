@@ -134,6 +134,7 @@ export default {
       getCourses(this.selectedSemester, this.textSearch, false).then(
         (course_list) => {
           this.courseList = course_list;
+          this.textSearch = this.textSearch.trim();
         }
       );
     },
@@ -233,16 +234,16 @@ export default {
 <style scoped lang="scss">
 #scroll-box {
   // overflow-y: scroll !important;
-  // overflow-x: hidden;
+  //overflow-x: hidden;
   flex-grow: 1;
-  flex-basis: 0px; // allows flex and scroll combo
+  flex-basis: 0; // allows flex and scroll combo
   // flex-grow will set height during runtime
-  min-height: 200px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
+ // min-height: 500px; // fix for when at breakpoint <= md. Height isn't filling for some reason.
 }
 
 .scroller {
   height: 100%;
-  overflow-x: hidden;
+  //overflow-x: hidden;
 }
 
 .form-group {
@@ -250,12 +251,26 @@ export default {
 }
 .course-listing {
   padding: 10px;
-  border-bottom: 1px solid #dbdbdc;
+  border-bottom: 30px solid #dbdbdc;
 }
+.course-search b-form-input {
+  font-size: 16px; /* Increase the font size as needed */
+  padding: 10px; /* Increase the padding as needed */
+}
+.course-search b-form-group {
+  display: flex;
+  align-items: center;
+}
+
+.course-search b-form-group label{
+  font-size:18px;
+  flex-basis:120px;
+}
+
 
 .no-courses {
   border-style: solid;
-  border-width: 2px;
+  border-width: 3px;
   border-color: rgb(0, 0, 0, 0.05);
   font-size: 17px;
   padding: 20px;

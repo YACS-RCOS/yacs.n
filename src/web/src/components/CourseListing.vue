@@ -50,7 +50,7 @@
             @click.stop="toggleCourseSection(section)"
             :style="{
               'border-left': section.selected
-                ? `4px solid ${getBorderColor(course.name)}`
+                ? `6px solid ${getBorderColor(course.name)}`
                 : 'none',
               'background-color': section.selected
                 ? `${getBackgroundColor(course.name)} !important`
