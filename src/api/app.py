@@ -246,6 +246,11 @@ async def get_student_courses(request: Request):
     courses, error = course_select.get_selection(request.session['user']['user_id'])
     return courses if not error else Response(error, status_code=500)
 
+# TODO:
+@app.get('/api/user/stats')
+async def get_user_stats():
+    return user_controller.get_user_stats()
+
 
 @app.get('/api/user/{session_id}')
 async def get_user_info(request: Request, session_id):
@@ -272,6 +277,11 @@ async def update_user_info(request:Request, user:updateUser):
         return Response("Not authorized", status_code=403)
 
     return user_controller.update_user(user)
+
+# TODO:
+@app.get('/api/session/stats')
+async def get_session_stats():
+    return session_controller.get_session_stats()
 
 @app.post('/api/session')
 async def log_in(request: Request, credentials: SessionPydantic):

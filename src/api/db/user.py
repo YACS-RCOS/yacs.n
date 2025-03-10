@@ -63,3 +63,10 @@ class User(Model):
                         user_id = %(UID)s;
                     """
         return self.db.execute(sql, args, False)[0]
+    # TODO:
+    def get_all_users(self):
+        # Note to devs: this method is rather slow. need to find a faster method later.
+        sql = """   
+                SELECT count(*) FROM public.user_account;
+              """
+        return self.db.execute(sql, True)[0][0]['count']

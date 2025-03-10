@@ -173,3 +173,9 @@ def add_user(form):
         return msg.error_msg("Failed to add user.")
 
     return msg.success_msg({"msg": "User added successfully."})
+
+# TODO:
+def get_user_stats():
+    users = UserModel()
+    total_users=users.get_all_users()
+    return msg.success_msg({"total_users": total_users})
