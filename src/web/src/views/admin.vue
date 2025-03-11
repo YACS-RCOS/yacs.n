@@ -24,10 +24,7 @@ const actions: [keyof RouteNamedMap, string][] = [
 
     <RouterView v-slot="{ Component }">
       <Transition>
-        <component
-          :is="Component"
-          class="duration-1000 [&.v-enter-active]:transition-opacity [&.v-enter-from]:opacity-0 [&.v-leave-active]:transition-opacity [&.v-leave-to]:opacity-0"
-        />
+        <component :is="Component" />
       </Transition>
     </RouterView>
 
