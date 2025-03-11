@@ -14,19 +14,26 @@ export type CourseSectionResponse = Omit<CourseSection, "sessions"> & {
 
 export type CourseSessionResponse = CourseSession;
 
-export const getCourses = useMemoize(
-  async (semester: string, search?: string): Promise<Course[]> => {
-    const resp = await app.get<CourseResponse[]>("/class", { params: { semester, search } });
+export type DepartmentResponse = { department: string }[];
 
-    const data = resp.data;
+export const getCourses = useMemoize(async (semester: string, search?: string) => {
+  const resp = await app.get<CourseResponse[]>("/class", { params: { semester, search } });
 
-    return data.map((raw) => {
-      return {
-        ...raw,
-        date_start: new Date(new Date(raw.date_start).toUTCString()),
-        date_end: new Date(new Date(raw.date_end).toUTCString()),
-        sections: raw.sections.filter((s) => s !== null)
-      };
-    });
-  }
-);
+  const data = resp.data;
+
+  return data.map((raw) => {
+    const t: Course = {
+      ...raw,
+      date_start: new Date(raw.date_start),
+      date_end: new Date(raw.date_end),
+      sections: raw.sections.filter((s) => s !== null),
+      frequency: (raw.frequency ?? "").replace("When Offered:", "").trim()
+    };
+    return t;
+  });
+});
+
+export const getDepartments = useMemoize(async () => {
+  const resp = await app.get<DepartmentResponse>("/department");
+  return resp.data;
+});
