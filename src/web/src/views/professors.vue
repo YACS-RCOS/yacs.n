@@ -38,28 +38,30 @@ function closeModal() {
 
 <template>
   <div class="flex flex-col text-primary gap-4 p-4">
-    <h2 class="text-2xl font-bold">Professors</h2>
 
-    <div class="mb-4">
+    <div class="mb-3 flex justify-center">
       <input
         v-model="searchTerm"
         type="text"
         placeholder="Search by name"
-        class="px-2 py-1 border border-gray-300 rounded text-black"
+        class="w-64 px-4 py-2 text-lg border border-gray-400 rounded text-black"
       />
     </div>
 
-    <div class="grid grid-cols-3 gap-4">
-      <button
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-10">
+      <div
         v-for="prof in filteredProfessors"
         :key="prof.email"
-        class="text-500 hover:underline text-left"
-        @click="showProfessor(prof)"
+        class="border border-gray-300 rounded p-4"
       >
-        {{ prof.name }}
-      </button>
+        <button
+          class="text-500 hover:underline text-center w-full"
+          @click="showProfessor(prof)"
+        >
+          {{ prof.name }}
+        </button>
+      </div>
     </div>
-
 
     <ProfessorModal
       v-if="selectedProfessor"

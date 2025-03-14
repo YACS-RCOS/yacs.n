@@ -49,7 +49,7 @@ watch(
   <div
     v-if="open"
     ref="popup"
-    class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black bg-opacity-50 p-24 motion-safe:animate-fade-in"
+    class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black bg-opacity-50 py-24 px-10 motion-safe:animate-fade-in"
     :class="align == 'top' ? 'justify-start' : align == 'bottom' ? 'justify-end' : 'justify-center'"
     @click="emit('close')"
   >
