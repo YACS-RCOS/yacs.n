@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from "vue";
 import { getProfessors, type Professor } from "@/api/professor";
 import ProfessorModal from "@/components/modals/ProfessorModal.vue";
+import DepartmentSelector from "@/components/DepartmentSelector.vue";
 
 const professors = ref<Professor[]>([]);
 const selectedProfessor = ref<Professor | null>(null);
@@ -17,6 +18,16 @@ onMounted(async () => {
     console.error("Error fetching professors:", error);
   }
 });
+
+const departmentOptions = computed(() => {
+  const uniqueDepartments = new Set<string>()
+  for (const prof of professors.value) {
+    if (prof.department) {
+      uniqueDepartments.add(prof.department)
+    }
+  }
+  return Array.from(uniqueDepartments).sort()
+})
 
 const filteredProfessors = computed(() => {
   if (!searchTerm.value) return professors.value;
@@ -38,13 +49,15 @@ function closeModal() {
 
 <template>
   <div class="flex flex-col text-primary gap-4 p-4">
-
-    <div class="mb-3 flex justify-center">
+    <div class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
+      <DepartmentSelector 
+        :departments="departmentOptions" 
+      />
       <input
         v-model="searchTerm"
         type="text"
         placeholder="Search by name"
-        class="w-64 px-4 py-2 text-lg border border-gray-400 rounded text-black"
+        class="w-64 px-4 py-2 rounded text-black"
       />
     </div>
 
