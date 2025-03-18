@@ -65,6 +65,7 @@ export default {
         }
       ]
     }),
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
         {
