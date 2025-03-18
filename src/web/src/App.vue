@@ -100,6 +100,7 @@ export default {
 #root,
 html,
 body {
+  padding-top: 1.3rem;
   height: 100%;
 }
 </style>
