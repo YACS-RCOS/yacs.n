@@ -30,3 +30,9 @@ services:
     container_name: yacs_db
     image: postgres:12-alpine
     
+  yacs_cron:
+    restart: unless-stopped
+    container_name: yacs_cron
+    build:
+      context: ./src/cron
+      dockerfile: Dockerfile

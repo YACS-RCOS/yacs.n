@@ -290,8 +290,9 @@ Parent function that scrapes all courses for a given term and writes them to a C
 '''
 def no_login_scrape(term: str, num_browsers: int):
     options = Options()
+    services = webdriver.FirefoxService( executable_path=os.environ.get('GECKO_PATH', '/usr/local/bin/geckodriver') )
     options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options) # starter code which uses selenium
+    driver = webdriver.Firefox(options=options, service=services) # starter code which uses selenium
     subjects = old.findAllSubjectCodes(driver) # finds all subject codes
     nav, cat = cs.navigate_to_course(driver, term) # finds the navigation and catalog ids, which are each used to build a course search query.
     driver.quit()
@@ -335,6 +336,7 @@ def no_login_scrape(term: str, num_browsers: int):
     parent = os.path.abspath(os.path.join(dir_path, os.pardir))
     path = os.path.join(parent, number_to_term(term).lower().replace(" ", "-") + ".csv")
     old.writeCSV(courses, path)
+    return path
 
 '''
 Scrapes the prerequisites for multiple courses at once.
@@ -368,7 +370,31 @@ def add_goldy_info(course: Course, goldy_info: dict):
         course.raw = "Prerequisites: " + goldy_info[checking]
         
 if __name__ == "__main__":
-    no_login_scrape("202409", 15)
-    #driver = webdriver.Firefox()
+    print("Our test works at", datetime.now())
+
+    # options = Options()
+    # services = webdriver.FirefoxService( executable_path=os.environ.get('GECKO_PATH', '/usr/local/bin/geckodriver') )
+    # options.add_argument("--headless")
+    # driver = webdriver.Firefox(options=options, service=services)
+
+    # print(cs.scrape_single_course(driver, "MANE", "6990", 202509))
+
+    file = no_login_scrape("202509", 15)
+    fileName = os.path.basename(os.path.normpath(file))
+    url = os.environ.get('YACS_API_HOST', 'http://yacs_api:4000')
+    payload = {'isPubliclyVisible': 'on'}
+    
+    files=[
+    ('file',(fileName,open(file,'rb'),'text/csv'))
+    ]
+
+    headers = {
+    'X-API-KEY': os.environ.get('API_SIGN_KEY', None)
+    }
+
+    resp = requests.post(url + '/api/bulkCourseUpload', headers=headers, data=payload, files=files)
+    print(resp.text)
+
+    # driver = webdriver.Firefox()
     #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
     #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))
