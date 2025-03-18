@@ -6,7 +6,6 @@ import DepartmentSelector from "@/components/DepartmentSelector.vue";
 
 const professors = ref<Professor[]>([]);
 const selectedProfessor = ref<Professor | null>(null);
-const selectedDepartment = ref<string | null>(null)
 const isModalOpen = ref(false);
 const searchTerm = ref("");
 
@@ -31,11 +30,10 @@ const departmentOptions = computed(() => {
 })
 
 const filteredProfessors = computed(() => {
-  return professors.value.filter((prof) => {
-    const checkName = prof.name.toLowerCase().includes(searchTerm.value.toLowerCase());
-    const checkDepartment = !selectedDepartment.value || prof.department === selectedDepartment.value;
-    return checkName && checkDepartment;
-  });
+  if (!searchTerm.value) return professors.value;
+  return professors.value.filter((prof) =>
+    prof.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  );
 });
 
 function showProfessor(prof: Professor) {
@@ -47,38 +45,31 @@ function closeModal() {
   isModalOpen.value = false;
   selectedProfessor.value = null;
 }
-
-function updateDepartment(selectedOption: string | null) {
-  selectedDepartment.value = selectedOption;
-}
 </script>
 
 <template>
-  <div class="flex flex-col text-primary gap-4 p-4 sm:p-8">
+  <div class="flex flex-col text-primary gap-4 p-4">
     <div class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
+      <DepartmentSelector 
+        :departments="departmentOptions" 
+      />
       <input
         v-model="searchTerm"
         type="text"
         placeholder="Search by name"
-        class="w-64 px-4 py-2 rounded text-black border-2 border-gray-300"
-      />
-      <DepartmentSelector 
-        v-model="selectedDepartment"
-        :departments="departmentOptions"
-        @update="updateDepartment"
+        class="w-64 px-4 py-2 rounded text-black"
       />
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-10 pt-1 sm:pt-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-10">
       <div
         v-for="prof in filteredProfessors"
         :key="prof.email"
+        class="border border-gray-300 rounded p-4"
       >
         <button
-          class="border border-gray-300 rounded hover:bg-green-600 transition-colors duration-200 
-            hover:text-white text-500 hover:underline text-center w-full p-4"
+          class="text-500 hover:underline text-center w-full"
           @click="showProfessor(prof)"
-          
         >
           {{ prof.name }}
         </button>

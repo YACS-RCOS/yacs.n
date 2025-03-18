@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
+import { defineProps, ref } from 'vue'
 import Multiselect from '@vueform/multiselect'
 import "@vueform/multiselect/themes/tailwind.css"
 
@@ -7,22 +7,17 @@ const props = defineProps<{
   departments: string[]
 }>()
 
-const emit = defineEmits<{
-  'update': [selectedOption: string | null]
-}>();
-
-function updateDepartment(selectedDepartment: string | null) {
-  emit('update', selectedDepartment);
-}
+// Track the single selected department
+const selectedDepartment = ref<string | null>(null)
 </script>
 
 <template>
-  <div class="w-64 text-black border border-gray-300 rounded">
+  <div class="my-4 w-64 text-black">
     <Multiselect
+      v-model="selectedDepartment"
       :options="props.departments"
       placeholder="Search by department"
       :searchable="true"
-      @update:model-value="updateDepartment"
     />
   </div>
 </template>
