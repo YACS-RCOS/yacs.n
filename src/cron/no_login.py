@@ -371,7 +371,15 @@ def add_goldy_info(course: Course, goldy_info: dict):
         
 if __name__ == "__main__":
     print("Our test works at", datetime.now())
-    file = no_login_scrape("202501", 15)
+
+    # options = Options()
+    # services = webdriver.FirefoxService( executable_path=os.environ.get('GECKO_PATH', '/usr/local/bin/geckodriver') )
+    # options.add_argument("--headless")
+    # driver = webdriver.Firefox(options=options, service=services)
+
+    # print(cs.scrape_single_course(driver, "MANE", "6990", 202509))
+
+    file = no_login_scrape("202509", 15)
     fileName = os.path.basename(os.path.normpath(file))
     url = os.environ.get('YACS_API_HOST', 'http://yacs_api:4000')
     payload = {'isPubliclyVisible': 'on'}
@@ -386,6 +394,7 @@ if __name__ == "__main__":
 
     resp = requests.post(url + '/api/bulkCourseUpload', headers=headers, data=payload, files=files)
     print(resp.text)
+
     # driver = webdriver.Firefox()
     #print(cs.scrape_single_course(driver, "CSCI", "1100", 202409))
     #print(link_scrape("202409", "https://sis.rpi.edu/rss/bwckctlg.p_disp_listcrse?term_in=202409&subj_in=CHME&crse_in=4980&schd_in=L", "CHME"))

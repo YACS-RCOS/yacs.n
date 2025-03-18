@@ -99,7 +99,12 @@ def scrape_single_course(prefix:str, code:str, nav: str, cat: str) -> dict:
             return dict()
         if "No courses found" in check.get_text(strip=True) or "" == check.get_text(strip=True):
             return dict()
-        nopop = check.find("a", {"aria-expanded": "false"}).get("href") # gets the link to the nopopup page
+        
+        element = check.find("a", {"aria-expanded": "false"})
+        nopop = element.get("href") if element else None
+        if nopop is None:
+            return dict()
+        # nopop = check.find("a", {"aria-expanded": "false"}).get("href") # gets the link to the nopopup page
         '''
         Beautiful soup for the nopopup page
         '''
