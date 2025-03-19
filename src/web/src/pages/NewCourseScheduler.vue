@@ -121,7 +121,8 @@
               <!-- CRNs and Credits -->
               <b-col class="m-2">
                 <h5>CRNs: {{ selectedCrns }}</h5>
-                <h5>Credits: {{ totalCredits }}</h5>
+                <h5>Credits: {{ totalCredits }} </h5>
+                <h5 style="color:red"> {{ overCredits }}  </h5>
               </b-col>
               <!-- Color Blind Assistance -->
               <b-col class="m-2 d-flex flex-column align-items-end">
@@ -711,6 +712,22 @@ export default {
         return a + b;
       }, 0);
       return sum;
+    },
+    overCredits(){
+      var array = Object.values(this.selectedCourses).map((c) => c.max_credits);
+
+      // Getting sum of numbers
+      var sum = array.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      var end=""
+      if(sum>21){
+        end = "Over Maximum Credit Of 21"
+      }
+      else if(sum<12){
+        end = "Under Minimum Credit Of 12"
+      }
+      return end
     },
     numSelectedCourses() {
       return Object.values(this.selectedCourses).length;
