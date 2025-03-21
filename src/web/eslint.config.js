@@ -4,11 +4,6 @@ import vue from "eslint-plugin-vue";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-// /** @type {Record<string, typeof import("typescript-eslint").config>} */
-// const vuelint_rules = Object.fromEntries(
-//   Object.entries(vuelint.configs).map(([k, v]) => [k, v.rules])
-// );
-
 export default tseslint.config(
   // standard configs
   eslint.configs.recommended,
@@ -16,11 +11,7 @@ export default tseslint.config(
   tseslint.configs.eslintRecommended,
   ...tseslint.configs.stylisticTypeChecked,
   {
-    extends: [
-      vue.configs["flat/essential"],
-      vue.configs["flat/strongly-recommended"],
-      vue.configs["flat/recommended"]
-    ]
+    extends: [vue.configs["flat/recommended"]]
   },
   prettier,
   // additional rules we want to use
