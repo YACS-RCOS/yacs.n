@@ -30,3 +30,14 @@ services:
     container_name: yacs_db
     image: postgres:12-alpine
     
+  matomo_db:
+    restart: unless-stopped
+    container_name: matomo_db
+    image: mariadb:10.11
+
+  matomo:
+    restart: unless-stopped
+    container_name: matomo
+    image: matomo:fpm-alpine
+    depends_on:
+      - matomo_db
