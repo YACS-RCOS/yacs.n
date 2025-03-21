@@ -18,16 +18,16 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 Vue.use(Meta);
+Vue.$cookies.config("7d");
 Vue.use(VueMatomo, {
-  host: '{localhost:7070}',
+  host: 'http://localhost:7070/',
   siteId: 1,
 });
-
-Vue.$cookies.config("7d");
 
 new Vue({
   render: (h) => h(App),
   router,
+  components: { App },
   store,
 }).$mount("#app");
 
