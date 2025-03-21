@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { RouteNamedMap } from "unplugin-vue-router/types";
 import { RouterLink } from "vue-router/auto";
+import type { RouteNamedMap } from "vue-router/auto-routes";
 
 const actions: [keyof RouteNamedMap, string][] = [
   ["/admin/upload_courses", "Upload Courses CSV"],
@@ -18,7 +18,7 @@ const actions: [keyof RouteNamedMap, string][] = [
       v-for="[href, title] of actions"
       :key="href"
       :to="href"
-      class="rounded bg-action p-1"
+      class="bg-action rounded-sm p-1"
       >{{ title }}
     </RouterLink>
 
@@ -28,11 +28,11 @@ const actions: [keyof RouteNamedMap, string][] = [
       </Transition>
     </RouterView>
 
-    <div class="flex-grow" />
+    <div class="grow" />
 
     <RouterLink
       to="/"
-      class="rounded bg-secondary p-1"
+      class="bg-secondary rounded-sm p-1"
       >Go home
     </RouterLink>
   </div>

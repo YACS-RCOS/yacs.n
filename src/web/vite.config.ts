@@ -34,7 +34,8 @@ export default defineConfig({
         lintCommand: "eslint .",
         useFlatConfig: true
       }
-    })
+    }),
+    tailwind(),
   ],
   resolve: {
     alias: {

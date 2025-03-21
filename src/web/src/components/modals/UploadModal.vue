@@ -37,6 +37,7 @@ const uploadstatus = useAsyncState(
           })
           .catch((e) => {
             emit("uploadError", e as [string, AxiosError]);
+            // eslint-disable-next-line @typescript-eslint/only-throw-error
             throw [v.name, e];
           })
       )
@@ -44,6 +45,7 @@ const uploadstatus = useAsyncState(
 
     const errors = result.filter((v) => v.status == "rejected");
     if (errors.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw errors;
     } else {
       return result;
@@ -102,7 +104,7 @@ function onSubmit(ev: Event) {
       <button
         ref="filebutton"
         type="submit"
-        class="rounded bg-secondary p-2 disabled:brightness-75"
+        class="bg-secondary rounded-sm p-2 disabled:brightness-75"
         :disabled="uploadstatus.isLoading.value"
         @click.prevent="
           () => {
@@ -124,11 +126,11 @@ function onSubmit(ev: Event) {
       </button>
       <button
         type="submit"
-        class="rounded bg-green-500 p-2 disabled:brightness-75"
+        class="rounded-sm bg-green-500 p-2 disabled:brightness-75"
         :disabled="uploadstatus.isLoading.value"
       >
         <template v-if="uploadstatus.isLoading.value">
-          <div class="aspect-square h-4 animate-spin bg-primary mask-image-multiselect-spinner" />
+          <div class="bg-primary mask-image-multiselect-spinner aspect-square h-4 animate-spin" />
         </template>
         <template v-else> Submit </template>
       </button>

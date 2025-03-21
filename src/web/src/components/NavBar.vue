@@ -51,12 +51,12 @@ function changeColorMode() {
 <template>
   <nav
     ref="navbar_root"
-    class="my-window-controls flex flex-col bg-on-primary-dark text-primary"
+    class="my-window-controls bg-on-primary-dark text-primary flex flex-col"
   >
     <div class="flex w-full grow items-center gap-x-5 p-4">
       <!-- items to always show -->
       <RouterLink
-        class="text-3xl font-bold max-lg:flex-grow max-lg:basis-0"
+        class="text-3xl font-bold max-lg:grow max-lg:basis-0"
         to="/"
       >
         YACS
@@ -73,7 +73,7 @@ function changeColorMode() {
       </div>
 
       <!-- shows left items on screen size >= lg -->
-      <div class="hidden flex-grow flex-row-reverse gap-x-5 lg:flex">
+      <div class="hidden grow flex-row-reverse gap-x-5 lg:flex">
         <div @click="changeColorMode">color mode placeholder</div>
         <button>login placeholder</button>
       </div>
@@ -81,7 +81,7 @@ function changeColorMode() {
       <!-- shows different left items on screen size < lg -->
       <div
         ref="menu"
-        class="ml-auto flex basis-0 flex-row-reverse gap-x-5 max-lg:flex-grow lg:hidden"
+        class="ml-auto flex basis-0 flex-row-reverse gap-x-5 max-lg:grow lg:hidden"
       >
         <!-- the disjointed label will toggle the menu -->
         <label
@@ -101,7 +101,7 @@ function changeColorMode() {
       class="peer hidden"
     />
     <div
-      class="flex h-0 flex-col justify-evenly gap-y-5 border-primary border-opacity-50 px-5 peer-checked:border-t-4 motion-safe:transition-all motion-safe:duration-300 max-lg:peer-checked:h-80 lg:hidden"
+      class="border-primary/50 flex h-0 flex-col justify-evenly gap-y-5 px-5 peer-checked:border-t-4 motion-safe:transition-all motion-safe:duration-300 max-lg:peer-checked:h-80 lg:hidden overflow-hidden"
     >
       <NavBarItems :items="navItems" />
     </div>

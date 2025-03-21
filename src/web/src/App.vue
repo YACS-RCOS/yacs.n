@@ -34,10 +34,8 @@ watchEffect(() => {
           <!-- loading state -->
           <template #fallback>
             <div
-              class="absolute top-1/4 mx-auto aspect-square h-2/5 animate-spin self-center justify-self-center bg-primary mask-image-multiselect-spinner"
-            >
-              Loading...
-            </div>
+              class="bg-primary mask-image-multiselect-spinner absolute top-1/4 mx-auto aspect-square h-2/5 animate-spin self-center justify-self-center"
+            />
           </template>
         </Suspense>
         <!-- </KeepAlive> -->
