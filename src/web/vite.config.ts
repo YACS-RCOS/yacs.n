@@ -4,6 +4,7 @@ import vueRouter from "unplugin-vue-router/vite";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 import { VitePWA } from "vite-plugin-pwa";
+import vueDevTools from "vite-plugin-vue-devtools";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,6 +37,7 @@ export default defineConfig({
       }
     }),
     tailwind(),
+    vueDevTools()
   ],
   resolve: {
     alias: {
