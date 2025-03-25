@@ -50,7 +50,7 @@ watch(
     <div
       v-if="open"
       ref="popup"
-      class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black bg-opacity-50 p-24 motion-safe:[&.v-enter-active]:animate-fade-in motion-safe:[&.v-leave-active]:animate-fade-out"
+      class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black/50 p-24 motion-safe:[&.v-enter-active]:animate-fade-in motion-safe:[&.v-leave-active]:animate-fade-out"
       :class="
         align == 'top' ? 'justify-start' : align == 'bottom' ? 'justify-end' : 'justify-center'
       "
