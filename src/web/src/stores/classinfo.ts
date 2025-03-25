@@ -11,7 +11,7 @@ const useClassInfoStorePrivate = defineStore("class-info-private", () => {
   const courses = computed(() =>
     Object.fromEntries(
       (semesters.value ?? []).map((sem) => {
-        const thing = computedAsync(async () => log(await getCourses(sem)), null, { lazy: true });
+        const thing = computedAsync(async () => await getCourses(sem), null, { lazy: true });
         return [sem, thing as typeof thing | undefined];
       })
     )
