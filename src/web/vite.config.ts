@@ -1,3 +1,4 @@
+import tailwind from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import vueRouter from "unplugin-vue-router/vite";
