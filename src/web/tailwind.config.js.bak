@@ -3,24 +3,20 @@ import themer from "tailwindcss-themer";
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
 
-/** @type {import('tailwindcss').Config} */
+// /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: "selector",
   theme: {
     extend: {
       animation: {
-        "fade-in": "fadein 100ms linear",
-        "fade-out": "fadeout 100ms linear"
+        "fade-in": "fadein 75ms linear",
+        "fade-out": "fadein 75ms linear reverse"
       },
       keyframes: {
         fadein: {
           from: { opacity: "0%" },
           to: { opacity: "100%" }
-        },
-        fadeout: {
-          from: { opacity: "100%" },
-          to: { opacity: "0%" }
         }
       },
       fontFamily: { sans: ['"Noto Sans"', "sans-serif"] },
@@ -65,8 +61,12 @@ export default {
         }
       ]
     }),
+<<<<<<< HEAD:src/web/tailwind.config.js
     // eslint-disable-next-line @typescript-eslint/unbound-method
     plugin(function ({ matchUtilities, theme }) {
+=======
+    plugin(({ matchUtilities, theme }) => {
+>>>>>>> upstream/frontend-shenanigans:src/web/tailwind.config.js.bak
       matchUtilities(
         {
           // ["filter-color"]: (value) => ({

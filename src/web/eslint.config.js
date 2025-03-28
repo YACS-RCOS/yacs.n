@@ -1,17 +1,8 @@
 import eslint from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import vue from "eslint-plugin-vue";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-
-// @ts-expect-error Vue Eslint plugin does not support TS yet
-import vuelint from "eslint-plugin-vue";
-
-/** @type {Record<string, typeof import("typescript-eslint").config>} */
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-const vuelint_rules = Object.fromEntries(
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-  Object.entries(vuelint.configs).map(([k, v]) => [k, v.rules])
-);
 
 export default tseslint.config(
   // standard configs
@@ -20,11 +11,7 @@ export default tseslint.config(
   tseslint.configs.eslintRecommended,
   ...tseslint.configs.stylisticTypeChecked,
   {
-    rules: {
-      ...vuelint_rules["vue3-essential"],
-      ...vuelint_rules["vue3-strongly-recommended"],
-      ...vuelint_rules["vue3-recommended"]
-    }
+    extends: [vue.configs["flat/recommended"]]
   },
   prettier,
   // additional rules we want to use
@@ -129,8 +116,7 @@ export default tseslint.config(
   { ignores: ["dist/**/*.*", "*.js.timestamp"] },
   {
     plugins: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      vue: vuelint
+      vue
     }
   }
 );

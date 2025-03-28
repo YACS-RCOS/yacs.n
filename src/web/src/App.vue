@@ -15,11 +15,14 @@ watchEffect(() => {
 </script>
 
 <template>
-  <header v-if="route.matched.length > 0 && route.matched[0].name != '/admin'">
+  <header
+    v-if="route.matched.length > 0 && route.matched[0].name != '/admin'"
+    class="sticky top-0 z-10"
+  >
     <NavBar />
   </header>
 
-  <main class="flex h-full w-full flex-col overflow-auto bg-on-primary font-sans">
+  <main class="flex flex-auto flex-col">
     <RouterView v-slot="{ Component }">
       <template v-if="Component">
         <!-- <Transition mode="out-in"> -->
@@ -31,10 +34,8 @@ watchEffect(() => {
           <!-- loading state -->
           <template #fallback>
             <div
-              class="absolute top-1/4 mx-auto aspect-square h-2/5 animate-spin self-center justify-self-center bg-primary mask-image-multiselect-spinner"
-            >
-              Loading...
-            </div>
+              class="bg-primary mask-image-multiselect-spinner absolute top-1/4 mx-auto aspect-square h-2/5 animate-spin self-center justify-self-center"
+            />
           </template>
         </Suspense>
         <!-- </KeepAlive> -->

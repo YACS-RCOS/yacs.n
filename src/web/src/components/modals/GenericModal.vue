@@ -46,35 +46,39 @@ watch(
 </script>
 
 <template>
-  <div
-    v-if="open"
-    ref="popup"
-    class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black bg-opacity-50 py-24 px-10 motion-safe:animate-fade-in"
-    :class="align == 'top' ? 'justify-start' : align == 'bottom' ? 'justify-end' : 'justify-center'"
-    @click="emit('close')"
-  >
-    <slot
-      name="container"
-      :close="
-        () => {
-          emit('close');
-        }
+  <Transition>
+    <div
+      v-if="open"
+      ref="popup"
+      class="absolute left-0 top-0 flex h-full w-full flex-col items-center bg-black/50 p-24 motion-safe:[&.v-enter-active]:animate-fade-in motion-safe:[&.v-leave-active]:animate-fade-out"
+      :class="
+        align == 'top' ? 'justify-start' : align == 'bottom' ? 'justify-end' : 'justify-center'
       "
+      @click="emit('close')"
     >
-      <div
-        class="rounded bg-on-primary ring-1 ring-primary"
-        @click.stop
+      <slot
+        name="container"
+        :close="
+          () => {
+            emit('close');
+          }
+        "
       >
-        <slot
-          :close="
-            () => {
-              emit('close');
-            }
-          "
+        <div
+          class="rounded-sm bg-on-primary ring-1 ring-primary"
+          @click.stop
         >
-          default popup content content
-        </slot>
-      </div>
-    </slot>
-  </div>
+          <slot
+            :close="
+              () => {
+                emit('close');
+              }
+            "
+          >
+            default popup content content
+          </slot>
+        </div>
+      </slot>
+    </div>
+  </Transition>
 </template>

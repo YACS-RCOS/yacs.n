@@ -1,4 +1,4 @@
-import { getCourses } from "@/api/class";
+import { getCourses, getDepartments } from "@/api/class";
 import { getSemesters } from "@/api/semester";
 import { computedAsync, StorageSerializers, useAsyncState, useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
@@ -6,6 +6,7 @@ import { computed } from "vue";
 
 const useClassInfoStorePrivate = defineStore("class-info-private", () => {
   const semesters = useAsyncState(getSemesters(), null).state;
+  const departments = useAsyncState(getDepartments(), null).state;
 
   const courses = computed(() =>
     Object.fromEntries(
@@ -18,7 +19,8 @@ const useClassInfoStorePrivate = defineStore("class-info-private", () => {
 
   return {
     semesters,
-    courses
+    courses,
+    departments
   };
 });
 
@@ -30,14 +32,16 @@ export const useClassInfoStore = defineStore("class-info", () => {
   });
   const semesters = computed(() => readOnlyState.semesters);
   const courses = computed(() => readOnlyState.courses);
+  const departments = computed(() => readOnlyState.departments);
   const current_courses = computed(() =>
-    selectedSemester.value ? courses.value[selectedSemester.value] : null
+    selectedSemester.value ? courses.value[selectedSemester.value]?.value : null
   );
 
   return {
     selectedSemester,
     semesters,
     courses,
-    current_courses
+    current_courses,
+    departments
   };
 });
