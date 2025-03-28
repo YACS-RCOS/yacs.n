@@ -61,12 +61,7 @@ export default {
         }
       ]
     }),
-<<<<<<< HEAD:src/web/tailwind.config.js
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    plugin(function ({ matchUtilities, theme }) {
-=======
     plugin(({ matchUtilities, theme }) => {
->>>>>>> upstream/frontend-shenanigans:src/web/tailwind.config.js.bak
       matchUtilities(
         {
           // ["filter-color"]: (value) => ({

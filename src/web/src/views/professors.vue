@@ -60,7 +60,7 @@ function updateDepartment(selectedOption: string | null) {
         v-model="searchTerm"
         type="text"
         placeholder="Search by name"
-        class="w-64 px-4 py-2 rounded text-black border-2 border-gray-300"
+        class="w-64 px-4 py-2 rounded text-black border-2 border-gray-300 bg-white"
       />
       <DepartmentSelector 
         v-model="selectedDepartment"
