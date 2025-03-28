@@ -1,6 +1,6 @@
 """fix professor column names
 
-Revision ID: c959c263997f
+Revision ID: f62dd5e95906
 Revises: c0289fddf6dd
 Create Date: 2023-11-10 22:18:36.674812
 
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c959c263997f'
+revision = 'f62dd5e95906'
 down_revision = 'c0289fddf6dd'
 branch_labels = None
 depends_on = None
