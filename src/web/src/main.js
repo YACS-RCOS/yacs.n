@@ -20,7 +20,7 @@ Vue.use(VueCookies);
 Vue.use(Meta);
 Vue.$cookies.config("7d");
 Vue.use(VueMatomo, {
-  host: 'http://localhost:7070/',
+  host: 'http://analytics.localhost/',
   siteId: 1,
 });
 
