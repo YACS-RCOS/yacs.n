@@ -66,11 +66,11 @@ services:
     volumes:
       - matomo_db:/var/lib/mysql:Z
     environment:
-      - MYSQL_ROOT_PASSWORD=yacs
+      - MYSQL_ROOT_PASSWORD=${DB_PASS:-easy_dev_pass}
       - MARIADB_AUTO_UPGRADE=1
       - MARIADB_DISABLE_UPGRADE_BACKUP=1
     env_file:
-      - ./db.env
+      - ./.env
 
   yacs_matomo:
     links:
@@ -81,4 +81,4 @@ services:
       - MATOMO_DATABASE_HOST=matomo_db
       - PHP_MEMORY_LIMIT=2048M
     env_file:
-      - ./db.env
+      - ./.env
