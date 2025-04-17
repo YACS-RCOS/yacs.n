@@ -29,6 +29,7 @@ services:
       - web_node_modules:/app/node_modules/
     environment:
       - YACS_API_HOST=http://yacs_api:5000
+      - MATOMO_HOST_URL=https://analytics.yacs.cs.rpi.edu/
 
   yacs_api:
     command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && uvicorn app:app --reload --host 0.0.0.0 --port 5000"
