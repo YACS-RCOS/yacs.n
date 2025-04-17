@@ -6,17 +6,22 @@ version: "3.4"
 volumes:
   web_node_modules:
   postgres_data:
+  matomo_db:
+  matomo:
 
 services:
   yacs_nginx:
     container_name: yacs_nginx
-    image: nginx
+    image: nginx:alpine
     ports:
       - 80:80
     volumes:
+      - matomo:/var/www/html:z,ro
       - ./src/web/nginx.development.conf:/etc/nginx/nginx.conf
+      # - ./matomo.conf:/etc/nginx/conf.d/default.conf:z,ro
     depends_on:
       - yacs_web
+      - yacs_matomo
 
   yacs_web:
     build:
@@ -28,12 +33,16 @@ services:
       - ./src/web:/app
       - web_node_modules:/app/node_modules/
     environment:
-      - YACS_API_HOST=http://yacs_api:5000
+      YACS_API_HOST: http://yacs_api:4000
+      MATOMO_HOST_URL: "http://analytics.localhost"
+    env_file:
+      - ./.env
+    
 
   yacs_api:
-    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && uvicorn app:app --reload --host 0.0.0.0 --port 5000"
+    command: /bin/bash -c "python tables/database_session.py && PYTHONPATH=. alembic upgrade head && uvicorn app:app --reload --host 0.0.0.0 --port 4000"
     ports:
-      - 5000:5000
+      - 4000:4000
     volumes:
       - ./src/api:/usr/src
     environment:
@@ -55,3 +64,25 @@ services:
       - POSTGRES_DB=yacs
       - POSTGRES_USER=yacs
       - POSTGRES_PASSWORD=${DB_PASS:-easy_dev_pass}
+      
+  matomo_db:
+    command: --max-allowed-packet=64MB
+    volumes:
+      - matomo_db:/var/lib/mysql:Z
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS:-easy_dev_pass}
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DISABLE_UPGRADE_BACKUP=1
+    env_file:
+      - ./.env
+
+  yacs_matomo:
+    links:
+      - matomo_db
+    volumes:
+      - matomo:/var/www/html:z
+    environment:
+      - MATOMO_DATABASE_HOST=matomo_db
+      - PHP_MEMORY_LIMIT=2048M
+    env_file:
+      - ./.env
