@@ -14,20 +14,18 @@ import Meta from "vue-meta";
 import VueMatomo from 'vue-matomo'
 
 Vue.config.productionTip = false;
-
 Vue.use(VueRouter);
 Vue.use(VueCookies);
 Vue.use(Meta);
 Vue.$cookies.config("7d");
 Vue.use(VueMatomo, {
-  host: 'https://analytics.yacs.cs.rpi.edu/',
+  host: process.env.MATOMO_HOST_URL || 'http://analytics.localhost/',
   siteId: 1,
 });
 
 new Vue({
   render: (h) => h(App),
   router,
-  components: { App },
   store,
 }).$mount("#app");
 
